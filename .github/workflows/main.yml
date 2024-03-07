@@ -6,15 +6,19 @@ name: Quarto Publish
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-    container: 
-      image: earthlab/earth-analytics-dev-env
-      options: --user root
     permissions:
       contents: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Create and Activate Conda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: learning-portal
+          environment-file: environment-solved.yml
+          auto-activate-base: false
+          
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
