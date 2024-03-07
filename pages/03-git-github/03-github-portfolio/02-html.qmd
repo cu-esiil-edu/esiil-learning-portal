@@ -1,0 +1,116 @@
+---
+title: "Customize your portfolio layout"
+subtitle: "Basics of web development for portfolio websites"
+authors: 
+  - "Nate Quarderer"
+  - "Elsa Culler"
+excerpt: |
+  When creating your webpage, you might want to do a couple of things with your content that GitHub Markdown can't do, such as:
+    * Specify the size of an image
+    * Control whether links open up in a new tab
+    * Embed videos and other web content
+    * Change colors, fonts, or font sizes in one section of your page
+  HTML (Hyper-Text Markup Language),  *does* have the ability to do all those things and more. 
+objective: |
+  * Learn what HTML, CSS, and Javascript do on web pages
+  * Learn how to use Web Developer Tools in your browser
+  * Write basic HTML syntax
+  * Use HTML to add additional features to your website
+jupyter: python3
+---
+
+## The web is built on HTML, CSS, and JS
+
+Most web pages are built using three key technologies:
+
+-   Hyper-Text Markup Language (HTML) contains **structured content**
+-   Cascading Style Sheets (CSS) controls how the page **looks**
+-   Javascript (JS) controls what the page **does**
+
+When using GitHub Pages, you can rely on GitHub to translate Markdown to HTML before putting it on the web using a system called **Jekyll**. You can see the result by:
+
+1.  Navigate to your portfolio page on the internet
+2.  Right-click anywhere on the page
+3.  Select an option like `Inspect` or `Web Developer Tools`, depending on your browser.
+
+You should now see the source code for your webpage in a new panel. What do you notice about your content? How is it different from what you wrote?
+
+::: callout-tip
+You can also control CSS and JS to a limited extent on GitHub Pages. However, we recommend sticking with the CSS and JS supplied by a Jekyll theme created by a designer. It's hard to make a website that looks good from scratch. We'll get into how to add a theme later on.
+:::
+
+## Use HTML to add features that aren't available in Markdown
+
+### Make sure to format your HTML code so that it is readable
+
+One great thing about Markdown is that it is both **human-readable** and **machine-readable**. It's a little harder to tell what is going on with HTML, especially if it is formatted poorly. For example, take a look at some Markdown and its equivalent in HTML. Unlike Markdown, the computer doesn't care how we use whitespace when formatting HTML. We can make HTML easier to read by adding whitespace and new lines:
+
+::: panel-tabset
+### Markdown
+
+``` markdown
+# A fabulous Earth Data Science Portfolio
+
+![Super-cool satellite imagery](images/cool_satellite_image.png)
+
+Some text and [a link](https://www.my_link.org) and:
+
+  * A
+  * Bulleted
+  * List
+```
+
+### Messy HTML (Don't do this!)
+
+``` html
+<h1>A fabulous Earth Data Science Portfolio</h1><img src="link/to/image.png" alt-text="Super-cool satellite imagery"><p>Some text and <a href="https://www.my_link.org">a link</a> and a:</p><ul><li>A</li><li>Bulleted</li><li>List</li></ul>
+```
+
+### Cleaner HTML
+
+``` html
+<h1>A fabulous Earth Data Science Portfolio</h1>
+
+<img src="link/to/image.png" alt="Super-cool satellite imagery" />
+
+<p>Some text and <a href="https://www.my_link.org">a link</a> and a:</p>
+
+<ul>
+    <li>A</li>
+    <li>Bulleted</li>
+    <li>List</li>
+</ul>
+```
+:::
+
+
+### HTML Basics (for Markdown users)
+
+You can add HTML elements into your Markdown documents. There is no need when using GitHub Pages to write entire documents in HTML; you can simply substitute HTML elements for Markdown elements where needed. For example, say you have written the following Markdown section:
+
+``` markdown
+# A fabulous Earth Data Science Portfolio
+
+![Super-cool satellite imagery](images/cool_satellite_image.png)
+```
+
+Unfortunately, the image is taking up the entire view of the page. You can't adjust the size with GitHub Markdown alone, but you can replace the image with HTML and control the height:
+
+``` markdown
+# A fabulous Earth Data Science Portfolio
+
+<img src="images/cool_satellite_image.png" alt="Super-cool satellite imagery" height="20rem">
+```
+
+::: {.callout-tip}
+### 
+::: {.callout-warning} 
+If you set **both** the width and the height of an image, your image will become distorted:
+
+```html
+<img src="images/cool_satellite_image.png" alt="Super-cool satellite imagery" height="20px" width="10px">
+```
+
+<img src="images/cool_satellite_image.png" alt="Super-cool satellite imagery" height="20px" width="10px">
+
+:::

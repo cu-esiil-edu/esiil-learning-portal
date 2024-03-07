@@ -1,5 +1,6 @@
 ---
 title: "Create your own portfolio webpage"
+subtitle: "Portfolio websites help you document and share your work"
 authors: 
   - "Nate Quarderer"
   - "Elsa Culler"
@@ -21,9 +22,7 @@ objective: |
 jupyter: python3
 ---
 
-## Portfolio websites help you document and share your work
-
-Why tell potential employers and collaborators what you can do when you can show them? In this activity, you will create a **personal portfolio webpage**. You'll use this webpage to share some biographical information and a photo of yourself. You can then update your webpage with links to work that you complete.
+Show potential employers and collaborators what you can do, and share your work! In this activity, you will create a **personal portfolio webpage**. You'll use this webpage to share some biographical information and a photo of yourself. You can then update your webpage with links to work that you complete.
 
 ------------------------------------------------------------------------
 
@@ -37,10 +36,11 @@ If you already have a GitHub account, there is no need to create a new account!
 
 ------------------------------------------------------------------------
 
-## Step 1: Fork your theme
+## Step 1: Create a repository
 
 Once you have a GitHub account, get started by creating a new **repository** for your webpage. There are several ways to accomplish this task.
 
+::: {.callout-warning}
 Sometimes buttons on GitHub are blue instead of green.
 :::
 
@@ -70,7 +70,11 @@ To do this you can:
 ::: {.callout-tip .column-margin}
 ### Speak Code
 
-When reading code snippets, the `<` and `>` symbols are used to surround text you should replace with something applicable to you and your project. **Do not leave the `<` and `>` symbols in place!**. For example, in this case your repository name might look something like `jdoe.github.io`, if `jdoe` was your GitHub username.
+When reading code snippets, the `<` and `>` symbols are usuallyused to surround text you should replace with something applicable to you and your project. **Do not leave the `<` and `>` symbols in place!**. For example, in this case your repository name might look something like `jdoe.github.io`, if `jdoe` was your GitHub username.
+
+There's a BIG exception to this rule when it comes to building websites -- `<` and `>` are key characters if you are using HTML, the markup languages used on most websites. So, if the code sample is HTML, you should leave the angle brackets `<` and `>` in.
+
+If you have trouble telling when to substitute in code -- try thinking about whether what's contained in the angle brackets is something that should be different for you than for someone else. For example, in `<yourusername>.github.io` you will take out the angle brackets, because your username is unique to you. On the other hand, `<h2>Conclusions</h2>` is HTML. If you were using that code, you still want it to be an `h2` (or level 2 heading) element. In this case, the angle brackets are part of the code and do not need to be removed.
 :::
 
 ------------------------------------------------------------------------
@@ -151,7 +155,7 @@ Review the [**Markdown Basic Syntax guide](https://www.markdownguide.org/basic-s
 :::
 
 ::: {.callout-tip .column-margin}
-> When adding <a href="https://www.w3schools.com/html/html_links.asp" target="_blank">**links**</a> and <a href="https://www.w3schools.com/html/html_images.asp" target="_blank">**images**</a> to your webpage, you may appreciate the added control of Hypertext Markup Language (HTML) over Markdown.
+> When adding [**links**](https://www.w3schools.com/html/html_links.asp) and [**images**](https://www.w3schools.com/html/html_images.asp) to your webpage, you may appreciate the added control of Hypertext Markup Language (HTML) over Markdown.
 :::
 
 ::: callout-warning
@@ -162,27 +166,39 @@ Always remember to **commit changes** so that your updated content gets added to
 
 ## Step 7: Add website metadata and theme
 
-<a href="https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/adding-a-theme-to-your-github-pages-site-using-jekyll#adding-a-theme" target="_blank">GitHub pages has some build in themes</a> that you can use to make your website more attractive.
+GitHub Pages supports **Jekyll** themes that you can use to make your website more attractive.
 
-To preview themes:
+::: {.callout-info .column-margin}
+### What is a Jekyll theme?
 
-1.  Go to the <a href="https://pages.github.com/themes/" target="_blank">GitHub theme page</a>
-2.  Click on the link to a theme you are interested in. This will take you to the theme **repository**.
-3.  Scroll down in the repository until you see a link like "preview what this theme will look like" at the top of the README file (below the code).
+[Jekyll](https://jekyllrb.com/) themes are a system for applying a particular design to your web content. Themes are great because:
+  * Your website will immediately look and function like the theme
+  * Most themes allow you to change style elements like colors and fonts, and store data like your email address in a central location.
+  * Your website will most likely work on lots of different devices, like phones, tablets, and computers
+  * You can add interactive components without needing to write a lot of code
+:::
 
-The `_config.yml` file that you created to add a theme can also be used to **change the title of your website from the default (the name of your repository)**. Check out the README for your theme to see what parameters are available For example, and example `_config.yml` file for the `minimal` theme looks like:
-
-```yaml
-title: J. Doe's Awesome Portfolio Website
-description: Check out my projects!
-logo: img/headshot.png
-remote_theme: pages-themes/minimal@v0.2.0
-plugins:
-- jekyll-remote-theme
-```
+To do this you can: 
+  1. Choose the Jekyll theme you want to use ([here are some examples](https://jekyllthemes.io/free))
+  2. Preview the theme by clicking `Live Demo` on `jekyllthemes.io`, or searching the GitHub README for a preview link.
+  3. Follow the [instructions from GitHub](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/adding-a-theme-to-your-github-pages-site-using-jekyll#adding-a-theme) on how to apply the theme using a `_config.yml` file.
+  4. Go to the GitHub repository for the theme by clicking on the `Get THEME on GitHub` button on `jekyllthemes.io`. Follow any instructions about customizing things like your name or the title of your webpage. 
 
 ::: {.callout-info .column-margin}
 ### So what **is** YAML?
 
 The `_config.yml` file is written in **YAML**, a human-readable format for structured information (lists and key/value pairs). <a href="https://yaml.org/" target="_blank">Learn more about YAML on their website</a>
 :::
+
+The `_config.yml` file that you created to add a theme can also sometimes be used to **change the title of your website from the default (the name of your repository)**. Check out the README for your theme to see what parameters are available For example, and example `_config.yml` file for the `minimal` theme looks like:
+
+```yaml
+title: J. Doe's Awesome Portfolio Website
+description: Check out my projects!
+logo: img/headshot.png
+remote_theme: pages-themes/minimal@v0.2.0
+```
+::: {.callout-warning}
+You may need to add a `_data/data.yml` file in addition to the `_config.yml` file, depending on your theme. We recommend copying any configuration files from the theme repository, and then modify them to meet your needs.
+:::
+
