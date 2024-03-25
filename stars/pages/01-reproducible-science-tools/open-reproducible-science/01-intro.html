@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.551">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>What Is Open Reproducible Science</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../images/ESIIL_portal.png" alt="ESIIL Learning Portal" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../pages/00-course-overviews/stars/00-home.html"> 
+<span class="menu-text">ESIIL Stars Home</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="http://earthdatascience.org"> 
+<span class="menu-text">Classic earthdatascience.org</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">What Is Open Reproducible Science</li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../../../index.html" class="sidebar-logo-link">
+      <img src="../../../images/ESIIL_Stars_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+ <span class="menu-text">UNIT 1: Build Your Online Portfolio</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../pages/00-course-overviews/stars/01-portfolio/00-home.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Join the Earth Data Science Community Online</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../pages/03-git-github/03-github-portfolio/00-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Get Started with GitHub Pages</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create your own portfolio webpage</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../pages/03-git-github/03-github-portfolio/02-images.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Add images to your portfolio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../pages/03-git-github/03-github-portfolio/03-html.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Customize your website content</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../pages/03-git-github/03-github-portfolio/04-jekyll.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Get Started with Jekyll</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+ <span class="menu-text">UNIT 2: Climate Change</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+ <span class="menu-text">UNIT 3: Flooding</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+ <span class="menu-text">UNIT 4: Species Distribution</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+ <span class="menu-text">UNIT 5: Air Quality</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-is-open-reproducible-science" id="toc-what-is-open-reproducible-science" class="nav-link active" data-scroll-target="#what-is-open-reproducible-science">What is Open Reproducible Science</a></li>
+  <li><a href="#benefits-of-open-reproducible-science" id="toc-benefits-of-open-reproducible-science" class="nav-link" data-scroll-target="#benefits-of-open-reproducible-science">Benefits of Open Reproducible Science</a></li>
+  <li><a href="#how-do-you-make-your-work-more-open-and-reproducible" id="toc-how-do-you-make-your-work-more-open-and-reproducible" class="nav-link" data-scroll-target="#how-do-you-make-your-work-more-open-and-reproducible">How Do You Make Your Work More Open and Reproducible?</a>
+  <ul class="collapse">
+  <li><a href="#use-scientific-programming-to-process-data" id="toc-use-scientific-programming-to-process-data" class="nav-link" data-scroll-target="#use-scientific-programming-to-process-data">Use Scientific Programming to Process Data</a></li>
+  <li><a href="#use-expressive-names-for-files-and-directories-to-organize-your-work" id="toc-use-expressive-names-for-files-and-directories-to-organize-your-work" class="nav-link" data-scroll-target="#use-expressive-names-for-files-and-directories-to-organize-your-work">Use Expressive Names for Files and Directories to Organize Your Work</a></li>
+  <li><a href="#use-fair-data-to-enhance-the-reproducibility-of-projects" id="toc-use-fair-data-to-enhance-the-reproducibility-of-projects" class="nav-link" data-scroll-target="#use-fair-data-to-enhance-the-reproducibility-of-projects">Use FAIR Data to Enhance the Reproducibility of Projects</a></li>
+  <li><a href="#protect-your-raw-data" id="toc-protect-your-raw-data" class="nav-link" data-scroll-target="#protect-your-raw-data">Protect Your Raw Data</a></li>
+  <li><a href="#use-version-control-and-share-your-code-if-you-can" id="toc-use-version-control-and-share-your-code-if-you-can" class="nav-link" data-scroll-target="#use-version-control-and-share-your-code-if-you-can">Use Version Control and Share Your Code (If You Can)</a></li>
+  <li><a href="#document-your-workflows" id="toc-document-your-workflows" class="nav-link" data-scroll-target="#document-your-workflows">Document Your Workflows</a></li>
+  <li><a href="#design-workflows-that-can-be-easily-recreated" id="toc-design-workflows-that-can-be-easily-recreated" class="nav-link" data-scroll-target="#design-workflows-that-can-be-easily-recreated">Design Workflows That Can Be Easily Recreated</a></li>
+  </ul></li>
+  <li><a href="#open-reproducible-science---a-case-study" id="toc-open-reproducible-science---a-case-study" class="nav-link" data-scroll-target="#open-reproducible-science---a-case-study">Open Reproducible Science - A Case Study</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<!-- Modified from https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/html/templates/banner/title-block.html -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+    <div class="esiil-title-goals page-columns page-full">
+      <div class="quarto-title column-body">
+                <h1 class="title">What Is Open Reproducible Science</h1>
+                                
+              </div>
+    
+      
+    <div class="no-row-height column-margin column-container"><div class="">
+        
+        <div class="quarto-title-meta">
+
+            <div>
+            <div class="quarto-title-meta-heading">Authors</div>
+            <div class="quarto-title-meta-contents">
+                     <p>Jenny Palomino </p>
+                     <p>Leah Wasser </p>
+                     <p>Max Joseph </p>
+                  </div>
+          </div>
+            
+          
+            
+          </div>
+          
+      </div></div></div>
+</header>
+
+
+<div class="notice--success" data-markdown="1">
+<section id="chapter-one---open-reproducible-science" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-one---open-reproducible-science"><i class="fa fa-ship" aria-hidden="true"></i> Chapter One - Open Reproducible Science</h2>
+<p>In this chapter, you will learn about open reproducible science and become familiar with a suite of open source tools that are often used in open reproducible science (and earth data science) workflows including <code>Shell</code>, <code>git</code> and <code>GitHub</code>, <code>Python</code>, and <code>Jupyter</code>.</p>
+</section>
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</h2>
+<p>After completing this chapter, you will be able to:</p>
+<ul>
+<li>Define open reproducible science and explain its importance.</li>
+<li>Describe how reproducibility can benefit yourself and others.</li>
+<li>List tools that can help you implement open reproducible science workflows.</li>
+</ul>
+</section>
+</div>
+<section id="what-is-open-reproducible-science" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-open-reproducible-science">What is Open Reproducible Science</h2>
+<p>Open science involves making scientific methods, data, and outcomes available to everyone. It can be broken down into several parts (<a href="http://www.openscience.org/blog/?p=269" target="_blank">Gezelter 2009</a>) including:</p>
+<ul>
+<li>Transparency in data collection, processing and analysis methods, and derivation of outcomes.</li>
+<li>Publicly available data and associated processing methods.</li>
+<li>Transparent communication of results.</li>
+</ul>
+<p>Open science is also often supported by collaboration.</p>
+<p>Reproducible science is when anyone (including others and your future self) can understand and replicate the steps of an analysis, applied to the same or even new data.</p>
+<p>Together, open reproducible science results from open science workflows that allow you to easily share work and collaborate with others as well as openly publish your data and workflows to contribute to greater science knowledge.</p>
+<figure class="figure">
+<a href="../../../images/courses/earth-analytics/bootcamp/open-science/workflow.png"> <img src="../../../images/courses/earth-analytics/bootcamp/open-science/workflow.png" alt="This figure shows an open science workflow, highlighting the roles of data, code, and workflows. Source: Max Joseph, Earth Lab at University of Colorado, Boulder." class="figure-img"></a>
+<figcaption>
+An open science workflow highlighting the roles of data, code, and workflows. Source: Max Joseph, Earth Lab at University of Colorado, Boulder.
+</figcaption>
+</figure>
+<p>Click through the slideshow below to learn more about open science.</p>
+<p><a class="btn btn-info" href="{{ site.url }}/slide-shows/share-publish-archive/" target="_blank"> <i class="fa fa-youtube-play" aria-hidden="true"></i> View Slideshow: Share, Publish &amp; Archive Code &amp; Data</a></p>
+<div class="notice--success" data-markdown="1">
+<p><a href="https://www.youtube.com/watch?v=NGFO0kdbZmk&amp;feature=youtu.be" target="_blank"><img src="http://img.youtube.com/vi/NGFO0kdbZmk/0.jpg" alt="Importance of Reproducibility in Science" width="560" height="315" border="10"></a></p>
+<blockquote class="blockquote">
+<p>Watch this 15 minute video to learn more about the importance of reproducibility in science and the current reproducibility “crisis.”</p>
+</blockquote>
+</div>
+</section>
+<section id="benefits-of-open-reproducible-science" class="level2">
+<h2 class="anchored" data-anchor-id="benefits-of-open-reproducible-science">Benefits of Open Reproducible Science</h2>
+<p>Benefits of openness and reproducibility in science include: * Transparency in the scientific process, as anyone including the general public can access the data, methods, and results. * Ease of replication and extension of your work by others, which further supports peer review and collaborative learning in the scientific community. * It supports you! You can easily understand and re-run your own analyses as often as needed and after time has passed.</p>
+</section>
+<section id="how-do-you-make-your-work-more-open-and-reproducible" class="level2">
+<h2 class="anchored" data-anchor-id="how-do-you-make-your-work-more-open-and-reproducible">How Do You Make Your Work More Open and Reproducible?</h2>
+<p>The list below are things that you can begin to do to make your work more open and reproducible. It can be overwhelming to think about doing everything at once. However, each item is something that you could work towards.</p>
+<section id="use-scientific-programming-to-process-data" class="level3">
+<h3 class="anchored" data-anchor-id="use-scientific-programming-to-process-data">Use Scientific Programming to Process Data</h3>
+<p>Scientific programming allows you to automate tasks, which facilitates your workflows to be quickly run and replicated. In contrast, graphical user interface (GUI) based workflows require interactive manual steps for processing, which become more difficult and time consuming to reproduce. If you use an open source programming language like <code>Python</code> or <code>R</code>, then anyone has access to your methods. However, if you use a tool that requires a license, then people without the resources to purchase that tool are excluded from fully reproducing your workflow.</p>
+</section>
+<section id="use-expressive-names-for-files-and-directories-to-organize-your-work" class="level3">
+<h3 class="anchored" data-anchor-id="use-expressive-names-for-files-and-directories-to-organize-your-work">Use Expressive Names for Files and Directories to Organize Your Work</h3>
+<p><a href="{{ site.url }}/courses/intro-to-earth-data-science/open-reproducible-science/get-started-open-reproducible-science/best-practices-for-organizing-open-reproducible-science/">Expressive file and directory names</a> allow you to quickly find what you need and also support reproducibility by facilitating others’ understanding of your files and workflows (e.g.&nbsp;names can tell others what the file or directory contains and its purpose). Be sure to organize related files into directories (i.e.&nbsp;folders) that can help you easily categorize and find what you need (e.g.&nbsp;raw-data, scripts, results).</p>
+</section>
+<section id="use-fair-data-to-enhance-the-reproducibility-of-projects" class="level3">
+<h3 class="anchored" data-anchor-id="use-fair-data-to-enhance-the-reproducibility-of-projects">Use FAIR Data to Enhance the Reproducibility of Projects</h3>
+<p>Make sure that the data used in your project adhere to the FAIR principles <a href="https://www.nature.com/articles/sdata201618" target="_blank">(Wilkinson et al.&nbsp;2016)</a>, so that they are findable, accessible, interoperable, and re-usable, and there is documentation on how to access them and what they contain. FAIR principles also extend beyond the raw data to apply to the tools and workflows that are used to process and create new data. FAIR principles enhance the reproducibility of projects by supporting the reuse and expansion of your data and workflows, which contributes to greater discovery within the scientific community.</p>
+</section>
+<section id="protect-your-raw-data" class="level3">
+<h3 class="anchored" data-anchor-id="protect-your-raw-data">Protect Your Raw Data</h3>
+<p>Don’t modify (or overwrite) the raw data. Keep data outputs separate from inputs, so that you can easily re-run your workflow as needed. This is easily done if you organize your data into directories that separate the raw data from your results, etc.</p>
+</section>
+<section id="use-version-control-and-share-your-code-if-you-can" class="level3">
+<h3 class="anchored" data-anchor-id="use-version-control-and-share-your-code-if-you-can">Use Version Control and Share Your Code (If You Can)</h3>
+<p>Version control allows you to manage and track changes to your files (and even undo them!). If you can openly share your code, implement version control and then publish your code and workflows on the cloud. There are many free tools to do this including <a href="{{ site.url }}/workshops/intro-version-control-git/">Git and GitHub</a>.</p>
+</section>
+<section id="document-your-workflows" class="level3">
+<h3 class="anchored" data-anchor-id="document-your-workflows">Document Your Workflows</h3>
+<p>Documentation can mean many different things. It can be as basic as including (carefully crafted and to the point) comments throughout your code to explain the specific steps of your workflow. Documentation can also mean using tools such as Jupyter Notebooks or RMarkdown files to include a text narrative in Markdown format that is interspersed with code to provide high level explanation of a workflow.</p>
+<p>Documentation can also include <a href="{{ site.url }}/courses/earth-analytics-python/contribute-to-open-source/software-documentation-python/">docstrings</a>, which provide standardized documentation of Python functions, or even README files that describe the bigger picture of your workflow, directory structure, data, processing, and outputs.</p>
+</section>
+<section id="design-workflows-that-can-be-easily-recreated" class="level3">
+<h3 class="anchored" data-anchor-id="design-workflows-that-can-be-easily-recreated">Design Workflows That Can Be Easily Recreated</h3>
+<p>You can design <a href="{{ site.url }}/courses/earth-analytics-python/create-efficient-data-workflows/design-efficient-workflows/">workflows that can be easily recreated and reproduced by others</a> by: * listing all packages and dependencies required to run a workflow at the top of the code file (e.g.&nbsp;Jupyter Notebook or R Markdown files). * organizing your code into sections, or code blocks, of related code and include comments to explain the code. * creating reusuable environments for Python workflows using tools like <a href="https://www.docker.com/resources/what-container" target="_blank">docker containers</a>, <a href="https://docs.conda.io/en/latest/" target="_blank">conda environments</a>, and <a href="https://mybinder.org/" target="_blank">interactive notebooks with binder</a>.</p>
+</section>
+</section>
+<section id="open-reproducible-science---a-case-study" class="level2 notice--info" data-markdown="1">
+<h2 class="anchored" data-anchor-id="open-reproducible-science---a-case-study">Open Reproducible Science - A Case Study</h2>
+<p>Chaya is a scientist at Generic University, studying the role of invasive grasses on fires in grassland areas. She is building models of fire spread as they relate to vegetation cover. This model uses data collected from satellites that detect wildfires and also plant cover maps. After documenting that an invasive plant drastically alters fire spread rates, she is eager to share her findings with the world. Chaya uses scientific programming rather than a graphical user interface tool such as Excel to process her data and run the model to ensure that the process is automated. Chaya writes a manuscript on her findings. When she is ready to submit her article to a journal, she first posts a preprint of the article on a preprint server, stores relevant data in a data repository and releases her code on GitHub. This way, the research community can provide feedback on her work, the reviewers and others can reproduce her analysis, and she has established precedent for her findings.</p>
+<p>In the first review of her paper, which is returned 3 months later, many changes are suggested which impact her final figures. Updating figures could be a tedious process. However, in this case, Chaya has developed these figures using the Python programming language. Thus, updating figures is easily done by modifying the processing methods used to create them. Further because she stored her data and code in a public repository on GitHub, it is easy and quick for Chaya three months later to find the original data and code that she used and to update the workflow as needed to produce the revised versions of her figures. Throughout the review process, the code (and perhaps data) are updated, and new versions of the code are tracked. Upon acceptance of the manuscript, the preprint can be updated, along with the code and data to ensure that the most recent version of the paper and analysis are openly available for anyone to use.</p>
+</section>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("^(?!((http:|https:)\/\/))");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+          // default icon
+          link.classList.add("external");
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://esiil.org/">
+<p>About ESIIL</p>
+</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
