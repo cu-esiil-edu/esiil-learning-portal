@@ -1,33 +1,26 @@
 ---
 title: "Customize your website content"
-subtitle: "Web development for portfolio websites"
-image: /images/earth-analytics/git-version-control/github-pages/lesson-portfolio-content.png
+subtitle: "Get started with HTML"
+image: /images/earth-analytics/git-version-control/github-pages/lesson-portfolio-content.jpeg
 image-alt: "A woman considers multiple website layouts"
-description: |
-  It can be hard to get your website exactly right with only Markdown. You can get more control over your website content and layout with HTML.
 author: 
   - "Nate Quarderer"
   - "Elsa Culler"
-excerpt: |
-  When creating your webpage, you might want to do a couple of things with your content that most types of Markdown can't do, such as:
-    * Specify the size of an image
-    * Control whether links open up in a new tab
-    * Embed videos and other web content
-    * Change colors, fonts, or font sizes in one section of your page
-  HTML (Hyper-Text Markup Language), *does* have the ability to do all those things and more. 
-objective: |
-  * Learn what HTML, CSS, and Javascript do on web pages
-  * Learn how to use Web Developer Tools in your browser
-  * Write basic HTML syntax
-  * Use HTML to add additional features to your website
+description: |
+  Markdown is nice because it is easy to read, and lets us get started building websites quickly. But, it can't do everything! Adding Hyper-Text Markup Language (HTML) will let you include multi-media materials and customize how your page looks and behaves.
+learning-goals:
+  - Describe what HTML, CSS, and Javascript do on web pages
+  - Use the Web Developer Tools in your browser
+  - Understand basic HTML syntax
+  - Employ HTML to add additional features to your website
 jupyter: python3
 ---
 
-## The web is built on HTML, CSS, and JS
+## The building blocks of the web
 
 Most web pages are built using three key technologies:
 
--   Hyper-Text Markup Language (HTML) contains **structured content**
+-   Hyper-Text Markup Language (HTML) includes and structures the **content**
 -   Cascading Style Sheets (CSS) controls how the page **looks**
 -   Javascript (JS) controls what the page **does**
 
@@ -39,11 +32,22 @@ When using GitHub Pages, you can rely on GitHub to translate Markdown to HTML be
 
 You should now see the source code for your webpage in a new panel. What do you notice about your content? How is it different from what you wrote?
 
+![Web developer tools](/images/earth-analytics/git-version-control/github-pages/web-developer-tools.png)
+
 ::: callout-tip
-You can also control CSS and JS to a limited extent on GitHub Pages. However, we recommend sticking with the CSS and JS supplied by a Jekyll theme created by a designer. It's hard to make a website that looks good from scratch. We'll get into how to add a theme later on.
+You can also control CSS and JS to a limited extent on GitHub Pages. However, we recommend sticking with the CSS and JS supplied by a Jekyll theme created by a designer. It's hard to make a website that looks good from scratch. We'll get into how to add a theme using Jekyll later on.
 :::
 
 ## Use HTML to add features that aren't available in Markdown
+
+When creating your webpage, you might want to do a couple of things with your content that most types of Markdown can't do, such as:
+
+  * Specify the size of an image
+  * Control whether links open up in a new tab
+  * Embed videos and other web content
+  * Change colors, fonts, or font sizes in one section of your page
+  
+HTML (Hyper-Text Markup Language), *does* have the ability to do all those things and more. 
 
 ### Make sure to format your HTML code so that it is readable
 
@@ -55,7 +59,7 @@ One great thing about Markdown is that it is both **human-readable** and **machi
 ```markdown
 # A fabulous Earth Data Science Portfolio <!-- <1> -->
 
-![Super-cool satellite imagery](/images/cool_satellite_image.png) <!-- <2> -->
+![Super-cool satellite imagery](/images/cool_satellite_image.jpeg) <!-- <2> -->
 
 Some text and [a link](https://www.my_link.org) and:
 
@@ -70,7 +74,7 @@ Some text and [a link](https://www.my_link.org) and:
 
 ```html
 <h1>A fabulous Earth Data Science Portfolio</h1><img 
-src="link/to/image.png" alt-text="Super-cool satellite imagery">
+src="/images/cool_satellite_image.jpeg" alt-text="Super-cool satellite imagery">
 <p>Some text and <a 
 href="https://www.my_link.org">a link</a> 
 and:</p><ul><li>A</li><li>Bulleted
@@ -84,7 +88,7 @@ and:</p><ul><li>A</li><li>Bulleted
 
 <!-- Comments help the reader understand your code --> <!-- <2> -->
 <img 
-  src="link/to/image.png" 
+  src="/images/cool_satellite_image.jpeg" 
   alt="Super-cool satellite imagery" /> <!-- <3> -->
 
 <p>
@@ -103,9 +107,13 @@ and:</p><ul><li>A</li><li>Bulleted
 3. The `img` tag will be an image.
 :::
 
-### HTML Basics (for Markdown users)
+### HTML syntax for Markdown users
 
-## Tags
+Every coding language has some special characters and structures, known as the **syntax**. When you render or run code, the syntax gets interpreted into some kind of behavior. For example, in Markdown, the syntax `# ` gets interpreted as the start of a level 1 header.
+
+HTML is less **human-readable** than Markdown. To use it effectively, you will need to understand some key vocabulary about the syntactic elements of HTML.
+
+#### Tags
 
 Notice that most elements are surrounded by **tags** enclosed in angle brackets (`<` and `>`). For example, when we include a header 1, we do that with the following code:
 
@@ -123,58 +131,96 @@ If there is no *text* that needs to go between two HTML tags, you don't need a c
 
 ```html
 <img 
-  src="link/to/image.png" 
+  src="/images/cool_satellite_image.jpeg" 
   alt="Super-cool satellite imagery" />
 ```
 :::
 
 ::: {.callout-tip .column-margin}
-### Speak Code
+#### Speak Code
 
 Remember that the `<` and `>` symbols are **usually** used to surround text you should replace with something applicable to you and your project. There's a **BIG exception** when it comes to building websites -- `<` and `>` are key **special characters** if you are using HTML, the markup language used on most websites. So, if the code sample is HTML, you should leave the angle brackets `<` and `>` in.
 :::
 
-You can add HTML elements into your Markdown documents. There is no need when using GitHub Pages to write entire documents in HTML; you can simply substitute HTML elements for Markdown elements where needed. For example, say you have written the following Markdown to display an image:
+#### Parameters
 
-``` markdown
-![Super-cool satellite imagery](/images/cool_satellite_image.png)
+In addition to marking the beginning and end of HTML elements, tags can contain addition information about how to display their contents. This extra information is known as parameters. For example, let's revisit the code above for an HTML link, which contains the `href` parameter:
+
+```html
+<a href="https://www.my_link.org"> <!-- <1> -->
+  a link
+</a>
+```
+1. Parameters are included inside the opening tag. The parameter name (`href`) must be followed by and equals sign `=`, and the parameter value (`https://www.my_link.org`) must be surrounded by quotation marks.
+
+### Include HTML directly in Markdown
+
+You can add HTML elements into your Markdown documents. There is no need when using GitHub Pages to write entire documents in HTML; you can directly substitute HTML elements for Markdown elements where needed. For example, 
+
+### Adjust the size of images
+Say you have written the following Markdown to display an image:
+
+```markdown
+![Super-cute pika!](/images/pika.jpg)
 ```
 
-![Super-cool satellite imagery](/images/cool_satellite_image.png)
+<img 
+  src="/images/pika.jpg" 
+  alt="Super-cute pika!"
+  width="100%">
 
-Unfortunately, the image is taking up the entire view of the page. You can't adjust the size with GitHub Markdown alone, but you can replace the image with HTML and control the height:
+Unfortunately, the image is taking up the entire width of the section. You can't adjust the size with GitHub Markdown alone, but you can replace the image with HTML and control the width:
 
 ``` markdown
 <img 
-  src="/images/cool_satellite_image.png" 
-  alt="Super-cool satellite imagery" 
-  height="20rem">
+  src="/images/pika.jpg" 
+  alt="Super-cute pika!" 
+  width="25%">
 ```
+
 <img 
-  src="/images/cool_satellite_image.png" 
-  alt="Super-cool satellite imagery" 
-  height="20rem">
+  src="/images/pika.jpg" 
+  alt="Super-cute pika!" 
+  width="25%">
 
 ::: {.callout-warning} 
 If you set **both** the width and the height of an image, your image will become distorted:
 
 ```html
 <img 
-  src="/images/cool_satellite_image.png" 
-  alt="Super-cool satellite imagery" 
-  height="20px" 
-  width="10px">
+  src="/images/pika.jpg" 
+  alt="Super-cute pika!" 
+  height="100px" 
+  width="400px">
 ```
 
+```{=html}
 <img 
-  src="/images/cool_satellite_image.png" 
-  alt="Super-cool satellite imagery" 
-  height="20px" 
-  width="10px">
+  src="/images/pika.jpg" 
+  alt="Super-cute pika!" 
+  height="20rem" 
+  width="40rem">
+```
 
 :::
 
-## External links
+When setting image height and width, there are different units you can use:
+
+| Unit | Meaning |
+| --- | --- |
+| `px` | A pixel is the smallest item that can be displayed on your screen |
+| `em` or `rem` | These units are relative to your font size (e.g. the width of an `m`) |
+| `%` | A percentage of the element that contains the image |
+
+When using `px`, keep in mind that others may be viewing your webpage on different devices (e.g. phone vs. computer). `px` units are pegged to the resolution of the screen, so this can result in vastly different sizes on different devices.
+
+::: {.callout-tip}
+You can simulate what your webpage will look like on another device using the Web Developer Tools. Usually there's a button that looks like a screen in the upper right.
+
+![Web developer tools with the device simulator highlighted](/images/earth-analytics/git-version-control/github-pages/web-developer-tools-device.png)
+:::
+
+### Open external links in a new tab
 
 When you are linking to someone else's webpage, often you want that page to open in a new tab or window so your reader doesn't leave your webpage.
 
@@ -192,6 +238,44 @@ There's no way to do this in most flavors of Markdown, but if you write your lin
 </a> 
 ```
 
-## Embedding content
+### Embedding content from other webpages
 
-## Styling text
+Markdown is great for text and images, but what if you want to content that is hosted elsewhere, like a video? HTML lets you load content from other webpages (also known as **embedding content**) using an element called an **iframe**:
+
+```html
+
+```
+
+Usually the website that hosts your video will already have embed code prepared for you. For example, on YouTube you can find the embed code below the video:
+
+### Styling text
+
+**Style** on a webpage refers to how the page looks. For example, you might want to change colors, fonts, or spacing on your page. Usually this would be done with CSS or with pre-styled theme elements. However, if you doing something small, you can use the `style` parameter in an HTML tag, as in the following examples:
+
+::: {.callout}
+```html
+Change the <span style="color: red; font-size: 2rem"> color and font size of a word</span>
+```
+
+Change the <span style="color: red; font-size: 2rem"> color and font size of a word</span>.
+
+We are using the `span` tag here instead of the `p` (paragraph) tag, so that HTML will not put the text on a new line.
+:::
+
+::: {.callout}
+Add a border to an image:
+
+<img 
+  src="/images/cool_satellite_image.jpeg" 
+  alt="Super-cool satellite imagery" 
+  height="100rem"
+  style="border: dashed 5px blue;">
+
+```html
+<img 
+  src="/images/cool_satellite_image.jpeg" 
+  alt="Super-cool satellite imagery" 
+  height="100rem"
+  style="border: dashed 5px blue;">
+```
+:::
