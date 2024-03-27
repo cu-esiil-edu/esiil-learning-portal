@@ -1,7 +1,7 @@
 ---
 title: "Customize your website content"
 subtitle: "Get started with HTML"
-image: /images/earth-analytics/git-version-control/github-pages/lesson-portfolio-content.jpeg
+image: /img/earth-analytics/git-version-control/github-pages/lesson-portfolio-content.jpeg
 image-alt: "A woman considers multiple website layouts"
 author: 
   - "Nate Quarderer"
@@ -32,7 +32,7 @@ When using GitHub Pages, you can rely on GitHub to translate Markdown to HTML be
 
 You should now see the source code for your webpage in a new panel. What do you notice about your content? How is it different from what you wrote?
 
-![Web developer tools](/images/earth-analytics/git-version-control/github-pages/web-developer-tools.png)
+![Web developer tools](/img/earth-analytics/git-version-control/github-pages/web-developer-tools.png)
 
 ::: callout-tip
 You can also control CSS and JS to a limited extent on GitHub Pages. However, we recommend sticking with the CSS and JS supplied by a Jekyll theme created by a designer. It's hard to make a website that looks good from scratch. We'll get into how to add a theme using Jekyll later on.
@@ -59,7 +59,7 @@ One great thing about Markdown is that it is both **human-readable** and **machi
 ```markdown
 # A fabulous Earth Data Science Portfolio <!-- <1> -->
 
-![Super-cool satellite imagery](/images/cool_satellite_image.jpeg) <!-- <2> -->
+![Super-cool satellite imagery](/img/cool_satellite_image.jpeg) <!-- <2> -->
 
 Some text and [a link](https://www.my_link.org) and:
 
@@ -74,7 +74,7 @@ Some text and [a link](https://www.my_link.org) and:
 
 ```html
 <h1>A fabulous Earth Data Science Portfolio</h1><img 
-src="/images/cool_satellite_image.jpeg" alt-text="Super-cool satellite imagery">
+src="/img/cool_satellite_image.jpeg" alt-text="Super-cool satellite imagery">
 <p>Some text and <a 
 href="https://www.my_link.org">a link</a> 
 and:</p><ul><li>A</li><li>Bulleted
@@ -88,7 +88,7 @@ and:</p><ul><li>A</li><li>Bulleted
 
 <!-- Comments help the reader understand your code --> <!-- <2> -->
 <img 
-  src="/images/cool_satellite_image.jpeg" 
+  src="/img/cool_satellite_image.jpeg" 
   alt="Super-cool satellite imagery" /> <!-- <3> -->
 
 <p>
@@ -115,6 +115,12 @@ HTML is less **human-readable** than Markdown. To use it effectively, you will n
 
 #### Tags
 
+::: {.callout-tip .column-margin}
+#### Speak Code
+
+Remember that the `<` and `>` symbols are **usually** used to surround text you should replace with something applicable to you and your project. There's a **BIG exception** when it comes to building websites -- `<` and `>` are key **special characters** if you are using HTML, the markup language used on most websites. So, if the code sample is HTML, you should leave the angle brackets `<` and `>` in.
+:::
+
 Notice that most elements are surrounded by **tags** enclosed in angle brackets (`<` and `>`). For example, when we include a header 1, we do that with the following code:
 
 ```html
@@ -124,22 +130,16 @@ Notice that most elements are surrounded by **tags** enclosed in angle brackets 
 ```
 1. Start with the opening tag for `h1` (header level 1), then
 2. Place the text of the header in between the tags.
-3. End with the closing tag, which match the opening tag plus a `/`
+3. End with the closing tag, which match the opening tag plus a slash (`/`)
 
 ::: {.callout-tip}
 If there is no *text* that needs to go between two HTML tags, you don't need a closing tag. Instead, you can end the opening tag with `/>` to indicate that there's no content. For example, take another look at the image HTML code:
 
 ```html
 <img 
-  src="/images/cool_satellite_image.jpeg" 
+  src="/img/cool_satellite_image.jpeg" 
   alt="Super-cool satellite imagery" />
 ```
-:::
-
-::: {.callout-tip .column-margin}
-#### Speak Code
-
-Remember that the `<` and `>` symbols are **usually** used to surround text you should replace with something applicable to you and your project. There's a **BIG exception** when it comes to building websites -- `<` and `>` are key **special characters** if you are using HTML, the markup language used on most websites. So, if the code sample is HTML, you should leave the angle brackets `<` and `>` in.
 :::
 
 #### Parameters
@@ -161,11 +161,11 @@ You can add HTML elements into your Markdown documents. There is no need when us
 Say you have written the following Markdown to display an image:
 
 ```markdown
-![Super-cute pika!](/images/pika.jpg)
+![Super-cute pika!](/img/pika.jpg)
 ```
 
 <img 
-  src="/images/pika.jpg" 
+  src="/img/pika.jpg" 
   alt="Super-cute pika!"
   width="100%">
 
@@ -173,13 +173,13 @@ Unfortunately, the image is taking up the entire width of the section. You can't
 
 ``` markdown
 <img 
-  src="/images/pika.jpg" 
+  src="/img/pika.jpg" 
   alt="Super-cute pika!" 
   width="25%">
 ```
 
 <img 
-  src="/images/pika.jpg" 
+  src="/img/pika.jpg" 
   alt="Super-cute pika!" 
   width="25%">
 
@@ -188,7 +188,7 @@ If you set **both** the width and the height of an image, your image will become
 
 ```html
 <img 
-  src="/images/pika.jpg" 
+  src="/img/pika.jpg" 
   alt="Super-cute pika!" 
   height="100px" 
   width="400px">
@@ -196,10 +196,10 @@ If you set **both** the width and the height of an image, your image will become
 
 ```{=html}
 <img 
-  src="/images/pika.jpg" 
+  src="/img/pika.jpg" 
   alt="Super-cute pika!" 
-  height="20rem" 
-  width="40rem">
+  height="100px" 
+  width="400px">
 ```
 
 :::
@@ -212,12 +212,12 @@ When setting image height and width, there are different units you can use:
 | `em` or `rem` | These units are relative to your font size (e.g. the width of an `m`) |
 | `%` | A percentage of the element that contains the image |
 
-When using `px`, keep in mind that others may be viewing your webpage on different devices (e.g. phone vs. computer). `px` units are pegged to the resolution of the screen, so this can result in vastly different sizes on different devices.
+When using `px`, keep in mind that others may be viewing your webpage on different devices (e.g. phone vs. computer). `px` units are pegged to the resolution of the screen, so this can result in vastly different sizes on different devices.  Furthermore, `rem` measurements will change if the viewer zooms in or out of the page in their browser, making them more accessible.
 
 ::: {.callout-tip}
 You can simulate what your webpage will look like on another device using the Web Developer Tools. Usually there's a button that looks like a screen in the upper right.
 
-![Web developer tools with the device simulator highlighted](/images/earth-analytics/git-version-control/github-pages/web-developer-tools-device.png)
+![Web developer tools with the device simulator highlighted](/img/earth-analytics/git-version-control/github-pages/web-developer-tools-device.png)
 :::
 
 ### Open external links in a new tab
@@ -254,26 +254,31 @@ Usually the website that hosts your video will already have embed code prepared 
 
 ::: {.callout}
 ```html
-Change the <span style="color: red; font-size: 2rem"> color and font size of a word</span>
+Change the 
+<span style="color: red; font-size: 2rem"> 
+  color and font size
+</span>.
 ```
+Change the <span style="color: red; font-size: 2rem"> color and font size</span>.
 
-Change the <span style="color: red; font-size: 2rem"> color and font size of a word</span>.
-
+::: {.callout-tip}
 We are using the `span` tag here instead of the `p` (paragraph) tag, so that HTML will not put the text on a new line.
+:::
+
 :::
 
 ::: {.callout}
 Add a border to an image:
 
 <img 
-  src="/images/cool_satellite_image.jpeg" 
+  src="/img/cool_satellite_image.jpeg" 
   alt="Super-cool satellite imagery" 
   height="100rem"
   style="border: dashed 5px blue;">
 
 ```html
 <img 
-  src="/images/cool_satellite_image.jpeg" 
+  src="/img/cool_satellite_image.jpeg" 
   alt="Super-cool satellite imagery" 
   height="100rem"
   style="border: dashed 5px blue;">
