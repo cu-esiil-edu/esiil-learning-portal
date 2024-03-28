@@ -42,6 +42,8 @@ You'll need to start by importing the following libraries
 # Work with vector data
 import geopandas as gpd
 
+# Save maps and plots to files
+import holoviews as hv
 # Create interactive maps and plots
 import hvplot.pandas
 
@@ -51,33 +53,68 @@ from osmnx import features as osm
 
 ### Search for a point of interest
 
-You can use the `pyrosm` package to download and search for spatial vector data in your area.
+You can use the `pyrosm` package to download and search for spatial vector data in your area, or anywhere around the world.
 
-First, explore the available datasets. You'll want to download the smallest available area, such as a city or state. In this case, we're looking for the location of the United Tribes Technical College campus in North Dakota.
+In this case, we're looking for the location of the United Tribes Technical College campus in North Dakota. The address in here, `'United Tribes Technical College, Bismarck, ND, United States'`, does not have to be complete or exact, but it should be specific enough to narrow it down. We are also specifying that we want it to be tagges as a `'amentity'` type, specifically a `'college'` You might have to try a couple different searches with different addresses and/or tags to get the address you want, just like if you are using a map website or app.
 
 ```{python}
 # Search for United Tribes Technical College
 uttc_gdf = osm.features_from_address(
     'United Tribes Technical College, Bismarck, ND, United States',
-    {'building': True})
+    {'amenity': ['college']})
+uttc_gdf
+```
+
+```{python}
 uttc_gdf.plot()
 ```
 
 We have a map of the UTTC Campus!
-### Create a map
+
+::: {.callout-warning}
+The Open Street Maps (OSM) database is not always complete. For example, try searching for UTTC with the `{'building': True}`, and compare it to the [map of the UTTC campus on their website](https://uttc.edu/wp-content/uploads/2022/12/CAMPUS-MAP-2022-23.pdf). What do you notice?
+:::
+
+### Create an interactive map
+
+There are lots of different ways to create maps and plots in Python. Here, we're going to use a tool called `'hvplot'` and `'geoviews'` to create an interactive map, including the online `'EsriImagery'` tile source basemap.
 
 ```{python}
 # Plot UTTC boundary
-uttc_map = uttc_gdf.hvplot(
-    title="United Tribes Technical College",
-    fill_color='orange', line_color='black',
+uttc_map = uttc_gdf.reset_index().hvplot(
+    # Givethe map a descriptive title
+    title="United Tribes Technical College, Bismarck, ND",
+    # Add a basemap
     geo=True, tiles='EsriImagery',
-    frame_width=600)
+    # Change the colors
+    fill_color='white', fill_alpha=0.2,
+    line_color='skyblue', line_width=5,
+    # Change the image size
+    frame_width=400, frame_height=400)
+
+# Save the map as a file to put on the web
+hv.save(uttc_map, 'uttc.html')
+
+# Display the map
 uttc_map
 ```
 
-```{python}
-# import holoviews as hv
-# hv.save(uttc_map, 'uttc_map.png')
+### Place your map in your webpage
+
+You can now place your map in your webpage using the following HTML:
+
+```markdown
+<embed 
+  type="text/html" src="uttc.html"
+  width=600, height=600>
+</embed>
 ```
 
+<embed 
+  type="text/html" src="uttc.html"
+  width=600, height=600>
+</embed>
+
+:::{.callout-important}
+Make sure to make the `width` and `height` of your `embed` element larger than the `frame_width` and `frame_height` of your plot, or it will get cut off!
+:::
