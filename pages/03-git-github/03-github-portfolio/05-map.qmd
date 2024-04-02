@@ -2,7 +2,11 @@
 title: "Add a map to your website"
 subtitle: "Get started with maps"
 description: |
-  Search for geospatial features, add them to a map, and post the map on your website.
+  As Earth and Environmental Data Scientists, we know places are important. In this activity, you will make your first map in Python, and use it to tell the story of where you come from and what places are important to you.
+learning-goals: 
+  - Define geospatial vector data
+  - Search for geospatial features
+  - Construct a map and embed it into a portfolio website
 author:
   - "Nate Quarderer"
   - "Elsa Culler"
@@ -13,31 +17,51 @@ keywords:
 jupyter: python3
 ---
 
-Learn how to create maps using `geoviews`.
+## Get started with map-making using open-sources tools
 
-## Finding locations and boundaries
-
+::: {.content-hidden when-profile="nb"}
 ### About Spatial Vector Data
 
-Vector data are composed of discrete geometric locations (x, y values) known as vertices that define the “shape” of the spatial object. The organization of the vertices determines the type of vector that you are working with. There are three types of vector data:
+Vector data are composed of discrete geometric locations (x and y values, or latitude and longitude) that define the “shape” of the spatial object. The organization of the vertices determines the type of vector that you are working with. There are three fundamental types of vector data:
 
 **Points:** Each individual point is defined by a single x, y coordinate. Examples of point data include: sampling locations, the location of individual trees or the location of plots.
 
-**Lines:** Lines are composed of many (at least 2) vertices, or points, that are connected. For instance, a road or a stream may be represented by a line. This line is composed of a series of segments, each “bend” in the road or stream represents a vertex that has defined x, y location.
+**Lines:** Lines are composed of many (at least 2) vertices, or points, that are connected. For instance, a road or a stream may be represented by a line. This line is composed of a series of segments, each bend in the road or stream represents a vertex that has defined x, y location.
 
-**Polygons:** A polygon consists of 3 or more vertices that are connected and “closed”. Thus, the outlines of plot boundaries, lakes, oceans, and states or countries are often represented by polygons.
+**Polygons:** A polygon consists of 3 or more vertices that are connected and closed. Thus, the outlines of plot boundaries, lakes, oceans, and states or countries are often represented by polygons.
 
-
-<img style="float: left;" src="https://www.earthdatascience.org/images/earth-analytics/spatial-data/points-lines-polygons-vector-data-types.png">
-
+![There are three types of vector data -- point, line, and polygon](https://www.earthdatascience.org/images/earth-analytics/spatial-data/points-lines-polygons-vector-data-types.png)
 
 ::: {.callout-tip}
 Read more about working with spatial data using Python in our Intro to Earth Data Science, [here](https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-spatial-data/use-vector-data/).
 :::
 
+### Open this activity in GitHub Codespaces
+
+To complete this activity, you will need somewhere to run your code. Start by going to this [repository on GitHub](https://github.com/cu-esiil-edu/first-map-template/). We've set it up so that anyone can run Python code from there!
+
+Once you are on the website, follow these instructions to get your Codespace up and running:
+
+
+    1. Click on Use this Template in the upper right, and select Open in Codespace. This might take a minute if you haven't done it in awhile.
+    2. Once the Codespace loads, open `!00-first-map.ipynb` using the `Folders` tab on the left-hand side.
+    3. Continue working through the sample notebook. All the code should start off the same as what is on this page, but there's more background information here if you want it.
+    4. Once you are done, [stop your Codespace](https://docs.github.com/en/codespaces/developing-in-a-codespace/stopping-and-starting-a-codespace#stopping-a-codespace) so you don't use up your allocation!
+
+### Finding locations and boundaries
+
+[Open Street Map (OSM)](https://www.openstreetmap.org/) is an open-source, editable map of the world -- a little like a wiki for places. They also provide a service for looking up locations using text, which we'll be using in this activity.
+
+:::
+
 ### Mapping libraries
 
-You'll need to start by importing the following libraries
+You'll need to start by importing some libraries to have access to all the code you need.
+
+:::{.content-visible .callout-tip when-profile="nb"}
+To run code in Codespaces, click on the play button in the upper left corner of the code you want to run. You may be asked to "Select a kernel". If you press <kbd>Return</kbd> or click on `base` up at the top, that should select the default kernel.
+:::
+
 ```{python}
 # Work with vector data
 import geopandas as gpd
@@ -99,9 +123,20 @@ hv.save(uttc_map, 'uttc.html')
 uttc_map
 ```
 
+### Download your map from Codespaces
+
+If you are doing this activity on GitHub Codespaces, you will need to download the map you created:
+
+  1. Open the `Folders` tab on the left hand side
+  2. Right-click on `uttc.html` (or whatever you named your file)
+  3. Select `Download...`
+
+This should download your map.
+
+::: {.content-hidden when-profile="nb"}
 ### Place your map in your webpage
 
-You can now place your map in your webpage using the following HTML:
+You are now ready to upload your map to your portfolio repository and place it in your webpage. Because it is HTML and not an image, you will need to use the following HTML to get it on your page:
 
 ```markdown
 <embed 
@@ -117,4 +152,6 @@ You can now place your map in your webpage using the following HTML:
 
 :::{.callout-important}
 Make sure to make the `width` and `height` of your `embed` element larger than the `frame_width` and `frame_height` of your plot, or it will get cut off!
+:::
+
 :::
