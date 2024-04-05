@@ -1,0 +1,513 @@
+---
+title: Get started with open reproducible science!
+jupyter: python3
+format:
+  html: default
+  ipynb:
+    output-file: "Get Started with Open Reproducible Science!"
+---
+
+##  Open reproducible science
+
+![Components of open science - accessible, reproducible, inclusive. Image source: [NASA](https://www.earthdata.nasa.gov/esds/open-science/oss-for-eso-workshops)](https://www.earthdata.nasa.gov/s3fs-public/2021-11/Circle_Diagram_UPDATE_2.jpg?VersionId=pFRniRpjtgc_MEXUJKi9_sXLoMsSX.pB){width=50% fig-pos='H'}  (Earth Science Data Systems, 2021)
+
+[Open reproducible science](https://www.earthdatascience.org/courses/intro-to-earth-data-science/open-reproducible-science/get-started-open-reproducible-science/) makes scientific methods, data and outcomes available to everyone. That means that *everyone* who wants should be able to **find**, **read**, **understand**, and **run** your workflows for themselves.
+
+Few if any science projects are 100% open and reproducible (yet!). However, members of the open science community have developed open source tools and practices that can help you move toward that goal. You will learn about many of those tools in [the Intro to Earth Data Science textbook](https://www.earthdatascience.org/courses/intro-to-earth-data-science/). Don't worry about learning all the tools at once -- we've picked a few for you to get started with.
+
+## Your turn: what does open reproducible science mean to you?
+
+<img src="https://uxwing.com/wp-content/themes/uxwing/download/education-school/read-book-icon.png" width=20 style="float: left; padding: 3px" /> First, read about some of our thoughts in [the textbook chapter on open reproducible science](https://www.earthdatascience.org/courses/intro-to-earth-data-science/open-reproducible-science/get-started-open-reproducible-science/).
+
+**Then, create a new Markdown cell below this one** using the `+ Code` button in the upper left**
+
+{{< ai conversation >}} In the new cell, answer the following questions using a **numbered list** in Markdown:
+
+  1. In 1-2 sentences, define open reproducible science.
+  2. In 1-2 sentences, choose one of the open source tools that you have learned about (i.e. Shell, Git/GitHub, Jupyter Notebook, Python) and explain how it supports open reproducible science.
+  3. In 1-2 sentences, does this Jupyter Notebook file have a machine-readable name? Explain your answer.
+
+::: {.content-visible when-profile="graded"}
+  - (2 pts) Convert to Markdown cell
+  - (2 pts) Use a numbered list
+  
+  - Thoughtful responses to the following:
+     - (2 pts) Define open reproducible science
+     - (2 pts) Open source tools
+     - (2 pts) No; contains spaces and special characters, and it does not uses numbers to control the order of files.
+  
+  - (2 pts) Correct spelling/grammar
+:::
+---
+
+## **Readable**, **well-documented** scientific workflows are easier to reproduce
+
+As the comic below suggests, code that is hard to read is also hard to get working. We refer to code that is easy to read as **clean** code.
+
+[![And because if you just leave it there, it's going to start contaminating things downstream even if no one touches it directly. (from https://xkcd.com/2138/)](https://imgs.xkcd.com/comics/wanna_see_the_code.png)](https://www.explainxkcd.com/wiki/index.php/2138:_Wanna_See_the_Code%3F)
+
+
+<img src="https://static.thenounproject.com/png/5640527-200.png" width=20 style="float: left; padding: 3px" /> **In the prompt below, list 3 things you can do to write clean code, and then list 3 more advantages of doing so.**
+  * Double click on the cell to edit
+  * You can use examples from the textbook, or come up with your own. 
+  * Use [**Markdown**](https://www.markdownguide.org/) to format your list.
+  
+=== BEGIN MARK SCHEME ===
+
+    (1 pt each) demonstrating understanding of clean code practices and advantages
+    (2 pt) Correct spelling and grammar
+
+=== END MARK SCHEME ===
+
+I can write clean code by:
+  * `YOUR ANSWER HERE`
+
+
+Advantages of clean code include:
+  * `YOUR ANSWER HERE`
+
+---
+
+## What the fork?! Who wrote this?
+
+Below is a scientific Python workflow. But something's wrong -- The code won't run! Your task is to follow the instructions below to **clean and debug** the Python code below so that it runs.
+ > Don't worry if you can't solve every bug right away. We'll get there! The most important thing is to identify problems with the code and write high-quality [**GitHub Issues**](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue#creating-an-issue-from-a-repository)
+
+At the end, you'll **repeat the workflow** for a location and measurement of your choosing.
+
+### Alright! Let's clean up this code. First things first...
+
+<img src="https://static.thenounproject.com/png/4260107-200.png" width=20 style="float: left; padding: 3px" /> Rename this notebook if necessary with an [**expressive and machine-readable file name**](https://www.earthdatascience.org/courses/intro-to-earth-data-science/open-reproducible-science/get-started-open-reproducible-science/best-practices-for-organizing-open-reproducible-science/)
+
+---
+
+## Python **packages** let you use code written by experts around the world
+
+Because Python is open source, lots of different people and organizations can contribute (including you!). Many contributions are in the form of **packages** which do not come with a standard Python download. Read more in your textbook: 
+  * <img src="https://uxwing.com/wp-content/themes/uxwing/download/education-school/read-book-icon.png" width=20 style="float: left; padding: 3px" />  [Packages need to be installed and **imported**](https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/use-python-packages/). 
+
+  * <img src="https://uxwing.com/wp-content/themes/uxwing/download/education-school/read-book-icon.png" width=20 style="float: left; padding: 3px" /> In the cell below, someone was trying to import the **pandas package**, which helps us to work with [**tabular data** such as comma-separated value or csv files](https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-text-files/).
+
+<img src="https://static.thenounproject.com/png/4260107-200.png" width=20 style="float: left; padding: 3px" /> Your task -- **uncomment** the code in the cell below by removeing the `#` symbol on the left of line 2, and correct the typo to properly import the pandas package under its **alias** pd.
+
+```{python}
+#| nbgrader: {grade: false, grade_id: code-import, locked: false, schema_version: 3, solution: true, task: false}
+#can't get this to work :(
+#import pands as pd
+
+# BEGIN SOLUTION
+import pandas as pd
+# END SOLUTION
+```
+
+Once you have run the cell above and imported `pandas`, **run the cell below**. It is a test cell that will tell you if you completed the task successfully. If a test cell isn't working the way you expect, check that you ran your code **immediately before** running the test.
+
+```{python}
+#| nbgrader: {grade: true, grade_id: test-import, locked: true, points: 5, schema_version: 3, solution: false, task: false}
+# DO NOT MODIFY THIS TEST CELL
+points = 0
+try:
+    pd.DataFrame()
+    points += 5
+    print('\u2705 Great work! You correctly imported the pandas library.')
+except:
+    print('\u274C Oops - pandas was not imported correctly.')
+print('You earned {} of 5 points for importing pandas'.format(points))
+```
+
+---
+
+## There are more Earth Observation data online than any one person could ever look at
+
+[NASA's Earth Observing System Data and Information System (EOSDIS) alone manages over 9PB of data](https://www.earthdata.nasa.gov/learn/articles/getting-petabytes-people-how-eosdis-facilitates-earth-observing-data-discovery-and-use). 1 PB is roughly 100 times the entire Library of Congress (a good approximation of all the books available in the US). It's all available to **you** once you learn how to download what you want.
+
+The following workflow looks at **maximum daily average temperatures** over time in Rapid City, South Dakota. This notebook uses data from the National Centers for Environmental Information (NCEI). [Check out the NCEI Climate at a Glance website where you can search for more data like this](https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/).
+  > **Wait a second - what is maximum daily average temperature?** NCEI first takes the daily average temperature. Then, they take the annual maximum. You'll notice these temperatures are a bit lower than we would expect from maxima - that's because nighttime temperatures get incorporated into the daily average.
+
+<img src="https://static.thenounproject.com/png/5640527-200.png" width=20 style="float: left; padding: 3px" /> Your task:
+  1. Research the **[Climate at a Glance](https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/)** data source. 
+  2. In the cell below, write a 2-3 sentence description of the data source. You should describe:
+     - who takes the data
+     - where the data were taken
+     - what the maximum temperature units are
+     - how the data are collected.
+  3. Include a citation of the data (HINT: NCEI has a section for 'Citing this page', but you will have to select a particular dataset such as `City` > `Time Series`).
+
+
+===BEGIN MARK SCHEME ===
+
+"Climate at a Glance was developed at the request of NOAA Headquarters for near real-time analysis of monthly temperature and precipitation data across the contiguous U.S. and intended for the study of climate variability...Because these data are primarily intended for the study of climate variability, observations have been adjusted to account for the artificial effects introduced into the climate record by factors such as instrument changes, station relocation, observer practice changes and urbanization."
+
+NOAA National Centers for Environmental information, Climate at a Glance: City Time Series, published February 2023, retrieved on February 26, 2023 from https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/city/time-series
+
+=== END MARK SCHEME ===
+
+**YOUR DATA DESCRIPTION AND CITATION HERE**
+
+## You can access NCEI Climate At a Glance Data from the internet using its URL
+
+The cell below contains the URL for the data you will use in this part of the notebook. We got that URL by right-clicking on the blue `CSV` download button. You don't have to do that just yet -- this URL is correct! However, we still have a problem - we can't get the URL back  later on because it isn't saved in a **variable**. In other words, we need to give the url a name so that we can request in from Python later (sadly, Python has no 'hey what was that thingy I typed earlier?' function)
+
+<img src="https://uxwing.com/wp-content/themes/uxwing/download/education-school/read-book-icon.png" width=20 style="float: left; padding: 3px" /> Check out the [textbook section on variables](https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/get-started-using-python/variables/)
+
+<img src="https://static.thenounproject.com/png/4260107-200.png" width=20 style="float: left; padding: 3px" /> **Your task:**
+  1. Pick an expressive variable name for the URL
+     > HINT: click on the `Variables` button up top to see all your variables. Your new url variable will not be there until you define it and run the code
+  2. Reformat the URL so that it adheres to the [79-character PEP-8 line limit](https://peps.python.org/pep-0008/#maximum-line-length)
+     > HINT: You should see two vertical lines in each cell - don't let your code go past the second line
+  3. At the end of the cell where you define your url variable, **call your variable (type out its name)** so it can be tested.
+
+```{python}
+#| code_folding: []
+#| nbgrader: {grade: false, grade_id: ans-url, locked: false, schema_version: 3, solution: true, task: false}
+'https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/city/time-series/USW00024090/tmax/ann/2/1949-2023.csv'
+
+# BEGIN SOLUTION
+my_url = (
+    "https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/"
+    "city/time-series/USW00024090/tmax/ann/2/1949-2023.csv")
+print(len(my_url))
+my_url
+# END SOLUTION
+```
+
+```{python}
+#| nbgrader: {grade: true, grade_id: test-url, locked: true, points: 6, schema_version: 3, solution: false, task: false}
+# DO NOT MODIFY THIS TEST CELL
+resp_url = _
+points = 0
+
+if type(resp_url)==str:
+    points += 3
+    print('\u2705 Great work! You correctly called your url variable.')
+else:
+    print('\u274C Oops - your url variable was not called correctly.')
+
+if len(resp_url)==117:
+    points += 3
+    print('\u2705 Great work! Your url is the correct length.')
+else:
+    print('\u274C Oops - your url variable is not the correct length.')
+
+print('You earned {} of 6 points for defining a url variable'.format(points))
+```
+
+---
+
+## Download and get started working with NCEI data
+
+The `pandas` library you imported can download data from the internet directly into a type of Python **object** called a `DataFrame`. In the code cell below, you can see an attempt to do just this. But there are some problems...
+
+<img src="https://static.thenounproject.com/png/5640527-200.png" width=20 style="float: left; padding: 3px" /> What do you notice about the code below? Answer the following questions in **this cell**:
+
+  1. What do you think the **parameters** of the `pd.read_csv()` function are supposed to do? 
+     > HINT: Check out [the pandas read_csv() documentation](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html) for more info. You can also try changing the values and running the cell to see what happens!
+    * my_url: `YOUR ANSWER HERE`
+    * header: `YOUR ANSWER HERE`
+    * names: `YOUR ANSWER HERE`
+
+  2. Are the data importing correctly? Why or why not?
+
+       `YOUR ANSWER HERE`
+
+  3. What are two things you could do to make this code more **expressive**?
+    1. `YOUR ANSWER HERE`
+    2. `YOUR ANSWER HERE`
+ 
+
+<img src="https://static.thenounproject.com/png/4260107-200.png" width=20 style="float: left; padding: 3px" /> You're ready to fix some code! Your task is to:
+  1. Make any changes needed to get this code to run. Here's some hints:
+     > HINT: The my_url variable doesn't exist - you need to replace it with the variable name **you** chose.
+  2. Modify the value of the `header` parameter so that only numeric data values are included in each column.
+  3. Clean up the code by using **expressive variable names**, **expressive column names**, **PEP-8 compliant code**, and **descriptive comments**
+
+**Make sure to call your `DataFrame` by typing it's name as the last line of your code cell** Then, you will be able to run the test cell below and find out if your answer is correct.
+
+=== BEGIN MARK SCHEME ===
+
+    (2 pts) Expressive column names
+
+    (2 pts) Expressive variable names
+
+    (1 pt) PEP-8
+    
+    (1 pt) Descriptive comment
+
+=== END MARK SCHEME ===
+
+```{python}
+#| nbgrader: {grade: false, grade_id: ans-download, locked: false, schema_version: 3, solution: true, task: false}
+#download
+dataframe = pd.read_csv(my_url, header=2, names=['col_1', 'col_2'])
+dataframe
+
+# BEGIN SOLUTION
+# Fix the dataframe variable
+dataframe = pd.read_csv(my_url, header=3, names=['col_1', 'col_2'])
+
+# Read Annual Maximum Temperature Data in to a DataFrame
+sd_tmax_df = pd.read_csv(
+    my_url, 
+    header=3,
+    names=['year', 'temperature_f'])
+print([round(val, 2) for val in sd_tmax_df.mean().values])
+sd_tmax_df
+# END SOLUTION
+```
+
+```{python}
+#| nbgrader: {grade: true, grade_id: test-download, locked: true, points: 5, schema_version: 3, solution: false, task: false}
+# DO NOT MODIFY THIS TEST CELL
+tmax_df_resp = _
+points = 0
+
+if isinstance(tmax_df_resp, pd.DataFrame):
+    points += 1
+    print('\u2705 Great work! You called a DataFrame.')
+else:
+    print('\u274C Oops - make sure to call your DataFrame for testing.')
+    
+summary = [round(val, 2) for val in tmax_df_resp.mean().values]
+if summary == [198562.0, 58.89]:
+    points += 4
+    print('\u2705 Great work! You correctly downloaded data.')
+else:
+    print('\u274C Oops - your data are not correct.')
+print('You earned {} of 5 points for downloading data'.format(points))
+```
+
+  > HINT: Check out the `type()` function below - you can use it to check that your data is now in `DataFrame` type object
+
+```{python}
+# Check that the data was imported into a pandas DataFrame
+type(dataframe)
+```
+
+---
+
+## Cleaning up your `DataFrame`
+
+Take a look at your data. Do you want to use it as is, or does it need to be modified? The original author of this code thought it needed some modification, but didn't document their work very well.
+
+<img src="https://static.thenounproject.com/png/4260107-200.png" width=20 style="float: left; padding: 3px" /> Playing with code: your task
+
+ 1. Replace `dataframe` with the name of **your** dataframe whenever it appears.
+ 2. Run the code below.
+
+```{python}
+#| nbgrader: {grade: false, grade_id: ans-years, locked: false, schema_version: 3, solution: true, task: false}
+# ncei has wacky years
+dataframe.iloc[:,0] = dataframe.iloc[:,0] // 100
+dataframe
+# BEGIN SOLUTION
+sd_tmax_df.year = sd_tmax_df.year // 100
+print([round(val, 2) for val in sd_tmax_df.mean().values])
+sd_tmax_df
+# END SOLUTION
+```
+
+```{python}
+#| nbgrader: {grade: true, grade_id: test-years, locked: true, points: 5, schema_version: 3, solution: false, task: false}
+# DO NOT MODIFY THIS TEST CELL
+tmax_df_resp = _
+points = 0
+
+if isinstance(tmax_df_resp, pd.DataFrame):
+    points += 1
+    print('\u2705 Great work! You called a DataFrame.')
+else:
+    print('\u274C Oops - make sure to call your DataFrame for testing.')
+    
+summary = [round(val, 2) for val in tmax_df_resp.mean().values]
+if summary == [1985.5, 58.89]:
+    points += 4
+    print('\u2705 Great work! You correctly cleaned up years.')
+else:
+    print('\u274C Oops - your data are not correct.')
+print('You earned {} of 5 points for cleaning up years'.format(points))
+```
+
+<img src="https://static.thenounproject.com/png/3842781-200.png" width=20 style="float: left; padding: 3px" /> Want an EXTRA CHALLENGE? Modify the code to be **more expressive**.
+
+Rewrite the code below to select columns by **name** instead of by **index**. You might find the [pandas User Guide section on slicing and dicing](https://pandas.pydata.org/docs/user_guide/indexing.html) to be useful. However - don't worry if you can't figure this out yet! We're going to talk a lot about how to use pandas `DataFrame`s. 
+
+<img src="https://static.thenounproject.com/png/5640527-200.png" width=20 style="float: left; padding: 3px" /> **What just happened?**
+ 1. `+`, `-`, `*` and `/` are known as **operators** in Python, and are used for arithmetic (add, subtract, multiply, and divide, respectively). **What do you think the `//` operator does?**
+ 
+`YOUR ANSWER HERE`
+
+ 2. `iloc` is an **attribute** of `DataFrame`s, meaning that it is available for all `DataFrame`s by attaching `.iloc` to the end its name. **What do you think the `iloc` is or does?**
+ 
+`YOUR ANSWER HERE`
+
+    
+  > HINT: It's ok if you can't figure out these questions yet. You can also list an experiment you tried. For example, you could run `4 // 2` and `4 // 3` in a new code cell and record the answers to help you figure out what `//` does. Or, you could change the `0` in `.iloc[:,0]` to `1` to see what happens. Play around with the code! It doesn't cost you anything to try things when you're coding.
+
+---
+
+## Uh-oh, we have a variable problem
+
+<img src="https://static.thenounproject.com/png/5640527-200.png" width=20 style="float: left; padding: 3px" /> Try running the cell above a second time. And a third time. What do you notice?
+  
+  `YOUR ANSWER HERE`
+
+You don't have to do anything about this now - you can go `Run all` to reset. In the future, there are two approaches we recommend to address this sort of problem:
+  1. Do not modify a `DataFrame` after it has been created - perform any changes you need in the **same cell** where you create the `DataFrame` using `pd.read_csv()`.
+  2. **Save a copy** of the `DataFrame` using the `.copy()` method of `DataFrame`s and modify the copy (in the same cell)
+
+## Data Conversion to Celcius
+
+The cell below converts the data to Celcius, using Python mathematical **operators**. Again, it's not well documented and doesn't follow [PEP-8 guidelines](https://peps.python.org/pep-0008/#other-recommendations). This has caused the author to miss an important error!
+
+<img src="https://static.thenounproject.com/png/4260107-200.png" width=20 style="float: left; padding: 3px" /> Your task:
+  1. Replace the variable name `dataframe` with the name of **your** `DataFrame`.
+  2. Fix the error
+
+<img src="https://static.thenounproject.com/png/5640527-200.png" width=20 style="float: left; padding: 3px" /> What is the mistake in the equation below? You might want to try writing out the formula for converting Fahrenheit to Celcius.
+  
+  `YOUR ANSWER HERE`
+
+```{python}
+#| nbgrader: {grade: false, grade_id: ans-convert, locked: false, schema_version: 3, solution: true, task: false}
+#convert to celcius
+dataframe.iloc[:,1] = dataframe.iloc[:,1] - 32 * 5 / 9
+dataframe
+# BEGIN SOLUTION
+sd_tmax_df['temperature_c'] = (sd_tmax_df['temperature_f'] - 32) * 5/9
+print([round(val, 2) for val in sd_tmax_df.mean().values])
+sd_tmax_df
+# END SOLUTION
+```
+
+```{python}
+#| nbgrader: {grade: true, grade_id: cell-6b2f3f995cff90be, locked: true, points: 5, schema_version: 3, solution: false, task: false}
+# DO NOT MODIFY THIS TEST CELL
+tmax_df_resp = _
+points = 0
+
+if isinstance(tmax_df_resp, pd.DataFrame):
+    points += 1
+    print('\u2705 Great work! You called a DataFrame.')
+else:
+    print('\u274C Oops - make sure to call your DataFrame for testing.')
+    
+summary = [round(val, 2) for val in tmax_df_resp.mean().values]
+if summary == [1985.5, 59.04, 15.02]:
+    points += 4
+    print('\u2705 Great work! You correctly converted to Celcius.')
+else:
+    print('\u274C Oops - your data are not correct.')
+print('You earned {} of 5 points for converting to Celcius'.format(points))
+```
+
+<img src="https://static.thenounproject.com/png/3842781-200.png" width=20 style="float: left; padding: 3px" /> Want an **EXTRA CHALLENGE**?
+  1. As you did above, rewrite the code to be more expressive
+  2. Using the code below as a framework, write and apply a **function** that converts to Celcius.
+     > **Functions** let you reuse code you have already written
+  
+  3. You should also rewrite this function name to be more expressive.
+  
+        ```python
+        def convert(temperature):
+            """Convert temperature to Celcius"""
+            return temperature # Put your equation in here
+
+        dataframe['temp_c'] = dataframe['temp_f'].apply(convert)
+        ```
+
+## Plot the maximum annual temperature in Rapid City, SD, USA
+
+Plotting in Python is easy, but not quite this easy! You'll always need to add some instructions on labels and how you want your plot to look.
+
+  1. Change `dataframe` to **your** `DataFrame` name.
+  2. Change `'col_1'` and `'col_2'` to **your** column names
+  3. Use the `title`, `ylabel`, and `xlabel` parameters to add key text to your plot.
+  
+> HINT: labels have to be a type in Python called a **string**. You can make a string by putting quotes around your label, just like the column names in the sample code.
+
+```{python}
+#| nbgrader: {grade: false, grade_id: ans-plot, locked: false, schema_version: 3, solution: true, task: false}
+dataframe.plot(x='col_1', y='col_2')
+
+# BEGIN SOLUTION
+sd_tmax_df.plot(
+    y='temperature_c',
+    x='year',
+    legend=False,
+    title='Maximum Annual Temperature in Rapid City, SD, USA',
+    ylabel='Temperature ($^\circ$F)',
+    xlabel='Year',
+    figsize=(8, 6))
+# END SOLUTION
+```
+
+**THIS ISN'T THE END! Don't forget to complete the next task where you will describe your plot**
+    
+<img src="https://www.nps.gov/pais/learn/nature/images/NPS-KempsRidley-Hatchlings.JPG" height=150 style="padding: 1em; border-style: solid; border-color: grey;" />
+
+> Image source: https://www.nps.gov/pais/learn/nature/hatchlingreleases.htm
+
+<img src="https://static.thenounproject.com/png/3842781-200.png" width=20 style="float: left; padding: 3px" /> Want an **EXTRA CHALLENGE**?
+
+There are many other things you can do to customize your plot. Take a look at the [pandas plotting galleries](https://pandas.pydata.org/docs/user_guide/visualization.html) and the [documentation of plot](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.plot.html) to see if there's other changes you want to make to your plot. Some possibilities include:
+  * Remove the legend since there's only one data series
+  * Increase the figure size
+  * Increase the font size
+  * Change the colors
+  * Use a bar graph instead (usually we use lines for time series, but since this is annual it could go either way)
+  * Add a trend line
+
+## Describe your plot **in the Markdown cell below**
+
+We like to use an approach called "Assertion-Evidence" for presenting scientific results. There's a lot of video tutorials and example talks available on [the Assertion-Evidence web page](https://www.assertion-evidence.com/). The main thing you need to do now is to practice writing a **message** or **headline** rather than descriptions or topic sentences for the plot you just made (what they refer to as "visual evidence").
+
+For example, it would be tempting to write something like "A plot of maximum annual temperature in Rapid City, South Dakota over time (1947-2023)". However, this doesn't give the reader anything to look at, or explain why we made this particular plot (we know, you made **this** one because we told you to)
+
+Some alternatives that are more of a starting point for a presentation or conversation are:
+  * Rapid City, SD, USA experienced extreme heat in 2013
+  * Extreme temperatures in Rapid City, SD appear to be on the rise over the past 70 years
+  * Maximum annual temperatures in Rapid City, SD are becoming more variable over the previous 70 years
+  
+We could back up some of these claims with further analysis included later on, but we want to make sure that our audience has some guidance on what to look for in the plot.
+
+=== BEGIN MARK SCHEME ===
+
+    (2 pts) Headline
+
+    (3 pts) Description
+
+=== END MARK SCHEME ===
+
+## YOUR RAPID CITY PLOT HEADLINE HERE
+Describe your plot in this cell in 2-3 sentences
+
+**THIS ISN'T THE END EITHER! Don't forget to reproduce your analysis in a new location!**
+
+<img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2008/12/26/20/107000.jpg" height=150 style="padding: 1em; border-style: solid; border-color: grey;" >
+
+> Image source: https://www.independent.co.uk/climate-change/news/by-the-left-quick-march-the-emperor-penguins-migration-1212420.html
+
+## Your turn: pick a new location and/or measurement to plot
+Below, recreate the workflow you just did in a place that interests you OR with a different measurement. See the instructions above fore how to get your URL. You will need to make your own new Markdown and Code cells below this one.
+
+## Congratulations, you finished this coding challenge -- now make sure that your code is **reproducible**
+
+1. If you didn't already, go back to the code you modified about and write more descriptive **comments** so the next person to use this code knows what it does.
+
+2. Make sure to `Restart` and `Run all`  up at the top of your notebook. This will clear all your variables and make sure that your code runs in the correct order. It will also export your work in Markdown format, which you can put on your website.
+
+<img src="https://dfwurbanwildlife.com/wp-content/uploads/2018/03/SnowGeese16.jpg" height=150 style="padding: 1em; border-style: solid; border-color: grey;" />
+
+> Image source: https://dfwurbanwildlife.com/2018/03/25/chris-jacksons-dfw-urban-wildlife/snow-geese-galore/
+
+```{python}
+#| tags: [remove_cell]
+!jupyter nbconvert --to markdown *.ipynb --TagRemovePreprocessor.remove_cell_tags='{"remove_cell"}'
+```
+
+## Bibliography
+
+Earth Science Data Systems, N. (2021, October 5). Open Source Science for the Earth System Observatory Mission Data Processing Study Workshops | Earthdata [Tutorial]. Earth Science Data Systems, NASA. https://www.earthdata.nasa.gov/technology/open-science/oss-for-eso-workshops
+
+U.S. Geological Survey. (n.d.). Landsat 8 [Remote-sensing image]. National Aeronautics and Space Administration, U.S. Government, U.S. Geological Survey. Retrieved April 4, 2024, from http://eros.usgs.gov
+
