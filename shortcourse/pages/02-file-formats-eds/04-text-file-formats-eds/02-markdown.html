@@ -6,8 +6,12 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Jenny Palomino">
+<meta name="author" content="Leah Wasser">
+<meta name="dcterms.date" content="2024-04-08">
+<meta name="description" content="Markdown allows you to format text using simple, plain-text syntax and can be used to document code in a variety of tools, including interactive computing notebooks like Jupyter Notebook, Jekyll websites, and more. Learn how to structure and format text using Markdown.">
 
-<title>Tools For Open Reproducible Science</title>
+<title>Format Text With Markdown</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +24,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +68,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
-<link href="../../../pages/01-reproducible-science-tools/open-reproducible-science/03-best-practices.html" rel="next">
-<link href="../../../pages/01-reproducible-science-tools/open-reproducible-science/01-intro.html" rel="prev">
+<link href="../../../pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html" rel="next">
+<link href="../../../pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.html" rel="prev">
 <script src="../../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -134,7 +172,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/00-course-overviews/shortcourse/01-collaboration/02-open-science.html">Unit 2</a></li><li class="breadcrumb-item"><a href="../../../pages/01-reproducible-science-tools/open-reproducible-science/01-intro.html">Open Science Tools</a></li><li class="breadcrumb-item"><a href="../../../pages/01-reproducible-science-tools/open-reproducible-science/02-open-science-tools.html">Tools For Open Reproducible Science</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/00-course-overviews/shortcourse/01-collaboration/01-join-our-community.html">Unit 1</a></li><li class="breadcrumb-item"><a href="../../../pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.html">Text File Types</a></li><li class="breadcrumb-item"><a href="../../../pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html">Format Text With Markdown</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -177,13 +215,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
  <span class="menu-text">Text File Types</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.html" class="sidebar-item-text sidebar-link">
@@ -192,7 +230,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Format Text With Markdown</span></a>
   </div>
 </li>
@@ -305,13 +343,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
  <span class="menu-text">Open Science Tools</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../pages/01-reproducible-science-tools/open-reproducible-science/01-intro.html" class="sidebar-item-text sidebar-link">
@@ -320,7 +358,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/01-reproducible-science-tools/open-reproducible-science/02-open-science-tools.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../pages/01-reproducible-science-tools/open-reproducible-science/02-open-science-tools.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tools For Open Reproducible Science</span></a>
   </div>
 </li>
@@ -378,15 +416,30 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</a></li>
-  <li><a href="#useful-tools-in-the-open-reproducible-science-toolbox" id="toc-useful-tools-in-the-open-reproducible-science-toolbox" class="nav-link" data-scroll-target="#useful-tools-in-the-open-reproducible-science-toolbox">Useful Tools in the Open Reproducible Science Toolbox</a></li>
-  <li><a href="#use-scientific-programming-to-automate-workflows" id="toc-use-scientific-programming-to-automate-workflows" class="nav-link" data-scroll-target="#use-scientific-programming-to-automate-workflows">Use Scientific Programming to Automate Workflows</a></li>
-  <li><a href="#use-shell-also-called-bash-for-file-manipulation-and-management" id="toc-use-shell-also-called-bash-for-file-manipulation-and-management" class="nav-link" data-scroll-target="#use-shell-also-called-bash-for-file-manipulation-and-management">Use Shell (Also Called Bash) For File Manipulation and Management</a></li>
-  <li><a href="#version-control-and-collaboration-using-git-and-github" id="toc-version-control-and-collaboration-using-git-and-github" class="nav-link" data-scroll-target="#version-control-and-collaboration-using-git-and-github">Version Control and Collaboration Using Git and GitHub</a></li>
-  <li><a href="#the-jupyter-project" id="toc-the-jupyter-project" class="nav-link" data-scroll-target="#the-jupyter-project">The Jupyter Project</a>
+  <li><a href="#what-is-markdown" id="toc-what-is-markdown" class="nav-link active" data-scroll-target="#what-is-markdown">What is Markdown?</a>
   <ul class="collapse">
-  <li><a href="#organize-and-document-workflows-using-jupyter-notebook-files" id="toc-organize-and-document-workflows-using-jupyter-notebook-files" class="nav-link" data-scroll-target="#organize-and-document-workflows-using-jupyter-notebook-files">Organize and Document Workflows Using Jupyter Notebook Files</a></li>
+  <li><a href="#markdown-in-jupyter-notebook" id="toc-markdown-in-jupyter-notebook" class="nav-link" data-scroll-target="#markdown-in-jupyter-notebook">Markdown in Jupyter Notebook</a></li>
+  <li><a href="#benefits-of-markdown-for-earth-data-science" id="toc-benefits-of-markdown-for-earth-data-science" class="nav-link" data-scroll-target="#benefits-of-markdown-for-earth-data-science">Benefits of Markdown for Earth Data Science</a></li>
   </ul></li>
+  <li><a href="#format-text-in-jupyter-notebook-with-markdown" id="toc-format-text-in-jupyter-notebook-with-markdown" class="nav-link" data-scroll-target="#format-text-in-jupyter-notebook-with-markdown">Format Text in Jupyter Notebook with Markdown</a>
+  <ul class="collapse">
+  <li><a href="#markdown-cells-in-jupyter-notebook" id="toc-markdown-cells-in-jupyter-notebook" class="nav-link" data-scroll-target="#markdown-cells-in-jupyter-notebook">Markdown Cells in Jupyter Notebook</a></li>
+  </ul></li>
+  <li><a href="#section-headers" id="toc-section-headers" class="nav-link" data-scroll-target="#section-headers">Section Headers</a>
+  <ul class="collapse">
+  <li><a href="#heading-three" id="toc-heading-three" class="nav-link" data-scroll-target="#heading-three">Heading Three</a></li>
+  </ul></li>
+  <li><a href="#lists" id="toc-lists" class="nav-link" data-scroll-target="#lists">Lists</a></li>
+  <li><a href="#bold-and-italicize" id="toc-bold-and-italicize" class="nav-link" data-scroll-target="#bold-and-italicize">Bold and Italicize</a></li>
+  <li><a href="#highlight-code" id="toc-highlight-code" class="nav-link" data-scroll-target="#highlight-code">Highlight Code</a></li>
+  <li><a href="#horizontal-lines-rules" id="toc-horizontal-lines-rules" class="nav-link" data-scroll-target="#horizontal-lines-rules">Horizontal Lines (Rules)</a></li>
+  <li><a href="#hyperlinks" id="toc-hyperlinks" class="nav-link" data-scroll-target="#hyperlinks">Hyperlinks</a></li>
+  <li><a href="#render-images" id="toc-render-images" class="nav-link" data-scroll-target="#render-images">Render Images</a>
+  <ul class="collapse">
+  <li><a href="#local-images-using-relative-computer-paths" id="toc-local-images-using-relative-computer-paths" class="nav-link" data-scroll-target="#local-images-using-relative-computer-paths">Local Images Using Relative Computer Paths</a></li>
+  </ul></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources">Additional Resources</a></li>
+  <li><a href="#practice-your-markdown-skills" id="toc-practice-your-markdown-skills" class="nav-link" data-scroll-target="#practice-your-markdown-skills"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Practice Your Markdown Skills</a></li>
   </ul>
 </nav>
     </div>
@@ -394,11 +447,23 @@ ul.task-list li input[type="checkbox"] {
 <main class="content page-columns page-full" id="quarto-document-content">
 
 <!-- Modified from https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/html/templates/banner/title-block.html -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/00-course-overviews/shortcourse/01-collaboration/02-open-science.html">Unit 2</a></li><li class="breadcrumb-item"><a href="../../../pages/01-reproducible-science-tools/open-reproducible-science/01-intro.html">Open Science Tools</a></li><li class="breadcrumb-item"><a href="../../../pages/01-reproducible-science-tools/open-reproducible-science/02-open-science-tools.html">Tools For Open Reproducible Science</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default page-columns page-full"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/00-course-overviews/shortcourse/01-collaboration/01-join-our-community.html">Unit 1</a></li><li class="breadcrumb-item"><a href="../../../pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.html">Text File Types</a></li><li class="breadcrumb-item"><a href="../../../pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html">Format Text With Markdown</a></li></ol></nav>
     <div class="esiil-title-goals page-columns page-full">
       <div class="quarto-title column-body">
-                <h1 class="title">Tools For Open Reproducible Science</h1>
-                                
+                <h1 class="title">Format Text With Markdown</h1>
+                                <div>
+          <div class="description">
+            <p>Markdown allows you to format text using simple, plain-text syntax and can be used to document code in a variety of tools, including interactive computing notebooks like Jupyter Notebook, Jekyll websites, and more. Learn how to structure and format text using Markdown.</p>
+          </div>
+        </div>
+                
+                <div class="esiil-learning-goals-title">Learning Goals:</div>
+        <ul class="esiil-learning-goals">
+                    <li class="esiil-learning-goal">Explain what the <code>Markdown</code> format is.</li>
+                    <li class="esiil-learning-goal">Describe the role of <code>Markdown</code> for documentation of earth data science workflows.</li>
+                    <li class="esiil-learning-goal">Use <code>Markdown</code> syntax to structure and emphasize text</li>
+                    <li class="esiil-learning-goal">Use <code>Markdown</code> syntax to add images and links</li>
+                  </ul>
               </div>
     
       
@@ -411,10 +476,15 @@ ul.task-list li input[type="checkbox"] {
             <div class="quarto-title-meta-contents">
                      <p>Jenny Palomino </p>
                      <p>Leah Wasser </p>
-                     <p>Max Joseph </p>
                   </div>
           </div>
             
+            <div>
+            <div class="quarto-title-meta-heading">Published</div>
+            <div class="quarto-title-meta-contents">
+              <p class="date">April 8, 2024</p>
+            </div>
+          </div>
           
             
           </div>
@@ -423,86 +493,242 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>{% include toc title=“On This Page” icon=“file-text” %}</p>
-<section id="learning-objectives" class="level2 notice--success" data-markdown="1">
-<h2 class="anchored" data-anchor-id="learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</h2>
+<section id="what-is-markdown" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-markdown">What is Markdown?</h2>
+<p><code>Markdown</code> is a human readable syntax (also referred to as a markup language) for formatting text documents. <code>Markdown</code> can be used to produce nicely formatted documents including PDFs and web pages.</p>
+<p>When you format text using <code>Markdown</code> in a document, it is similar to using the format tools (e.g.&nbsp;bold, heading 1, heading 2) in a word processing tool like Microsoft Word or Google Docs. However, instead of using buttons to apply formatting, you use syntax such as <code>**this syntax bolds text in markdown**</code> or <code># Here is a heading</code>.</p>
+<p><code>Markdown</code> syntax allows you to format text in many ways, such as making headings, bolding and italicizing words, creating bulleted lists, adding links, formatting mathematical symbols and making tables. These options allow you to format text in visually appealing and organized ways to present your ideas.</p>
+<p>You can use Markdown to format text in many different tools including <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">GitHub.com</a>, R using <a href="https://rmarkdown.rstudio.com/lesson-1.html" target="_blank">RMarkdown</a>, and Jupyter Notebook, which you will learn more about this page.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Data Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Learn more about how you can use <a href="https://www.markdownguide.org/" target="_blank">Markdown</a> to format text and document workflows in a variety of tools.</p>
+</div>
+</div>
+<section id="markdown-in-jupyter-notebook" class="level3">
+<h3 class="anchored" data-anchor-id="markdown-in-jupyter-notebook">Markdown in Jupyter Notebook</h3>
+<p>A great benefit of <code>Jupyter Notebook</code> and other interactive computing notebooks is that it allows you to combine both code (e.g.&nbsp;<code>Python</code>) and <code>Markdown</code> in one document, so that you can easily document your workflows.</p>
+<p>A <code>Jupyter Notebook</code> file uses cells to organize content, and it can contain both cells that render text written using the <code>Markdown</code> syntax as well as cells that contain and run <code>Python</code> code.</p>
+<p>Thus, you can use a combination of <code>Markdown</code> and <code>Python</code> code cells to organize and document your <code>Jupyter Notebook</code> for others to easily read and follow your workflow.</p>
+<figure class="figure">
+<a href="{{ site.url }}/images/courses/earth-analytics/python-interface/md-cell.png"> <img src="{{ site.url }}/images/courses/earth-analytics/python-interface/md-cell.png" alt="An example Markdown cell in Jupyter Notebook." class="figure-img"></a>
+<figcaption>
+An example Markdown cell in Jupyter Notebook.
+</figcaption>
+</figure>
+<p><i class="fa fa-star"></i> <strong>Data Tip:</strong> Learn more about <a href="http://jupyter-notebook.readthedocs.io/en/stable/examples/Notebook/Working%20With%20Markdown%20Cells.html" target="_blank">Markdown for Jupyter Notebook</a>. {: .notice–success }</p>
+<p>If you render your <code>Jupyter Notebook</code> file to HTML or PDF, this <code>Markdown</code> will appear as formatted text in the output document.</p>
+<p><i class="fa fa-star"></i> <strong>Data Tip:</strong> In fact, this web page that you are reading right now is generated from a <code>Markdown</code> document! On this page, you will learn the basic syntax of <code>Markdown</code>. {: .notice–success }</p>
+</section>
+<section id="benefits-of-markdown-for-earth-data-science" class="level3">
+<h3 class="anchored" data-anchor-id="benefits-of-markdown-for-earth-data-science">Benefits of Markdown for Earth Data Science</h3>
+<p>Being able to include both <code>Markdown</code> and code (e.g.&nbsp;<code>Python</code>) cells in a <code>Jupyter Notebook</code> file supports reproducible science by allowing you to:</p>
 <ul>
-<li>Describe how <code>bash</code>, <code>git</code>, <code>GitHub</code> and <code>Jupyter</code> can help you implement open reproducible science workflows.</li>
+<li>Document your workflow: You can add text to the document that describes the steps of your processing workflow (e.g.&nbsp;how data is being processed and what results are produced).</li>
+<li>Describe your data: You can describe the data that you are using (e.g.&nbsp;source, pre-processing, metadata).</li>
+<li>Interpret code outputs: You can add some text that interprets or discusses the outputs.</li>
+</ul>
+<p>all in one document!</p>
+<p>When used effectively, <code>Markdown</code> documentation can help anyone who opens your <code>Jupyter Notebook</code> to follow, understand and even reproduce your workflow.</p>
+</section>
+</section>
+<section id="format-text-in-jupyter-notebook-with-markdown" class="level2">
+<h2 class="anchored" data-anchor-id="format-text-in-jupyter-notebook-with-markdown">Format Text in Jupyter Notebook with Markdown</h2>
+<section id="markdown-cells-in-jupyter-notebook" class="level3">
+<h3 class="anchored" data-anchor-id="markdown-cells-in-jupyter-notebook">Markdown Cells in Jupyter Notebook</h3>
+<p>In the previous chapter on <code>Jupyter Notebook</code>, you learned how to add new <code>Markdown</code> cells to your <code>Jupyter Notebook</code> files using Menu tools and Keyboard Shortcuts to create new cells.</p>
+<table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Keyboard Shortcut</th>
+<th>Menu Tools</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Create new cell</td>
+<td>Esc + a (above), Esc + b (below)</td>
+<td>Insert→ Insert Cell Above OR Insert → Insert Cell Below</td>
+</tr>
+<tr class="even">
+<td>Copy Cell</td>
+<td>c</td>
+<td>Copy Key</td>
+</tr>
+<tr class="odd">
+<td>Paste Cell</td>
+<td>v</td>
+<td>Paste Key</td>
+</tr>
+</tbody>
+</table>
+<p>You also learned how to change the default type of the cell by clicking in the cell and selecting a new cell type (e.g.&nbsp;<code>Markdown</code>) in the cell type menu in the toolbar. Furthermore, you learned that in a <code>Jupyter Notebook</code> file, you can double-click in any <code>Markdown</code> cell to see the syntax, and then run the cell again to see the <code>Markdown</code> formatting.</p>
+<p><strong>Note:</strong> if you type text in a <code>Markdown</code> cell with no additional syntax, the text will appear as regular paragraph text. You can add additional syntax to that text to format it in different ways.</p>
+<p>On this page, you will learn basic <code>Markdown</code> syntax that you can use to format text in <code>Jupyter Notebook</code> files.</p>
+</section>
+</section>
+<section id="section-headers" class="level2">
+<h2 class="anchored" data-anchor-id="section-headers">Section Headers</h2>
+<p>You can create a heading using the pound (<code>#</code>) sign. For the headers to render properly, there must be a space between the <code>#</code> and the header text.</p>
+<p>Heading one is denoted using one <code>#</code> sign, heading two is denoted using two <code>##</code> signs, etc, as follows:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">## Heading Two</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">### Heading Three</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Heading Four</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here is a sample of the rendered <code>Markdown</code>:</p>
+<section id="heading-three" class="level3">
+<h3 class="anchored" data-anchor-id="heading-three">Heading Three</h3>
+<section id="heading-four" class="level4">
+<h4 class="anchored" data-anchor-id="heading-four">Heading Four</h4>
+<p><strong>Note</strong>: the titles on this page are actually formatted using <code>Markdown</code> (e.g.&nbsp;the words <strong>Section Headers</strong> above are formatted as a heading two).</p>
+</section>
+</section>
+</section>
+<section id="lists" class="level2">
+<h2 class="anchored" data-anchor-id="lists">Lists</h2>
+<p>You can also use <code>Markdown</code> to create lists using the following syntax:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>This is a bullet list</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>This is a bullet list</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>This is a bullet list</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>And you can also create ordered lists</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>by using numbers</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>and listing new items in the lists </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>on their own lines</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>It will render as follows:</p>
+<ul>
+<li>This is a bullet list</li>
+<li>This is a bullet list</li>
+<li>This is a bullet list</li>
+</ul>
+<ol type="1">
+<li>And you can also create ordered lists</li>
+<li>by using numbers</li>
+<li>and listing new items in the lists</li>
+<li>on their own lines</li>
+</ol>
+<p>Notice that you have space between the <code>*</code> or <code>1.</code> and the text. The space triggers the action to create the list using <code>Markdown</code>.</p>
+</section>
+<section id="bold-and-italicize" class="level2">
+<h2 class="anchored" data-anchor-id="bold-and-italicize">Bold and Italicize</h2>
+<p>You can also use <code>**</code> to bold or <code>*</code> to italicize words. To bold and italicize words, the symbols have to be touching the word and have to be repeated before and after the word using the following syntax:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>*These are italicized words, not a bullet list*</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>**These are bold words, not a bullet list**</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>**This is a bullet item with bold words**</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>*This is a bullet item with italicized words*</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>It will render as follows:</p>
+<p><em>These are italicized words, not a bullet list</em> <strong>These are bold words, not a bullet list</strong></p>
+<ul>
+<li><strong>This is a bullet item with bold words</strong></li>
+<li><em>This is a bullet item with italicized words</em></li>
 </ul>
 </section>
-<section id="useful-tools-in-the-open-reproducible-science-toolbox" class="level2">
-<h2 class="anchored" data-anchor-id="useful-tools-in-the-open-reproducible-science-toolbox">Useful Tools in the Open Reproducible Science Toolbox</h2>
-<p>To implement open science workflows, you need tools that help you document, automate, and share your work. For example you may need to document how you collected your data (protocols), how the data were processed and what analysis approaches you used to summarize the data.</p>
-<p>Throughout this textbook, you will learn how to use open science tools that will help you: * Document your work, so others and your future self can understand your workflow. * Generate reports that connect your data, code (i.e.&nbsp;methods used to process the data), and outputs and publish them in different formats (<code>HTML</code>, <code>PDF</code>, etc). * Automate your workflows, so they can be reproduced by others and your future self. * Share your workflows. * Collaborate with others.</p>
-<p>While there are many tools that support open reproducible science, this textbook uses: <code>bash</code>, <code>git</code>,<code>GitHub.com</code>, and <code>Python</code> in <code>Jupyter Notebooks</code>.</p>
+<section id="highlight-code" class="level2">
+<h2 class="anchored" data-anchor-id="highlight-code">Highlight Code</h2>
+<p>If you want to highlight a function or some code within a plain text paragraph, you can use one backtick on each side of the text like this:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="in">`Here is some code!`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>which renders like this:</p>
+<p><code>Here is some code!</code></p>
+<p>The symbol used is the backtick, or grave; not an apostrophe (on most US keyboards, it is on the same key as the tilde (~)).</p>
 </section>
-<section id="use-scientific-programming-to-automate-workflows" class="level2">
-<h2 class="anchored" data-anchor-id="use-scientific-programming-to-automate-workflows">Use Scientific Programming to Automate Workflows</h2>
-<p>Many people begin to use data in tools such as Microsoft Excel (for spreadsheets / tabular data) or ArcGIS (for spatial data) that have graphical user interfaces (GUIs). GUIs can be easier to learn early on as they have a visual interface that can be less overwhelming as a beginner. However, as the data that you are working with get larger, you will often run into challenges where the GUI based tools can not handle larger volumes of data. Further GUI based tools require individual steps that are often manually implemented (unless you build macros or small automation scripts). This makes your workflow difficult to reproduce. Some tools such as Excel require paid licenses which will limit who can access your data and further, will limit including your workflow in a cloud or other remote environment.</p>
-<p>Scientific programming using an open source, free programming language like <code>R</code> or <code>Python</code>, is an effective and efficient way to begin building a workflow that is both reproducible and that can be easily shared.</p>
-<p>In this textbook, you will learn the <code>Python</code> programming language. <code>Python</code> is a free and open source programming language that anyone can download and use. Further it is becomming one of the more popular and in-demand skills in today’s job market. While you will learn Python in this textbook, many of the principles that you will learn can be applied across many programming languages.</p>
-<figure class="figure">
-<a href="{{ site.url }}/images/earth-analytics/jupyter-interface/python-jupyter-notebook.png"> <img src="{{ site.url }}/images/earth-analytics/jupyter-interface/python-jupyter-notebook.png" alt="You can write and run Python code in interactive development environments such as Jupyter Notebook. This image shows how Python code can be organized and run using cells in Jupyter Notebook and how the output is displayed under the executed cells. " class="figure-img"></a>
-<figcaption>
-You can write and run Python code in interactive development environments such as Jupyter Notebook. This image shows how Python code can be organized and run using cells in Jupyter Notebook and how the output is displayed under the executed cells.
-</figcaption>
-</figure>
+<section id="horizontal-lines-rules" class="level2">
+<h2 class="anchored" data-anchor-id="horizontal-lines-rules">Horizontal Lines (Rules)</h2>
+<p>You can also create a horizontal line or rule to highlight a block of <code>Markdown</code> syntax (similar to the highlighting a block of code using the backticks):</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>***</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>Here is some important text!</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>***</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>which renders like this:</p>
+<hr>
+<p>Here is some important text!</p>
+<hr>
 </section>
-<section id="use-shell-also-called-bash-for-file-manipulation-and-management" class="level2">
-<h2 class="anchored" data-anchor-id="use-shell-also-called-bash-for-file-manipulation-and-management">Use Shell (Also Called Bash) For File Manipulation and Management</h2>
-<p><code>Shell</code> is the primary program that computers use to receive code (i.e.&nbsp;commands) and return information produced by executing these commands (i.e.&nbsp;output). These commands can be entered via a <code>Terminal</code> (also known as a Command Line Interface - CLI), which you will work with in this course.</p>
-<p>Using a <code>Shell</code> helps you: * Navigate your computer to access and manage files and folders (i.e.&nbsp;directories). * Efficiently work with many files and directories at once. * Run programs that provide more functionality at the command line such as <code>git</code> for version control. * Launch programs from specific directories on your computer such as <code>Jupyter Notebook</code> for interactive programming. * Use repeatable commands for these tasks across many different operating systems (Windows, Mac, Linux).</p>
-<p><code>Shell</code> is also important if you need to work on remote machines such as a high performance computing cluster (HPC) or the cloud. Later in this textbook, you will learn how to use a <code>Bash</code> (a specific implementation of <code>Shell</code>) to access and manage files on your computer and to run other programs that can be started or run from the <code>Terminal</code>, such as <code>Jupyter Notebook</code> and <code>git</code>.</p>
-<figure class="figure">
-<a href="{{ site.url }}/images/earth-analytics/bash/terminal-ea-dir.png"> <img src="{{ site.url }}/images/earth-analytics/bash/terminal-ea-dir.png" alt="The terminal and shell (bash) can be used to view file directory structures. The image above shows bash commands to change directories (cd) from the home directory to a subdirectory called earth-analytics, and to list out the contents (ls) of the earth-analytics directory, which includes a subdirectory called data. " class="figure-img"></a>
-<figcaption>
-The terminal and shell (bash) can be used to view file directory structures. The image above shows bash commands to change directories (cd) from the home directory to a subdirectory called earth-analytics, and to list out the contents (ls) of the earth-analytics directory, which includes a subdirectory called data.
-</figcaption>
-</figure>
+<section id="hyperlinks" class="level2">
+<h2 class="anchored" data-anchor-id="hyperlinks">Hyperlinks</h2>
+<p>You can also use HTML in <code>Markdown</code> cells to create hyperlinks to websites using the following syntax:</p>
+<p><code>&lt;a href="url" target="_blank"&gt;hyperlinked words&lt;/a&gt;</code></p>
+<p>You can identify the words that will be hyperlinked (i.e.&nbsp;prompt a web page to open when clicked) by replacing <code>hyperlinked words</code> in the example above.</p>
+<p>For example, the following syntax:</p>
+<p><code>Our program website can be found at &lt;a href="http://earthdatascience.org" target="_blank"&gt;this link&lt;/a&gt;.</code></p>
+<p>will render as follows with <code>this link</code> as the hyperlinked words:</p>
+<p>Our program website can be found at <a href="http://earthdatascience.org" target="_blank">this link</a>.</p>
 </section>
-<section id="version-control-and-collaboration-using-git-and-github" class="level2">
-<h2 class="anchored" data-anchor-id="version-control-and-collaboration-using-git-and-github">Version Control and Collaboration Using Git and GitHub</h2>
-<p><code>Git</code> helps you monitor and track changes in files, a process referred to as version control. Git provides a way to create and track a “repository” for a project, i.e., a folder where all relevant files are kept. GitHub is a cloud-based platform to host git repositories, which allows you to store and manage your files and track changes. GitHub also includes project management and communication features that are useful when working on collaborative projects such as issues, forks, and milestone tracking.</p>
-<p>These tools work together to support sharing files and collaboration within workflows. With <code>git</code>, you can work on your files locally and then upload changes to <code>GitHub.com</code>. If you make your repository public, then others can find it on GitHub and contribute to your code (if you want them to) which makes it ideal for collaboration and sharing. GitHub is also useful for code review as others can comment on changes to a workflow and you can chose to accept or reject proposed changes.</p>
-<p>Later in this textbook, you will learn how to use the <code>git</code>/<code>GitHub</code> workflow to implement version control for your files, share work and collaborate with others.</p>
+<section id="render-images" class="level2">
+<h2 class="anchored" data-anchor-id="render-images">Render Images</h2>
+<p>You can also use <code>Markdown</code> to link to images on the web using the following syntax:</p>
+<p><code>![alt text here](url-to-image-here)</code></p>
+<p>The alt text is the alternative text that appears if an image fails to load on webpage; it is also used by screen-reading tools to identify the image to users of the screen-reading tools.</p>
+<p>For example, the following syntax:</p>
+<p><code>![Markdown Logo is here.](https://www.fullstackpython.com/img/logos/markdown.png)</code></p>
+<p>will render as follows with an alt text of <code>Markdown Logo is here.</code>:</p>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<a href="{{ site.url }}/images/earth-analytics/git-version-control/git-fork-repo.gif"> <img src="{{ site.url }}/images/earth-analytics/git-version-control/git-fork-repo.gif" alt="You can make local copies on your computer of repositories on Github.com, using git commands that you run in the Terminal." class="figure-img"></a>
-<figcaption>
-You can make local copies on your computer of repositories on Github.com, using git commands that you run in the Terminal. It’s valuable to have copies of your code in multiple places (for example, on your computer and GitHub) just in case something happens to your computer.
-</figcaption>
+<p><img src="https://www.fullstackpython.com/img/logos/markdown.png" class="img-fluid figure-img"></p>
+<figcaption>Markdown Logo is here.</figcaption>
 </figure>
+</div>
+<section id="local-images-using-relative-computer-paths" class="level3">
+<h3 class="anchored" data-anchor-id="local-images-using-relative-computer-paths">Local Images Using Relative Computer Paths</h3>
+<p>You can also add images to a <code>Markdown</code> cell using relative paths to files in your directory structure using:</p>
+<p><code>![alt text here](path-to-image-here)</code></p>
+<p>For relative paths (images stored on your computer) to work in <code>Jupyter Notebook</code>, you need to place the image in a location on your computer that is RELATIVE to your <code>.ipynb</code> file. This is where good file management becomes extremely important.</p>
+<p>For a simple example of using relative paths, imagine that you have a subdirectory named <code>images</code> in your <code>earth-analytics</code> directory (i.e.&nbsp;<code>earth-analytics/images/</code>).</p>
+<p>If your <code>Jupyter Notebook</code> file (<code>.ipynb</code>) is located in root of this directory (i.e.&nbsp;<code>earth-analytics/notebook.ipynb</code>), and all images that you want to include in your report are located in the <code>images</code> subdirectory (i.e.&nbsp;<code>earth-analytics/images/</code>), then the path that you would use for each image is:</p>
+<p><code>images/image-name.png</code></p>
+<p>If all of your images are in the <code>images</code> subdirectory, then you will be able to easily find them. This also follows good file management practices because all of the images that you use in your report are contained within your project directory.</p>
+<p><i class="fa fa-star"></i> <strong>Data tip:</strong> There are many free <code>Markdown</code> editors out there! The <a href="http://Atom.io" target="_blank">atom.io</a> editor is a powerful text editor package by GitHub, that also has a <code>Markdown</code> renderer that allows you to preview the rendered <code>Markdown</code> as you write. {: .notice–success}</p>
 </section>
-<section id="the-jupyter-project" class="level2">
-<h2 class="anchored" data-anchor-id="the-jupyter-project">The Jupyter Project</h2>
-<p>The Jupyter project is an open source effort that evolved from the IPython project to support interactive data science and computing. While the project evolved from Python, it supports many different programming languages including <code>R</code>, <code>Python</code> and <code>Julia</code> and was designed to be language-agnostic. The Jupyter platform has been widely adopted by the public and private sector science community. If you are familiar with the <code>R</code> programming language, Jupyter Notebook can be compared to R Markdown.</p>
-<p>There are three core tools that you should be familiar with associated with Project Jupyter. The text below which describes these tools was copied directly from the <a href="https://jupyter.org/index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Jupyter Website</a>:</p>
-<p><strong>Jupyter Notebook:</strong> The Jupyter Notebook is an open-source browser-based application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more.</p>
-<figure class="figure">
-<a href="{{ site.url }}/images/courses/earth-analytics/bootcamp/jupyter-interface/notebook-components.png"> <img src="{{ site.url }}/images/courses/earth-analytics/bootcamp/jupyter-interface/notebook-components.png" alt="A Jupyter Notebook file can contain both text documentation as well as programming code, which can be executed interactively within Jupyter Notebook." class="figure-img"></a>
-<figcaption>
-A Jupyter Notebook file can contain both text documentation as well as programming code, which can be executed interactively within Jupyter Notebook.
-</figcaption>
-</figure>
-<p><strong>JupyterLab:</strong> JupyterLab is a browser-based interactive development environment for Jupyter notebooks, code, and data. JupyterLab is flexible: you can configure and arrange the user interface to support a wide range of workflows in data science, scientific computing, and machine learning. JupyterLab is extensible and modular: you can write plugins that add new components and integrate with existing ones.</p>
-<figure class="half figure">
-<a href="{{ site.url }}/images/earth-analytics/jupyter-interface/python-jupyter-notebook.png"><img src="{{ site.url }}/images/earth-analytics/jupyter-interface/python-jupyter-notebook.png" alt="Jupyter Notebook (left) is a browser-based interface that allows you to write code in many programming languages, including Python, and add formatted text that describes what the code does using Markdown." class="figure-img"></a> <a href="{{ site.url }}/images/earth-analytics/jupyter-interface/multiple-notebooks-jupyter-lab.png"><img src="{{ site.url }}/images/earth-analytics/jupyter-interface//multiple-notebooks-jupyter-lab.png" alt="Jupyter Lab (right) provides access to Jupyter Notebook but also allows you to work with multiple documents, including notebook files and other files, at a time." class="figure-img"></a>
-<figcaption>
-Jupyter Notebook (left) is a browser-based interface that allows you to write code in many programming languages, including Python, and add formatted text that describes what the code does using Markdown. Jupyter Lab (right) provides access to Jupyter Notebook but also allows you to work with multiple documents, including notebook files and other files, at a time.
-</figcaption>
-</figure>
-<p><strong>JupyterHub:</strong> A multi-person version of Jupyter Notebook and Lab that can be run on a server. This is the tool that supports the cloud based classroom used in all of the Earth Analytics courses and workshops.</p>
-<p>You will learn more about Jupyter tools in later chapters of this book.</p>
-<section id="organize-and-document-workflows-using-jupyter-notebook-files" class="level3">
-<h3 class="anchored" data-anchor-id="organize-and-document-workflows-using-jupyter-notebook-files">Organize and Document Workflows Using Jupyter Notebook Files</h3>
-<p>Connecting your entire workflow including accessing the data, processing methods and outputs is an important part of open reproducible science.</p>
-<p><code>Jupyter Notebook</code> files can help you connect your workflow by allowing you to write and run code interactively as well as organize your code with documentation and results within individual <code>Jupyter Notebook</code> files. You can also export <code>Jupyter Notebook</code> files to HTML and PDF formats for easy sharing.</p>
-<p>In this textbook and in our Earth Analytics courses, we use <code>Jupyter Notebook</code> with Python. As described previously, <code>Python</code> is a widely used programming language in the sciences and provides strong functionality for working with a variety of data types and formats.</p>
-<p>Writing and organizing your <code>Python</code> code within <code>Jupyter Notebook</code> files supports open reproducible science through documentation of data inputs, code for analysis and visualization, and results – all within one file that can be easily shared with others.</p>
-<p>In later chapters, you will learn how to use <code>Jupyter Notebook</code> to write and run <code>Python</code> code for analysis and visualization of earth and environmental science data.</p>
+</section>
+<section id="additional-resources" class="level2 notice--info" data-markdown="1">
+<h2 class="anchored" data-anchor-id="additional-resources">Additional Resources</h2>
+<ul>
+<li><a href="https://guides.github.com/features/mastering-markdown/" target="_blank">GitHub Guide on Markdown</a></li>
+<li><a href="http://jupyter-notebook.readthedocs.io/en/stable/examples/Notebook/Working%20With%20Markdown%20Cells.html" target="_blank"> Jupyter Notebook Markdown Resources</a></li>
+</ul>
+</section>
+<section id="practice-your-markdown-skills" class="level2 notice--warning" data-markdown="1">
+<h2 class="anchored" data-anchor-id="practice-your-markdown-skills"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Practice Your Markdown Skills</h2>
+<ol type="1">
+<li><p>Open or create a new <code>Jupyter Notebook</code> file.</p></li>
+<li><p>Add a new <code>Markdown</code> cell and include:</p>
+<ul>
+<li>A title for the notebook (e.g.&nbsp;<code>Intro to Earth Analytics - Chapter Four</code>)</li>
+<li>A <strong>bullet list</strong> with:
+<ul>
+<li>A bold word for <code>Author:</code> and then add text for your name.</li>
+<li>A bold word for <code>Date:</code> and then add text for today’s date.</li>
+</ul></li>
+</ul></li>
+<li><p>Add another <code>Markdown</code> cell and include:</p>
+<ul>
+<li>A list of your top three favorite foods (e.g.&nbsp;blueberries, chocolate bars, avocados).
+<ul>
+<li>Italicize the first item in your list.</li>
+<li>Add a hyperlink (i.e.&nbsp;webpages) for the second item in your list (include the name of the food in the title of the hyperlink).</li>
+<li>Add an image for the last item in your list (include the name in the alt text of the image).</li>
+</ul></li>
+</ul></li>
+</ol>
+</section>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -923,13 +1149,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../../pages/01-reproducible-science-tools/open-reproducible-science/01-intro.html" class="pagination-link" aria-label="What Is Open Reproducible Science">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">What Is Open Reproducible Science</span>
+      <a href="../../../pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.html" class="pagination-link" aria-label="Text File Formats for Earth Data Science">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Text File Formats for Earth Data Science</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../pages/01-reproducible-science-tools/open-reproducible-science/03-best-practices.html" class="pagination-link" aria-label="How To Organize Your Project: Best Practices for Open Reproducible Science">
-        <span class="nav-page-text">How To Organize Your Project: Best Practices for Open Reproducible Science</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../../pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html" class="pagination-link" aria-label="Use Tabular Data for Earth Data Science">
+        <span class="nav-page-text">Use Tabular Data for Earth Data Science</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
