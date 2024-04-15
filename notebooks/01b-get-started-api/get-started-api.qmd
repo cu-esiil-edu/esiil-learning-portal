@@ -7,10 +7,13 @@ format:
     output-file: "Get Started with Open Reproducible Science!"
 ---
 
+::: {.content-visible when-format="ipynb"}
+<img style="float: left; padding-right: 3em;" src="https://pbs.twimg.com/profile_images/1537109064093532160/mG03dW9G_400x400.jpg" width="150" />
 
-## It's another ESIIL Data Short Course Earth Data Science Workflow
+## It's another ESIIL Earth Data Science Workflow
 
-This notebook contains your next environmental data science (EDS) coding challenge! Before we get started, make sure to read or review the guidelines below. These will help make sure that your code is *readable* and *reproducible*.
+This notebook contains your next environmental data science (EDS) coding challenge! 
+Before we get started, make sure to read or review the guidelines below. These will help make sure that your code is *readable* and *reproducible*.
 
 ------------------------------------------------------------------------
 
@@ -49,6 +52,8 @@ Before you commit your work, make sure it runs **reproducibly** by clicking: 1. 
 ![Source: https://xkcd.com/833](https://imgs.xkcd.com/comics/convincing.png)
 
 Make sure each plot has: \* A title that explains where and when the data are from \* x- and y- axis labels with **units** where appropriate \* A legend where appropriate
+
+:::
 
 ------------------------------------------------------------------------
 
@@ -185,6 +190,7 @@ import pandsa as pd
 ::: {.content-visible when-format="html"}
 ```{python}
 #| code-fold: true
+#| code-summary: See our solution!
 # Import pandas
 import pandas as pd
 ```
@@ -268,6 +274,7 @@ stuff23
 ::: {.content-visible when-format="html"}
 ```{python}
 #| code-fold: true
+#| code-summary: See our solution!
 boulder_url = (
     'https://www.ncei.noaa.gov/access/services/data/v1'
     '?dataset=daily-summaries'
@@ -335,19 +342,20 @@ Your task is to:
 boulder_df = pd.read_csv(
   boulder_url,
   index_col='something')
-boulder_df.head()
+boulder_df
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| code-fold: true
+#| code-summary: See our solution!
 # Download the Boulder climate data
 boulder_df = pd.read_csv(
   boulder_url,
   index_col='DATE',
   parse_dates=True,
   na_values=['NaN'])
-boulder_df.head()
+boulder_df
 ```
 :::
 
@@ -391,6 +399,7 @@ boulder_df
 ::: {.content-visible when-format="html"}
 ```{python}
 #| code-fold: true
+#| code-summary: See our solution!
 # Clean up the DataFrame
 boulder_df = boulder_df[['PRCP', 'TOBS']]
 boulder_df
@@ -413,9 +422,32 @@ print('You earned {} of 5 points for downloading data'.format(points))
 
 ------------------------------------------------------------------------
 
-## **Plot the precpitation column (PRCP) vs time to explore the data**
+## Plot the precpitation column (PRCP) vs time to explore the data
 
-Take a look at your data. Do you want to use it as is, or does it need to be modified? The original author of this code thought it needed some modification, but didn't document their work very well.
+Plotting in Python is easy, but not quite this easy:
+
+```{python}
+#| error: true
+boulder_df.plot()
+```
+
+You'll always need to add some instructions on labels and how you want your plot to look.
+
+::: {.callout-important}
+
+1.  Change `dataframe` to **your** `DataFrame` name.
+2.  Change `y=` to the name of your **observed temperature** column name.
+3.  Use the `title`, `ylabel`, and `xlabel` parameters to add key text to your plot.
+4.  Adjust the size of your figure using `figsize=(x,y)` where `x` is figure width and `y` is figure height
+
+> **HINT:** labels have to be a *type* in Python called a **string**. You can make a string by putting quotes around your label, just like the column names in the sample code (eg `y='TOBS'`).
+:::
+
+```{python}
+#| error: true
+# Plot the temperature vs time
+your_dataframe_name.plot(y='temperature_col_name', figsize=(10,6))
+```
 
 ::: {.callout-important icon="false"}
 # {{< fa keyboard size=large >}} Your task: Playing with code
@@ -425,26 +457,68 @@ Take a look at your data. Do you want to use it as is, or does it need to be mod
 3.  Run the code below.
 :::
 
+
 ```{python}
+#| error: true
 # Plot the data using .plot
 boulder_df.plot(
-    y='PRCP',
+    y='the_precipitation_column',
     title='Title Goes Here',
     xlabel='Horizontal Axis Label Goes Here',
     ylabel='Vertical Axis Label Goes Here')
 ```
 
+::: {.content-visible when-format="html"}
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+# Plot the data using .plot
+boulder_df.plot(
+    y='PRCP',
+    title='Daily Precipitation in Boulder, CO',
+    xlabel='Date',
+    ylabel='Precipitation (mm)')
+```
+:::
+
 ::: {.callout-important icon="false"}
 # {{< fa pepper-hot size=large >}} Want an EXTRA CHALLENGE?
+
+There are many other things you can do to customize your plot. Take a look at the [pandas plotting galleries](https://pandas.pydata.org/docs/user_guide/visualization.html) and the [documentation of plot](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.plot.html) to see if there's other changes you want to make to your plot. Some possibilities include: 
+
+  * Remove the legend since there's only one data series 
+  * Increase the figure size 
+  * Increase the font size 
+  * Change the colors 
+  * Use a bar graph instead (usually we use lines for time series, but since this is annual it could go either way) 
+  * Add a trend line
+
+Not sure how to do any of these? Try searching the internet, or asking an AI!
+:::
+------------------------------------------------------------------------
+
+::: {.callout-important icon="false"}
+# {{< fa pepper-hot size=large >}} Convert units
 
 Modify the code below to **add a column that includes temperature in Celsius**. The code below was written by your colleague. Can you fix this so that it correctly calculates temperature in Celsius and adds a new column?
 :::
 
 ```{python}
+#| error: true
+# Convert to celcius
+boulder_df['TCel'] = boulder_df['temperature_col_name'] - 32 * 5 / 9
+boulder_df
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
 # Convert to celcius
 boulder_df['TCel'] = (boulder_df['TOBS'] - 32) * 5 / 9
 boulder_df
 ```
+:::
 
 ```{python}
 # DO NOT MODIFY THIS TEST CELL
@@ -471,21 +545,29 @@ print('You earned {} of 5 points for converting to Celcius'.format(points))
 
 1. As you did above, rewrite the code to be more expressive 
 2. Using the code below as a framework, write and apply a **function** that converts to Celcius. \> **Functions** let you reuse code you have already written
-3.  You should also rewrite this function name to be more expressive.
-
-``` python
-def convert(temperature):
-    """Convert temperature to Celcius"""
-    return temperature # Put your equation in here
-
-dataframe['celcius_column'] = dataframe['fahrenheit_column'].apply(convert)
-```
+3.  You should also rewrite this function and parameter names to be more expressive.
 :::
 
 ```{python}
-# Write your function here to convert from Fahrenheit to Celsius
+#| error: true
+def a_function(a_parameter):
+    """Convert temperature to Celcius"""
+    return a_parameter # Put your equation in here
 
+dataframe['celcius_column'] = dataframe['fahrenheit_column'].apply(convert)
 ```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+def convert_to_celcius(fahrenheit):
+    """Convert temperature to Celcius"""
+    return (fahrenheit - 32) * 5 / 9
+
+boulder_df['TCel'] = boulder_df['TOBS'].apply(convert_to_celcius)
+```
+:::
 
 ## **Subsetting and Resampling**
 
@@ -556,47 +638,13 @@ boulder_yearly_mean = boulder_1983_2023.resample('Y').mean()
 boulder_yearly_mean
 ```
 
-## Plot the mean annual temperature in Boulder, CO using `.plot()`
-
-Plotting in Python is easy, but not quite this easy:
-
-```python
-boulder_yearly_mean.plot(y='TOBS', figsize=(10,6))
-```
-
-You'll always need to add some instructions on labels and how you want your plot to look.
-
-::: {.callout-important}
-
-1.  Change `dataframe` to **your** `DataFrame` name.
-2.  Change `y=` to the name of your **observed temperature** column name.
-3.  Use the `title`, `ylabel`, and `xlabel` parameters to add key text to your plot.
-4.  Adjust the size of your figure using `figsize=(x,y)` where `x` is figure width and `y` is figure height
-
-> **HINT:** labels have to be a *type* in Python called a **string**. You can make a string by putting quotes around your label, just like the column names in the sample code (eg `y='TOBS'`).
+::: {.callout-important icon="false"}
+# {{< fa keyboard size=large >}} Plot your resampled data
 :::
 
 ```{python}
-# Plot the temperature vs time
-boulder_yearly_mean.plot(y='TOBS', figsize=(10,6))
+# Plot mean annual temperature values
 ```
-
-------------------------------------------------------------------------
-
-::: {.callout-important icon="false"}
-# {{< fa pepper-hot size=large >}} Want an EXTRA CHALLENGE?
-
-There are many other things you can do to customize your plot. Take a look at the [pandas plotting galleries](https://pandas.pydata.org/docs/user_guide/visualization.html) and the [documentation of plot](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.plot.html) to see if there's other changes you want to make to your plot. Some possibilities include: 
-
-  * Remove the legend since there's only one data series 
-  * Increase the figure size 
-  * Increase the font size 
-  * Change the colors 
-  * Use a bar graph instead (usually we use lines for time series, but since this is annual it could go either way) 
-  * Add a trend line
-
-Not sure how to do any of these? Try searching the internet, or asking an AI!
-:::
 ------------------------------------------------------------------------
 
 ::: {.callout-important icon="false"}
