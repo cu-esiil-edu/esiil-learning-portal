@@ -8,7 +8,7 @@
 
 <meta name="author" content="Nate Quarderer">
 <meta name="author" content="Elsa Culler">
-<meta name="dcterms.date" content="2024-03-28">
+<meta name="dcterms.date" content="2024-04-15">
 <meta name="keywords" content="Vector Data, Cartography">
 <meta name="description" content="As Earth and Environmental Data Scientists, we know places are important. In this activity, you will make your first map in Python, and use it to tell the story of where you come from and what places are important to you.">
 
@@ -156,6 +156,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#search-for-a-point-of-interest" id="toc-search-for-a-point-of-interest" class="nav-link" data-scroll-target="#search-for-a-point-of-interest">Search for a point of interest</a></li>
   <li><a href="#create-an-interactive-map" id="toc-create-an-interactive-map" class="nav-link" data-scroll-target="#create-an-interactive-map">Create an interactive map</a></li>
   <li><a href="#download-your-map-from-codespaces" id="toc-download-your-map-from-codespaces" class="nav-link" data-scroll-target="#download-your-map-from-codespaces">Download your map from Codespaces</a></li>
+  <li><a href="#place-your-map-in-your-webpage" id="toc-place-your-map-in-your-webpage" class="nav-link" data-scroll-target="#place-your-map-in-your-webpage">Place your map in your webpage</a></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="05-map.ipynb" download="05-map.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
@@ -199,7 +200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">March 28, 2024</p>
+              <p class="date">April 15, 2024</p>
             </div>
           </div>
           
@@ -239,7 +240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="search-for-a-point-of-interest" class="level3">
 <h3 class="anchored" data-anchor-id="search-for-a-point-of-interest">Search for a point of interest</h3>
 <p>You can use the <code>pyrosm</code> package to download and search for spatial vector data in your area, or anywhere around the world.</p>
-<p>In this case, we’re looking for the location of the United Tribes Technical College campus in North Dakota. The address in here, <code>'United Tribes Technical College, Bismarck, ND, United States'</code>, does not have to be complete or exact, but it should be specific enough to narrow it down. We are also specifying that we want it to be tagges as a <code>'amentity'</code> type, specifically a <code>'college'</code> You might have to try a couple different searches with different addresses and/or tags to get the address you want, just like if you are using a map website or app.</p>
+<p>In this case, we’re looking for the location of the United Tribes Technical College campus in North Dakota. The address in here, <code>'United Tribes Technical College, Bismarck, ND, United States'</code>, does not have to be complete or exact, but it should be specific enough to narrow it down. We are also specifying that we want it to be tagges as a <code>'amenity'</code> type, specifically a <code>'college'</code> You might have to try a couple different searches with different addresses and/or tags to get the address you want, just like if you are using a map website or app.</p>
 <div id="e289b6cc" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Search for United Tribes Technical College</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>uttc_gdf <span class="op">=</span> osm.features_from_address(</span>
@@ -297,6 +298,27 @@ Warning
 <li>Select <code>Download...</code></li>
 </ol>
 <p>This should download your map.</p>
+<p>::: {.content-hidden when-profile=“nb”}</p>
+</section>
+<section id="place-your-map-in-your-webpage" class="level3">
+<h3 class="anchored" data-anchor-id="place-your-map-in-your-webpage">Place your map in your webpage</h3>
+<p>You are now ready to upload your map to your portfolio repository and place it in your webpage. Because it is HTML and not an image, you will need to use the following HTML to get it on your page:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>&lt;embed type="text/html" src="uttc.html" width="600" height="600"&gt;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<embed type="text/html" src="uttc.html" width="600" height="600">
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Make sure to make the <code>width</code> and <code>height</code> of your <code>embed</code> element larger than the <code>frame_width</code> and <code>frame_height</code> of your plot, or it will get cut off!</p>
+</div>
+</div>
+<p>:::</p>
 
 
 </section>
