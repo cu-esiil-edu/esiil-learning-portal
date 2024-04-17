@@ -108,7 +108,7 @@
     "href": "notebooks/01b-get-started-api/get-started-api.html#plot-the-precpitation-column-prcp-vs-time-to-explore-the-data",
     "title": "Get started with open reproducible science! (API version)",
     "section": "Plot the precpitation column (PRCP) vs time to explore the data",
-    "text": "Plot the precpitation column (PRCP) vs time to explore the data\nPlotting in Python is easy, but not quite this easy:\n\nboulder_df.plot()\n\n\n\n\n\n\n\n\nYou’ll always need to add some instructions on labels and how you want your plot to look.\n\n\n\n\n\n\n Your task:\n\n\n\n\nChange dataframe to your DataFrame name.\nChange y= to the name of your observed temperature column name.\nUse the title, ylabel, and xlabel parameters to add key text to your plot.\nAdjust the size of your figure using figsize=(x,y) where x is figure width and y is figure height\n\n\nHINT: labels have to be a type in Python called a string. You can make a string by putting quotes around your label, just like the column names in the sample code (eg y='TOBS').\n\n\n\n\n# Plot the data using .plot\nboulder_df.plot(\n    y='the_precipitation_column',\n    title='Title Goes Here',\n    xlabel='Horizontal Axis Label Goes Here',\n    ylabel='Vertical Axis Label Goes Here')\n\nKeyError: 'the_precipitation_column'\n\n\n\n\nSee our solution!\n# Plot the data using .plot\nboulder_df.plot(\n    y='PRCP',\n    title='Daily Precipitation in Boulder, CO',\n    xlabel='Date',\n    ylabel='Precipitation (mm)')\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n Want an EXTRA CHALLENGE?\n\n\n\nThere are many other things you can do to customize your plot. Take a look at the pandas plotting galleries and the documentation of plot to see if there’s other changes you want to make to your plot. Some possibilities include:\n\nRemove the legend since there’s only one data series\nIncrease the figure size\nIncrease the font size\nChange the colors\nUse a bar graph instead (usually we use lines for time series, but since this is annual it could go either way)\nAdd a trend line\n\nNot sure how to do any of these? Try searching the internet, or asking an AI!\n\n\n\n\n\n\n\n\n\n Convert units\n\n\n\nModify the code below to add a column that includes temperature in Celsius. The code below was written by your colleague. Can you fix this so that it correctly calculates temperature in Celsius and adds a new column?\n\n\n\n# Convert to celcius\ndataframe.loc[:, 'TCel'] = dataframe['temperature_col_name'] - 32 * 5 / 9\ndataframe\n\nNameError: name 'dataframe' is not defined\n\n\n\n\nSee our solution!\n# Convert to celcius\nboulder_df.loc[:, 'TCel'] = (boulder_df['TOBS'] - 32) * 5 / 9\nboulder_df\n\n\n/tmp/ipykernel_2700/1376383717.py:2: SettingWithCopyWarning: \nA value is trying to be set on a copy of a slice from a DataFrame.\nTry using .loc[row_indexer,col_indexer] = value instead\n\nSee the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n  boulder_df.loc[:, 'TCel'] = (boulder_df['TOBS'] - 32) * 5 / 9\n\n\n\n\n\n\n\n\n\n\nPRCP\nTOBS\nTCel\n\n\nDATE\n\n\n\n\n\n\n\n1893-10-01\n0.94\nNaN\nNaN\n\n\n1893-10-02\n0.00\nNaN\nNaN\n\n\n1893-10-03\n0.00\nNaN\nNaN\n\n\n1893-10-04\n0.04\nNaN\nNaN\n\n\n1893-10-05\n0.00\nNaN\nNaN\n\n\n...\n...\n...\n...\n\n\n2024-02-14\n0.00\n41.0\n5.000000\n\n\n2024-02-15\n0.00\n39.0\n3.888889\n\n\n2024-02-16\n0.20\n23.0\n-5.000000\n\n\n2024-02-17\n0.22\n23.0\n-5.000000\n\n\n2024-02-18\n0.00\n42.0\n5.555556\n\n\n\n\n46112 rows × 3 columns\n\n\n\n\n\n# DO NOT MODIFY THIS TEST CELL\ntmax_df_resp = _\npoints = 0\n\nif isinstance(tmax_df_resp, pd.DataFrame):\n    points += 1\n    print('\\u2705 Great work! You called a DataFrame.')\nelse:\n    print('\\u274C Oops - make sure to call your DataFrame for testing.')\n\nsummary = [round(val, 2) for val in tmax_df_resp.mean().values]\nif summary == [0.05, 54.53, 12.52]:\n    points += 4\n    print('\\u2705 Great work! You correctly converted to Celcius.')\nelse:\n    print('\\u274C Oops - your data are not correct.')\nprint('You earned {} of 5 points for converting to Celcius'.format(points))\n\n✅ Great work! You called a DataFrame.\n✅ Great work! You correctly converted to Celcius.\nYou earned 5 of 5 points for converting to Celcius\n\n\n\n\n\n\n\n\n Want an EXTRA CHALLENGE?\n\n\n\n\nAs you did above, rewrite the code to be more expressive\nUsing the code below as a framework, write and apply a function that converts to Celcius. &gt; Functions let you reuse code you have already written\nYou should also rewrite this function and parameter names to be more expressive.\n\n\n\n\ndef a_function(a_parameter):\n    \"\"\"Convert temperature to Celcius\"\"\"\n    return a_parameter # Put your equation in here\n\ndataframe['celcius_column'] = dataframe['fahrenheit_column'].apply(convert)\n\nNameError: name 'dataframe' is not defined\n\n\n\n\nSee our solution!\ndef convert_to_celcius(fahrenheit):\n    \"\"\"Convert temperature to Celcius\"\"\"\n    return (fahrenheit - 32) * 5 / 9\n\nboulder_df['TCel'] = boulder_df['TOBS'].apply(convert_to_celcius)\n\n\n/tmp/ipykernel_2700/3586141558.py:5: SettingWithCopyWarning: \nA value is trying to be set on a copy of a slice from a DataFrame.\nTry using .loc[row_indexer,col_indexer] = value instead\n\nSee the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n  boulder_df['TCel'] = boulder_df['TOBS'].apply(convert_to_celcius)",
+    "text": "Plot the precpitation column (PRCP) vs time to explore the data\nPlotting in Python is easy, but not quite this easy:\n\nboulder_df.plot()\n\n\n\n\n\n\n\n\nYou’ll always need to add some instructions on labels and how you want your plot to look.\n\n\n\n\n\n\n Your task:\n\n\n\n\nChange dataframe to your DataFrame name.\nChange y= to the name of your observed temperature column name.\nUse the title, ylabel, and xlabel parameters to add key text to your plot.\nAdjust the size of your figure using figsize=(x,y) where x is figure width and y is figure height\n\n\nHINT: labels have to be a type in Python called a string. You can make a string by putting quotes around your label, just like the column names in the sample code (eg y='TOBS').\n\n\n\n\n# Plot the data using .plot\nboulder_df.plot(\n    y='the_precipitation_column',\n    title='Title Goes Here',\n    xlabel='Horizontal Axis Label Goes Here',\n    ylabel='Vertical Axis Label Goes Here')\n\nKeyError: 'the_precipitation_column'\n\n\n\n\nSee our solution!\n# Plot the data using .plot\nboulder_df.plot(\n    y='PRCP',\n    title='Daily Precipitation in Boulder, CO',\n    xlabel='Date',\n    ylabel='Precipitation (mm)')\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n Want an EXTRA CHALLENGE?\n\n\n\nThere are many other things you can do to customize your plot. Take a look at the pandas plotting galleries and the documentation of plot to see if there’s other changes you want to make to your plot. Some possibilities include:\n\nRemove the legend since there’s only one data series\nIncrease the figure size\nIncrease the font size\nChange the colors\nUse a bar graph instead (usually we use lines for time series, but since this is annual it could go either way)\nAdd a trend line\n\nNot sure how to do any of these? Try searching the internet, or asking an AI!\n\n\n\n\n\n\n\n\n\n Convert units\n\n\n\nModify the code below to add a column that includes temperature in Celsius. The code below was written by your colleague. Can you fix this so that it correctly calculates temperature in Celsius and adds a new column?\n\n\n\n# Convert to celcius\ndataframe.loc[:, 'TCel'] = dataframe['temperature_col_name'] - 32 * 5 / 9\ndataframe\n\nNameError: name 'dataframe' is not defined\n\n\n\n\nSee our solution!\n# Convert to celcius\nboulder_df.loc[:, 'TCel'] = (boulder_df['TOBS'] - 32) * 5 / 9\nboulder_df\n\n\n/tmp/ipykernel_2815/1376383717.py:2: SettingWithCopyWarning: \nA value is trying to be set on a copy of a slice from a DataFrame.\nTry using .loc[row_indexer,col_indexer] = value instead\n\nSee the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n  boulder_df.loc[:, 'TCel'] = (boulder_df['TOBS'] - 32) * 5 / 9\n\n\n\n\n\n\n\n\n\n\nPRCP\nTOBS\nTCel\n\n\nDATE\n\n\n\n\n\n\n\n1893-10-01\n0.94\nNaN\nNaN\n\n\n1893-10-02\n0.00\nNaN\nNaN\n\n\n1893-10-03\n0.00\nNaN\nNaN\n\n\n1893-10-04\n0.04\nNaN\nNaN\n\n\n1893-10-05\n0.00\nNaN\nNaN\n\n\n...\n...\n...\n...\n\n\n2024-02-14\n0.00\n41.0\n5.000000\n\n\n2024-02-15\n0.00\n39.0\n3.888889\n\n\n2024-02-16\n0.20\n23.0\n-5.000000\n\n\n2024-02-17\n0.22\n23.0\n-5.000000\n\n\n2024-02-18\n0.00\n42.0\n5.555556\n\n\n\n\n46112 rows × 3 columns\n\n\n\n\n\n# DO NOT MODIFY THIS TEST CELL\ntmax_df_resp = _\npoints = 0\n\nif isinstance(tmax_df_resp, pd.DataFrame):\n    points += 1\n    print('\\u2705 Great work! You called a DataFrame.')\nelse:\n    print('\\u274C Oops - make sure to call your DataFrame for testing.')\n\nsummary = [round(val, 2) for val in tmax_df_resp.mean().values]\nif summary == [0.05, 54.53, 12.52]:\n    points += 4\n    print('\\u2705 Great work! You correctly converted to Celcius.')\nelse:\n    print('\\u274C Oops - your data are not correct.')\nprint('You earned {} of 5 points for converting to Celcius'.format(points))\n\n✅ Great work! You called a DataFrame.\n✅ Great work! You correctly converted to Celcius.\nYou earned 5 of 5 points for converting to Celcius\n\n\n\n\n\n\n\n\n Want an EXTRA CHALLENGE?\n\n\n\n\nAs you did above, rewrite the code to be more expressive\nUsing the code below as a framework, write and apply a function that converts to Celcius. &gt; Functions let you reuse code you have already written\nYou should also rewrite this function and parameter names to be more expressive.\n\n\n\n\ndef a_function(a_parameter):\n    \"\"\"Convert temperature to Celcius\"\"\"\n    return a_parameter # Put your equation in here\n\ndataframe['celcius_column'] = dataframe['fahrenheit_column'].apply(convert)\n\nNameError: name 'dataframe' is not defined\n\n\n\n\nSee our solution!\ndef convert_to_celcius(fahrenheit):\n    \"\"\"Convert temperature to Celcius\"\"\"\n    return (fahrenheit - 32) * 5 / 9\n\nboulder_df['TCel'] = boulder_df['TOBS'].apply(convert_to_celcius)\n\n\n/tmp/ipykernel_2815/3586141558.py:5: SettingWithCopyWarning: \nA value is trying to be set on a copy of a slice from a DataFrame.\nTry using .loc[row_indexer,col_indexer] = value instead\n\nSee the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n  boulder_df['TCel'] = boulder_df['TOBS'].apply(convert_to_celcius)",
     "crumbs": [
       "ESIIL Data Short Course Home",
       "Unit 2",
@@ -335,6 +335,71 @@
       "Unit 1",
       "Portfolio",
       "Add a map to your website"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html",
+    "href": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html",
+    "title": "Practice Forking a GitHub Repository and Submitting Pull Requests",
+    "section": "",
+    "text": "For this assignment, you will add a row to a .csv file with information about your hometown to someone else’s repository. The Home Towns repository belongs to GitHub user cu-esiil-edu.",
+    "crumbs": [
+      "ESIIL Data Short Course Home",
+      "Unit 1",
+      "Version Control",
+      "Practice Forking a GitHub Repository and Submitting Pull Requests"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html#branches-and-forks",
+    "href": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html#branches-and-forks",
+    "title": "Practice Forking a GitHub Repository and Submitting Pull Requests",
+    "section": "Branches and Forks",
+    "text": "Branches and Forks\nWhen you’re collaborating with someone on GitHub, you’ll find you want to be able to propose changes without actually making them to the default version. This is important for all collaboration (think about other online collaboration tools like Google Docs) – but it is especially important for code, because one error can break the whole thing. You want to make sure that all the code works together as expected before merging.\nGitHub has two different methods for making changes, branches and forks. Branches are for when you are a part of the core team for a project. Forks are for when you are contributing to someone else’s project. The key difference is that you own your fork, but you don’t own a branch. This allows repository owners to protect their repository a little more carefully.\nAfter you have made changes in a branch or a fork, you can propose them to the administrators as a Pull Request or PR. We do this because:\n\nAdministrators to review and test code before merging it into the default version\nEven if you are positive your code works, it is polite to ask permission before changing someone else’s code (although most people will protect their default branch so you wouldn’t be able to change the default anyway). Otherwise you could break something and the owner wouldn’t know!\nPRs are a much more robust collaboration workflow in large projects – they help avoid embarrassing public errors and crashes.",
+    "crumbs": [
+      "ESIIL Data Short Course Home",
+      "Unit 1",
+      "Version Control",
+      "Practice Forking a GitHub Repository and Submitting Pull Requests"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html#step-1-fork-the-github-repo",
+    "href": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html#step-1-fork-the-github-repo",
+    "title": "Practice Forking a GitHub Repository and Submitting Pull Requests",
+    "section": "Step 1: Fork the GitHub repo",
+    "text": "Step 1: Fork the GitHub repo\nTo begin, fork the ESIIL Education Hometowns GitHub repository Remember that this step only needs to be done once. When you create this fork, you then have full ownership of the fork in your user account. Full ownership means that you can make direct changes to the fork without submitting a Pull Request.",
+    "crumbs": [
+      "ESIIL Data Short Course Home",
+      "Unit 1",
+      "Version Control",
+      "Practice Forking a GitHub Repository and Submitting Pull Requests"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html#step-2-add-a-row-to-hometowns.csv",
+    "href": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html#step-2-add-a-row-to-hometowns.csv",
+    "title": "Practice Forking a GitHub Repository and Submitting Pull Requests",
+    "section": "Step 2: Add a row to hometowns.csv",
+    "text": "Step 2: Add a row to hometowns.csv\n\nClick on the hometowns.csv file.\n\n\n\nClick on the hometowns.csv file.\n\n\nThen, click on the edit button in the upper right. If you haven’t forked the repository yet, you will be asked to at this point.\n\n\n\nClick the edit button\n\n\nAdd at least one new row to the hometowns.csv file for your hometown – that could be where you live now, somewhere you used to live, or another important location for you. You will add the following information to the file, separated by commas:\n\nprogram you are participating in. The options include:\n\nEDA Certificate\nESIIL Stars\nShort Course\nSummit\nHackathon\n\ndate: today’s date in YYYY-MM-DD format (for example, January 5, 2024 would be 2024-01-05)\ntype: the type of entry this is. The options include:\n\nWhere I live now\nPlace I’ve lived\nPlace I love\n\nlabel: a few sentences about your place\nimage_url: the URL to an image you want to display on the hometowns map\nimage_credit: how you want to credit your image\nlatitude: the latitude of your place\nlongitude: the longitude of your place\n\n\nThe file will look something like this once you add your information:\nprogram,date,type,label,image_url,image_credit,latitude,longitude\nShort Course,2024-04-07,Where I live now,Home of ESIIL at the University of Colorado,https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Flatirons_Winter_Sunrise.jpg/1024px-Flatirons_Winter_Sunrise.jpg,Taken by Jesse Varner | https://commons.wikimedia.org/wiki/File:Flatirons_Winter_Sunrise.jpg,40.016870,-105.279620\n\nClick Commit\nWrite a message so you can go back to this point if you want to.\nConfirm by selecting Commit",
+    "crumbs": [
+      "ESIIL Data Short Course Home",
+      "Unit 1",
+      "Version Control",
+      "Practice Forking a GitHub Repository and Submitting Pull Requests"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html#step-3-submit-a-pull-request-to-the-earthlab-educationea-bootcamp-hometowns-repo",
+    "href": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html#step-3-submit-a-pull-request-to-the-earthlab-educationea-bootcamp-hometowns-repo",
+    "title": "Practice Forking a GitHub Repository and Submitting Pull Requests",
+    "section": "Step 3: Submit a Pull Request To the earthlab-education/ea-bootcamp-hometowns repo",
+    "text": "Step 3: Submit a Pull Request To the earthlab-education/ea-bootcamp-hometowns repo\nNow that you have made some changes to your fork, submit a pull request from your fork to the original repository:\n\nSelect the Pull Requests tab.\nYou should see a banner saying that you are ahead of the base repository. Select the link in the banner to create a PR with your changes.\nInclude the following in your pull request:\n\nThere are a lot of similar PRs in this repository. In the message, include your username and the place you are submitting so the owner can tell the PRs apart easily.\nIn the description, notify the owner of the repository (your instructor) that you have addressed the issue using @github-username.\nReference the issue number using Fixes #issue-number (e.g. the issue number is above in the title of this issue). If you are working independently, you may not have an issue with your name on it! Just submit the PR without mentioning an issue.\n\nConfirm by selecting Create Pull Request.\n\n\n\n\n\n\n\nImportant\n\n\n\nBe sure to check that the changes you are submitted look correct in the Pull Request before you consider your work, done!",
+    "crumbs": [
+      "ESIIL Data Short Course Home",
+      "Unit 1",
+      "Version Control",
+      "Practice Forking a GitHub Repository and Submitting Pull Requests"
     ]
   },
   {
@@ -1220,6 +1285,58 @@
       "Unit 1",
       "Version Control",
       "Propose changes to GitHub repositories"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html",
+    "href": "pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html",
+    "title": "Practice Submitting Pull Requests",
+    "section": "",
+    "text": "In this lesson, you will learn how to submit a pull request to suggest changes to a repository you are collaborating on.\nYou will need a web browser and your GitHub.com login (username and password).\nFor this assignment, you will add information about your GitHub username and, optionally, your personal website to a repository.",
+    "crumbs": [
+      "ESIIL Data Short Course Home",
+      "Unit 1",
+      "Portfolio",
+      "Practice Submitting Pull Requests"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html#step-1-navigate-to-the-repository-where-you-will-add-your-username-and-other-information.",
+    "href": "pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html#step-1-navigate-to-the-repository-where-you-will-add-your-username-and-other-information.",
+    "title": "Practice Submitting Pull Requests",
+    "section": "Step 1: Navigate to the repository where you will add your username and other information.",
+    "text": "Step 1: Navigate to the repository where you will add your username and other information.\nFor the first Data Short Course (starting 2024), we will be using our syllabus repository.\nMake sure to navigate to the Code tab.",
+    "crumbs": [
+      "ESIIL Data Short Course Home",
+      "Unit 1",
+      "Portfolio",
+      "Practice Submitting Pull Requests"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html#step-2-make-your-changes",
+    "href": "pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html#step-2-make-your-changes",
+    "title": "Practice Submitting Pull Requests",
+    "section": "Step 2: Make your changes",
+    "text": "Step 2: Make your changes\n\nClick on the README.md file.\nThen, click on the edit button in the upper right.\n\n\n\nClick the edit button.\n\n\nAdd a row to the directory table with any of the following information you are comfortable sharing:\n\nYour name, linked to a pronounciation link. We recommend that everyone use these even if your name is “easy to pronounce” because pronounciation difficulty always depends on the language of the speaker.\nYour GitHub username, linked to your GitHub profile page https://github.com/&lt;your-username&gt;\nYour personal website or a social media profile, linked to itself.\nYour LinkedIn profile, linked to itself (optional)\n\nAt the end it should look like: \nSelect the Commit button.\n\n\n\nSelect Commit.\n\n\nMake sure to select Make changes in another branch. This will create a branch with your changes in it! You can name the branch anything you want other than main, but the default (&lt;your-username&gt;-patch-1) is fine.\n\n\n\nSelect Make changes in another branch.\n\n\nWrite a message, including your username, so that the adminstrators can identify what the pull request is doing easily. You can add additional details in the description if you like, but the message is the most important part since that is what will be visible in the list of Pull Requests.\nClick the Propose changes button.\n\n\n\nSelect Propose Changes.",
+    "crumbs": [
+      "ESIIL Data Short Course Home",
+      "Unit 1",
+      "Portfolio",
+      "Practice Submitting Pull Requests"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html#pull-requests-allow-you-to-suggest-changes-without-changing-the-default-version-of-a-repository-typically-the-main-branch",
+    "href": "pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html#pull-requests-allow-you-to-suggest-changes-without-changing-the-default-version-of-a-repository-typically-the-main-branch",
+    "title": "Practice Submitting Pull Requests",
+    "section": "Pull Requests allow you to suggest changes without changing the “default” version of a repository (typically the main branch)",
+    "text": "Pull Requests allow you to suggest changes without changing the “default” version of a repository (typically the main branch)\nA pull request:\n\nAllows others to review your changes and suggest corrections, additions, edits, etc.\nAllows repository administrators control over what gets added to their project repo.\n\nThe ability to suggest changes is a powerful feature of GitHub. You can make as many changes as you want, and then suggest that the project manager or owner incorporate those changes using a pull request. When you make additional changes in your branch, they will get added to your pull request automatically until it is merged in. Then you will need a new branch and a new pull request.",
+    "crumbs": [
+      "ESIIL Data Short Course Home",
+      "Unit 1",
+      "Portfolio",
+      "Practice Submitting Pull Requests"
     ]
   },
   {
