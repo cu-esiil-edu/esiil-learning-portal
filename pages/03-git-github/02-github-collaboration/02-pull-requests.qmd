@@ -30,7 +30,7 @@ jupyter:
 
 ## Requesting changes to a repository
 
-When collaborating, it's important to be able to see potential changes and discuss them with others. A **pull request** (referred to as a **PR**) is a way for you to **suggest** changes to code in a GitHub repository. It allows you and your collaborators to:
+When you're collaborating with someone on GitHub, you'll find you want to be able to propose changes without actually making them to the default version. This is important for all collaboration (think about other online collaboration tools like Google Docs) -- but it is *especially* important for code, because one error can break the whole thing. You want to make sure that all the code works together as expected before merging. A **pull request** (referred to as a **PR**) is a way for you to **suggest** or **propose** changes to code in a GitHub repository. It allows you and your collaborators to:
 
   * See suggested changes side-by-side the original,
   * Leave comments on individual lines,
@@ -40,10 +40,6 @@ When collaborating, it's important to be able to see potential changes and discu
 
 all before making any official changes. Once everyone agrees on the changes, you can **merge** them in with the original.
 
-::: {.callout-tip}
-You can keep different versions of your code, called **branches** in your repository. The **main** branch is usually where **production** code is kept. When collaborating, it is important to make sure that new code works the way it is supposed to before merging it into **main**.
-:::
-
 Pull requests can be implemented in two ways, usually depending on what your relationship is with the project:
 
 1. When you are part of a project team, you will usually develop changes on a **branch** within the team's repository.
@@ -51,64 +47,43 @@ Pull requests can be implemented in two ways, usually depending on what your rel
 
 In either case, once you think your code is ready, it's polite to make a **pull request** rather than unilaterally making changes. That way your team can review what you've done! The ability to make changes in the **main** branch is usually restricted to just a few people.
 
+## Branches and Forks
+
+GitHub has two different methods for making changes, **branches** and **forks**. **Branches** are for when you are a part of the core team for a project. **Forks** are for when you are contributing to someone else's project. The key difference is that **you own your fork**, but you don't own a branch. This allows repository owners to protect their repository from outside collaborators a little more carefully.
+
+After you have made changes in a branch or a fork, you can propose them to the administrators as a Pull Request or PR. 
+
 ## Introduction to the Pull Request Workflow
 
-For the purposes of this page, pretend that you are working with your colleague on a project. You have been asked to make some changes to a README.md file in your collaborator's repository. 
+Suppose that you are working with your colleague, Alice, on a project. You have been asked to make some changes to a file in your collaborator's repository. Your workflow will look something like:
 
-To begin this task, you:
+```{mermaid}
+sequenceDiagram
+  actor Alice
+  participant Alice's Repository
+  actor You
+  participant Your Fork
+  Alice-->>You: Hey, can you make a change to my repository?
+  You-->>Alice: Sure! Let me go fork it!
+  You->>Alice's Repository: Open up Alice's repository on GitHub
+  activate Alice's Repository
+  Alice's Repository->>Your Fork: Fork Alice's repository
+  deactivate Alice's Repository
+  activate Your Fork
+  Your Fork->>Your Fork: Make a change
+  Your Fork->>Alice's Repository: Create a Pull Request
+  deactivate Your Fork
+  You-->>Alice: Hey Alice -- I made a change!
+  Alice-->>You: Oh, great! Let me check it out.
+  Alice->>Alice's Repository: Review Pull Request
+  activate Alice's Repository
+  Alice-->>You: Looks good to me!
+  Alice->>Alice's Repository: Merge Pull Request
+  deactivate Alice's Repository
+  Alice-->>You: Thanks, that was just what I needed!
+```
 
-::: {.panel-tabset}
-
-### On GitHub
-
-First, make your changes **in a new branch**:
-
-  1. Open up the main page of the repository on GitHub, making sure to select the `Code` tab.
-  2. Click on the `README.md` file.
-  3. Click on the edit button (pencil symbol) in the upper right.
-  4. Make your changes and click `Commit changes`
-  5. **Select the option to commit changes to a new branch.** You probably won't have permission to commit to main in someone else's repository...but just in case make sure to check that you aren't unilaterally making changes!
-  6. Leave a message describing what you did.
-  7. Confirm by clicking `Commit`.
-
-Now, your changes are in a branch. If you want your collaborator to incorporate them into the main branch, you should submit a pull request:
-
-  1. Click on the `Pull Requests` tab
-  2. You should see a banner stating that there are changes in the new branch you created, and asking if you want to create a pull request. The easiest way to create a pull request is to click on the link in that banner.
-  3. Leave a message describing the changes you made.
-  4. Click `Create Pull Request`.
-
-### Cloned
-
-First, you will need to create a fork of your collaborator's repository to make changes in:
-  1. <a href="{{ site.url }}/courses/intro-to-earth-data-science/git-github/version-control/fork-clone-github-repositories/#create-a-copy-of-other-users-files-on-githubcom-forking">Create a fork</a> of your colleague's repository. 
-  2. Clone that fork to your local computer and begin to work on the README.md file in a text editor.
-  3. When you are done editing the text file locally on your computer, you save the file and `git add` and `git commit` your changes using git.
-  4. Finally, you `git push` those changes back up to your fork of your colleague's repository.
-
-Now, the changes are in your fork but you want to suggest those changes as updates to your colleague's repository. To do this, you submit a pull request with the changes to your colleague's repository.
-
-<figure>
-   <a href="{{ site.url }}/images/earth-analytics/git-version-control/git-push-pr.png">
-   <img src="{{ site.url }}/images/earth-analytics/git-version-control/git-push-pr.png" alt="LEFT: To sync changes made and committed locally on your computer to your GitHub account, you push the changes from your computer to your fork on GitHub. RIGHT: To suggest changes to another repository, you submit a Pull Request to update the central repository. Source: Colin Williams, NEON."></a>
-   <figcaption> LEFT: To sync changes made and committed locally on your computer to your GitHub account, you push the changes from your computer to your fork on GitHub. RIGHT: To suggest changes to another repository, you submit a Pull Request to update the central repository. Source: Colin Williams, NEON.
-   </figcaption>
-</figure>
-
-:::
-
-When you open up a pull request, you will see the line by line changes or differences between the file you submitted, compared to the file that exists in a repository. These changes are called **diffs** (short for differences).
-
-Pull requests show diffs of the content between the branch and repository where you made changes, and the branch and repository that you are submitting changes to. The changes are shown in green and red. The color green represents additions to the file whereas red represents deletions.
-
-<figure>
- <a href="{{ site.url }}/images/earth-analytics/git-version-control/github-diff-file.png">
- <img src="{{ site.url }}/images/earth-analytics/git-version-control/github-diff-file.png" alt="This screenshot shows a diff associated with a pull request. On the LEFT, you can see the text (highlighted with red) that was modified by the proposed pull request. The words that are dark red were the ones that were deleted. On the RIGHT, you can see the text (in green) that represents the proposed changes. The words that are darker green were added. In this example, the word **earthpy** was replaced with **matplotcheck** in the contributing.rst file of the repo"></a>
- <figcaption>This screenshot shows a diff associated with a pull request. On the LEFT, you can see the text (highlighted with red) that was modified by the proposed pull request. The words that are dark red were the ones that were deleted. On the RIGHT, you can see the text (in green) that represents the proposed changes. The words that are darker green were added. In this example, the word **earthpy** was replaced with **matplotcheck** in the contributing.rst file of the repo.
- </figcaption>
-</figure>
-
-### GItHub and Mentions: Communicating With Your Collaborators
+### GitHub and Mentions: Communicating With Your Collaborators
 
 After you have submitted your PR, your colleague can review the changes. It is good practice to "mention" your colleague specifically when you submit your PR to ensure that they see it. You can do that by using `@<their-github-username>` in a comment in the PR (e.g. `@eastudent` which will notify the GitHub user called `eastudent`). 
 
@@ -117,8 +92,6 @@ Your colleague will review the changes.  If they would like a few additional cha
 Once your colleague is happy with the changes, then they will merge your PR.
 
 ## The Anatomy of a Diff (Difference Between Two Files)
-
-As mentioned above, a diff represents differences between two files in **git**.
 
 **Git** keeps track of changes through additions and deletions on a character by
 character and line by line basis.
@@ -135,6 +108,12 @@ However, you are deleting: `ae` and replacing those two characters with `ea`.
 As you edit files in a version control system like **git**, it is tracking each character
 addition and deletion. These tracked changes are what you see in a diff when you submit a pull
 request.
+
+When you open up a pull request, you will see the line by line changes or differences between the file you submitted, compared to the file that exists in a repository. These changes are called **diffs** (short for differences).
+
+Pull requests show diffs of the content between the branch and repository where you made changes, and the branch and repository that you are submitting changes to. The changes are shown in green and red. The color green represents additions to the file whereas red represents deletions.
+
+![This screenshot shows a diff associated with a pull request. On the LEFT, you can see the text (highlighted with red) that was modified by the proposed pull request. The words that are dark red were the ones that were deleted. On the RIGHT, you can see the text (in green) that represents the proposed changes. The words that are darker green were added. In this example, the word **earthpy** was replaced with **matplotcheck** in the contributing.rst file of the repo.](/img/earth-analytics/git-version-control/github-diff-file.png)
 
 ## GitHub Pull Requests Support Open Science and Open Collaboration
 
@@ -186,23 +165,15 @@ Next, you will learn how to create a pull request in **GitHub**.
 
 ## How To Submit Pull Requests To Suggest Changes To Repositories
 
-<figure>
- <a href="{{ site.url }}/images/earth-analytics/git-version-control/github-submit-pull-request-demo.gif">
- <img src="{{ site.url }}/images/earth-analytics/git-version-control/github-submit-pull-request-demo.gif" alt="Short animated gif showing the steps involved with creating a pull request. When you setup your pull request, remember to ensure that the base is the repository that you wish to ADD change to. Your fork (or a branch) is where the changes currently exist (i.e. the head). When creating a new pull request, you should always check that the changes in your PR are the ones that you wish to submit. It's also good practice to ping or @mention a collaborator who you want to review and merge the PR if you know who that will be."></a>
- <figcaption>When you setup your pull request, remember to ensure that the base is the repository that you wish to ADD change to. Your fork (or a branch) is where the changes currently exist (i.e. the head). When creating a new pull request, you should always check that the changes in your PR are the ones that you wish to submit. It's also good practice to ping or `@mention` a collaborator who you want to review and merge the PR if you know who that will be.
- </figcaption>
-</figure>
+This section is an overview of the pull request process on GitHub. You can also check out our [forking](/pages/03-git-github/02-github-collaboration/06-pr-activity-fork.qmd) and [branching](/pages/03-git-github/02-github-collaboration/07-pr-activity-branch.qmd) PR activities for a hand's on experience.
+
+![Short animated gif showing the steps involved with creating a pull request. When you setup your pull request, remember to ensure that the base is the repository that you wish to ADD change to. Your fork (or a branch) is where the changes currently exist (i.e. the head). When creating a new pull request, you should always check that the changes in your PR are the ones that you wish to submit. It's also good practice to ping or @mention a collaborator who you want to review and merge the PR if you know who that will be.](/img/earth-analytics/git-version-control/github-submit-pull-request-demo.gif "When you setup your pull request, remember to ensure that the base is the repository that you wish to ADD change to. Your fork (or a branch) is where the changes currently exist (i.e. the head). When creating a new pull request, you should always check that the changes in your PR are the ones that you wish to submit. It's also good practice to ping or `@mention` a collaborator who you want to review and merge the PR if you know who that will be.")
 
 ### Step 1 - Start to Open Your Pull Request on GitHub
 
 To start a PR, click the `New pull request` button on the main page of your forked repository.
 
-<figure>
- <a href="{{ site.url }}/images/earth-analytics/git-version-control/github-create-new-pull-request.png">
- <img src="{{ site.url }}/images/earth-analytics/git-version-control/github-create-new-pull-request.png" alt="Location of the New pull request button on the main page of an example repository for jenp0277."></a>
- <figcaption> Location of the new pull request button on the main page of an example forked repository.
- </figcaption>
-</figure>
+![Location of the new pull request button on the main page of an example forked repository.](/img/earth-analytics/git-version-control/github-create-new-pull-request.png)
 
 ::: {.callout-tip}
 # Data Tip
@@ -238,15 +209,12 @@ want to submit.
 2. Look over the changes made to each file. Do the changes all look correct (like
      changes that you committed to the repository)?
 
- <figure>
-  <a href="{{ site.url }}/images/earth-analytics/git-version-control/github-pr-changes.png">
-  <img src="{{ site.url }}/images/earth-analytics/git-version-control/github-pr-changes.png" alt="When you first create a PR, be sure to check the PR contents. Notice in this image that the number of files and number of commits are displayed. Make sure these numbers make sense based upon the changes that you made."></a>
-  <figcaption>When you first create a PR, be sure to check the PR contents. Notice in this image that the number of files and number of commits are displayed. Make sure these numbers make sense based upon the changes that you made.
-  </figcaption>
- </figure>
+![When you first create a PR, be sure to check the PR contents. Notice in this image that the number of files and number of commits are displayed. Make sure these numbers make sense based upon the changes that you made.](/img/earth-analytics/git-version-control/github-pr-changes.png)
 
-<i class="fa fa-star"></i> **Data Tip:** You can also click on the commit titles to see the specific changes in each commit. This is another way to check that the contents of a PR are what you expect them to be.
-{: .notice--success}
+::: {.callout-tip}
+# Data Tip
+You can also click on the commit titles to see the specific changes in each commit. This is another way to check that the contents of a PR are what you expect them to be.
+:::
 
 This review of your own **PR** before submitting it is important. Remember that someone
 else is going to take time to review your PR. 
@@ -263,15 +231,12 @@ Click the green “Create Pull Request” button to start your pull request. Onc
 Add a title and write a brief description of your changes. When you have added your
 title and description, click on “Create Pull Request”.
 
-<i class="fa fa-star"></i> **Data Tip:** You can modify the title and description of your pull request at any time - even after you've submitted the pull request!
-{: .notice--success}
+::: {.callout-tip}
+# Data Tip
+You can modify the title and description of your pull request at any time - even after you've submitted the pull request!
+:::
 
-<figure>
- <a href="{{ site.url }}/images/earth-analytics/git-version-control/github-create-pull-request.png">
- <img src="{{ site.url }}/images/earth-analytics/git-version-control/github-create-pull-request.png" alt="Pull request titles should be concise and descriptive of the content in the pull request. More detailed notes can be left in the comments box."></a>
- <figcaption> Pull request titles should be concise and descriptive of the content in the pull request. More detailed notes can be left in the comments box.
- </figcaption>
-</figure>
+![Pull request titles should be concise and descriptive of the content in the pull request. More detailed notes can be left in the comments box.](/img/earth-analytics/git-version-control/github-create-pull-request.png)
 
 ## Pull Requests and Your Location On GitHub
 
@@ -289,8 +254,11 @@ to merge in your changes, when a review has been completed.
 The repo owner will
 review your PR and may ask for changes. When they are happy with all of the changes, your PR could get merged!
 
-<i class="fa fa-star"></i> **Data Tip:** All future commits that you make to your fork (on the branch where you are working) will continue to be added to the open pull request UNTIL it is merged.
-{: .notice--success}
+::: {.callout-tip}
+# Data Tip
+
+All future commits that you make to your fork (on the branch where you are working) will continue to be added to the open pull request UNTIL it is merged.
+:::
 
 ## How To Merge GitHub Pull Requests on GitHub
 
@@ -302,12 +270,7 @@ are submitting the PR will review it. At this point, they will either:
 
 A screencast showing how this process works is below.
 
-<figure>
- <a href="{{ site.url }}/images/earth-analytics/git-version-control/github-merge-pull-request.gif">
- <img src="{{ site.url }}/images/earth-analytics/git-version-control/github-merge-pull-request.gif" alt="Short animated gif showing the steps involved with merging a pull request. It's common for a reviewer to comment on your pull request and request changes. Once the reviewer is happy with the PR, they will merge it using the merge button on the bottom of the PR. It is important to note that you can only merge a PR in a repo in which you have permissions to merge."></a>
- <figcaption>It's common for a reviewer to comment on your pull request and request changes. Once the reviewer is happy with the PR, they will merge it using the merge button on the bottom of the PR. It is important to note that you can only merge a PR in a repo in which you have permissions to merge.
- </figcaption>
-</figure>
+![Short animated gif showing the steps involved with merging a pull request. It's common for a reviewer to comment on your pull request and request changes. Once the reviewer is happy with the PR, they will merge it using the merge button on the bottom of the PR. It is important to note that you can only merge a PR in a repo in which you have permissions to merge.](/img/earth-analytics/git-version-control/github-merge-pull-request.gif "It's common for a reviewer to comment on your pull request and request changes. Once the reviewer is happy with the PR, they will merge it using the merge button on the bottom of the PR. It is important to note that you can only merge a PR in a repo in which you have permissions to merge.")
 
 
 ### How To Close Pull Requests on GitHub
@@ -323,10 +286,4 @@ you can simply create a new pull request on **GitHub** following these same step
 To close a pull request, click on `Close pull request` button towards the
 bottom of the pull request page.
 
-<figure>
- <a href="{{ site.url }}/images/earth-analytics/git-version-control/github-close-pull-request.png">
- <img src="{{ site.url }}/images/earth-analytics/git-version-control/github-close-pull-request.png" alt="Location of the Close pull request button on an example pull request from jenp0277 to earthlab-education."></a>
- <figcaption> Location of the Close pull request button on an example pull request page from jenp0277 to earthlab-education.
- </figcaption>
-</figure>
-
+![Location of the Close pull request button on an example pull request page from jenp0277 to earthlab-education.](/img/earth-analytics/git-version-control/github-close-pull-request.png)
