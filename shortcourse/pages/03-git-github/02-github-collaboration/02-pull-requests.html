@@ -10,7 +10,7 @@
 <meta name="author" content="Max Joseph">
 <meta name="author" content="Jenny Palomino">
 <meta name="author" content="Elsa Culler">
-<meta name="dcterms.date" content="2024-04-17">
+<meta name="dcterms.date" content="2024-04-22">
 <meta name="description" content="A pull request allows anyone to suggest changes to a repository on GitHub that can be easily reviewed by others. Learn how to submit pull requests on GitHub.com to suggest changes to a GitHub repository.">
 
 <title>Propose changes to GitHub repositories</title>
@@ -74,6 +74,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../../../styles.css">
@@ -372,17 +375,35 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Geospatial Data Fundamentals</span></a>
   </div>
 </li>
+          <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Geospatial Data</span></span>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="false">
+ <span class="menu-text">Vegetation Coding Challenge</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+ <span class="menu-text">notebooks/05-vegetation/vegetation.qmd</span>
+  </li>
+      </ul>
+  </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true">
  <span class="menu-text">Unit 4</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../pages/00-course-overviews/shortcourse/01-collaboration/04-applications.html" class="sidebar-item-text sidebar-link">
@@ -402,9 +423,10 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#requesting-changes-to-a-repository" id="toc-requesting-changes-to-a-repository" class="nav-link active" data-scroll-target="#requesting-changes-to-a-repository">Requesting changes to a repository</a></li>
+  <li><a href="#branches-and-forks" id="toc-branches-and-forks" class="nav-link" data-scroll-target="#branches-and-forks">Branches and Forks</a></li>
   <li><a href="#introduction-to-the-pull-request-workflow" id="toc-introduction-to-the-pull-request-workflow" class="nav-link" data-scroll-target="#introduction-to-the-pull-request-workflow">Introduction to the Pull Request Workflow</a>
   <ul class="collapse">
-  <li><a href="#github-and-mentions-communicating-with-your-collaborators" id="toc-github-and-mentions-communicating-with-your-collaborators" class="nav-link" data-scroll-target="#github-and-mentions-communicating-with-your-collaborators">GItHub and Mentions: Communicating With Your Collaborators</a></li>
+  <li><a href="#github-and-mentions-communicating-with-your-collaborators" id="toc-github-and-mentions-communicating-with-your-collaborators" class="nav-link" data-scroll-target="#github-and-mentions-communicating-with-your-collaborators">GitHub and Mentions: Communicating With Your Collaborators</a></li>
   </ul></li>
   <li><a href="#the-anatomy-of-a-diff-difference-between-two-files" id="toc-the-anatomy-of-a-diff-difference-between-two-files" class="nav-link" data-scroll-target="#the-anatomy-of-a-diff-difference-between-two-files">The Anatomy of a Diff (Difference Between Two Files)</a></li>
   <li><a href="#github-pull-requests-support-open-science-and-open-collaboration" id="toc-github-pull-requests-support-open-science-and-open-collaboration" class="nav-link" data-scroll-target="#github-pull-requests-support-open-science-and-open-collaboration">GitHub Pull Requests Support Open Science and Open Collaboration</a></li>
@@ -468,7 +490,7 @@ ul.task-list li input[type="checkbox"] {
             <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">April 17, 2024</p>
+              <p class="date">April 22, 2024</p>
             </div>
           </div>
           
@@ -481,7 +503,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="requesting-changes-to-a-repository" class="level2">
 <h2 class="anchored" data-anchor-id="requesting-changes-to-a-repository">Requesting changes to a repository</h2>
-<p>When collaborating, it’s important to be able to see potential changes and discuss them with others. A <strong>pull request</strong> (referred to as a <strong>PR</strong>) is a way for you to <strong>suggest</strong> changes to code in a GitHub repository. It allows you and your collaborators to:</p>
+<p>When you’re collaborating with someone on GitHub, you’ll find you want to be able to propose changes without actually making them to the default version. This is important for all collaboration (think about other online collaboration tools like Google Docs) – but it is <em>especially</em> important for code, because one error can break the whole thing. You want to make sure that all the code works together as expected before merging. A <strong>pull request</strong> (referred to as a <strong>PR</strong>) is a way for you to <strong>suggest</strong> or <strong>propose</strong> changes to code in a GitHub repository. It allows you and your collaborators to:</p>
 <ul>
 <li>See suggested changes side-by-side the original,</li>
 <li>Leave comments on individual lines,</li>
@@ -490,19 +512,6 @@ ul.task-list li input[type="checkbox"] {
 <li>Make sure that any suggestions adhere to group policies and norms,</li>
 </ul>
 <p>all before making any official changes. Once everyone agrees on the changes, you can <strong>merge</strong> them in with the original.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>You can keep different versions of your code, called <strong>branches</strong> in your repository. The <strong>main</strong> branch is usually where <strong>production</strong> code is kept. When collaborating, it is important to make sure that new code works the way it is supposed to before merging it into <strong>main</strong>.</p>
-</div>
-</div>
 <p>Pull requests can be implemented in two ways, usually depending on what your relationship is with the project:</p>
 <ol type="1">
 <li>When you are part of a project team, you will usually develop changes on a <strong>branch</strong> within the team’s repository.</li>
@@ -510,54 +519,50 @@ Tip
 </ol>
 <p>In either case, once you think your code is ready, it’s polite to make a <strong>pull request</strong> rather than unilaterally making changes. That way your team can review what you’ve done! The ability to make changes in the <strong>main</strong> branch is usually restricted to just a few people.</p>
 </section>
+<section id="branches-and-forks" class="level2">
+<h2 class="anchored" data-anchor-id="branches-and-forks">Branches and Forks</h2>
+<p>GitHub has two different methods for making changes, <strong>branches</strong> and <strong>forks</strong>. <strong>Branches</strong> are for when you are a part of the core team for a project. <strong>Forks</strong> are for when you are contributing to someone else’s project. The key difference is that <strong>you own your fork</strong>, but you don’t own a branch. This allows repository owners to protect their repository from outside collaborators a little more carefully.</p>
+<p>After you have made changes in a branch or a fork, you can propose them to the administrators as a Pull Request or PR.</p>
+</section>
 <section id="introduction-to-the-pull-request-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="introduction-to-the-pull-request-workflow">Introduction to the Pull Request Workflow</h2>
-<p>For the purposes of this page, pretend that you are working with your colleague on a project. You have been asked to make some changes to a README.md file in your collaborator’s repository.</p>
-<p>To begin this task, you:</p>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">On GitHub</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Cloned</a></li></ul>
-<div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p>First, make your changes <strong>in a new branch</strong>:</p>
-<ol type="1">
-<li>Open up the main page of the repository on GitHub, making sure to select the <code>Code</code> tab.</li>
-<li>Click on the <code>README.md</code> file.</li>
-<li>Click on the edit button (pencil symbol) in the upper right.</li>
-<li>Make your changes and click <code>Commit changes</code></li>
-<li><strong>Select the option to commit changes to a new branch.</strong> You probably won’t have permission to commit to main in someone else’s repository…but just in case make sure to check that you aren’t unilaterally making changes!</li>
-<li>Leave a message describing what you did.</li>
-<li>Confirm by clicking <code>Commit</code>.</li>
-</ol>
-<p>Now, your changes are in a branch. If you want your collaborator to incorporate them into the main branch, you should submit a pull request:</p>
-<ol type="1">
-<li>Click on the <code>Pull Requests</code> tab</li>
-<li>You should see a banner stating that there are changes in the new branch you created, and asking if you want to create a pull request. The easiest way to create a pull request is to click on the link in that banner.</li>
-<li>Leave a message describing the changes you made.</li>
-<li>Click <code>Create Pull Request</code>.</li>
-</ol>
+<p>Suppose that you are working with your colleague, Alice, on a project. You have been asked to make some changes to a file in your collaborator’s repository. Your workflow will look something like:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">sequenceDiagram
+  actor Alice
+  participant Alice's Repository
+  actor You
+  participant Your Fork
+  Alice--&gt;&gt;You: Hey, can you make a change to my repository?
+  You--&gt;&gt;Alice: Sure! Let me go fork it!
+  You-&gt;&gt;Alice's Repository: Open up Alice's repository on GitHub
+  activate Alice's Repository
+  Alice's Repository-&gt;&gt;Your Fork: Fork Alice's repository
+  deactivate Alice's Repository
+  activate Your Fork
+  Your Fork-&gt;&gt;Your Fork: Make a change
+  Your Fork-&gt;&gt;Alice's Repository: Create a Pull Request
+  deactivate Your Fork
+  You--&gt;&gt;Alice: Hey Alice -- I made a change!
+  Alice--&gt;&gt;You: Oh, great! Let me check it out.
+  Alice-&gt;&gt;Alice's Repository: Review Pull Request
+  activate Alice's Repository
+  Alice--&gt;&gt;You: Looks good to me!
+  Alice-&gt;&gt;Alice's Repository: Merge Pull Request
+  deactivate Alice's Repository
+  Alice--&gt;&gt;You: Thanks, that was just what I needed!
+</pre>
 </div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p>First, you will need to create a fork of your collaborator’s repository to make changes in: 1. <a href="{{ site.url }}/courses/intro-to-earth-data-science/git-github/version-control/fork-clone-github-repositories/#create-a-copy-of-other-users-files-on-githubcom-forking">Create a fork</a> of your colleague’s repository. 2. Clone that fork to your local computer and begin to work on the README.md file in a text editor. 3. When you are done editing the text file locally on your computer, you save the file and <code>git add</code> and <code>git commit</code> your changes using git. 4. Finally, you <code>git push</code> those changes back up to your fork of your colleague’s repository.</p>
-<p>Now, the changes are in your fork but you want to suggest those changes as updates to your colleague’s repository. To do this, you submit a pull request with the changes to your colleague’s repository.</p>
-<figure class="figure">
-<a href="{{ site.url }}/images/earth-analytics/git-version-control/git-push-pr.png"> <img src="{{ site.url }}/images/earth-analytics/git-version-control/git-push-pr.png" alt="LEFT: To sync changes made and committed locally on your computer to your GitHub account, you push the changes from your computer to your fork on GitHub. RIGHT: To suggest changes to another repository, you submit a Pull Request to update the central repository. Source: Colin Williams, NEON." class="figure-img"></a>
-<figcaption>
-LEFT: To sync changes made and committed locally on your computer to your GitHub account, you push the changes from your computer to your fork on GitHub. RIGHT: To suggest changes to another repository, you submit a Pull Request to update the central repository. Source: Colin Williams, NEON.
-</figcaption>
-</figure>
-</div>
+<p></p></figure><p></p>
 </div>
 </div>
-<p>When you open up a pull request, you will see the line by line changes or differences between the file you submitted, compared to the file that exists in a repository. These changes are called <strong>diffs</strong> (short for differences).</p>
-<p>Pull requests show diffs of the content between the branch and repository where you made changes, and the branch and repository that you are submitting changes to. The changes are shown in green and red. The color green represents additions to the file whereas red represents deletions.</p>
-<figure class="figure">
-<a href="{{ site.url }}/images/earth-analytics/git-version-control/github-diff-file.png"> <img src="{{ site.url }}/images/earth-analytics/git-version-control/github-diff-file.png" alt="This screenshot shows a diff associated with a pull request. On the LEFT, you can see the text (highlighted with red) that was modified by the proposed pull request. The words that are dark red were the ones that were deleted. On the RIGHT, you can see the text (in green) that represents the proposed changes. The words that are darker green were added. In this example, the word **earthpy** was replaced with **matplotcheck** in the contributing.rst file of the repo" class="figure-img"></a>
-<figcaption>
-This screenshot shows a diff associated with a pull request. On the LEFT, you can see the text (highlighted with red) that was modified by the proposed pull request. The words that are dark red were the ones that were deleted. On the RIGHT, you can see the text (in green) that represents the proposed changes. The words that are darker green were added. In this example, the word <strong>earthpy</strong> was replaced with <strong>matplotcheck</strong> in the contributing.rst file of the repo.
-</figcaption>
-</figure>
+</div>
 <section id="github-and-mentions-communicating-with-your-collaborators" class="level3">
-<h3 class="anchored" data-anchor-id="github-and-mentions-communicating-with-your-collaborators">GItHub and Mentions: Communicating With Your Collaborators</h3>
+<h3 class="anchored" data-anchor-id="github-and-mentions-communicating-with-your-collaborators">GitHub and Mentions: Communicating With Your Collaborators</h3>
 <p>After you have submitted your PR, your colleague can review the changes. It is good practice to “mention” your colleague specifically when you submit your PR to ensure that they see it. You can do that by using <code>@&lt;their-github-username&gt;</code> in a comment in the PR (e.g.&nbsp;<code>@eastudent</code> which will notify the GitHub user called <code>eastudent</code>).</p>
 <p>Your colleague will review the changes. If they would like a few additional changes, they will request changes.</p>
 <p>Once your colleague is happy with the changes, then they will merge your PR.</p>
@@ -565,13 +570,20 @@ This screenshot shows a diff associated with a pull request. On the LEFT, you ca
 </section>
 <section id="the-anatomy-of-a-diff-difference-between-two-files" class="level2">
 <h2 class="anchored" data-anchor-id="the-anatomy-of-a-diff-difference-between-two-files">The Anatomy of a Diff (Difference Between Two Files)</h2>
-<p>As mentioned above, a diff represents differences between two files in <strong>git</strong>.</p>
 <p><strong>Git</strong> keeps track of changes through additions and deletions on a character by character and line by line basis.</p>
 <p>So, pretend that the word “great” is spelled incorrectly in a file, and you wish to fix the spelling. The edit that you will make is: <strong>graet</strong> is changed to <strong>great</strong></p>
 <p>The change above represents 2 character deletions and 2 additions.</p>
 <p>The word great has 5 characters, so the number of characters is not changing in this example.</p>
 <p>However, you are deleting: <code>ae</code> and replacing those two characters with <code>ea</code>.</p>
 <p>As you edit files in a version control system like <strong>git</strong>, it is tracking each character addition and deletion. These tracked changes are what you see in a diff when you submit a pull request.</p>
+<p>When you open up a pull request, you will see the line by line changes or differences between the file you submitted, compared to the file that exists in a repository. These changes are called <strong>diffs</strong> (short for differences).</p>
+<p>Pull requests show diffs of the content between the branch and repository where you made changes, and the branch and repository that you are submitting changes to. The changes are shown in green and red. The color green represents additions to the file whereas red represents deletions.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../../img/earth-analytics/git-version-control/github-diff-file.png" class="img-fluid figure-img"></p>
+<figcaption>This screenshot shows a diff associated with a pull request. On the LEFT, you can see the text (highlighted with red) that was modified by the proposed pull request. The words that are dark red were the ones that were deleted. On the RIGHT, you can see the text (in green) that represents the proposed changes. The words that are darker green were added. In this example, the word <strong>earthpy</strong> was replaced with <strong>matplotcheck</strong> in the contributing.rst file of the repo.</figcaption>
+</figure>
+</div>
 </section>
 <section id="github-pull-requests-support-open-science-and-open-collaboration" class="level2">
 <h2 class="anchored" data-anchor-id="github-pull-requests-support-open-science-and-open-collaboration">GitHub Pull Requests Support Open Science and Open Collaboration</h2>
@@ -607,21 +619,22 @@ This screenshot shows a diff associated with a pull request. On the LEFT, you ca
 </section>
 <section id="how-to-submit-pull-requests-to-suggest-changes-to-repositories" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-submit-pull-requests-to-suggest-changes-to-repositories">How To Submit Pull Requests To Suggest Changes To Repositories</h2>
+<p>This section is an overview of the pull request process on GitHub. You can also check out our <a href="../../../pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html">forking</a> and <a href="../../../pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html">branching</a> PR activities for a hand’s on experience.</p>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<a href="{{ site.url }}/images/earth-analytics/git-version-control/github-submit-pull-request-demo.gif"> <img src="{{ site.url }}/images/earth-analytics/git-version-control/github-submit-pull-request-demo.gif" alt="Short animated gif showing the steps involved with creating a pull request. When you setup your pull request, remember to ensure that the base is the repository that you wish to ADD change to. Your fork (or a branch) is where the changes currently exist (i.e. the head). When creating a new pull request, you should always check that the changes in your PR are the ones that you wish to submit. It's also good practice to ping or @mention a collaborator who you want to review and merge the PR if you know who that will be." class="figure-img"></a>
-<figcaption>
-When you setup your pull request, remember to ensure that the base is the repository that you wish to ADD change to. Your fork (or a branch) is where the changes currently exist (i.e.&nbsp;the head). When creating a new pull request, you should always check that the changes in your PR are the ones that you wish to submit. It’s also good practice to ping or <code>@mention</code> a collaborator who you want to review and merge the PR if you know who that will be.
-</figcaption>
+<p><img src="../../../img/earth-analytics/git-version-control/github-submit-pull-request-demo.gif" title="When you setup your pull request, remember to ensure that the base is the repository that you wish to ADD change to. Your fork (or a branch) is where the changes currently exist (i.e. the head). When creating a new pull request, you should always check that the changes in your PR are the ones that you wish to submit. It's also good practice to ping or `@mention` a collaborator who you want to review and merge the PR if you know who that will be." class="img-fluid figure-img"></p>
+<figcaption>Short animated gif showing the steps involved with creating a pull request. When you setup your pull request, remember to ensure that the base is the repository that you wish to ADD change to. Your fork (or a branch) is where the changes currently exist (i.e.&nbsp;the head). When creating a new pull request, you should always check that the changes in your PR are the ones that you wish to submit. It’s also good practice to ping or <span class="citation" data-cites="mention">(<a href="#ref-mention" role="doc-biblioref"><strong>mention?</strong></a>)</span> a collaborator who you want to review and merge the PR if you know who that will be.</figcaption>
 </figure>
+</div>
 <section id="step-1---start-to-open-your-pull-request-on-github" class="level3">
 <h3 class="anchored" data-anchor-id="step-1---start-to-open-your-pull-request-on-github">Step 1 - Start to Open Your Pull Request on GitHub</h3>
 <p>To start a PR, click the <code>New pull request</code> button on the main page of your forked repository.</p>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<a href="{{ site.url }}/images/earth-analytics/git-version-control/github-create-new-pull-request.png"> <img src="{{ site.url }}/images/earth-analytics/git-version-control/github-create-new-pull-request.png" alt="Location of the New pull request button on the main page of an example repository for jenp0277." class="figure-img"></a>
-<figcaption>
-Location of the new pull request button on the main page of an example forked repository.
-</figcaption>
+<p><img src="../../../img/earth-analytics/git-version-control/github-create-new-pull-request.png" class="img-fluid figure-img"></p>
+<figcaption>Location of the new pull request button on the main page of an example forked repository.</figcaption>
 </figure>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -655,13 +668,25 @@ Data Tip
 <li>First, look at the number of files. How many files did you modify? Do you see that many files listed in the <strong>PR</strong>?</li>
 <li>Look over the changes made to each file. Do the changes all look correct (like changes that you committed to the repository)?</li>
 </ol>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<a href="{{ site.url }}/images/earth-analytics/git-version-control/github-pr-changes.png"> <img src="{{ site.url }}/images/earth-analytics/git-version-control/github-pr-changes.png" alt="When you first create a PR, be sure to check the PR contents. Notice in this image that the number of files and number of commits are displayed. Make sure these numbers make sense based upon the changes that you made." class="figure-img"></a>
-<figcaption>
-When you first create a PR, be sure to check the PR contents. Notice in this image that the number of files and number of commits are displayed. Make sure these numbers make sense based upon the changes that you made.
-</figcaption>
+<p><img src="../../../img/earth-analytics/git-version-control/github-pr-changes.png" class="img-fluid figure-img"></p>
+<figcaption>When you first create a PR, be sure to check the PR contents. Notice in this image that the number of files and number of commits are displayed. Make sure these numbers make sense based upon the changes that you made.</figcaption>
 </figure>
-<p><i class="fa fa-star"></i> <strong>Data Tip:</strong> You can also click on the commit titles to see the specific changes in each commit. This is another way to check that the contents of a PR are what you expect them to be. {: .notice–success}</p>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Data Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can also click on the commit titles to see the specific changes in each commit. This is another way to check that the contents of a PR are what you expect them to be.</p>
+</div>
+</div>
 <p>This review of your own <strong>PR</strong> before submitting it is important. Remember that someone else is going to take time to review your PR.</p>
 <p>Make sure that you take care of cleaning up what you can FIRST, before submitting the PR.</p>
 </section>
@@ -670,13 +695,25 @@ When you first create a PR, be sure to check the PR contents. Notice in this ima
 <p>The next step of the create PR process is to click the “Create Pull Request” button. Note that this button will NOT be available if you have not made changes in your repo (e.g.&nbsp;fork).</p>
 <p>Click the green “Create Pull Request” button to start your pull request. Once you do that, a title box and description box will be visible.</p>
 <p>Add a title and write a brief description of your changes. When you have added your title and description, click on “Create Pull Request”.</p>
-<p><i class="fa fa-star"></i> <strong>Data Tip:</strong> You can modify the title and description of your pull request at any time - even after you’ve submitted the pull request! {: .notice–success}</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Data Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can modify the title and description of your pull request at any time - even after you’ve submitted the pull request!</p>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<a href="{{ site.url }}/images/earth-analytics/git-version-control/github-create-pull-request.png"> <img src="{{ site.url }}/images/earth-analytics/git-version-control/github-create-pull-request.png" alt="Pull request titles should be concise and descriptive of the content in the pull request. More detailed notes can be left in the comments box." class="figure-img"></a>
-<figcaption>
-Pull request titles should be concise and descriptive of the content in the pull request. More detailed notes can be left in the comments box.
-</figcaption>
+<p><img src="../../../img/earth-analytics/git-version-control/github-create-pull-request.png" class="img-fluid figure-img"></p>
+<figcaption>Pull request titles should be concise and descriptive of the content in the pull request. More detailed notes can be left in the comments box.</figcaption>
 </figure>
+</div>
 </section>
 </section>
 <section id="pull-requests-and-your-location-on-github" class="level2">
@@ -685,7 +722,19 @@ Pull request titles should be concise and descriptive of the content in the pull
 <p>At this point, you have submitted your pull request!</p>
 <p>At the bottom of your pull request, you may see an large green button that says <strong>Merge Pull Request</strong>. This button will be used by owner of the repository (your colleague or perhaps others working on this collaborative project) to merge in your changes, when a review has been completed.</p>
 <p>The repo owner will review your PR and may ask for changes. When they are happy with all of the changes, your PR could get merged!</p>
-<p><i class="fa fa-star"></i> <strong>Data Tip:</strong> All future commits that you make to your fork (on the branch where you are working) will continue to be added to the open pull request UNTIL it is merged. {: .notice–success}</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Data Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>All future commits that you make to your fork (on the branch where you are working) will continue to be added to the open pull request UNTIL it is merged.</p>
+</div>
+</div>
 </section>
 <section id="how-to-merge-github-pull-requests-on-github" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-merge-github-pull-requests-on-github">How To Merge GitHub Pull Requests on GitHub</h2>
@@ -695,24 +744,24 @@ Pull request titles should be concise and descriptive of the content in the pull
 <li>merge the PR if they are happy with all of the changes that you made.</li>
 </ol>
 <p>A screencast showing how this process works is below.</p>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<a href="{{ site.url }}/images/earth-analytics/git-version-control/github-merge-pull-request.gif"> <img src="{{ site.url }}/images/earth-analytics/git-version-control/github-merge-pull-request.gif" alt="Short animated gif showing the steps involved with merging a pull request. It's common for a reviewer to comment on your pull request and request changes. Once the reviewer is happy with the PR, they will merge it using the merge button on the bottom of the PR. It is important to note that you can only merge a PR in a repo in which you have permissions to merge." class="figure-img"></a>
-<figcaption>
-It’s common for a reviewer to comment on your pull request and request changes. Once the reviewer is happy with the PR, they will merge it using the merge button on the bottom of the PR. It is important to note that you can only merge a PR in a repo in which you have permissions to merge.
-</figcaption>
+<p><img src="../../../img/earth-analytics/git-version-control/github-merge-pull-request.gif" title="It's common for a reviewer to comment on your pull request and request changes. Once the reviewer is happy with the PR, they will merge it using the merge button on the bottom of the PR. It is important to note that you can only merge a PR in a repo in which you have permissions to merge." class="img-fluid figure-img"></p>
+<figcaption>Short animated gif showing the steps involved with merging a pull request. It’s common for a reviewer to comment on your pull request and request changes. Once the reviewer is happy with the PR, they will merge it using the merge button on the bottom of the PR. It is important to note that you can only merge a PR in a repo in which you have permissions to merge.</figcaption>
 </figure>
+</div>
 <section id="how-to-close-pull-requests-on-github" class="level3">
 <h3 class="anchored" data-anchor-id="how-to-close-pull-requests-on-github">How To Close Pull Requests on GitHub</h3>
 <p>You can also close a pull request on <strong>GitHub</strong> if you decide you are not ready to submit your files from your forked repository to the original repository.</p>
 <p>For example, the pull request you just created in this lesson can be closed anytime before it is merged.</p>
 <p>When you are ready to submit changes, you can simply create a new pull request on <strong>GitHub</strong> following these same steps.</p>
 <p>To close a pull request, click on <code>Close pull request</code> button towards the bottom of the pull request page.</p>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<a href="{{ site.url }}/images/earth-analytics/git-version-control/github-close-pull-request.png"> <img src="{{ site.url }}/images/earth-analytics/git-version-control/github-close-pull-request.png" alt="Location of the Close pull request button on an example pull request from jenp0277 to earthlab-education." class="figure-img"></a>
-<figcaption>
-Location of the Close pull request button on an example pull request page from jenp0277 to earthlab-education.
-</figcaption>
+<p><img src="../../../img/earth-analytics/git-version-control/github-close-pull-request.png" class="img-fluid figure-img"></p>
+<figcaption>Location of the Close pull request button on an example pull request page from jenp0277 to earthlab-education.</figcaption>
 </figure>
+</div>
 
 
 </section>
