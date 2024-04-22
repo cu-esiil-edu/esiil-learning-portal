@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -73,8 +73,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -102,9 +100,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -147,8 +142,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#get-started-with-open-reproducible-science" id="toc-get-started-with-open-reproducible-science" class="nav-link active" data-scroll-target="#get-started-with-open-reproducible-science">Get started with open reproducible science!</a></li>
-  <li><a href="#human-readable-and-machine-readable" id="toc-human-readable-and-machine-readable" class="nav-link" data-scroll-target="#human-readable-and-machine-readable"><i class="fa-solid fa-pencil fa-large" aria-label="pencil"></i> Human-readable and Machine-readable</a></li>
+  <li><a href="#its-another-esiil-earth-data-science-workflow" id="toc-its-another-esiil-earth-data-science-workflow" class="nav-link active" data-scroll-target="#its-another-esiil-earth-data-science-workflow">It’s another ESIIL Earth Data Science Workflow</a>
+  <ul class="collapse">
+  <li><a href="#dont-get-caught-by-these-interactive-coding-notebook-gotchas" id="toc-dont-get-caught-by-these-interactive-coding-notebook-gotchas" class="nav-link" data-scroll-target="#dont-get-caught-by-these-interactive-coding-notebook-gotchas">Don’t get <strong>caught</strong> by these interactive coding notebook gotchas</a></li>
+  <li><a href="#run-your-code-in-the-right-environment-to-avoid-import-errors" id="toc-run-your-code-in-the-right-environment-to-avoid-import-errors" class="nav-link" data-scroll-target="#run-your-code-in-the-right-environment-to-avoid-import-errors">Run your code in the right <strong>environment</strong> to avoid import errors</a></li>
+  <li><a href="#always-run-your-code-start-to-finish-before-submitting" id="toc-always-run-your-code-start-to-finish-before-submitting" class="nav-link" data-scroll-target="#always-run-your-code-start-to-finish-before-submitting">Always run your code start to finish before submitting</a></li>
+  <li><a href="#check-your-code-to-make-sure-its-clean-and-easy-to-read" id="toc-check-your-code-to-make-sure-its-clean-and-easy-to-read" class="nav-link" data-scroll-target="#check-your-code-to-make-sure-its-clean-and-easy-to-read"><strong>Check your code to make sure it’s clean and easy to read</strong></a></li>
+  <li><a href="#label-and-describe-your-plots" id="toc-label-and-describe-your-plots" class="nav-link" data-scroll-target="#label-and-describe-your-plots"><strong>Label and describe your plots</strong></a></li>
+  </ul></li>
+  <li><a href="#get-started-with-open-reproducible-science" id="toc-get-started-with-open-reproducible-science" class="nav-link" data-scroll-target="#get-started-with-open-reproducible-science">Get started with open reproducible science!</a>
+  <ul class="collapse">
+  <li><a href="#human-readable-and-machine-readable" id="toc-human-readable-and-machine-readable" class="nav-link" data-scroll-target="#human-readable-and-machine-readable"><i class="fa fa-solid fa-pencil fa-large" aria-label="pencil"></i> Human-readable and Machine-readable</a></li>
   <li><a href="#readable-well-documented-scientific-workflows-are-easier-to-reproduce" id="toc-readable-well-documented-scientific-workflows-are-easier-to-reproduce" class="nav-link" data-scroll-target="#readable-well-documented-scientific-workflows-are-easier-to-reproduce"><strong>Readable, well-documented scientific workflows are easier to reproduce</strong></a></li>
   <li><a href="#what-the-fork-who-wrote-this" id="toc-what-the-fork-who-wrote-this" class="nav-link" data-scroll-target="#what-the-fork-who-wrote-this"><strong>What the fork?! Who wrote this?</strong></a></li>
   <li><a href="#python-packages-let-you-use-code-written-by-experts-around-the-world" id="toc-python-packages-let-you-use-code-written-by-experts-around-the-world" class="nav-link" data-scroll-target="#python-packages-let-you-use-code-written-by-experts-around-the-world">Python <strong>packages</strong> let you use code written by experts around the world</a></li>
@@ -159,6 +163,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#subsetting-and-resampling" id="toc-subsetting-and-resampling" class="nav-link" data-scroll-target="#subsetting-and-resampling"><strong>Subsetting and Resampling</strong></a></li>
   <li><a href="#now-we-are-ready-to-calculate-annual-statistics" id="toc-now-we-are-ready-to-calculate-annual-statistics" class="nav-link" data-scroll-target="#now-we-are-ready-to-calculate-annual-statistics">Now we are ready to calculate annual statistics</a></li>
   <li><a href="#your-boulder-plot-headline-here" id="toc-your-boulder-plot-headline-here" class="nav-link" data-scroll-target="#your-boulder-plot-headline-here"><strong>YOUR BOULDER PLOT HEADLINE HERE</strong> 📰 🗞️ 📻</a></li>
+  </ul></li>
   <li><a href="#this-isnt-the-end" id="toc-this-isnt-the-end" class="nav-link" data-scroll-target="#this-isnt-the-end"><strong>THIS ISN’T THE END!</strong> 😄</a>
   <ul class="collapse">
   <li><a href="#your-turn-pick-a-new-location-andor-measurement-to-plot" id="toc-your-turn-pick-a-new-location-andor-measurement-to-plot" class="nav-link" data-scroll-target="#your-turn-pick-a-new-location-andor-measurement-to-plot"><strong>Your turn: pick a new location and/or measurement to plot</strong> 🌏 📈</a></li>
@@ -166,7 +171,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#bonus-create-a-shareable-markdown-of-your-work" id="toc-bonus-create-a-shareable-markdown-of-your-work" class="nav-link" data-scroll-target="#bonus-create-a-shareable-markdown-of-your-work">BONUS: Create a shareable Markdown of your work</a></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Get Started with Open Reproducible Science!.ipynb" download="Get Started with Open Reproducible Science!.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Get Started with Open Reproducible Science!.out.ipynb" download="Get Started with Open Reproducible Science!.out.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
@@ -193,7 +198,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="get-started-with-open-reproducible-science" class="level1 cell markdown">
+<p><img style="float: left; padding-right: 3em;" src="https://pbs.twimg.com/profile_images/1537109064093532160/mG03dW9G_400x400.jpg" width="150"></p>
+<section id="its-another-esiil-earth-data-science-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="its-another-esiil-earth-data-science-workflow">It’s another ESIIL Earth Data Science Workflow</h2>
+<p>This notebook contains your next environmental data science (EDS) coding challenge! Before we get started, make sure to read or review the guidelines below. These will help make sure that your code is <em>readable</em> and <em>reproducible</em>.</p>
+<hr>
+<section id="dont-get-caught-by-these-interactive-coding-notebook-gotchas" class="level3">
+<h3 class="anchored" data-anchor-id="dont-get-caught-by-these-interactive-coding-notebook-gotchas">Don’t get <strong>caught</strong> by these interactive coding notebook gotchas</h3>
+<p><img src="https://miro.medium.com/v2/resize:fit:4800/format:webp/1*o0HleR7BSe8W-pTnmucqHA.jpeg" height="300" style="padding: 1em; border-style: solid; border-color: grey;"></p>
+<blockquote class="blockquote">
+<p><em>Image source: https://alaskausfws.medium.com/whats-big-and-brown-and-loves-salmon-e1803579ee36</em></p>
+</blockquote>
+<p>These are the most common issues that will keep you from getting started and delay your code review:</p>
+</section>
+<section id="run-your-code-in-the-right-environment-to-avoid-import-errors" class="level3">
+<h3 class="anchored" data-anchor-id="run-your-code-in-the-right-environment-to-avoid-import-errors">Run your code in the right <strong>environment</strong> to avoid import errors</h3>
+<p>We’ve created a coding <strong>environment</strong> for you to use that already has all the software and libraries you will need! When you try to run some code, you may be prompted to select a <strong>kernel</strong>. The <strong>kernel</strong> refers to the version of Python you are using. You should use the <strong>base</strong> kernel, which should be the default option.</p>
+</section>
+<section id="always-run-your-code-start-to-finish-before-submitting" class="level3">
+<h3 class="anchored" data-anchor-id="always-run-your-code-start-to-finish-before-submitting">Always run your code start to finish before submitting</h3>
+<p>Before you commit your work, make sure it runs <strong>reproducibly</strong> by clicking:</p>
+<ol type="1">
+<li><code>Restart</code> (this button won’t appear until you’ve run some code), then</li>
+<li><code>Run All</code></li>
+</ol>
+</section>
+<section id="check-your-code-to-make-sure-its-clean-and-easy-to-read" class="level3">
+<h3 class="anchored" data-anchor-id="check-your-code-to-make-sure-its-clean-and-easy-to-read"><strong>Check your code to make sure it’s clean and easy to read</strong></h3>
+<p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO1w9WrbwbuMLN14IezH-iq2HEGwO3JDvmo5Y_hQIy7k-Xo2gZH-mP2GUIG6RFWL04X1k&amp;usqp=CAU" height="200"></p>
+<ul>
+<li><p>Format all cells prior to submitting (right click on your code).</p></li>
+<li><p>Use expressive names for variables so you or the reader knows what they are.</p></li>
+<li><p>Use comments to explain your code – e.g.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a comment, it starts with a hash sign</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</section>
+<section id="label-and-describe-your-plots" class="level3">
+<h3 class="anchored" data-anchor-id="label-and-describe-your-plots"><strong>Label and describe your plots</strong></h3>
+<figure class="figure">
+<img src="https://imgs.xkcd.com/comics/convincing.png" alt="Source: https://xkcd.com/833" class="figure-img">
+<figcaption aria-hidden="true">
+Source: https://xkcd.com/833
+</figcaption>
+</figure>
+<p>Make sure each plot has: * A title that explains where and when the data are from * x- and y- axis labels with <strong>units</strong> where appropriate * A legend where appropriate</p>
+<hr>
+</section>
+</section>
+<section id="get-started-with-open-reproducible-science" class="level1">
 <h1>Get started with open reproducible science!</h1>
 <p><a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/open-reproducible-science/get-started-open-reproducible-science/">Open reproducible science</a> makes scientific methods, data and outcomes available to everyone. That means that <em>everyone</em> who wants should be able to <strong>find</strong>, <strong>read</strong>, <strong>understand</strong>, and <strong>run</strong> your workflows for themselves.</p>
 <p><img src="https://www.earthdata.nasa.gov/s3fs-public/2021-11/Circle_Diagram_UPDATE_2.jpg?VersionId=pFRniRpjtgc_MEXUJKi9_sXLoMsSX.pB" alt-text="Components of open science - accessible, reproducible, inclusive" width="500"></p>
@@ -202,180 +254,85 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </blockquote>
 <p>Few if any science projects are 100% open and reproducible (yet!). However, members of the open science community have developed open source tools and practices that can help you move toward that goal. You will learn about many of those tools in <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/">the Intro to Earth Data Science textbook</a>. Don’t worry about learning all the tools at once – we’ve picked a few for you to get started with.</p>
 <hr>
-</section>
-<div class="callout callout-style-simple callout-none no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Check out our demo video for this notebook!
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<div style="position: relative; width: 100%; height: 0; padding-top: 56.2500%;
- padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
- border-radius: 8px; will-change: transform;">
-<p><iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;" src="https://www.canva.com/design/DAGCmAuzaio/hzAY0BZp3ikTPyTA_QR8Cw/watch?embed" allowfullscreen="allowfullscreen" allow="fullscreen"> </iframe></p>
-</div>
-<p><a href="https://www.canva.com/design/DAGCmAuzaio/hzAY0BZp3ikTPyTA_QR8Cw/watch?utm_content=DAGCmAuzaio&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">DEMO: Get Started with Open Reproducible Science</a> by ESIIL</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-glasses fa-large" aria-label="glasses"></i> Further reading
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-glasses fa-large" aria-label="glasses"></i> Further reading</strong></p>
 <p>Read <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/open-reproducible-science/get-started-open-reproducible-science/">our textbook chapter about open reproducible science</a>.</p>
-</div>
-</div>
-<div class="cell markdown">
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-pencil fa-large" aria-label="pencil"></i> What does open reproducible science mean to you?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><i class="fa-regular fa-square" aria-label="square"></i> Create a new Markdown cell below this one using the <code>+ Markdown</code> button in the upper left.</p>
-<p><i class="fa-regular fa-square" aria-label="square"></i> In the new cell, answer the following questions using a <strong>numbered list</strong> in Markdown:</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-pencil fa-large" aria-label="pencil"></i> What does open reproducible science mean to you?</strong></p>
+<p><i class="far fa-regular fa-square" aria-label="square"></i> Create a new Markdown cell below this one using the <code>+ Markdown</code> button in the upper left.</p>
+<p><i class="far fa-regular fa-square" aria-label="square"></i> In the new cell, answer the following questions using a <strong>numbered list</strong> in Markdown:</p>
 <ol type="1">
 <li>In 1-2 sentences, define open reproducible science.</li>
 <li>In 1-2 sentences, choose one of the open source tools that you have learned about (i.e.&nbsp;Shell, Git/GitHub, Jupyter Notebook, Python) and explain how it supports open reproducible science.</li>
 </ol>
-</div>
-</div>
-</div>
-<section id="human-readable-and-machine-readable" class="level2 cell markdown">
-<h2 class="anchored" data-anchor-id="human-readable-and-machine-readable"><i class="fa-solid fa-pencil fa-large" aria-label="pencil"></i> Human-readable and Machine-readable</h2>
-<p><i class="fa-regular fa-square" aria-label="square"></i> Create a new Markdown cell below this one using the <kbd>ESC</kbd> + <kbd>b</kbd> keyboard shortcut.</p>
-<p><i class="fa-regular fa-square" aria-label="square"></i> In the new cell, answer the following question in a Markdown <strong>quote</strong>:</p>
+</blockquote>
+<section id="human-readable-and-machine-readable" class="level2">
+<h2 class="anchored" data-anchor-id="human-readable-and-machine-readable"><i class="fa fa-solid fa-pencil fa-large" aria-label="pencil"></i> Human-readable and Machine-readable</h2>
+<p><i class="far fa-regular fa-square" aria-label="square"></i> Create a new Markdown cell below this one using the <kbd>ESC</kbd> + <kbd>b</kbd> keyboard shortcut.</p>
+<p><i class="far fa-regular fa-square" aria-label="square"></i> In the new cell, answer the following question in a Markdown <strong>quote</strong>:</p>
 <ol type="1">
 <li>In 1-2 sentences, does this Jupyter Notebook file have a machine-readable name? Explain your answer.</li>
 </ol>
-</section>
 <hr>
+</section>
 <section id="readable-well-documented-scientific-workflows-are-easier-to-reproduce" class="level2">
 <h2 class="anchored" data-anchor-id="readable-well-documented-scientific-workflows-are-easier-to-reproduce"><strong>Readable, well-documented scientific workflows are easier to reproduce</strong></h2>
 <p>As the comic below suggests, code that is hard to read is also hard to get working. We refer to code that is easy to read as <strong>clean</strong> code.</p>
-<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://www.explainxkcd.com/wiki/index.php/2138:_Wanna_See_the_Code%3F"><img src="https://imgs.xkcd.com/comics/wanna_see_the_code.png" class="img-fluid figure-img" alt="And because if you just leave it there, it’s going to start contaminating things downstream even if no one touches it directly. (from [XKCD](https://xkcd.com/2138/))"></a></p>
-<figcaption>And because if you just leave it there, it’s going to start contaminating things downstream even if no one touches it directly. (from [XKCD](https://xkcd.com/2138/))</figcaption>
+<a href="https://www.explainxkcd.com/wiki/index.php/2138:_Wanna_See_the_Code%3F"><img src="https://imgs.xkcd.com/comics/wanna_see_the_code.png" alt="And because if you just leave it there, it’s going to start contaminating things downstream even if no one touches it directly. (from [XKCD](https://xkcd.com/2138/))" class="figure-img"></a>
+<figcaption>
+And because if you just leave it there, it’s going to start contaminating things downstream even if no one touches it directly. (from <a href="https://xkcd.com/2138/">XKCD</a>)
+</figcaption>
 </figure>
-</div>
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-pencil fa-large" aria-label="pencil"></i> In the prompt below, list 3 things you can do to write clean code, and then list 3 more advantages of doing so.
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-pencil fa-large" aria-label="pencil"></i> In the prompt below, list 3 things you can do to write clean code, and then list 3 more advantages of doing so.</strong></p>
 <ul>
 <li>Edit the text below. You may have to double click.</li>
 <li>You can use examples from the textbook, or come up with your own.</li>
 <li>Use <a href="https://www.markdownguide.org/"><strong>Markdown</strong></a> to format your list.</li>
 </ul>
-</div>
-</div>
-<div class="cell markdown">
+</blockquote>
 <p>I can write clean code by: <code>YOUR ANSWER HERE</code></p>
 <p>Advantages of clean code include: <code>YOUR ANSWER HERE</code></p>
-</div>
 <hr>
 </section>
 <section id="what-the-fork-who-wrote-this" class="level2">
 <h2 class="anchored" data-anchor-id="what-the-fork-who-wrote-this"><strong>What the fork?! Who wrote this?</strong></h2>
 <p>Below is a scientific Python workflow. But something’s wrong – The code won’t run! Your task is to follow the instructions below to <strong>clean and debug</strong> the Python code below so that it runs.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong>Tip</strong></p>
 <p>Don’t worry if you can’t solve every bug right away. We’ll get there! The most important thing is to identify problems with the code and write high-quality <a href="https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue#creating-an-issue-from-a-repository"><strong>GitHub Issues</strong></a></p>
-</div>
-</div>
+</blockquote>
 <p>At the end, you’ll <strong>repeat the workflow</strong> for a location and measurement of your choosing.</p>
 <p>Alright! Let’s clean up this code. First things first…</p>
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Machine-readable file names
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Machine-readable file names</strong></p>
 <p>Rename this notebook if necessary with an <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/open-reproducible-science/get-started-open-reproducible-science/best-practices-for-organizing-open-reproducible-science/"><strong>expressive and machine-readable file name</strong></a></p>
-</div>
-</div>
+</blockquote>
 <hr>
 </section>
 <section id="python-packages-let-you-use-code-written-by-experts-around-the-world" class="level2">
 <h2 class="anchored" data-anchor-id="python-packages-let-you-use-code-written-by-experts-around-the-world">Python <strong>packages</strong> let you use code written by experts around the world</h2>
 <p>Because Python is open source, lots of different people and organizations can contribute (including you!). Many contributions are in the form of <strong>packages</strong> which do not come with a standard Python download.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-glasses fa-large" aria-label="glasses"></i> Read more
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-glasses fa-large" aria-label="glasses"></i> Read more</strong></p>
 <p><a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/use-python-packages/">Packages need to be installed and <strong>imported</strong></a>.</p>
-</div>
-</div>
+</blockquote>
 <p>In the cell below, someone was trying to import the <strong>pandas package</strong>, which helps us to work with <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-text-files/"><strong>tabular data</strong> such as comma-separated value or csv files</a>.</p>
-<div class="cell markdown">
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Your task
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Your task</strong></p>
 <ol type="1">
 <li>Correct the typo below to properly import the pandas package under its <strong>alias</strong> pd.</li>
 <li>Run the cell to import pandas</li>
 </ol>
-</div>
-</div>
-</div>
-<div id="1a1607d9" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import pandas</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandsa <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="ffa63b8a" class="cell" data-execution_count="3">
-<details class="code-fold">
-<summary>See our solution!</summary>
+</blockquote>
+<div id="325c525e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import pandas</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandsa <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Once you have run the cell above and imported <code>pandas</code>, <strong>run the cell below</strong>. It is a test cell that will tell you if you completed the task successfully. If a test cell isn’t working the way you expect, check that you ran your code <strong>immediately before</strong> running the test.</p>
-<div id="9d49ef64" class="cell" data-execution_count="4">
+<div id="be7a6f23" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DO NOT MODIFY THIS </span><span class="al">TEST</span><span class="co"> CELL</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -393,17 +350,8 @@ Tip
 <p><a href="https://www.earthdata.nasa.gov/learn/articles/getting-petabytes-people-how-eosdis-facilitates-earth-observing-data-discovery-and-use">NASA’s Earth Observing System Data and Information System (EOSDIS) alone manages over 9PB of data</a>. 1 PB is roughly 100 times the entire Library of Congress (a good approximation of all the books available in the US). It’s all available to <strong>you</strong> once you learn how to download what you want.</p>
 <p>Here we’re using the NOAA National Centers for Environmental Information (NCEI) <a href="https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation">Access Data Service</a> application progamming interface (API) to request data from their web servers. We will be using data collected as part of the Global Historical Climatology Network daily (GHCNd) from their <a href="https://www.ncdc.noaa.gov/cdo-web/datasets">Climate Data Online library</a> program at NOAA.</p>
 <p>For this example we’re requesting <a href="https://www.ncdc.noaa.gov/cdo-web/datasets/GHCND/stations/GHCND:USC00050848/detail">daily summary data in Boulder, CO (station ID USC00050848)</a> located on the NOAA Campus (<strong>39.99282°, -105.26683°</strong>).</p>
-<div class="cell markdown">
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-pencil fa-large" aria-label="pencil"></i> Your task:
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-pencil fa-large" aria-label="pencil"></i> Your task:</strong></p>
 <ol type="1">
 <li>Research the <a href="https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.ncdc:C00861/html"><strong>Global Historical Climatology Network - Daily</strong></a> data source.</li>
 <li>In the cell below, write a 2-3 sentence description of the data source. You should describe:
@@ -415,53 +363,23 @@ Tip
 </ul></li>
 <li>Include a citation of the data (<strong>HINT:</strong> See the ‘Data Citation’ tab on the GHCNd overview page).</li>
 </ol>
-</div>
-</div>
-</div>
-<div class="cell markdown">
+</blockquote>
 <p><strong>YOUR DATA DESCRIPTION AND CITATION HERE</strong> 🛎️</p>
-</div>
 </section>
 <section id="you-can-access-ncei-ghcnd-data-from-the-internet-using-its-api" class="level2">
 <h2 class="anchored" data-anchor-id="you-can-access-ncei-ghcnd-data-from-the-internet-using-its-api"><strong>You can access NCEI GHCNd Data from the internet using its API</strong> 🖥️ 📡 🖥️</h2>
 <p>The cell below contains the URL for the data you will use in this part of the notebook. We created this URL by generating what is called an <strong>API endpoint</strong> using the NCEI <a href="https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation">API documentation</a>.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong>Note</strong></p>
 <p>An <strong>application programming interface</strong> (API) is a way for two or more computer programs or components to communicate with each other. It is a type of software interface, offering a service to other pieces of software (<a href="https://en.wikipedia.org/wiki/API">Wikipedia</a>).</p>
-</div>
-</div>
+</blockquote>
 <p>However, we still have a problem - we can’t get the URL back later on because it isn’t saved in a <strong>variable</strong>. In other words, we need to give the url a name so that we can request in from Python later (sadly, Python has no ‘hey what was that thingy I typed yesterday?’ function).</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-glasses fa-large" aria-label="glasses"></i> Read more
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-glasses fa-large" aria-label="glasses"></i> Read more</strong></p>
 <p>Check out the <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/get-started-using-python/variables/">textbook section on variables</a></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Your task
-</div>
-</div>
-<div class="callout-body-container callout-body">
+</blockquote>
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Your task</strong></p>
 <ol type="1">
 <li><p>Pick an expressive variable name for the URL</p>
 <blockquote class="blockquote">
@@ -473,64 +391,39 @@ Note
 </blockquote></li>
 <li><p>At the end of the cell where you define your url variable, <strong>call your variable (type out its name)</strong> so it can be tested.</p></li>
 </ol>
-</div>
-</div>
-<div id="0550468b" class="cell" data-execution_count="5">
+</blockquote>
+<div id="b44fc8f7" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>stuff23 <span class="op">=</span> (<span class="st">'https://www.ncei.noaa.gov/access/services/da'</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">'ta/v1?dataset=daily-summaries&amp;dataTypes=TOBS,PRCP&amp;stations=USC00050848&amp;startDate=1893-10-01&amp;endDate=2024-02-18&amp;includeStationName=true&amp;includeStation'</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="st">'Location=1&amp;units=standard'</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>stuff23</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="72dc66b6" class="cell" data-execution_count="6">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>boulder_url <span class="op">=</span> (</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://www.ncei.noaa.gov/access/services/data/v1'</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'?dataset=daily-summaries'</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;dataTypes=TOBS,PRCP'</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;stations=USC00050848'</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;startDate=1893-10-01'</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;endDate=2024-02-18'</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;includeStationName=true'</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;includeStationLocation=1'</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;units=standard'</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>boulder_url</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div id="f3c3ecf6" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DO NOT MODIFY THIS </span><span class="al">TEST</span><span class="co"> CELL</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>resp_url <span class="op">=</span> _</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">type</span>(resp_url)<span class="op">==</span><span class="bu">str</span>:</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">3</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You correctly called your url variable.'</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - your url variable was not called correctly.'</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">len</span>(resp_url)<span class="op">==</span><span class="dv">218</span>:</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">3</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! Your url is the correct length.'</span>)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - your url variable is not the correct length.'</span>)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'You earned </span><span class="sc">{}</span><span class="st"> of 6 points for defining a url variable'</span>.<span class="bu">format</span>(points))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c469e2bb" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DO NOT MODIFY THIS </span><span class="al">TEST</span><span class="co"> CELL</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>resp_url <span class="op">=</span> _</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">type</span>(resp_url)<span class="op">==</span><span class="bu">str</span>:</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">3</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You correctly called your url variable.'</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - your url variable was not called correctly.'</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">len</span>(resp_url)<span class="op">==</span><span class="dv">218</span>:</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">3</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! Your url is the correct length.'</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - your url variable is not the correct length.'</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'You earned </span><span class="sc">{}</span><span class="st"> of 6 points for defining a url variable'</span>.<span class="bu">format</span>(points))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
 </section>
 <section id="download-and-get-started-working-with-ncei-data" class="level2">
 <h2 class="anchored" data-anchor-id="download-and-get-started-working-with-ncei-data"><strong>Download and get started working with NCEI data</strong></h2>
 <p>The <code>pandas</code> library you imported can download data from the internet directly into a type of Python <strong>object</strong> called a <code>DataFrame</code>. In the code cell below, you can see an attempt to do just this. But there are some problems…</p>
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> You’re ready to fix some code!
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> You’re ready to fix some code!</strong></p>
 <p>Your task is to:</p>
 <ol type="1">
 <li><p>Leave a space between the <code>#</code> and text in the comment and try making the comment more informative</p></li>
@@ -543,109 +436,67 @@ Note
 </ul></li>
 <li><p>Clean up the code by using <strong>expressive variable names</strong>, <strong>expressive column names</strong>, <strong>PEP-8 compliant code</strong>, and <strong>descriptive comments</strong></p></li>
 </ol>
-</div>
-</div>
-<div class="{callout-warning}">
+</blockquote>
 <p><strong>Make sure to call your <code>DataFrame</code> by typing it’s name as the last line of your code cell</strong> Then, you will be able to run the test cell below and find out if your answer is correct.</p>
+<div id="2981920a" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>boulder_df <span class="op">=</span> pd.read_csv(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  boulder_url,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  index_col<span class="op">=</span><span class="st">'something'</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>boulder_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="0f6e9635" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>boulder_df <span class="op">=</span> pd.read_csv(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  boulder_url,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  index_col<span class="op">=</span><span class="st">'something'</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>boulder_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cb3df317" class="cell" data-execution_count="9">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the Boulder climate data</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>boulder_df <span class="op">=</span> pd.read_csv(</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  boulder_url,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  index_col<span class="op">=</span><span class="st">'DATE'</span>,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  parse_dates<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  na_values<span class="op">=</span>[<span class="st">'NaN'</span>])</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>boulder_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div id="7d3340fd" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DO NOT MODIFY THIS </span><span class="al">TEST</span><span class="co"> CELL</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>tmax_df_resp <span class="op">=</span> _</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">isinstance</span>(tmax_df_resp, pd.DataFrame):</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You called a DataFrame.'</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - make sure to call your DataFrame for testing.'</span>)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'You earned </span><span class="sc">{}</span><span class="st"> of 2 points for downloading data'</span>.<span class="bu">format</span>(points))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3bb76d58" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DO NOT MODIFY THIS </span><span class="al">TEST</span><span class="co"> CELL</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>tmax_df_resp <span class="op">=</span> _</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">isinstance</span>(tmax_df_resp, pd.DataFrame):</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You called a DataFrame.'</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - make sure to call your DataFrame for testing.'</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'You earned </span><span class="sc">{}</span><span class="st"> of 2 points for downloading data'</span>.<span class="bu">format</span>(points))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <blockquote class="blockquote">
 <p>HINT: Check out the <code>type()</code> function below - you can use it to check that your data is now in <code>DataFrame</code> type object</p>
 </blockquote>
-<div id="c0bdb130" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that the data was imported into a pandas DataFrame</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(boulder_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8d24e69f" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that the data was imported into a pandas DataFrame</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(boulder_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Clean up your DataFrame
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Clean up your DataFrame</strong></p>
 <p>Use double brackets to only select the columns you want in your DataFrame</p>
-</div>
-</div>
-<div class="{callout-warning}">
+</blockquote>
 <p><strong>Make sure to call your <code>DataFrame</code> by typing it’s name as the last line of your code cell</strong> Then, you will be able to run the test cell below and find out if your answer is correct.</p>
+<div id="c3665a88" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>boulder_df <span class="op">=</span> boulder_df[[<span class="st">'some_col'</span>, <span class="st">'another_col'</span>]]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>boulder_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="d934241a" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>boulder_df <span class="op">=</span> boulder_df[[<span class="st">'some_col'</span>, <span class="st">'another_col'</span>]]</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>boulder_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="52a56f02" class="cell" data-execution_count="13">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up the DataFrame</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>boulder_df <span class="op">=</span> boulder_df[[<span class="st">'PRCP'</span>, <span class="st">'TOBS'</span>]]</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>boulder_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div id="42fec513" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DO NOT MODIFY THIS </span><span class="al">TEST</span><span class="co"> CELL</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>tmax_df_resp <span class="op">=</span> _</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> [<span class="bu">round</span>(val, <span class="dv">2</span>) <span class="cf">for</span> val <span class="kw">in</span> tmax_df_resp.mean().values]</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> summary <span class="op">==</span> [<span class="fl">0.05</span>, <span class="fl">54.53</span>]:</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">4</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You correctly downloaded data.'</span>)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - your data are not correct.'</span>)</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'You earned </span><span class="sc">{}</span><span class="st"> of 5 points for downloading data'</span>.<span class="bu">format</span>(points))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8c00aa6f" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DO NOT MODIFY THIS </span><span class="al">TEST</span><span class="co"> CELL</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>tmax_df_resp <span class="op">=</span> _</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> [<span class="bu">round</span>(val, <span class="dv">2</span>) <span class="cf">for</span> val <span class="kw">in</span> tmax_df_resp.mean().values]</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> summary <span class="op">==</span> [<span class="fl">0.05</span>, <span class="fl">54.53</span>]:</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">4</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You correctly downloaded data.'</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - your data are not correct.'</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'You earned </span><span class="sc">{}</span><span class="st"> of 5 points for downloading data'</span>.<span class="bu">format</span>(points))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
 </section>
 <section id="plot-the-precpitation-column-prcp-vs-time-to-explore-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="plot-the-precpitation-column-prcp-vs-time-to-explore-the-data">Plot the precpitation column (PRCP) vs time to explore the data</h2>
 <p>Plotting in Python is easy, but not quite this easy:</p>
-<div id="1b65c3a3" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>boulder_df.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c07ae894" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>boulder_df.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You’ll always need to add some instructions on labels and how you want your plot to look.</p>
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Your task:
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Your task:</strong></p>
 <ol type="1">
 <li>Change <code>dataframe</code> to <strong>your</strong> <code>DataFrame</code> name.</li>
 <li>Change <code>y=</code> to the name of your <strong>observed temperature</strong> column name.</li>
@@ -655,37 +506,17 @@ Note
 <blockquote class="blockquote">
 <p><strong>HINT:</strong> labels have to be a <em>type</em> in Python called a <strong>string</strong>. You can make a string by putting quotes around your label, just like the column names in the sample code (eg <code>y='TOBS'</code>).</p>
 </blockquote>
+</blockquote>
+<div id="27f03a3c" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data using .plot</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>boulder_df.plot(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'the_precipitation_column'</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Title Goes Here'</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Horizontal Axis Label Goes Here'</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    ylabel<span class="op">=</span><span class="st">'Vertical Axis Label Goes Here'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div id="d63ec10c" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data using .plot</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>boulder_df.plot(</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'the_precipitation_column'</span>,</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Title Goes Here'</span>,</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Horizontal Axis Label Goes Here'</span>,</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    ylabel<span class="op">=</span><span class="st">'Vertical Axis Label Goes Here'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="4f8c64e0" class="cell" data-execution_count="17">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data using .plot</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>boulder_df.plot(</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'PRCP'</span>,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Daily Precipitation in Boulder, CO'</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Date'</span>,</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    ylabel<span class="op">=</span><span class="st">'Precipitation (mm)'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-pepper-hot fa-large" aria-label="pepper-hot"></i> Want an EXTRA CHALLENGE?
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-pepper-hot fa-large" aria-label="pepper-hot"></i> Want an EXTRA CHALLENGE?</strong></p>
 <p>There are many other things you can do to customize your plot. Take a look at the <a href="https://pandas.pydata.org/docs/user_guide/visualization.html">pandas plotting galleries</a> and the <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.plot.html">documentation of plot</a> to see if there’s other changes you want to make to your plot. Some possibilities include:</p>
 <ul>
 <li>Remove the legend since there’s only one data series</li>
@@ -696,116 +527,62 @@ Note
 <li>Add a trend line</li>
 </ul>
 <p>Not sure how to do any of these? Try searching the internet, or asking an AI!</p>
-</div>
-</div>
+</blockquote>
 <hr>
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-pepper-hot fa-large" aria-label="pepper-hot"></i> Convert units
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-pepper-hot fa-large" aria-label="pepper-hot"></i> Convert units</strong></p>
 <p>Modify the code below to <strong>add a column that includes temperature in Celsius</strong>. The code below was written by your colleague. Can you fix this so that it correctly calculates temperature in Celsius and adds a new column?</p>
+</blockquote>
+<div id="ef88b6cd" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to celcius</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dataframe.loc[:, <span class="st">'TCel'</span>] <span class="op">=</span> dataframe[<span class="st">'temperature_col_name'</span>] <span class="op">-</span> <span class="dv">32</span> <span class="op">*</span> <span class="dv">5</span> <span class="op">/</span> <span class="dv">9</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>dataframe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div id="0acb3d1a" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DO NOT MODIFY THIS </span><span class="al">TEST</span><span class="co"> CELL</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>tmax_df_resp <span class="op">=</span> _</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">isinstance</span>(tmax_df_resp, pd.DataFrame):</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You called a DataFrame.'</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - make sure to call your DataFrame for testing.'</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> [<span class="bu">round</span>(val, <span class="dv">2</span>) <span class="cf">for</span> val <span class="kw">in</span> tmax_df_resp.mean().values]</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> summary <span class="op">==</span> [<span class="fl">0.05</span>, <span class="fl">54.53</span>, <span class="fl">12.52</span>]:</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">4</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You correctly converted to Celcius.'</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - your data are not correct.'</span>)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'You earned </span><span class="sc">{}</span><span class="st"> of 5 points for converting to Celcius'</span>.<span class="bu">format</span>(points))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="08a8d341" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to celcius</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>dataframe.loc[:, <span class="st">'TCel'</span>] <span class="op">=</span> dataframe[<span class="st">'temperature_col_name'</span>] <span class="op">-</span> <span class="dv">32</span> <span class="op">*</span> <span class="dv">5</span> <span class="op">/</span> <span class="dv">9</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>dataframe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="3d4bf1ee" class="cell" data-execution_count="19">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to celcius</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>boulder_df.loc[:, <span class="st">'TCel'</span>] <span class="op">=</span> (boulder_df[<span class="st">'TOBS'</span>] <span class="op">-</span> <span class="dv">32</span>) <span class="op">*</span> <span class="dv">5</span> <span class="op">/</span> <span class="dv">9</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>boulder_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div id="d21b69af" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DO NOT MODIFY THIS </span><span class="al">TEST</span><span class="co"> CELL</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>tmax_df_resp <span class="op">=</span> _</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">isinstance</span>(tmax_df_resp, pd.DataFrame):</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You called a DataFrame.'</span>)</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - make sure to call your DataFrame for testing.'</span>)</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> [<span class="bu">round</span>(val, <span class="dv">2</span>) <span class="cf">for</span> val <span class="kw">in</span> tmax_df_resp.mean().values]</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> summary <span class="op">==</span> [<span class="fl">0.05</span>, <span class="fl">54.53</span>, <span class="fl">12.52</span>]:</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">4</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You correctly converted to Celcius.'</span>)</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - your data are not correct.'</span>)</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'You earned </span><span class="sc">{}</span><span class="st"> of 5 points for converting to Celcius'</span>.<span class="bu">format</span>(points))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-pepper-hot fa-large" aria-label="pepper-hot"></i> Want an EXTRA CHALLENGE?
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-pepper-hot fa-large" aria-label="pepper-hot"></i> Want an EXTRA CHALLENGE?</strong></p>
 <ol type="1">
 <li>As you did above, rewrite the code to be more expressive</li>
 <li>Using the code below as a framework, write and apply a <strong>function</strong> that converts to Celcius. &gt; <strong>Functions</strong> let you reuse code you have already written</li>
 <li>You should also rewrite this function and parameter names to be more expressive.</li>
 </ol>
-</div>
-</div>
-<div id="87f39151" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> a_function(a_parameter):</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Convert temperature to Celcius"""</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a_parameter <span class="co"># Put your equation in here</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>dataframe[<span class="st">'celcius_column'</span>] <span class="op">=</span> dataframe[<span class="st">'fahrenheit_column'</span>].<span class="bu">apply</span>(convert)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="fbd25cec" class="cell" data-execution_count="22">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_to_celcius(fahrenheit):</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Convert temperature to Celcius"""</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (fahrenheit <span class="op">-</span> <span class="dv">32</span>) <span class="op">*</span> <span class="dv">5</span> <span class="op">/</span> <span class="dv">9</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>boulder_df[<span class="st">'TCel'</span>] <span class="op">=</span> boulder_df[<span class="st">'TOBS'</span>].<span class="bu">apply</span>(convert_to_celcius)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+</blockquote>
+<div id="a59135af" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> a_function(a_parameter):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Convert temperature to Celcius"""</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a_parameter <span class="co"># Put your equation in here</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>dataframe[<span class="st">'celcius_column'</span>] <span class="op">=</span> dataframe[<span class="st">'fahrenheit_column'</span>].<span class="bu">apply</span>(convert)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="subsetting-and-resampling" class="level2">
 <h2 class="anchored" data-anchor-id="subsetting-and-resampling"><strong>Subsetting and Resampling</strong></h2>
 <p>Often when working with time-series data you may want to focus on a shorter window of time, or look at weekly, monthly, or annual summaries to help make the analysis more manageable.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-glasses fa-large" aria-label="glasses"></i> Read more
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-glasses fa-large" aria-label="glasses"></i> Read more</strong></p>
 <p>Read more about <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/use-time-series-data-in-python/date-time-types-in-pandas-python/subset-time-series-data-python/">subsetting</a> and <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/use-time-series-data-in-python/date-time-types-in-pandas-python/resample-time-series-data-pandas-python/">resampling</a> time-series data in our Learning Portal.</p>
-</div>
-</div>
+</blockquote>
 <p>For this demonstration, we will look at the last 40 years worth of data and resample to explore a summary from each year that data were recorded.</p>
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Your task
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Your task</strong></p>
 <ol type="1">
 <li>Replace <code>start-year</code> and <code>end-year</code> with 1983 and 2023</li>
 <li>Replace <code>dataframe</code> with the name of <strong>your</strong> data</li>
@@ -813,54 +590,37 @@ Note
 <li>Call your new variable</li>
 <li>Run the cell</li>
 </ol>
+</blockquote>
+<div id="fa445a75" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset the data</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>new_dataframe <span class="op">=</span> dataframe.loc[<span class="st">'start-year'</span>:<span class="st">'end-year'</span>]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>new_dataframe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div id="0c4f83ea" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset the data</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>new_dataframe <span class="op">=</span> dataframe.loc[<span class="st">'start-year'</span>:<span class="st">'end-year'</span>]</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>new_dataframe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="71a3a54f" class="cell" data-execution_count="24">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset the data</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>boulder_1983_2023_df <span class="op">=</span> boulder_df.loc[<span class="st">'1983'</span>:<span class="st">'2023'</span>]</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>boulder_1983_2023_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div id="5df62291" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DO NOT MODIFY THIS </span><span class="al">TEST</span><span class="co"> CELL</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df_resp <span class="op">=</span> _</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">isinstance</span>(df_resp, pd.DataFrame):</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You called a DataFrame.'</span>)</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - make sure to call your DataFrame for testing.'</span>)</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> [<span class="bu">round</span>(val, <span class="dv">2</span>) <span class="cf">for</span> val <span class="kw">in</span> df_resp.mean().values]</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> summary <span class="op">==</span> [<span class="fl">0.06</span>, <span class="fl">55.67</span>, <span class="fl">13.15</span>]:</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">5</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You correctly converted to Celcius.'</span>)</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - your data are not correct.'</span>)</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'You earned </span><span class="sc">{}</span><span class="st"> of 5 points for subsetting'</span>.<span class="bu">format</span>(points))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="5fcf12a2" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DO NOT MODIFY THIS </span><span class="al">TEST</span><span class="co"> CELL</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>df_resp <span class="op">=</span> _</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">isinstance</span>(df_resp, pd.DataFrame):</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You called a DataFrame.'</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - make sure to call your DataFrame for testing.'</span>)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> [<span class="bu">round</span>(val, <span class="dv">2</span>) <span class="cf">for</span> val <span class="kw">in</span> df_resp.mean().values]</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> summary <span class="op">==</span> [<span class="fl">0.06</span>, <span class="fl">55.67</span>, <span class="fl">13.15</span>]:</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">5</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You correctly converted to Celcius.'</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - your data are not correct.'</span>)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'You earned </span><span class="sc">{}</span><span class="st"> of 5 points for subsetting'</span>.<span class="bu">format</span>(points))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="now-we-are-ready-to-calculate-annual-statistics" class="level2">
 <h2 class="anchored" data-anchor-id="now-we-are-ready-to-calculate-annual-statistics">Now we are ready to calculate annual statistics</h2>
 <p>Here you will <strong>resample</strong> the 1983-2023 data to look the annual mean values.</p>
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Resample your data
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Resample your data</strong></p>
 <ol type="1">
 <li>Replace <code>new_dataframe</code> with the variable you created in the cell above where you subset the data</li>
 <li>Replace <code>'TIME'</code> with a <code>'W'</code>, <code>'M'</code>, or <code>'Y'</code> depending on whether you’re doing a weekly, monthly, or yearly summary</li>
@@ -869,67 +629,40 @@ Note
 <li>Call your new variable</li>
 <li>Run the cell</li>
 </ol>
+</blockquote>
+<div id="ae162a39" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resample the data to look at yearly mean values</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>resampled_data <span class="op">=</span> new_dataframe.resample(<span class="st">'TIME'</span>).STAT()</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>resampled_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div id="c84a4f10" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DO NOT MODIFY THIS </span><span class="al">TEST</span><span class="co"> CELL</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>df_resp <span class="op">=</span> _</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">isinstance</span>(df_resp, pd.DataFrame):</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You called a DataFrame.'</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - make sure to call your DataFrame for testing.'</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> [<span class="bu">round</span>(val, <span class="dv">2</span>) <span class="cf">for</span> val <span class="kw">in</span> df_resp.mean().values]</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> summary <span class="op">==</span> [<span class="fl">0.06</span>, <span class="fl">55.37</span>, <span class="fl">12.99</span>]:</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">5</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You correctly converted to Celcius.'</span>)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - your data are not correct.'</span>)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'You earned </span><span class="sc">{}</span><span class="st"> of 5 points for resampling'</span>.<span class="bu">format</span>(points))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="910b4310" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resample the data to look at yearly mean values</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>resampled_data <span class="op">=</span> new_dataframe.resample(<span class="st">'TIME'</span>).STAT()</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>resampled_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="7cda08f1" class="cell" data-execution_count="27">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resample the data to look at yearly mean values</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>boulder_ann_mean_df <span class="op">=</span> boulder_1983_2023_df.resample(<span class="st">'YS'</span>).mean()</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>boulder_ann_mean_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div id="8696f748" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DO NOT MODIFY THIS </span><span class="al">TEST</span><span class="co"> CELL</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>df_resp <span class="op">=</span> _</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">isinstance</span>(df_resp, pd.DataFrame):</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You called a DataFrame.'</span>)</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - make sure to call your DataFrame for testing.'</span>)</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> [<span class="bu">round</span>(val, <span class="dv">2</span>) <span class="cf">for</span> val <span class="kw">in</span> df_resp.mean().values]</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> summary <span class="op">==</span> [<span class="fl">0.06</span>, <span class="fl">55.37</span>, <span class="fl">12.99</span>]:</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    points <span class="op">+=</span> <span class="dv">5</span></span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u2705</span><span class="st"> Great work! You correctly converted to Celcius.'</span>)</span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\u274C</span><span class="st"> Oops - your data are not correct.'</span>)</span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'You earned </span><span class="sc">{}</span><span class="st"> of 5 points for resampling'</span>.<span class="bu">format</span>(points))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Plot your resampled data
-</div>
-</div>
-<div class="callout-body-container callout-body">
-
-</div>
-</div>
-<div id="c2a1b443" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot mean annual temperature values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Plot your resampled data</strong></p>
+</blockquote>
+<div id="167d973e" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot mean annual temperature values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-pencil fa-large" aria-label="pencil"></i> Describe your plot
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-pencil fa-large" aria-label="pencil"></i> Describe your plot</strong></p>
 <p>We like to use an approach called “Assertion-Evidence” for presenting scientific results. There’s a lot of video tutorials and example talks available on <a href="https://www.assertion-evidence.com/">the Assertion-Evidence web page</a>. The main thing you need to do now is to practice writing a <strong>message</strong> or <strong>headline</strong> rather than descriptions or topic sentences for the plot you just made (what they refer to as “visual evidence”).</p>
 <p>For example, it would be tempting to write something like “A plot of maximum annual temperature in Boulder, Colorado over time (1983-2023)”. However, this doesn’t give the reader anything to look at, or explain why we made this particular plot (we know, you made <strong>this</strong> one because we told you to)</p>
 <p>Some alternatives for different plots of Boulder temperature that are more of a starting point for a presentation or conversation are:</p>
@@ -939,24 +672,24 @@ Note
 <li>Maximum annual temperatures in Boulder, CO are becoming more variable over the previous 40 years</li>
 </ul>
 <p>We could back up some of these claims with further analysis included later on, but we want to make sure that our audience has some guidance on what to look for in the plot.</p>
-</div>
-</div>
+</blockquote>
 <hr>
 </section>
-<section id="your-boulder-plot-headline-here" class="level2 cell markdown">
+<section id="your-boulder-plot-headline-here" class="level2">
 <h2 class="anchored" data-anchor-id="your-boulder-plot-headline-here"><strong>YOUR BOULDER PLOT HEADLINE HERE</strong> 📰 🗞️ 📻</h2>
 <p><em>Describe your plot in this cell in 2-3 sentences</em></p>
-<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://pics.craiyon.com/2023-07-12/1d858937f1104df68803a2994c90453a.webp" class="img-fluid figure-img"></p>
-<figcaption>Writing bear</figcaption>
+<img src="https://pics.craiyon.com/2023-07-12/1d858937f1104df68803a2994c90453a.webp" alt="Writing bear" class="figure-img">
+<figcaption aria-hidden="true">
+Writing bear
+</figcaption>
 </figure>
-</div>
 <blockquote class="blockquote">
 <p>Image credit: https://www.craiyon.com/image/OAbZtyelSoS7FdGko6hvQg</p>
 </blockquote>
-</section>
 <hr>
+</section>
+</section>
 <section id="this-isnt-the-end" class="level1">
 <h1><strong>THIS ISN’T THE END!</strong> 😄</h1>
 <p><strong>Don’t forget to <em>reproduce your analysis</em> in a new location or time!</strong></p>
@@ -976,31 +709,22 @@ Note
 <blockquote class="blockquote">
 <p>Image source: https://dfwurbanwildlife.com/2018/03/25/chris-jacksons-dfw-urban-wildlife/snow-geese-galore/</p>
 </blockquote>
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Your task
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p><strong><i class="fa fa-solid fa-keyboard fa-large" aria-label="keyboard"></i> Your task</strong></p>
 <ol type="1">
 <li><p>If you didn’t already, go back to the code you modified about and write more descriptive <strong>comments</strong> so the next person to use this code knows what it does.</p></li>
 <li><p>Make sure to <code>Restart</code> and <code>Run all</code> up at the top of your notebook. This will clear all your variables and make sure that your code runs in the correct order. It will also export your work in Markdown format, which you can put on your website.</p></li>
 </ol>
-</div>
-</div>
+</blockquote>
 <hr>
 </section>
 <section id="bonus-create-a-shareable-markdown-of-your-work" class="level2">
 <h2 class="anchored" data-anchor-id="bonus-create-a-shareable-markdown-of-your-work">BONUS: Create a shareable Markdown of your work</h2>
 <p>Below is some code that you can run that will save a Markdown file of your work that is easily shareable and can be uploaded to GitHub Pages. You can use it as a starting point for writing your portfolio post!</p>
-<div id="9afe67c7" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>bash</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>jupyter nbconvert <span class="op">*</span>.ipynb <span class="op">--</span>to markdown</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="4635d02d" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>bash</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>jupyter nbconvert <span class="op">*</span>.ipynb <span class="op">--</span>to markdown</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
