@@ -224,7 +224,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="mapping-libraries">Mapping libraries</h3>
 <p>You’ll need to start by importing some libraries to have access to all the code you need.</p>
 <p>To run code in Codespaces, click on the play button in the upper left corner of the code you want to run. You may be asked to “Select a kernel”. If you press <kbd>Return</kbd> or click on <code>base</code> up at the top, that should select the default kernel.</p>
-<div id="5eeb9ffa" class="cell" data-execution_count="1">
+<div id="5eeb9ffa" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Work with vector data</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -241,14 +241,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="search-for-a-point-of-interest">Search for a point of interest</h3>
 <p>You can use the <code>pyrosm</code> package to download and search for spatial vector data in your area, or anywhere around the world.</p>
 <p>In this case, we’re looking for the location of the United Tribes Technical College campus in North Dakota. The address in here, <code>'United Tribes Technical College, Bismarck, ND, United States'</code>, does not have to be complete or exact, but it should be specific enough to narrow it down. We are also specifying that we want it to be tagges as a <code>'amenity'</code> type, specifically a <code>'college'</code> You might have to try a couple different searches with different addresses and/or tags to get the address you want, just like if you are using a map website or app.</p>
-<div id="a1f423fa" class="cell" data-execution_count="2">
+<div id="a1f423fa" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Search for United Tribes Technical College</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>uttc_gdf <span class="op">=</span> osm.features_from_address(</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'United Tribes Technical College, Bismarck, ND, United States'</span>,</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'amenity'</span>: [<span class="st">'college'</span>]})</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>uttc_gdf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b0b6e83a" class="cell" data-execution_count="3">
+<div id="b0b6e83a" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>uttc_gdf.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We have a map of the UTTC Campus!</p>
@@ -269,7 +269,7 @@ Warning
 <section id="create-an-interactive-map" class="level3">
 <h3 class="anchored" data-anchor-id="create-an-interactive-map">Create an interactive map</h3>
 <p>There are lots of different ways to create maps and plots in Python. Here, we’re going to use a tool called <code>'hvplot'</code> and <code>'geoviews'</code> to create an interactive map, including the online <code>'EsriImagery'</code> tile source basemap.</p>
-<div id="22696660" class="cell" data-execution_count="4">
+<div id="22696660" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot UTTC boundary</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>uttc_map <span class="op">=</span> uttc_gdf.hvplot(</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Givethe map a descriptive title</span></span>
