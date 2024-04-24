@@ -9,7 +9,9 @@ name: Quarto Publish
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-    environment: build
+    env:
+      EARTHDATA_USERNAME: ${{ secrets.EARTHDATA_USERNAME }}
+      EARTHDATA_PASSWORD: ${{ secrets.EARTHDATA_PASSWORD }}
     defaults:
       run:
         shell: bash -el {0}
