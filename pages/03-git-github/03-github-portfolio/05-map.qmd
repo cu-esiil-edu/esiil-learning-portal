@@ -19,7 +19,6 @@ jupyter: python3
 
 ## Get started with map-making using open-sources tools
 
-::: {.content-hidden when-profile="nb"}
 ### About Spatial Vector Data
 
 Vector data are composed of discrete geometric locations (x and y values, or latitude and longitude) that define the “shape” of the spatial object. The organization of the vertices determines the type of vector that you are working with. There are three fundamental types of vector data:
@@ -36,6 +35,7 @@ Vector data are composed of discrete geometric locations (x and y values, or lat
 Read more about working with spatial data using Python in our Intro to Earth Data Science, [here](https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-spatial-data/use-vector-data/).
 :::
 
+::: {.content-hidden when-profile="nb"}
 ### Open this activity in GitHub Codespaces
 
 To complete this activity, you will need somewhere to run your code. Start by going to this [repository on GitHub](https://github.com/cu-esiil-edu/first-map-template/). We've set it up so that anyone can run Python code from there!
@@ -76,9 +76,19 @@ from osmnx import features as osm
 
 ### Search for a point of interest
 
-You can use the `pyrosm` package to download and search for spatial vector data in your area, or anywhere around the world.
+You can use the `osmnx` package to download and search for spatial vector data in your area, or anywhere around the world.
 
-In this case, we're looking for the location of the United Tribes Technical College campus in North Dakota. The address in here, `'United Tribes Technical College, Bismarck, ND, United States'`, does not have to be complete or exact, but it should be specific enough to narrow it down. We are also specifying that we want it to be tagges as a `'amenity'` type, specifically a `'college'` You might have to try a couple different searches with different addresses and/or tags to get the address you want, just like if you are using a map website or app.
+In this case, we're looking for the location of the United Tribes Technical College campus in North Dakota. The address in here, `'United Tribes Technical College, Bismarck, ND, United States'`, does not have to be complete or exact, but it should be specific enough to narrow it down. 
+
+::: {.callout-tip}
+You can use the [Open Street Maps](https://www.openstreetmap.org/) website to fine-tune your address before you copy it into your code.
+:::
+
+We are also specifying that we want it to be tagged as a `'college' type of `'amenity'` type. You might have to try a couple different searches with different addresses and/or tags to get the address you want, just like if you are using a map website or app.
+
+::: {.callout-tip}
+Check out the [list of all the different amenity types available on Open Street Maps](https://wiki.openstreetmap.org/wiki/Key:amenity)! Different amenity types might be different types of vector data, such as a **point** location or a building footprint **polygon**.
+:::
 
 ```{python}
 # Search for United Tribes Technical College
