@@ -8,7 +8,7 @@
 
 <meta name="author" content="Nate Quarderer">
 <meta name="author" content="Elsa Culler">
-<meta name="dcterms.date" content="2024-04-24">
+<meta name="dcterms.date" content="2024-04-30">
 <meta name="keywords" content="Vector Data, Cartography">
 <meta name="description" content="As Earth and Environmental Data Scientists, we know places are important. In this activity, you will make your first map in Python, and use it to tell the story of where you come from and what places are important to you.">
 
@@ -152,6 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#get-started-with-map-making-using-open-sources-tools" id="toc-get-started-with-map-making-using-open-sources-tools" class="nav-link active" data-scroll-target="#get-started-with-map-making-using-open-sources-tools">Get started with map-making using open-sources tools</a>
   <ul class="collapse">
+  <li><a href="#about-spatial-vector-data" id="toc-about-spatial-vector-data" class="nav-link" data-scroll-target="#about-spatial-vector-data">About Spatial Vector Data</a></li>
   <li><a href="#mapping-libraries" id="toc-mapping-libraries" class="nav-link" data-scroll-target="#mapping-libraries">Mapping libraries</a></li>
   <li><a href="#search-for-a-point-of-interest" id="toc-search-for-a-point-of-interest" class="nav-link" data-scroll-target="#search-for-a-point-of-interest">Search for a point of interest</a></li>
   <li><a href="#create-an-interactive-map" id="toc-create-an-interactive-map" class="nav-link" data-scroll-target="#create-an-interactive-map">Create an interactive map</a></li>
@@ -200,7 +201,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">April 24, 2024</p>
+              <p class="date">April 30, 2024</p>
             </div>
           </div>
           
@@ -220,6 +221,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="get-started-with-map-making-using-open-sources-tools" class="level2">
 <h2 class="anchored" data-anchor-id="get-started-with-map-making-using-open-sources-tools">Get started with map-making using open-sources tools</h2>
+<section id="about-spatial-vector-data" class="level3">
+<h3 class="anchored" data-anchor-id="about-spatial-vector-data">About Spatial Vector Data</h3>
+<p>Vector data are composed of discrete geometric locations (x and y values, or latitude and longitude) that define the “shape” of the spatial object. The organization of the vertices determines the type of vector that you are working with. There are three fundamental types of vector data:</p>
+<p><strong>Points:</strong> Each individual point is defined by a single x, y coordinate. Examples of point data include: sampling locations, the location of individual trees or the location of plots.</p>
+<p><strong>Lines:</strong> Lines are composed of many (at least 2) vertices, or points, that are connected. For instance, a road or a stream may be represented by a line. This line is composed of a series of segments, each bend in the road or stream represents a vertex that has defined x, y location.</p>
+<p><strong>Polygons:</strong> A polygon consists of 3 or more vertices that are connected and closed. Thus, the outlines of plot boundaries, lakes, oceans, and states or countries are often represented by polygons.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://www.earthdatascience.org/images/earth-analytics/spatial-data/points-lines-polygons-vector-data-types.png" class="img-fluid figure-img"></p>
+<figcaption>There are three types of vector data – point, line, and polygon</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Read more about working with spatial data using Python in our Intro to Earth Data Science, <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-spatial-data/use-vector-data/">here</a>.</p>
+</div>
+</div>
+</section>
 <section id="mapping-libraries" class="level3">
 <h3 class="anchored" data-anchor-id="mapping-libraries">Mapping libraries</h3>
 <p>You’ll need to start by importing some libraries to have access to all the code you need.</p>
@@ -239,8 +266,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="search-for-a-point-of-interest" class="level3">
 <h3 class="anchored" data-anchor-id="search-for-a-point-of-interest">Search for a point of interest</h3>
-<p>You can use the <code>pyrosm</code> package to download and search for spatial vector data in your area, or anywhere around the world.</p>
-<p>In this case, we’re looking for the location of the United Tribes Technical College campus in North Dakota. The address in here, <code>'United Tribes Technical College, Bismarck, ND, United States'</code>, does not have to be complete or exact, but it should be specific enough to narrow it down. We are also specifying that we want it to be tagges as a <code>'amenity'</code> type, specifically a <code>'college'</code> You might have to try a couple different searches with different addresses and/or tags to get the address you want, just like if you are using a map website or app.</p>
+<p>You can use the <code>osmnx</code> package to download and search for spatial vector data in your area, or anywhere around the world.</p>
+<p>In this case, we’re looking for the location of the United Tribes Technical College campus in North Dakota. The address in here, <code>'United Tribes Technical College, Bismarck, ND, United States'</code>, does not have to be complete or exact, but it should be specific enough to narrow it down.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can use the <a href="https://www.openstreetmap.org/">Open Street Maps</a> website to fine-tune your address before you copy it into your code.</p>
+</div>
+</div>
+<p>We are also specifying that we want it to be tagged as a <code>'college' type of</code>‘amenity’` type. You might have to try a couple different searches with different addresses and/or tags to get the address you want, just like if you are using a map website or app.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Check out the <a href="https://wiki.openstreetmap.org/wiki/Key:amenity">list of all the different amenity types available on Open Street Maps</a>! Different amenity types might be different types of vector data, such as a <strong>point</strong> location or a building footprint <strong>polygon</strong>.</p>
+</div>
+</div>
 <div id="a1f423fa" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Search for United Tribes Technical College</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>uttc_gdf <span class="op">=</span> osm.features_from_address(</span>
