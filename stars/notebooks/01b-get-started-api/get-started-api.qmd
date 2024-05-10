@@ -1,0 +1,764 @@
+---
+title: Climate change is impacting the way people live around the world
+jupyter: python3
+format:
+  html: default
+  ipynb:
+    output-file: "Get Started with Open Reproducible Science!"
+---
+
+::: {.cell .markdown}
+
+Higher highs, lower lows, storms, and smoke -- we're all feeling the effects of climate change. In this workflow, you will take a look at trends in temperature over time in Rapid City, SD.
+
+::: {.callout-important icon="false"}
+[Read about some of the effects of -- and solutions for -- climate change on the Pine Ridge Reservation southeast of Rapid City.](https://www.theguardian.com/environment/2022/dec/03/south-dakota-reservation-food-desert-residents-transforming-crop-oasis)
+:::
+
+::: {.cell .markdown}
+## Get started with open reproducible science!
+
+[Open reproducible science](https://www.earthdatascience.org/courses/intro-to-earth-data-science/open-reproducible-science/get-started-open-reproducible-science/) makes scientific methods, data and outcomes available to everyone. That means that *everyone* who wants should be able to **find**, **read**, **understand**, and **run** your workflows for themselves.
+
+<img src="https://www.earthdata.nasa.gov/s3fs-public/2021-11/Circle_Diagram_UPDATE_2.jpg?VersionId=pFRniRpjtgc_MEXUJKi9_sXLoMsSX.pB" alt-text="Components of open science - accessible, reproducible, inclusive" width="500"/>
+
+> Image from https://www.earthdata.nasa.gov/esds/open-science/oss-for-eso-workshops
+
+Few if any science projects are 100% open and reproducible (yet!). However, members of the open science community have developed open source tools and practices that can help you move toward that goal. You will learn about many of those tools in [the Intro to Earth Data Science textbook](https://www.earthdatascience.org/courses/intro-to-earth-data-science/). Don't worry about learning all the tools at once -- we've picked a few for you to get started with.
+
+------------------------------------------------------------------------
+:::
+
+::: {.content-visible when-format="html"}
+:::: {.callout}
+
+::::: {.content-visible when-profile="shortcourse"}
+# Check out our demo video for this notebook!
+
+<div style="position: relative; width: 100%; height: 0; padding-top: 56.2500%;
+ padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+ border-radius: 8px; will-change: transform;">
+  <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
+    src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGCmAuzaio&#x2F;hzAY0BZp3ikTPyTA_QR8Cw&#x2F;watch?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
+  </iframe>
+</div>
+<a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGCmAuzaio&#x2F;hzAY0BZp3ikTPyTA_QR8Cw&#x2F;watch?utm_content=DAGCmAuzaio&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">DEMO: Get Started with Open Reproducible Science</a> by ESIIL
+
+:::::
+
+::::: {.content-visible when-profile="stars"}
+<div style="position: relative; width: 100%; height: 0; padding-top: 56.2500%;
+ padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+ border-radius: 8px; will-change: transform;">
+  <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
+    src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGD_5vNgBA&#x2F;pHWDRhcRJUaN64dED_5BSQ&#x2F;watch?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
+  </iframe>
+</div>
+<a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGD_5vNgBA&#x2F;pHWDRhcRJUaN64dED_5BSQ&#x2F;watch?utm_content=DAGD_5vNgBA&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Get Started with Open Reproducible Science (Stars)</a> by ESIIL
+
+:::::
+
+::::
+:::
+
+::: {.callout-note icon="false"}
+
+## {{< fa glasses size=large >}} Further reading
+
+Read [our textbook chapter about open reproducible science](https://www.earthdatascience.org/courses/intro-to-earth-data-science/open-reproducible-science/get-started-open-reproducible-science/).
+
+:::
+::: {.cell .markdown}
+:::: {.callout-important icon="false"}
+## {{< fa pencil size=large >}} What does open reproducible science mean to you?
+
+{{< fa regular square >}} Create a new Markdown cell below this one using the `+ Markdown` button in the upper left.
+
+{{< fa regular square >}} In the new cell, answer the following questions using a **numbered list** in Markdown:
+
+1.  In 1-2 sentences, define open reproducible science.
+2.  In 1-2 sentences, choose one of the open source tools that you have learned about (i.e. Shell, Git/GitHub, Jupyter Notebook, Python) and explain how it supports open reproducible science.
+
+::::: {.content-visible when-profile="graded"}
+Rubric:
+
+| Task                               | Max Points | Points | Comments |
+|------------------------------------|------------|--------|----------|
+| Create Markdown cell               | 1          |        |          |
+| Use a numbered list                | 2          |        |          |
+| Thoughtful response to question 1. | 2          |        |          |
+| Thoughtful response to question 1. | 2          |        |          |
+| Easily readable                    | 1          |        |          |
+:::::
+::::
+:::
+
+::: {.cell .markdown}
+## {{< fa pencil size=large >}} Human-readable and Machine-readable
+
+{{< fa regular square >}} Create a new Markdown cell below this one using the <kbd>ESC</kbd> + <kbd>b</kbd> keyboard shortcut.
+
+{{< fa regular square >}} In the new cell, answer the following question in a Markdown **quote**: In 1-2 sentences, does this Jupyter Notebook file have a machine-readable name? Explain your answer.
+
+::: {.content-visible when-profile="graded"}
+Rubric:
+
+| Task                               | Max Points | Points | Comments |     |
+|------------------------------------|------------|--------|----------|-----|
+| Create Markdown cell               | 1          |        |          |     |
+| Use a numbered list                | 2          |        |          |     |
+| Thoughtful response to question 1. | 2          |        |          |     |
+| Thoughtful response to question 1. | 2          |        |          |     |
+| Easily readable                    | 1          |        |          |     |
+:::
+:::
+
+------------------------------------------------------------------------
+
+## What the fork?! Who wrote this?
+
+Below is a scientific Python workflow. But something's wrong -- The code won't run! Your task is to follow the instructions below to **clean and debug** the Python code below so that it runs.
+
+::: callout-tip
+Don't worry if you can't solve every bug right away. We'll get there! The most important thing is to identify problems with the code and write high-quality [**GitHub Issues**](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue#creating-an-issue-from-a-repository).
+:::
+
+At the end, you'll **repeat the workflow** for a location and measurement of your choosing.
+
+Alright! Let's clean up this code. First things first...
+
+::: {.callout-important icon="false"}
+## {{< fa keyboard size=large >}} Machine-readable file names
+
+Rename this notebook (if necessary) with an [**expressive and machine-readable file name**](https://www.earthdatascience.org/courses/intro-to-earth-data-science/open-reproducible-science/get-started-open-reproducible-science/best-practices-for-organizing-open-reproducible-science/)
+:::
+
+------------------------------------------------------------------------
+
+## Python **packages** let you use code written by experts around the world
+
+Because Python is open source, lots of different people and organizations can contribute (including you!). Many contributions are in the form of **packages** which do not come with a standard Python download.
+
+::: {.callout-note icon="false"}
+# {{< fa glasses size=large >}} Read more
+
+[Packages need to be installed and **imported**](https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/use-python-packages/).
+:::
+
+In the cell below, someone was trying to import the **pandas package**, which helps us to work with [**tabular data** such as comma-separated value or csv files](https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-text-files/).
+
+::: {.cell .markdown}
+::: {.callout-important icon="false"}
+# {{< fa keyboard size=large >}} Your task
+
+1. Correct the typo below to properly import the pandas package under its **alias** pd.
+2. Run the cell to import pandas
+
+::: {.content-visible when-format="ipynb"}
+NOTE: **Run your code in the right **environment** to avoid import errors**
+
+We've created a coding **environment** for you to use that already has all the software and libraries you will need! When you try to run some code, you may be prompted to select a **kernel**. The **kernel** refers to the version of Python you are using. You should use the **base** kernel, which should be the default option.
+:::
+:::
+:::
+
+```{python}
+#| error: true
+# Import pandas
+import pandsa as pd
+```
+
+::: {.content-visible when-format="html"}
+
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+# Import pandas
+import pandas as pd
+```
+
+:::
+
+Once you have run the cell above and imported `pandas`, **run the cell below**. It is a test cell that will tell you if you completed the task successfully. If a test cell isn't working the way you expect, check that you ran your code **immediately before** running the test.
+
+```{python}
+# DO NOT MODIFY THIS TEST CELL
+points = 0
+try:
+    pd.DataFrame()
+    points += 5
+    print('\u2705 Great work! You correctly imported the pandas library.')
+except:
+    print('\u274C Oops - pandas was not imported correctly.')
+print('You earned {} of 5 points for importing pandas'.format(points))
+```
+
+------------------------------------------------------------------------
+
+## There are more Earth Observation data online than any one person could ever look at
+
+[NASA's Earth Observing System Data and Information System (EOSDIS) alone manages over 9PB of data](https://www.earthdata.nasa.gov/learn/articles/getting-petabytes-people-how-eosdis-facilitates-earth-observing-data-discovery-and-use). 1 PB is roughly 100 times the entire Library of Congress (a good approximation of all the books available in the US). It's all available to **you** once you learn how to download what you want.
+
+Here we're using the NOAA National Centers for Environmental Information (NCEI) [Access Data Service](https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation) application progamming interface (API) to request data from their web servers. We will be using data collected as part of the Global Historical Climatology Network daily (GHCNd) from their [Climate Data Online library](https://www.ncdc.noaa.gov/cdo-web/datasets) program at NOAA.
+
+For this example we're requesting [daily summary data in Rapid City, CO (station ID USC00396947)](https://www.ncdc.noaa.gov/cdo-web/datasets/GHCND/stations/GHCND:USC00396947/detail).
+
+::: {.cell .markdown}
+::: {.callout-important icon="false"}
+## {{< fa pencil size=large >}} Your task:
+
+1.  Research the [**Global Historical Climatology Network - Daily**](https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.ncdc:C00861/html) data source.
+2.  In the cell below, write a 2-3 sentence description of the data source. You should describe:
+    -   who takes the data
+    -   where the data were taken
+    -   what the maximum temperature units are
+    -   how the data are collected
+3.  Include a citation of the data (**HINT:** See the 'Data Citation' tab on the GHCNd overview page).
+:::
+:::
+::: {.cell .markdown}
+**YOUR DATA DESCRIPTION AND CITATION HERE** 🛎️
+:::
+
+## You can access NCEI GHCNd Data from the internet using its API 🖥️ 📡 🖥️
+
+The cell below contains the URL for the data you will use in this part of the notebook. We created this URL by generating what is called an **API endpoint** using the NCEI [API documentation](https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation).
+
+::: callout-note
+An **application programming interface** (API) is a way for two or more computer programs or components to communicate with each other. It is a type of software interface, offering a service to other pieces of software ([Wikipedia](https://en.wikipedia.org/wiki/API)).
+:::
+
+However, we still have a problem - we can't get the URL back later on because it isn't saved in a **variable**. In other words, we need to give the url a name so that we can request in from Python later (sadly, Python has no 'hey what was that thingy I typed yesterday?' function).
+
+::: {.callout-note icon="false"}
+## {{< fa glasses size=large >}} Read more
+
+Check out the [textbook section on variables](https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/get-started-using-python/variables/)
+:::
+
+::: {.callout-important icon="false"}
+# {{< fa keyboard size=large >}} Your task
+
+1.  Pick an expressive variable name for the URL. HINT: click on the `Variables` button up top to see all your variables. Your new url variable will not be there until you define it and run the code
+2.  Reformat the URL so that it adheres to the [79-character PEP-8 line limit](https://peps.python.org/pep-0008/#maximum-line-length).You should see two vertical lines in each cell - don't let your code go past the second line
+3.  At the end of the cell where you define your url variable, **call your variable (type out its name)** so it can be tested.
+:::
+
+```{python}
+stuff23 = ('https://www.ncei.noaa.gov/access/services/da'
+'ta/v1?dataset=daily-summaries&dataTypes=TOBS,PRCP&stations=USC00396947&startDate=1949-10-01&endDate=2024-02-18&includeStationName=true&includeStation'
+'Location=1&units=standard')
+stuff23
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+rapid_url = (
+    'https://www.ncei.noaa.gov/access/services/data/v1'
+    '?dataset=daily-summaries'
+    '&dataTypes=TOBS,PRCP'
+    '&stations=USC00396947'
+    '&startDate=1949-10-01'
+    '&endDate=2024-02-18'
+    '&includeStationName=true'
+    '&includeStationLocation=1'
+    '&units=standard')
+rapid_url
+```
+:::
+
+```{python}
+# DO NOT MODIFY THIS TEST CELL
+resp_url = _
+points = 0
+
+if type(resp_url)==str:
+    points += 3
+    print('\u2705 Great work! You correctly called your url variable.')
+else:
+    print('\u274C Oops - your url variable was not called correctly.')
+
+if len(resp_url)==218:
+    points += 3
+    print('\u2705 Great work! Your url is the correct length.')
+else:
+    print('\u274C Oops - your url variable is not the correct length.')
+
+print('You earned {} of 6 points for defining a url variable'.format(points))
+```
+
+------------------------------------------------------------------------
+
+## **Download and get started working with NCEI data**
+
+The `pandas` library you imported can download data from the internet directly into a type of Python **object** called a `DataFrame`. In the code cell below, you can see an attempt to do just this. But there are some problems...
+
+::: {.callout-important icon="false"}
+# {{< fa keyboard size=large >}} You're ready to fix some code!
+
+Your task is to:
+
+1.  Leave a space between the `#` and text in the comment and try making the comment more informative
+
+2.  Make any changes needed to get this code to run. HINT: The `my_url` variable doesn't exist - you need to replace it with the variable name **you** chose.
+
+3.  Modify the `.read_csv()` statement to include the following parameters:
+
+     - `index_col='DATE'` -- this sets the `DATE` column as the index. Needed for subsetting and resampling later on
+     - `parse_dates=True` -- this lets `python` know that you are working with time-series data, and values in the indexed column are **date time objects**
+     - `na_values=['NaN']` -- this lets `python` know how to handle missing values
+
+4.  Clean up the code by using **expressive variable names**, **expressive column names**, **PEP-8 compliant code**, and **descriptive comments**
+:::
+
+::: {callout-warning}
+**Make sure to call your `DataFrame` by typing it's name as the last line of your code cell** Then, you will be able to run the test cell below and find out if your answer is correct.
+:::
+
+```{python}
+#| error: true
+rapid_df = pd.read_csv(
+  rapid_url,
+  index_col='something')
+rapid_df
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+# Download the Rapid City climate data
+rapid_df = pd.read_csv(
+  rapid_url,
+  index_col='DATE',
+  parse_dates=True,
+  na_values=['NaN'])
+rapid_df
+```
+:::
+
+```{python}
+# DO NOT MODIFY THIS TEST CELL
+tmax_df_resp = _
+points = 0
+
+if isinstance(tmax_df_resp, pd.DataFrame):
+    points += 1
+    print('\u2705 Great work! You called a DataFrame.')
+else:
+    print('\u274C Oops - make sure to call your DataFrame for testing.')
+
+print('You earned {} of 2 points for downloading data'.format(points))
+```
+
+> HINT: Check out the `type()` function below - you can use it to check that your data is now in `DataFrame` type object
+
+```{python}
+# Check that the data was imported into a pandas DataFrame
+type(rapid_df)
+```
+
+::: {.callout-important icon="false"}
+# {{< fa keyboard size=large >}} Clean up your DataFrame
+
+Use double brackets to only select the columns you want in your DataFrame
+:::
+
+::: {callout-warning}
+**Make sure to call your `DataFrame` by typing it's name as the last line of your code cell** Then, you will be able to run the test cell below and find out if your answer is correct.
+:::
+
+```{python}
+#| error: true
+rapid_df = rapid_df[['some_col', 'another_col']]
+rapid_df
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+# Clean up the DataFrame
+rapid_df = rapid_df[['PRCP', 'TOBS']]
+rapid_df
+```
+:::
+
+```{python}
+# DO NOT MODIFY THIS TEST CELL
+tmax_df_resp = _
+points = 0
+
+summary = [round(val, 2) for val in tmax_df_resp.mean().values]
+if summary == [0.05, 54.53]:
+    points += 4
+    print('\u2705 Great work! You correctly downloaded data.')
+else:
+    print('\u274C Oops - your data are not correct.')
+print('You earned {} of 5 points for downloading data'.format(points))
+```
+
+------------------------------------------------------------------------
+
+## Plot the precpitation column (PRCP) vs time to explore the data
+
+Plotting in Python is easy, but not quite this easy:
+
+```{python}
+#| error: true
+rapid_df.plot()
+```
+
+::: {.callout-tip}
+### **Label and describe your plots**
+
+![Source: https://xkcd.com/833](https://imgs.xkcd.com/comics/convincing.png)
+
+Make sure each plot has: 
+
+  * A title that explains where and when the data are from 
+  * x- and y- axis labels with **units** where appropriate 
+  * A legend where appropriate
+:::
+
+You'll always need to add some instructions on labels and how you want your plot to look.
+
+::: {.callout-important icon="false"}
+# {{< fa keyboard size=large >}} Your task:
+
+1.  Change `dataframe` to **your** `DataFrame` name.
+2.  Change `y=` to the name of your **observed temperature** column name.
+3.  Use the `title`, `ylabel`, and `xlabel` parameters to add key text to your plot.
+4.  Adjust the size of your figure using `figsize=(x,y)` where `x` is figure width and `y` is figure height
+
+> **HINT:** labels have to be a *type* in Python called a **string**. You can make a string by putting quotes around your label, just like the column names in the sample code (eg `y='TOBS'`).
+:::
+
+```{python}
+#| error: true
+# Plot the data using .plot
+rapid_df.plot(
+    y='the_precipitation_column',
+    title='Title Goes Here',
+    xlabel='Horizontal Axis Label Goes Here',
+    ylabel='Vertical Axis Label Goes Here')
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+# Plot the data using .plot
+rapid_df.plot(
+    y='PRCP',
+    title='Daily Precipitation in Rapid City, SD',
+    xlabel='Date',
+    ylabel='Precipitation (mm)')
+```
+:::
+
+::: {.callout-important icon="false"}
+# {{< fa pepper-hot size=large >}} Want an EXTRA CHALLENGE?
+
+There are many other things you can do to customize your plot. Take a look at the [pandas plotting galleries](https://pandas.pydata.org/docs/user_guide/visualization.html) and the [documentation of plot](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.plot.html) to see if there's other changes you want to make to your plot. Some possibilities include: 
+
+  * Remove the legend since there's only one data series 
+  * Increase the figure size 
+  * Increase the font size 
+  * Change the colors 
+  * Use a bar graph instead (usually we use lines for time series, but since this is annual it could go either way) 
+  * Add a trend line
+
+Not sure how to do any of these? Try searching the internet, or asking an AI!
+:::
+------------------------------------------------------------------------
+
+::: {.callout-important icon="false"}
+# {{< fa pepper-hot size=large >}} Convert units
+
+Modify the code below to **add a column that includes temperature in Celsius**. The code below was written by your colleague. Can you fix this so that it correctly calculates temperature in Celsius and adds a new column?
+:::
+
+```{python}
+#| error: true
+# Convert to celcius
+dataframe.loc[:, 'TCel'] = dataframe['temperature_col_name'] - 32 * 5 / 9
+dataframe
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+# Convert to celcius
+rapid_df.loc[:, 'TCel'] = (rapid_df['TOBS'] - 32) * 5 / 9
+rapid_df
+```
+:::
+
+```{python}
+# DO NOT MODIFY THIS TEST CELL
+tmax_df_resp = _
+points = 0
+
+if isinstance(tmax_df_resp, pd.DataFrame):
+    points += 1
+    print('\u2705 Great work! You called a DataFrame.')
+else:
+    print('\u274C Oops - make sure to call your DataFrame for testing.')
+
+summary = [round(val, 2) for val in tmax_df_resp.mean().values]
+if summary == [0.05, 54.53, 12.52]:
+    points += 4
+    print('\u2705 Great work! You correctly converted to Celcius.')
+else:
+    print('\u274C Oops - your data are not correct.')
+print('You earned {} of 5 points for converting to Celcius'.format(points))
+```
+
+::: {.callout-important icon="false"}
+# {{< fa pepper-hot size=large >}} Want an EXTRA CHALLENGE?
+
+1. As you did above, rewrite the code to be more expressive 
+2. Using the code below as a framework, write and apply a **function** that converts to Celcius. \> **Functions** let you reuse code you have already written
+3.  You should also rewrite this function and parameter names to be more expressive.
+:::
+
+```{python}
+#| error: true
+def a_function(a_parameter):
+    """Convert temperature to Celcius"""
+    return a_parameter # Put your equation in here
+
+dataframe['celcius_column'] = dataframe['fahrenheit_column'].apply(convert)
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+def convert_to_celcius(fahrenheit):
+    """Convert temperature to Celcius"""
+    return (fahrenheit - 32) * 5 / 9
+
+rapid_df['TCel'] = rapid_df['TOBS'].apply(convert_to_celcius)
+```
+:::
+
+## Subsetting and Resampling
+
+Often when working with time-series data you may want to focus on a shorter window of time, or look at weekly, monthly, or annual summaries to help make the analysis more manageable.
+
+::: {.callout-note icon="false"}
+# {{< fa glasses size=large >}} Read more
+
+Read more about [subsetting](https://www.earthdatascience.org/courses/use-data-open-source-python/use-time-series-data-in-python/date-time-types-in-pandas-python/subset-time-series-data-python/) and [resampling](https://www.earthdatascience.org/courses/use-data-open-source-python/use-time-series-data-in-python/date-time-types-in-pandas-python/resample-time-series-data-pandas-python/) time-series data in our Learning Portal.
+:::
+
+For this demonstration, we will look at the last 40 years worth of data and resample to explore a summary from each year that data were recorded.
+
+::: {.callout-important icon="false"}
+# {{< fa keyboard size=large >}} Your task
+
+1. Replace `start-year` and `end-year` with 1983 and 2023
+2. Replace `dataframe` with the name of **your** data 
+3. Replace `new_dataframe` with something more expressive 
+4. Call your new variable 
+5. Run the cell
+:::
+
+```{python}
+#| error: true
+# Subset the data
+new_dataframe = dataframe.loc['start-year':'end-year']
+new_dataframe
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+# Subset the data
+rapid_1983_2023_df = rapid_df.loc['1983':'2023']
+rapid_1983_2023_df
+```
+:::
+
+```{python}
+# DO NOT MODIFY THIS TEST CELL
+df_resp = _
+points = 0
+
+if isinstance(df_resp, pd.DataFrame):
+    points += 1
+    print('\u2705 Great work! You called a DataFrame.')
+else:
+    print('\u274C Oops - make sure to call your DataFrame for testing.')
+
+summary = [round(val, 2) for val in df_resp.mean().values]
+if summary == [0.06, 55.67, 13.15]:
+    points += 5
+    print('\u2705 Great work! You correctly converted to Celcius.')
+else:
+    print('\u274C Oops - your data are not correct.')
+print('You earned {} of 5 points for subsetting'.format(points))
+```
+
+## Now we are ready to calculate annual statistics
+
+Here you will **resample** the 1983-2023 data to look the annual mean values.
+
+::: {.callout-important icon="false"}
+# {{< fa keyboard size=large >}} Resample your data
+
+1. Replace `new_dataframe` with the variable you created in the cell above where you subset the data 
+2. Replace `'TIME'` with a `'W'`, `'M'`, or `'Y'` depending on whether you're doing a weekly, monthly, or yearly summary 
+3. Replace `STAT` with a `sum`, `min`, `max`, or `mean` depending on what kind of statistic you're interested in calculating. 
+4. Replace `resampled_data` with a more expressive variable name 
+5. Call your new variable 
+6. Run the cell
+:::
+
+```{python}
+#| error: true
+# Resample the data to look at yearly mean values
+resampled_data = new_dataframe.resample('TIME').STAT()
+resampled_data
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+# Resample the data to look at yearly mean values
+rapid_ann_mean_df = rapid_1983_2023_df.resample('YS').mean()
+rapid_ann_mean_df
+```
+:::
+
+```{python}
+# DO NOT MODIFY THIS TEST CELL
+df_resp = _
+points = 0
+
+if isinstance(df_resp, pd.DataFrame):
+    points += 1
+    print('\u2705 Great work! You called a DataFrame.')
+else:
+    print('\u274C Oops - make sure to call your DataFrame for testing.')
+
+summary = [round(val, 2) for val in df_resp.mean().values]
+if summary == [0.06, 55.37, 12.99]:
+    points += 5
+    print('\u2705 Great work! You correctly converted to Celcius.')
+else:
+    print('\u274C Oops - your data are not correct.')
+print('You earned {} of 5 points for resampling'.format(points))
+```
+
+::: {.callout-important icon="false"}
+# {{< fa keyboard size=large >}} Plot your resampled data
+:::
+
+```{python}
+# Plot mean annual temperature values
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+# Plot the data using .plot
+rapid_ann_mean_df.plot(
+    y='TOBS',
+    title='Daily Precipitation in Rapid City, SD',
+    xlabel='Date',
+    ylabel='Precipitation (mm)')
+```
+:::
+
+------------------------------------------------------------------------
+
+::: {.callout-important icon="false"}
+# {{< fa pencil size=large >}} Describe your plot
+
+We like to use an approach called "Assertion-Evidence" for presenting scientific results. There's a lot of video tutorials and example talks available on [the Assertion-Evidence web page](https://www.assertion-evidence.com/). The main thing you need to do now is to practice writing a **message** or **headline** rather than descriptions or topic sentences for the plot you just made (what they refer to as "visual evidence").
+
+For example, it would be tempting to write something like "A plot of maximum annual temperature in Rapid City, Colorado over time (1983-2023)". However, this doesn't give the reader anything to look at, or explain why we made this particular plot (we know, you made **this** one because we told you to)
+
+Some alternatives for different plots of Rapid City temperature that are more of a starting point for a presentation or conversation are: 
+  
+  * Rapid City, SD experienced cooler than average temperatures in 1995 
+  * Temperatures in Rapid City, SD appear to be on the rise over the past 40 years 
+  * Maximum annual temperatures in Rapid City, CO are becoming more variable over the previous 40 years
+
+We could back up some of these claims with further analysis included later on, but we want to make sure that our audience has some guidance on what to look for in the plot.
+:::
+
+------------------------------------------------------------------------
+
+::: {.cell .markdown}
+## **YOUR Rapid City PLOT HEADLINE HERE** 📰 🗞️ 📻
+
+*Describe your plot in this cell in 2-3 sentences*
+
+![Writing bear](https://pics.craiyon.com/2023-07-12/1d858937f1104df68803a2994c90453a.webp)
+
+> Image credit: https://www.craiyon.com/image/OAbZtyelSoS7FdGko6hvQg
+:::
+
+------------------------------------------------------------------------
+
+# **THIS ISN'T THE END!** 😄
+
+**Don't forget to *reproduce your analysis* in a new location or time!**
+
+<img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2008/12/26/20/107000.jpg" height="150" style="padding: 1em; border-style: solid; border-color: grey;"/>
+
+> Image source: https://www.independent.co.uk/climate-change/news/by-the-left-quick-march-the-emperor-penguins-migration-1212420.html
+
+------------------------------------------------------------------------
+
+## Your turn: pick a new location and/or measurement to plot 🌏 📈
+
+Below (or in a new notebook!), recreate the workflow you just did in a place that interests you OR with a different measurement. See the instructions above to adapt the URL that we created for Rapid City, CO using the NCEI API. You will need to make your own new Markdown and Code cells below this one, or create a new notebook.
+
+------------------------------------------------------------------------
+
+## **Congratulations, you're almost done with this coding challenge** 🤩 -- now make sure that your code is *reproducible*
+
+<img src="https://dfwurbanwildlife.com/wp-content/uploads/2018/03/SnowGeese16.jpg" height="150" style="padding: 1em; border-style: solid; border-color: grey;"/>
+
+> Image source: https://dfwurbanwildlife.com/2018/03/25/chris-jacksons-dfw-urban-wildlife/snow-geese-galore/
+
+::: {.callout-important icon="false"}
+# {{< fa keyboard size=large >}} Your task
+1.  If you didn't already, go back to the code you modified about and write more descriptive **comments** so the next person to use this code knows what it does.
+
+::: {.content-visible when-format="ipynb"}
+2.  Make sure to `Restart` and `Run all` up at the top of your notebook. This will clear all your variables and make sure that your code runs in the correct order. It will also export your work in Markdown format, which you can put on your website.
+
+::: {.callout-important}
+## Always run your code start to finish before submitting!
+
+Before you commit your work, make sure it runs **reproducibly** by clicking: 
+
+  1. `Restart` (this button won't appear until you've run some code), then 
+  2. `Run All`
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## BONUS: Create a shareable Markdown of your work
+
+Below is some code that you can run that will save a Markdown file of your work that is easily shareable and can be uploaded to GitHub Pages. You can use it as a starting point for writing your portfolio post!
+
+```{python}
+%%capture
+%%bash
+jupyter nbconvert *.ipynb --to markdown
+```
