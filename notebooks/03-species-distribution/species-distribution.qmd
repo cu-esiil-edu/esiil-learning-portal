@@ -261,6 +261,8 @@ for month in range(1, 13):
 ```
 
 ### Load the GBIF data into Python
+
+::: {.content-visible when-format="html"}
 ```{python}
 gbif_paths = []
 # Load and format the GBIF data
@@ -273,14 +275,17 @@ for month in range(1, 13):
     gbif_df = pd.read_csv(gbif_path, index_col='key')
 
     # Select the required columns and append
-    gbif_dfs.append(gbif_df[['decimalLatitude', 'decimalLongitude', 'month']])
+    gbif_dfs.append(
+        gbif_df[['decimalLatitude', 'decimalLongitude', 'month']])
 
 # Glue the monthly DataFrames together
 gbif_df = pd.concat(gbif_dfs)
 ```
-
+:::
 
 ### Convert the GBIF data to a GeoDataFrame 
+
+::: {.content-visible when-format="html"}
 ```{python}
 gbif_gdf = (
     gpd.GeoDataFrame(
@@ -294,9 +299,11 @@ gbif_gdf = (
 )
 gbif_gdf
 ```
+:::
 
 ### Identify the ecoregion for each observation
 
+::: {.content-visible when-format="html"}
 ```{python}
 gbif_ecoregion_gdf = (
     ecoregions_gdf
@@ -314,8 +321,11 @@ gbif_ecoregion_gdf = (
 )
 gbif_ecoregion_gdf
 ```
+:::
 
 ### Count the observations in each ecoregion
+
+::: {.content-visible when-format="html"}
 ```{python}
 occurrence_df = (
     gbif_ecoregion_gdf
@@ -351,9 +361,11 @@ occurrence_df['norm_occurrences'] = (
 )
 occurrence_df
 ```
+:::
 
 ## Plot the Tasiyagnunpa observations by month
 
+::: {.content-visible when-format="html"}
 ```{python}
 # Prepare a GeoDataFrame for plotting
 occurrence_gdf = (
@@ -363,11 +375,17 @@ occurrence_gdf = (
 )
 
 # Add a month name column
-# occurrence_gdf['Month'] = pd.to_datetime(
-#     occurrence_gdf.reset_index().month)#, format='%m')#.dt.month_name()
+occurrence_gdf['Month'] = pd.Categorical(
+    values=pd.to_datetime(
+        occurrence_gdf.index.get_level_values('month'), 
+        format='%m').month_name(),
+    ordered=True
+)
 
 occurrence_gdf
 ```
+
+:::
 
 ```{python}
 # Get the plot bounds so they don't change with the slider
@@ -376,16 +394,21 @@ xmin, ymin, xmax, ymax = occurrence_gdf.total_bounds
 # Plot occurrence by ecoregion and month
 migration_plot = occurrence_gdf.hvplot(
     c='norm_occurrences',
+    # Use background tiles
     geo=True, crs=ccrs.Mercator(), tiles='CartoDark',
     title="Tasiyagnunpa migration",
-    groupby='month',
+    # Add a month menu
+    groupby='Month',
     xlim=(xmin, xmax), ylim=(ymin, ymax),
-    frame_width=600
+    frame_height=600
 )
 
-# Put slider on the bottom
+# Locate the slider on the bottom
 hv.output(widget_location='bottom')
 
+# Save the plot
 hv.save(migration_plot, 'migration.html')
+
+# Show the plot
 migration_plot
 ```
