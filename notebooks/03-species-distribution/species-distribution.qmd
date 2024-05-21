@@ -13,7 +13,9 @@ Tasiyagnunpa (or Western Meadowlark, or sturnella neglecta) migrates each year t
 
 > Read more about the Lakota connection to Tasiyagnunpa from [Native Sun News Today](https://www.nativesunnews.today/articles/meadowlarks-still-speak-lakota-humans-dont-anymore/)
 
-## Import Python libraries
+## Set up your reproducible workflow
+
+### Import Python libraries
 
 We will be getting data from a source called [GBIF (Global Biodiversity Information Facility)](https://www.gbif.org/). We need a package called `pygbif` to access the data, which is not included in your environment. Install it by running the cell below:
 
@@ -34,6 +36,7 @@ Add imports for packages that will help you:
 
 ```{python}
 #| error: true
+import calendar
 import os
 import pathlib
 import requests
@@ -50,6 +53,7 @@ import pygbif.occurrences as occ
 ```{python}
 #| code-fold: true
 #| code-summary: See our solution!
+import calendar
 import os
 import pathlib
 import requests
@@ -68,7 +72,7 @@ import pygbif.species as species
 ```
 :::
 
-## Create a folder for your data
+### Create a folder for your data
 
 For this challenge, you will need to save some data to your computer. We suggest saving to somewhere in your *home* folder (e.g. `/home/username`), rather than to your GitHub repository, since data files can easily become too large for GitHub.
 
@@ -122,7 +126,7 @@ gbif_dir = os.path.join(data_dir, 'meadowlark_observations')
 ```
 :::
 
-## Define your study area
+## Define your study area -- the ecoregions of North America
 
 Track observations of Taciyagnunpa across the different **ecoregions** of North America! You should be able to see changes in the number of observations in each ecoregion throughout the year.
 
@@ -265,15 +269,24 @@ ecoregions_plot_gdf.hvplot(geo=True, crs=ccrs.Mercator())
 ```
 :::
 
-## Download occurrence data
+## Access locations and times of Tasiyagnunpa encounters
 
 For this challenge, you will use a database called the [Global Biodiversity Information Facility (GBIF)](https://www.gbif.org/). GBIF is compiled from species observation data all over the world, and includes everything from museum specimens to photos taken by citizen scientists in their backyards.
 
-Before your get started, go to <https://www.gbif.org/> to explore the data!
+::: {.callout-important icon="false"}
+# {{< fa keyboard size=large >}} Your task: Explore GBIF
+Before your get started, go to the [GBIF occurrences search page](https://www.gbif.org/occurrence/search) and explore the data.
+:::
+
+::: {.callout-tip}
+# Contribute to open data
+
+You can get your own observations added to GBIF using [iNaturalist](https://www.inaturalist.org/)!
+:::
 
 ### Register and log in to GBIF
 
-You will need a GBIF account to complete this challenge. You can use your GitHub account to authenticate with GBIF. Then, run the following code to save your credentials on your computer.
+You will need a [GBIF account](https://www.gbif.org/) to complete this challenge. You can use your GitHub account to authenticate with GBIF. Then, run the following code to save your credentials on your computer.
 
 ::: callout-tip
 If you accidentally enter your credentials wrong, you can set `reset_credentials=True` instead of `reset_credentials=False`
@@ -301,14 +314,14 @@ for env_variable, (prompt_func, prompt_text) in credentials.items():
 ::: {.callout-important icon="false"}
 # {{< fa keyboard size=large >}} Your task
 
-1.  Replace the `...` with the name of the species you want to look up
+1.  Replace the `species_name` with the name of the species you want to look up
 2.  Run the code to get the species key
 :::
 
 ```{python}
 #| error: true
 # Query species
-species_info = species.name_lookup('...', rank='SPECIES')
+species_info = species.name_lookup(species_name, rank='SPECIES')
 
 # Get the first result
 first_result = species_info['results'][0]
@@ -343,79 +356,89 @@ first_result['species'], species_key
 ::: {.callout-important icon="false"}
 # {{< fa keyboard size=large >}} Your task
 
-Add parameters to the GBIF download function, `occ.download()` to limit your query to:
+1. Replace `csv_file_pattern` with a string that will match **any** `.csv` file when used in the `glob` function. HINT: the character `*` represents any number of any values except the file separator (e.g. `/`)
+2. Add parameters to the GBIF download function, `occ.download()` to limit your query to:
 
--   Sturnella Neglecta observations
--   in north america (`NORTH_AMERICA`)
--   from 2023
--   with spatial coordinates.
+    -   Sturnella Neglecta observations
+    -   in north america (`NORTH_AMERICA`)
+    -   from 2023
+    -   with spatial coordinates.
 
-Then, run the download. **This can take a few minutes**.
+3. Then, run the download. **This can take a few minutes**.
 :::
 
 ```{python}
 #| error: true
-# Submit query to GBIF
-gbif_query = occ.download([
-    "continent = ",
-    "speciesKey = ",
-    "year = ",
-    "hasCoordinate = ",
-])
-if not 'GBIF_DOWNLOAD_KEY' in os.environ:
-    os.environ['GBIF_DOWNLOAD_KEY'] = gbif_query[0]
+# Only download once
+gbif_pattern = os.path.join(gbif_dir, csv_file_pattern)
+if not glob(gbif_pattern):
+    # Submit query to GBIF
+    gbif_query = occ.download([
+        "continent = ",
+        "speciesKey = ",
+        "year = ",
+        "hasCoordinate = ",
+    ])
+    if not 'GBIF_DOWNLOAD_KEY' in os.environ:
+        os.environ['GBIF_DOWNLOAD_KEY'] = gbif_query[0]
 
-    # Wait for the download to build
-    wait = occ.download_meta(download_key)['status']
-    while not wait=='SUCCEEDED':
+        # Wait for the download to build
         wait = occ.download_meta(download_key)['status']
-        time.sleep(5)
+        while not wait=='SUCCEEDED':
+            wait = occ.download_meta(download_key)['status']
+            time.sleep(5)
 
-# Download GBIF data
-download_info = occ.download_get(
-    os.environ['GBIF_DOWNLOAD_KEY'], 
-    path=data_dir)
+    # Download GBIF data
+    download_info = occ.download_get(
+        os.environ['GBIF_DOWNLOAD_KEY'], 
+        path=data_dir)
 
-# Unzip GBIF data
-with zipfile.ZipFile(download_info['path']) as download_zip:
-    download_zip.extractall(path=gbif_dir)
+    # Unzip GBIF data
+    with zipfile.ZipFile(download_info['path']) as download_zip:
+        download_zip.extractall(path=gbif_dir)
+
 # Find the extracted .csv file path
-gbif_path = glob(os.path.join(gbif_dir, '*.csv'))[0]
+gbif_path = glob(gbif_pattern)[0]
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| code-fold: true
 #| code-summary: See our solution!
-# Submit query to GBIF
-gbif_query = occ.download([
-    "continent = NORTH_AMERICA",
-    "speciesKey = 9596413",
-    "hasCoordinate = TRUE",
-    "year = 2023",
-])
-download_key = gbif_query[0]
 
-# Wait for the download to build
-if not 'GBIF_DOWNLOAD_KEY' in os.environ:
-    os.environ['GBIF_DOWNLOAD_KEY'] = gbif_query[0]
+# Only download once
+gbif_pattern = os.path.join(gbif_dir, '*.csv')
+if not glob(gbif_pattern):
+    # Submit query to GBIF
+    gbif_query = occ.download([
+        "continent = NORTH_AMERICA",
+        "speciesKey = 9596413",
+        "hasCoordinate = TRUE",
+        "year = 2023",
+    ])
+    download_key = gbif_query[0]
 
     # Wait for the download to build
-    wait = occ.download_meta(download_key)['status']
-    while not wait=='SUCCEEDED':
+    if not 'GBIF_DOWNLOAD_KEY' in os.environ:
+        os.environ['GBIF_DOWNLOAD_KEY'] = gbif_query[0]
+
+        # Wait for the download to build
         wait = occ.download_meta(download_key)['status']
-        time.sleep(5)
+        while not wait=='SUCCEEDED':
+            wait = occ.download_meta(download_key)['status']
+            time.sleep(5)
 
-# Download GBIF data
-download_info = occ.download_get(
-    os.environ['GBIF_DOWNLOAD_KEY'], 
-    path=data_dir)
+    # Download GBIF data
+    download_info = occ.download_get(
+        os.environ['GBIF_DOWNLOAD_KEY'], 
+        path=data_dir)
 
-# Unzip GBIF data
-with zipfile.ZipFile(download_info['path']) as download_zip:
-    download_zip.extractall(path=gbif_dir)
-# Find the extracted .csv file path
-gbif_path = glob(os.path.join(gbif_dir, '*.csv'))[0]
+    # Unzip GBIF data
+    with zipfile.ZipFile(download_info['path']) as download_zip:
+        download_zip.extractall(path=gbif_dir)
+
+# Find the extracted .csv file path (take the first result)
+gbif_path = glob(gbif_pattern)[0]
 ```
 :::
 
@@ -424,9 +447,9 @@ gbif_path = glob(os.path.join(gbif_dir, '*.csv'))[0]
 ::: {.callout-important icon="false"}
 # {{< fa keyboard size=large >}} Your task
 
-1.  Look at the beginning of the file you downloaded. What do you think the **delimiter** is?
-2.  Run the next code cell. What happens?
-3.  Uncomment and modify the parameters below until your data loads successfully and you have only the columns you want.
+1.  Look at the beginning of the file you downloaded using the code below. What do you think the **delimiter** is?
+2.  Run the following code cell. What happens?
+3.  Uncomment and modify the parameters of `pd.read_csv()` below until your data loads successfully and you have only the columns you want.
 :::
 
 You can use the following code to look at the beginning of your file:
@@ -506,6 +529,8 @@ gbif_gdf
 ```
 :::
 
+## Count the number of observations in each ecosystem, during each month of 2023
+
 ### Identify the ecoregion for each observation
 
 You can combine the ecoregions and the observations **spatially** using a method called `.sjoin()`, which stands for spatial join.
@@ -564,7 +589,7 @@ gbif_ecoregion_gdf
 ### Count the observations in each ecoregion each month
 
 ::: {.callout-important icon="false"}
-# {{< fa keyboard size=large >}} Your task
+# {{< fa keyboard size=large >}} Your task:
 
 1.  Replace `columns_to_group_by` with a list of columns. Keep in mind that you will end up with one row for each group -- you want to count the observations in each ecoregion by month.
 2.  Select only month/ecosystem combinations that have more than one occurrence recorded, since a single occurrence could be an error.
@@ -583,7 +608,7 @@ occurrence_df = (
 )
 
 # Get rid of rare observations (possible misidentification?)
-occurrence_df = 
+occurrence_df = occurrence_df[...]
 
 # Take the mean by ecoregion
 mean_occurrences_by_ecoregion = (
@@ -645,61 +670,93 @@ occurrence_df
 
 ## Plot the Tasiyagnunpa observations by month
 
-Use the following code to plot your data. You may need to modify it to get it to work!
+::: {.callout-important icon="false"}
+# {{< fa keyboard size=large >}} Your task
 
-::: {.content-visible when-format="html"}
-```{python}
-# Prepare a GeoDataFrame for plotting
-occurrence_gdf = (
-    # Start with the simplified plotting GeoDataFrame 
-    ecoregions_plot_gdf
-    # Join with the observation counts
-    .join(occurrence_df)
-    # Sort by month so the month names will be in the right order
-    .sort_values('month')
-)
-
-# Add a month name column
-occurrence_gdf['Month'] = pd.Categorical(
-    values=(
-        # Convert month to datetime
-        pd.to_datetime(
-            occurrence_gdf.index.get_level_values('month'), 
-            format='%m')
-        # Get the month name
-        .month_name()
-    ),
-    ordered=True
-)
-
-occurrence_gdf
-```
+1. If applicable, replace any variable names with the names you defined previously.
+2. Replace `column_name_used_for_ecoregion_color` and `column_name_used_for_slider` with the column names you wish to use.
+3. Customize your plot with your choice of title, tile source, color map, and size.
 :::
 
 ```{python}
+#| error: true
+# Join the occurrences with the plotting GeoDataFrame
+occurrence_gdf = ecoregions_plot_gdf.join(occurrence_df)
+
 # Get the plot bounds so they don't change with the slider
 xmin, ymin, xmax, ymax = occurrence_gdf.total_bounds
 
 # Plot occurrence by ecoregion and month
-migration_plot = occurrence_gdf.hvplot(
-    c='norm_occurrences',
-    # Use background tiles
-    geo=True, crs=ccrs.Mercator(), tiles='CartoDark',
-    title="Tasiyagnunpa migration",
-    # Add a month menu
-    groupby='Month',
-    xlim=(xmin, xmax), ylim=(ymin, ymax),
-    frame_height=600,
-    colorbar=False,
-    widgets={'Month': pn.widgets.DiscreteSlider},
-    widget_location='bottom'
+migration_plot = (
+    occurrence_gdf
+    .hvplot(
+        c=column_name_used_for_shape_color,
+        groupby=column_name_used_for_slider,
+        # Use background tiles
+        geo=True, crs=ccrs.Mercator(), tiles='CartoLight',
+        title="Your Title Here",
+        xlim=(xmin, xmax), ylim=(ymin, ymax),
+        frame_height=600,
+        widget_location='bottom'
+    )
 )
+
+# Save the plot
+migration_plot.save('migration.html', embed=True)
 
 # Show the plot
 migration_plot
 ```
 
+
+::: {.content-visible when-format="html"}
 ```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+#| output: false
+# Join the occurrences with the plotting GeoDataFrame
+occurrence_gdf = ecoregions_plot_gdf.join(occurrence_df)
+
+# Get the plot bounds so they don't change with the slider
+xmin, ymin, xmax, ymax = occurrence_gdf.total_bounds
+
+# Define the slider widget
+slider = pn.widgets.DiscreteSlider(
+    name='month', 
+    options={calendar.month_name[i]: i for i in range(1, 13)}
+)
+
+# Plot occurrence by ecoregion and month
+migration_plot = (
+    occurrence_gdf
+    .hvplot(
+        c='norm_occurrences',
+        groupby='month',
+        # Use background tiles
+        geo=True, crs=ccrs.Mercator(), tiles='CartoLight',
+        title="Tasiyagnunpa migration",
+        xlim=(xmin, xmax), ylim=(ymin, ymax),
+        frame_height=600,
+        colorbar=False,
+        widgets={'month': slider},
+        widget_location='bottom'
+    )
+)
+
 # Save the plot
 migration_plot.save('migration.html', embed=True)
+
+# Show the plot
+migration_plot
 ```
+:::
+
+::: {.content-visible when-format="html"}
+<embed type="text/html" src="migration.html" width="600" height="600">
+:::
+
+::: {.callout-important icon="false"}
+# {{< fa pepper-hot size=large >}} Want an EXTRA CHALLENGE?
+
+Notice that the `month` slider displays numbers instead of the month name. Use `pn.widgets.DiscreteSlider()` with the `options=` parameter set to give the months names. You might want to try asking ChatGPT how to do this, or look at the documentation for `pn.widgets.DiscreteSlider()`. This is pretty tricky!
+:::
