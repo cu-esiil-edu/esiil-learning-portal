@@ -221,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="import-python-libraries" class="level3">
 <h3 class="anchored" data-anchor-id="import-python-libraries">Import Python libraries</h3>
 <p>We will be getting data from a source called <a href="https://www.gbif.org/">GBIF (Global Biodiversity Information Facility)</a>. We need a package called <code>pygbif</code> to access the data, which is not included in your environment. Install it by running the cell below:</p>
-<div id="9910ea23" class="cell" data-execution_count="1">
+<div id="9910ea23" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>bash</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pip install pygbif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -243,7 +243,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 </div>
 </div>
-<div id="595bf5f4" class="cell" data-execution_count="2">
+<div id="595bf5f4" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> calendar</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pathlib</span>
@@ -256,7 +256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> panel <span class="im">as</span> pn</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pygbif.occurrences <span class="im">as</span> occ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="6f5b2f52" class="cell" data-execution_count="3">
+<div id="6f5b2f52" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> calendar</span>
@@ -312,7 +312,7 @@ Warning
 </ol>
 </div>
 </div>
-<div id="e3b39a78" class="cell" data-execution_count="4">
+<div id="e3b39a78" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data directory in the home folder</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data_dir <span class="op">=</span> os.path.join(</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Home directory</span></span>
@@ -328,7 +328,7 @@ Warning
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the directory name for GBIF data</span></span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>gbif_dir <span class="op">=</span> os.path.join(data_dir, <span class="st">'your-gbif-data-directory-name-here'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e0db086a" class="cell" data-execution_count="5">
+<div id="e0db086a" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data directory in the home folder</span></span>
@@ -369,7 +369,7 @@ Warning
 </ol>
 </div>
 </div>
-<div id="f2769ce5" class="cell" data-execution_count="6">
+<div id="f2769ce5" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up the ecoregions level III boundary URL</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>a_url <span class="op">=</span> (<span class="st">"your/url/here"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up a path to save the dataon your machine</span></span>
@@ -383,7 +383,7 @@ Warning
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(a_path, <span class="st">'wb'</span>) <span class="im">as</span> a_file:</span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        a_file.write(a_response.content)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="260e8eff" class="cell" data-execution_count="7">
+<div id="260e8eff" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up the ecoregions level III boundary URL</span></span>
@@ -424,7 +424,7 @@ Warning
 </ol>
 </div>
 </div>
-<div id="9120a226" class="cell" data-execution_count="8">
+<div id="9120a226" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open up the ecoregions boundaries</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gpd.read_file(a_path)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -433,7 +433,7 @@ Warning
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the ecoregions to check download</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="1c1e3952" class="cell" data-execution_count="9">
+<div id="1c1e3952" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open up the ecoregions boundaries</span></span>
@@ -475,7 +475,7 @@ Warning
 </ol>
 </div>
 </div>
-<div id="f7153fb7" class="cell" data-execution_count="10">
+<div id="f7153fb7" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a copy of the ecoregions</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Simplify the geometry to speed up processing</span></span>
@@ -485,7 +485,7 @@ Warning
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that the plot runs</span></span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>gdf.hvplot(geo<span class="op">=</span><span class="va">True</span>, crs<span class="op">=</span>ccrs.Mercator())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="9e869357" class="cell" data-execution_count="11">
+<div id="9e869357" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a copy of the ecoregions</span></span>
@@ -548,7 +548,7 @@ Tip
 <p>If you accidentally enter your credentials wrong, you can set <code>reset_credentials=True</code> instead of <code>reset_credentials=False</code></p>
 </div>
 </div>
-<div id="8428fcd0" class="cell" data-execution_count="12">
+<div id="8428fcd0" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>reset_credentials <span class="op">=</span> <span class="va">False</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># GBIF needs a username, password, and email</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>credentials <span class="op">=</span> <span class="bu">dict</span>(</span>
@@ -583,7 +583,7 @@ Tip
 </ol>
 </div>
 </div>
-<div id="f60dc099" class="cell" data-execution_count="13">
+<div id="f60dc099" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Query species</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>species_info <span class="op">=</span> species.name_lookup(species_name, rank<span class="op">=</span><span class="st">'SPECIES'</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -596,7 +596,7 @@ Tip
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the result</span></span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>first_result[<span class="st">'species'</span>], species_key</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="4fb71636" class="cell" data-execution_count="14">
+<div id="4fb71636" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Query species</span></span>
@@ -638,7 +638,7 @@ Tip
 </ol>
 </div>
 </div>
-<div id="d14ca2a5" class="cell" data-execution_count="15">
+<div id="d14ca2a5" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only download once</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>gbif_pattern <span class="op">=</span> os.path.join(gbif_dir, csv_file_pattern)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> glob(gbif_pattern):</span>
@@ -670,7 +670,7 @@ Tip
 <span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the extracted .csv file path</span></span>
 <span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>gbif_path <span class="op">=</span> glob(gbif_pattern)[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="c8f99185" class="cell" data-execution_count="16">
+<div id="c8f99185" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only download once</span></span>
@@ -729,10 +729,10 @@ Tip
 </div>
 </div>
 <p>You can use the following code to look at the beginning of your file:</p>
-<div id="67b88e6f" class="cell" data-execution_count="17">
+<div id="67b88e6f" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>head $gbif_path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="40e823c2" class="cell" data-execution_count="18">
+<div id="40e823c2" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the GBIF data</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>gbif_df <span class="op">=</span> pd.read_csv(</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    gbif_path, </span>
@@ -742,7 +742,7 @@ Tip
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>gbif_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f4dbd5e0" class="cell" data-execution_count="19">
+<div id="f4dbd5e0" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the GBIF data</span></span>
@@ -775,7 +775,7 @@ Tip
 </ol>
 </div>
 </div>
-<div id="b6845149" class="cell" data-execution_count="20">
+<div id="b6845149" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>gbif_gdf <span class="op">=</span> (</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    gpd.GeoDataFrame(</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>        your_dataframe, </span>
@@ -788,7 +788,7 @@ Tip
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>gbif_gdf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="2c5f377b" class="cell" data-execution_count="21">
+<div id="2c5f377b" class="cell" data-execution_count="22">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>gbif_gdf <span class="op">=</span> (</span>
@@ -841,7 +841,7 @@ Tip
 </ol>
 </div>
 </div>
-<div id="3ed44ac4" class="cell" data-execution_count="22">
+<div id="3ed44ac4" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>gbif_ecoregion_gdf <span class="op">=</span> (</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    ecoregions_gdf</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Match the CRS of the GBIF data and the ecoregions</span></span>
@@ -856,7 +856,7 @@ Tip
 <span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>gbif_ecoregion_gdf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="aac4a4b7" class="cell" data-execution_count="23">
+<div id="aac4a4b7" class="cell" data-execution_count="24">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>gbif_ecoregion_gdf <span class="op">=</span> (</span>
@@ -895,7 +895,7 @@ Tip
 </ol>
 </div>
 </div>
-<div id="aa37ce2a" class="cell" data-execution_count="24">
+<div id="aa37ce2a" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>occurrence_df <span class="op">=</span> (</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    gbif_ecoregion_gdf</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For each ecoregion, for each month...</span></span>
@@ -926,7 +926,7 @@ Tip
 <span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>occurrence_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e42dc0f7" class="cell" data-execution_count="25">
+<div id="e42dc0f7" class="cell" data-execution_count="26">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>occurrence_df <span class="op">=</span> (</span>
@@ -983,7 +983,7 @@ Tip
 </ol>
 </div>
 </div>
-<div id="45acee04" class="cell" data-execution_count="26">
+<div id="45acee04" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Join the occurrences with the plotting GeoDataFrame</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>occurrence_gdf <span class="op">=</span> ecoregions_plot_gdf.join(occurrence_df)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1011,7 +1011,7 @@ Tip
 <span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the plot</span></span>
 <span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>migration_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="93044dad" class="cell" data-execution_count="27">
+<div id="93044dad" class="cell" data-execution_count="28">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Join the occurrences with the plotting GeoDataFrame</span></span>
