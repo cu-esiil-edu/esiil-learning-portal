@@ -129,14 +129,19 @@ For this coding challenge, we are interested in the boundary of Denver, CO. In t
 ```{python}
 #| code-fold: true
 #| code-summary: See our solution!
-# Download US County Boundaries
-county_url = (
-    "https://www2.census.gov/geo/tiger/TIGER2023"
-    "/COUNTY/tl_2023_us_county.zip")
-county_gdf = gpd.read_file(county_url)
+denver_path = os.path.join(data_dir, 'denver')
+if not os.path.exists(denver_path):
+    # Download US County Boundaries
+    county_url = (
+        "https://www2.census.gov/geo/tiger/TIGER2023"
+        "/COUNTY/tl_2023_us_county.zip")
+    county_gdf = gpd.read_file(county_url)
 
-# Select only Colorado
-denver_gdf = county_gdf[county_gdf.NAME=="Denver"]
+    # Select only Colorado
+    denver_gdf = county_gdf[county_gdf.NAME=="Denver"]
+    denver_gdf.to_file(denver_path)
+
+denver_gdf = gpd.read_file(denver_path)
 denver_gdf
 ```
 :::
@@ -204,31 +209,23 @@ Often when we want to do something more complex in coding we find an example and
 ```
 
 ```{python}
-# Search EarthData for MODIS AOD dataset
+# Search EarthData for VIIRS Aerosol dataset
 auth = earthaccess.login(strategy="interactive", persist=True)
 store = earthaccess.Store(auth)
 granules = earthaccess.search_data(
-    short_name="MOD04_3K", cloud_hosted=True,
+    short_name="AERDB_L2_VIIRS_NOAA20", cloud_hosted=True,
     bounding_box=tuple(denver_gdf.total_bounds),
-    temporal=("2023-01-01", "2023-01-15"),
+    temporal=("2023-05-01", "2023-05-31"),
 )
 granules[0]
-```
-
-```{python}
-from osgeo import gdal
-path = '/Users/elsa/Downloads/MOD04_3K.A2023001.1655.061.2023002014331.hdf'
-# g = gdal.Open(path)
-# subdatasets = g.GetSubDatasets()
-# subdatasets
-xr.open_dataset(f'HDF4_EOS:EOS_SWATH:"{ path }":mod04:Corrected_Optical_Depth_Land', engine='h5netcdf')
 ```
 
 ```{python}
 links = []
 for g in granules:
     links.extend(g.data_links(access='onprem'))
-ds = rxr.open_rasterio(f'HDF4_EOS:EOS_SWATH:{ links[0] }:mod04:Optical_Depth_Land_And_Ocean')
+    break
+ds = rxr.open_rasterio(links[0])
 ds
 ```
 
