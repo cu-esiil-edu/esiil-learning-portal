@@ -7,10 +7,11 @@ format:
     output-file: air-quality.ipynb
 ---
 
-In 2023, wildfires burning across Canada cause 
+In 2023, wildfires burning across Canada caused smoke plumes and hazardous air quality across much of the US.
 
 ## Observing air quality from space
-We will look at the air quality through a measurement called Aerosol Optical Depth (AOD). How does it work? First, we need to learn about spectral reflectance signatures.
+
+We will look at the air quality through a measurement called Aerosol Optical Thickness (AOT). How does it work? First, we need to learn about spectral reflectance signatures.
 
 ::: {.callout-important icon="false"}
 ## {{< fa fa-keyboard >}} Import necessary libraries
@@ -193,7 +194,7 @@ Over the next four cells, you will download MODIS AOD data for the study period.
 [Learn more about MODIS datasets and the science they support](https://modis.gsfc.nasa.gov/)
 :::
 
-Since we're asking for a special download that only covers our study area, we can't just find a link to the data - we have to negotiate with the data server. We're doing this using the [APPEEARS](https://appeears.earthdatacloud.nasa.gov/api/) API (Application Programming Interface). The API makes it possible for you to request data using code. You can use code from the `earthpy` library to handle the API request.
+Since we're asking only for data thatcovers our study area, we can't just find a link to the data - we have to negotiate with the data server. We're doing this using the [earthaccess](https://www.earthdata.nasa.gov/learn/blog/earthaccess) API (Application Programming Interface), which implements the `fsspec` protocol for accessing spatiotemporal data. The API makes it possible for you to request data using code. You can use code from the `earthaccess` library to handle the API request.
 
 ::: {.callout-important icon="false"}
 # {{< fa keyboard size=large >}} Your task
@@ -213,7 +214,7 @@ Often when we want to do something more complex in coding we find an example and
 auth = earthaccess.login(strategy="interactive", persist=True)
 store = earthaccess.Store(auth)
 granules = earthaccess.search_data(
-    short_name="AERDB_L2_VIIRS_NOAA20", cloud_hosted=True,
+    short_name="AERDB_L2_VIIRS_NOAA20", 
     bounding_box=tuple(denver_gdf.total_bounds),
     temporal=("2023-05-01", "2023-05-31"),
 )
@@ -225,8 +226,24 @@ links = []
 for g in granules:
     links.extend(g.data_links(access='onprem'))
     break
-ds = rxr.open_rasterio(links[0])
+
+nc_template = 'NETCDF:{link}:Spectral_Aerosol_Optical_Thickness_Land'
+ds = rxr.open_rasterio(nc_template.format(link=links[0]))
 ds
+```
+
+```{python}
+ex_path = os.path.join(
+    pathlib.Path.home(),
+    'Downloads',
+    'AERDB_L2_VIIRS_NOAA20.A2023121.1942.002.2023122081407.nc'
+)
+rxr.open_rasterio(f'NETCDF:{ex_path}:Spectral_Aerosol_Optical_Thickness_Land')
+```
+
+```{python}
+%%bash
+gdalinfo ~/Downloads/AERDB_L2_VIIRS_NOAA20.A2023121.1942.002.2023122081407.nc
 ```
 
 ## Putting it together: Working with multi-file raster datasets in Python

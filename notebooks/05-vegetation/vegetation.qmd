@@ -68,7 +68,6 @@ Make sure each plot has:
 
 The Cameron Peak Fire was the largest fire in Colorado history, with 326 square miles burned.
 
-
 ## Observing vegetation health from space
 We will look at the destruction and recovery of vegetation using NDVI (Normalized Difference Vegetation Index). How does it work? First, we need to learn about spectral reflectance signatures.
 
@@ -77,7 +76,7 @@ Every object reflects some wavelengths of light more or less than others. We can
 ![](https://seos-project.eu/remotesensing/images/Reflexionskurven.jpg)
 > Image source: [SEOS Project](https://seos-project.eu/remotesensing/remotesensing-c01-p06.html)
 
-Healthy vegetation reflects a lot of Near-InfraRed (NIR) radiation. Dead ve Less healthy vegetation reflects a similar amounts of the visible light spectra, but less NIR radiation. We don't see a huge drop in Green radiation until the plant is very stressed or dead. That means that NIR allows us to get ahead of what we can see with our eyes.
+**Healthy vegetation** reflects a lot of **Near-InfraRed (NIR)** radiation. Less healthy vegetation reflects a similar amounts of the visible light spectra, but less NIR radiation. We don't see a huge drop in Green radiation until the plant is very stressed or dead. That means that NIR allows us to get ahead of what we can see with our eyes.
 
 ![Healthy leaves reflect a lot of NIR radiation compared to dead or stressed leaves](/img/earth-analytics/remote-sensing/spectral_vegetation_stress.png)
 > Image source: [Spectral signature literature review by px39n](https://github.com/px39n/Awesome-Vegetation-Index)
@@ -96,6 +95,7 @@ In the cell below, making sure to keep the packages in order, add packages for:
 
   * Working with DataFrames
   * Working with GeoDataFrames
+  * Making interactive plots of tabular and vector data
 
 {{< fa fa-circle-question >}} What are we using the rest of these packages for? See if you can figure it out as you complete the notebook.
 :::
@@ -108,7 +108,6 @@ import pathlib
 from glob import glob
 
 import earthpy.appeears as eaapp
-import hvplot.pandas
 import hvplot.xarray
 import rioxarray as rxr
 import xarray as xr
@@ -186,7 +185,7 @@ Check out the sections about about [vector data](https://www.earthdatascience.or
 ::: {.callout-note icon="false"}
 # {{< fa pencil size=large >}} What do you think?
 
-For this coding challenge, we are interested in the boundary of the Cameron Peak Fire. In the cell below, answer the following question: **What data type do you think the reservation boundaries will be?**
+For this coding challenge, we are interested in the boundary of the Cameron Peak Fire. In the cell below, answer the following question: **What data type do you think the fire boundary will be?**
 :::
 
 
@@ -241,9 +240,11 @@ We always want to create a site map when working with geospatial data. This help
 ::: {.callout-important icon="false"}
 # {{< fa keyboard size=large >}} Your task
 
-  * Plot your Cameron Peak Fire shapefile on an interactive map
-  * Make sure to add a title
-  * Add ESRI World Imagery as the basemap/background using the `tiles=...` parameter
+  1. Plot your Cameron Peak Fire shapefile on an interactive map
+  2. Make sure to add a title
+  3. Add ESRI World Imagery as the basemap/background using the `tiles=...` parameter. To get the tiles to match up with your data, you will also need to add the `geo=True` parameter.
+
+
 :::
 
 ```{python}
@@ -253,12 +254,15 @@ We always want to create a site map when working with geospatial data. This help
 ::: {.content-visible when-format="html"}
 ```{python}
 gdf.hvplot(
+    geo=True,
     title='Cameron Peak Fire, 2020',
     tiles='EsriImagery')
 ```
 :::
 
 ## Exploring the AppEEARS API for NASA Earthdata access
+
+Before you get started with the data download today, you will need a free [NASA Earthdata account](https://urs.earthdata.nasa.gov/home) if you don't have one already!
 
 Over the next four cells, you will download MODIS NDVI data for the study period. MODIS is a multispectral instrument that measures Red and NIR data (and so can be used for NDVI). There are two MODIS sensors on two different platforms: satellites Terra and Aqua.
 
@@ -275,12 +279,21 @@ Since we're asking for a special download that only covers our study area, we ca
 
 Often when we want to do something more complex in coding we find an example and modify it. This download code is already almost a working example. Your task will be:
 
-  * Enter your NASA Earthdata username and password when prompted
-  * Replace the start and end dates in the task parameters. Download data from July, when greenery is at its peak in the Northern Hemisphere.
-  * Replace the year range. You should get 3 years before and after the fire so you can see the change!
-  * Replace `gdf` with the name of **your** site geodataframe. 
+  1. Replace the start and end dates in the task parameters. Download data from July, when greenery is at its peak in the Northern Hemisphere.
+  2. Replace the year range. You should get 3 years before and after the fire so you can see the change!
+  3. Replace `gdf` with the name of **your** site geodataframe. 
+  4. **Enter your NASA Earthdata username and password when prompted.** The prompts can be a little hard to see -- look at the top of your screen!
 
 {{< fa circle-question size=large >}} What would the product and layer name be if you were trying to download Landsat Surface Temperature Analysis Ready Data (ARD) instead of MODIS NDVI?
+:::
+
+::: {.callout-important}
+It can take some time for Appeears to process your request - anything from a few minutes to a few hours depending on how busy they are. You can check your progress by:
+
+  1. Going to the [Appeears webpage](https://appeears.earthdatacloud.nasa.gov/)
+  2. Clicking the  `Explore` tab
+  3. Logging in with your Earthdata account
+
 :::
 
 ```{python}
@@ -296,6 +309,8 @@ ndvi_downloader = eaapp.AppeearsDownloader(
     year_range=[2021, 2021],
     polygon=gdf
 )
+# Download the prepared download -- this can take some time!
+ndvi_downloader.download_files(cache=True)
 ```
 
 ```{python}
@@ -355,10 +370,9 @@ There's some code below that uses a `for` loop in what is called an **accumulati
 ::: {.callout-important icon="false"}
 # {{< fa keyboard size=large >}} Your task
 
-  * Look at the file names. How many characters from the end is the date?
+  * Look at the file names. How many characters from the end is the date? `doy_start` and `doy_end` are used to extract the day of the year (doy) from the file name. You will need to count characters from the end and change the values to get the right part of the file name. HINT: the index -1 in Python means the last value, -2 second-to-last, and so on.
   * Replace any required variable names with your chosen variable names
-  * Change the `scale_factor` variable to be the correct scale factor for this NDVI dataset (HINT: NDVI should range between 0 and 1)
-  * Using indices or regular
+  * Change the `scale_factor` variable to be the correct scale factor for this NDVI dataset (HINT: NDVI should range between 0 and 1 -- check your results!)
 
 :::
 
