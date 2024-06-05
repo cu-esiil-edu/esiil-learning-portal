@@ -225,7 +225,7 @@ window.Quarto = {
 <p>We will look at the destruction and recovery of vegetation using NDVI (Normalized Difference Vegetation Index). How does it work? First, we need to learn about spectral reflectance signatures.</p>
 <p>Every object reflects some wavelengths of light more or less than others. We can see this with our eyes, since, for example, plants reflect a lot of green in the summer, and then as that green diminishes in the fall they look more yellow or orange. The image below shows spectral signatures for water, soil, and vegetation:</p>
 <p><img src="https://seos-project.eu/remotesensing/images/Reflexionskurven.jpg" class="img-fluid"> &gt; Image source: <a href="https://seos-project.eu/remotesensing/remotesensing-c01-p06.html">SEOS Project</a></p>
-<p>Healthy vegetation reflects a lot of Near-InfraRed (NIR) radiation. Dead ve Less healthy vegetation reflects a similar amounts of the visible light spectra, but less NIR radiation. We don’t see a huge drop in Green radiation until the plant is very stressed or dead. That means that NIR allows us to get ahead of what we can see with our eyes.</p>
+<p><strong>Healthy vegetation</strong> reflects a lot of <strong>Near-InfraRed (NIR)</strong> radiation. Less healthy vegetation reflects a similar amounts of the visible light spectra, but less NIR radiation. We don’t see a huge drop in Green radiation until the plant is very stressed or dead. That means that NIR allows us to get ahead of what we can see with our eyes.</p>
 <p><img src="../../img/earth-analytics/remote-sensing/spectral_vegetation_stress.png" class="img-fluid" alt="Healthy leaves reflect a lot of NIR radiation compared to dead or stressed leaves"> &gt; Image source: <a href="https://github.com/px39n/Awesome-Vegetation-Index">Spectral signature literature review by px39n</a></p>
 <p>Different species of plants reflect different spectral signatures, but the <em>pattern</em> of the signatures are similar. NDVI compares the amount of NIR reflectance to the amount of Red reflectance, thus accounting for many of the species differences and isolating the health of the plant. The formula for calculating NDVI is:</p>
 <p><span class="math display">\[NDVI = \frac{(NIR - Red)}{(NIR + Red)}\]</span></p>
@@ -244,11 +244,12 @@ window.Quarto = {
 <ul>
 <li>Working with DataFrames</li>
 <li>Working with GeoDataFrames</li>
+<li>Making interactive plots of tabular and vector data</li>
 </ul>
 <p><i class="fa-solid fa-fa-circle-question" aria-label="fa-circle-question"></i> What are we using the rest of these packages for? See if you can figure it out as you complete the notebook.</p>
 </div>
 </div>
-<div id="f062a681" class="cell" data-execution_count="2">
+<div id="73b36023" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> getpass</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -256,12 +257,11 @@ window.Quarto = {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> glob <span class="im">import</span> glob</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> earthpy.appeears <span class="im">as</span> eaapp</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hvplot.pandas</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hvplot.xarray</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hvplot.xarray</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rxr</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="c9d50797" class="cell" data-execution_count="3">
+<div id="3d10ae13" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> getpass</span>
@@ -306,12 +306,12 @@ window.Quarto = {
 <p>In the cell below, replace ‘my-data-folder’ with a <strong>descriptive</strong> directory name.</p>
 </div>
 </div>
-<div id="eacc8f35" class="cell" data-execution_count="4">
+<div id="a147cc08" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data_dir <span class="op">=</span> os.path.join(pathlib.Path.home(), <span class="st">'my-data-folder'</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the data directory</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>os.makedirs(data_dir, exist_ok<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="944ab98f" class="cell" data-execution_count="5">
+<div id="7210ef36" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data_dir <span class="op">=</span> os.path.join(</span>
@@ -385,7 +385,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For this coding challenge, we are interested in the boundary of the Cameron Peak Fire. In the cell below, answer the following question: <strong>What data type do you think the reservation boundaries will be?</strong></p>
+<p>For this coding challenge, we are interested in the boundary of the Cameron Peak Fire. In the cell below, answer the following question: <strong>What data type do you think the fire boundary will be?</strong></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-important no-icon callout-titled">
@@ -406,10 +406,10 @@ window.Quarto = {
 </ul>
 </div>
 </div>
-<div id="452b0f7c" class="cell" data-execution_count="6">
+<div id="1b2c3d6f" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the Cameron Peak fire boundary</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="91ce7777" class="cell" data-execution_count="7">
+<div id="242f72f3" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> (</span>
@@ -422,7 +422,7 @@ window.Quarto = {
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>gdf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="2f969173" class="cell" data-execution_count="8">
+<div id="1275aadf" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ans_gdf <span class="op">=</span> _</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>gdf_pts <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -448,25 +448,27 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<ul>
+<ol type="1">
 <li>Plot your Cameron Peak Fire shapefile on an interactive map</li>
 <li>Make sure to add a title</li>
-<li>Add ESRI World Imagery as the basemap/background using the <code>tiles=...</code> parameter</li>
-</ul>
+<li>Add ESRI World Imagery as the basemap/background using the <code>tiles=...</code> parameter. To get the tiles to match up with your data, you will also need to add the <code>geo=True</code> parameter.</li>
+</ol>
 </div>
 </div>
-<div id="704e2842" class="cell" data-execution_count="9">
+<div id="68c906e1" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the Cameron Peak Fire boundary</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="d74823c3" class="cell" data-execution_count="10">
+<div id="aef2cd14" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>gdf.hvplot(</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Cameron Peak Fire, 2020'</span>,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    tiles<span class="op">=</span><span class="st">'EsriImagery'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    geo<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Cameron Peak Fire, 2020'</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    tiles<span class="op">=</span><span class="st">'EsriImagery'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
 <section id="exploring-the-appeears-api-for-nasa-earthdata-access" class="level2">
 <h2 class="anchored" data-anchor-id="exploring-the-appeears-api-for-nasa-earthdata-access">Exploring the AppEEARS API for NASA Earthdata access</h2>
+<p>Before you get started with the data download today, you will need a free <a href="https://urs.earthdata.nasa.gov/home">NASA Earthdata account</a> if you don’t have one already!</p>
 <p>Over the next four cells, you will download MODIS NDVI data for the study period. MODIS is a multispectral instrument that measures Red and NIR data (and so can be used for NDVI). There are two MODIS sensors on two different platforms: satellites Terra and Aqua.</p>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -493,16 +495,34 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <p>Often when we want to do something more complex in coding we find an example and modify it. This download code is already almost a working example. Your task will be:</p>
-<ul>
-<li>Enter your NASA Earthdata username and password when prompted</li>
+<ol type="1">
 <li>Replace the start and end dates in the task parameters. Download data from July, when greenery is at its peak in the Northern Hemisphere.</li>
 <li>Replace the year range. You should get 3 years before and after the fire so you can see the change!</li>
 <li>Replace <code>gdf</code> with the name of <strong>your</strong> site geodataframe.</li>
-</ul>
+<li><strong>Enter your NASA Earthdata username and password when prompted.</strong> The prompts can be a little hard to see – look at the top of your screen!</li>
+</ol>
 <p><i class="fa-solid fa-circle-question fa-large" aria-label="circle-question"></i> What would the product and layer name be if you were trying to download Landsat Surface Temperature Analysis Ready Data (ARD) instead of MODIS NDVI?</p>
 </div>
 </div>
-<div id="57d44146" class="cell" data-execution_count="11">
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It can take some time for Appeears to process your request - anything from a few minutes to a few hours depending on how busy they are. You can check your progress by:</p>
+<ol type="1">
+<li>Going to the <a href="https://appeears.earthdatacloud.nasa.gov/">Appeears webpage</a></li>
+<li>Clicking the <code>Explore</code> tab</li>
+<li>Logging in with your Earthdata account</li>
+</ol>
+</div>
+</div>
+<div id="1518eecd" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize AppeearsDownloader for MODIS NDVI data</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ndvi_downloader <span class="op">=</span> eaapp.AppeearsDownloader(</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    download_key<span class="op">=</span><span class="st">'cp-ndvi'</span>,</span>
@@ -514,9 +534,11 @@ window.Quarto = {
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    recurring<span class="op">=</span><span class="va">True</span>,</span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    year_range<span class="op">=</span>[<span class="dv">2021</span>, <span class="dv">2021</span>],</span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    polygon<span class="op">=</span>gdf</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the prepared download -- this can take some time!</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>ndvi_downloader.download_files(cache<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e295f335" class="cell" data-execution_count="12">
+<div id="ceb6b293" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize AppeearsDownloader for MODIS NDVI data</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>ndvi_downloader <span class="op">=</span> eaapp.AppeearsDownloader(</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    download_key<span class="op">=</span><span class="st">'cp-ndvi'</span>,</span>
@@ -548,10 +570,10 @@ window.Quarto = {
 <p><code>glob</code> doesn’t necessarily find files in the order you would expect. Make sure to <strong>sort</strong> your file names like it says in the textbook.</p>
 </div>
 </div>
-<div id="c2f8dbfa" class="cell" data-execution_count="13">
+<div id="f4d33ebe" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get a list of NDVI tif file paths</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b7be6ed4" class="cell" data-execution_count="14">
+<div id="ff404df7" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get list of NDVI tif file paths</span></span>
@@ -582,19 +604,18 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>Look at the file names. How many characters from the end is the date?</li>
+<li>Look at the file names. How many characters from the end is the date? <code>doy_start</code> and <code>doy_end</code> are used to extract the day of the year (doy) from the file name. You will need to count characters from the end and change the values to get the right part of the file name. HINT: the index -1 in Python means the last value, -2 second-to-last, and so on.</li>
 <li>Replace any required variable names with your chosen variable names</li>
-<li>Change the <code>scale_factor</code> variable to be the correct scale factor for this NDVI dataset (HINT: NDVI should range between 0 and 1)</li>
-<li>Using indices or regular</li>
+<li>Change the <code>scale_factor</code> variable to be the correct scale factor for this NDVI dataset (HINT: NDVI should range between 0 and 1 – check your results!)</li>
 </ul>
 </div>
 </div>
-<div id="d84e8abe" class="cell" data-execution_count="15">
+<div id="61a43f04" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>scale_factor <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>doy_start <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>doy_end <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="a1e40e6e" class="cell" data-execution_count="16">
+<div id="6eec1a7b" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>scale_factor <span class="op">=</span> <span class="dv">10000</span></span>
@@ -602,7 +623,7 @@ window.Quarto = {
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>doy_end <span class="op">=</span> <span class="op">-</span><span class="dv">12</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="8dfa0258" class="cell" data-execution_count="17">
+<div id="c29ad042" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ndvi_das <span class="op">=</span> []</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ndvi_path <span class="kw">in</span> ndvi_paths:</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get date from file name</span></span>
@@ -626,7 +647,7 @@ window.Quarto = {
 <span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(ndvi_das)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next, stack your arrays by date into a time series using the <code>xr.combine_by_coords()</code> function. You will have to tell it which dimension you want to stack your data in.</p>
-<div id="6ddc67b8" class="cell" data-execution_count="18">
+<div id="24f9bdfa" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ndvi_da <span class="op">=</span> xr.combine_by_coords(ndvi_das, coords<span class="op">=</span>[<span class="st">'date'</span>])</span>
@@ -650,7 +671,7 @@ window.Quarto = {
 <p><i class="fa-solid fa-pepper-hot fa-large" aria-label="pepper-hot"></i> For an extra challenge, add the fire boundary to the plot</p>
 </div>
 </div>
-<div id="02dd20d2" class="cell" data-execution_count="19">
+<div id="079a3164" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the difference in NDVI before and after the fire</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the difference</span></span>
@@ -660,7 +681,7 @@ window.Quarto = {
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    gdf.hvplot(geo<span class="op">=</span><span class="va">True</span>, fill_color<span class="op">=</span><span class="va">None</span>, line_color<span class="op">=</span><span class="st">'black'</span>)</span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f0fc7168" class="cell" data-execution_count="20">
+<div id="720987a0" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ndvi_diff <span class="op">=</span> (</span>
@@ -685,7 +706,7 @@ window.Quarto = {
 <section id="is-the-ndvi-lower-within-the-fire-boundary-after-the-fire" class="level1">
 <h1>Is the NDVI lower within the fire boundary after the fire?</h1>
 <p>You will compute the mean NDVI inside and outside the fire boundary. First, use the code below to get a <code>GeoDataFrame</code> of the area outside the Reservation. Your task: * Check the variable names - Make sure that the code uses your boundary <code>GeoDataFrame</code> * How could you test if the geometry was modified correctly? Add some code to take a look at the results.</p>
-<div id="d3b3be2e" class="cell" data-execution_count="21">
+<div id="10d4503e" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>out_gdf <span class="op">=</span> (</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    gpd.GeoDataFrame(geometry<span class="op">=</span>gdf.envelope)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    .overlay(gdf, how<span class="op">=</span><span class="st">'difference'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -704,10 +725,10 @@ window.Quarto = {
 <p>It’s important to use <code>from_disk=True</code> when clipping large arrays like this. It allows the computer to use less valuable memory resources when clipping - you will probably find that otherwise the cell below crashes the kernel</p>
 </div>
 </div>
-<div id="1b8c38a8" class="cell" data-execution_count="22">
+<div id="9ca643aa" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clip data to both inside and outside the boundary</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e5004be1" class="cell" data-execution_count="23">
+<div id="959e6bf2" class="cell" data-execution_count="23">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ndvi_cp_da <span class="op">=</span> ndvi_da.rio.clip(gdf.geometry, from_disk<span class="op">=</span><span class="va">True</span>)</span>
@@ -749,10 +770,10 @@ window.Quarto = {
 </div>
 <p>Finally, plot annual July means for both inside and outside the Reservation on the same plot.</p>
 <p>:::</p>
-<div id="2d385703" class="cell" data-execution_count="24">
+<div id="9769a091" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute mean annual July NDVI</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="2a923f10" class="cell" data-execution_count="25">
+<div id="c54a63c5" class="cell" data-execution_count="25">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute mean annual July NDVI</span></span>
@@ -781,10 +802,10 @@ window.Quarto = {
 </details>
 </div>
 <p>Now, take the difference between outside and inside the Reservation and plot that. What do you observe? Don’t forget to write a headline and description of your plot!</p>
-<div id="3487aa7a" class="cell" data-execution_count="26">
+<div id="17b478d8" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot difference inside and outside the reservation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f7bb8c76" class="cell" data-execution_count="27">
+<div id="32a266df" class="cell" data-execution_count="27">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot difference inside and outside the reservation</span></span>
