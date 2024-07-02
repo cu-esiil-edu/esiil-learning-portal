@@ -8,14 +8,12 @@ format:
 ---
 
 ::: {.content-visible when-format="ipynb"}
-
 ::: {.cell .markdown}
-<img style="float: left; padding-right: 3em;" src="https://pbs.twimg.com/profile_images/1537109064093532160/mG03dW9G_400x400.jpg" width="150" />
+<img src="https://pbs.twimg.com/profile_images/1537109064093532160/mG03dW9G_400x400.jpg" style="float: left; padding-right: 3em;" width="150"/>
 
 ## It's another ESIIL Earth Data Science Workflow
 
-This notebook contains your next environmental data science (EDS) coding challenge! 
-Before we get started, make sure to read or review the guidelines below. These will help make sure that your code is *readable* and *reproducible*.
+This notebook contains your next environmental data science (EDS) coding challenge! Before we get started, make sure to read or review the guidelines below. These will help make sure that your code is *readable* and *reproducible*.
 
 ------------------------------------------------------------------------
 
@@ -33,17 +31,19 @@ We've created a coding **environment** for you to use that already has all the s
 
 ### Always run your code start to finish before submitting
 
-Before you commit your work, make sure it runs **reproducibly** by clicking: 
+Before you commit your work, make sure it runs **reproducibly** by clicking:
 
-  1. `Restart` (this button won't appear until you've run some code), then 
-  2. `Run All`
+1.  `Restart` (this button won't appear until you've run some code), then
+2.  `Run All`
 
 ### **Check your code to make sure it's clean and easy to read**
 
 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO1w9WrbwbuMLN14IezH-iq2HEGwO3JDvmo5Y_hQIy7k-Xo2gZH-mP2GUIG6RFWL04X1k&amp;usqp=CAU" height="200"/>
 
 -   Format all cells prior to submitting (right click on your code).
+
 -   Use expressive names for variables so you or the reader knows what they are.
+
 -   Use comments to explain your code -- e.g.
 
     ``` python
@@ -54,48 +54,47 @@ Before you commit your work, make sure it runs **reproducibly** by clicking:
 
 ![Source: https://xkcd.com/833](https://imgs.xkcd.com/comics/convincing.png)
 
-Make sure each plot has: 
+Make sure each plot has:
 
-  * A title that explains where and when the data are from 
-  * x- and y- axis labels with **units** where appropriate 
-  * A legend where appropriate
+-   A title that explains where and when the data are from
+-   x- and y- axis labels with **units** where appropriate
+-   A legend where appropriate
 
 ------------------------------------------------------------------------
-
 :::
 :::
-
 
 The Cameron Peak Fire was the largest fire in Colorado history, with 326 square miles burned.
 
 ## Observing vegetation health from space
+
 We will look at the destruction and recovery of vegetation using NDVI (Normalized Difference Vegetation Index). How does it work? First, we need to learn about spectral reflectance signatures.
 
 Every object reflects some wavelengths of light more or less than others. We can see this with our eyes, since, for example, plants reflect a lot of green in the summer, and then as that green diminishes in the fall they look more yellow or orange. The image below shows spectral signatures for water, soil, and vegetation:
 
-![](https://seos-project.eu/remotesensing/images/Reflexionskurven.jpg)
-> Image source: [SEOS Project](https://seos-project.eu/remotesensing/remotesensing-c01-p06.html)
+![](https://seos-project.eu/remotesensing/images/Reflexionskurven.jpg) \> Image source: [SEOS Project](https://seos-project.eu/remotesensing/remotesensing-c01-p06.html)
 
 **Healthy vegetation** reflects a lot of **Near-InfraRed (NIR)** radiation. Less healthy vegetation reflects a similar amounts of the visible light spectra, but less NIR radiation. We don't see a huge drop in Green radiation until the plant is very stressed or dead. That means that NIR allows us to get ahead of what we can see with our eyes.
 
-![Healthy leaves reflect a lot of NIR radiation compared to dead or stressed leaves](/img/earth-analytics/remote-sensing/spectral_vegetation_stress.png)
-> Image source: [Spectral signature literature review by px39n](https://github.com/px39n/Awesome-Vegetation-Index)
+![Healthy leaves reflect a lot of NIR radiation compared to dead or stressed leaves](/img/earth-analytics/remote-sensing/spectral_vegetation_stress.png) \> Image source: [Spectral signature literature review by px39n](https://github.com/px39n/Awesome-Vegetation-Index)
 
 Different species of plants reflect different spectral signatures, but the *pattern* of the signatures are similar. NDVI compares the amount of NIR reflectance to the amount of Red reflectance, thus accounting for many of the species differences and isolating the health of the plant. The formula for calculating NDVI is:
 
 $$NDVI = \frac{(NIR - Red)}{(NIR + Red)}$$
 
 Read more about NDVI and other vegetation indices:
-  * [earthdatascience.org](https://www.earthdatascience.org/courses/use-data-open-source-python/multispectral-remote-sensing/vegetation-indices-in-python/calculate-NDVI-python/)
-  * [USGS](https://www.usgs.gov/landsat-missions/landsat-surface-reflectance-derived-spectral-indices)
+
+-   [earthdatascience.org](https://www.earthdatascience.org/courses/use-data-open-source-python/multispectral-remote-sensing/vegetation-indices-in-python/calculate-NDVI-python/)
+-   [USGS](https://www.usgs.gov/landsat-missions/landsat-surface-reflectance-derived-spectral-indices)
 
 ::: {.callout-important icon="false"}
 ## {{< fa fa-keyboard >}} Import necessary libraries
+
 In the cell below, making sure to keep the packages in order, add packages for:
 
-  * Working with DataFrames
-  * Working with GeoDataFrames
-  * Making interactive plots of tabular and vector data
+-   Working with DataFrames
+-   Working with GeoDataFrames
+-   Making interactive plots of tabular and vector data
 
 {{< fa fa-circle-question >}} What are we using the rest of these packages for? See if you can figure it out as you complete the notebook.
 :::
@@ -135,9 +134,7 @@ import xarray as xr
 
 We have one more setup task. We're not going to be able to load all our data directly from the web to Python this time. That means we need to set up a place for it.
 
-::: {.callout-caution icon="false"}
-# {{< fa exclamation size=large >}} GOTCHA ALERT
-
+::: {.callout-caution title="GOTCHA ALERT!" icon="false"}
 A lot of times in Python we say "directory" to mean a "folder" on your computer. The two words mean the same thing in this context.
 :::
 
@@ -170,11 +167,11 @@ os.makedirs(data_dir, exist_ok=True)
 
 In Earth Data Science, we get data in three main formats:
 
-|  Data type  |  Descriptions | Common file formats | Python type |
-|-------------|---------------|---------------------|-------------|
-| Time Series | The same data points (e.g. streamflow) collected multiple times over time | Tabular formats (e.g. .csv, or .xlsx) | pandas DataFrame |
-| Vector | Points, lines, and areas (with coordinates) | Shapefile (often an archive like a `.zip` file because a Shapefile is actually a collection of at least 3 files) | geopandas GeoDataFrame |
-| Raster | Evenly spaced spatial grid (with coordinates) | GeoTIFF (`.tif`), NetCDF (`.nc`), HDF (`.hdf`)| rioxarray DataArray |
+| Data type   | Descriptions                                                              | Common file formats                                                                                              | Python type            |
+|-------------|---------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|------------------------|
+| Time Series | The same data points (e.g. streamflow) collected multiple times over time | Tabular formats (e.g. .csv, or .xlsx)                                                                            | pandas DataFrame       |
+| Vector      | Points, lines, and areas (with coordinates)                               | Shapefile (often an archive like a `.zip` file because a Shapefile is actually a collection of at least 3 files) | geopandas GeoDataFrame |
+| Raster      | Evenly spaced spatial grid (with coordinates)                             | GeoTIFF (`.tif`), NetCDF (`.nc`), HDF (`.hdf`)                                                                   | rioxarray DataArray    |
 
 ::: {.callout-warning icon="false"}
 # {{< fa glasses size=large >}} Read more
@@ -188,17 +185,13 @@ Check out the sections about about [vector data](https://www.earthdatascience.or
 For this coding challenge, we are interested in the boundary of the Cameron Peak Fire. In the cell below, answer the following question: **What data type do you think the fire boundary will be?**
 :::
 
-
 ::: {.callout-important icon="false"}
 # {{< fa keyboard size=large >}} Your task:
 
-  * **Search** the [National Interagency Fire Center Wildfire Boundary catalog](https://data-nifc.opendata.arcgis.com/datasets/5e72b1699bf74eefb3f3aff6f4ba5511_0/api) for and incident name "Cameron Peak"
-  * Copy the API results to your clipboard.
-  * **Load the data into Python** using the `geopandas` library, e.g.:
-     ```python
-     gpd.read_file(url)
-     ```
-  * **Call** your data at the end of the cell for testing.
+-   **Search** the [National Interagency Fire Center Wildfire Boundary catalog](https://data-nifc.opendata.arcgis.com/datasets/5e72b1699bf74eefb3f3aff6f4ba5511_0/api) for and incident name "Cameron Peak"
+-   Copy the API results to your clipboard.
+-   **Load the data into Python** using the `geopandas` library, e.g.: `python      gpd.read_file(url)`
+-   **Call** your data at the end of the cell for testing.
 :::
 
 ```{python}
@@ -240,11 +233,9 @@ We always want to create a site map when working with geospatial data. This help
 ::: {.callout-important icon="false"}
 # {{< fa keyboard size=large >}} Your task
 
-  1. Plot your Cameron Peak Fire shapefile on an interactive map
-  2. Make sure to add a title
-  3. Add ESRI World Imagery as the basemap/background using the `tiles=...` parameter. To get the tiles to match up with your data, you will also need to add the `geo=True` parameter.
-
-
+1.  Plot your Cameron Peak Fire shapefile on an interactive map
+2.  Make sure to add a title
+3.  Add ESRI World Imagery as the basemap/background using the `tiles=...` parameter. To get the tiles to match up with your data, you will also need to add the `geo=True` parameter.
 :::
 
 ```{python}
@@ -279,21 +270,20 @@ Since we're asking for a special download that only covers our study area, we ca
 
 Often when we want to do something more complex in coding we find an example and modify it. This download code is already almost a working example. Your task will be:
 
-  1. Replace the start and end dates in the task parameters. Download data from July, when greenery is at its peak in the Northern Hemisphere.
-  2. Replace the year range. You should get 3 years before and after the fire so you can see the change!
-  3. Replace `gdf` with the name of **your** site geodataframe. 
-  4. **Enter your NASA Earthdata username and password when prompted.** The prompts can be a little hard to see -- look at the top of your screen!
+1.  Replace the start and end dates in the task parameters. Download data from July, when greenery is at its peak in the Northern Hemisphere.
+2.  Replace the year range. You should get 3 years before and after the fire so you can see the change!
+3.  Replace `gdf` with the name of **your** site geodataframe.
+4.  **Enter your NASA Earthdata username and password when prompted.** The prompts can be a little hard to see -- look at the top of your screen!
 
 {{< fa circle-question size=large >}} What would the product and layer name be if you were trying to download Landsat Surface Temperature Analysis Ready Data (ARD) instead of MODIS NDVI?
 :::
 
-::: {.callout-important}
+::: callout-important
 It can take some time for Appeears to process your request - anything from a few minutes to a few hours depending on how busy they are. You can check your progress by:
 
-  1. Going to the [Appeears webpage](https://appeears.earthdatacloud.nasa.gov/)
-  2. Clicking the  `Explore` tab
-  3. Logging in with your Earthdata account
-
+1.  Going to the [Appeears webpage](https://appeears.earthdatacloud.nasa.gov/)
+2.  Clicking the `Explore` tab
+3.  Logging in with your Earthdata account
 :::
 
 ```{python}
@@ -360,23 +350,22 @@ len(ndvi_paths)
 
 Now you should have a few dozen files! For each file, you need to:
 
-  * Load the file in using the `rioxarray` library
-  * Get the date from the file name
-  * Add the date as a dimension coordinate
-  * Give your data variable a name
-  * Divide by the scale factor of 10000
+-   Load the file in using the `rioxarray` library
+-   Get the date from the file name
+-   Add the date as a dimension coordinate
+-   Give your data variable a name
+-   Divide by the scale factor of 10000
 
 You don't want to write out the code for each file! That's a recipe for copy pasta. Luckily, Python has tools for doing similar tasks repeatedly. In this case, you'll use one called a `for` loop.
 
-There's some code below that uses a `for` loop in what is called an **accumulation pattern** to process each file. That means that you will save the results of your processing to a list each time you process the files, and then merge all the arrays in the list. 
+There's some code below that uses a `for` loop in what is called an **accumulation pattern** to process each file. That means that you will save the results of your processing to a list each time you process the files, and then merge all the arrays in the list.
 
 ::: {.callout-important icon="false"}
 # {{< fa keyboard size=large >}} Your task
 
-  * Look at the file names. How many characters from the end is the date? `doy_start` and `doy_end` are used to extract the day of the year (doy) from the file name. You will need to count characters from the end and change the values to get the right part of the file name. HINT: the index -1 in Python means the last value, -2 second-to-last, and so on.
-  * Replace any required variable names with your chosen variable names
-  * Change the `scale_factor` variable to be the correct scale factor for this NDVI dataset (HINT: NDVI should range between 0 and 1 -- check your results!)
-
+-   Look at the file names. How many characters from the end is the date? `doy_start` and `doy_end` are used to extract the day of the year (doy) from the file name. You will need to count characters from the end and change the values to get the right part of the file name. HINT: the index -1 in Python means the last value, -2 second-to-last, and so on.
+-   Replace any required variable names with your chosen variable names
+-   Change the `scale_factor` variable to be the correct scale factor for this NDVI dataset (HINT: NDVI should range between 0 and 1 -- check your results!)
 :::
 
 ```{python}
@@ -430,17 +419,17 @@ ndvi_da
 ```
 :::
 
-
-:::{.callout-important icon="false"}
+::: {.callout-important icon="false"}
 # {{< fa keyboard size=large >}} Plot the change in NDVI spatially
 
 Complete the following:
-  * Select data from 2021 to 2023 (3 years after the fire)
-  * Take the temporal mean (over the **date**, not spatially)
-  * Get the NDVI variable (should be a DataArray, not a Dataset)
-  * Repeat for the data from 2018 to 2020 (3 years before the fire)
-  * Subtract the 2018-2020 time period **from** the 2021-2023 time period
-  * Plot the result using a **diverging** color map like `cmap=plt.cm.PiYG`
+
+-   Select data from 2021 to 2023 (3 years after the fire)
+-   Take the temporal mean (over the **date**, not spatially)
+-   Get the NDVI variable (should be a DataArray, not a Dataset)
+-   Repeat for the data from 2018 to 2020 (3 years before the fire)
+-   Subtract the 2018-2020 time period **from** the 2021-2023 time period
+-   Plot the result using a **diverging** color map like `cmap=plt.cm.PiYG`
 
 > There are different types of color maps for different types of data. In this case, we want decreases to be a different color from increases, so we should use a **diverging** color map. Check out available colormaps in the [matplotlib documentation](https://matplotlib.org/stable/tutorials/colors/colormaps.html).
 
@@ -459,7 +448,7 @@ Complete the following:
 )
 ```
 
-:::{.content-visible when-format="html"}
+::: {.content-visible when-format="html"}
 ```{python}
 #| code-fold: true
 #| code-summary: See our solution!
@@ -483,9 +472,7 @@ ndvi_diff = (
 
 # Is the NDVI lower within the fire boundary after the fire?
 
-You will compute the mean NDVI inside and outside the fire boundary. First, use the code below to get a `GeoDataFrame` of the area outside the Reservation. Your task:
-  * Check the variable names - Make sure that the code uses your boundary `GeoDataFrame`
-  * How could you test if the geometry was modified correctly? Add some code to take a look at the results.
+You will compute the mean NDVI inside and outside the fire boundary. First, use the code below to get a `GeoDataFrame` of the area outside the Reservation. Your task: \* Check the variable names - Make sure that the code uses your boundary `GeoDataFrame` \* How could you test if the geometry was modified correctly? Add some code to take a look at the results.
 
 ```{python}
 out_gdf = (
@@ -493,11 +480,11 @@ out_gdf = (
     .overlay(gdf, how='difference'))
 ```
 
-
 Next, clip your DataArray to the boundaries for both inside and outside the reservation. You will need to replace the `GeoDataFrame` name with your own. Check out the [lesson on clipping data with the `rioxarray` library in the textbook](https://www.earthdatascience.org/courses/use-data-open-source-python/intro-raster-data-python/raster-data-processing/crop-raster-data-with-shapefile-in-python/).
 
 ::: {.callout-caution icon="false"}
 # {{< fa exclamation size=large >}} GOTCHA ALERT
+
 It's important to use `from_disk=True` when clipping large arrays like this. It allows the computer to use less valuable memory resources when clipping - you will probably find that otherwise the cell below crashes the kernel
 :::
 
@@ -505,7 +492,7 @@ It's important to use `from_disk=True` when clipping large arrays like this. It 
 # Clip data to both inside and outside the boundary
 ```
 
-:::{.content-visible when-format="html"}
+::: {.content-visible when-format="html"}
 ```{python}
 #| code-fold: true
 #| code-summary: See our solution!
@@ -516,13 +503,14 @@ ndvi_out_da = ndvi_da.rio.clip(out_gdf.geometry, from_disk=True)
 
 ::: {.callout-important icon="false"}
 # {{< fa keyboard size=large >}} Your Task
+
 For **both inside and outside** the fire boundary:
 
-  * Group the data by year
-  * Take the mean. You always need to tell reducing methods in `xarray` what dimensions you want to reduce. When you want to summarize data across **all** dimensions, you can use the `...` syntax, e.g. `.mean(...)` as a shorthand.
-  * Select the NDVI variable
-  * Convert to a DataFrame using the `to_dataframe()` method
-  * Join the two DataFrames for plotting using the `.join()` method. You will need to rename the columns using the `lsuffix=` and `rsuffix=` parameters
+-   Group the data by year
+-   Take the mean. You always need to tell reducing methods in `xarray` what dimensions you want to reduce. When you want to summarize data across **all** dimensions, you can use the `...` syntax, e.g. `.mean(...)` as a shorthand.
+-   Select the NDVI variable
+-   Convert to a DataFrame using the `to_dataframe()` method
+-   Join the two DataFrames for plotting using the `.join()` method. You will need to rename the columns using the `lsuffix=` and `rsuffix=` parameters
 :::
 
 ::: {.callout-caution icon="false"}
@@ -591,10 +579,10 @@ jul_ndvi_df.difference.hvplot(
 
 ## Your turn! Repeat this workflow in a different time and place.
 
-It's not just fires that affect NDVI! You could look at: 
+It's not just fires that affect NDVI! You could look at:
 
-  * Recovery after a national disaster, like a wildfire or hurricane
-  * Drought
-  * Deforestation
-  * Irrigation
-  * Beaver reintroduction
+-   Recovery after a national disaster, like a wildfire or hurricane
+-   Drought
+-   Deforestation
+-   Irrigation
+-   Beaver reintroduction

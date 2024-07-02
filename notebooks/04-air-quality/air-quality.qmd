@@ -45,6 +45,7 @@ import hvplot.pandas
 import hvplot.xarray
 import pandas as pd
 import rioxarray as rxr
+import rioxarray.merge as rxrmerge
 import xarray as xr
 
 # Set up GDAL to retry data downloads if service is temporarily down
@@ -76,7 +77,7 @@ In the cell below, replace 'my-data-folder' with a **descriptive** directory nam
 #| code-fold: true
 #| code-summary: See our solution!
 data_dir = os.path.join(
-    pathlib.Path.home(), 'earth-analytics', 'data', 'co-air-quality')
+    pathlib.Path.home(), 'earth-analytics', 'data', 'denver-air-quality')
 # Make the data directory
 os.makedirs(data_dir, exist_ok=True)
 ```
@@ -130,7 +131,7 @@ For this coding challenge, we are interested in the boundary of Denver, CO. In t
 ```{python}
 #| code-fold: true
 #| code-summary: See our solution!
-denver_path = os.path.join(data_dir, 'denver')
+denver_path = os.path.join(data_dir, 'denver-boundary')
 if not os.path.exists(denver_path):
     # Download US County Boundaries
     county_url = (
@@ -206,45 +207,25 @@ Often when we want to do something more complex in coding we find an example and
 :::
 
 ```{python}
-# Search EarthData for MODIS AOD data
+# Search EarthData for MODIS Aerosol data
 ```
 
 ```{python}
-# Search EarthData for VIIRS Aerosol dataset
-auth = earthaccess.login(strategy="interactive", persist=True)
-store = earthaccess.Store(auth)
+# Search EarthData for MODIS Aerosol dataset
+earthaccess.login(strategy="interactive", persist=True)
 granules = earthaccess.search_data(
-    short_name="AERDB_L2_VIIRS_NOAA20", 
+    short_name="MCD19A2", 
+    cloud_hosted=True,
     bounding_box=tuple(denver_gdf.total_bounds),
     temporal=("2023-05-01", "2023-05-31"),
 )
-granules[0]
 ```
 
 ```{python}
-links = []
-for g in granules:
-    links.extend(g.data_links(access='onprem'))
-    break
-
-nc_template = 'NETCDF:{link}:Spectral_Aerosol_Optical_Thickness_Land'
-ds = rxr.open_rasterio(nc_template.format(link=links[0]))
-ds
+modis_path = os.path.join(data_dir, 'modis-hr-aerosol')
+earthaccess.download(granules, modis_path)
 ```
 
-```{python}
-ex_path = os.path.join(
-    pathlib.Path.home(),
-    'Downloads',
-    'AERDB_L2_VIIRS_NOAA20.A2023121.1942.002.2023122081407.nc'
-)
-rxr.open_rasterio(f'NETCDF:{ex_path}:Spectral_Aerosol_Optical_Thickness_Land')
-```
-
-```{python}
-%%bash
-gdalinfo ~/Downloads/AERDB_L2_VIIRS_NOAA20.A2023121.1942.002.2023122081407.nc
-```
 
 ## Putting it together: Working with multi-file raster datasets in Python
 
@@ -257,16 +238,16 @@ Now you need to load all the downloaded files into Python. Let's start by gettin
 :::
 
 ```{python}
-# Get a list of NDVI tif file paths
+# Get a list of MODIS HDF file paths
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| code-fold: true
 #| code-summary: See our solution!
-# Get list of NDVI tif file paths
-ndvi_paths = sorted(glob(os.path.join(data_dir, 'cp-ndvi', '*', '*NDVI*.tif')))
-len(ndvi_paths)
+# Get list of MODIS HDF file paths
+aod_paths = sorted(glob(os.path.join(modis_path, '*.hdf')))
+len(aod_paths)
 ```
 :::
 
@@ -289,13 +270,12 @@ There's some code below that uses a `for` loop in what is called an **accumulati
 
   * Look at the file names. How many characters from the end is the date?
   * Replace any required variable names with your chosen variable names
-  * Change the `scale_factor` variable to be the correct scale factor for this NDVI dataset (HINT: NDVI should range between 0 and 1)
+  * Change the `scale_factor` variable to be the correct scale factor for this aod dataset
   * Using indices or regular
 
 :::
 
 ```{python}
-scale_factor = 1
 doy_start = -1
 doy_end = -1
 ```
@@ -304,34 +284,60 @@ doy_end = -1
 ```{python}
 #| code-fold: true
 #| code-summary: See our solution!
-scale_factor = 10000
-doy_start = -19
-doy_end = -12
+doy_start = -36
+doy_end = -29
 ```
 :::
 
 ```{python}
-ndvi_das = []
-for ndvi_path in ndvi_paths:
+# Import air quality data to Python
+
+crs = (
+    "+proj=sinu +a=6371007.181 +b=6371007.181 +lon_0=0 "
+    "+x_0=0 +y_0=0 +units=m +no_defs"
+)
+
+aod_das_by_date = {}
+for aod_path in aod_paths:
     # Get date from file name
-    doy = ndvi_path[doy_start:doy_end]
+    doy = aod_path[doy_start:doy_end]
     date = pd.to_datetime(doy, format='%Y%j')
 
     # Open dataset
-    da = rxr.open_rasterio(ndvi_path, masked=True).squeeze()
+    variable = 'Optical_Depth_047'
+    da = rxr.open_rasterio(
+        aod_path, variable=variable, masked=True
+    ).squeeze()[variable]
 
-    # Add date dimension and clean up metadata
+    # Write CRS to make sure it is correct
+    da = da.rio.write_crs(crs)
+
+    # Reproject the data
+    da = da.rio.reproject(denver_gdf.crs)
+
+    # Assign date coordinates
     da = da.assign_coords({'date': date})
     da = da.expand_dims({'date': 1})
-    da.name = 'NDVI'
+    da = da.sel(band=1)
+    da = da.transpose('date', 'y', 'x')
+    
+    if not (doy in aod_das_by_date):
+        aod_das_by_date[doy] = []
+    aod_das_by_date[doy].append(da)
+```
 
-    # Multiple by scale factor
-    da = da / scale_factor
+```{python}
+aod_das = []
+for doy, das in aod_das_by_date.items():
+    da = rxrmerge.merge_arrays(das)
+
+    # Crop the data
+    da = da.rio.clip(denver_gdf.envelope)
 
     # Prepare for concatenation
-    ndvi_das.append(da)
-
-len(ndvi_das)
+    aod_das.append(da)
+    
+len(aod_das)
 ```
 
 Next, stack your arrays by date into a time series using the `xr.combine_by_coords()` function. You will have to tell it which dimension you want to stack your data in.
@@ -340,19 +346,22 @@ Next, stack your arrays by date into a time series using the `xr.combine_by_coor
 ```{python}
 #| code-fold: true
 #| code-summary: See our solution!
-ndvi_da = xr.combine_by_coords(ndvi_das, coords=['date'])
-ndvi_da
+aod_da = xr.combine_by_coords(
+  aod_das, 
+  coords=['date'], 
+  combine_attrs='drop_conflicts')
+aod_da
 ```
 :::
 
 
 :::{.callout-important icon="false"}
-# {{< fa keyboard size=large >}} Plot the change in NDVI spatially
+# {{< fa keyboard size=large >}} Plot AOD anomaly spatially
 
 Complete the following:
   * Select data from 2021 to 2023 (3 years after the fire)
   * Take the temporal mean (over the **date**, not spatially)
-  * Get the NDVI variable (should be a DataArray, not a Dataset)
+  * Get the AOD variable (should be a DataArray, not a Dataset)
   * Repeat for the data from 2018 to 2020 (3 years before the fire)
   * Subtract the 2018-2020 time period **from** the 2021-2023 time period
   * Plot the result using a **diverging** color map like `cmap=plt.cm.PiYG`
@@ -364,11 +373,11 @@ Complete the following:
 
 ```{python}
 #| error: true
-# Compute the difference in NDVI before and after the fire
+# Compute the difference between AOD on May 22nd and the average AOD
 
 # Plot the difference
 (
-    ndvi_diff.hvplot(x='', y='', cmap='', geo=True)
+    aod_diff.hvplot(x='', y='', cmap='', geo=True)
     *
     gdf.hvplot(geo=True, fill_color=None, line_color='black')
 )
@@ -378,56 +387,30 @@ Complete the following:
 ```{python}
 #| code-fold: true
 #| code-summary: See our solution!
-ndvi_diff = (
-    ndvi_da
-        .sel(date=slice('2021', '2023'))
-        .mean('date')
-        .NDVI 
-   - ndvi_da
-        .sel(date=slice('2018', '2020'))
-        .mean('date')
-        .NDVI
+aod_diff = (
+    aod_da.sel(date=slice('2023-05-19', '2023-05-26')).mean('date')[variable]
+    # Subtract the typical (mean) value for the month
+    - aod_da.mean('date')[variable]
 )
+
 (
-    ndvi_diff.hvplot(x='x', y='y', cmap='PiYG', geo=True)
-    *
-    gdf.hvplot(geo=True, fill_color=None, line_color='black')
+    aod_diff.hvplot(
+        x='x', y='y', geo=True, 
+        cmap='PiYG_r', alpha=0.75,
+        xlabel='Longitude', ylabel='Latitude', clabel='Difference in AOD')
+    * denver_gdf.hvplot(geo=True, tiles='CartoLight', fill_color='none', line_color='black')
+).opts(
+    title='Figure 3: Denver, CO Air Quality Anomaly May 19-25',
 )
 ```
 :::
 
-# Is the NDVI lower within the fire boundary after the fire?
+# Does the AOD spike during this time period?
 
-You will compute the mean NDVI inside and outside the fire boundary. First, use the code below to get a `GeoDataFrame` of the area outside the Reservation. Your task:
+You will compute the mean AOD inside and outside the fire boundary. First, use the code below to get a `GeoDataFrame` of the area outside the Reservation. Your task:
   * Check the variable names - Make sure that the code uses your boundary `GeoDataFrame`
   * How could you test if the geometry was modified correctly? Add some code to take a look at the results.
 
-```{python}
-out_gdf = (
-    gpd.GeoDataFrame(geometry=gdf.envelope)
-    .overlay(gdf, how='difference'))
-```
-
-
-Next, clip your DataArray to the boundaries for both inside and outside the reservation. You will need to replace the `GeoDataFrame` name with your own. Check out the [lesson on clipping data with the `rioxarray` library in the textbook](https://www.earthdatascience.org/courses/use-data-open-source-python/intro-raster-data-python/raster-data-processing/crop-raster-data-with-shapefile-in-python/).
-
-::: {.callout-caution icon="false"}
-# {{< fa exclamation size=large >}} GOTCHA ALERT
-It's important to use `from_disk=True` when clipping large arrays like this. It allows the computer to use less valuable memory resources when clipping - you will probably find that otherwise the cell below crashes the kernel
-:::
-
-```{python}
-# Clip data to both inside and outside the boundary
-```
-
-:::{.content-visible when-format="html"}
-```{python}
-#| code-fold: true
-#| code-summary: See our solution!
-ndvi_cp_da = ndvi_da.rio.clip(gdf.geometry, from_disk=True)
-ndvi_out_da = ndvi_da.rio.clip(out_gdf.geometry, from_disk=True)
-```
-:::
 
 ::: {.callout-important icon="false"}
 # {{< fa keyboard size=large >}} Your Task
@@ -435,7 +418,7 @@ For **both inside and outside** the fire boundary:
 
   * Group the data by year
   * Take the mean. You always need to tell reducing methods in `xarray` what dimensions you want to reduce. When you want to summarize data across **all** dimensions, you can use the `...` syntax, e.g. `.mean(...)` as a shorthand.
-  * Select the NDVI variable
+  * Select the AOD variable
   * Convert to a DataFrame using the `to_dataframe()` method
   * Join the two DataFrames for plotting using the `.join()` method. You will need to rename the columns using the `lsuffix=` and `rsuffix=` parameters
 :::
@@ -451,65 +434,24 @@ Finally, plot annual July means for both inside and outside the Reservation on t
 :::
 
 ```{python}
-# Compute mean annual July NDVI
+# Compute mean annual July AOD
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| code-fold: true
 #| code-summary: See our solution!
-# Compute mean annual July NDVI
-jul_ndvi_cp_df = (
-    ndvi_cp_da
-    .groupby(ndvi_cp_da.date.dt.year)
-    .mean(...)
-    .NDVI.to_dataframe())
-jul_ndvi_out_df = (
-    ndvi_out_da
-    .groupby(ndvi_out_da.date.dt.year)
-    .mean(...)
-    .NDVI.to_dataframe())
 
-# Plot inside and outside the reservation
-jul_ndvi_df = (
-    jul_ndvi_cp_df[['NDVI']]
-    .join(
-        jul_ndvi_out_df[['NDVI']], 
-        lsuffix=' Burned Area', rsuffix=' Unburned Area')
-)
-
-jul_ndvi_df.hvplot(
-    title='NDVI before and after the Cameron Peak Fire'
-)
-```
-:::
-
-Now, take the difference between outside and inside the Reservation and plot that. What do you observe? Don't forget to write a headline and description of your plot!
-
-```{python}
-# Plot difference inside and outside the reservation
-```
-
-::: {.content-visible when-format="html"}
-```{python}
-#| code-fold: true
-#| code-summary: See our solution!
-# Plot difference inside and outside the reservation
-jul_ndvi_df['difference'] = (
-    jul_ndvi_df['NDVI Burned Area']
-    - jul_ndvi_df['NDVI Unburned Area'])
-jul_ndvi_df.difference.hvplot(
-    title='Difference between NDVI within and outside the Cameron Peak Fire'
+aod_da.groupby('date').max(...).dropna('date').hvplot(
+    title='Air Pollution in Denver during May 2023',
+    xlabel='Date'
 )
 ```
 :::
 
 ## Your turn! Repeat this workflow in a different time and place.
 
-It's not just fires that affect NDVI! You could look at: 
+It's not just fires that affect AOD! You could look at: 
 
-  * Recovery after a national disaster, like a wildfire or hurricane
-  * Drought
-  * Deforestation
-  * Irrigation
-  * Beaver reintroduction
+  * Traffic or industrial pollution
+  * Dust storms

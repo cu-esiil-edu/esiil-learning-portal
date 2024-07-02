@@ -229,7 +229,11 @@ window.Quarto = {
 <p><img src="../../img/earth-analytics/remote-sensing/spectral_vegetation_stress.png" class="img-fluid" alt="Healthy leaves reflect a lot of NIR radiation compared to dead or stressed leaves"> &gt; Image source: <a href="https://github.com/px39n/Awesome-Vegetation-Index">Spectral signature literature review by px39n</a></p>
 <p>Different species of plants reflect different spectral signatures, but the <em>pattern</em> of the signatures are similar. NDVI compares the amount of NIR reflectance to the amount of Red reflectance, thus accounting for many of the species differences and isolating the health of the plant. The formula for calculating NDVI is:</p>
 <p><span class="math display">\[NDVI = \frac{(NIR - Red)}{(NIR + Red)}\]</span></p>
-<p>Read more about NDVI and other vegetation indices: * <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/multispectral-remote-sensing/vegetation-indices-in-python/calculate-NDVI-python/">earthdatascience.org</a> * <a href="https://www.usgs.gov/landsat-missions/landsat-surface-reflectance-derived-spectral-indices">USGS</a></p>
+<p>Read more about NDVI and other vegetation indices:</p>
+<ul>
+<li><a href="https://www.earthdatascience.org/courses/use-data-open-source-python/multispectral-remote-sensing/vegetation-indices-in-python/calculate-NDVI-python/">earthdatascience.org</a></li>
+<li><a href="https://www.usgs.gov/landsat-missions/landsat-surface-reflectance-derived-spectral-indices">USGS</a></li>
+</ul>
 <div class="callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -280,13 +284,13 @@ window.Quarto = {
 </details>
 </div>
 <p>We have one more setup task. We’re not going to be able to load all our data directly from the web to Python this time. That means we need to set up a place for it.</p>
-<div class="callout callout-style-default callout-caution no-icon callout-titled">
+<div class="callout callout-style-default callout-caution no-icon callout-titled" title="GOTCHA ALERT!">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<i class="fa-solid fa-exclamation fa-large" aria-label="exclamation"></i> GOTCHA ALERT
+GOTCHA ALERT!
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -664,7 +668,15 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Complete the following: * Select data from 2021 to 2023 (3 years after the fire) * Take the temporal mean (over the <strong>date</strong>, not spatially) * Get the NDVI variable (should be a DataArray, not a Dataset) * Repeat for the data from 2018 to 2020 (3 years before the fire) * Subtract the 2018-2020 time period <strong>from</strong> the 2021-2023 time period * Plot the result using a <strong>diverging</strong> color map like <code>cmap=plt.cm.PiYG</code></p>
+<p>Complete the following:</p>
+<ul>
+<li>Select data from 2021 to 2023 (3 years after the fire)</li>
+<li>Take the temporal mean (over the <strong>date</strong>, not spatially)</li>
+<li>Get the NDVI variable (should be a DataArray, not a Dataset)</li>
+<li>Repeat for the data from 2018 to 2020 (3 years before the fire)</li>
+<li>Subtract the 2018-2020 time period <strong>from</strong> the 2021-2023 time period</li>
+<li>Plot the result using a <strong>diverging</strong> color map like <code>cmap=plt.cm.PiYG</code></li>
+</ul>
 <blockquote class="blockquote">
 <p>There are different types of color maps for different types of data. In this case, we want decreases to be a different color from increases, so we should use a <strong>diverging</strong> color map. Check out available colormaps in the <a href="https://matplotlib.org/stable/tutorials/colors/colormaps.html">matplotlib documentation</a>.</p>
 </blockquote>
