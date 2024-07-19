@@ -1,7 +1,11 @@
 project:
   type: website
+  pre-render:
+    - scripts/insert_code_params.py
   render:
     - index.qmd
+  post-render:
+    - scripts/restore_original_files.py
 
 bibliography: site_sources.bib
 
@@ -37,6 +41,3 @@ format:
       - partials/title-block.html
     
 code-annotations: "below"
-
-
-
