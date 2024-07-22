@@ -2,11 +2,11 @@
 title: "MEFA PhenoCam Activity"
 editor: visual
 warning: false
-jupyter: python3
 format:
   html: default
   markdown: 
     output-file: "MEFA Phenocam Activity"
+    execute: false
 ---
 
 # Explore PhenoCam Data
@@ -130,7 +130,7 @@ Vegetation types:
 sitelist_table <- get_phenos() 
 
 # View table and available metadata (column names)
-View(sitelist_table)
+# View(sitelist_table)
 colnames(sitelist_table)
 ```
 
@@ -141,7 +141,7 @@ You can filter the table by any of the available attributes (column names). For 
 GR_sites <- subset(sitelist_table, primary_veg_type == "GR")  
 
 # View the first few grassland entries and entire table
-View(GR_sites)
+# View(GR_sites)
 ```
 
 **Challenge**: Can you subset the sitelist_table by a different primary vegetation type? How about by a different variable (table column)? Use the code cell below.
@@ -236,7 +236,7 @@ GCC_timeseries <- get_pheno_ts(site = site_name,
                                type = '3day')
 
 # View table and available data (column names)
-View(GCC_timeseries) 
+# View(GCC_timeseries) 
 colnames(GCC_timeseries)
 ```
 
@@ -288,7 +288,7 @@ trans_dates <- read.table(trans_dates_path,
                  sep = ",")
 
 #View file
-View(trans_dates)
+# View(trans_dates)
 ```
 
 Now we'll plot the transition dates on the GCC timeseries.
@@ -377,6 +377,7 @@ As you can see, there is a decent amount of year-to-year variability in when a s
 Next, we'll download some photos from your chosen site. Images are typically taken every 30 minutes, but for simplicity, we'll just download 1 image per month in order to visualize phenology changes. This code downloads the midday (\~12 pm) image for the 15th day ("days = 15") of each month ("months = 1:12") for the year you chose above. The images will appear in the folder you designated above (dir).
 
 ```{r}
+#| output: false
 # Download PhenoCam images
 download_midday_images(site = site_name,
                        y = year, 
@@ -438,7 +439,7 @@ gif <- list.files(path = dir, pattern = "*.jpg", full.names = T) %>%
   image_animate(fps=0.5) %>%
   
   # Designate file name & save to your directory
-  image_write(paste0(dir,"/MonthlyGreenness_gif.gif")) 
+  image_write(paste0(dir, "/MonthlyGreenness_gif.gif")) 
 
 # The gif will be saved to the directory you indicated at the beginning 
 # You can check the directory path below
@@ -447,7 +448,7 @@ dir
 
 As an example, here's the gif I made for the lacclair site. Your gif will be saved to the directory you indicated at the beginning (dir). If you want to save it, right click on the gif file name and select "download".
 
-<img src="images/MonthlyGreenness_gif.gif" align="left" width="750"/>/
+![Monthly Greenness](/img/notebooks/phenocam/MonthlyGreenness_gif.gif){fig-align="left" width=100%}
 
 ### Explore another site!
 
@@ -455,7 +456,7 @@ Now try this exercise with another PhenoCam site. Perhaps choose a different eco
 
 To do this, edit the cell near the beginning where you assign the site name, vegetation type, year, and ROI (in the "Download & Plot Canopy Greenness" section). Be sure to re-run that cell and all cells below it in sequential order.
 
-\*\***But before trying a new site, run this code cell** to re-set your plotting parameters and delete all the downloaded files in your "pheno_images" (dir) folder. Be sure to download your gif first if you want to save a copy.
+**But before trying a new site, run this code cell** to re-set your plotting parameters and delete all the downloaded files in your "pheno_images" (dir) folder. Be sure to download your gif first if you want to save a copy.
 
 ```{r}
 # Reset plotting parameters
