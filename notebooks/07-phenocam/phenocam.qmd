@@ -129,20 +129,33 @@ Vegetation types:
 # List metadata of all sites
 sitelist_table <- get_phenos() 
 
+sitelist_table
+```
+
+:::{.content-visible when-format="markdown"}
+```{r}
+#| error: true
 # View table and available metadata (column names)
-# View(sitelist_table)
+View(sitelist_table)
 colnames(sitelist_table)
 ```
+:::
 
 You can filter the table by any of the available attributes (column names). For example, I created a subset of only grasslands (GR) sites below.
 
 ```{r}
 # Create a subset of only grassland sites 
 GR_sites <- subset(sitelist_table, primary_veg_type == "GR")  
-
-# View the first few grassland entries and entire table
-# View(GR_sites)
+GR_sites
 ```
+
+:::{.content-visible when-format="markdown"}
+```{r}
+#| error: true
+# View the first few grassland entries and entire table
+View(GR_sites)
+```
+:::
 
 **Challenge**: Can you subset the sitelist_table by a different primary vegetation type? How about by a different variable (table column)? Use the code cell below.
 
@@ -234,11 +247,16 @@ GCC_timeseries <- get_pheno_ts(site = site_name,
                                vegType = veg, 
                                roiID = ROI, 
                                type = '3day')
+GCC_timeseries
+```
 
+:::{.content-visible when-format="markdown"}
+```{r}
 # View table and available data (column names)
 # View(GCC_timeseries) 
 colnames(GCC_timeseries)
 ```
+:::
 
 Now, we'll plot the GCC timeseries to see how canopy greenness changes over time at your chosen site. From the "GCC_timeseries" table, we'll plot the variable called "gcc_90", which corresponds to the 90th percentile of GCC values across the 3-day window within the designated ROI. Using the 90th percentile (rather than the mean) reduces the influence of changing weather and brightness across the images. See [Richardson et al. (2018)](https://www.nature.com/articles/sdata201828) for more details on data products and processing.
 
@@ -282,14 +300,20 @@ download_phenocam(site = site_name,
 # Designate file location
 trans_dates_path <- paste0(dir, "/", site_name, "_", veg, "_", ROI, "_3day_transition_dates.csv")
 
-#Read in file
+# Read in file
 trans_dates <- read.table(trans_dates_path,
                  header = TRUE,
                  sep = ",")
 
-#View file
+trans_dates
+```
+
+:::{.content-visible when-format="markdown"}
+```{r}
+# View file
 # View(trans_dates)
 ```
+:::
 
 Now we'll plot the transition dates on the GCC timeseries.
 
