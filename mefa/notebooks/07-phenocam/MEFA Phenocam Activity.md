@@ -1,16 +1,16 @@
 ---
+author:
+- Alison Post
+authors:
+- Alison Post
 bibliography:
 - ../../site_sources.bib
 code-annotations: below
+date: 2024-07-24
 editor: visual
-jupyter: python3
-title: MEFA PhenoCam Activity
+title: Explore PhenoCam Data
 toc-title: Table of contents
 ---
-
-# Explore PhenoCam Data
-
-Created by Alison Post (July 2024)
 
 Some code adapted from the [2020 NEON
 Tutorial](https://www.neonscience.org/resources/learning-hub/tutorials/phenocam-api-intro)
@@ -43,7 +43,7 @@ illustrator: Victor
 Leshyk).](../../img/notebooks/phenocam/PhenoCam_illustration_2.png){fig-align="center"
 width="350"}
 
-#### Quantifying Greenness
+### Quantifying Greenness
 
 Beyond being pretty pictures, PhenoCam images also provide a
 quantitative way to track vegetation phenology by measuring the
@@ -96,7 +96,7 @@ leaf color change and senescence (brown-down/death) in autumn.
 (lacclair).](../../img/notebooks/phenocam/lacclair_GCC.png){fig-align="center"
 width="1800"}
 
-#### Seasonal Transition Dates
+### Seasonal Transition Dates
 
 These GCC timeseries can be used to extract seasonal transition dates
 across the years. For example, to determine the timing of spring
@@ -121,7 +121,7 @@ the timing of spring leaf-out and autumn color changes.
 (lacclair) over the past 9
 years.](../../img/notebooks/phenocam/transition%20dates_timeseries.png){fig-align="center"}
 
-#### Your turn!
+### Your turn!
 
 Thanks for learning about PhenoCam. Now you'll have the chance to access
 images and data from a PhenoCam site of your choosing following the
@@ -129,7 +129,7 @@ tutorial below!
 
 ## Accessing PhenoCam Data
 
-We'll be using the "[phenocamapi" R
+We'll be using the [`phenocamapi` R
 package](https://github.com/PhenoCamNetwork/phenocamapi) to directly
 download PhenoCam data. An API is an *application programming interface*
 (API), which is a way for two or more applications/computers to talk
@@ -143,20 +143,12 @@ time.
 First, we need to open the required packages. A package is a collection
 of functions/tools to complete a desired task. For example, you need a
 certain set of tools to build a birdhouse, but a different set of tools
-to bake a cake. In this case, the "phenocamapi" and "phenocamr" packages
+to bake a cake. In this case, the `phenocamapi` and `phenocamr` packages
 have the tools to interact with and download phenocam data. The other
 packages listed below assist with visualization and formatting.
 
-``` {r}
-#| echo: false
-#| output: false
-install.packages(
-    'phenocamr', lib=.libPaths()[1],
-    repos = "http://cran.us.r-project.org")
-remotes::install_github('PhenoCamNetwork/phenocamapi')
-```
-
-``` {r}
+::: cell
+``` {.r .cell-code}
 library(phenocamapi)
 library(phenocamr)
 library(jpeg)
@@ -168,24 +160,28 @@ library(pals)
 library(maps)
 library(plotly)
 ```
+:::
 
 Next, indicate a location (file path) where you want the PhenoCam images
 to save. For this workshop, we'll create a new file within GitHub
-Codespaces called "pheno_images".
+Codespaces called `pheno_images`.
 
 <div>
 
 > **Tip**
 >
 > In the future, if you're using R Studio locally on your computer, you
-> can enter a local directory for your computer instead (e.g.,
-> "C:/Users/alison/Desktop/pheno_images"). Make sure to use forward
-> slashes (if using Windows, you'll have to switch from the default
-> backslashes to forward slashes).
+> can enter the path to a local directory, or folder, on your computer
+> instead (e.g., "/Users/username/Desktop/pheno_images"). Make sure to
+> use the right character to separate folder names -- forward slash
+> (`/`) on Unix/Mac systems and backslash (`\`) on Windows. Notice that
+> we use the `file.path()` function, which uses the correct file
+> separator on all systems.
 
 </div>
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Designate directory (file path)
 dir = file.path('.', 'pheno_images')
 
@@ -195,6 +191,7 @@ dir.create(dir)
 # View directory
 dir
 ```
+:::
 
 First, we'll download a table to see all the available PhenoCam sites
 and associated metadata. For example, each entry lists a site's
@@ -219,52 +216,73 @@ Vegetation types:
   UN             Understory
   WL             Wetland
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # List metadata of all sites
 sitelist_table <- get_phenos() 
 
+sitelist_table
+```
+:::
+
+::: cell
+``` {.r .cell-code}
 # View table and available metadata (column names)
 View(sitelist_table)
 colnames(sitelist_table)
 ```
+:::
 
 You can filter the table by any of the available attributes (column
 names). For example, I created a subset of only grasslands (GR) sites
 below.
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Create a subset of only grassland sites 
 GR_sites <- subset(sitelist_table, primary_veg_type == "GR")  
+GR_sites
+```
+:::
 
+::: cell
+``` {.r .cell-code}
 # View the first few grassland entries and entire table
 View(GR_sites)
 ```
+:::
 
-**Challenge**: Can you subset the sitelist_table by a different primary
-vegetation type? How about by a different variable (table column)? Use
-the code cell below.
+<div>
 
-``` {r}
-```
+> **Challenge**
+>
+> Can you subset the sitelist_table by a different primary vegetation
+> type? How about by a different variable (table column)? Use the code
+> cell below.
 
-#### Create a Map of the PhenoCam Sites
+</div>
+
+## Create a Map of the PhenoCam Sites
 
 Now, we'll create an interactive map to view all the PhenoCam sites
 colored by their primary vegetation type. First, using our
-"sitelist_table" that we downloaded above, we filter out any sites for
+`sitelist_table` that we downloaded above, we filter out any sites for
 which a primary vegetation type isn't listed or an "NA" is entered.
 We'll call this new data table "sitelist_table2".
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Remove sites with NA and empty cells for primary_veg_type
 sitelist_table2 <- sitelist_table[!(is.na(sitelist_table$primary_veg_typ) | sitelist_table$primary_veg_typ==""), ]
 ```
+:::
 
 Then, we'll create a static map of the PhenoCam sites using their
 latitude and longitude (included in "sitelist_table2"). We'll overlay
 this onto a basemap of the world and US states.
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Download basemaps of the world and US states
 world_map <- map_data("world")
 state_map <- map_data("state")
@@ -294,19 +312,28 @@ Site_map <- ggplot() +
 # View map
 Site_map
 ```
+:::
 
-**Challenge**: Can you change the title of the map? Make the change and
-re-run the code cell above.
+<div>
+
+> **Challenge**
+>
+> Can you change the title of the map? Make the change and re-run the
+> code cell above.
+
+</div>
 
 Let's make the map interactive! You can hover over sites to see their
 details, draw a box around a specific area to zoom into the region, and
 click on various legend entries to toggle them on or off. Double click
 on the map to zoom back out.
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Make map interactive
 ggplotly(Site_map)
 ```
+:::
 
 #### Download & Plot Canopy Greenness
 
@@ -320,7 +347,8 @@ multiple ROIs, each with a unique ID number. You can view the possible
 ROIs for your site on the [PhenoCam
 website.](https://phenocam.nau.edu/webcam/)
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Choose site to explore 
 # Enter name exactly as it appears in the table/on the website
 site_name = "lacclair"
@@ -340,6 +368,7 @@ veg
 year
 ROI
 ```
+:::
 
 First, we'll download canopy greenness (GCC = green chromatic
 coordinate) timeseries data for your chosen site. The GCC data are
@@ -348,17 +377,24 @@ or '1day'). See [Richardson et
 al. (2018)](https://www.nature.com/articles/sdata201828) for more
 information about PhenoCam data processing.
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Download GCC timeseries
 GCC_timeseries <- get_pheno_ts(site = site_name, 
                                vegType = veg, 
                                roiID = ROI, 
                                type = '3day')
+GCC_timeseries
+```
+:::
 
+::: cell
+``` {.r .cell-code}
 # View table and available data (column names)
-View(GCC_timeseries) 
+# View(GCC_timeseries) 
 colnames(GCC_timeseries)
 ```
+:::
 
 Now, we'll plot the GCC timeseries to see how canopy greenness changes
 over time at your chosen site. From the "GCC_timeseries" table, we'll
@@ -369,7 +405,8 @@ influence of changing weather and brightness across the images. See
 [Richardson et al. (2018)](https://www.nature.com/articles/sdata201828)
 for more details on data products and processing.
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Put date into date format
 GCC_timeseries[,date:=as.Date(date)]
 
@@ -387,6 +424,7 @@ plot(GCC_timeseries$date, GCC_timeseries$gcc_90,
      # Add title
      main = paste0(site_name, ": ", "Canopy Greenness Timeseries"))
 ```
+:::
 
 *Note: Since the plot isn't saved as an object, it only appears in the
 built-in plot viewer for R. However, you can right click on the plot to
@@ -401,7 +439,8 @@ called
 "[phenocamr"](https://github.com/bluegreen-labs/phenocamr/tree/master)
 to download the transition dates.
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Download csv files of (1) GCC timeseries and (2) transition dates
 # They will save in your designated directory (dir)
 download_phenocam(site = site_name,
@@ -415,18 +454,26 @@ download_phenocam(site = site_name,
 # Designate file location
 trans_dates_path <- paste0(dir, "/", site_name, "_", veg, "_", ROI, "_3day_transition_dates.csv")
 
-#Read in file
+# Read in file
 trans_dates <- read.table(trans_dates_path,
                  header = TRUE,
                  sep = ",")
 
-#View file
-View(trans_dates)
+trans_dates
 ```
+:::
+
+::: cell
+``` {.r .cell-code}
+# View file
+# View(trans_dates)
+```
+:::
 
 Now we'll plot the transition dates on the GCC timeseries.
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Pull out transition dates from the trans_dates table
 
 # Select the rising (spring dates) for 50% threshold of Gcc 90
@@ -460,6 +507,7 @@ points(x = as.Date(td_fall$transition_50, origin = "1970-01-01"),
        pch = 19, cex = 2,
        col = "brown")
 ```
+:::
 
 Now, let's explore the variability of seasonal transition dates
 throughout the available data years. This works best if you chose a site
@@ -467,7 +515,8 @@ with a longer timeseries. We'll first convert the transition dates into
 a "day-of-year" (DOY) format (e.g., Jan 1 = DOY 1, Jan 2 = DOY 2, etc.),
 and then plot those by year.
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Convert green-up dates to date format and then DOY
 td_spring_dates <- as.Date(td_rise$transition_50,format='%Y-%m-%d')
 td_spring_DOY <- lubridate::yday(td_spring_dates)
@@ -489,10 +538,12 @@ plot(trans_table_spring[,1],trans_table_spring[,2],
     xlab = 'Year', ylab = 'Spring Transition Date (DOY)',
     main = paste0(site_name, ': ', 'Date of Spring Onset Through the Years'))
 ```
+:::
 
 And now plot the fall brown-down transition dates.
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Extract fall data years
 years_fall <- as.numeric(format(td_fall_dates,'%Y'))
 
@@ -506,6 +557,7 @@ plot(trans_table_fall[,1],trans_table_fall[,2],
      xlab = 'Year', ylab = 'Autumn Transition Date (DOY)',
      main = paste0(site_name, ': ', 'Date of Autumn Onset Through the Years'))
 ```
+:::
 
 As you can see, there is a decent amount of year-to-year variability in
 when a site greens up (spring) or browns down (fall), directly impacting
@@ -524,7 +576,8 @@ code downloads the midday (\~12 pm) image for the 15th day ("days = 15")
 of each month ("months = 1:12") for the year you chose above. The images
 will appear in the folder you designated above (dir).
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Download PhenoCam images
 download_midday_images(site = site_name,
                        y = year, 
@@ -532,6 +585,7 @@ download_midday_images(site = site_name,
                        days = 15,
                        download_dir = dir)
 ```
+:::
 
 Now, we'll use those images to create a photo collage that displays
 changes in phenology throughout the year. First, we'll set it up and
@@ -541,7 +595,8 @@ look in your "dir" (pheno_images) folder and make sure it only includes
 images for a single PhenoCam site. If you have more than 12, right click
 on the images you don't want and delete them from the folder.
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Isolate images from your designated directory
 # Pics are jpeg format
 middays_path <- dir(dir, pattern = "*.jpg", full.names = TRUE)
@@ -553,10 +608,12 @@ head(middays_path)
 n <- length(middays_path)
 n
 ```
+:::
 
 Then we'll create the layout.
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Set up image layout (4 rows & 3 columns)
 par(mar= c(0,0,0,0), mfrow=c(4,3), oma=c(0,23,3,23))
 
@@ -571,12 +628,14 @@ for(i in 1:n){
 # Add title (feel free to edit the title below)
 mtext(paste0(site_name, ': ', 'Canopy Greenness Through the Months'), font = 2, cex = 1.8, outer = TRUE)
 ```
+:::
 
 Finally, we'll use those same images to create a gif that shows changes
 in phenology over time. This is great to use in presentations to
 visualize seasonal transitions!
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Make timelapse gif of images
 gif <- list.files(path = dir, pattern = "*.jpg", full.names = T) %>% 
 
@@ -594,19 +653,22 @@ gif <- list.files(path = dir, pattern = "*.jpg", full.names = T) %>%
   image_animate(fps=0.5) %>%
   
   # Designate file name & save to your directory
-  image_write(paste0(dir,"/MonthlyGreenness_gif.gif")) 
+  image_write(paste0(dir, "/MonthlyGreenness_gif.gif")) 
 
 # The gif will be saved to the directory you indicated at the beginning 
 # You can check the directory path below
 dir
 ```
+:::
 
 As an example, here's the gif I made for the lacclair site. Your gif
 will be saved to the directory you indicated at the beginning (dir). If
 you want to save it, right click on the gif file name and select
 "download".
 
-`<img src="images/MonthlyGreenness_gif.gif" align="left" width="750"/>`{=html}/
+![Monthly
+Greenness](../../img/notebooks/phenocam/MonthlyGreenness_gif.gif){fig-align="left"
+width="100%"}
 
 ### Explore another site!
 
@@ -619,12 +681,13 @@ name, vegetation type, year, and ROI (in the "Download & Plot Canopy
 Greenness" section). Be sure to re-run that cell and all cells below it
 in sequential order.
 
-\*\***But before trying a new site, run this code cell** to re-set your
+**But before trying a new site, run this code cell** to re-set your
 plotting parameters and delete all the downloaded files in your
 "pheno_images" (dir) folder. Be sure to download your gif first if you
 want to save a copy.
 
-``` {r}
+::: cell
+``` {.r .cell-code}
 # Reset plotting parameters
 dev.off()
 
@@ -634,6 +697,7 @@ f <- list.files(dir, include.dirs = F, full.names = T, recursive = T)
 # Remove the files
 file.remove(f)
 ```
+:::
 
 #### Thank you
 
