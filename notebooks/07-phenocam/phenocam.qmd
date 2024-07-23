@@ -1,5 +1,8 @@
 ---
-title: "MEFA PhenoCam Activity"
+title: "Explore PhenoCam Data"
+author: 
+  - "Alison Post"
+date: 2024-07-24
 editor: visual
 warning: false
 format:
@@ -8,10 +11,6 @@ format:
     output-file: "MEFA Phenocam Activity"
     execute: false
 ---
-
-# Explore PhenoCam Data
-
-Created by Alison Post (July 2024)
 
 Some code adapted from the [2020 NEON Tutorial](https://www.neonscience.org/resources/learning-hub/tutorials/phenocam-api-intro) by Bijan Seyednasrollah
 
@@ -23,7 +22,7 @@ Established in 2008, the [PhenoCam Network](https://phenocam.nau.edu/webcam/) is
 
 ![Illustration of a PhenoCam (red circle) over a tree canopy collecting phenology data (Image from [Richardson 2019](https://nph.onlinelibrary.wiley.com/doi/full/10.1111/nph.15591), illustrator: Victor Leshyk).](/img/notebooks/phenocam/PhenoCam_illustration_2.png){fig-align="center" width="350"}
 
-#### Quantifying Greenness
+### Quantifying Greenness
 
 Beyond being pretty pictures, PhenoCam images also provide a quantitative way to track vegetation phenology by measuring the intensity of canopy greenness. Digital images are stored as three different color channels - red, green, and blue (RGB) - which are the primary colors of light, and combine in different ratios to create all the visible colors in a photograph. Old-style TVs use this same method, as does your smartphone.
 
@@ -45,7 +44,7 @@ When GCC is calculated over a long time period at a site, a timeseries of vegeta
 
 ![Timeseries of canopy greeness (GCC) at a forest site in Canada (lacclair).](/img/notebooks/phenocam/lacclair_GCC.png){fig-align="center" width="1800"}
 
-#### Seasonal Transition Dates
+### Seasonal Transition Dates
 
 These GCC timeseries can be used to extract seasonal transition dates across the years. For example, to determine the timing of spring green-up, we can use the amplitude (height) of each annual peak to determine when (what day of the year) vegetation at the site has reached either 10%, 25%, or 50% of its maximum greenness. We consider this to be the start of spring green-up. We use a similar method to extract the start of autumn brown-down.
 
@@ -55,17 +54,17 @@ Over a long time period, the timing of seasonal transition dates can be used to 
 
 ![Seasonal transition dates at a deciduous forest site in Canada (lacclair) over the past 9 years.](/img/notebooks/phenocam/transition%20dates_timeseries.png){fig-align="center"}
 
-#### Your turn!
+### Your turn!
 
 Thanks for learning about PhenoCam. Now you'll have the chance to access images and data from a PhenoCam site of your choosing following the tutorial below!
 
 ## Accessing PhenoCam Data
 
-We'll be using the "[phenocamapi" R package](https://github.com/PhenoCamNetwork/phenocamapi) to directly download PhenoCam data. An API is an *application programming interface* (API), which is a way for two or more applications/computers to talk with one another. In this case, it allows us to directly access data from the PhenoCam database.
+We'll be using the [`phenocamapi` R package](https://github.com/PhenoCamNetwork/phenocamapi) to directly download PhenoCam data. An API is an *application programming interface* (API), which is a way for two or more applications/computers to talk with one another. In this case, it allows us to directly access data from the PhenoCam database.
 
 Then, you'll choose a site to view some images and download greenness data. Finally, you'll create a gif (short movie) of your site through time.
 
-First, we need to open the required packages. A package is a collection of functions/tools to complete a desired task. For example, you need a certain set of tools to build a birdhouse, but a different set of tools to bake a cake. In this case, the "phenocamapi" and "phenocamr" packages have the tools to interact with and download phenocam data. The other packages listed below assist with visualization and formatting.
+First, we need to open the required packages. A package is a collection of functions/tools to complete a desired task. For example, you need a certain set of tools to build a birdhouse, but a different set of tools to bake a cake. In this case, the `phenocamapi` and `phenocamr` packages have the tools to interact with and download phenocam data. The other packages listed below assist with visualization and formatting.
 
 ```{r}
 #| echo: false
@@ -89,10 +88,10 @@ library(maps)
 library(plotly)
 ```
 
-Next, indicate a location (file path) where you want the PhenoCam images to save. For this workshop, we'll create a new file within GitHub Codespaces called "pheno_images".
+Next, indicate a location (file path) where you want the PhenoCam images to save. For this workshop, we'll create a new file within GitHub Codespaces called `pheno_images`.
 
 ::: {.callout-tip}
-In the future, if you're using R Studio locally on your computer, you can enter a local directory for your computer instead (e.g., "C:/Users/alison/Desktop/pheno_images"). Make sure to use forward slashes (if using Windows, you'll have to switch from the default backslashes to forward slashes).
+In the future, if you're using R Studio locally on your computer, you can enter the path to a local directory, or folder, on your computer instead (e.g., "/Users/username/Desktop/pheno_images"). Make sure to use the right character to separate folder names -- forward slash (`/`) on Unix/Mac systems and backslash (`\`) on Windows. Notice that we use the `file.path()` function, which uses the correct file separator on all systems.
 :::
 
 ```{r}
@@ -157,15 +156,17 @@ View(GR_sites)
 ```
 :::
 
-**Challenge**: Can you subset the sitelist_table by a different primary vegetation type? How about by a different variable (table column)? Use the code cell below.
+:::{.callout-note title="Challenge"}
+Can you subset the sitelist_table by a different primary vegetation type? How about by a different variable (table column)? Use the code cell below.
+:::
 
 ```{r}
 
 ```
 
-#### Create a Map of the PhenoCam Sites
+## Create a Map of the PhenoCam Sites
 
-Now, we'll create an interactive map to view all the PhenoCam sites colored by their primary vegetation type. First, using our "sitelist_table" that we downloaded above, we filter out any sites for which a primary vegetation type isn't listed or an "NA" is entered. We'll call this new data table "sitelist_table2".
+Now, we'll create an interactive map to view all the PhenoCam sites colored by their primary vegetation type. First, using our `sitelist_table` that we downloaded above, we filter out any sites for which a primary vegetation type isn't listed or an "NA" is entered. We'll call this new data table "sitelist_table2".
 
 ```{r}
 # Remove sites with NA and empty cells for primary_veg_type
@@ -205,7 +206,9 @@ Site_map <- ggplot() +
 Site_map
 ```
 
-**Challenge**: Can you change the title of the map? Make the change and re-run the code cell above.
+:::{.callout-note title="Challenge"}
+Can you change the title of the map? Make the change and re-run the code cell above.
+:::
 
 Let's make the map interactive! You can hover over sites to see their details, draw a box around a specific area to zoom into the region, and click on various legend entries to toggle them on or off. Double click on the map to zoom back out.
 
