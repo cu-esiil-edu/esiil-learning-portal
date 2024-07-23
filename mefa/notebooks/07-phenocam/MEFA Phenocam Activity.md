@@ -220,8 +220,6 @@ Vegetation types:
 ``` {.r .cell-code}
 # List metadata of all sites
 sitelist_table <- get_phenos() 
-
-sitelist_table
 ```
 :::
 
@@ -241,7 +239,6 @@ below.
 ``` {.r .cell-code}
 # Create a subset of only grassland sites 
 GR_sites <- subset(sitelist_table, primary_veg_type == "GR")  
-GR_sites
 ```
 :::
 
@@ -273,7 +270,10 @@ We'll call this new data table "sitelist_table2".
 ::: cell
 ``` {.r .cell-code}
 # Remove sites with NA and empty cells for primary_veg_type
-sitelist_table2 <- sitelist_table[!(is.na(sitelist_table$primary_veg_typ) | sitelist_table$primary_veg_typ==""), ]
+sitelist_table2 <- sitelist_table[
+    !(is.na(sitelist_table$primary_veg_typ) | 
+    sitelist_table$primary_veg_typ==""), 
+]
 ```
 :::
 
@@ -373,25 +373,26 @@ ROI
 First, we'll download canopy greenness (GCC = green chromatic
 coordinate) timeseries data for your chosen site. The GCC data are
 already condensed down to 1-day and 3-day data products (type = '3day'
-or '1day'). See [Richardson et
-al. (2018)](https://www.nature.com/articles/sdata201828) for more
-information about PhenoCam data processing.
+or '1day'). See
+[(@richardson_tracking_2018)](https://www.nature.com/articles/sdata201828)
+for more information about PhenoCam data processing.
 
 ::: cell
 ``` {.r .cell-code}
 # Download GCC timeseries
-GCC_timeseries <- get_pheno_ts(site = site_name, 
-                               vegType = veg, 
-                               roiID = ROI, 
-                               type = '3day')
-GCC_timeseries
+GCC_timeseries <- get_pheno_ts(
+    site = site_name,
+    vegType = veg,
+    roiID = ROI,
+    type = "3day"
+)
 ```
 :::
 
 ::: cell
 ``` {.r .cell-code}
 # View table and available data (column names)
-# View(GCC_timeseries) 
+View(GCC_timeseries) 
 colnames(GCC_timeseries)
 ```
 :::
@@ -408,65 +409,75 @@ for more details on data products and processing.
 ::: cell
 ``` {.r .cell-code}
 # Put date into date format
-GCC_timeseries[,date:=as.Date(date)]
-
-# Adjust plot area margins
-par(mar=c(5, 6, 4, 2))
+GCC_timeseries[, date := as.Date(date)]
 
 # Create line plot
-plot(GCC_timeseries$date, GCC_timeseries$gcc_90,
-     # Choose line color & type
-     col = "darkgreen", type = "b",
-     # Change font size
-     cex = 1.5, cex.lab = 2, cex.axis = 2, cex.main = 3,
-     # Add axis labels
-     xlab = "Date", ylab = "GCC", 
-     # Add title
-     main = paste0(site_name, ": ", "Canopy Greenness Timeseries"))
+plot(
+    GCC_timeseries$date, GCC_timeseries$gcc_90,
+    # Choose line color & type
+    col = "darkgreen", type = "b",
+    # Add axis labels
+    xlab = "Date", ylab = "GCC",
+    # Add title
+    main = paste0(site_name, ": Canopy Greenness Timeseries")
+)
 ```
 :::
 
-*Note: Since the plot isn't saved as an object, it only appears in the
-built-in plot viewer for R. However, you can right click on the plot to
-copy and paste it elsewhere. If you accidentally close a plot and want
-to see it again, just re-run the code cell that created it.*
+<div>
 
-#### Explore Seasonal Transition Dates
+> **Saving plots**
+>
+> Since this plot isn't saved as an object, it only appears in the
+> built-in plot viewer for R. However, you can right click on the plot
+> to copy and paste it elsewhere. If you accidentally close a plot and
+> want to see it again, you can re-run the code cell that created it.
+
+</div>
+
+## Explore Seasonal Transition Dates
 
 We can also download and plot the 50% seasonal transition dates (spring
 green-up and fall brown-down) for your site. We'll use another package
 called
-"[phenocamr"](https://github.com/bluegreen-labs/phenocamr/tree/master)
+[`phenocamr`](https://github.com/bluegreen-labs/phenocamr/tree/master)
 to download the transition dates.
 
 ::: cell
 ``` {.r .cell-code}
 # Download csv files of (1) GCC timeseries and (2) transition dates
 # They will save in your designated directory (dir)
-download_phenocam(site = site_name,
-                  veg_type = veg,
-                  frequency = 3,
-                  phenophase = TRUE,
-                  out_dir = dir)
+download_phenocam(
+    site = site_name,
+    veg_type = veg,
+    frequency = 3,
+    phenophase = TRUE,
+    out_dir = dir
+)
 
 # Read in the transition date csv file:
 
 # Designate file location
-trans_dates_path <- paste0(dir, "/", site_name, "_", veg, "_", ROI, "_3day_transition_dates.csv")
+trans_dates_path <- file.path(
+    dir,
+    paste0(
+        site_name, "_", veg, "_", ROI,
+        "_3day_transition_dates.csv"
+    )
+)
 
 # Read in file
 trans_dates <- read.table(trans_dates_path,
-                 header = TRUE,
-                 sep = ",")
-
-trans_dates
+    header = TRUE,
+    sep = ","
+)
 ```
 :::
 
 ::: cell
 ``` {.r .cell-code}
 # View file
-# View(trans_dates)
+View(trans_dates)
 ```
 :::
 
@@ -477,35 +488,42 @@ Now we'll plot the transition dates on the GCC timeseries.
 # Pull out transition dates from the trans_dates table
 
 # Select the rising (spring dates) for 50% threshold of Gcc 90
-td_rise <- trans_dates[trans_dates$direction == "rising" & trans_dates$gcc_value == "gcc_90",]
+td_rise <- trans_dates[
+    trans_dates$direction == "rising" & trans_dates$gcc_value == "gcc_90", 
+]
 
 # Select the falling (fall dates) for 50% threshold of Gcc 90
-td_fall <- trans_dates[trans_dates$direction == "falling" & trans_dates$gcc_value == "gcc_90",]
-
+td_fall <- trans_dates[
+    trans_dates$direction == "falling" & trans_dates$gcc_value == "gcc_90", 
+]
 
 # As above, create a simple line graph of the Green Chromatic Coordinate (GCC)
 
 # Plot- this time use "type = 1" to create a smooth line graph
-plot(GCC_timeseries$date, GCC_timeseries$gcc_90, 
-     col = "black", type = "l",
-     cex = 2, cex.lab = 2, cex.axis = 2, cex.main = 3,
-     xlab = 'Date', ylab = 'GCC', 
-     main = paste0(site_name, ': ', 'Seasonal Transition Dates'))
+plot(GCC_timeseries$date, GCC_timeseries$gcc_90,
+    col = "black", type = "l",
+    xlab = "Date", ylab = "GCC",
+    main = paste0(site_name, ": ", "Seasonal Transition Dates")
+)
 
 
 # Add points to show transition dates:
 
 # Spring green-up
-points(x = as.Date(td_rise$transition_50, origin = "1970-01-01"),
-       y = td_rise$threshold_50,
-       pch = 19, cex = 2,
-       col = "green")
+points(
+    x = as.Date(td_rise$transition_50, origin = "1970-01-01"),
+    y = td_rise$threshold_50,
+    pch = 19,
+    col = "green"
+)
 
 # Fall brown-down
-points(x = as.Date(td_fall$transition_50, origin = "1970-01-01"),
-       y = td_fall$threshold_50,
-       pch = 19, cex = 2,
-       col = "brown")
+points(
+    x = as.Date(td_fall$transition_50, origin = "1970-01-01"),
+    y = td_fall$threshold_50,
+    pch = 19,
+    col = "brown"
+)
 ```
 :::
 
@@ -534,7 +552,6 @@ trans_table_spring <- data.frame(years_spr, td_spring_DOY)
 # Plot spring green-up dates
 plot(trans_table_spring[,1],trans_table_spring[,2], 
     type = "b", col = "darkgreen",
-    cex = 2, cex.lab = 2, cex.axis = 2, cex.main = 3,
     xlab = 'Year', ylab = 'Spring Transition Date (DOY)',
     main = paste0(site_name, ': ', 'Date of Spring Onset Through the Years'))
 ```
@@ -551,9 +568,8 @@ years_fall <- as.numeric(format(td_fall_dates,'%Y'))
 trans_table_fall <- data.frame(years_fall, td_fall_DOY)
 
 # Plot fall brown-down dates
-plot(trans_table_fall[,1],trans_table_fall[,2], 
+plot(trans_table_fall[,1], trans_table_fall[,2], 
      type = "b", col = "brown",
-     cex = 2, cex.lab = 2, cex.axis = 2, cex.main = 3,
      xlab = 'Year', ylab = 'Autumn Transition Date (DOY)',
      main = paste0(site_name, ': ', 'Date of Autumn Onset Through the Years'))
 ```
@@ -579,11 +595,13 @@ will appear in the folder you designated above (dir).
 ::: cell
 ``` {.r .cell-code}
 # Download PhenoCam images
-download_midday_images(site = site_name,
-                       y = year, 
-                       months = 1:12, 
-                       days = 15,
-                       download_dir = dir)
+download_midday_images(
+    site = site_name,
+    y = year,
+    months = 1:12,
+    days = 15,
+    download_dir = dir
+)
 ```
 :::
 
@@ -615,18 +633,24 @@ Then we'll create the layout.
 ::: cell
 ``` {.r .cell-code}
 # Set up image layout (4 rows & 3 columns)
-par(mar= c(0,0,0,0), mfrow=c(4,3), oma=c(0,23,3,23))
+par(
+    mar = c(0, 0, 0, 0),
+    mfrow = c(4, 3)
+)
 
 # Create monthly image layout with labels (this can take 1-2 min)
-for(i in 1:n){
-  img <- jpeg::readJPEG(middays_path[i])
-  plot(0:1,0:1, type='n', axes= FALSE, xlab= '', ylab = '')
-  rasterImage(img, 0, 0, 1, 1)
-  mtext(month.name[i], line = -2)
+for (i in 1:n) {
+    img <- jpeg::readJPEG(middays_path[i])
+    plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+    rasterImage(img, 0, 0, 1, 1)
+    mtext(month.name[i], line = -2)
 }
 
 # Add title (feel free to edit the title below)
-mtext(paste0(site_name, ': ', 'Canopy Greenness Through the Months'), font = 2, cex = 1.8, outer = TRUE)
+mtext(
+    paste0(site_name, ": ", "Canopy Greenness Through the Months"),
+    outer = TRUE
+)
 ```
 :::
 
@@ -653,7 +677,7 @@ gif <- list.files(path = dir, pattern = "*.jpg", full.names = T) %>%
   image_animate(fps=0.5) %>%
   
   # Designate file name & save to your directory
-  image_write(paste0(dir, "/MonthlyGreenness_gif.gif")) 
+  image_write(file.path(dir, "MonthlyGreenness_gif.gif")) 
 
 # The gif will be saved to the directory you indicated at the beginning 
 # You can check the directory path below
