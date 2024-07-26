@@ -7,7 +7,46 @@ on:
 name: Quarto Publish
 
 jobs:
+  setup-conda:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    permissions:
+      contents: write
+    outputs:
+      cache-hit: ${{ steps.cache-conda.outputs.cache-hit }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up cache
+        id: cache-conda
+        uses: actions/cache@v3
+        with:
+          path: ~/.conda/envs/learning-portal
+          key: conda-${{ hashFiles('environment.yml') }}
+
+      - name: Install conda environment
+        if: steps.cache-conda.outputs.cache-hit != 'true'
+        run: |
+          uses: conda-incubator/setup-miniconda@v3
+          with:
+            activate-environment: learning-portal
+            environment-file: environment.yml
+            auto-activate-base: false
+
+      - name: Install earthpy-dev
+        if: steps.cache-conda.outputs.cache-hit != 'true'
+        run: pip install git+https://github.com/earthlab/earthpy@apppears
+
+      - name: Save conda environment
+        if: steps.cache-conda.outputs.cache-hit != 'true'
+        run: |
+          conda list --export > environment.txt
+          
   build-deploy:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         profile: 
@@ -15,7 +54,6 @@ jobs:
           #- hyrsense
           #- shortcourse
           #- stars
-    runs-on: ubuntu-latest
     env:
       QUARTO_PYTHON: /usr/share/miniconda/envs/learning-portal/bin/python
       R_HOME: /usr/share/miniconda/envs/learning-portal/lib/R
@@ -39,16 +77,17 @@ jobs:
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
-
-      - name: Create and Activate Conda
-        uses: conda-incubator/setup-miniconda@v3
+        
+      - name: Restore cache
+        uses: actions/cache@v3
         with:
-          activate-environment: learning-portal
-          environment-file: environment.yml
-          auto-activate-base: false
-
-      - name: Install earthpy-dev
-        run: pip install git+https://github.com/earthlab/earthpy@apppears
+          path: ~/.conda/envs/learning-portal
+          key: conda-${{ hashFiles('environment.yml') }}
+      
+      - name: Activate conda environment
+        run: |
+          source $(conda info --base)/etc/profile.d/conda.sh
+          conda activate learning-portal
         
       - name: Render Main Page
         env: 
