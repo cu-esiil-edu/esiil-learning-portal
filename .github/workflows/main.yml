@@ -29,12 +29,11 @@ jobs:
 
       - name: Install conda environment
         if: steps.cache-conda.outputs.cache-hit != 'true'
-        run: |
-          uses: conda-incubator/setup-miniconda@v3
-          with:
-            activate-environment: learning-portal
-            environment-file: environment.yml
-            auto-activate-base: false
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: learning-portal
+          environment-file: environment.yml
+          auto-activate-base: false
 
       - name: Install earthpy-dev
         if: steps.cache-conda.outputs.cache-hit != 'true'
