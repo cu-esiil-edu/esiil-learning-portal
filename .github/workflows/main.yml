@@ -19,13 +19,13 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-      
+
       - name: Set up cache
         id: cache-conda
         uses: actions/cache@v4
         with:
-          path: usr/share/miniconda/
-          key: conda-${{ hashFiles('environment.yml') }}
+          path: /usr/share/miniconda/envs/learning-portal
+          key: conda-${{ runner.os }}-${{ hashFiles('environment.yml') }}
 
       - name: Install conda environment
         if: steps.cache-conda.outputs.cache-hit != 'true'
@@ -38,11 +38,6 @@ jobs:
       - name: Install earthpy-dev
         if: steps.cache-conda.outputs.cache-hit != 'true'
         run: pip install git+https://github.com/earthlab/earthpy@apppears
-
-      - name: Save conda environment
-        if: steps.cache-conda.outputs.cache-hit != 'true'
-        run: |
-          conda list --export > environment.txt
           
   build-deploy:
     runs-on: ubuntu-latest
@@ -74,31 +69,27 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-
-      - name: Restore cache
-        uses: actions/cache@v3
-        with:
-          path: /usr/share/miniconda/
-          key: conda-${{ hashFiles('environment.yml') }}
-      
+        
       - name: Activate conda environment
         uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: learning-portal
-          auto-activate-base: false
+          
+      - name: Restore cache
+        uses: actions/cache@v3
+        with:
+          path: /usr/share/miniconda/envs/learning-portal
+          key: conda-${{ runner.os }}-${{ hashFiles('environment.yml') }}
           
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         
       - name: Render Main Page
-        env: 
-          QUARTO_PYTHON: "/usr/share/miniconda/envs/learning-portal/bin/python"
         uses: quarto-dev/quarto-actions/render@v2
 
       - name: Render Profile
         env: 
           QUARTO_PROFILE: ${{ matrix.profile }}
-          QUARTO_PYTHON: "/usr/share/miniconda/envs/learning-portal/bin/python"
         uses: quarto-dev/quarto-actions/render@v2
 
       - name: Deploy
