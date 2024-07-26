@@ -173,10 +173,9 @@ Codespaces called `pheno_images`.
 > In the future, if you're using R Studio locally on your computer, you
 > can enter the path to a local directory, or folder, on your computer
 > instead (e.g., "/Users/username/Desktop/pheno_images"). Make sure to
-> use the right character to separate folder names -- forward slash
-> (`/`) on Unix/Mac systems and backslash (`\`) on Windows. Notice that
-> we use the `file.path()` function, which uses the correct file
-> separator on all systems.
+> use the forward slash (`/`) to separate folder names. Notice that we
+> use the `file.path()` function, which produces the correct path no
+> matter what setup you are using.
 
 </div>
 
