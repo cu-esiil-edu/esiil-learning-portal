@@ -1,0 +1,939 @@
+[
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/02-images.html",
+    "href": "pages/03-git-github/03-github-portfolio/02-images.html",
+    "title": "Add images to your portfolio",
+    "section": "",
+    "text": "Follow along with our video demo here:",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Add images to your portfolio"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/02-images.html#images-make-your-website-easier-to-understand",
+    "href": "pages/03-git-github/03-github-portfolio/02-images.html#images-make-your-website-easier-to-understand",
+    "title": "Add images to your portfolio",
+    "section": "Images make your website easier to understand",
+    "text": "Images make your website easier to understand\nThe following code will display an image from the internet using Markdown:\n![Mississippi Delta](https://deltax.jpl.nasa.gov/img/delta-google-earth.jpg)\n\n\n\nMississippi Delta\n\n\n\nImage source: image of the Mississippi Delta from the Jet Propulsion Laboratory DeltaX project\n\n\n\n\n\n\n\nImportant\n\n\n\nAlways make sure you have permission to use images, and give credit to your image sources. Most images are fair to use for education (teaching, research, and study), as long as you give credit to your source. If you later on decide to use your portfolio to make money (for example, if you use it as marketing materials), then you should reconsider what images you are using.\nLearn more about fair use from the CU Library Fair Use page.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Add images to your portfolio"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/02-images.html#adding-your-own-images",
+    "href": "pages/03-git-github/03-github-portfolio/02-images.html#adding-your-own-images",
+    "title": "Add images to your portfolio",
+    "section": "Adding your own images",
+    "text": "Adding your own images\nIncluding images from the web is the easiest way to add images to your site, but you will probably want to include your own images! There are three common ways that you can add images you have taken or created to your website:\n\nUploading an image to your portfolio repository on GitHub\nUploading an image elsewhere and then linking to it\nGenerate an image with code and render it into your website\n\nWe’ll try out the first two options in this lesson. But first, you need to understand the difference between absolute and relative URLs on the web.\n\nAbsolute and relative links\nOn your website, you can link to files on the web, or you can link to local files.\nAbsolute URLs are on the web, and so they begin with something like http:// or https://. When you are using an absolute link, you don’t need to worry about your file structure – for example, what folder your Markdown file is in. If you move things around in your project the link will still work.\n\n\n\n\n\n\nWarning\n\n\n\nLinks on the internet aren’t forever. If you are using an absolute link, you should check on it occasionally to make sure it’s still there. You can also select image sources that are more reliable long term, or even an image with a permanent link or Digital Object Identifier (DOI).\n\n\nRelative links are to files that are local, or in the same location as your website. Keep in mind that what is local can change if you keep multiple copies of your repository, such as one on GitHub and one on your computer. Relative links, because they will change depending on the file and directory structure of your website. If you are working on your own computer, you can link to a file that isn’t in your repository, and then it won’t show up when you deploy your site.\n\n\n\n\n\n\n\nWhat is a directory?\n\n\n\nDirectory is another word for a folder on your computer – you can organize files by putting them in directories.\n\nThere’s a couple of special characters when using relative links. Suppose you have a Markdown file in a pages directory, and an image you want to display in an img folder:\n&lt;username&gt;.github.io/\n├── README.md\n├── pages/\n│   └── index.md\n└── img/\n    └── cool_satellite_image.jpeg\n\n\n\n\n\n\n\nSpeak Code: File Trees\n\n\n\nIn the text diagram to the left, indentation and lines are being used to show which files are inside which folders – for example the index.md file is indented under the pages directory and connected by a line, indicating that index.md is inside pages.\n\nWhen you are working in index.md, you are in the pages directory. If you want to go up a directory to &lt;username&gt;.github.io from pages, you can use ... For example, ../img/cool_satellite_image.jpeg.\nYou can also make website paths starting from the root directory of the site, in this case &lt;username&gt;.github.io, by starting the path with a slash character, /:\n\n\n\nKeyboard highlighting the slash key\n\n\nThe equivalent link to ../img/cool_satellite_image.jpeg would be /img/cool_satellite_image.jpeg.\n\n\nUpload an image to GitHub\n\nSTEP 1: Create an empty image directory on GitHub\nIt’s important to keep your files organized in a project like a website. Before uploading any images, you should make a place to put them. By convention, images in most websites are kept in the img directory, but you can name it whatever you want.\ngit, the system used by GitHub to keep track of changes to files, doesn’t keep a record of directories without any files in them, and as of now you can’t upload an image to a directory that doesn’t exist yet. This puts us in a bit of a pickle! Fortunately, there’s a common solution – we’ll create an empty text file named .keep in the new directory.\n\n\n\n\n\n\n\nSpeak Code – why .keep?\n\n\n\nYou could name your empty placeholder file anything you want. However, there are two good reasons to use .keep as your filename. First, files that start with a dot (.) are hidden in unix-based operating systems like linux and MacOS, which helps avoid clutter when you are looking at your files. Second, adhering to the convention means that anyone else looking at your repository will know what the .keep file is doing there.\n\nTo create a img/.keep file, go to the main page of your website repository on GitHub and click the Code tab. Then, find the + menu button on the upper right and select Add a file from the dropdown:\n\n\n\nClick add a file\n\n\nType `img/.keep into the name field and then commit your changes:\n\n\n\nName the file img/.keep and commit\n\n\n\n\n\nClick Commit\n\n\n\n\n\nClick Commit again to confirm\n\n\n\n\n\n\n\n\nWarning\n\n\n\nWhen you type img/, GitHub will automatically make a folder, so only .keep will be visible in the text box.\n\n\n\n\nSTEP 2: Upload your image to the img directory\nFirst, make sure that the name of your image file on your computer is descriptive and machine-readable (doesn’t contain any spaces or special characters other than _, -, or .). You won’t be able to rename your file once you upload it to GitHub.\nYou should now be in the img directory in your repository. If note, you can get there from the Code tab in your website repository, by clicking on the img directory in the files. From there, click the Add file menu in the upper right, but this time select Upload files:\n\n\n\nClick on Add file, then Upload files\n\n\nDrag your image file, or browse and select it.\n\n\n\nCommit file upload\n\n\nFinally, write a message and click Commit changes: \n\n\n\nOther places to host images\nGitHub has a couple of limitations when it comes to hosting images:\n\nThe site will not allow you to upload files larger than 100MB\nIf you make changes to an image file, GitHub will keep all the previous versions, which can make your repository unwieldy to download. If you are generating image files yourself and changing them frequently, consider hosting them somewhere else.\n\nSo, where can you host images that you have taken or generated? There are a few options:\n\nYou can use the Free Image Hosting service to upload images without an account or giving up any information about yourself. Note that while you retain ownership of these images you are granting a license to Free Image Hosting to use them however they want.\nFor a final version, you can use a research hosting service like figshare to upload images and get code to embed them in your website.\nIf you want to use photos you have already uploaded to social media, you can usually get a direct link by right-clicking on the image and selecting Copy Image Link.\nYou will likely find that most file storage services such as Google Drive and Dropbox don’t provide you with a direct link to images that you can use in a website. You can look for instructions on generating direct links for these files, but they are often unsupported and could change without warning.\nThere’s another way of hosting on GitHub that doesn’t have the same drawbacks when it comes to large files. You can include files in a release, which creates a direct link to files, but does not attempt to track changes. To get started, follow the instructions from GitHub documentation. Note that once you have a release you can add additional files to it.\n\n\n\n\n\n\n\nWarning\n\n\n\nBy uploading images to social media or other hosting services, you are sometimes giving up your rights to the image, or granting. Photo apps like Flickr are usually better bets, since they are built for photographers with copyright protection in mind. But be sure to read the fine print when uploading material that is sensitive to you personal or to your community – you can look for the term ownership rights in the Terms and Conditions of whatever sites you use.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Add images to your portfolio"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html",
+    "title": "Use Tabular Data for Earth Data Science",
+    "section": "",
+    "text": "Tabular data are data that are stored in a row / column format. Columns (and sometimes rows) are often identified by headers, which if named correctly, explain what is in that row or column. You may already be familiar with spreadsheet tools such as Excel and Google Sheets that can be used to open tabular data.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Use Tabular Data for Earth Data Science"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html#what-is-tabular-data",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html#what-is-tabular-data",
+    "title": "Use Tabular Data for Earth Data Science",
+    "section": "",
+    "text": "Tabular data are data that are stored in a row / column format. Columns (and sometimes rows) are often identified by headers, which if named correctly, explain what is in that row or column. You may already be familiar with spreadsheet tools such as Excel and Google Sheets that can be used to open tabular data.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Use Tabular Data for Earth Data Science"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html#tabular-data-structure",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html#tabular-data-structure",
+    "title": "Use Tabular Data for Earth Data Science",
+    "section": "Tabular Data Structure",
+    "text": "Tabular Data Structure\nIn the example below, you see a table of values that represent precipitation for 3 days. The headers in the data include\n\nday and\nprecipitation-mm\n\n\n\n\nday\nprecipitation-mm\n\n\n\n\nmonday\n0\n\n\ntuesday\n1\n\n\nwednesday\n5\n\n\n\nThe tabular data above contains 4 rows - the first of which (row 1) is a header row and subsequent rows contain data. The table also has 2 columns.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Use Tabular Data for Earth Data Science"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html#common-tabular-data-file-types-.csv-and-.txt",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html#common-tabular-data-file-types-.csv-and-.txt",
+    "title": "Use Tabular Data for Earth Data Science",
+    "section": "Common Tabular Data File Types: .csv and .txt",
+    "text": "Common Tabular Data File Types: .csv and .txt\nTabular data can be downloaded in many different file formats. Spreadsheet formats include .xls and xlsx which can be directly opened in Microsoft Excel. When you are downloading Earth and Environmental data, you will often see tablular data stored in file formats including:\n\n.csv: Comma Separated Values - This file has each column separated (delimited) by a comma.\n.txt: A basic text file. In a txt file, often the delimiter (the thing that separates out each column) can vary. Delimiters are discussed below in more detail.\n\nThese formats are text based and often can be opened in a text editor like Atom or Notepad. They can be then imported into Python using Pandas for further exploration and processing.\n\n\n\n\n\n\nData Tip\n\n\n\nThe challenge with graphical user interface (GUI) based tools like Excel is that they often have limitations when it comes to working with larger files. Further, it becomes difficult to recreate workflows implemented in Excel because you are often pressing buttons rather than scripting workflows. You can use Open Source Python to implement any workflow you might implement in Excel and that workflow can become fully sharable and reproducible!",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Use Tabular Data for Earth Data Science"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html#text-files-delimiters",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html#text-files-delimiters",
+    "title": "Use Tabular Data for Earth Data Science",
+    "section": "Text Files & Delimiters",
+    "text": "Text Files & Delimiters\nA delimiter refers to the character that defines the boundary for different sets of information. In a text file, the delimiter defines the boundary between columns. A line break (a return) defines each row.\nBelow you will find an example of a comma delimited text file. In the example below, each column of data is separated by a comma ,. The data also include a header row which is also separated by commas.\nsite_code, year, month, day, hour, minute, second, time_decimal, value, value_std_dev  \nBRW,1973,1,1,0,0,0,1973.0,-999.99,-99.99\nBRW,1973,2,1,0,0,0,1973.0849315068492,-999.99,-99.99 \nBRW,1973,3,1,0,0,0,1973.1616438356164,-999.99,-99.99 \nHere is an example of a space delimited text file. In the example below, each column of data are separated by a single space.\nsite_code year month day hour minute second time_decimal value value_std_dev  \nBRW 1973 1 1 0 0 0 1973.0 -999.99 -99.99\nBRW 1973 2 1 0 0 0 1973.0849315068492 -999.99 -99.99 \nBRW 1973 3 1 0 0 0 1973.1616438356164 -999.99 -99.99 \nThere are many different types of delimiters including:\n\ntabs\ncommas\n1 (or more) spaces\n\nSometimes you will find other characters used as delimiters but the above-listed options are the most common.\n\n\n\n\n\n\nData Tip:\n\n\n\nThe .csv file format is most often delimited by a comma, hence the name.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Use Tabular Data for Earth Data Science"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html#earth-and-environmental-data-that-are-stored-in-text-file-format",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html#earth-and-environmental-data-that-are-stored-in-text-file-format",
+    "title": "Use Tabular Data for Earth Data Science",
+    "section": "Earth and Environmental Data That Are Stored In Text File Format",
+    "text": "Earth and Environmental Data That Are Stored In Text File Format\nThere are many different types of data that are stored in text and tabular file formats. Below you will see a few different examples of data that are provided in this format. You will also explore some of the cleanup steps that you need to import and begin to work with the data.\n\n\n\n\n\n\nData Tip\n\n\n\nNot all text files store tabular text (character) based data. The .asc file format is a text based format that stores spatial raster data.\n\n\n\n# Import packages\nimport os\n\nimport matplotlib.pyplot as plt\nimport pandas as pd\n\nIf you have a url that links directly to a file online, you can open it using pandas .read_csv(). Have a look at the data below - and notice that is has:\n\n3 columns: months, precip and seasons\n12 rows: notice that the first row is numered as 0. This is because indexing in Python always starts at 0 rather than 1.\n\n\n\n\n\n\n\nData Tip\n\n\n\nYou can learn more about zero-based indexing in the chapter on lists in this textbook \n\n\n\n# Download and open the .csv file using Pandas\navg_monthly_precip = pd.read_csv(\n    \"https://ndownloader.figshare.com/files/12710618\")\n\n# View the data that you just downloaded and opened\navg_monthly_precip\n\n\n\n\n\n\n\n\nmonths\nprecip\nseasons\n\n\n\n\n0\nJan\n0.70\nWinter\n\n\n1\nFeb\n0.75\nWinter\n\n\n2\nMar\n1.85\nSpring\n\n\n3\nApr\n2.93\nSpring\n\n\n4\nMay\n3.05\nSpring\n\n\n5\nJune\n2.02\nSummer\n\n\n6\nJuly\n1.93\nSummer\n\n\n7\nAug\n1.62\nSummer\n\n\n8\nSept\n1.84\nFall\n\n\n9\nOct\n1.31\nFall\n\n\n10\nNov\n1.39\nFall\n\n\n11\nDec\n0.84\nWinter\n\n\n\n\n\n\n\nIn Pandas, this table format is referred to as a dataframe. You can view some stats about the dataframe including the number of columns and rows in the data using .info().\n\navg_monthly_precip.info()\n\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nRangeIndex: 12 entries, 0 to 11\nData columns (total 3 columns):\n #   Column   Non-Null Count  Dtype  \n---  ------   --------------  -----  \n 0   months   12 non-null     object \n 1   precip   12 non-null     float64\n 2   seasons  12 non-null     object \ndtypes: float64(1), object(2)\nmemory usage: 416.0+ bytes\n\n\nFinally, you can plot the data using .plot().\n\n# Plot the data\navg_monthly_precip.plot(\n    x=\"months\",\n    y=\"precip\",\n    title=\"Precipitation (mm) for One Year\",\n    xlabel='Month',\n    ylabel='Precipitation (mm)')\n# Pretty display\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nWhen you are using an interactive notebook, any plot you create in the last line of a cell will be displayed no matter what. However – you may notice that it also displays some extra text unless you add the line plt.show() to the end. This line of code cleans up the display for you a bit.\n\n\n\n\n\n\n\n\nChallenge 1\n\n\n\n\nUse Python to determine the type of data stored in each column of avg_monthly_precip\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\nShow the solution\n# Check the type of the variable avg_monthly_precip in this cell\navg_monthly_precip.info()\n\n\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nRangeIndex: 12 entries, 0 to 11\nData columns (total 3 columns):\n #   Column   Non-Null Count  Dtype  \n---  ------   --------------  -----  \n 0   months   12 non-null     object \n 1   precip   12 non-null     float64\n 2   seasons  12 non-null     object \ndtypes: float64(1), object(2)\nmemory usage: 416.0+ bytes\n\n\n\n\n\n\n\n\n\n\nChallenge 2\n\n\n\nIn most programming languages, you can customize the options for how a function or method runs by using parameters. Examples of parameters in the plot method above include:\n\nx=\"months\" - tell python which data to place on the x-axis\ny=\"precip\" - tell python which data to place on the y-axis\n\nAbove you created a line plot. You can use the kind=\"\" parameter to modify the type of plot that pandas created. You can use the color=\"\" parameter to specify a color that you wish to use for each bar in the plot.\nDo the following:\n\nAdd kind=\"bar\" to the .plot() method.\nSpecify the color of the bars using the color=\"\" parameter.\n\nRun your code and see what the final plot looks like. You can select any color that you wish to complete your plot.\n\n\n\n\n\n\nTip\n\n\n\nUse this link to find a list of colors (open it in a new browser tab!) https://het.as.utexas.edu/HET/Software/Matplotlib/api/colors_api.html\n\n\n\n\n\n\n\n\nWarning\n\n\n\nWhen using the interactive cells to plot, you may need to click on the plot to get it to show up.\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nThe plot below is an example of what your final plot should look like.\n\n\n\n\nShow our solution!\navg_monthly_precip.plot(\n    # Make it a bar plot\n    kind=\"bar\",\n    # Change the color of the bars using color=\n    color=\"green\",\n    x=\"months\",\n    y=\"precip\",\n    title=\"Challenge 2 Plot: Precipitation (mm) for One Year\",\n    xlabel='Month',\n    ylabel='Precipitation (mm)')\nplt.show()",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Use Tabular Data for Earth Data Science"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html#cleaning-tabular-text-files-so-you-can-open-them-in-python",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html#cleaning-tabular-text-files-so-you-can-open-them-in-python",
+    "title": "Use Tabular Data for Earth Data Science",
+    "section": "Cleaning Tabular Text Files So You Can Open Them in Python",
+    "text": "Cleaning Tabular Text Files So You Can Open Them in Python\n\nMissing Data Values & Headers in Text Files\nNot all text files are as simple as the example above. Many text files have several lines of header text above the data that provide you with useful information about the data itself. This data is referred to as metadata.\nAlso, often times, there are data missing from the data that were collected. These missing values will be identified using a specific value that is hopefully documented in the metadata for that file.\nNext you will explore some temperature data that need to be cleaned up.\n\n\n\n\n\n\nData Tip\n\n\n\nYou can visit the NOAA NCDC website to learn more about the data you are using below.\n\nMiami, Florida CSV: https://www.ncdc.noaa.gov/cag/city/time-series/USW00012839-tmax-12-12-1895-2020.csv\nSeattle, Washington CSV: https://www.ncdc.noaa.gov/cag/city/time-series/USW00013895-tmax-1-5-1895-2020.csv\n\n\n\n\n# Open temperature data for Miami, Florida\nmiami_temp_url = (\n    \"https://www.ncdc.noaa.gov/cag/city/time-series\"\n    \"/USW00012839-tmax-12-12-1895-2020.csv\")\n\nmiami_temp = pd.read_csv(miami_temp_url)\nmiami_temp\n\n\n\n\n\n\n\n\nMiami\nFlorida January-December Maximum Temperature\n\n\n\n\n0\nUnits: Degrees Fahrenheit\nNaN\n\n\n1\nMissing: -99\nNaN\n\n\n2\nDate\nValue\n\n\n3\n194812\n83.7\n\n\n4\n194912\n83.1\n\n\n...\n...\n...\n\n\n71\n201612\n84.6\n\n\n72\n201712\n85.9\n\n\n73\n201812\n84.5\n\n\n74\n201912\n85.9\n\n\n75\n202012\n85.9\n\n\n\n\n76 rows × 2 columns\n\n\n\nNotice that the data above contain a few extra rows of information. This information however is important for you to understand.\n\nMissing: -99 – this is the value that represents the “no data” value. Misisng data might occur if a sensor stops working or a measurement isn’t recorded. You will want to remove any missing data values.\nUnits: Degrees Fahrenheit – it’s always important to first understand the units of the data before you try to interpret what the data are showing!\n\nBelow you will use all of the information stored in the header to import your data. You will also remove the first few rows of data because they don’t actually contain any data values. These rows contain metadata.\n\n\nFunction Parameters in Python\nA parameter refers to an option that you can specify when running a function in Python. You can adjust the parameters associated with importing your data in the same way that you adjusted the plot type and colors above.\nBelow you use:\n\nskiprows=: to tell Python to skip the first 3 rows of your data\nna_values=: to tell Python to reassign any missing data values to “NA”\n\nNA refers to missing data. When you specify a value as NA (NaN or Not a Number in Python), it will not be included in plots or any mathematical operations.\n\n\n\n\n\n\nData Tip\n\n\n\nYou can learn more about no data values in Pandas in the intermediate earth data science textbook\n\n\n\n# Open the Miami data skipping the first 3 rows and setting no data values\nmiami_temp = pd.read_csv(\n    miami_temp_url,\n    skiprows=3,\n    na_values=-99)\n\n# View the first 5 rows of the data\nmiami_temp.head()\n\n\n\n\n\n\n\n\nDate\nValue\n\n\n\n\n0\n194812\n83.7\n\n\n1\n194912\n83.1\n\n\n2\n195012\n82.1\n\n\n3\n195112\n82.2\n\n\n4\n195212\n82.9\n\n\n\n\n\n\n\n\n\n\n\n\n\nChallenge 3\n\n\n\nNow that you have imported temperature data for Miami, plot the data using the code example above!! In your plot code, set Date as your x-axis value and Value column as your y-axis value.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\nSee our solution\nmiami_temp.plot(\n   x=\"Date\",\n   y=\"Value\",\n   kind=\"line\",\n   title=\"Challenge 3 Plot: Temperature (Fahrenheit) - Miami, FL\",\n   xlabel='Date',\n   ylabel='Temperature (Fahrenheit)')\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nChallenge 4\n\n\n\nUse the link below to open and plot temperature data for Seattle, Washington. Don’t forget to take a look at your data before you plot it!\nhttps://www.ncdc.noaa.gov/cag/city/time-series/USW00013895-tmax-1-5-1895-2020.csv\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\nSee our solution here!\n# Open the Seattle data\nseattle_temp_url = (\n    \"https://www.ncdc.noaa.gov/cag/city/time-series\"\n    \"/USW00013895-tmax-1-5-1895-2020.csv\")\nseattle_temp = pd.read_csv(\n    seattle_temp_url,\n    skiprows=3,\n    na_values=-99)\n\nseattle_temp.plot(\n    x=\"Date\",\n    kind=\"line\",\n    y=\"Value\",\n    title=\"Challenge 4 Plot: Temperature (Fahrenheit) - Seattle, WA\",\n    color=\"red\",\n    xlabel='Date',\n    ylabel='Temperature (Fahrenheit)')\nplt.show()\n\n\n\n\n\n\n\n\n\n\nAdditional Resources\n\nChapter on Pandas in the Intro to Earth Data Science textbook \nChapter on Time Series with Pandas \n\n Textbook Section on Dealing with No Data Values in Pandas",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Use Tabular Data for Earth Data Science"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html#additional-resources",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html#additional-resources",
+    "title": "Use Tabular Data for Earth Data Science",
+    "section": "Additional Resources",
+    "text": "Additional Resources\n\nChapter on Pandas in the Intro to Earth Data Science textbook \nChapter on Time Series with Pandas \n\n Textbook Section on Dealing with No Data Values in Pandas",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Use Tabular Data for Earth Data Science"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/00-introduction.html",
+    "href": "pages/03-git-github/03-github-portfolio/00-introduction.html",
+    "title": "Join the Open Earth Data Science community online",
+    "section": "",
+    "text": "The internet has revolutionized science publishing. For example, most published scientific papers are now made freely available online within one year (Randall Munroe 2013):\n\n\n\nThe Rise of Open Science: The accelerating pace of scientific publishing and the rise of open access, as depicted by xkcd.com cartoonist Randall Munroe. Open access reached a tipping point in 2011, when more than half of new research became available freely online.\n\n\nIt’s not just peer-reviewed publications that have changed – scientists all over the world now use websites, blogs, and social media to discuss, communicate, and publicize their work. The internet is also a great way to transparently involve your community in your research.\n\n\n\n\n\n\nImportant\n\n\n\nNot all science has to be open! It’s important to think about the impacts of publishing your work on people and communities wherever you are studying, and also honor principles data sovereignty. We will talk about some ways to publish your work while omitting or obscuring sensitive details, but for now make sure that you and your mentors are comfortable before putting your work on the internet.\n\n\nThere are lots of tools available for creating free websites. We, as Earth and Environmental Data Scientists, like to use a platform called GitHub Pages for a couple of reasons:\n\nIt’s completely free to use, event for larger websites (like this one!).\nIt is a feature of the code collaboration website GitHub, which is already where most programmers and scientists keep their code. Keeping our websites on GitHub also means that we can collaborate on and discuss them online, the same way we would any other code.\nIt can automatically build an attractive website using text-based, human-readable tools.\nIt can automatically incorporate the plots and maps generated by code.\nThough GitHub itself is not open source software (it’s owned by Microsoft), Pages is built on open-source tools. This means that if for some reason the availability or pricing structure ever changes we could download the code and put the website up somewhere else.\n\n\n\n\n\n\n\nCheck out our explainer video to learn more about what a personal portfolio webpage can do for you, and see some examples from previous students!\n\n\n\nIn the following lessons, you will learn how to create a personal portfolio webpage and publish it for free using GitHub Pages.\n\n\n\n\n\n\n\n\n\n\nCreate your own portfolio webpage\n\n\nDocument and share your work\n\n\nShow potential employers and collaborators what you can do, and share your work! In this activity, you will create a personal portfolio webpage. You’ll use this webpage to share some biographical information and a photo of yourself. You can then update your webpage with links to work that you complete. \n\n\n\n\n\nNate Quarderer, Elsa Culler\n\n\n7 min\n\n\n\n\n\n\n\n\n\n\n\n\nAdd images to your portfolio\n\n\nAs they say, a picture’s worth 1000 words\n\n\nEffective scientific communication is often built on visual evidence, so it’s important to be able to include photographs, figures, and maps into your webpages. \n\n\n\n\n\nNate Quarderer, Elsa Culler\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nCustomize your website content\n\n\nGet started with HTML\n\n\nMarkdown is nice because it is easy to read, and lets us get started building websites quickly. But, it can’t do everything! Adding Hyper-Text Markup Language (HTML) will let you include multi-media materials and customize how your page looks and behaves. \n\n\n\n\n\nNate Quarderer, Elsa Culler\n\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\n\nSpruce up your website\n\n\nGet started with Jekyll themes\n\n\nIt can be challenging to build an attractive website from scratch. Fortunately, many web designers have created themes to make any website look great. \n\n\n\n\n\nElsa Culler, Nate Quarderer\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nAdd a map to your website\n\n\nGet started with maps\n\n\nAs Earth and Environmental Data Scientists, we know places are important. In this activity, you will make your first map in Python, and use it to tell the story of where you come from and what places are important to you. \n\n\n\n\n\nNate Quarderer, Elsa Culler\n\n\n6 min\n\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\nReferences\n\nRandall Munroe. 2013. “The Rise of Open Access.” Science 342 (6154): 58–59. https://www.science.org/doi/10.1126/science.342.6154.58.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Join the Open Earth Data Science community online"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/02-pull-requests.html",
+    "href": "pages/03-git-github/02-github-collaboration/02-pull-requests.html",
+    "title": "Propose changes to GitHub repositories",
+    "section": "",
+    "text": "When you’re collaborating with someone on GitHub, you’ll find you want to be able to propose changes without actually making them to the default version. This is important for all collaboration (think about other online collaboration tools like Google Docs) – but it is especially important for code, because one error can break the whole thing. You want to make sure that all the code works together as expected before merging. A pull request (referred to as a PR) is a way for you to suggest or propose changes to code in a GitHub repository. It allows you and your collaborators to:\n\nSee suggested changes side-by-side the original,\nLeave comments on individual lines,\nDiscuss the changes\nRun tests on the new code to make sure it works with everything else, and\nMake sure that any suggestions adhere to group policies and norms,\n\nall before making any official changes. Once everyone agrees on the changes, you can merge them in with the original.\nPull requests can be implemented in two ways, usually depending on what your relationship is with the project:\n\nWhen you are part of a project team, you will usually develop changes on a branch within the team’s repository.\nWhen contributing to a project from the outside, you usually make your changes in a fork (i.e. copy owned by you) of that repository.\n\nIn either case, once you think your code is ready, it’s polite to make a pull request rather than unilaterally making changes. That way your team can review what you’ve done! The ability to make changes in the main branch is usually restricted to just a few people.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Propose changes to GitHub repositories"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#requesting-changes-to-a-repository",
+    "href": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#requesting-changes-to-a-repository",
+    "title": "Propose changes to GitHub repositories",
+    "section": "",
+    "text": "When you’re collaborating with someone on GitHub, you’ll find you want to be able to propose changes without actually making them to the default version. This is important for all collaboration (think about other online collaboration tools like Google Docs) – but it is especially important for code, because one error can break the whole thing. You want to make sure that all the code works together as expected before merging. A pull request (referred to as a PR) is a way for you to suggest or propose changes to code in a GitHub repository. It allows you and your collaborators to:\n\nSee suggested changes side-by-side the original,\nLeave comments on individual lines,\nDiscuss the changes\nRun tests on the new code to make sure it works with everything else, and\nMake sure that any suggestions adhere to group policies and norms,\n\nall before making any official changes. Once everyone agrees on the changes, you can merge them in with the original.\nPull requests can be implemented in two ways, usually depending on what your relationship is with the project:\n\nWhen you are part of a project team, you will usually develop changes on a branch within the team’s repository.\nWhen contributing to a project from the outside, you usually make your changes in a fork (i.e. copy owned by you) of that repository.\n\nIn either case, once you think your code is ready, it’s polite to make a pull request rather than unilaterally making changes. That way your team can review what you’ve done! The ability to make changes in the main branch is usually restricted to just a few people.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Propose changes to GitHub repositories"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#branches-and-forks",
+    "href": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#branches-and-forks",
+    "title": "Propose changes to GitHub repositories",
+    "section": "Branches and Forks",
+    "text": "Branches and Forks\nGitHub has two different methods for making changes, branches and forks. Branches are for when you are a part of the core team for a project. Forks are for when you are contributing to someone else’s project. The key difference is that you own your fork, but you don’t own a branch. This allows repository owners to protect their repository from outside collaborators a little more carefully.\nAfter you have made changes in a branch or a fork, you can propose them to the administrators as a Pull Request or PR.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Propose changes to GitHub repositories"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#introduction-to-the-pull-request-workflow",
+    "href": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#introduction-to-the-pull-request-workflow",
+    "title": "Propose changes to GitHub repositories",
+    "section": "Introduction to the Pull Request Workflow",
+    "text": "Introduction to the Pull Request Workflow\nSuppose that you are working with your colleague, Alice, on a project. You have been asked to make some changes to a file in your collaborator’s repository. Your workflow will look something like:\n\n\n\n\n\nsequenceDiagram\n  actor Alice\n  participant Alice's Repository\n  actor You\n  participant Your Fork\n  Alice--&gt;&gt;You: Hey, can you make a change to my repository?\n  You--&gt;&gt;Alice: Sure! Let me go fork it!\n  You-&gt;&gt;Alice's Repository: Open up Alice's repository on GitHub\n  activate Alice's Repository\n  Alice's Repository-&gt;&gt;Your Fork: Fork Alice's repository\n  deactivate Alice's Repository\n  activate Your Fork\n  Your Fork-&gt;&gt;Your Fork: Make a change\n  Your Fork-&gt;&gt;Alice's Repository: Create a Pull Request\n  deactivate Your Fork\n  You--&gt;&gt;Alice: Hey Alice -- I made a change!\n  Alice--&gt;&gt;You: Oh, great! Let me check it out.\n  Alice-&gt;&gt;Alice's Repository: Review Pull Request\n  activate Alice's Repository\n  Alice--&gt;&gt;You: Looks good to me!\n  Alice-&gt;&gt;Alice's Repository: Merge Pull Request\n  deactivate Alice's Repository\n  Alice--&gt;&gt;You: Thanks, that was just what I needed!\n\n\n\n\n\n\n\nGitHub and Mentions: Communicating With Your Collaborators\nAfter you have submitted your PR, your colleague can review the changes. It is good practice to “mention” your colleague specifically when you submit your PR to ensure that they see it. You can do that by using @&lt;their-github-username&gt; in a comment in the PR (e.g. @eastudent which will notify the GitHub user called eastudent).\nYour colleague will review the changes. If they would like a few additional changes, they will request changes.\nOnce your colleague is happy with the changes, then they will merge your PR.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Propose changes to GitHub repositories"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#the-anatomy-of-a-diff-difference-between-two-files",
+    "href": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#the-anatomy-of-a-diff-difference-between-two-files",
+    "title": "Propose changes to GitHub repositories",
+    "section": "The Anatomy of a Diff (Difference Between Two Files)",
+    "text": "The Anatomy of a Diff (Difference Between Two Files)\nGit keeps track of changes through additions and deletions on a character by character and line by line basis.\nSo, pretend that the word “great” is spelled incorrectly in a file, and you wish to fix the spelling. The edit that you will make is: graet is changed to great\nThe change above represents 2 character deletions and 2 additions.\nThe word great has 5 characters, so the number of characters is not changing in this example.\nHowever, you are deleting: ae and replacing those two characters with ea.\nAs you edit files in a version control system like git, it is tracking each character addition and deletion. These tracked changes are what you see in a diff when you submit a pull request.\nWhen you open up a pull request, you will see the line by line changes or differences between the file you submitted, compared to the file that exists in a repository. These changes are called diffs (short for differences).\nPull requests show diffs of the content between the branch and repository where you made changes, and the branch and repository that you are submitting changes to. The changes are shown in green and red. The color green represents additions to the file whereas red represents deletions.\n\n\n\nThis screenshot shows a diff associated with a pull request. On the LEFT, you can see the text (highlighted with red) that was modified by the proposed pull request. The words that are dark red were the ones that were deleted. On the RIGHT, you can see the text (in green) that represents the proposed changes. The words that are darker green were added. In this example, the word earthpy was replaced with matplotcheck in the contributing.rst file of the repo.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Propose changes to GitHub repositories"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#github-pull-requests-support-open-science-and-open-collaboration",
+    "href": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#github-pull-requests-support-open-science-and-open-collaboration",
+    "title": "Propose changes to GitHub repositories",
+    "section": "GitHub Pull Requests Support Open Science and Open Collaboration",
+    "text": "GitHub Pull Requests Support Open Science and Open Collaboration\nA pull request (herein referred to as PR) is ideal to use as a collaboration tool. A PR is similar to a “push” that you would make to a repository that you own. However, a PR also allows for a few things:\n\nIt allows you to contribute to another repo without needing administrative privileges to make changes to the repository.\nIt documents changes as they are made to a repository and as they address issues. It also makes those changes easily visible to anyone who may want to see them.\nIt allows others to review your changes and suggest corrections, additions, and edits on a line by line basis to those changes as necessary.\nIt supports and documents conversation between collaborators on the project.\nIt allows repository administrators or code maintainers to control what gets added to the project repository.\n\nNote if you do not own the repository that you wish to modify, a PR is the only way that you can contribute changes to that repository.\nThis ability to suggest changes to ANY repository, without needing administrative privileges is a powerful feature of GitHub.\nThis workflow supports open science because the entire process of updating content is open and supported by peer review. You can make as many changes as you want in your fork, and then suggest that the owner of the original repository incorporate those changes using a pull request.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Propose changes to GitHub repositories"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#pull-request-terminology---head-vs.-base",
+    "href": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#pull-request-terminology---head-vs.-base",
+    "title": "Propose changes to GitHub repositories",
+    "section": "Pull Request Terminology - Head vs. Base",
+    "text": "Pull Request Terminology - Head vs. Base\nConsider the example above where you were submitting changes to the contributing.rst file in your colleague’s repo. After pushing the changes to your fork, you are ready to make a pull request to your colleague’s repo.\nWhen submitting a pull request, you need to specify both where you’d like to suggest the changes (e.g. your colleague’s repo) and where the changes are coming from (e.g. your fork or branch).\nThere are two key terms that you should know to set this up in Github:\n\nBase: Base is the repository and branch that will be updated. Changes will be added to this repository via the pull request. Following the example above, the base repo is your colleague’s repo.\nHead: Head is the repository and branch containing the changes that will be added to the base. Following the example above, this is your repository (your fork of your colleague’s repo).\n\nOne way to remember the difference between head and base is that the “head” is ahead of the “base”. Ahead means that there are changes in the head repo that the base repo does NOT have.\nSo, you need to add the changes from the head (your forked repo) to the base (your colleague’s repo).\nWhen you begin a pull request, the head and base will auto-populate. It may look something like this:\n\nbase fork: your-colleagues-username/project-name\nhead fork: your-username/project-name\n\nNext, you will learn how to create a pull request in GitHub.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Propose changes to GitHub repositories"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#how-to-submit-pull-requests-to-suggest-changes-to-repositories",
+    "href": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#how-to-submit-pull-requests-to-suggest-changes-to-repositories",
+    "title": "Propose changes to GitHub repositories",
+    "section": "How To Submit Pull Requests To Suggest Changes To Repositories",
+    "text": "How To Submit Pull Requests To Suggest Changes To Repositories\nThis section is an overview of the pull request process on GitHub. You can also check out our forking and branching PR activities for a hand’s on experience.\n\n\n\nShort animated gif showing the steps involved with creating a pull request. When you setup your pull request, remember to ensure that the base is the repository that you wish to ADD change to. Your fork (or a branch) is where the changes currently exist (i.e. the head). When creating a new pull request, you should always check that the changes in your PR are the ones that you wish to submit. It’s also good practice to ping or (mention?) a collaborator who you want to review and merge the PR if you know who that will be.\n\n\n\nStep 1 - Start to Open Your Pull Request on GitHub\nTo start a PR, click the New pull request button on the main page of your forked repository.\n\n\n\nLocation of the new pull request button on the main page of an example forked repository.\n\n\n\n\n\n\n\n\nData Tip\n\n\n\nThere are many different ways to submit a pull request. You can also click the “Pull Requests” tab at the top of the main page of a repository to submit a pull request (PR). When the pull request page opens, click the “New pull request” button to initiate a PR. You can also click on the PR button in the repository that you are submitting changes to!\n\n\n\n\nStep 2 - Select Repository That You Want to Update on GitHub\nIn this example, you are updating another repository with changes from your fork.\nNext, select both the repo that you wish to update (the base repo) and the repo that contains the content that you wish to use to update the base (the head repo).\nIn this example, you want to update:\n\nbase: your-colleagues-username/project-name with\nhead: commits in your fork your-username/project-name.\n\nThe above pull request configuration tells GitHub to update the base repository with contents from your forked repository, or the head repository.\n\n\nStep 3 - Verify The Changes In Your Pull Request\nWhen you compare two repos in a pull request page, GitHub provides an overview of the differences (diffs) between the files.\nCarefully review these changes to ensure that the changes that you are submitting are in fact the ones that you want to submit.\n\nFirst, look at the number of files. How many files did you modify? Do you see that many files listed in the PR?\nLook over the changes made to each file. Do the changes all look correct (like changes that you committed to the repository)?\n\n\n\n\nWhen you first create a PR, be sure to check the PR contents. Notice in this image that the number of files and number of commits are displayed. Make sure these numbers make sense based upon the changes that you made.\n\n\n\n\n\n\n\n\nData Tip\n\n\n\nYou can also click on the commit titles to see the specific changes in each commit. This is another way to check that the contents of a PR are what you expect them to be.\n\n\nThis review of your own PR before submitting it is important. Remember that someone else is going to take time to review your PR.\nMake sure that you take care of cleaning up what you can FIRST, before submitting the PR.\n\n\nStep 4 - Click on the Create New Pull Request Button\nThe next step of the create PR process is to click the “Create Pull Request” button. Note that this button will NOT be available if you have not made changes in your repo (e.g. fork).\nClick the green “Create Pull Request” button to start your pull request. Once you do that, a title box and description box will be visible.\nAdd a title and write a brief description of your changes. When you have added your title and description, click on “Create Pull Request”.\n\n\n\n\n\n\nData Tip\n\n\n\nYou can modify the title and description of your pull request at any time - even after you’ve submitted the pull request!\n\n\n\n\n\nPull request titles should be concise and descriptive of the content in the pull request. More detailed notes can be left in the comments box.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Propose changes to GitHub repositories"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#pull-requests-and-your-location-on-github",
+    "href": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#pull-requests-and-your-location-on-github",
+    "title": "Propose changes to GitHub repositories",
+    "section": "Pull Requests and Your Location On GitHub",
+    "text": "Pull Requests and Your Location On GitHub\nWhen you create a new pull request, you will be automatically transferred to the GitHub.com URL or landing page for the base repository (your colleague’s repository).\nAt this point, you have submitted your pull request!\nAt the bottom of your pull request, you may see an large green button that says Merge Pull Request. This button will be used by owner of the repository (your colleague or perhaps others working on this collaborative project) to merge in your changes, when a review has been completed.\nThe repo owner will review your PR and may ask for changes. When they are happy with all of the changes, your PR could get merged!\n\n\n\n\n\n\nData Tip\n\n\n\nAll future commits that you make to your fork (on the branch where you are working) will continue to be added to the open pull request UNTIL it is merged.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Propose changes to GitHub repositories"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#how-to-merge-github-pull-requests-on-github",
+    "href": "pages/03-git-github/02-github-collaboration/02-pull-requests.html#how-to-merge-github-pull-requests-on-github",
+    "title": "Propose changes to GitHub repositories",
+    "section": "How To Merge GitHub Pull Requests on GitHub",
+    "text": "How To Merge GitHub Pull Requests on GitHub\nAfter you have submitted your PR, someone who owns or manages the repo where you are submitting the PR will review it. At this point, they will either:\n\nsuggest that you make some changes to the PR or\nmerge the PR if they are happy with all of the changes that you made.\n\nA screencast showing how this process works is below.\n\n\n\nShort animated gif showing the steps involved with merging a pull request. It’s common for a reviewer to comment on your pull request and request changes. Once the reviewer is happy with the PR, they will merge it using the merge button on the bottom of the PR. It is important to note that you can only merge a PR in a repo in which you have permissions to merge.\n\n\n\nHow To Close Pull Requests on GitHub\nYou can also close a pull request on GitHub if you decide you are not ready to submit your files from your forked repository to the original repository.\nFor example, the pull request you just created in this lesson can be closed anytime before it is merged.\nWhen you are ready to submit changes, you can simply create a new pull request on GitHub following these same steps.\nTo close a pull request, click on Close pull request button towards the bottom of the pull request page.\n\n\n\nLocation of the Close pull request button on an example pull request page from jenp0277 to earthlab-education.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Propose changes to GitHub repositories"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html",
+    "href": "pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html",
+    "title": "Practice Submitting Pull Requests",
+    "section": "",
+    "text": "In this lesson, you will learn how to submit a pull request to suggest changes to a repository you are collaborating on.\nYou will need a web browser and your GitHub.com login (username and password).\nFor this assignment, you will add information about your GitHub username and, optionally, your personal website to a repository.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Practice Submitting Pull Requests"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html#step-1-navigate-to-the-repository-where-you-will-add-your-username-and-other-information.",
+    "href": "pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html#step-1-navigate-to-the-repository-where-you-will-add-your-username-and-other-information.",
+    "title": "Practice Submitting Pull Requests",
+    "section": "Step 1: Navigate to the repository where you will add your username and other information.",
+    "text": "Step 1: Navigate to the repository where you will add your username and other information.\nFor HYR-SENSE 2024, we will be using the HYR-SENSE repository.\nMake sure to navigate to the Code tab.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Practice Submitting Pull Requests"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html#step-2-make-your-changes",
+    "href": "pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html#step-2-make-your-changes",
+    "title": "Practice Submitting Pull Requests",
+    "section": "Step 2: Make your changes",
+    "text": "Step 2: Make your changes\n\nNavigate to the docs/resources/participant_bios.md file\n\n\nThen, click on the edit button in the upper right.\n\n\n\nClick the edit button.\n\n\nAdd a row to the directory table with any of the following information you are comfortable sharing:\n\nYour name, linked to a pronounciation link. We recommend that everyone use these even if your name is “easy to pronounce” because pronounciation difficulty always depends on the language of the speaker.\nYour GitHub username, linked to your GitHub profile page https://github.com/&lt;your-username&gt;\nYour personal website or a social media profile, linked to itself.\nYour LinkedIn profile, linked to itself (optional)\n\nAt the end it should look like: \nSelect the Commit button.\n\n\n\nSelect Commit.\n\n\nMake sure to select Make changes in another branch. This will create a branch with your changes in it! You can name the branch anything you want other than main, but the default (&lt;your-username&gt;-patch-1) is fine.\n\n\n\nSelect Make changes in another branch.\n\n\nWrite a message, including your username, so that the adminstrators can identify what the pull request is doing easily. You can add additional details in the description if you like, but the message is the most important part since that is what will be visible in the list of Pull Requests.\nClick the Propose changes button.\n\n\n\nSelect Propose Changes.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Practice Submitting Pull Requests"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html#pull-requests-allow-you-to-suggest-changes-without-changing-the-default-version-of-a-repository-typically-the-main-branch",
+    "href": "pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html#pull-requests-allow-you-to-suggest-changes-without-changing-the-default-version-of-a-repository-typically-the-main-branch",
+    "title": "Practice Submitting Pull Requests",
+    "section": "Pull Requests allow you to suggest changes without changing the “default” version of a repository (typically the main branch)",
+    "text": "Pull Requests allow you to suggest changes without changing the “default” version of a repository (typically the main branch)\nA pull request:\n\nAllows others to review your changes and suggest corrections, additions, edits, etc.\nAllows repository administrators control over what gets added to their project repo.\n\nThe ability to suggest changes is a powerful feature of GitHub. You can make as many changes as you want, and then suggest that the project manager or owner incorporate those changes using a pull request. When you make additional changes in your branch, they will get added to your pull request automatically until it is merged in. Then you will need a new branch and a new pull request.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Practice Submitting Pull Requests"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/01-intro-collaboration.html",
+    "href": "pages/03-git-github/02-github-collaboration/01-intro-collaboration.html",
+    "title": "Use GitHub to Collaborate on Open Science Projects",
+    "section": "",
+    "text": "GitHub.com is a website that supports version control using git. In this chapter, you will learn how to use GitHub for both version control and as a collaboration tool. Specifically, you will learn about a well-known and used collaboration model that is used in the open software community.\nAfter completing this chapter, you will be able to:\n\nExplain the difference between git and GitHub.\nDescribe the open source software collaboration model as it is implemented on GitHub.\nExplain what a pull request (PR) is and how PRs are used on GitHub.\nCreate a pull request in GitHub.\nExplain what a GitHub issue is and explain how issues are used on GitHub.\nCreate an issue in GitHub.\n\nYou will need a web browser and a GitHub.com login (username and password).",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Use GitHub to Collaborate on Open Science Projects"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/01-intro-collaboration.html#github-for-collaboration",
+    "href": "pages/03-git-github/02-github-collaboration/01-intro-collaboration.html#github-for-collaboration",
+    "title": "Use GitHub to Collaborate on Open Science Projects",
+    "section": "",
+    "text": "GitHub.com is a website that supports version control using git. In this chapter, you will learn how to use GitHub for both version control and as a collaboration tool. Specifically, you will learn about a well-known and used collaboration model that is used in the open software community.\nAfter completing this chapter, you will be able to:\n\nExplain the difference between git and GitHub.\nDescribe the open source software collaboration model as it is implemented on GitHub.\nExplain what a pull request (PR) is and how PRs are used on GitHub.\nCreate a pull request in GitHub.\nExplain what a GitHub issue is and explain how issues are used on GitHub.\nCreate an issue in GitHub.\n\nYou will need a web browser and a GitHub.com login (username and password).",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Use GitHub to Collaborate on Open Science Projects"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/01-intro-collaboration.html#why-use-github-for-science-collaboration",
+    "href": "pages/03-git-github/02-github-collaboration/01-intro-collaboration.html#why-use-github-for-science-collaboration",
+    "title": "Use GitHub to Collaborate on Open Science Projects",
+    "section": "Why Use GitHub For Science Collaboration?",
+    "text": "Why Use GitHub For Science Collaboration?\nIn the previous chapter, you learned about git and GitHub. Recall that git is a tool that is used to manage version control for various files. GitHub.com is a website that runs git behind the scenes.\nThe GitHub.com website also has additional functionality that extends the functionality of git. This functionality allows you to manage projects and coordinate with others on updates to code, text files, and other files in your repo. GitHub also facilitates sharing your code with the world (OR with specific people if you need to work with a smaller group of people privately).\nIn the next few lessons, you will learn more about the various GitHub tools that you can use to collaborate on projects.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Use GitHub to Collaborate on Open Science Projects"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/01-intro-collaboration.html#github-for-project-management-and-collaboration",
+    "href": "pages/03-git-github/02-github-collaboration/01-intro-collaboration.html#github-for-project-management-and-collaboration",
+    "title": "Use GitHub to Collaborate on Open Science Projects",
+    "section": "GitHub For Project Management and Collaboration",
+    "text": "GitHub For Project Management and Collaboration\nThere are several tools that GitHub offers that you can use to support collaborating on projects.\n\n1. GitHub Pull Requests\nA pull request is a way that you or a colleague can suggest code changes to a repository.\nA pull request allows: * Your collaborators to see exactly what items were changed line by line in the code. * A group of people working on the code to view, review and comment on the code line by line. * You to document changes to your project which can also be clearly linked to issues that describe the need for those changes (see below).\nThe pull request is a great way to ensure that everyone is on the same page with your edits before the changes are merged or combined into the designated repository.\nPull Requests are specific to the GitHub website.\n\n \n\nThis screenshot shows a diff (i.e. difference between two files) associated with a pull request. On the LEFT, you can see the text (highlighted with red) that was modified by the proposed pull request. The words that are dark red were the ones that were deleted. On the RIGHT, you can see the text (in green) that represents the proposed changes. The words that are darker green were added. In this example, the word earthpy was replaced with matplotcheck in the contributing.rst file of the repo.\n\n\n\n\n2. GitHub Issues\nIssues in GitHub are ways to document and discuss changes needed in a repository. Issues are also ideal for managing changes in a project.\nIssues are normally text (and code) that describe something that needs to be addressed in the repository. An issue could be related to something that needs to be fixed in your code or text.\nIssues can be assigned to one or more people to work on which makes them useful for project management. You can keep track of who is working on what items in the repository.\nOnce an issue is defined (with requested changes to the code in your repo), you can then assign it to someone. At that point, you have documentation of who is working on what task. Finally, when the person assigned an issue submits a pull request to address that issue, they can link the pull request back to the original issues.\nIf you are familiar with IT (Information Technology) groups or computer help desks, this is similar to submitting a ticket, except for this ticket can be created collaboratively.\nLinking issues to pull requests is good practice and will be discussed in more detail later in this chapter.\n\n \n\nIn a GitHub workflow, there is often a central repository. This is where the code or content maintainers keep the most up to date and ‘live’ versions of the code. Changes are suggested by users using a pull request workflow where someone makes changes in a fork and then suggests that the maintainers add those changes to the central repository using a pull request. Source: Colin Williams, NEON\n\n\n\n\n3. GitHub Project Milestones\nThere are other project management tools within GitHub that you can use to manage your project as it becomes more complex, including milestones and even Trello like project boards.\nIf you are working on a large project, you can create milestones which can be used to group sets of related issues together. Milestones can have deadlines associated with them.\n\n \n\nGitHub milestones allow you to track smaller sets of tasks within a larger GitHub project.\n\n\n\n\n4. GitHub Project Management Tools\nYou can also use GitHub to manage an entire project or set of projects. You can setup boards similar to a tool like Trello to manage pull requests and milestones, who is working on what and associated deadlines.\nThese more advanced GitHub project management tools are not discussed in this chapter, but you are encouraged to check them out if you are interested in using GitHub to manage your open science projects.\n\n \n\nGitHub allows you to track projects across a single repository OR across all of the repos in your organization or account.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Use GitHub to Collaborate on Open Science Projects"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/01-intro-collaboration.html#putting-it-all-together-the-open-source-collaboration-and-project-management-model",
+    "href": "pages/03-git-github/02-github-collaboration/01-intro-collaboration.html#putting-it-all-together-the-open-source-collaboration-and-project-management-model",
+    "title": "Use GitHub to Collaborate on Open Science Projects",
+    "section": "Putting It All Together: the Open Source Collaboration and Project Management Model",
+    "text": "Putting It All Together: the Open Source Collaboration and Project Management Model\n\nGitHub Issues and Pull Requests\nOver the course of this chapter, you will learn how to put together all of the pieces of the pull request workflow. To break it down, it looks something like this:\n\nIndividuals within your team identify issues that need to be addressed.\nSomeone (likely the owners of the repository) assigns team members to work on specific issues.\nTeam members work on their individual tasks.\nWhen they are ready to suggest changes, team members submit a pull request (PR) to the main repository. That pull request is reviewed by team leaders (or whomever is assigned to review).\nThe reviewers may suggest changes to the code. If so, the PR submitters go back and work on the code some more. This process may continue until everyone is happy with the PR.\nWhen the PR is approved by the reviewers, it will be merged into the code base of the repository.\n\nAll of the above steps may be repeated over and over through time, as issues are identified and contributors submit changes.\nThis is the open source collaborative software workflow and a workflow that many use to manage GitHub projects in general.\n\n \n\nGitHub supports collaboration across multiple users working on related tasks within one repository. One way that GitHub supports this collaboration is through the use of forks (i.e. copies of a central repository that each user can use to work independently on tasks). After work is completed in a fork, a user can request to have their changes applied to the central repository using a pull request. Source: Earth Lab, Alana Faller\n\n\nIn this chapter, you will first learn about and practice submitting pull requests to update repositories. In the second half of the chapter, you will be exposed to the full open source collaboration workflow, including the use of issues.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Use GitHub to Collaborate on Open Science Projects"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html",
+    "title": "Format Text With Markdown",
+    "section": "",
+    "text": "Markdown is a human readable syntax (also referred to as a markup language) for formatting text documents. Markdown can be used to produce nicely formatted documents including PDFs and web pages.\nWhen you format text using Markdown in a document, it is similar to using the format tools (e.g. bold, heading 1, heading 2) in a word processing tool like Microsoft Word or Google Docs. However, instead of using buttons to apply formatting, you use syntax such as **this syntax bolds text in markdown** or # Here is a heading.\nMarkdown syntax allows you to format text in many ways, such as making headings, bolding and italicizing words, creating bulleted lists, adding links, formatting mathematical symbols and making tables. These options allow you to format text in visually appealing and organized ways to present your ideas.\nYou can use Markdown to format text in many different tools including GitHub.com, R using RMarkdown, and Jupyter Notebook, which you will learn more about this page.\n\n\n\n\n\n\nData Tip\n\n\n\nLearn more about how you can use Markdown to format text and document workflows in a variety of tools.\n\n\n\n\nA great benefit of Jupyter Notebook and other interactive computing notebooks is that it allows you to combine both code (e.g. Python) and Markdown in one document, so that you can easily document your workflows.\nA Jupyter Notebook file uses cells to organize content, and it can contain both cells that render text written using the Markdown syntax as well as cells that contain and run Python code.\nThus, you can use a combination of Markdown and Python code cells to organize and document your Jupyter Notebook for others to easily read and follow your workflow.\n\n \n\nAn example Markdown cell in Jupyter Notebook.\n\n\n\n\n\n\n\n\nData Tip\n\n\n\nLearn more about Markdown for Jupyter Notebook.\n\n\nIf you render your Jupyter Notebook file to HTML or PDF, this Markdown will appear as formatted text in the output document.\n\n\n\n\n\n\nData Tip\n\n\n\nIn fact, this web page that you are reading right now is generated from a Markdown document! On this page, you will learn the basic syntax of Markdown.\n\n\n\n\n\nBeing able to include both Markdown and code (e.g. Python) cells in a Jupyter Notebook file supports reproducible science by allowing you to:\n\nDocument your workflow: You can add text to the document that describes the steps of your processing workflow (e.g. how data is being processed and what results are produced).\nDescribe your data: You can describe the data that you are using (e.g. source, pre-processing, metadata).\nInterpret code outputs: You can add some text that interprets or discusses the outputs.\n\nall in one document!\nWhen used effectively, Markdown documentation can help anyone who opens your Jupyter Notebook to follow, understand and even reproduce your workflow.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Format Text With Markdown"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#what-is-markdown",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#what-is-markdown",
+    "title": "Format Text With Markdown",
+    "section": "",
+    "text": "Markdown is a human readable syntax (also referred to as a markup language) for formatting text documents. Markdown can be used to produce nicely formatted documents including PDFs and web pages.\nWhen you format text using Markdown in a document, it is similar to using the format tools (e.g. bold, heading 1, heading 2) in a word processing tool like Microsoft Word or Google Docs. However, instead of using buttons to apply formatting, you use syntax such as **this syntax bolds text in markdown** or # Here is a heading.\nMarkdown syntax allows you to format text in many ways, such as making headings, bolding and italicizing words, creating bulleted lists, adding links, formatting mathematical symbols and making tables. These options allow you to format text in visually appealing and organized ways to present your ideas.\nYou can use Markdown to format text in many different tools including GitHub.com, R using RMarkdown, and Jupyter Notebook, which you will learn more about this page.\n\n\n\n\n\n\nData Tip\n\n\n\nLearn more about how you can use Markdown to format text and document workflows in a variety of tools.\n\n\n\n\nA great benefit of Jupyter Notebook and other interactive computing notebooks is that it allows you to combine both code (e.g. Python) and Markdown in one document, so that you can easily document your workflows.\nA Jupyter Notebook file uses cells to organize content, and it can contain both cells that render text written using the Markdown syntax as well as cells that contain and run Python code.\nThus, you can use a combination of Markdown and Python code cells to organize and document your Jupyter Notebook for others to easily read and follow your workflow.\n\n \n\nAn example Markdown cell in Jupyter Notebook.\n\n\n\n\n\n\n\n\nData Tip\n\n\n\nLearn more about Markdown for Jupyter Notebook.\n\n\nIf you render your Jupyter Notebook file to HTML or PDF, this Markdown will appear as formatted text in the output document.\n\n\n\n\n\n\nData Tip\n\n\n\nIn fact, this web page that you are reading right now is generated from a Markdown document! On this page, you will learn the basic syntax of Markdown.\n\n\n\n\n\nBeing able to include both Markdown and code (e.g. Python) cells in a Jupyter Notebook file supports reproducible science by allowing you to:\n\nDocument your workflow: You can add text to the document that describes the steps of your processing workflow (e.g. how data is being processed and what results are produced).\nDescribe your data: You can describe the data that you are using (e.g. source, pre-processing, metadata).\nInterpret code outputs: You can add some text that interprets or discusses the outputs.\n\nall in one document!\nWhen used effectively, Markdown documentation can help anyone who opens your Jupyter Notebook to follow, understand and even reproduce your workflow.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Format Text With Markdown"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#format-text-in-jupyter-notebook-with-markdown",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#format-text-in-jupyter-notebook-with-markdown",
+    "title": "Format Text With Markdown",
+    "section": "Format Text in Jupyter Notebook with Markdown",
+    "text": "Format Text in Jupyter Notebook with Markdown\n\nMarkdown Cells in Jupyter Notebook\nIn the previous chapter on Jupyter Notebook, you learned how to add new Markdown cells to your Jupyter Notebook files using Menu tools and Keyboard Shortcuts to create new cells.\n\n\n\n\n\n\n\n\nFunction\nKeyboard Shortcut\nMenu Tools\n\n\n\n\nCreate new cell\nEsc + a (above), Esc + b (below)\nInsert→ Insert Cell Above OR Insert → Insert Cell Below\n\n\nCopy Cell\nc\nCopy Key\n\n\nPaste Cell\nv\nPaste Key\n\n\n\nYou also learned how to change the default type of the cell by clicking in the cell and selecting a new cell type (e.g. Markdown) in the cell type menu in the toolbar. Furthermore, you learned that in a Jupyter Notebook file, you can double-click in any Markdown cell to see the syntax, and then run the cell again to see the Markdown formatting.\nNote: if you type text in a Markdown cell with no additional syntax, the text will appear as regular paragraph text. You can add additional syntax to that text to format it in different ways.\nOn this page, you will learn basic Markdown syntax that you can use to format text in Jupyter Notebook files.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Format Text With Markdown"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#section-headers",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#section-headers",
+    "title": "Format Text With Markdown",
+    "section": "Section Headers",
+    "text": "Section Headers\nYou can create a heading using the pound (#) sign. For the headers to render properly, there must be a space between the # and the header text.\nHeading one is denoted using one # sign, heading two is denoted using two ## signs, etc, as follows:\n## Heading Two\n\n### Heading Three\n\n#### Heading Four\nHere is a sample of the rendered Markdown:\n\nHeading Three\n\nHeading Four\nNote: the titles on this page are actually formatted using Markdown (e.g. the words Section Headers above are formatted as a heading two).",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Format Text With Markdown"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#lists",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#lists",
+    "title": "Format Text With Markdown",
+    "section": "Lists",
+    "text": "Lists\nYou can also use Markdown to create lists using the following syntax:\n* This is a bullet list\n* This is a bullet list\n* This is a bullet list\n\n\n1. And you can also create ordered lists\n2. by using numbers\n3. and listing new items in the lists \n4. on their own lines\nIt will render as follows:\n\nThis is a bullet list\nThis is a bullet list\nThis is a bullet list\n\n\nAnd you can also create ordered lists\nby using numbers\nand listing new items in the lists\non their own lines\n\nNotice that you have space between the * or 1. and the text. The space triggers the action to create the list using Markdown.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Format Text With Markdown"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#bold-and-italicize",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#bold-and-italicize",
+    "title": "Format Text With Markdown",
+    "section": "Bold and Italicize",
+    "text": "Bold and Italicize\nYou can also use ** to bold or * to italicize words. To bold and italicize words, the symbols have to be touching the word and have to be repeated before and after the word using the following syntax:\n*These are italicized words, not a bullet list*\n**These are bold words, not a bullet list**\n\n* **This is a bullet item with bold words**\n* *This is a bullet item with italicized words*\nIt will render as follows:\nThese are italicized words, not a bullet list These are bold words, not a bullet list\n\nThis is a bullet item with bold words\nThis is a bullet item with italicized words",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Format Text With Markdown"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#highlight-code",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#highlight-code",
+    "title": "Format Text With Markdown",
+    "section": "Highlight Code",
+    "text": "Highlight Code\nIf you want to highlight a function or some code within a plain text paragraph, you can use one backtick on each side of the text like this:\n`Here is some code!`\nwhich renders like this:\nHere is some code!\nThe symbol used is the backtick, or grave; not an apostrophe (on most US keyboards, it is on the same key as the tilde (~)).",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Format Text With Markdown"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#horizontal-lines-rules",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#horizontal-lines-rules",
+    "title": "Format Text With Markdown",
+    "section": "Horizontal Lines (Rules)",
+    "text": "Horizontal Lines (Rules)\nYou can also create a horizontal line or rule to highlight a block of Markdown syntax (similar to the highlighting a block of code using the backticks):\n***\n\nHere is some important text!\n\n***\nwhich renders like this:\n\nHere is some important text!",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Format Text With Markdown"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#hyperlinks",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#hyperlinks",
+    "title": "Format Text With Markdown",
+    "section": "Hyperlinks",
+    "text": "Hyperlinks\nYou can also use HTML in Markdown cells to create hyperlinks to websites using the following syntax:\n&lt;a href=\"url\" target=\"_blank\"&gt;hyperlinked words&lt;/a&gt;\nYou can identify the words that will be hyperlinked (i.e. prompt a web page to open when clicked) by replacing hyperlinked words in the example above.\nFor example, the following syntax:\nOur program website can be found at &lt;a href=\"http://earthdatascience.org\" target=\"_blank\"&gt;this link&lt;/a&gt;.\nwill render as follows with this link as the hyperlinked words:\nOur program website can be found at this link.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Format Text With Markdown"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#render-images",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#render-images",
+    "title": "Format Text With Markdown",
+    "section": "Render Images",
+    "text": "Render Images\nYou can also use Markdown to link to images on the web using the following syntax:\n![alt text here](url-to-image-here)\nThe alt text is the alternative text that appears if an image fails to load on webpage; it is also used by screen-reading tools to identify the image to users of the screen-reading tools.\nFor example, the following syntax:\n![Markdown Logo is here.](https://www.fullstackpython.com/img/logos/markdown.png)\nwill render as follows with an alt text of Markdown Logo is here.:\n\n\n\nMarkdown Logo is here.\n\n\n\nLocal Images Using Relative Computer Paths\nYou can also add images to a Markdown cell using relative paths to files in your directory structure using:\n![alt text here](path-to-image-here)\nFor relative paths (images stored on your computer) to work in Jupyter Notebook, you need to place the image in a location on your computer that is RELATIVE to your .ipynb file. This is where good file management becomes extremely important.\nFor a simple example of using relative paths, imagine that you have a subdirectory named images in your earth-analytics directory (i.e. earth-analytics/images/).\nIf your Jupyter Notebook file (.ipynb) is located in root of this directory (i.e. earth-analytics/notebook.ipynb), and all images that you want to include in your report are located in the images subdirectory (i.e. earth-analytics/images/), then the path that you would use for each image is:\nimages/image-name.png\nIf all of your images are in the images subdirectory, then you will be able to easily find them. This also follows good file management practices because all of the images that you use in your report are contained within your project directory.\n\n\n\n\n\n\nData tip\n\n\n\nThere are many free Markdown editors out there! The atom.io editor is a powerful text editor package by GitHub, that also has a Markdown renderer that allows you to preview the rendered Markdown as you write.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Format Text With Markdown"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#additional-resources",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html#additional-resources",
+    "title": "Format Text With Markdown",
+    "section": "Additional Resources",
+    "text": "Additional Resources\n\nGitHub Guide on Markdown\n Jupyter Notebook Markdown Resources",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Format Text With Markdown"
+    ]
+  },
+  {
+    "objectID": "pages/00-course-overviews/hyrsense/00-home.html",
+    "href": "pages/00-course-overviews/hyrsense/00-home.html",
+    "title": "HYR-SENSE",
+    "section": "",
+    "text": "HYR-SENSE (3)\nNASA-SBG and NSF-ESIIL “HYR-SENSE: Hyperspectral and Thermal Remote Sensing for Environmental Justice” program. This training is funded by the NASA award #8ONSSC24KO328, and is subject to the NASA’s and NSF’s terms and conditions.\nCheck out HYR-SENSE on GitHub at our repository!"
+  },
+  {
+    "objectID": "pages/00-course-overviews/hyrsense/00-home.html#training-details",
+    "href": "pages/00-course-overviews/hyrsense/00-home.html#training-details",
+    "title": "HYR-SENSE",
+    "section": "Training details",
+    "text": "Training details\nJoin NASA Surface Biology and Geology (SBG) and ESIIL in Boulder, Colorado this summer for HYR-SENSE: Hyperspectral and Thermal Remote Sensing for Environmental Justice. Participants will gain hands-on experience with hyperspectral and thermal imaging remote sensing technology and its applications for environmental justice issues.\n\nWho should apply?: Undergraduate and graduate students, faculty, and early career scientists currently attending or affiliated with a Tribal College or University or affiliates of Native American Tribes. Invited participants will have experience and interests in relevant disciplines, which may include ecology, environmental science, Geographic Information Systems (GIS), remote sensing, natural resource management, or similar.\nWhen: June 10th-13th, 2024 with additional pre-training sessions\nWhere: University of Colorado, Boulder\nCost: This training is funded by NASA and ESIIL at no cost to the participant. Participants’ travel costs, lodging, and meals will be fully covered.\nThis program will be tailored to the interests and needs of the participants while being led by experts in the field from NASA and ESIIL.\n\nClick here for more details."
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.html",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.html",
+    "title": "Text File Formats for Earth Data Science",
+    "section": "",
+    "text": "Common text file formats for earth data science workflows include Markdown, text (.txt, .csv) files, and YAML (Yet Another Markup Language).",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Text File Formats for Earth Data Science"
+    ]
+  },
+  {
+    "objectID": "pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.html#text-file-formats-for-earth-data-science",
+    "href": "pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.html#text-file-formats-for-earth-data-science",
+    "title": "Text File Formats for Earth Data Science",
+    "section": "",
+    "text": "Common text file formats for earth data science workflows include Markdown, text (.txt, .csv) files, and YAML (Yet Another Markup Language).",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Text File Types",
+      "Text File Formats for Earth Data Science"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/01-intro-version-control/01-intro-version-control.html",
+    "href": "pages/03-git-github/01-intro-version-control/01-intro-version-control.html",
+    "title": "What Is Version Control",
+    "section": "",
+    "text": "In this chapter, you will learn about the benefits of version control for tracking and managing changes to your files. You will also learn how to implement version control using git and then upload changes to the cloud version of your files on Github.com.\nThe text and graphics in the first three sections were borrowed, with some modifications, from Software Carpentry’s Version Control with git lessons.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "What Is Version Control"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/01-intro-version-control/01-intro-version-control.html#git-and-github.com",
+    "href": "pages/03-git-github/01-intro-version-control/01-intro-version-control.html#git-and-github.com",
+    "title": "What Is Version Control",
+    "section": "",
+    "text": "In this chapter, you will learn about the benefits of version control for tracking and managing changes to your files. You will also learn how to implement version control using git and then upload changes to the cloud version of your files on Github.com.\nThe text and graphics in the first three sections were borrowed, with some modifications, from Software Carpentry’s Version Control with git lessons.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "What Is Version Control"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/01-intro-version-control/01-intro-version-control.html#what-is-version-control",
+    "href": "pages/03-git-github/01-intro-version-control/01-intro-version-control.html#what-is-version-control",
+    "title": "What Is Version Control",
+    "section": "What is Version Control?",
+    "text": "What is Version Control?\nA version control system maintains a record of changes to code and other content. It also allows us to revert changes to a previous point in time.\n\n \n\nMany of us have used the “append a date” to a file name version of version control at some point in our lives. Source: “Piled Higher and Deeper” by Jorge Cham on www.phdcomics.com.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "What Is Version Control"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/01-intro-version-control/01-intro-version-control.html#types-of-version-control",
+    "href": "pages/03-git-github/01-intro-version-control/01-intro-version-control.html#types-of-version-control",
+    "title": "What Is Version Control",
+    "section": "Types of Version control",
+    "text": "Types of Version control\nThere are many forms of version control. Some not as good:\n\nSave a document with a new date or name (we’ve all done it, but it isn’t efficient and easy to lose track of the latest file).\nGoogle Docs “history” function (not bad for some documents, but limited in scope).\n\nSome better:\n\nVersion control tools like Git, Mercurial, or Subversion.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "What Is Version Control"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/01-intro-version-control/01-intro-version-control.html#why-version-control-is-important",
+    "href": "pages/03-git-github/01-intro-version-control/01-intro-version-control.html#why-version-control-is-important",
+    "title": "What Is Version Control",
+    "section": "Why Version Control is Important",
+    "text": "Why Version Control is Important\nVersion control facilitates two important aspects of many scientific workflows:\n\nThe ability to save and review or revert to previous versions.\nThe ability to collaborate on a single project.\n\nThis means that you don’t have to worry about a collaborator (or your future self) overwriting something important. It also allows two people working on the same document to efficiently combine ideas and changes.\n\nThought Questions: Think of a specific time when you weren’t using version control that it would have been useful.\n\nWhy would version control have been helpful to your project and workflow?\nWhat were the consequences of not having a version control system in place?",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "What Is Version Control"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/01-intro-version-control/01-intro-version-control.html#how-version-control-systems-works",
+    "href": "pages/03-git-github/01-intro-version-control/01-intro-version-control.html#how-version-control-systems-works",
+    "title": "What Is Version Control",
+    "section": "How Version Control Systems Works",
+    "text": "How Version Control Systems Works\n\nSimple Version Control Model\nA version control system tracks what has changed in one or more files over time. Version control systems begin with a base version of a document. Then, they save the committed changes that you make.\nYou can think of version control as a tape: if you rewind the tape and start at the base document, then you can play back each change and end up with your latest version.\n\n \n\nA version control system saves changes to a document, sequentially as you add and commit them to the system. Source: Software Carpentry.\n\n\nOnce you think of changes as separate from the document itself, you can then think about “playing back” different sets of changes onto the base document. You can then retrieve, or revert to, different versions of the document.\nCollaboration with version control allows users to make independent changes to the same document.\n\n \n\nDifferent versions of the same document can be saved within a version control system. Source: Software Carpentry.\n\n\nIf there aren’t conflicts between the users’ changes (a conflict is an area where both users modified the same part of the same document in different ways), you can review two sets of changes on the same base document. If there are conflicts, they can be resolved by choosing which change you want to keep.\n\n \n\nTwo sets of changes to the same base document can be merged together within a version control system if there are no conflicts (areas where both users modified the same part of the same document in different ways). If there are conflicts, they can resolved by choosing which change you want to keep. After conflicts are resolved, all other changes submitted by both users can then be merged together. Source: Software Carpentry.\n\n\nA version control system is a tool that keeps track of all of these changes for us. Each version of a file can be viewed and reverted to at any time. That way if you add something that you end up not liking or delete something that you need, you can simply go back to a previous version.\n\n\nGit and GitHub - A Distributed Version Control Model\nGit uses a distributed version control model. This means that there can be many copies (or forks/branches in GitHub world) of the repository. When working locally, git is the program that you will use to keep track of changes to your repository.\nGitHub.com is a location on the internet (a cloud web server) that acts as a remote location for your repository. GitHub provides a backup of your work that can be retrieved if your local copy is lost (e.g. if your computer falls off a pier). GitHub also allows you to share your work and collaborate with others on projects.\n\n \n\nOne advantage of a distributed version control system is that there are many copies of the repository. Thus, if any one server or computer dies, any of the client repositories can be copied and used to restore the data! Source: Pro Git by Scott Chacon and Ben Straub.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "What Is Version Control"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/01-intro-version-control/01-intro-version-control.html#how-git-and-github-support-version-control",
+    "href": "pages/03-git-github/01-intro-version-control/01-intro-version-control.html#how-git-and-github-support-version-control",
+    "title": "What Is Version Control",
+    "section": "How Git and GitHub Support Version Control",
+    "text": "How Git and GitHub Support Version Control\nDue to the functionality that each tool provides, you can use git and GitHub together in the same workflow to: * keep track of changes to your code locally using git. * synchronizing code between different versions (i.e. either your own versions or others’ versions). * test changes to code without losing the original. * revert back to older version of code, if needed. * back-up your files on the cloud (GitHub.com). * share your files on GitHub.com and collaborate with others.\nThroughout this textbook, you will learn more about the functionality of git and GitHub for version control and collaboration to support open reproducible science.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "What Is Version Control"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html",
+    "href": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html",
+    "title": "Practice Forking a GitHub Repository and Submitting Pull Requests",
+    "section": "",
+    "text": "For this assignment, you will add a row to a .csv file with information about your hometown to someone else’s repository using a fork to make your changes. You can practice on the Home Towns repository belonging to GitHub user cu-esiil-edu.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Practice Forking a GitHub Repository and Submitting Pull Requests"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html#step-1-fork-the-github-repo",
+    "href": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html#step-1-fork-the-github-repo",
+    "title": "Practice Forking a GitHub Repository and Submitting Pull Requests",
+    "section": "Step 1: Fork the GitHub repo",
+    "text": "Step 1: Fork the GitHub repo\nTo begin, fork the ESIIL Education Hometowns GitHub repository Remember that this step only needs to be done once. When you create this fork, you then have full ownership of the fork in your user account. Full ownership means that you can make direct changes to the fork without submitting a Pull Request.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Practice Forking a GitHub Repository and Submitting Pull Requests"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html#step-2-add-a-row-to-hometowns.csv",
+    "href": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html#step-2-add-a-row-to-hometowns.csv",
+    "title": "Practice Forking a GitHub Repository and Submitting Pull Requests",
+    "section": "Step 2: Add a row to hometowns.csv",
+    "text": "Step 2: Add a row to hometowns.csv\n\nClick on the hometowns.csv file.\n\n\n\nClick on the hometowns.csv file.\n\n\nThen, click on the edit button in the upper right. If you haven’t forked the repository yet, you will be asked to at this point.\n\n\n\nClick the edit button\n\n\nAdd at least one new row to the hometowns.csv file for your hometown – that could be where you live now, somewhere you used to live, or another important location for you. You will add the following information to the file, separated by commas:\n\nprogram you are participating in. The options include:\n\nEDA Certificate\nESIIL Stars\nShort Course\nSummit\nHackathon\n\ndate: today’s date in YYYY-MM-DD format (for example, January 5, 2024 would be 2024-01-05)\ntype: the type of entry this is. The options include:\n\nWhere I live now\nPlace I’ve lived\nPlace I love\n\nlabel: a few sentences about your place\nimage_url: the URL to an image you want to display on the hometowns map\nimage_credit: how you want to credit your image\nlatitude: the latitude of your place\nlongitude: the longitude of your place\n\n\nThe file will look something like this once you add your information:\nprogram,date,type,label,image_url,image_credit,latitude,longitude\nShort Course,2024-04-07,Where I live now,Home of ESIIL at the University of Colorado,https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Flatirons_Winter_Sunrise.jpg/1024px-Flatirons_Winter_Sunrise.jpg,Taken by Jesse Varner | https://commons.wikimedia.org/wiki/File:Flatirons_Winter_Sunrise.jpg,40.016870,-105.279620\n\nClick Commit\nWrite a message so you can go back to this point if you want to.\nConfirm by selecting Commit",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Practice Forking a GitHub Repository and Submitting Pull Requests"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html#step-3-submit-a-pull-request-to-the-earthlab-educationea-bootcamp-hometowns-repo",
+    "href": "pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html#step-3-submit-a-pull-request-to-the-earthlab-educationea-bootcamp-hometowns-repo",
+    "title": "Practice Forking a GitHub Repository and Submitting Pull Requests",
+    "section": "Step 3: Submit a Pull Request To the earthlab-education/ea-bootcamp-hometowns repo",
+    "text": "Step 3: Submit a Pull Request To the earthlab-education/ea-bootcamp-hometowns repo\nNow that you have made some changes to your fork, submit a pull request from your fork to the original repository:\n\nSelect the Pull Requests tab.\nYou should see a banner saying that you are ahead of the base repository. Select the link in the banner to create a PR with your changes.\nInclude the following in your pull request:\n\nThere are a lot of similar PRs in this repository. In the message, include your username and the place you are submitting so the owner can tell the PRs apart easily.\nIn the description, notify the owner of the repository (your instructor) that you have addressed the issue using @github-username.\nReference the issue number using Fixes #issue-number (e.g. the issue number is above in the title of this issue). If you are working independently, you may not have an issue with your name on it! Just submit the PR without mentioning an issue.\n\nConfirm by selecting Create Pull Request.\n\n\n\n\n\n\n\nImportant\n\n\n\nBe sure to check that the changes you are submitted look correct in the Pull Request before you consider your work, done!",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Version Control",
+      "Practice Forking a GitHub Repository and Submitting Pull Requests"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html",
+    "href": "pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html",
+    "title": "Create your own portfolio webpage",
+    "section": "",
+    "text": "GitHub is a powerful software development tool owned and operated by Microsoft. It is used almost universally for software development and scientific projects. It lets you: * Keep track of all the changes you have ever made, when, and why * Collaborate with others * Get your code online so you can access it anywhere * Use a cloud platform to run your code * Publish a website in minutes We’ll be focusing on that last feature in this activity, in which you will create and publish your own online portfolio website. Read more about git and GitHub in our open Earth Data Science textbook pages.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Create your own portfolio webpage"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html#step-0-create-a-github-account",
+    "href": "pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html#step-0-create-a-github-account",
+    "title": "Create your own portfolio webpage",
+    "section": "Step 0: Create a GitHub account",
+    "text": "Step 0: Create a GitHub account\nUse this link to create a free GitHub account.\n\n\n\n\n\n\nWarning\n\n\n\nIf you already have a GitHub account, there is no need to create a new account!",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Create your own portfolio webpage"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html#step-1-create-a-repository",
+    "href": "pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html#step-1-create-a-repository",
+    "title": "Create your own portfolio webpage",
+    "section": "Step 1: Create a repository",
+    "text": "Step 1: Create a repository\nOnce you have a GitHub account, get started by creating a new repository for your webpage. There are several ways to accomplish this task.\n\n\n\n\n\n\nWarning\n\n\n\nSometimes buttons on GitHub are blue instead of green.\n\n\n\n\n\n\n\n\n\nWhat is a repository?\n\n\n\nA GitHub repository is a collection of code, documentation, and configuration files. All changes you make in a repository will be tracked using the version control system git. You can discuss and manage your project’s work within the repository.\n\nTo do this you can:\n\nNavigate to your profile page\nClick on the dropdown arrow next to your profile photo in the upper right corner\nSelect Your profile\n\n\n\nSelect Your profile\n\n\nSelect the Repositories tab from the menu near the top of the page.\n\n\n\nSelect the Repositories tab from the menu near the top of the page.\n\n\nFrom here, you can select the green New button on the right to get started.\n\n\n\nSelect the green New button on the right to get started\n\n\nCustomize the settings:\n\nGive your repository a short and descriptive name. We recommend &lt;yourusername&gt;.github.io because it results in the simplest url for your website.\nGive your repository a description\nMake your repository Public\nYou can skip adding the gitignore file for now\nAdd a README so your repository home page (on GitHub, NOT your published website) will include your title and description\nChoose a License for your repository. Check out choosealicense.com for more information about popular options.\n\nOnce you’re done, select the green Create Repository button at the bottom of the page\n\n\n\n\n\n\n\n\nSpeak Code\n\n\n\nWhen reading code snippets, the &lt; and &gt; symbols are usually used to surround text you should replace. Do not leave the &lt; and &gt; symbols in place!. For example, in this case your repository name would be jdoe.github.io, if jdoe was your GitHub username. There’s a BIG exception to this rule when it comes to building websites – &lt; and &gt; are key characters if you are using HTML. Read more about HTML.\n\n\n\n\n\n\n\nLicenses\n\n\n\nA license, copyright, and data rights or data sovereignty are all slightly different. A license is about whether and how someone else can use the code in your repository. Copyright is about the text published on your website, and data rights are about whether and how others can use your data",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Create your own portfolio webpage"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html#step-2-create-a-new-index.md-file",
+    "href": "pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html#step-2-create-a-new-index.md-file",
+    "title": "Create your own portfolio webpage",
+    "section": "Step 2: Create a new index.md file",
+    "text": "Step 2: Create a new index.md file\nYou will create a new file called index.md that will serve as the content for your webpage. To do this you can :\n\nSelect the Add file button from the menu on the right\nSelect Create new file.\n\n\n\nSelect Create new file.\n\n\nName your new Markdown file index.md. This will make it the home page of your website. Then, add a Markdown header text to your index file, e.g.\n\n# A fabulous Earth Data Science Portfolio\n\n\n\n\n\n\nNote\n\n\n\nYou can change this text to your name or something else. This is your website, and you’ll always be able to come back and make edits!",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Create your own portfolio webpage"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html#step-3-commit-changes",
+    "href": "pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html#step-3-commit-changes",
+    "title": "Create your own portfolio webpage",
+    "section": "Step 3: Commit changes",
+    "text": "Step 3: Commit changes\nNow that you’ve created your index.md file and added some text, you’ll want to commit changes to your repository. Add an optional extended description of your changes and then select the green Commit changes button at the bottom of the page.\n\n\n\nCommit changes",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Create your own portfolio webpage"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html#step-4-build-your-webpage",
+    "href": "pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html#step-4-build-your-webpage",
+    "title": "Create your own portfolio webpage",
+    "section": "Step 4: Build your webpage",
+    "text": "Step 4: Build your webpage\nOnce you’ve created your index.md file you’re ready to build your webpage:\n\nFrom your repository, select the Settings tab from the right end of the menu.\n\n\n\nNavigate to your repository settings\n\n\nFrom here, scroll down the menu on the left and select Pages.\n\n\n\nSelect the Pages settings tab\n\n\nNow you’ll want to select the main option under the Branch heading and then select Save.\n\n\n\nSelect the main branch in your repository",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Create your own portfolio webpage"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html#step-5-check-on-your-webpage",
+    "href": "pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html#step-5-check-on-your-webpage",
+    "title": "Create your own portfolio webpage",
+    "section": "Step 5: Check on your webpage",
+    "text": "Step 5: Check on your webpage\nCheck in on your webpage to see how it is doing by opening the link https://username.github.io/ in a new tab in your web browser. Here, you’ll need to replace username with your GitHub username. Once you see your name (or whatever text you added to your index.md file in Step 2) appear as a Markdown header, then you know your webpage is working!\n\n\n\n\n\n\nNote\n\n\n\nSometimes your webpage can take a minute or so to build so be patient and refresh every 30 seconds or so until the page is done building. You can track the progress in the Actions tab.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Create your own portfolio webpage"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html#step-6-start-adding-information-to-your-webpage",
+    "href": "pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html#step-6-start-adding-information-to-your-webpage",
+    "title": "Create your own portfolio webpage",
+    "section": "Step 6: Start adding information to your webpage",
+    "text": "Step 6: Start adding information to your webpage\n\n\n\n\n\n\n\nNote\n\n\n\nReview the **Markdown Basic Syntax guide to help you format your webpage using Markdown and HTML. We also have a lesson in our Earth Data Science textbook that may be helpful.\n\nNow you’re ready to start adding some more information to your webpage. Navigate back to your repository and open the index.md file that you just created. You will edit this page by clicking on the pencil icon on the right of the menu near the top of your repository page on GitHub. You will use Markdown and Hypertext Markup Language (HTML) to add text, links, images, and other content to your webpage. Markdown and HTML are both common markup langauges, and have wide application including formatting text, report writing, and website development.\n\n\n\nEdit a file on GitHub\n\n\n\nHere you should think about adding the following information to your webpage:\n\nYour name (as a header) if you haven’t already\nA bulleted list of links to your public contact information (email, GitHub account, LinkedIn account, social media accounts, etc.)\nYour educational and professional background\nA biographical paragraph about yourself\nWhat you’re excited about learning about Earth Data Science\nQuestions that you’d like to answer using Earth Data Science\n\nYou should also plan to add a photo of yourself and/or where you live. We’ll go over how to add and customize images on your page in the next two lessons.\n\n\n\n\n\n\nWarning\n\n\n\nAlways remember to commit changes so that your updated content gets added to your webpage.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Create your own portfolio webpage"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/04-jekyll.html",
+    "href": "pages/03-git-github/03-github-portfolio/04-jekyll.html",
+    "title": "Spruce up your website",
+    "section": "",
+    "text": "Website themes are a system for applying a particular design to your web content. They consist of acollection of website configuration files, content templates, and style files that control how a website looks, but can be filled in with any content. Themes are great because: * Your website will immediately look and function like the theme * Most themes allow you to change style elements (like colors and fonts), and store data (like your name and email address) in a central location. * Themed websites will most likely work on lots of different devices, like phones, tablets, and computers. You can double-check if your theme mentions being adaptive or responsive, bu most themes these days are. * Some themes support interactive components like photo carousels or lightboxes without needing to write a lot of code\n\n\nJekyll is a system for building websites from Markdown, HTML, and CSS. In fact, Jekyll is the system that GitHub Pages uses to deploy websites. This means that we can take advantage of free Jekyll themes to make any website look great.\n\n\n\n\n\n\nCheck out our themes demo video!",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Spruce up your website"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/04-jekyll.html#make-attractive-websites-with-themes",
+    "href": "pages/03-git-github/03-github-portfolio/04-jekyll.html#make-attractive-websites-with-themes",
+    "title": "Spruce up your website",
+    "section": "",
+    "text": "Website themes are a system for applying a particular design to your web content. They consist of acollection of website configuration files, content templates, and style files that control how a website looks, but can be filled in with any content. Themes are great because: * Your website will immediately look and function like the theme * Most themes allow you to change style elements (like colors and fonts), and store data (like your name and email address) in a central location. * Themed websites will most likely work on lots of different devices, like phones, tablets, and computers. You can double-check if your theme mentions being adaptive or responsive, bu most themes these days are. * Some themes support interactive components like photo carousels or lightboxes without needing to write a lot of code\n\n\nJekyll is a system for building websites from Markdown, HTML, and CSS. In fact, Jekyll is the system that GitHub Pages uses to deploy websites. This means that we can take advantage of free Jekyll themes to make any website look great.\n\n\n\n\n\n\nCheck out our themes demo video!",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Spruce up your website"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/04-jekyll.html#jekyll-plays-well-with-github-pages",
+    "href": "pages/03-git-github/03-github-portfolio/04-jekyll.html#jekyll-plays-well-with-github-pages",
+    "title": "Spruce up your website",
+    "section": "Jekyll plays well with GitHub Pages",
+    "text": "Jekyll plays well with GitHub Pages\n\nSupported themes\nWe recommend starting out by using one of the GitHub Pages supported themes. Follow these instructions from GitHub.\nEven if you don’t ultimately end up using one of these themes, you can make sure that everything is working with one of these themes.\n\n\nRemote themes\nGitHub Pages allows you to add any Jekyll theme available on GitHub to your site with a configuration file.\nTo do this you can: 1. Choose the Jekyll theme you want to use (here are some examples). Note that some themes work more seamlessly than others, so you may have to try more than one. 2. Preview the theme by clicking Live Demo on jekyllthemes.io, or searching the GitHub README for a preview link. 3. Follow the instructions from GitHub on how to apply the theme using a _config.yml file. 4. Go to the GitHub repository for the theme by clicking on the Get THEME on GitHub button on jekyllthemes.io. Follow any instructions about customizing things like your name or the title of your webpage.\n\n\n\nSo what is YAML?\nThe _config.yml file is written in YAML, a human-readable format for structured information (lists and key/value pairs). Learn more about YAML on their website\nThe _config.yml file that you created to add a theme can also sometimes be used to change the title of your website from the default (the name of your repository). Check out the README for your theme to see what parameters are available For example, and example _config.yml file for the minimal theme looks like:\ntitle: J. Doe's Awesome Portfolio Website\ndescription: Check out my projects!\nlogo: img/headshot.png\nremote_theme: pages-themes/minimal@v0.2.0\n\n\n\n\n\n\nWarning\n\n\n\nYou may need or want to add a _data/data.yml file or your own templates in _layouts in addition to the _config.yml file, depending on your theme. You will need to read the README for the theme you are using to see what you can customize. We recommend copying any example configuration files from the theme repository, and then modifying them to meet your needs.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Spruce up your website"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/03-html.html",
+    "href": "pages/03-git-github/03-github-portfolio/03-html.html",
+    "title": "Customize your website content",
+    "section": "",
+    "text": "Most web pages are built using three key technologies:\n\nHyper-Text Markup Language (HTML) includes and structures the content\nCascading Style Sheets (CSS) controls how the page looks\nJavascript (JS) controls what the page does\n\nWhen using GitHub Pages, you can rely on GitHub to translate Markdown to HTML before putting it on the web using a system called Jekyll. You can see the result by:\n\nNavigate to your portfolio page on the internet\nRight-click anywhere on the page\nSelect an option like Inspect or Web Developer Tools, depending on your browser.\n\nYou should now see the source code for your webpage in a new panel. What do you notice about your content? How is it different from what you wrote?\n\n\n\nWeb developer tools\n\n\n\n\n\n\n\n\nTip\n\n\n\nYou can also control CSS and JS to a limited extent on GitHub Pages. However, we recommend sticking with the CSS and JS supplied by a Jekyll theme created by a designer. It’s hard to make a website that looks good from scratch. We’ll get into how to add a theme using Jekyll later on.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Customize your website content"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/03-html.html#the-building-blocks-of-the-web",
+    "href": "pages/03-git-github/03-github-portfolio/03-html.html#the-building-blocks-of-the-web",
+    "title": "Customize your website content",
+    "section": "",
+    "text": "Most web pages are built using three key technologies:\n\nHyper-Text Markup Language (HTML) includes and structures the content\nCascading Style Sheets (CSS) controls how the page looks\nJavascript (JS) controls what the page does\n\nWhen using GitHub Pages, you can rely on GitHub to translate Markdown to HTML before putting it on the web using a system called Jekyll. You can see the result by:\n\nNavigate to your portfolio page on the internet\nRight-click anywhere on the page\nSelect an option like Inspect or Web Developer Tools, depending on your browser.\n\nYou should now see the source code for your webpage in a new panel. What do you notice about your content? How is it different from what you wrote?\n\n\n\nWeb developer tools\n\n\n\n\n\n\n\n\nTip\n\n\n\nYou can also control CSS and JS to a limited extent on GitHub Pages. However, we recommend sticking with the CSS and JS supplied by a Jekyll theme created by a designer. It’s hard to make a website that looks good from scratch. We’ll get into how to add a theme using Jekyll later on.",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Customize your website content"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/03-html.html#use-html-to-add-features-that-arent-available-in-markdown",
+    "href": "pages/03-git-github/03-github-portfolio/03-html.html#use-html-to-add-features-that-arent-available-in-markdown",
+    "title": "Customize your website content",
+    "section": "Use HTML to add features that aren’t available in Markdown",
+    "text": "Use HTML to add features that aren’t available in Markdown\nWhen creating your webpage, you might want to do a couple of things with your content that most types of Markdown can’t do, such as:\n\nSpecify the size of an image\nControl whether links open up in a new tab\nEmbed videos and other web content\nChange colors, fonts, or font sizes in one section of your page\n\nHTML (Hyper-Text Markup Language), does have the ability to do all those things and more.\n\nMake sure to format your HTML code so that it is readable\nOne great thing about Markdown is that it is both human-readable and machine-readable. It’s a little harder to tell what is going on with HTML, especially if it is formatted poorly. For example, take a look at some Markdown and its equivalent in HTML. Unlike Markdown, the computer doesn’t care how we use whitespace when formatting HTML. We can make HTML easier to read by adding whitespace and new lines:\n\nMarkdownMessy HTML (Don’t do this!)Cleaner HTML\n\n\n1# A fabulous Earth Data Science Portfolio\n\n2![Super-cool satellite imagery](/img/cool_satellite_image.jpeg)\n\nSome text and [a link](https://www.my_link.org) and:\n\n  * A\n  * Bulleted\n  * List\n\n1\n\nThe will be a level 1 header because it begins with one #\n\n2\n\nThis will be an image since it starts with a !\n\n\n\n\n&lt;h1&gt;A fabulous Earth Data Science Portfolio&lt;/h1&gt;&lt;img \nsrc=\"/img/cool_satellite_image.jpeg\" alt-text=\"Super-cool satellite imagery\"&gt;\n&lt;p&gt;Some text and &lt;a \nhref=\"https://www.my_link.org\"&gt;a link&lt;/a&gt; \nand:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;A&lt;/li&gt;&lt;li&gt;Bulleted\n&lt;/li&gt;&lt;li&gt;List&lt;/li&gt;&lt;/ul&gt;\n\n\n1&lt;h1&gt;A fabulous Earth Data Science Portfolio&lt;/h1&gt;\n\n2&lt;!-- Comments help the reader understand your code --&gt;\n&lt;img \n  src=\"/img/cool_satellite_image.jpeg\" \n3  alt=\"Super-cool satellite imagery\" /&gt;\n\n&lt;p&gt;\n  Some text and &lt;a href=\"https://www.my_link.org\"&gt;a link&lt;/a&gt; \n  and:\n&lt;/p&gt;\n\n&lt;ul&gt;\n    &lt;li&gt;A&lt;/li&gt;\n    &lt;li&gt;Bulleted&lt;/li&gt;\n    &lt;li&gt;List&lt;/li&gt;\n&lt;/ul&gt;\n\n1\n\nThis is a level 1 header, since it is surrounded by h1 tags.\n\n2\n\nComments won’t appear on your web page\n\n3\n\nThe img tag will be an image.\n\n\n\n\n\n\n\nHTML syntax for Markdown users\nEvery coding language has some special characters and structures, known as the syntax. When you render or run code, the syntax gets interpreted into some kind of behavior. For example, in Markdown, the syntax # gets interpreted as the start of a level 1 header.\nHTML is less human-readable than Markdown. To use it effectively, you will need to understand some key vocabulary about the syntactic elements of HTML.\n\nTags\n\n\n\n\n\n\n\nSpeak Code\n\n\n\nRemember that the &lt; and &gt; symbols are usually used to surround text you should replace with something applicable to you and your project. There’s a BIG exception when it comes to building websites – &lt; and &gt; are key special characters if you are using HTML, the markup language used on most websites. So, if the code sample is HTML, you should leave the angle brackets &lt; and &gt; in.\n\nNotice that most elements are surrounded by tags enclosed in angle brackets (&lt; and &gt;). For example, when we include a header 1, we do that with the following code:\n1&lt;h1&gt;\n2  A fabulous Earth Data Science Portfolio\n3&lt;/h1&gt;\n\n1\n\nStart with the opening tag for h1 (header level 1), then\n\n2\n\nPlace the text of the header in between the tags.\n\n3\n\nEnd with the closing tag, which match the opening tag plus a slash (/)\n\n\n\n\n\n\n\n\nTip\n\n\n\nIf there is no text that needs to go between two HTML tags, you don’t need a closing tag. Instead, you can end the opening tag with /&gt; to indicate that there’s no content. For example, take another look at the image HTML code:\n&lt;img \n  src=\"/img/cool_satellite_image.jpeg\" \n  alt=\"Super-cool satellite imagery\" /&gt;\n\n\n\n\nParameters\nIn addition to marking the beginning and end of HTML elements, tags can contain addition information about how to display their contents. This extra information is known as parameters. For example, let’s revisit the code above for an HTML link, which contains the href parameter:\n1&lt;a href=\"https://www.my_link.org\"&gt;\n  a link\n&lt;/a&gt;\n\n1\n\nParameters are included inside the opening tag. The parameter name (href) must be followed by and equals sign =, and the parameter value (https://www.my_link.org) must be surrounded by quotation marks.\n\n\n\n\n\nInclude HTML directly in Markdown\nYou can add HTML elements into your Markdown documents. There is no need when using GitHub Pages to write entire documents in HTML; you can directly substitute HTML elements for Markdown elements where needed. For example,\n\n\nAdjust the size of images\nSay you have written the following Markdown to display an image:\n![Super-cute pika!](/img/pika.jpg)\n\n\nImage source: Wikipedia\n\nUnfortunately, the image is taking up the entire width of the section. You can’t adjust the size with GitHub Markdown alone, but you can replace the image with HTML and control the width:\n&lt;img \n  src=\"/img/pika.jpg\" \n  alt=\"Super-cute pika!\" \n  width=\"25%\"&gt;\n\n\n\n\n\n\n\nWarning\n\n\n\nIf you set both the width and the height of an image, your image will become distorted:\n&lt;img \n  src=\"/img/pika.jpg\" \n  alt=\"Super-cute pika!\" \n  height=\"100px\" \n  width=\"400px\"&gt;\n\n\n\nWhen setting image height and width, there are different units you can use:\n\n\n\n\n\n\n\nUnit\nMeaning\n\n\n\n\npx\nA pixel is the smallest item that can be displayed on your screen\n\n\nem or rem\nThese units are relative to your font size (e.g. the width of an m)\n\n\n%\nA percentage of the element that contains the image\n\n\n\nWhen using px, keep in mind that others may be viewing your webpage on different devices (e.g. phone vs. computer). px units are pegged to the resolution of the screen, so this can result in vastly different sizes on different devices. Furthermore, rem measurements will change if the viewer zooms in or out of the page in their browser, making them more accessible.\n\n\n\n\n\n\nTip\n\n\n\nYou can simulate what your webpage will look like on another device using the Web Developer Tools. Usually there’s a button that looks like a screen in the upper right.\n\n\n\nWeb developer tools with the device simulator highlighted\n\n\n\n\n\n\nOpen external links in a new tab\nWhen you are linking to someone else’s webpage, often you want that page to open in a new tab or window so your reader doesn’t leave your webpage.\n\n\n\n\n\n\n\nWarning\n\n\n\nNote that some web designers and readers don’t like this behavior and would prefer that the reader decide for themselves whether they open a new tab or not. But it’s a pretty widespread practice, so it’s up to you how you want your webpage to work.\n\nThere’s no way to do this in most flavors of Markdown, but if you write your link in HTML you can at a target=\"_blank\" parameter:\n&lt;a \n  href=\"https://www.my_link.org\"\n  target=\"_blank\"&gt;\n  a link\n&lt;/a&gt; \n\n\nEmbedding content from other webpages\nMarkdown is great for text and images, but what if you want to content that is hosted elsewhere, like a video? HTML lets you load content from other webpages (also known as embedding content) using an element called an iframe:\n&lt;iframe \n  width=\"467\" height=\"831\" \n  src=\"https://www.youtube.com/embed/Oly8f4h5C78\" \n  title=\"Natural Habitat Shorts- Chipmunks have cheek pouches used to store food. 🐿🥜\" \n  frameborder=\"0\" \n  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" \n  allowfullscreen&gt;\n&lt;/iframe&gt;\n\n\nUsually the website that hosts your video will already have embed code prepared for you. For example, on YouTube you can find the embed code below the video:\n\n\nStyling text\nStyle on a webpage refers to how the page looks. For example, you might want to change colors, fonts, or spacing on your page. Usually this would be done with CSS or with pre-styled theme elements. However, if you doing something small, you can use the style parameter in an HTML tag, as in the following examples:\n\n\n\n\n\n\nChange the \n&lt;span style=\"color: red; font-size: 2rem\"&gt; \n  color and font size\n&lt;/span&gt;.\nChange the  color and font size.\n\n\n\n\n\n\nTip\n\n\n\nWe are using the span tag here instead of the p (paragraph) tag, so that HTML will not put the text on a new line.\n\n\n\n\n\n\n\n\n\n\n\nAdd a border to an image:\n\n&lt;img \n  src=\"/img/cool_satellite_image.jpeg\" \n  alt=\"Super-cool satellite imagery\" \n  height=\"100rem\"\n  style=\"border: dashed 5px blue;\"&gt;",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Customize your website content"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/05-map.html",
+    "href": "pages/03-git-github/03-github-portfolio/05-map.html",
+    "title": "Add a map to your website",
+    "section": "",
+    "text": "Check out our video demo for adding a map to your portfolio:\n\n \n\nDEMO: Add a map to your portfolio by ESIIL\n\n\n\n\n\nVector data are composed of discrete geometric locations (x and y values, or latitude and longitude) that define the “shape” of the spatial object. The organization of the vertices determines the type of vector that you are working with. There are three fundamental types of vector data:\nPoints: Each individual point is defined by a single x, y coordinate. Examples of point data include: sampling locations, the location of individual trees or the location of plots.\nLines: Lines are composed of many (at least 2) vertices, or points, that are connected. For instance, a road or a stream may be represented by a line. This line is composed of a series of segments, each bend in the road or stream represents a vertex that has defined x, y location.\nPolygons: A polygon consists of 3 or more vertices that are connected and closed. Thus, the outlines of plot boundaries, lakes, oceans, and states or countries are often represented by polygons.\n\n\n\nThere are three types of vector data – point, line, and polygon\n\n\n\n\n\n\n\n\nTip\n\n\n\nRead more about working with spatial data using Python in our Intro to Earth Data Science, here.\n\n\n\n\n\nTo complete this activity, you will need somewhere to run your code. Start by going to this repository on GitHub. We’ve set it up so that anyone can run Python code from there!\nOnce you are on the website, follow these instructions to get your Codespace up and running:\n\nClick on Use this Template in the upper right, and select Open in Codespace. This might take a minute if you haven’t done it in awhile.\nOnce the Codespace loads, open !00-first-map.ipynb using the Folders tab on the left-hand side.\nContinue working through the sample notebook. All the code should start off the same as what is on this page, but there’s more background information here if you want it.\nOnce you are done, stop your Codespace so you don’t use up your allocation!\n\n\n\n\nOpen Street Map (OSM) is an open-source, editable map of the world – a little like a wiki for places. They also provide a service for looking up locations using text, which we’ll be using in this activity.\n\n\n\nYou’ll need to start by importing some libraries to have access to all the code you need.\n\n# Work with vector data\nimport geopandas as gpd\n\n# Save maps and plots to files\nimport holoviews as hv\n# Create interactive maps and plots\nimport hvplot.pandas\n\n# Search for locations by name - this might take a moment\nfrom osmnx import features as osm\n\n\n\n\n\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\nYou can use the osmnx package to download and search for spatial vector data in your area, or anywhere around the world.\nIn this case, we’re looking for the location of the United Tribes Technical College campus in North Dakota. The address in here, 'United Tribes Technical College, Bismarck, ND, United States', does not have to be complete or exact, but it should be specific enough to narrow it down.\n\n\n\n\n\n\nTip\n\n\n\nYou can use the Open Street Maps website to fine-tune your address before you copy it into your code.\n\n\nWe are also specifying that we want it to be tagged as a 'college' type of‘amenity’` type. You might have to try a couple different searches with different addresses and/or tags to get the address you want, just like if you are using a map website or app.\n\n\n\n\n\n\nTip\n\n\n\nCheck out the list of all the different amenity types available on Open Street Maps! Different amenity types might be different types of vector data, such as a point location or a building footprint polygon.\n\n\n\n# Search for United Tribes Technical College\nuttc_gdf = osm.features_from_address(\n    'United Tribes Technical College, Bismarck, ND, United States',\n    {'amenity': ['college']})\nuttc_gdf\n\n\n\n\n\n\n\n\n\nnodes\naddr:city\naddr:housenumber\naddr:postcode\naddr:state\naddr:street\namenity\nname\nwebsite\nwikidata\ngeometry\n\n\nelement_type\nosmid\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nway\n1157021269\n[10759584855, 10759584856, 10759584857, 450404...\nBismarck\n3315\n58504\nND\nUniversity Drive\ncollege\nUnited Tribes Technical College\nhttps://uttc.edu/\nQ7893617\nPOLYGON ((-100.76305 46.76853, -100.76302 46.7...\n\n\n\n\n\n\n\n\nuttc_gdf.plot()\n\n/usr/share/miniconda/envs/learning-portal/lib/python3.10/site-packages/IPython/core/pylabtools.py:77: DeprecationWarning: backend2gui is deprecated since IPython 8.24, backends are managed in matplotlib and can be externally registered.\n  warnings.warn(\n\n\n\n\n\n\n\n\n\nWe have a map of the UTTC Campus!\n\n\n\n\n\n\nWarning\n\n\n\nThe Open Street Maps (OSM) database is not always complete. For example, try searching for UTTC with the {'building': True}, and compare it to the map of the UTTC campus on their website. What do you notice?\n\n\n\n\n\nThere are lots of different ways to create maps and plots in Python. Here, we’re going to use a tool called 'hvplot' and 'geoviews' to create an interactive map, including the online 'EsriImagery' tile source basemap.\n\n# Plot UTTC boundary\nuttc_map = uttc_gdf.hvplot(\n    # Givethe map a descriptive title\n    title=\"United Tribes Technical College, Bismarck, ND\",\n    # Add a basemap\n    geo=True, tiles='EsriImagery',\n    # Change the colors\n    fill_color='white', fill_alpha=0.2,\n    line_color='skyblue', line_width=5,\n    # Change the image size\n    frame_width=400, frame_height=400)\n\n# Save the map as a file to put on the web\nhv.save(uttc_map, 'uttc.html')\n\n# Display the map\nuttc_map\n\nWARNING:bokeh.core.validation.check:W-1005 (FIXED_SIZING_MODE): 'fixed' sizing mode requires width and height to be set: figure(id='p1053', ...)\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\nIf you are doing this activity on GitHub Codespaces, you will need to download the map you created:\n\nOpen the Folders tab on the left hand side\nRight-click on uttc.html (or whatever you named your file)\nSelect Download...\n\nThis should download your map.\n\n\n\nYou are now ready to upload your map to your portfolio repository and place it in your webpage. Because it is HTML and not an image, you will need to use the following HTML to get it on your page:\n&lt;embed type=\"text/html\" src=\"uttc.html\" width=\"600\" height=\"600\"&gt;\n\n\n\n\n\n\n\nImportant\n\n\n\nMake sure to make the width and height of your embed element larger than the frame_width and frame_height of your plot, or it will get cut off!\n\n\n:::",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Add a map to your website"
+    ]
+  },
+  {
+    "objectID": "pages/03-git-github/03-github-portfolio/05-map.html#get-started-with-map-making-using-open-sources-tools",
+    "href": "pages/03-git-github/03-github-portfolio/05-map.html#get-started-with-map-making-using-open-sources-tools",
+    "title": "Add a map to your website",
+    "section": "",
+    "text": "Check out our video demo for adding a map to your portfolio:\n\n \n\nDEMO: Add a map to your portfolio by ESIIL\n\n\n\n\n\nVector data are composed of discrete geometric locations (x and y values, or latitude and longitude) that define the “shape” of the spatial object. The organization of the vertices determines the type of vector that you are working with. There are three fundamental types of vector data:\nPoints: Each individual point is defined by a single x, y coordinate. Examples of point data include: sampling locations, the location of individual trees or the location of plots.\nLines: Lines are composed of many (at least 2) vertices, or points, that are connected. For instance, a road or a stream may be represented by a line. This line is composed of a series of segments, each bend in the road or stream represents a vertex that has defined x, y location.\nPolygons: A polygon consists of 3 or more vertices that are connected and closed. Thus, the outlines of plot boundaries, lakes, oceans, and states or countries are often represented by polygons.\n\n\n\nThere are three types of vector data – point, line, and polygon\n\n\n\n\n\n\n\n\nTip\n\n\n\nRead more about working with spatial data using Python in our Intro to Earth Data Science, here.\n\n\n\n\n\nTo complete this activity, you will need somewhere to run your code. Start by going to this repository on GitHub. We’ve set it up so that anyone can run Python code from there!\nOnce you are on the website, follow these instructions to get your Codespace up and running:\n\nClick on Use this Template in the upper right, and select Open in Codespace. This might take a minute if you haven’t done it in awhile.\nOnce the Codespace loads, open !00-first-map.ipynb using the Folders tab on the left-hand side.\nContinue working through the sample notebook. All the code should start off the same as what is on this page, but there’s more background information here if you want it.\nOnce you are done, stop your Codespace so you don’t use up your allocation!\n\n\n\n\nOpen Street Map (OSM) is an open-source, editable map of the world – a little like a wiki for places. They also provide a service for looking up locations using text, which we’ll be using in this activity.\n\n\n\nYou’ll need to start by importing some libraries to have access to all the code you need.\n\n# Work with vector data\nimport geopandas as gpd\n\n# Save maps and plots to files\nimport holoviews as hv\n# Create interactive maps and plots\nimport hvplot.pandas\n\n# Search for locations by name - this might take a moment\nfrom osmnx import features as osm\n\n\n\n\n\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\nYou can use the osmnx package to download and search for spatial vector data in your area, or anywhere around the world.\nIn this case, we’re looking for the location of the United Tribes Technical College campus in North Dakota. The address in here, 'United Tribes Technical College, Bismarck, ND, United States', does not have to be complete or exact, but it should be specific enough to narrow it down.\n\n\n\n\n\n\nTip\n\n\n\nYou can use the Open Street Maps website to fine-tune your address before you copy it into your code.\n\n\nWe are also specifying that we want it to be tagged as a 'college' type of‘amenity’` type. You might have to try a couple different searches with different addresses and/or tags to get the address you want, just like if you are using a map website or app.\n\n\n\n\n\n\nTip\n\n\n\nCheck out the list of all the different amenity types available on Open Street Maps! Different amenity types might be different types of vector data, such as a point location or a building footprint polygon.\n\n\n\n# Search for United Tribes Technical College\nuttc_gdf = osm.features_from_address(\n    'United Tribes Technical College, Bismarck, ND, United States',\n    {'amenity': ['college']})\nuttc_gdf\n\n\n\n\n\n\n\n\n\nnodes\naddr:city\naddr:housenumber\naddr:postcode\naddr:state\naddr:street\namenity\nname\nwebsite\nwikidata\ngeometry\n\n\nelement_type\nosmid\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nway\n1157021269\n[10759584855, 10759584856, 10759584857, 450404...\nBismarck\n3315\n58504\nND\nUniversity Drive\ncollege\nUnited Tribes Technical College\nhttps://uttc.edu/\nQ7893617\nPOLYGON ((-100.76305 46.76853, -100.76302 46.7...\n\n\n\n\n\n\n\n\nuttc_gdf.plot()\n\n/usr/share/miniconda/envs/learning-portal/lib/python3.10/site-packages/IPython/core/pylabtools.py:77: DeprecationWarning: backend2gui is deprecated since IPython 8.24, backends are managed in matplotlib and can be externally registered.\n  warnings.warn(\n\n\n\n\n\n\n\n\n\nWe have a map of the UTTC Campus!\n\n\n\n\n\n\nWarning\n\n\n\nThe Open Street Maps (OSM) database is not always complete. For example, try searching for UTTC with the {'building': True}, and compare it to the map of the UTTC campus on their website. What do you notice?\n\n\n\n\n\nThere are lots of different ways to create maps and plots in Python. Here, we’re going to use a tool called 'hvplot' and 'geoviews' to create an interactive map, including the online 'EsriImagery' tile source basemap.\n\n# Plot UTTC boundary\nuttc_map = uttc_gdf.hvplot(\n    # Givethe map a descriptive title\n    title=\"United Tribes Technical College, Bismarck, ND\",\n    # Add a basemap\n    geo=True, tiles='EsriImagery',\n    # Change the colors\n    fill_color='white', fill_alpha=0.2,\n    line_color='skyblue', line_width=5,\n    # Change the image size\n    frame_width=400, frame_height=400)\n\n# Save the map as a file to put on the web\nhv.save(uttc_map, 'uttc.html')\n\n# Display the map\nuttc_map\n\nWARNING:bokeh.core.validation.check:W-1005 (FIXED_SIZING_MODE): 'fixed' sizing mode requires width and height to be set: figure(id='p1053', ...)\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\nIf you are doing this activity on GitHub Codespaces, you will need to download the map you created:\n\nOpen the Folders tab on the left hand side\nRight-click on uttc.html (or whatever you named your file)\nSelect Download...\n\nThis should download your map.\n\n\n\nYou are now ready to upload your map to your portfolio repository and place it in your webpage. Because it is HTML and not an image, you will need to use the following HTML to get it on your page:\n&lt;embed type=\"text/html\" src=\"uttc.html\" width=\"600\" height=\"600\"&gt;\n\n\n\n\n\n\n\nImportant\n\n\n\nMake sure to make the width and height of your embed element larger than the frame_width and frame_height of your plot, or it will get cut off!\n\n\n:::",
+    "crumbs": [
+      "HYR-SENSE Home",
+      "Playing with GitHub",
+      "Portfolio",
+      "Add a map to your website"
+    ]
+  }
+]
