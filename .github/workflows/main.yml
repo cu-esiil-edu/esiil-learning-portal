@@ -74,9 +74,6 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-        
       - name: Restore cache
         uses: actions/cache@v3
         with:
@@ -84,9 +81,13 @@ jobs:
           key: conda-${{ hashFiles('environment.yml') }}
       
       - name: Activate conda environment
-        run: |
-          source $(conda info --base)/etc/profile.d/conda.sh
-          conda activate learning-portal
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: learning-portal
+          auto-activate-base: false
+          
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
         
       - name: Render Main Page
         env: 
