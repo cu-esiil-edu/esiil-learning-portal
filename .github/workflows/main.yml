@@ -8,6 +8,13 @@ name: Quarto Publish
 
 jobs:
   build-deploy:
+    strategy:
+      matrix:
+        profile: 
+          - mefa
+          #- hyrsense
+          #- shortcourse
+          #- stars
     runs-on: ubuntu-latest
     env:
       QUARTO_PYTHON: /usr/share/miniconda/envs/learning-portal/bin/python
@@ -48,39 +55,15 @@ jobs:
           QUARTO_PYTHON: "/usr/share/miniconda/envs/learning-portal/bin/python"
         uses: quarto-dev/quarto-actions/render@v2
 
-      - name: Render MEFA
+      - name: Render Profile
         env: 
-          QUARTO_PROFILE: mefa
+          QUARTO_PROFILE: ${{ profile }}
           QUARTO_PYTHON: "/usr/share/miniconda/envs/learning-portal/bin/python"
         uses: quarto-dev/quarto-actions/render@v2
-        
-      # - name: Render HYR-SENSE
-      #   env: 
-      #     QUARTO_PROFILE: hyrsense
-      #     QUARTO_PYTHON: "/usr/share/miniconda/envs/learning-portal/bin/python"
-      #   uses: quarto-dev/quarto-actions/render@v2
 
-      # - name: Render Short Course
-      #   env: 
-      #     QUARTO_PROFILE: shortcourse
-      #     QUARTO_PYTHON: "/usr/share/miniconda/envs/learning-portal/bin/python"
-      #   uses: quarto-dev/quarto-actions/render@v2
-
-      # - name: Render Stars
-      #   env: 
-      #     QUARTO_PROFILE: stars
-      #     QUARTO_PYTHON: "/usr/share/miniconda/envs/learning-portal/bin/python"
-      #   uses: quarto-dev/quarto-actions/render@v2
-
-      # - name: Render notebooks
-      #   env: 
-      #     QUARTO_PROFILE: nb
-      #     QUARTO_PYTHON: "/usr/share/miniconda/envs/learning-portal/bin/python"
-      #   uses: quarto-dev/quarto-actions/render@v2
-
-      - name: Publish
-        uses: quarto-dev/quarto-actions/publish@v2
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          target: gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _site
+          keep_files: true
