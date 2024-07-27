@@ -18,7 +18,7 @@ def replace_params(content, params):
     if format_strings:
         for format_string in format_strings:
             content = content.replace(
-                format_string, format_string.format(**quoted_params))
+                format_string, format_string.format(**quoted_params)[1:])
 
     # Replace unquoted parameters in code
     for key, value in params.items():
