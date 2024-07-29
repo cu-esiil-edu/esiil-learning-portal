@@ -69,11 +69,11 @@ def main():
     if not input_files:
         print('No files to render')
         return
-    input_file_list = input_files.split('\n')
+    input_file_list = sorted(input_files.split('\n'))
 
     # Make sure the files run in the correct order
     os.environ['QUARTO_PROJECT_INPUT_FILES'] = (
-        '\n'.join(sorted(input_file_list))
+        '\n'.join(input_file_list)
     )
     
     for input_file in input_file_list:
