@@ -6,6 +6,13 @@ format:
     output-file: "Get Started with Open Reproducible Science, Part 2!"
 ---
 
+```{python}
+#| tags: [parameters]
+#| echo: false
+#| eval: false
+__param_output_filename: "climate-test-data.csv"
+```
+
 # Wrangle your data
 
 ## What the fork?! Who wrote this?
@@ -85,7 +92,7 @@ print('You earned {} of 5 points for importing pandas'.format(points))
 
 ## Download the practice data
 
-Next, lets download some climate data from {{< meta params.01-get-started.location >}} to practice with. We keep our practice data on GitHub, so that we can check that it still works and make sure it looks just like the data you would download from the original source.
+Next, lets download some climate data from {{< meta params.01-climate.location >}} to practice with. We keep our practice data on GitHub, so that we can check that it still works and make sure it looks just like the data you would download from the original source.
 
 The cell below contains the URL for the data you will use in this part of the notebook. There are two things to notice about the URL code:
 
@@ -110,7 +117,7 @@ Check out the [textbook section on variables](https://www.earthdatascience.org/c
 ```{python}
 (
     'https://github.com/cu-esiil-edu/esiil-learning-portal'
-    '/releases/download/data-release/get-started-test-data.csv'
+    f'/releases/download/data-release/{__param_output_filename}'
 )
 ```
 
@@ -120,7 +127,7 @@ Check out the [textbook section on variables](https://www.earthdatascience.org/c
 #| code-summary: See our solution!
 ncei_url = (
     'https://github.com/cu-esiil-edu/esiil-learning-portal'
-    '/releases/download/data-release/get-started-test-data.csv'
+    f'/releases/download/data-release/{__param_output_filename}'
 )
 ncei_url
 ```

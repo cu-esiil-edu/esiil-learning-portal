@@ -6,6 +6,13 @@ format:
     output-file: "Get Started with Open Reproducible Science, Part 4!"
 ---
 
+```{python}
+#| tags: [parameters]
+#| echo: false
+#| eval: false
+__param_location: "TEST LOCATION"
+```
+
 # Plot your results
 
 ::: {.content-visible when-format="ipynb"}
@@ -78,7 +85,7 @@ climate_df.plot(
 # Plot the data using .plot
 climate_df.plot(
     y='TOBS',
-    title='Daily Temperature in Boulder, CO',
+    title=f'Daily Temperature in {__param_location}',
     xlabel='Date',
     ylabel='Temperature ($^\circ$F)')
 ```
@@ -144,7 +151,7 @@ ann_climate_df
 # Plot the annual data using .plot
 ann_climate_df.plot(
     y='TOBS',
-    title='Annual Average Temperature in Boulder, CO',
+    title=f'Annual Average Temperature in {__param_location}',
     xlabel='Year',
     ylabel='Temperature ($^\circ$F)'
 )
@@ -196,7 +203,7 @@ You can use the `.hvplot()` method with similar arguments to create an interacti
 # Plot the annual data using .plot
 ann_climate_plot = ann_climate_df.hvplot(
     y='TOBS',
-    title='Annual Average Temperature in Boulder, CO',
+    title=f'Annual Average Temperature in {__param_location}',
     xlabel='Year',
     ylabel='Temperature ($^\circ$F)'
 )

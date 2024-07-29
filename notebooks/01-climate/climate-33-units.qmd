@@ -1,0 +1,100 @@
+---
+title: Climate coding challenge, Part 3
+jupyter: python3
+format:
+  ipynb:
+    output-file: "Get Started with Open Reproducible Science, Part 3!"
+---
+
+# Convert units
+
+It's important to keep track of the units of all your data. You don't want to be like the [NASA team who crashed a probe into Mars because different teams used different units](https://www.latimes.com/archives/la-xpm-1999-oct-01-mn-17288-story.html))!
+
+## Use labels to keep track of units for you and your collaborators
+
+One way to keep track of your data's units is to include the unit in data **labels**. In the case of a `DataFrame`, that usually means the column names.
+
+::: {.content-visible when-format="ipynb"}
+Before we get started, make sure to load the climate `DataFrame` you stored in the previous notebooks using Jupyter cell magic:
+
+```{python}
+# Load all stored variables
+%store -r
+```
+:::
+
+::: {.callout-important icon="false"}
+# {{< fa keyboard size=large >}} Your task: Add units to your column name
+
+A big part of writing **expressive** code is descriptive labels. Let's rename the columns of your dataframe to include units. Complete the following steps:
+
+  1. Replace `dataframe` with the name of **your** `DataFrame`, and `dataframe_units` with an expressive new name.
+  2. Check out the [documentation for GCHNd data](https://www.ncei.noaa.gov/data/global-historical-climatology-network-daily/doc/GHCND_documentation.pdf). We downloaded data with "standard" units; find out what that means for both temperature and precipitation.
+  3. Replace `'TOBS_UNIT'` and `'PRCP_UNIT'` with column names that reference the correct unit for each.
+
+:::
+```{python}
+#| error: true
+dataframe_units = dataframe.rename(columns={
+    'TOBS': 'TOBS_UNIT',
+    'PRCP': 'PRCP_UNIT'
+})
+
+dataframe
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+climate_u_df = climate_df.rename(columns={
+    'TOBS': 'temp_f',
+    'PRCP': 'precip_in'
+})
+climate_u_df
+```
+
+## For scientific applications, it is often useful to have values in metric units
+
+::: {.callout-important icon="false"}
+# {{< fa keyboard size=large >}} Your task: Convert units
+
+The code below attempts to convert the data to Celcius, using Python mathematical **operators**, like `+`, `-`, `*`, and `/`. Mathematical operators in Python work just like a calculator, and that includes using parentheses to designat the **order of operations**. The equation for converting Fahrenheit temperature to Celcius is:
+
+$$
+T_C = (T_F - 32) * \frac{5}{9}
+$$
+
+This code is not well documented and doesn't follow [PEP-8 guidelines](https://peps.python.org/pep-0008/#other-recommendations), which has caused the author to miss an **important error**!
+
+Complete the following steps:
+1. [ ] Replace `dataframe` with the name of **your** `DataFrame`.
+2. [ ] Replace `'old_temperature'` with the column name **you** used; Replace `'new_temperature'` with an **expressive** column name. 
+3. [ ] **THERE IS AN ERROR IN THE CONVERSION MATH - Fix it!**
+
+:::
+```{python}
+#| error: true
+dataframe_units['new_temperature']= dataframe_units['old_temperature']-32*5/9
+dataframe_units
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+climate_u_df['temp_c'] = (climate_u_df['temp_f'] - 32) * 5 / 9
+
+climate_u_df
+```
+
+::: {.callout-important icon="false"}
+# {{< fa pepper-hot size=large >}} Want an EXTRA CHALLENGE?
+Using the code below as a framework, write and apply a **function** that converts to Celcius. You should also rewrite this function name to be more expressive.
+  
+```python
+def convert(temperature):
+    """Convert temperature to Celcius"""
+    return temperature # Put your equation in here
+
+dataframe['TOBS_C'] = dataframe['TOBS'].apply(convert)
+```
+:::

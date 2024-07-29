@@ -7,13 +7,23 @@ format:
     output-file: "Get Started with Open Reproducible Science, Part 6!"
 ---
 
+```{python}
+#| tags: [parameters]
+#| echo: false
+#| eval: false
+__param_station_id = "USC00050848"
+__param_start_date = "1893-10-01"
+__param_end_date = "2023-09-30"
+__param_output_filename = "climate-test-data.csv"
+```
+
 ## There are more Earth Observation data online than any one person could ever look at
 
 [NASA's Earth Observing System Data and Information System (EOSDIS) alone manages over 9PB of data](https://www.earthdata.nasa.gov/learn/articles/getting-petabytes-people-how-eosdis-facilitates-earth-observing-data-discovery-and-use). 1 PB is roughly 100 times the entire Library of Congress (a good approximation of all the books available in the US). It's all available to **you** once you learn how to download what you want.
 
 Here we're using the NOAA National Centers for Environmental Information (NCEI) [Access Data Service](https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation) application progamming interface (API) to request data from their web servers. We will be using data collected as part of the Global Historical Climatology Network daily (GHCNd) from their [Climate Data Online library](https://www.ncdc.noaa.gov/cdo-web/datasets) program at NOAA.
 
-For this example we're requesting [daily summary data in {{< meta params.01-get-started.location >}} (station ID {{< meta params.01-get-started.station_id >}})](https://www.ncdc.noaa.gov/cdo-web/datasets/GHCND/stations/GHCND:{{< meta params.01-get-started.station_id >}}/detail).
+For this example we're requesting [daily summary data in {{< meta params.01-climate.location >}} (station ID {{< meta params.01-climate.station_id >}})](https://www.ncdc.noaa.gov/cdo-web/datasets/GHCND/stations/GHCND:{{< meta params.01-climate.station_id >}}/detail).
 
 ::: {.cell .markdown}
 :::: {.callout-important icon="false"}
@@ -69,7 +79,7 @@ import pandas as pd
 
 ```{python}
 stuff23 = ('https://www.ncei.noaa.gov/access/services/da'
-f'ta/v1?dataset=daily-summaries&dataTypes=TOBS,PRCP&stations=USC00050848&startDate=1893-10-01&2023-09-30')
+f'ta/v1?dataset=daily-summaries&dataTypes=TOBS,PRCP&stations={__param_station_id}&startDate={__param_start_date}&{__param_end_date}')
 stuff23
 ```
 
@@ -81,9 +91,9 @@ ncei_url = (
     'https://www.ncei.noaa.gov/access/services/data/v1'
     '?dataset=daily-summaries'
     '&dataTypes=TOBS,PRCP'
-    f'&stations=USC00050848'
-    f'&startDate=1893-10-01'
-    f'&endDate=2023-09-30'
+    f'&stations={__param_station_id}'
+    f'&startDate={__param_start_date}'
+    f'&endDate={__param_end_date}'
     '&units=standard'
 )
 ncei_url
@@ -151,11 +161,11 @@ import requests
 # Download data
 response = requests.get(ncei_url)
 
-with open("get-started-test-data.csv", 'wb') as out_file:
+with open(f"{__param_output_filename}", 'wb') as out_file:
     out_file.write(response.content)
 subprocess.run([
     'gh', 'release', 'upload', 'data-release',
-    f'get-started-test-data.csv',
+    f'{__param_output_filename}',
     '--repo', 'cu-esiil-edu/esiil-learning-portal',
     '--clobber'
     ])

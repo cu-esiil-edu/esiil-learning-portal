@@ -51,11 +51,18 @@ def main():
     print('Inserting code parameters')
     
     # Get the profile from environment variable
-    profile = os.getenv('QUARTO_PROFILE')
+    profiles = os.getenv('QUARTO_PROFILE').split(',')
 
     # Load the _quarto.yml file
-    quarto_filename = f'_quarto-{ profile }.yml' if profile else '_quarto.yml'
-    config = load_yaml(quarto_filename)
+    if not profiles:
+        quarto_filenames = ['_quarto.yml']
+    else:
+        quarto_filenames = [
+            f'_quarto-{ profile }.yml' for profile in profiles
+        ]
+    config = {}
+    for quarto_filename in quarto_filenames:
+        config = config | load_yaml(quarto_filename)
 
     # Process all .qmd files in the render list
     input_files = os.getenv('QUARTO_PROJECT_INPUT_FILES')
@@ -63,6 +70,11 @@ def main():
         print('No files to render')
         return
     input_file_list = input_files.split('\n')
+
+    # Make sure the files run in the correct order
+    os.environ['QUARTO_PROJECT_INPUT_FILES'] = (
+        '\n'.join(sorted(input_file_list))
+    )
     
     for input_file in input_file_list:
         print(f'  Pre-rendering { input_file }')
