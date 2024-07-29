@@ -54,12 +54,12 @@ def main():
     profiles = os.getenv('QUARTO_PROFILE').split(',')
 
     # Load the _quarto.yml file
-    if not profiles:
-        quarto_filenames = ['_quarto.yml']
-    else:
-        quarto_filenames = [
-            f'_quarto-{ profile }.yml' for profile in profiles
-        ]
+    quarto_filenames = ['_quarto.yml']
+    quarto_filenames += [
+        f'_quarto-{ profile }.yml' 
+        for profile in profiles
+        if profile
+    ]
     config = {}
     for quarto_filename in quarto_filenames:
         config = config | load_yaml(quarto_filename)
