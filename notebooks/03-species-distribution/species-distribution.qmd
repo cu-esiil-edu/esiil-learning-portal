@@ -7,9 +7,24 @@ learning-goals:
   - Combine different types of vector data with spatial joins
   - Create a chloropleth plot
 jupyter: python3
+format:
+  html: default
+  pdf:
+    output-file: "species-distribution-handout"
+    geometry:
+      - top=20mm
+      - left=20mm
+      - right=20mm
+      - bottom=20mm
 ---
 
-Tasiyagnunpa (or Western Meadowlark, or sturnella neglecta) migrates each year to next on the Great Plains in the United States. Using crowd-sourced observations of these birds, we can see that migration happening throughout the year.
+::: {.content-visible when-format="pdf"}
+::: {.callout-tip}
+View this content online: https://cu-esiil-edu.github.io/esiil-learning-portal/stars/notebooks/03-species-distribution/species-distribution.html
+:::
+:::
+
+Tasiyagnunpa (or Western Meadowlark, or *sturnella neglecta*) migrates each year to nest on the Great Plains in the United States. Using crowd-sourced observations of these birds, we can see that migration happening throughout the year.
 
 > Read more about the Lakota connection to Tasiyagnunpa from [Native Sun News Today](https://www.nativesunnews.today/articles/meadowlarks-still-speak-lakota-humans-dont-anymore/)
 
@@ -20,6 +35,7 @@ Tasiyagnunpa (or Western Meadowlark, or sturnella neglecta) migrates each year t
 We will be getting data from a source called [GBIF (Global Biodiversity Information Facility)](https://www.gbif.org/). We need a package called `pygbif` to access the data, which is not included in your environment. Install it by running the cell below:
 
 ```{python}
+#| output: false
 %%bash
 pip install pygbif
 ```
@@ -255,6 +271,7 @@ gdf.hvplot(geo=True, crs=ccrs.Mercator())
 
 ::: {.content-visible when-format="html"}
 ```{python}
+#| warning: false
 #| code-fold: true
 #| code-summary: See our solution!
 # Make a copy of the ecoregions
@@ -457,7 +474,7 @@ gbif_path = glob(gbif_pattern)[0]
 You can use the following code to look at the beginning of your file:
 
 ```{python}
-!head $gbif_path
+!head -n 2 $gbif_path 
 ```
 
 ```{python}
@@ -754,7 +771,9 @@ migration_plot
 :::
 
 ::: {.content-visible when-format="html"}
-<embed type="text/html" src="migration.html" width="600" height="600">
+```{=html}
+<embed type="text/html" src="migration.html" width="600" height="800">
+```
 :::
 
 ::: {.callout-important icon="false"}

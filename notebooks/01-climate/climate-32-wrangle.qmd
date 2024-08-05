@@ -6,13 +6,6 @@ format:
     output-file: "Get Started with Open Reproducible Science, Part 2!"
 ---
 
-```{python}
-#| tags: [parameters]
-#| echo: false
-#| eval: false
-__param_output_filename: "climate-test-data.csv"
-```
-
 # Wrangle your data
 
 ## What the fork?! Who wrote this?
@@ -71,28 +64,32 @@ import pandas as pd
 ```
 :::
 
+::: {.content-visible when-format="ipynb"}
 Once you have run the cell above and imported `pandas`, **run the cell below**. It is a test cell that will tell you if you completed the task successfully. If a test cell isn't working the way you expect, check that you ran your code **immediately before** running the test.
 
 ```{python}
-
-```
-```{python}
 # DO NOT MODIFY THIS TEST CELL
-points = 0
 try:
     pd.DataFrame()
-    points += 5
     print('\u2705 Great work! You correctly imported the pandas library.')
 except:
     print('\u274C Oops - pandas was not imported correctly.')
-print('You earned {} of 5 points for importing pandas'.format(points))
 ```
+:::
 
 ------------------------------------------------------------------------
 
 ## Download the practice data
 
 Next, lets download some climate data from {{< meta params.01-climate.location >}} to practice with. We keep our practice data on GitHub, so that we can check that it still works and make sure it looks just like the data you would download from the original source.
+
+::: {.content-visible when-format="html"}
+:::: {.callout-tip}
+## Do you want to download your own climate data from a place of your choosing?
+
+Learn how to modify your NCEI data download in the [Data Library](climate-98-download.qmd)
+::::
+:::
 
 The cell below contains the URL for the data you will use in this part of the notebook. There are two things to notice about the URL code:
 
@@ -110,14 +107,14 @@ Check out the [textbook section on variables](https://www.earthdatascience.org/c
 ::: {.callout-important icon="false"}
 # {{< fa keyboard size=large >}} Your task: Save the URL for later
 
-  - [ ] Pick an expressive variable name for the URL. HINT: click on the `Variables` button up top to see all your variables. Your new url variable will not be there until you define it and run the code.
-  - [ ] At the end of the cell where you define your url variable, **call your variable (type out its name)** so it can be tested.
+  1. Pick an expressive variable name for the URL. HINT: click on the `Variables` button up top to see all your variables. Your new url variable will not be there until you define it and run the code.
+  2. At the end of the cell where you define your url variable, **call your variable (type out its name)** so it can be tested.
 :::
 
 ```{python}
 (
     'https://github.com/cu-esiil-edu/esiil-learning-portal'
-    f'/releases/download/data-release/{__param_output_filename}'
+    '/releases/download/data-release/climate-stars-data.csv'
 )
 ```
 
@@ -127,7 +124,7 @@ Check out the [textbook section on variables](https://www.earthdatascience.org/c
 #| code-summary: See our solution!
 ncei_url = (
     'https://github.com/cu-esiil-edu/esiil-learning-portal'
-    f'/releases/download/data-release/{__param_output_filename}'
+    '/releases/download/data-release/climate-stars-data.csv'
 )
 ncei_url
 ```
@@ -153,15 +150,15 @@ The `pandas` library you imported can download data from the internet directly i
 ::: {.callout-important icon="false"}
 # {{< fa keyboard size=large >}} Your task: Fix some code!
 
-  - [ ] Leave a space between the `#` and text in the comment and try making the comment more informative
-  - [ ] Make any changes needed to get this code to run. HINT: The `my_url` variable doesn't exist - you need to replace it with the variable name **you** chose.
-  - [ ] Modify the `.read_csv()` statement to include the following parameters:
+  1. Leave a space between the `#` and text in the comment and try making the comment more informative
+  2. Make any changes needed to get this code to run. HINT: The `my_url` variable doesn't exist - you need to replace it with the variable name **you** chose.
+  3. Modify the `.read_csv()` statement to include the following parameters:
 
      + `index_col='DATE'` -- this sets the `DATE` column as the index. Needed for subsetting and resampling later on
      + `parse_dates=True` -- this lets `python` know that you are working with time-series data, and values in the indexed column are **date time objects**
      + `na_values=['NaN']` -- this lets `python` know how to handle missing values
 
-  - [ ] Clean up the code by using **expressive variable names**, **expressive column names**, **PEP-8 compliant code**, and **descriptive comments**
+  4. Clean up the code by using **expressive variable names**, **expressive column names**, **PEP-8 compliant code**, and **descriptive comments**
 :::
 
 ::: {callout-warning}
