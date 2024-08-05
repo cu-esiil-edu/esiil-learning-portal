@@ -38,7 +38,7 @@ jobs:
       - name: Install earthpy-dev
         if: steps.cache-conda.outputs.cache-hit != 'true'
         run: pip install git+https://github.com/earthlab/earthpy@apppears
-          
+               
   build-deploy:
     runs-on: ubuntu-latest
     needs: setup-conda
@@ -81,9 +81,12 @@ jobs:
         with:
           path: /usr/share/miniconda/envs/learning-portal
           key: conda-${{ runner.os }}-${{ hashFiles('environment.yml') }}
-          
+
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Install tinytex
+        run: quarto install tinytex
         
       - name: Render Main Page
         uses: quarto-dev/quarto-actions/render@v2
