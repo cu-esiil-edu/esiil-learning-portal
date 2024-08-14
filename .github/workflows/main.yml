@@ -82,6 +82,9 @@ jobs:
           path: /usr/share/miniconda/envs/learning-portal
           key: conda-${{ runner.os }}-${{ hashFiles('environment.yml') }}
 
+      - name: Setup local IPYTHONDIR
+        run: scripts/set_ipythondir.sh
+
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
