@@ -1,0 +1,173 @@
+---
+title: Climate coding challenge, Part 6
+subtitle: Getting your own data
+jupyter: python3
+format:
+  ipynb:
+    output-file: "Get Started with Open Reproducible Science, Part 6!"
+---
+
+```{python}
+#| tags: [parameters]
+#| echo: false
+#| eval: false
+__param_station_id = "USC00050848"
+__param_start_date = "1893-10-01"
+__param_end_date = "2023-09-30"
+__param_output_filename = "climate-test-data.csv"
+```
+
+## There are more Earth Observation data online than any one person could ever look at
+
+[NASA's Earth Observing System Data and Information System (EOSDIS) alone manages over 9PB of data](https://www.earthdata.nasa.gov/learn/articles/getting-petabytes-people-how-eosdis-facilitates-earth-observing-data-discovery-and-use). 1 PB is roughly 100 times the entire Library of Congress (a good approximation of all the books available in the US). It's all available to **you** once you learn how to download what you want.
+
+Here we're using the NOAA National Centers for Environmental Information (NCEI) [Access Data Service](https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation) application progamming interface (API) to request data from their web servers. We will be using data collected as part of the Global Historical Climatology Network daily (GHCNd) from their [Climate Data Online library](https://www.ncdc.noaa.gov/cdo-web/datasets) program at NOAA.
+
+For this example we're requesting [daily summary data in {{< meta params.01-climate.location >}} (station ID {{< meta params.01-climate.station_id >}})](https://www.ncdc.noaa.gov/cdo-web/datasets/GHCND/stations/GHCND:{{< meta params.01-climate.station_id >}}/detail).
+
+::: {.cell .markdown}
+:::: {.callout-important icon="false"}
+## {{< fa pencil size=large >}} Your task:
+
+  1.  Research the [**Global Historical Climatology Network - Daily**](https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.ncdc:C00861/html) data source.
+  2. In the cell below, write a 2-3 sentence description of the data source. 
+  3.  Include a citation of the data (**HINT:** See the 'Data Citation' tab on the GHCNd overview page).
+
+Your description should include: 
+
+  + who takes the data
+  + where the data were taken
+  + what the maximum temperature units are
+  + how the data are collected
+::::
+:::
+
+::: {.cell .markdown}
+**YOUR DATA DESCRIPTION AND CITATION HERE** 🛎️
+:::
+
+## Access NCEI GHCNd Data from the internet using its API 🖥️ 📡 🖥️
+
+The cell below contains the URL for the data you will use in this part of the notebook. We created this URL by generating what is called an **API endpoint** using the NCEI [API documentation](https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation).
+
+::: callout-note
+An **application programming interface** (API) is a way for two or more computer programs or components to communicate with each other. It is a type of software interface, offering a service to other pieces of software ([Wikipedia](https://en.wikipedia.org/wiki/API)).
+:::
+
+First things first -- you will need to import the `pandas` library to access NCEI data through its URL:
+
+```{python}
+# Import required packages
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+# Import required packages
+import pandas as pd
+```
+:::
+
+::: {.callout-important icon="false"}
+# {{< fa keyboard size=large >}} Your task:
+
+  1. Pick an expressive variable name for the URL.
+  2. Reformat the URL so that it adheres to the [79-character PEP-8 line limit](https://peps.python.org/pep-0008/#maximum-line-length). You should see two vertical lines in each cell - don't let your code go past the second line.
+  3. At the end of the cell where you define your url variable, **call your variable (type out its name)** so it can be tested.
+:::
+
+```{python}
+stuff23 = ('https://www.ncei.noaa.gov/access/services/da'
+f'ta/v1?dataset=daily-summaries&dataTypes=TOBS,PRCP&stations={__param_station_id}&startDate={__param_start_date}&{__param_end_date}')
+stuff23
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+ncei_url = (
+    'https://www.ncei.noaa.gov/access/services/data/v1'
+    '?dataset=daily-summaries'
+    '&dataTypes=TOBS,PRCP'
+    f'&stations={__param_station_id}'
+    f'&startDate={__param_start_date}'
+    f'&endDate={__param_end_date}'
+    '&units=standard'
+)
+ncei_url
+```
+:::
+
+```{python}
+# DO NOT MODIFY THIS TEST CELL
+resp_url = _
+
+if type(resp_url)==str:
+    print('\u2705 Great work! You correctly called your url variable.')
+else:
+    print('\u274C Oops - your url variable was not called correctly.')
+
+if len(resp_url)==218:
+    print('\u2705 Great work! Your url is the correct length.')
+else:
+    print('\u274C Oops - your url variable is not the correct length.')
+```
+
+------------------------------------------------------------------------
+
+## **Download and get started working with NCEI data**
+
+Just like you did with the practice data, go ahead and use pandas to import data from your API URL into Python. If you didn't do it already, you should import the pandas library **at the top of this notebook** so that others who want to use your code can find it easily.
+
+```{python}
+#| error: true
+# Import data into Python from NCEI API
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| code-fold: true
+#| code-summary: See our solution!
+# Download the climate data
+climate_df = pd.read_csv(
+  ncei_url,
+  index_col='DATE',
+  parse_dates=True,
+  na_values=['NaN'])
+climate_df
+```
+:::
+
+```{python}
+# DO NOT MODIFY THIS TEST CELL
+tmax_df_resp = _
+
+if isinstance(tmax_df_resp, pd.DataFrame):
+    print('\u2705 Great work! You called a DataFrame.')
+else:
+    print('\u274C Oops - make sure to call your DataFrame for testing.')
+```
+
+::: {.content-hidden}
+```{python}
+import os
+import subprocess
+
+import requests
+
+# Download data
+response = requests.get(ncei_url)
+
+with open(f"{__param_output_filename}", 'wb') as out_file:
+    out_file.write(response.content)
+subprocess.run([
+    'gh', 'release', 'upload', 'data-release',
+    f'{__param_output_filename}',
+    '--repo', 'cu-esiil-edu/esiil-learning-portal',
+    '--clobber'
+    ])
+```
+:::
