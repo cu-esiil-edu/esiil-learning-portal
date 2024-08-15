@@ -1,11 +1,12 @@
 ---
 title: Climate coding challenge, Part 5
-subtitle: Is the climate changing?
 jupyter: python3
 format:
   ipynb:
     output-file: "Get Started with Open Reproducible Science, Part 5!"
 ---
+
+# So, is the climate changing?
 
 ::: {.content-visible when-format="ipynb"}
 First things first -- make sure to load the climate `DataFrame` you stored in the previous notebooks using Jupyter cell magic:
@@ -27,9 +28,9 @@ Before we get started, it's important to consider that OLS regression is not alw
   Normally distributed error
   : If you have taken a statistics class, you probably learned a lot about the normal, or Gaussian distribution. For right now, what you need to know is that OLS regression is useful for identifying trends in average temperature, but wouldn't be appropriate for looking at trends in daily precipitation (because most days have zero precipitation), or at maximum or minimum annual temperatures (because these are extreme values, and the normal distribution tends to underestimate the likelihood of large events).
   Linearity
-  : We're assuming that temperatures are increasing or decreasing at a constant rate over time. We wouldn't be able to look at rates that change over time. For example, many locations in the Arctic had no change in temperature for a long time, because ice melt was absorbing all the extra heat. Linear OLS regression wouldn't be able to identify when the temperature rise began on its own.
+  : We're assuming that temperatures are increasing or decreasing at a constant rate over time. We wouldn't be able to look at rates that change over time. For example, many locations in the Arctic remained the same temperature for much longer than the rest of the world, because ice melt was absorbing all the extra heat. Linear OLS regression wouldn't be able to identify when the temperature rise began on its own.
   Stationarity
-  : We're assuming that variation in temperature caused by things *other* than global climate change (e.g. the random error) behaves the same over time. For example, the linear OLS regression can't take increased variability from year to yearinto account -- a common effect of climate change. A common pattern we see is "global weirding", or more extreme head *and* cold, which you can observe most easily by looking at your daily data again. Does it seem to be trending up, or fanning out? OLS regression can't account for changes in random variability. Note that we're probably ok when it comes to looking at a trend line, but that we wouldn't want to trust any measures of uncertainty, like standard error, if there's clear evidence of non-stationarity.
+  : We're assuming that variation in temperature caused by things *other* than global climate change (e.g. the random error) behaves the same over time. For example, the linear OLS regression can't take increased variability from year to year into account, which is a common effect of climate change. We often see "global weirding", or more extreme head *and* cold, in addition to overall increases. You can observe this most easily by looking at your daily data again. Does it seem to be fanning in or out over time?
 
 It's pretty rare to encounter a perfect statistical model where all the assumptions are met, but you want to be on the lookout for serious discrepancies, especially when making predictions. For example, [ignoring assumptions about Gaussian error arguably led to the 2008 financial crash](https://www.wired.com/2009/02/wp-quant/).
 
