@@ -5,43 +5,27 @@ format:
 ---
 # Part 2: Wrangle your data
 
-## What the fork?! Who wrote this?
-
-Below is a scientific Python workflow. But something's wrong -- The code won't run! Your task is to follow the instructions below to **clean and debug** the Python code below so that it runs.
-
-::: {.callout-tip}
-Don't worry if you can't solve every bug right away. We'll get there! If you are working on one bug for more than about 10 minutes, it's time to ask for help. 
-:::
-
-At the end, you'll **repeat the workflow** for a location and measurement of your choosing.
-
-Alright! Let's clean up this code.
-
-------------------------------------------------------------------------
-
 ## Python **packages** let you use code written by experts around the world
 
 Because Python is open source, lots of different people and organizations can contribute (including you!). Many contributions are in the form of **packages** which do not come with a standard Python download.
 
-::: {.callout-note icon="false"}
-# {{< fa glasses size=large >}} Read more
-
-[Packages need to be installed and **imported**](https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/use-python-packages/).
+::: {.callout-read title="Packages need to be installed and imported."}
+Learn more about using Python packages. How do you find and use packages? What is the difference between installing and importing packages? When do you need to do each one? [This article on Python packages](https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/use-python-packages/) will walk you through the basics.
 :::
 
 In the cell below, someone was trying to import the **pandas package**, which helps us to work with [**tabular data** such as comma-separated value or csv files](https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-text-files/).
 
-::: {.cell .markdown}
-:::: {.callout-important icon="false"}
-# {{< fa keyboard size=large >}} Your task: Import a library
+::: {.callout-task title="Import a package"}
 
-- [ ] Correct the typo below to properly import the pandas package under its **alias** pd.
-- [ ] Run the cell to import pandas
+  1. Correct the typo below to properly import the pandas package under its **alias** pd.
+  2. Run the cell to import pandas
 
-::::: {.content-visible when-format="ipynb"}
-NOTE: **Run your code in the right **environment** to avoid import errors**
+:::: {.content-visible when-format="ipynb"}
 
-We've created a coding **environment** for you to use that already has all the software and libraries you will need! When you try to run some code, you may be prompted to select a **kernel**. The **kernel** refers to the version of Python you are using. You should use the **base** kernel, which should be the default option.
+::::: {.callout-warning}
+Make sure to run your code in the right **environment** to avoid import errors!
+
+We've created a coding **environment** for you to use that already has all the software and packages you will need! When you try to run some code, you may be prompted to select a **kernel**. The **kernel** refers to the version of Python you are using. You should use the **base** kernel, which should be the default option for you.
 :::::
 ::::
 :::
@@ -74,17 +58,16 @@ except:
 ```
 :::
 
-------------------------------------------------------------------------
+
+:::
 
 ## Download the practice data
 
 Next, lets download some climate data from {{< meta params.01-climate.location >}} to practice with. We keep our practice data on GitHub, so that we can check that it still works and make sure it looks just like the data you would download from the original source.
 
 ::: {.content-visible when-format="html"}
-:::: {.callout-tip}
-## Do you want to download your own climate data from a place of your choosing?
-
-Learn how to modify your NCEI data download in the [Data Library](climate-98-download.qmd)
+:::: {.callout-tip title="Using online climate data"}
+Do you want to download your own climate data from a place of your choosing? We think the sample data we've provided is helpful for learning, but hopefully you have some other places and times you want data from. Learn how to modify your NCEI data download in our [NCEI Data Library entry](climate-98-download.qmd).
 ::::
 :::
 
@@ -95,23 +78,20 @@ The cell below contains the URL for the data you will use in this part of the no
 
 However, we still have a problem - we can't get the URL back later on because it isn't saved in a **variable**. In other words, we need to give the url a **name** so that we can request in from Python later (sadly, Python has no 'hey what was that thingy I typed yesterday?' function).
 
-::: {.callout-note icon="false"}
-## {{< fa glasses size=large >}} Read more
-
-Check out the [textbook section on variables](https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/get-started-using-python/variables/)
+::: {.callout-read title="Names/variables in Python"}
+One of the most common challenges for new programmers is making sure that your results are stored so you can use them again. In Python, this is called **naming**, or saving a **variable**.  Learn more in this [hands-on activity on using variables](https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/get-started-using-python/variables/) from our learning portal.
 :::
 
-::: {.callout-important icon="false"}
-# {{< fa keyboard size=large >}} Your task: Save the URL for later
-
-  1. Pick an expressive variable name for the URL. HINT: click on the `Variables` button up top to see all your variables. Your new url variable will not be there until you define it and run the code.
-  2. At the end of the cell where you define your url variable, **call your variable (type out its name)** so it can be tested.
+::: {.callout-task title="Save the URL for later"}
+1. Pick an expressive variable name for the URL.
+2. Click on the `Jupyter` tab in the console panel at the bottom of VSCode to see all your variables. Your new url variable will not be there until you define it and run the code.
+2. At the end of the cell where you define your url variable, **call your variable (type out its name)** so it can be tested.
 :::
 
 ```{python}
 (
     'https://github.com/cu-esiil-edu/esiil-learning-portal'
-    '/releases/download/data-release/climate-stars-data.csv'
+    f'/releases/download/data-release/{__param_output_filename}'
 )
 ```
 
@@ -121,7 +101,7 @@ Check out the [textbook section on variables](https://www.earthdatascience.org/c
 #| code-summary: See our solution!
 ncei_url = (
     'https://github.com/cu-esiil-edu/esiil-learning-portal'
-    '/releases/download/data-release/climate-stars-data.csv'
+    f'/releases/download/data-release/{__param_output_filename}'
 )
 ncei_url
 ```
@@ -144,18 +124,16 @@ else:
 
 The `pandas` library you imported can download data from the internet directly into a type of Python **object** called a `DataFrame`. In the code cell below, you can see an attempt to do just this. But there are some problems...
 
-::: {.callout-important icon="false"}
-# {{< fa keyboard size=large >}} Your task: Fix some code!
+::: {.callout-task title="Fix some code!"}
+1. Leave a space between the `#` and text in the comment and try making the comment more informative
+2. Make any changes needed to get this code to run. HINT: The `my_url` variable doesn't exist - you need to replace it with the variable name **you** chose.
+3. Modify the `.read_csv()` statement to include the following parameters:
 
-  1. Leave a space between the `#` and text in the comment and try making the comment more informative
-  2. Make any changes needed to get this code to run. HINT: The `my_url` variable doesn't exist - you need to replace it with the variable name **you** chose.
-  3. Modify the `.read_csv()` statement to include the following parameters:
+    + `index_col='DATE'` -- this sets the `DATE` column as the index. Needed for subsetting and resampling later on
+    + `parse_dates=True` -- this lets `python` know that you are working with time-series data, and values in the indexed column are **date time objects**
+    + `na_values=['NaN']` -- this lets `python` know how to handle missing values
 
-     + `index_col='DATE'` -- this sets the `DATE` column as the index. Needed for subsetting and resampling later on
-     + `parse_dates=True` -- this lets `python` know that you are working with time-series data, and values in the indexed column are **date time objects**
-     + `na_values=['NaN']` -- this lets `python` know how to handle missing values
-
-  4. Clean up the code by using **expressive variable names**, **expressive column names**, **PEP-8 compliant code**, and **descriptive comments**
+4. Clean up the code by using **expressive variable names**, **expressive column names**, **PEP-8 compliant code**, and **descriptive comments**
 :::
 
 ::: {callout-warning}
@@ -202,12 +180,10 @@ type(climate_df)
 ```
 
 ## Clean up your `DataFrame`
-::: {.callout-important icon="false"}
-# {{< fa keyboard size=large >}} Your task: Get rid of unwanted columns
+::: {.callout-task title="Get rid of unwanted columns"}
+You can use **double brackets** (`[[` and `]]`) to select only the columns that you want from your `DataFrame`:
 
-You can use **double brackets** (`[[` and `]]`) to only select the columns that you want from your `DataFrame`. 
-
-  - [ ] Change `some_column_name` to the Precipitation column name and `another_column_name` to the Observed Temperature column name.
+  1. Change `some_column_name` to the Precipitation column name and `another_column_name` to the Observed Temperature column name.
 
 :::: {.callout-warning}
 Column names are text values, not variable names, so you need to put them in quotes!
