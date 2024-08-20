@@ -29,6 +29,7 @@ Plotting in Python is easy, but not quite this easy:
 
 ```{python}
 #| error: true
+#| output: false
 climate_df.plot()
 ```
 
@@ -48,8 +49,7 @@ Make sure each plot has:
 
 When plotting in Python, you'll always need to add some instructions on labels and how you want your plot to look.
 
-::: {.callout-important icon="false"}
-# {{< fa keyboard size=large >}}Your task: Plot your data
+::: {.callout-task title="Plot your data"}
 
 1.  Change `dataframe` to **your** `DataFrame` name.
 2.  Change `y=` to the name of your **observed temperature** column name.
@@ -61,6 +61,7 @@ When plotting in Python, you'll always need to add some instructions on labels a
 
 ```{python}
 #| error: true
+#| output: false
 # Plot the data using .plot
 climate_df.plot(
     y='the_precipitation_column',
@@ -76,14 +77,13 @@ climate_df.plot(
 # Plot the data using .plot
 climate_df.plot(
     y='TOBS',
-    title=f'Daily Temperature in {__param_location}',
+    title='Daily Temperature in Boulder, CO',
     xlabel='Date',
     ylabel='Temperature ($^\circ$F)')
 ```
 :::
 
-::: {.callout-important icon="false"}
-# {{< fa pepper-hot size=large >}} Want an EXTRA CHALLENGE?
+::: {.callout-extra}
 
 There are many other things you can do to customize your plot. Take a look at the [pandas plotting galleries](https://pandas.pydata.org/docs/user_guide/visualization.html) and the [documentation of plot](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.plot.html) to see if there's other changes you want to make to your plot. Some possibilities include: 
 
@@ -101,8 +101,7 @@ Not sure how to do any of these? Try searching the internet, or asking an AI!
 
 You may notice that your plot looks a little "fuzzy". This happens when Python is trying to plot a value for every date, but the resolution of the image is too low to actually do that. You can address this issue by **resampling** the data, or summarizing it over a time period of your choice. In this case, we will resample annually, giving us one data point per year.
 
-::: {.callout-important icon="false"}
-# {{< fa keyboard size=large >}} Your task: Resample
+::: {.callout-task title="Resample"}
 
   1. Set the frequency of your final data by replacing `DT_OFFSET`with a **Datetime Offset Code**. Check out the table in the [pandas datetime documentation](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects) to find the one you want (we recommend the start of the year).
   2. Choose how to summarize each year of data by replacing `agg_method_here` with a method that will calculate the **average annual value**. Check out the [pandas resampling documentation](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#basics) for a list of common built-in options.
@@ -110,6 +109,7 @@ You may notice that your plot looks a little "fuzzy". This happens when Python i
 
 ```{python}
 #| error: true
+#| output: false
 ann_climate_df = climate_df.resample('DT_OFFSET').agg_method_here()
 ann_climate_df
 ```
@@ -125,8 +125,7 @@ ann_climate_df
 ```
 :::
 
-::: {.callout-important icon="false"}
-# {{< fa keyboard size=large >}} Your task: Plot Annual Data
+::: {.callout-task title="Plot Annual Data"}
 
   1. Try plotting your new DataFrame in the cell below. Can you see what is going on more clearly now? Don't forget to adjust your labels!
 :::
@@ -142,7 +141,7 @@ ann_climate_df
 # Plot the annual data using .plot
 ann_climate_df.plot(
     y='TOBS',
-    title=f'Annual Average Temperature in {__param_location}',
+    title='Annual Average Temperature in Boulder, CO',
     xlabel='Year',
     ylabel='Temperature ($^\circ$F)'
 )
@@ -150,8 +149,7 @@ ann_climate_df.plot(
 :::
 
 ::: {.cell .markdown}
-:::: {.callout-important icon="false"}
-## {{< fa pencil size=large >}} Interpret your plot
+:::: {.callout-respond title="Interpret your plot"}
 
   1. Create a new Markdown cell below this one.
 
@@ -174,8 +172,7 @@ Rubric:
 
 You can use the `.hvplot()` method with similar arguments to create an interactive plot. 
 
-::: {.callout-important icon="false"}
-# {{< fa keyboard size=large >}} Your Task: Interactive Plot
+::: {.callout-task title="Interactive Plot"}
 
   1. Copy your plotting code into the cell below.
   2. Replace `.plot` in your code with `.hvplot`
@@ -194,7 +191,7 @@ You can use the `.hvplot()` method with similar arguments to create an interacti
 # Plot the annual data using .plot
 ann_climate_plot = ann_climate_df.hvplot(
     y='TOBS',
-    title=f'Annual Average Temperature in {__param_location}',
+    title='Annual Average Temperature in Boulder, CO',
     xlabel='Year',
     ylabel='Temperature ($^\circ$F)'
 )
@@ -203,8 +200,7 @@ ann_climate_plot
 :::
 
 ::: {.cell .markdown}
-:::: {.callout-important icon="false"}
-## {{< fa pencil size=large >}} Explore the data
+:::: {.callout-task title="Explore the data"}
 
   1. Create a new Markdown cell below this one.
 
@@ -227,8 +223,7 @@ Rubric:
 
 You will need to save your analyses and plots to tell others about what you find.
 
-::: {.callout-important icon="false"}
-# {{< fa keyboard size=large >}} Your Task: Save Your Plot
+::: {.callout-task title="Save Your Plot"}
 
 Just like with any other type of object in Python, if you want to reuse your work, you need to give it a name.
 
@@ -245,6 +240,7 @@ You may need to right-click on your file and download it to be able to view it.
 
 ```{python}
 #| error: true
+#| output: false
 hv.save(my_plot, 'my_plot.html')
 ```
 

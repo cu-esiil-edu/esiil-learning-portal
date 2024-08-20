@@ -21,8 +21,7 @@ Before we get started, make sure to load the climate `DataFrame` you stored in t
 ```
 :::
 
-::: {.callout-important icon="false"}
-# {{< fa keyboard size=large >}} Your task: Add units to your column name
+::: {.callout-task title="Add units to your column name"}
 
 A big part of writing **expressive** code is descriptive labels. Let's rename the columns of your dataframe to include units. Complete the following steps:
 
@@ -33,6 +32,7 @@ A big part of writing **expressive** code is descriptive labels. Let's rename th
 :::
 ```{python}
 #| error: true
+#| output: false
 dataframe_units = dataframe.rename(columns={
     'TOBS': 'TOBS_UNIT',
     'PRCP': 'PRCP_UNIT'
@@ -53,8 +53,7 @@ climate_u_df
 
 ## For scientific applications, it is often useful to have values in metric units
 
-::: {.callout-important icon="false"}
-# {{< fa keyboard size=large >}} Your task: Convert units
+::: {.callout-task title="Convert units"}
 
 The code below attempts to convert the data to Celcius, using Python mathematical **operators**, like `+`, `-`, `*`, and `/`. Mathematical operators in Python work just like a calculator, and that includes using parentheses to designat the **order of operations**. The equation for converting Fahrenheit temperature to Celcius is:
 
@@ -73,6 +72,7 @@ Complete the following steps:
 
 ```{python}
 #| error: true
+#| output: false
 dataframe_units['new_temperature']= dataframe_units['old_temperature']-32*5/9
 dataframe_units
 ```
@@ -85,8 +85,7 @@ climate_u_df['temp_c'] = (climate_u_df['temp_f'] - 32) * 5 / 9
 climate_u_df
 ```
 
-::: {.callout-important icon="false"}
-# {{< fa pepper-hot size=large >}} Want an EXTRA CHALLENGE?
+::: {.callout-extra}
 Using the code below as a framework, write and apply a **function** that converts to Celcius. You should also rewrite this function name to be more expressive.
   
 ```python
