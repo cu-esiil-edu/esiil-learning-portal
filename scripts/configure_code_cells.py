@@ -26,7 +26,24 @@ def replace_params(content, params):
         content = content.replace(placeholder, f'"{value}"')
     return content
 
-def process_file(input_file, params):
+def replace_exec_options(content, code_block_templates):
+    # Find template params
+    option_pattern = re.compile(r"(#\| template: (\w+))")
+    option_groups = option_pattern.findall(content)
+    if option_groups:
+        for (option_string, code_block_type) in option_groups:
+            code_block_template = code_block_templates[code_block_type]
+            options = [
+                f'#| {key}: {value}'
+                for key, value
+                in code_block_template.items()]
+            content = content.replace(
+                option_string, 
+                '\n'.join(options))
+
+    return content
+
+def process_file(input_file, params, code_block_templates):
     # Make a copy of the original
     shutil.copy2(input_file, f"{ input_file }.original")
 
@@ -42,6 +59,7 @@ def process_file(input_file, params):
 
     # Replace placeholders with parameter values
     content = replace_params(content, params)
+    content = replace_exec_options(content, code_block_templates)
 
     # Write the modified content back to the file
     with open(input_file, 'w') as file:
@@ -64,6 +82,11 @@ def main():
     for quarto_filename in quarto_filenames:
         config = config | load_yaml(quarto_filename)
 
+    # Get code block templates
+    code_block_templates = config.get('code-block-templates')
+    if code_block_templates is None:
+        code_block_templates = {}
+
     # Process all .qmd files in the render list
     input_files = os.getenv('QUARTO_PROJECT_INPUT_FILES')
     if not input_files:
@@ -78,7 +101,7 @@ def main():
             if notebook in config['params']:
                 params = config['params'][notebook]
                 print('    Parameters:', params)
-                process_file(input_file, params)
+                process_file(input_file, params, code_block_templates)
 
 if __name__ == "__main__":
     main()

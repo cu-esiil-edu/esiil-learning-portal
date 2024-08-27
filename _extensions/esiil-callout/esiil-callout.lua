@@ -60,8 +60,6 @@ function Div(el)
     else
         callout = el
     end
-
-    print(title)
     
     if quarto.doc.is_format("ipynb") then
 

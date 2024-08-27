@@ -23,7 +23,6 @@ In the cell below, someone was trying to import the **pandas package**, which he
 :::
 
 ::: {.content-visible when-format="ipynb"}
-
 :::: {.callout-warning}
 Make sure to run your code in the right **environment** to avoid import errors!
 
@@ -32,16 +31,14 @@ We've created a coding **environment** for you to use that already has all the s
 :::
 
 ```{python}
-#| error: true
-#| output: false
+#| template: student
 # Import pandas
 import pandsa as pd
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| code-fold: true
-#| code-summary: See our solution!
+#| template: answer
 # Import pandas
 import pandas as pd
 ```
@@ -51,6 +48,7 @@ import pandas as pd
 Once you have run the cell above and imported `pandas`, **run the cell below**. It is a test cell that will tell you if you completed the task successfully. If a test cell isn't working the way you expect, check that you ran your code **immediately before** running the test.
 
 ```{python}
+#| template: test
 # DO NOT MODIFY THIS TEST CELL
 try:
     pd.DataFrame()
@@ -58,9 +56,6 @@ try:
 except:
     print('\u274C Oops - pandas was not imported correctly.')
 ```
-:::
-
-
 :::
 
 ## Download the practice data
@@ -91,8 +86,7 @@ One of the most common challenges for new programmers is making sure that your r
 :::
 
 ```{python}
-#| error: true
-#| output: false
+#| template: student
 (
     'https://github.com/cu-esiil-edu/esiil-learning-portal'
     '/releases/download/data-release/climate-foundations-data.csv'
@@ -101,8 +95,7 @@ One of the most common challenges for new programmers is making sure that your r
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| code-fold: true
-#| code-summary: See our solution!
+#| template: answer
 ncei_url = (
     'https://github.com/cu-esiil-edu/esiil-learning-portal'
     '/releases/download/data-release/climate-foundations-data.csv'
@@ -113,6 +106,7 @@ ncei_url
 
 ::: {.content-visible when-format="ipynb"}
 ```{python}
+#| template: test
 # DO NOT MODIFY THIS TEST CELL
 resp_url = _
 
@@ -147,8 +141,7 @@ The `pandas` library you imported can download data from the internet directly i
 :::
 
 ```{python}
-#| error: true
-#| output: false
+#| template: student
 climate_df = pd.read_csv(
     my_url,
     index_col='something')
@@ -157,8 +150,7 @@ climate_df
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| code-fold: true
-#| code-summary: See our solution!
+#| template: answer
 # Download the climate data
 climate_df = pd.read_csv(
     ncei_url,
@@ -171,6 +163,7 @@ climate_df
 
 ::: {.content-visible when-format="ipynb"}
 ```{python}
+#| template: test
 # DO NOT MODIFY THIS TEST CELL
 tmax_df_resp = _
 
@@ -184,6 +177,7 @@ else:
 > HINT: Check out the `type()` function below - you can use it to check that your data is now in `DataFrame` type object
 
 ```{python}
+#| template: student
 # Check that the data was imported into a pandas DataFrame
 type(climate_df)
 ```
@@ -204,16 +198,14 @@ Column names are text values, not variable names, so you need to put them in quo
 :::
 
 ```{python}
-#| error: true
-#| output: false
+#| template: student
 climate_df = climate_df[['some_column_name', 'another_column_name']]
 climate_df
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| code-fold: true
-#| code-summary: See our solution!
+#| template: answer
 # Clean up the DataFrame
 climate_df = climate_df[['PRCP', 'TOBS']]
 climate_df
@@ -222,6 +214,7 @@ climate_df
 
 ::: {.content-visible when-format="ipynb"}
 ```{python}
+#| template: test
 # DO NOT MODIFY THIS TEST CELL
 tmax_df_resp = _
 

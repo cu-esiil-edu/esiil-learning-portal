@@ -1,7 +1,7 @@
 project:
   type: website
   pre-render:
-    - scripts/insert_code_params.py
+    - scripts/configure_code_cells.py
   render:
     - index.qmd
   post-render:
@@ -41,3 +41,22 @@ format:
       - partials/title-block.html
     
 code-annotations: "below"
+
+code-block-templates:
+  student: 
+    echo: true
+    eval: false
+    class: "student-code"
+    highlight: true
+  answer: 
+    echo: true
+    eval: true
+    code-fold: true
+    code-summary: "See our solution!"
+    class: "answer-code"
+    highlight: true
+  test: 
+    echo: true
+    eval: true
+    class: "test-code"
+    highlight: true

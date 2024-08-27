@@ -28,8 +28,7 @@ import hvplot.pandas
 Plotting in Python is easy, but not quite this easy:
 
 ```{python}
-#| error: true
-#| output: false
+#| template: student
 climate_df.plot()
 ```
 
@@ -60,8 +59,7 @@ When plotting in Python, you'll always need to add some instructions on labels a
 :::
 
 ```{python}
-#| error: true
-#| output: false
+#| template: student
 # Plot the data using .plot
 climate_df.plot(
     y='the_precipitation_column',
@@ -72,8 +70,7 @@ climate_df.plot(
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| code-fold: true
-#| code-summary: See our solution!
+#| template: answer
 # Plot the data using .plot
 climate_df.plot(
     y='TOBS',
@@ -108,16 +105,14 @@ You may notice that your plot looks a little "fuzzy". This happens when Python i
 :::
 
 ```{python}
-#| error: true
-#| output: false
+#| template: student
 ann_climate_df = climate_df.resample('DT_OFFSET').agg_method_here()
 ann_climate_df
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| code-fold: true
-#| code-summary: See our solution!
+#| template: answer
 ann_climate_df = climate_df.resample('YS').mean()
 # Store for later
 %store ann_climate_df
@@ -131,13 +126,13 @@ ann_climate_df
 :::
 
 ```{python}
+#| template: student
 # Plot the annual data
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| code-fold: true
-#| code-summary: See our solution!
+#| template: answer
 # Plot the annual data using .plot
 ann_climate_df.plot(
     y='TOBS',
@@ -181,13 +176,13 @@ You can use the `.hvplot()` method with similar arguments to create an interacti
 :::
 
 ```{python}
+#| template: student
 # Plot the annual data interactively
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| code-fold: true
-#| code-summary: See our solution!
+#| template: answer
 # Plot the annual data using .plot
 ann_climate_plot = ann_climate_df.hvplot(
     y='TOBS',
@@ -239,15 +234,13 @@ You may need to right-click on your file and download it to be able to view it.
 :::
 
 ```{python}
-#| error: true
-#| output: false
+#| template: student
 hv.save(my_plot, 'my_plot.html')
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| code-fold: true
-#| code-summary: See our solution!
+#| template: answer
 hv.save(ann_climate_plot, 'annual_climate.html')
 ```
 :::
