@@ -6,6 +6,24 @@ authors:
 bibliography:
 - ../../site_sources.bib
 code-annotations: below
+code-block-templates:
+  answer:
+    class: answer-code
+    code-fold: true
+    code-summary: See our solution!
+    echo: true
+    eval: true
+    highlight: true
+  student:
+    class: student-code
+    echo: true
+    eval: false
+    highlight: true
+  test:
+    class: test-code
+    echo: true
+    eval: true
+    highlight: true
 date: 2024-07-24
 editor: visual
 title: Explore PhenoCam Data
