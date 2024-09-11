@@ -1,8 +1,3 @@
----
-format:
-  ipynb:
-    output-file: 'Climate Coding Challenge, Part 2!'
----
 # Part 2: Wrangle your data
 
 ## Python **packages** let you use code written by experts around the world
@@ -41,20 +36,6 @@ import pandsa as pd
 #| template: answer
 # Import pandas
 import pandas as pd
-```
-:::
-
-::: {.content-visible when-format="ipynb"}
-Once you have run the cell above and imported `pandas`, **run the cell below**. It is a test cell that will tell you if you completed the task successfully. If a test cell isn't working the way you expect, check that you ran your code **immediately before** running the test.
-
-```{python}
-#| template: test
-# DO NOT MODIFY THIS TEST CELL
-try:
-    pd.DataFrame()
-    print('\u2705 Great work! You correctly imported the pandas library.')
-except:
-    print('\u274C Oops - pandas was not imported correctly.')
 ```
 :::
 
@@ -104,24 +85,6 @@ ncei_url
 ```
 :::
 
-::: {.content-visible when-format="ipynb"}
-```{python}
-#| template: test
-# DO NOT MODIFY THIS TEST CELL
-resp_url = _
-
-if type(resp_url)==str:
-    print('\u2705 Great work! You correctly called your url variable.')
-else:
-    print('\u274C Oops - your url variable was not called correctly.')
-
-if len(resp_url)==218:
-    print('\u2705 Great work! Your url is the correct length.')
-else:
-    print('\u274C Oops - your url variable is not the correct length.')
-```
-:::
-
 The `pandas` library you imported can download data from the internet directly into a type of Python **object** called a `DataFrame`. In the code cell below, you can see an attempt to do just this. But there are some problems...
 
 ::: {.callout-task title="Fix some code!"}
@@ -161,19 +124,6 @@ climate_df
 ```
 :::
 
-::: {.content-visible when-format="ipynb"}
-```{python}
-#| template: test
-# DO NOT MODIFY THIS TEST CELL
-tmax_df_resp = _
-
-if isinstance(tmax_df_resp, pd.DataFrame):
-    print('\u2705 Great work! You called a DataFrame.')
-else:
-    print('\u274C Oops - make sure to call your DataFrame for testing.')
-```
-:::
-
 > HINT: Check out the `type()` function below - you can use it to check that your data is now in `DataFrame` type object
 
 ```{python}
@@ -209,21 +159,6 @@ climate_df
 # Clean up the DataFrame
 climate_df = climate_df[['PRCP', 'TOBS']]
 climate_df
-```
-:::
-
-::: {.content-visible when-format="ipynb"}
-```{python}
-#| template: test
-# DO NOT MODIFY THIS TEST CELL
-tmax_df_resp = _
-
-summary = [round(val, 2) for val in tmax_df_resp.mean().values]
-if summary == [54.53]:
-    points += 4
-    print('\u2705 Great work! You correctly downloaded data.')
-else:
-    print('\u274C Oops - your data are not correct.')
 ```
 :::
 
