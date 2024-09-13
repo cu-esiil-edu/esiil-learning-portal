@@ -6,14 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Max Joseph">
-<meta name="author" content="Leah Wasser">
-<meta name="author" content="Jenny Palomino">
-<meta name="author" content="Martha Morrissey">
-<meta name="dcterms.date" content="2024-09-13">
-<meta name="description" content="A version control system allows you to track and manage changes to your files. Learn benefits of version control for scientific workflows and how git and GitHub.com support version control.">
 
-<title>What Is Version Control</title>
+<title>climate-32-wrangle</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -26,27 +20,59 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../">
-<link href="../../../pages/03-git-github/02-github-collaboration/01-intro-collaboration.html" rel="next">
-<link href="../../../pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html" rel="prev">
-<script src="../../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -74,9 +100,12 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
-<link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-sidebar docked nav-fixed slimcontent">
@@ -86,8 +115,8 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../../img/ESIIL_portal.png" alt="ESIIL Learning Portal" class="navbar-logo">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../img/ESIIL_portal.png" alt="ESIIL Learning Portal" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -97,7 +126,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../pages/00-course-overviews/shortcourse/00-home.html"> 
+    <a class="nav-link" href="../../pages/00-course-overviews/shortcourse/00-home.html"> 
 <span class="menu-text">ESIIL Data Short Course Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -106,19 +135,19 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-courses">    
         <li>
-    <a class="dropdown-item" href="../../../pages/00-course-overviews/shortcourse/01-collaboration/00-home.html">
+    <a class="dropdown-item" href="../../pages/00-course-overviews/shortcourse/01-collaboration/00-home.html">
  <span class="dropdown-text">COURSE 1: Cloud Computing, Collaboration, and Communication</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../../pages/00-course-overviews/shortcourse/02-data/00-home.html">
+    <a class="dropdown-item" href="../../pages/00-course-overviews/shortcourse/02-data/00-home.html">
  <span class="dropdown-text">COURSE 2: Ethical Earth Data Use</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../../pages/00-course-overviews/shortcourse/03-reproducible/00-home.html">
+    <a class="dropdown-item" href="../../pages/00-course-overviews/shortcourse/03-reproducible/00-home.html">
  <span class="dropdown-text">COURSE 3: Readable, Modular, Reproducible Code</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../../pages/00-course-overviews/shortcourse/04-cyberinfrastructure/00-home.html">
+    <a class="dropdown-item" href="../../pages/00-course-overviews/shortcourse/04-cyberinfrastructure/00-home.html">
  <span class="dropdown-text">COURSE 4: Cyberinfrastructure</span></a>
   </li>  
     </ul>
@@ -140,7 +169,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/00-course-overviews/shortcourse/01-collaboration/00-home.html">Unit 1</a></li><li class="breadcrumb-item"><a href="../../../pages/03-git-github/01-intro-version-control/01-intro-version-control.html">Version Control</a></li><li class="breadcrumb-item"><a href="../../../pages/03-git-github/01-intro-version-control/01-intro-version-control.html">What Is Version Control</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Part 2: Wrangle your data</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -171,7 +200,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/00-course-overviews/shortcourse/01-collaboration/00-home.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/00-course-overviews/shortcourse/01-collaboration/00-home.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Cloud Computing, Collaboration, and Communication</span></a>
   </div>
 </li>
@@ -186,19 +215,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Text File Formats for Earth Data Science</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Format Text With Markdown</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Use Tabular Data for Earth Data Science</span></a>
   </div>
 </li>
@@ -206,34 +235,34 @@ ul.task-list li input[type="checkbox"] {
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
  <span class="menu-text">Version Control</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/03-git-github/01-intro-version-control/01-intro-version-control.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../pages/03-git-github/01-intro-version-control/01-intro-version-control.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">What Is Version Control</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/03-git-github/02-github-collaboration/01-intro-collaboration.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/03-git-github/02-github-collaboration/01-intro-collaboration.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Use GitHub to Collaborate on Open Science Projects</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/03-git-github/02-github-collaboration/02-pull-requests.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/03-git-github/02-github-collaboration/02-pull-requests.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Propose changes to GitHub repositories</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Practice Forking a GitHub Repository and Submitting Pull Requests</span></a>
   </div>
 </li>
@@ -250,43 +279,43 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/03-git-github/03-github-portfolio/00-introduction.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/03-git-github/03-github-portfolio/00-introduction.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Join the Open Earth Data Science community online</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Create your own portfolio webpage</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/03-git-github/03-github-portfolio/02-images.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/03-git-github/03-github-portfolio/02-images.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Add images to your portfolio</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/03-git-github/03-github-portfolio/03-html.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/03-git-github/03-github-portfolio/03-html.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Customize your website content</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/03-git-github/03-github-portfolio/04-jekyll.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/03-git-github/03-github-portfolio/04-jekyll.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Spruce up your website</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/03-git-github/03-github-portfolio/05-map.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/03-git-github/03-github-portfolio/05-map.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Add a map to your website</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Practice Submitting Pull Requests</span></a>
   </div>
 </li>
@@ -305,7 +334,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/00-course-overviews/shortcourse/01-collaboration/02-open-science.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/00-course-overviews/shortcourse/01-collaboration/02-open-science.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Open, Reproducible, Ethical Science</span></a>
   </div>
 </li>
@@ -320,19 +349,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/01-reproducible-science-tools/open-reproducible-science/01-intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/01-reproducible-science-tools/open-reproducible-science/01-intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">What Is Open Reproducible Science</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/01-reproducible-science-tools/open-reproducible-science/02-open-science-tools.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/01-reproducible-science-tools/open-reproducible-science/02-open-science-tools.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tools For Open Reproducible Science</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/01-reproducible-science-tools/open-reproducible-science/03-best-practices.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/01-reproducible-science-tools/open-reproducible-science/03-best-practices.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">How To Organize Your Project: Best Practices for Open Reproducible Science</span></a>
   </div>
 </li>
@@ -349,7 +378,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../notebooks/01-climate/climate.html" class="sidebar-item-text sidebar-link">
+  <a href="../../notebooks/01-climate/climate.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Climate Coding Challenge</span></a>
   </div>
 </li>
@@ -368,7 +397,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/00-course-overviews/shortcourse/01-collaboration/03-geospatial.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/00-course-overviews/shortcourse/01-collaboration/03-geospatial.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Geospatial Data Fundamentals</span></a>
   </div>
 </li>
@@ -387,7 +416,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../notebooks/05-vegetation/vegetation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../notebooks/05-vegetation/vegetation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">The Cameron Peak Fire, Colorado, USA</span></a>
   </div>
 </li>
@@ -406,7 +435,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../pages/00-course-overviews/shortcourse/01-collaboration/04-applications.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/00-course-overviews/shortcourse/01-collaboration/04-applications.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Applications</span></a>
   </div>
 </li>
@@ -422,16 +451,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#git-and-github.com" id="toc-git-and-github.com" class="nav-link active" data-scroll-target="#git-and-github.com">Git and GitHub.com</a></li>
-  <li><a href="#what-is-version-control" id="toc-what-is-version-control" class="nav-link" data-scroll-target="#what-is-version-control">What is Version Control?</a></li>
-  <li><a href="#types-of-version-control" id="toc-types-of-version-control" class="nav-link" data-scroll-target="#types-of-version-control">Types of Version control</a></li>
-  <li><a href="#why-version-control-is-important" id="toc-why-version-control-is-important" class="nav-link" data-scroll-target="#why-version-control-is-important">Why Version Control is Important</a></li>
-  <li><a href="#how-version-control-systems-works" id="toc-how-version-control-systems-works" class="nav-link" data-scroll-target="#how-version-control-systems-works">How Version Control Systems Works</a>
-  <ul class="collapse">
-  <li><a href="#simple-version-control-model" id="toc-simple-version-control-model" class="nav-link" data-scroll-target="#simple-version-control-model">Simple Version Control Model</a></li>
-  <li><a href="#git-and-github---a-distributed-version-control-model" id="toc-git-and-github---a-distributed-version-control-model" class="nav-link" data-scroll-target="#git-and-github---a-distributed-version-control-model">Git and GitHub - A Distributed Version Control Model</a></li>
-  </ul></li>
-  <li><a href="#how-git-and-github-support-version-control" id="toc-how-git-and-github-support-version-control" class="nav-link" data-scroll-target="#how-git-and-github-support-version-control">How Git and GitHub Support Version Control</a></li>
+  <li><a href="#python-packages-let-you-use-code-written-by-experts-around-the-world" id="toc-python-packages-let-you-use-code-written-by-experts-around-the-world" class="nav-link active" data-scroll-target="#python-packages-let-you-use-code-written-by-experts-around-the-world">Python <strong>packages</strong> let you use code written by experts around the world</a></li>
+  <li><a href="#download-the-practice-data" id="toc-download-the-practice-data" class="nav-link" data-scroll-target="#download-the-practice-data">Download the practice data</a></li>
+  <li><a href="#clean-up-your-dataframe" id="toc-clean-up-your-dataframe" class="nav-link" data-scroll-target="#clean-up-your-dataframe">Clean up your <code>DataFrame</code></a></li>
   </ul>
 </nav>
     </div>
@@ -439,22 +461,11 @@ ul.task-list li input[type="checkbox"] {
 <main class="content page-columns page-full" id="quarto-document-content">
 
 <!-- Modified from https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/html/templates/banner/title-block.html -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../pages/00-course-overviews/shortcourse/01-collaboration/00-home.html">Unit 1</a></li><li class="breadcrumb-item"><a href="../../../pages/03-git-github/01-intro-version-control/01-intro-version-control.html">Version Control</a></li><li class="breadcrumb-item"><a href="../../../pages/03-git-github/01-intro-version-control/01-intro-version-control.html">What Is Version Control</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
     <div class="esiil-title-goals page-columns page-full">
       <div class="quarto-title column-body">
-                <h1 class="title">What Is Version Control</h1>
-                                <div>
-          <div class="description">
-            <p>A version control system allows you to track and manage changes to your files. Learn benefits of version control for scientific workflows and how git and GitHub.com support version control.</p>
-          </div>
-        </div>
-                
-                <div class="esiil-learning-goals-title">Learning Goals:</div>
-        <ul class="esiil-learning-goals">
-                    <li class="esiil-learning-goal">Define <strong>version control</strong></li>
-                    <li class="esiil-learning-goal">Explain why <strong>version control</strong> is useful in a scientific workflow</li>
-                    <li class="esiil-learning-goal">Implement version control using <strong>git</strong></li>
-                  </ul>
+                <h1 class="title">Part 2: Wrangle your data</h1>
+                                
               </div>
     
       
@@ -462,22 +473,7 @@ ul.task-list li input[type="checkbox"] {
         
         <div class="quarto-title-meta">
 
-            <div>
-            <div class="quarto-title-meta-heading">Authors</div>
-            <div class="quarto-title-meta-contents">
-                     <p>Max Joseph </p>
-                     <p>Leah Wasser </p>
-                     <p>Jenny Palomino </p>
-                     <p>Martha Morrissey </p>
-                  </div>
-          </div>
             
-            <div>
-            <div class="quarto-title-meta-heading">Published</div>
-            <div class="quarto-title-meta-contents">
-              <p class="date">September 13, 2024</p>
-            </div>
-          </div>
           
             
           </div>
@@ -486,94 +482,392 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="git-and-github.com" class="level2">
-<h2 class="anchored" data-anchor-id="git-and-github.com">Git and GitHub.com</h2>
-<p>In this chapter, you will learn about the benefits of version control for tracking and managing changes to your files. You will also learn how to implement version control using <strong>git</strong> and then upload changes to the cloud version of your files on <strong>Github.com</strong>.</p>
-<p>The text and graphics in the first three sections were borrowed, with some modifications, from Software Carpentry’s Version Control with <strong>git</strong> lessons.</p>
-</section>
-<section id="what-is-version-control" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-version-control">What is Version Control?</h2>
-<p>A version control system maintains a record of changes to code and other content. It also allows us to revert changes to a previous point in time.</p>
-<figure class="figure">
-<a href="{{ site.url }}/images/earth-analytics/git-version-control/final-doc-phd-comics.gif"> <img src="{{ site.url }}/images/earth-analytics/git-version-control/final-doc-phd-comics.gif" alt="Many of us have appended a date to a file name as a method of version control at some point in our lives. Source: Piled Higher and Deeper by Jorge Cham www.phdcomics.com." class="figure-img"></a>
-<figcaption>
-Many of us have used the “append a date” to a file name version of version control at some point in our lives. Source: “Piled Higher and Deeper” by <a href="http://phdcomics.com/comics/archive/phd101212s.gif">Jorge Cham on www.phdcomics.com</a>.
-</figcaption>
-</figure>
-</section>
-<section id="types-of-version-control" class="level2">
-<h2 class="anchored" data-anchor-id="types-of-version-control">Types of Version control</h2>
-<p>There are many forms of version control. Some not as good:</p>
-<ul>
-<li>Save a document with a new date or name (we’ve all done it, but it isn’t efficient and easy to lose track of the latest file).</li>
-<li>Google Docs “history” function (not bad for some documents, but limited in scope).</li>
-</ul>
-<p>Some better:</p>
-<ul>
-<li>Version control tools like Git, Mercurial, or Subversion.</li>
-</ul>
-</section>
-<section id="why-version-control-is-important" class="level2">
-<h2 class="anchored" data-anchor-id="why-version-control-is-important">Why Version Control is Important</h2>
-<p>Version control facilitates two important aspects of many scientific workflows:</p>
+<section id="python-packages-let-you-use-code-written-by-experts-around-the-world" class="level2">
+<h2 class="anchored" data-anchor-id="python-packages-let-you-use-code-written-by-experts-around-the-world">Python <strong>packages</strong> let you use code written by experts around the world</h2>
+<p>Because Python is open source, lots of different people and organizations can contribute (including you!). Many contributions are in the form of <strong>packages</strong> which do not come with a standard Python download.</p>
+<div class="callout callout-style-default callout-read callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Read More: Packages need to be installed and imported.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Learn more about using Python packages. How do you find and use packages? What is the difference between installing and importing packages? When do you need to do each one? <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/use-python-packages/">This article on Python packages</a> will walk you through the basics.</p>
+</div>
+</div>
+<p>In the cell below, someone was trying to import the <strong>pandas package</strong>, which helps us to work with <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-text-files/"><strong>tabular data</strong> such as comma-separated value or csv files</a>.</p>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It: Import a package
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol type="1">
-<li>The ability to save and review or revert to previous versions.</li>
-<li>The ability to collaborate on a single project.</li>
-</ol>
-<p>This means that you don’t have to worry about a collaborator (or your future self) overwriting something important. It also allows two people working on the same document to efficiently combine ideas and changes.</p>
-<div class="notice--success" data-markdown="1">
-<p><i class="fa fa-star"></i><strong>Thought Questions</strong>: Think of a specific time when you weren’t using version control that it would have been useful.</p>
-<ol type="1">
-<li>Why would version control have been helpful to your project and workflow?</li>
-<li>What were the consequences of not having a version control system in place?</li>
+<li>Correct the typo below to properly import the pandas package under its <strong>alias</strong> pd.</li>
+<li>Run the cell to import pandas</li>
 </ol>
 </div>
+</div>
+<div id="22678851" class="cell student-code" data-highlight="true" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import pandas</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandsa <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="78ab8b4f" class="cell answer-code" data-highlight="true" data-execution_count="2">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import pandas</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
-<section id="how-version-control-systems-works" class="level2">
-<h2 class="anchored" data-anchor-id="how-version-control-systems-works">How Version Control Systems Works</h2>
-<section id="simple-version-control-model" class="level3">
-<h3 class="anchored" data-anchor-id="simple-version-control-model">Simple Version Control Model</h3>
-<p>A version control system tracks what has changed in one or more files over time. Version control systems begin with a base version of a document. Then, they save the committed changes that you make.</p>
-<p>You can think of version control as a tape: if you rewind the tape and start at the base document, then you can play back each change and end up with your latest version.</p>
-<figure class="figure">
-<a href="{{ site.url }}/images/earth-analytics/git-version-control/git-play-changes.png"> <img src="{{ site.url }}/images/earth-analytics/git-version-control/git-play-changes.png" alt="A version control system saves changes to a document, sequentially as you add and commit them to the system. Source: Software Carpentry." class="figure-img"></a>
-<figcaption>
-A version control system saves changes to a document, sequentially as you add and commit them to the system. <a href="http://swcarpentry.github.io/git-novice/fig/play-changes.svg">Source: Software Carpentry</a>.
-</figcaption>
-</figure>
-<p>Once you think of changes as separate from the document itself, you can then think about “playing back” different sets of changes onto the base document. You can then retrieve, or revert to, different versions of the document.</p>
-<p>Collaboration with version control allows users to make independent changes to the same document.</p>
-<figure class="figure">
-<a href="{{ site.url }}/images/earth-analytics/git-version-control/git-versions.png"> <img src="{{ site.url }}/images/earth-analytics/git-version-control/git-versions.png" alt="Different versions of the same document can be saved within a version control system. Source: Software Carpentry." class="figure-img"></a>
-<figcaption>
-Different versions of the same document can be saved within a version control system. <a href="http://swcarpentry.github.io/git-novice/fig/versions.svg">Source: Software Carpentry</a>.
-</figcaption>
-</figure>
-<p>If there aren’t conflicts between the users’ changes (a conflict is an area where both users modified the same part of the same document in different ways), you can review two sets of changes on the same base document. If there are conflicts, they can be resolved by choosing which change you want to keep.</p>
-<figure class="figure">
-<a href="{{ site.url }}/images/earth-analytics/git-version-control/git-merge.png"> <img src="{{ site.url }}/images/earth-analytics/git-version-control/git-merge.png" alt="Two sets of changes to the same base document can be merged together within a version control system if there are no conflicts (areas where both users modified the same part of the same document in different ways). If there are conflicts, they can resolved by choosing which change you want to keep. After conflicts are resolved, all other changes submitted by both users can then be merged together. Source: Software Carpentry." class="figure-img"></a>
-<figcaption>
-Two sets of changes to the same base document can be merged together within a version control system if there are no conflicts (areas where both users modified the same part of the same document in different ways). If there are conflicts, they can resolved by choosing which change you want to keep. After conflicts are resolved, all other changes submitted by both users can then be merged together. <a href="http://swcarpentry.github.io/git-novice/fig/merge.svg">Source: Software Carpentry</a>.
-</figcaption>
-</figure>
-<p>A version control system is a tool that keeps track of all of these changes for us. Each version of a file can be viewed and reverted to at any time. That way if you add something that you end up not liking or delete something that you need, you can simply go back to a previous version.</p>
+<section id="download-the-practice-data" class="level2">
+<h2 class="anchored" data-anchor-id="download-the-practice-data">Download the practice data</h2>
+<p>Next, lets download some climate data from Boulder, CO to practice with. We keep our practice data on GitHub, so that we can check that it still works and make sure it looks just like the data you would download from the original source.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Using online climate data">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Using online climate data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do you want to download your own climate data from a place of your choosing? We think the sample data we’ve provided is helpful for learning, but hopefully you have some other places and times you want data from. Learn how to modify your NCEI data download in our <a href="climate-98-download.qmd">NCEI Data Library entry</a>.</p>
+</div>
+</div>
+<p>The cell below contains the URL for the data you will use in this part of the notebook. There are two things to notice about the URL code:</p>
+<ol type="1">
+<li>It is surrounded by quotes – that means Python will interpret it as a <code>string</code>, or text, type, which makes sense for a URL.</li>
+<li>The URL is too long to display as one line on most screens. We’ve put parentheses around it so that we can easily split it into multiple lines by writing two strings – one on each line.</li>
+</ol>
+<p>However, we still have a problem - we can’t get the URL back later on because it isn’t saved in a <strong>variable</strong>. In other words, we need to give the url a <strong>name</strong> so that we can request in from Python later (sadly, Python has no ‘hey what was that thingy I typed yesterday?’ function).</p>
+<div class="callout callout-style-default callout-read callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Read More: Names/variables in Python
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>One of the most common challenges for new programmers is making sure that your results are stored so you can use them again. In Python, this is called <strong>naming</strong>, or saving a <strong>variable</strong>. Learn more in this <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/get-started-using-python/variables/">hands-on activity on using variables</a> from our learning portal.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It: Save the URL for later
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Pick an expressive variable name for the URL.</li>
+<li>Click on the <code>Jupyter</code> tab in the console panel at the bottom of VSCode to see all your variables. Your new url variable will not be there until you define it and run the code.</li>
+<li>At the end of the cell where you define your url variable, <strong>call your variable (type out its name)</strong> so it can be tested.</li>
+</ol>
+</div>
+</div>
+<div id="db97aaeb" class="cell student-code" data-highlight="true" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://github.com/cu-esiil-edu/esiil-learning-portal'</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/releases/download/data-release/climate-foundations-data.csv'</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="31bd7030" class="cell answer-code" data-highlight="true" data-execution_count="4">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ncei_url <span class="op">=</span> (</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://github.com/cu-esiil-edu/esiil-learning-portal'</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/releases/download/data-release/climate-foundations-data.csv'</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ncei_url</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>'https://github.com/cu-esiil-edu/esiil-learning-portal/releases/download/data-release/climate-foundations-data.csv'</code></pre>
+</div>
+</div>
+<p>The <code>pandas</code> library you imported can download data from the internet directly into a type of Python <strong>object</strong> called a <code>DataFrame</code>. In the code cell below, you can see an attempt to do just this. But there are some problems…</p>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It: Fix some code!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>Leave a space between the <code>#</code> and text in the comment and try making the comment more informative</p></li>
+<li><p>Make any changes needed to get this code to run. HINT: The <code>my_url</code> variable doesn’t exist - you need to replace it with the variable name <strong>you</strong> chose.</p></li>
+<li><p>Modify the <code>.read_csv()</code> statement to include the following parameters:</p>
+<ul>
+<li><code>index_col='DATE'</code> – this sets the <code>DATE</code> column as the index. Needed for subsetting and resampling later on</li>
+<li><code>parse_dates=True</code> – this lets <code>python</code> know that you are working with time-series data, and values in the indexed column are <strong>date time objects</strong></li>
+<li><code>na_values=['NaN']</code> – this lets <code>python</code> know how to handle missing values</li>
+</ul></li>
+<li><p>Clean up the code by using <strong>expressive variable names</strong>, <strong>expressive column names</strong>, <strong>PEP-8 compliant code</strong>, and <strong>descriptive comments</strong></p></li>
+</ol>
+</div>
+</div>
+<div class="{callout-warning}">
+<p><strong>Make sure to call your <code>DataFrame</code> by typing it’s name as the last line of your code cell</strong> Then, you will be able to run the test cell below and find out if your answer is correct.</p>
+</div>
+<div id="2c0e2d5a" class="cell student-code" data-highlight="true" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>climate_df <span class="op">=</span> pd.read_csv(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    my_url,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="st">'something'</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>climate_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="b5ce97c2" class="cell answer-code" data-highlight="true" data-execution_count="6">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the climate data</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>climate_df <span class="op">=</span> pd.read_csv(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    ncei_url,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="st">'DATE'</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    parse_dates<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    na_values<span class="op">=</span>[<span class="st">'NaN'</span>])</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>climate_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">STATION</th>
+<th data-quarto-table-cell-role="th">PRCP</th>
+<th data-quarto-table-cell-role="th">TOBS</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">DATE</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1893-10-01</td>
+<td>USC00050848</td>
+<td>0.94</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1893-10-02</td>
+<td>USC00050848</td>
+<td>0.00</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1893-10-03</td>
+<td>USC00050848</td>
+<td>0.00</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1893-10-04</td>
+<td>USC00050848</td>
+<td>0.04</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1893-10-05</td>
+<td>USC00050848</td>
+<td>0.00</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-09-26</td>
+<td>USC00050848</td>
+<td>0.00</td>
+<td>74.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-09-27</td>
+<td>USC00050848</td>
+<td>0.00</td>
+<td>69.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-09-28</td>
+<td>USC00050848</td>
+<td>0.00</td>
+<td>73.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-09-29</td>
+<td>USC00050848</td>
+<td>0.00</td>
+<td>66.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-09-30</td>
+<td>USC00050848</td>
+<td>0.00</td>
+<td>78.0</td>
+</tr>
+</tbody>
+</table>
+
+<p>45971 rows × 3 columns</p>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>HINT: Check out the <code>type()</code> function below - you can use it to check that your data is now in <code>DataFrame</code> type object</p>
+</blockquote>
+<div id="3040d62c" class="cell student-code" data-highlight="true" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that the data was imported into a pandas DataFrame</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(climate_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="git-and-github---a-distributed-version-control-model" class="level3">
-<h3 class="anchored" data-anchor-id="git-and-github---a-distributed-version-control-model">Git and GitHub - A Distributed Version Control Model</h3>
-<p><strong>Git</strong> uses a distributed version control model. This means that there can be many copies (or forks/branches in <strong>GitHub</strong> world) of the repository. When working locally, <strong>git</strong> is the program that you will use to keep track of changes to your repository.</p>
-<p><strong>GitHub.com</strong> is a location on the internet (a cloud web server) that acts as a remote location for your repository. <strong>GitHub</strong> provides a backup of your work that can be retrieved if your local copy is lost (e.g.&nbsp;if your computer falls off a pier). <strong>GitHub</strong> also allows you to share your work and collaborate with others on projects.</p>
-<figure class="figure">
-<a href="{{ site.url }}/images/earth-analytics/git-version-control/git-distributed-version-control-model.png"> <img src="{{ site.url }}/images/earth-analytics/git-version-control/git-distributed-version-control-model.png" alt="One advantage of a distributed version control system is that there are many copies of the repository. Thus, if any one server or computer dies, any of the client repositories can be copied and used to restore the data! Source: Pro Git by Scott Chacon &amp; Ben Straub. " class="figure-img"></a>
-<figcaption>
-One advantage of a distributed version control system is that there are many copies of the repository. Thus, if any one server or computer dies, any of the client repositories can be copied and used to restore the data! <a href="https://git-scm.com/book/en/v2/book/01-introduction/images/distributed.png">Source: Pro Git by Scott Chacon and Ben Straub</a>.
-</figcaption>
-</figure>
-</section>
-</section>
-<section id="how-git-and-github-support-version-control" class="level2">
-<h2 class="anchored" data-anchor-id="how-git-and-github-support-version-control">How Git and GitHub Support Version Control</h2>
-<p>Due to the functionality that each tool provides, you can use <strong>git</strong> and <strong>GitHub</strong> together in the same workflow to: * keep track of changes to your code locally using <strong>git</strong>. * synchronizing code between different versions (i.e.&nbsp;either your own versions or others’ versions). * test changes to code without losing the original. * revert back to older version of code, if needed. * back-up your files on the cloud (<strong>GitHub.com</strong>). * share your files on <strong>GitHub.com</strong> and collaborate with others.</p>
-<p>Throughout this textbook, you will learn more about the functionality of <strong>git</strong> and <strong>GitHub</strong> for version control and collaboration to support open reproducible science.</p>
+<section id="clean-up-your-dataframe" class="level2">
+<h2 class="anchored" data-anchor-id="clean-up-your-dataframe">Clean up your <code>DataFrame</code></h2>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It: Get rid of unwanted columns
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can use <strong>double brackets</strong> (<code>[[</code> and <code>]]</code>) to select only the columns that you want from your <code>DataFrame</code>:</p>
+<ol type="1">
+<li>Change <code>some_column_name</code> to the Precipitation column name and <code>another_column_name</code> to the Observed Temperature column name.</li>
+</ol>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Column names are text values, not variable names, so you need to put them in quotes!</p>
+</div>
+</div>
+</div>
+</div>
+<div class="{callout-warning}">
+<p><strong>Make sure to call your <code>DataFrame</code> by typing it’s name as the last line of your code cell</strong> Then, you will be able to run the test cell below and find out if your answer is correct.</p>
+</div>
+<div id="6fc78fdf" class="cell student-code" data-highlight="true" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>climate_df <span class="op">=</span> climate_df[[<span class="st">'some_column_name'</span>, <span class="st">'another_column_name'</span>]]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>climate_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="40b15d60" class="cell answer-code" data-highlight="true" data-execution_count="9">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up the DataFrame</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>climate_df <span class="op">=</span> climate_df[[<span class="st">'PRCP'</span>, <span class="st">'TOBS'</span>]]</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>climate_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">PRCP</th>
+<th data-quarto-table-cell-role="th">TOBS</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">DATE</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1893-10-01</td>
+<td>0.94</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1893-10-02</td>
+<td>0.00</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1893-10-03</td>
+<td>0.00</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1893-10-04</td>
+<td>0.04</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1893-10-05</td>
+<td>0.00</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-09-26</td>
+<td>0.00</td>
+<td>74.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-09-27</td>
+<td>0.00</td>
+<td>69.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-09-28</td>
+<td>0.00</td>
+<td>73.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-09-29</td>
+<td>0.00</td>
+<td>66.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-09-30</td>
+<td>0.00</td>
+<td>78.0</td>
+</tr>
+</tbody>
+</table>
+
+<p>45971 rows × 2 columns</p>
+</div>
+</div>
+</div>
 
 
 </section>
@@ -1010,18 +1304,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <input type="hidden" id="giscus-base-theme" value="light">
 <input type="hidden" id="giscus-alt-theme" value="dark">
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../../../pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html" class="pagination-link" aria-label="Use Tabular Data for Earth Data Science">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Use Tabular Data for Earth Data Science</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../../../pages/03-git-github/02-github-collaboration/01-intro-collaboration.html" class="pagination-link" aria-label="Use GitHub to Collaborate on Open Science Projects">
-        <span class="nav-page-text">Use GitHub to Collaborate on Open Science Projects</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
