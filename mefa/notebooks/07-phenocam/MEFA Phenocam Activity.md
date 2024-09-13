@@ -26,9 +26,15 @@ code-block-templates:
     highlight: true
 date: 2024-07-24
 editor: visual
+image: img/earth-analytics/phenocam/phenocam.png
 title: Explore PhenoCam Data
 toc-title: Table of contents
 ---
+
+nocite: \| @richardson_phenocam_2023, @richardson_tracking_2019,
+@hufkens_integrated_2018
+
+------------------------------------------------------------------------
 
 Some code adapted from the [2020 NEON
 Tutorial](https://www.neonscience.org/resources/learning-hub/tutorials/phenocam-api-intro)
@@ -55,9 +61,8 @@ phenocam.nau.edu).](../../img/notebooks/phenocam/PhenoCam_SiteMap.png){fig-align
 width="600"}
 
 ![Illustration of a PhenoCam (red circle) over a tree canopy collecting
-phenology data (Image from [Richardson
-2019](https://nph.onlinelibrary.wiley.com/doi/full/10.1111/nph.15591),
-illustrator: Victor
+phenology data (Image from @richardson_tracking_2019, illustrator:
+Victor
 Leshyk).](../../img/notebooks/phenocam/PhenoCam_illustration_2.png){fig-align="center"
 width="350"}
 
