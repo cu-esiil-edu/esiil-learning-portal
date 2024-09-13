@@ -27,14 +27,12 @@ code-block-templates:
 date: 2024-07-24
 editor: visual
 image: img/earth-analytics/phenocam/phenocam.png
+nocite: |
+  @richardson_phenocam_2023, @richardson_tracking_2019,
+  @hufkens_integrated_2018
 title: Explore PhenoCam Data
 toc-title: Table of contents
 ---
-
-nocite: \| @richardson_phenocam_2023, @richardson_tracking_2019,
-@hufkens_integrated_2018
-
-------------------------------------------------------------------------
 
 Some code adapted from the [2020 NEON
 Tutorial](https://www.neonscience.org/resources/learning-hub/tutorials/phenocam-api-intro)
