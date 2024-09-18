@@ -449,6 +449,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#quantify-how-fast-the-climate-is-changing-with-a-trend-line" id="toc-quantify-how-fast-the-climate-is-changing-with-a-trend-line" class="nav-link active" data-scroll-target="#quantify-how-fast-the-climate-is-changing-with-a-trend-line">Quantify how fast the climate is changing with a trend line</a></li>
+  <li><a href="#plot-your-trend-line" id="toc-plot-your-trend-line" class="nav-link" data-scroll-target="#plot-your-trend-line">Plot your trend line</a></li>
   </ul>
 </nav>
     </div>
@@ -505,6 +506,8 @@ We’re assuming that variation in temperature caused by things <em>other</em> t
 <ul class="task-list">
 <li><label><input type="checkbox">Take a look at your data. In the cell below, write a few sentences about ways your data does and does not meet the linear OLS regression assumptions.</label></li>
 </ul>
+</div>
+<p>:::</p>
 <div class="callout callout-style-default callout-task callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -518,7 +521,7 @@ Try It: Import Packages
 <p>The following cell contains package imports that you will need to calculate and plot an OLS Linear trend line. Make sure to run the cell before moving on, and if you have any additional packages you would like to use, add them here later on.</p>
 </div>
 </div>
-<div id="52a73721" class="cell" data-execution_count="2">
+<div id="73cd1619" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Advanced options on matplotlib/seaborn/pandas plots</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Common statistical plots for tabular data</span></span>
@@ -556,10 +559,10 @@ Note
 <p>We know that some computers, networks, and countries block LLM (large language model) sites, and that LLMs can sometimes perpetuate oppressive or offensive language and ideas. However, LLMs are increasingly standard tools for programming – <a href="https://github.com/features/copilot">according to GitHub</a> many developers code 55% faster with LLM assistance. We also see in our classes that LLMs give students the ability to work on complex real-world problems earlier on. We feel it’s worth the trade-off, and at this point we would be doing you a disservice professionally to teach you to code without LLMs. If you can’t access them, don’t worry – we’ll present a variety of options for finding example code. For example, you can also search for an example on a site like <a href="https://stackoverflow.com/">StackOverflow</a> (this is how we all learned to code, and with the right question it’s a fantastic resource for any coder to get access to up-to-date information from world experts quickly). You can also use our solutions as a starting point.</p>
 </div>
 </div>
-<div id="a2d42c89" class="cell" data-execution_count="3">
+<div id="7565cc12" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit an OLS Linear Regression to the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="6bbb9ed3" class="cell" data-execution_count="4">
+<div id="b757a3a1" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ann_climate_df <span class="op">=</span> ann_climate_df.loc[<span class="st">'1989'</span>:<span class="st">'2024'</span>]</span>
@@ -584,6 +587,7 @@ Note
 <pre><code>Slope: 0.13079071315632046 degrees per year</code></pre>
 </div>
 </div>
+</section>
 <section id="plot-your-trend-line" class="level2">
 <h2 class="anchored" data-anchor-id="plot-your-trend-line">Plot your trend line</h2>
 <p>Trend lines are often used to help your audience understand and process a time-series plot. In this case, we’ve chosed mean temperature values rather than extremes, so we think OLS is an appropriate model to use to show a trend.</p>
@@ -617,7 +621,7 @@ Try It: Regression Plot
 </ol>
 </div>
 </div>
-<div id="1683e291" class="cell" data-execution_count="5">
+<div id="8e2b1bbf" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot annual average temperature data with a trend line</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.regplot(</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>, </span>
@@ -632,7 +636,7 @@ Try It: Regression Plot
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the plot without extra text</span></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="ee162f50" class="cell" data-execution_count="6">
+<div id="5036fb6b" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.regplot(</span>
@@ -676,8 +680,6 @@ Reflect and Respond: Interpret the trend
 </div>
 
 
-</section>
-</div>
 </section>
 
 </main> <!-- /main -->
