@@ -1,4 +1,4 @@
-# So, is the climate changing?
+# Part 5: So, is the climate changing?
 
 ::: {.content-visible when-format="ipynb"}
 First things first -- make sure to load the climate `DataFrame` you stored in the previous notebooks using Jupyter cell magic:
@@ -23,20 +23,19 @@ Before we get started, it's important to consider that OLS regression is not alw
 
   Linearity
   : We're assuming that temperatures are increasing or decreasing at a constant rate over time. We wouldn't be able to look at rates that change over time. For example, many locations in the Arctic remained the same temperature for much longer than the rest of the world, because ice melt was absorbing all the extra heat. Linear OLS regression wouldn't be able to identify when the temperature rise began on its own.
-  
+
   Stationarity
   : We're assuming that variation in temperature caused by things *other* than global climate change (e.g. the random error) behaves the same over time. For example, the linear OLS regression can't take increased variability from year to year into account, which is a common effect of climate change. We often see "global weirding", or more extreme head *and* cold, in addition to overall increases. You can observe this most easily by looking at your daily data again. Does it seem to be fanning in or out over time?
 
 It's pretty rare to encounter a perfect statistical model where all the assumptions are met, but you want to be on the lookout for serious discrepancies, especially when making predictions. For example, [ignoring assumptions about Gaussian error arguably led to the 2008 financial crash](https://www.wired.com/2009/02/wp-quant/).
 
 ::: {.cell .markdown}
-:::: {.callout-important icon="false"}
+:::: {.callout-respond}
 ## {{< fa pencil size=large >}} Is linear OLS regression right for your data?
 
 - [ ] Take a look at your data. In the cell below, write a few sentences about ways your data does and does not meet the linear OLS regression assumptions.
 
-::: {.callout-important icon="false"}
-# {{< fa keyboard size=large >}} Your task: 
+::: {.callout-task title="Import Packages"} 
 
 The following cell contains package imports that you will need to calculate and plot an OLS Linear trend line. Make sure to run the cell before moving on, and if you have any additional packages you would like to use, add them here later on.
 :::
@@ -50,9 +49,7 @@ import seaborn as sns
 from sklearn.linear_model import LinearRegression
 ```
 
-::: {.callout-important icon="false"}
-# {{< fa keyboard size=large >}} Your task: Regression
-
+::: {.callout-task title="Regression"}
   1. To get sample code, ask ChatGPT how to fit a linear model to your data. If you're new to using large language modesl, go ahead and check out [our query](https://chatgpt.com/share/649b897b-9075-457e-8e12-308f795312a1)
   2. Copy code that uses the `scikit-learn` package to perform a OLS linear regression to the code cell below.
   3. Check out your previous plot. Does it make sense to include all the data when calculating a trend line? Be sure to select out data that meets the OLS assumptions.
@@ -101,8 +98,7 @@ This is a tricky issue. When it comes to a trend line, choosing a model that is 
 We think an OLS trend line is an ok visual tool to indicate the approximate direction and size of a trend. If you are showing standard error, making predictions or inferences based on your model, or calculating probabilities (p-values) based on your model, or making statements about the statistical significance of a trend, we'd suggest reconsidering your choice of model.
 :::
 
-
-# {{< fa keyboard size=large >}} Your task: Regression
+::: {.callout-task title="Regression Plot"}
 
   1. Add values for x (year) and y (temperature) to plot a regression plot. You will have to select out the year from the index values, just like you probably did when fitting your linear model above!
   2. Label the axes of your plot with the `title`, `xlabel`, and `ylabel` parameters. You can see how to add the degree symbol in the example below. Make sure your labels match what you're plotting!
@@ -144,7 +140,7 @@ plt.show()
 :::
 
 ::: {.cell .markdown}
-:::: {.callout-task title="Interpret the trend"}
+:::: {.callout-respond title="Interpret the trend"}
 
   1. Create a new Markdown cell below this one.
 
