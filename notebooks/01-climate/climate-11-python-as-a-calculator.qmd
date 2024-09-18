@@ -37,7 +37,6 @@ feb | 35.6 |
 mar | 41.0 |
 
 ```{python}
-#| nbgrader: {grade: false, grade_id: student-create-variables-answer, locked: false, schema_version: 3, solution: true, task: false}
 # Create variables of monthly temp
 
 # BEGIN SOLUTION
@@ -51,18 +50,14 @@ round(jan + feb + mar, 1)
 ```
 
 ```{python}
-#| nbgrader: {grade: true, grade_id: create-variables-tests, locked: true, points: 6, schema_version: 3, solution: false, task: false}
 # DO NOT MODIFY THIS CELL!
 # Did you create all of the variables? Run this cell to find out
-
-variables_points = 0
 
 variables_exist = False
 
 try:
     checksum = round(jan + feb + mar, 1)
     print("\u2705 Nice work - all of your variables exist!")
-    variables_points += 3
     variables_exist = True
 except NameError as ne:
     print(("\u274C Oops! At least one of your variables is missing. "
@@ -73,16 +68,9 @@ except NameError as ne:
 if variables_exist:
     if checksum == 108.6:
         print("\u2705 All of your variables are set to the correct values.")
-        variables_points += 3
     else:
         print(("\u274C You variables exist, but at least one does not have "
                "the correct value (the sum is incorrect)."))
-
-print(("\n \u27A1 You received {} out of 6 points for creating the required "
-       "variables."
-       .format(variables_points)))
-
-variables_points
 ```
 
 ## Run Calculations on Variables
@@ -94,7 +82,6 @@ In the cell below, complete the following task:
     * Note that Python by default follows the standard rules of math order of operations. This means that division would happen BEFORE subtraction. Including `Fahrenheit - 32` within parenthesis `()` tells `Python` to execute that calculation first.  
 
 ```{python}
-#| nbgrader: {grade: false, grade_id: student-calc-variables-answer, locked: false, schema_version: 3, solution: true, task: false}
 # Convert variable values from Fahrenheit to Celsius
 
 # BEGIN SOLUTION
@@ -106,27 +93,17 @@ round(jan + feb + mar, 1)
 ```
 
 ```{python}
-#| nbgrader: {grade: true, grade_id: student-calc-variables-tests, locked: true, points: 3, schema_version: 3, solution: false, task: false}
 # DO NOT MODIFY THIS CELL
-
-variable_mod_points = 0
 
 checksum_celsius = 7.0
 
 if round(jan + feb + mar, 1) == checksum_celsius:
     print(("\u2705 You modified the variables you created above correctly, "
            "good job!"))
-    variable_mod_points += 3
 else:
     print(("\u274C You did not modify the variables as expected. Make sure "
            "you assigned the output of your modification back to the "
            "variable."))
-
-print(("\n \u27A1 You received {} out of 3 points for reassigning the "
-       "variable's values."
-       .format(variable_mod_points)))
-
-variable_mod_points
 ```
 
 ## Create List of Converted Monthly Temperatures
@@ -142,7 +119,6 @@ list
 IMPORTANT: If you don't call the object at the end of your cell, the autograder will break. 
 
 ```{python}
-#| nbgrader: {grade: false, grade_id: student-create-list-temp-answer, locked: false, schema_version: 3, solution: true, task: false}
 # Create list of converted monthly temps
 
 # BEGIN SOLUTION
@@ -154,18 +130,15 @@ temp
 ```
 
 ```{python}
-#| nbgrader: {grade: true, grade_id: student-create-list-temp-tests, locked: true, points: 5, schema_version: 3, solution: false, task: false}
 # DO NOT MODIFY THIS CELL!
 
 student_temp = _
 
-variable_list_points = 0
 is_list = False
 
 if isinstance(student_temp, list):
     print(("\u2705 Nice work! The object you called at the end of the cell "
            "is of type - list"))
-    variable_list_points += 1
     is_list = True
 else:
     print(("\u274C Oops! Did you create a list variable and call it at the "
@@ -174,22 +147,14 @@ if is_list:
     if len(student_temp) == 3:
         print(("\u2705 Nice work! Your list has the correct number of "
                "elements"))
-        variable_list_points += 1
     else:
         print(("\u274C Oops - your list is not the correct length."))
     
 if round(sum(student_temp), 1) == checksum_celsius:
     print(("\u2705 The list you created has the correct values in it, good "
            "job!"))
-    variable_list_points += 3
 else:
     print("\u274C The list you created does not contain the correct values.")
-
-print(("\n \u27A1 You received {} out of 5 points for creating a list of the "
-       "temperatures January-June.")
-       .format(variable_list_points))
-
-variable_list_points
 ```
 
 ## Add Values to List of Converted Monthly Temperatures
@@ -213,7 +178,6 @@ nov | 4.9 |
 dec | 1.0 |
 
 ```{python}
-#| nbgrader: {grade: false, grade_id: student-add-values-list, locked: false, schema_version: 3, solution: true, task: false}
 # BEGIN SOLUTION
 temp.append(9.6)
 temp.extend([14.4, 19.6, 22.8, 21.7])
@@ -224,18 +188,15 @@ temp
 ```
 
 ```{python}
-#| nbgrader: {grade: true, grade_id: test-add-values-list, locked: true, points: 7, schema_version: 3, solution: false, task: false}
 # DO NOT MODIFY THIS CELL
 
 student_temp_long = _
 
-temp_long_points = 0
 is_list = False
 
 if isinstance(student_temp_long, list):
     print(("\u2705 Nice work! The object you called at the end of the cell "
            "is of type - list"))
-    temp_long_points += 2
     is_list = True
 else:
     print(("\u274C Oops! Did you create a list variable and call it at the "
@@ -245,22 +206,14 @@ if is_list:
     if len(student_temp_long) == 12:
         print(("\u2705 Nice work! Your list has the correct number of "
                "elements"))
-        temp_long_points += 2
     else:
         print(("\u274C Oops - your list is not the correct length."))
     
 if round(sum(student_temp_long), 1) == 129.3:
     print(("\u2705 The list you created has the correct values in it, good "
            "job!"))
-    temp_long_points += 3
 else:
     print("\u274C The list you created does not contain the correct values.")
-
-print(("\n \u27A1 You received {} out of 7 points for creating a list of the "
-       "temperatures January-June.")
-       .format(temp_long_points))
-
-temp_long_points
 ```
 
 ## Discuss Use of PEP 8 Style Guide
