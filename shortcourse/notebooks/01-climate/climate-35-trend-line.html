@@ -484,14 +484,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl>
 <dt>Random error</dt>
 <dd>
-Variation in temperature can be caused by many things beyond global climate change. For example, temperatures often vary with patterns of ocean surface temperatures (<em>teleconnections</em>), the most famous of which are El Niño and La Niña. By using a linear OLS regression, we’re assuming that all the variation in temperature except for climate change is random. Normally distributed error
+Variation in temperature can be caused by many things beyond global climate change. For example, temperatures often vary with patterns of ocean surface temperatures (<em>teleconnections</em>), the most famous of which are El Niño and La Niña. By using a linear OLS regression, we’re assuming that all the variation in temperature except for climate change is random.
 </dd>
+<dt>Normally distributed error</dt>
 <dd>
-If you have taken a statistics class, you probably learned a lot about the normal, or Gaussian distribution. For right now, what you need to know is that OLS regression is useful for identifying trends in average temperature, but wouldn’t be appropriate for looking at trends in daily precipitation (because most days have zero precipitation), or at maximum or minimum annual temperatures (because these are extreme values, and the normal distribution tends to underestimate the likelihood of large events). Linearity
+If you have taken a statistics class, you probably learned a lot about the normal, or Gaussian distribution. For right now, what you need to know is that OLS regression is useful for identifying trends in average temperature, but wouldn’t be appropriate for looking at trends in daily precipitation (because most days have zero precipitation), or at maximum or minimum annual temperatures (because these are extreme values, and the normal distribution tends to underestimate the likelihood of large events).
 </dd>
+<dt>Linearity</dt>
 <dd>
-We’re assuming that temperatures are increasing or decreasing at a constant rate over time. We wouldn’t be able to look at rates that change over time. For example, many locations in the Arctic remained the same temperature for much longer than the rest of the world, because ice melt was absorbing all the extra heat. Linear OLS regression wouldn’t be able to identify when the temperature rise began on its own. Stationarity
+We’re assuming that temperatures are increasing or decreasing at a constant rate over time. We wouldn’t be able to look at rates that change over time. For example, many locations in the Arctic remained the same temperature for much longer than the rest of the world, because ice melt was absorbing all the extra heat. Linear OLS regression wouldn’t be able to identify when the temperature rise began on its own.
 </dd>
+<dt>Stationarity</dt>
 <dd>
 We’re assuming that variation in temperature caused by things <em>other</em> than global climate change (e.g.&nbsp;the random error) behaves the same over time. For example, the linear OLS regression can’t take increased variability from year to year into account, which is a common effect of climate change. We often see “global weirding”, or more extreme head <em>and</em> cold, in addition to overall increases. You can observe this most easily by looking at your daily data again. Does it seem to be fanning in or out over time?
 </dd>
@@ -524,7 +527,7 @@ We’re assuming that variation in temperature caused by things <em>other</em> t
 <p>The following cell contains package imports that you will need to calculate and plot an OLS Linear trend line. Make sure to run the cell before moving on, and if you have any additional packages you would like to use, add them here later on.</p>
 </div>
 </div>
-<div id="b2df6a19" class="cell" data-execution_count="2">
+<div id="b26bf877" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Advanced options on matplotlib/seaborn/pandas plots</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Common statistical plots for tabular data</span></span>
@@ -562,10 +565,10 @@ Note
 <p>We know that some computers, networks, and countries block LLM (large language model) sites, and that LLMs can sometimes perpetuate oppressive or offensive language and ideas. However, LLMs are increasingly standard tools for programming – <a href="https://github.com/features/copilot">according to GitHub</a> many developers code 55% faster with LLM assistance. We also see in our classes that LLMs give students the ability to work on complex real-world problems earlier on. We feel it’s worth the trade-off, and at this point we would be doing you a disservice professionally to teach you to code without LLMs. If you can’t access them, don’t worry – we’ll present a variety of options for finding example code. For example, you can also search for an example on a site like <a href="https://stackoverflow.com/">StackOverflow</a> (this is how we all learned to code, and with the right question it’s a fantastic resource for any coder to get access to up-to-date information from world experts quickly). You can also use our solutions as a starting point.</p>
 </div>
 </div>
-<div id="383657b5" class="cell" data-execution_count="3">
+<div id="405af25c" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit an OLS Linear Regression to the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="2a6d1fa9" class="cell" data-execution_count="4">
+<div id="e6a7f093" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ann_climate_df <span class="op">=</span> ann_climate_df.loc[<span class="st">'1989'</span>:<span class="st">'2024'</span>]</span>
@@ -617,7 +620,7 @@ Is it ok to plot a trend line even if OLS isn’t an appropriate model?
 </section>
 </div>
 </div>
-<div id="5e5496c9" class="cell" data-execution_count="5">
+<div id="37645645" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot annual average temperature data with a trend line</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.regplot(</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>, </span>
@@ -632,7 +635,7 @@ Is it ok to plot a trend line even if OLS isn’t an appropriate model?
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the plot without extra text</span></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b00cf82f" class="cell" data-execution_count="6">
+<div id="40342f58" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.regplot(</span>
