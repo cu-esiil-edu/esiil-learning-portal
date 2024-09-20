@@ -1,0 +1,1991 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Urban Heat Wave</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../img/ESIIL_portal.png" alt="ESIIL Learning Portal" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../pages/00-course-overviews/css/00-home.qmd"> 
+<span class="menu-text">Indigenous Data Science Workshop with Chicago Symposium</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="http://earthdatascience.org"> 
+<span class="menu-text">Classic earthdatascience.org</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Urban Heat Wave</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://chicagosymposium.org/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chicago Symposium</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+ <span class="menu-text">notebooks/0-urban-heat-island/urban-heat-island.qmd</span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://classroom.github.com/a/UWz9FQ_E" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Try it on GitHub!</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#esiil-eds-workshop" id="toc-esiil-eds-workshop" class="nav-link active" data-scroll-target="#esiil-eds-workshop"><strong>ESIIL EDS Workshop</strong></a>
+  <ul class="collapse">
+  <li><a href="#what-is-open-science" id="toc-what-is-open-science" class="nav-link" data-scroll-target="#what-is-open-science">What is Open Science?</a></li>
+  <li><a href="#what-is-culturally-relevant-curriculum" id="toc-what-is-culturally-relevant-curriculum" class="nav-link" data-scroll-target="#what-is-culturally-relevant-curriculum">What is Culturally Relevant Curriculum?</a></li>
+  </ul></li>
+  <li><a href="#case-study-looking-at-temperature-data-in-chicago---heat-islands-and-the-summer-2024-heat-wave" id="toc-case-study-looking-at-temperature-data-in-chicago---heat-islands-and-the-summer-2024-heat-wave" class="nav-link" data-scroll-target="#case-study-looking-at-temperature-data-in-chicago---heat-islands-and-the-summer-2024-heat-wave"><strong>Case Study:</strong> Looking at temperature data in Chicago - <em>Heat Islands and the Summer 2024 Heat Wave</em></a>
+  <ul class="collapse">
+  <li><a href="#eds-with-python-and-github" id="toc-eds-with-python-and-github" class="nav-link" data-scroll-target="#eds-with-python-and-github"><strong>EDS with Python and GitHub</strong></a></li>
+  <li><a href="#noaa-national-centers-for-environmental-information" id="toc-noaa-national-centers-for-environmental-information" class="nav-link" data-scroll-target="#noaa-national-centers-for-environmental-information">NOAA National Centers for Environmental Information</a>
+  <ul class="collapse">
+  <li><a href="#ohare-international-airport" id="toc-ohare-international-airport" class="nav-link" data-scroll-target="#ohare-international-airport">O’Hare International Airport</a></li>
+  <li><a href="#northerly-island" id="toc-northerly-island" class="nav-link" data-scroll-target="#northerly-island">Northerly Island</a></li>
+  </ul></li>
+  <li><a href="#what-do-you-notice-about-the-data" id="toc-what-do-you-notice-about-the-data" class="nav-link" data-scroll-target="#what-do-you-notice-about-the-data">What do you notice about the data?</a></li>
+  <li><a href="#is-it-really-cooler-by-the-lake" id="toc-is-it-really-cooler-by-the-lake" class="nav-link" data-scroll-target="#is-it-really-cooler-by-the-lake">Is it really cooler by the Lake?</a></li>
+  <li><a href="#statistical-test-text-and-code-goes-here" id="toc-statistical-test-text-and-code-goes-here" class="nav-link" data-scroll-target="#statistical-test-text-and-code-goes-here">Statistical test text and code goes here…</a></li>
+  </ul></li>
+  <li><a href="#optional-bonus-activities-if-you-have-time" id="toc-optional-bonus-activities-if-you-have-time" class="nav-link" data-scroll-target="#optional-bonus-activities-if-you-have-time"><strong>OPTIONAL BONUS activities (if you have time)</strong></a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<!-- Modified from https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/html/templates/banner/title-block.html -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+    <div class="esiil-title-goals page-columns page-full">
+      <div class="quarto-title column-body">
+                <h1 class="title">Urban Heat Wave</h1>
+                        <p class="subtitle lead">An example of</p>
+                        
+                <div class="esiil-learning-goals-title">Learning Goals:</div>
+        <ul class="esiil-learning-goals">
+                    <li class="esiil-learning-goal">Analyze temperature data over time</li>
+                    <li class="esiil-learning-goal">Parse date information so that it is represented as a datetime type</li>
+                    <li class="esiil-learning-goal">Use operators to convert to different units</li>
+                    <li class="esiil-learning-goal">Compare temperature in different locations</li>
+                  </ul>
+              </div>
+    
+      
+    <div class="no-row-height column-margin column-container"><div class="">
+        
+        <div class="quarto-title-meta">
+
+            
+          
+            
+          </div>
+          
+      </div></div></div>
+</header>
+
+
+<section id="esiil-eds-workshop" class="level2">
+<h2 class="anchored" data-anchor-id="esiil-eds-workshop"><strong>ESIIL EDS Workshop</strong></h2>
+<p>This notebook will be used for the <a href="https://www.esiil.org">ESIIL</a> EDS workshop at the Chicago Symposium, Nov.&nbsp;2024. Here we’ll try to answer whether it’s <em>really</em> <a href=""><strong>cooler by the Lake</strong></a> by looking at a locally relevant issue - a heat wave that took place in Chicago, June 2024. Participants will learn how to access open weather and climate data from NOAA using GitHub, Python, and Jupyter notebooks.</p>
+<p><img src="https://assets1.cbsnewsstatic.com/hub/i/r/2023/05/03/468530a5-7196-4f1b-84d9-97d4af548b39/thumbnail/1920x1080/584f22080d2a6129f60aacba422c7f30/f1db335277c49d3927e94578ba6f96ef.jpg?v=a23cb4bdf4fa7f3cb72e5118085577f9" width="250" title="CBS 2 Meteorologist Mary Kay Kleist has your 10 p.m. First Alert Weather forecast for Tuesday, May 2, 2023."></p>
+<p><img src="https://wgntv.com/wp-content/uploads/sites/5/2024/05/ST00COOLERLAKESIDE.jpg?resize=755,1118" width="25%"></p>
+<p><img src="https://wgntv.com/wp-content/uploads/sites/5/2023/04/NLanimation10and11.gif" width="250" title="Source WGN April 6, 2023; Friday afternoon temperature snapshot — 50s inland but low 40s near the lake."></p>
+<p>We will select two climate stations located within the greater Chicago area: O’Hare International Airport (Station ID: USW00094846), and Northerly Island (Station ID: USC00111550) to explore trends in maximum daily temperatures.</p>
+<p><img src="https://fly-ord.com/sites/default/files/inline-images/chicago-ord-miguel-angel-sanz-unsplash.jpg" width="300" title="Photo of O'Hare Airport by Miguel Angel Sanz - Unsplash. https://fly-ord.com/airlines"></p>
+<p><img src="https://ik.imagekit.io/ChicagoArchitecture/image/assets%2F49af4dfb0fbc43d58bf8ce407e839d74%2Fc5ead4a81e4e41a28d6cee59bc4c1761?tr=q-50,fm-webp" width="300" title="Aerial view of Northerly Island. Photo by Tom Harris. https://www.architecture.org/online-resources/buildings-of-chicago/northerly-island"></p>
+<section id="workshop-objectives" class="level4">
+<h4 class="anchored" data-anchor-id="workshop-objectives"><strong>Workshop objectives</strong></h4>
+<ul>
+<li>Introduce ESIIL’s approach to EDS Education</li>
+<li>Teach open EDS tools (GitHub, Python, Jupyter Notebooks)</li>
+<li>Access open weather and climate data from NOAA</li>
+<li>Answer a cuturally relevant question using EDS</li>
+</ul>
+<hr>
+</section>
+<section id="what-is-open-science" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-open-science">What is Open Science?</h3>
+<p><img src="https://www.earthdata.nasa.gov/s3fs-public/2021-11/Circle_Diagram_UPDATE_2.jpg?VersionId=pFRniRpjtgc_MEXUJKi9_sXLoMsSX.pB" width="300" title="Source: https://www.earthdata.nasa.gov/technology/open-science/oss-for-eso-workshops"></p>
+<hr>
+</section>
+<section id="what-is-culturally-relevant-curriculum" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-culturally-relevant-curriculum">What is Culturally Relevant Curriculum?</h3>
+<p><img src="https://successfulacademics.com/IMAGES/Our-Org-Culturally-Responsive-Teaching_Title.png" width="300" title="Source: https://successfulacademics.com/BlackChildSEL/CRT.html"></p>
+</section>
+</section>
+<section id="case-study-looking-at-temperature-data-in-chicago---heat-islands-and-the-summer-2024-heat-wave" class="level1">
+<h1><strong>Case Study:</strong> Looking at temperature data in Chicago - <em>Heat Islands and the Summer 2024 Heat Wave</em></h1>
+<p><img src="https://wgntv.com/wp-content/uploads/sites/5/2024/07/2024UHI_chicago_en_title_lg.jpg" width="500" title="Source: https://wgntv.com/weather/weather-blog/chicago-is-an-urban-heat-island-so-what-does-that-mean/"></p>
+<section id="urban-heat-islands-in-chicago" class="level4">
+<h4 class="anchored" data-anchor-id="urban-heat-islands-in-chicago"><strong>Urban heat islands in Chicago</strong></h4>
+<p>Climate change is intensifying summer heat in Chicago, particularly in heat island areas, which disproportionately affects marginalized communities. These neighborhoods, often with less green space and more heat-trapping infrastructure, face higher temperatures and greater health risks (<a href="https://www.chicagotribune.com/2023/05/25/mapping-a-threat-climate-changes-deadly-summer-heat-may-deepen-disparities-in-chicago/_">Chicago Tribune</a>). Chicago O’Hare International Airport is a known heat island often reporting temperatures 5-10 degrees warmer than surrounding communities (<a href="https://www.nbcchicago.com/news/local/what-is-an-urban-heat-island-and-how-is-chicago-affected/2973405/">NBC Chicago</a>).</p>
+<hr>
+</section>
+<section id="chicago-heat-wave-2024" class="level4">
+<h4 class="anchored" data-anchor-id="chicago-heat-wave-2024"><strong>Chicago Heat Wave 2024</strong></h4>
+<p><img src="https://stateclimatologist.web.illinois.edu/wp-content/uploads/2024/07/Chicago_temps-768x338.png" title="Source: Illinois State Climatologist; Daily June average temperatures and departures from normal in Chicago" width="500"></p>
+<p>According to the <a href="https://stateclimatologist.web.illinois.edu/2024/07/">Illinois state climatology office</a>, daily average temperatures between June 13 and June 25 were 5 to 15 degrees above normal in Chicago and statewide. Overnight temperatures in Chicago were forecast to <a href="https://chicago.suntimes.com/weather/2024/06/17/chicago-weather-heat-dome-wave-hot-temperatures-what-you-should-know">stay into the 70’s</a> with record breaking temperatures being attributed to <a href="https://www.cbsnews.com/chicago/news/chicago-heat-wave-how-to-stay-cool-safe/">climate change</a>.</p>
+<p><img src="https://ewscripps.brightspotcdn.com/dims4/default/88c8feb/2147483647/strip/true/crop/2016x1104+0+0/resize/1280x701!/quality/90/?url=http%3A%2F%2Fewscripps-brightspot.s3.amazonaws.com%2F3d%2F40%2Fe299467c47ac8176e326d4159ba2%2Fscreen-shot-2024-06-13-at-9-10-43-am.png" title="Source: NOAA
+Magenta indicates the highest risk of extreme heat on Monday June 17, 2024" width="300"> <img src="https://cst.brightspotcdn.com/dims4/default/ec8ca7b/2147483647/strip/false/crop/3000x2000+0+0/resize/1486x991!/quality/90/?url=https%3A%2F%2Fchorus-production-cst-web.s3.us-east-1.amazonaws.com%2Fbrightspot%2F3c%2F72%2F37c4c5124af88bb45a3f591cea94%2Fweather-061824-15.jpg" title="Source: Chicago Sun Times; Children and adults cool down at the Crown Fountain in the Loop on Monday June 17, 2024" width="300"></p>
+</section>
+<section id="eds-with-python-and-github" class="level2">
+<h2 class="anchored" data-anchor-id="eds-with-python-and-github"><strong>EDS with Python and GitHub</strong></h2>
+<p>We will be using <a href="">Python</a> and <a href="">GitHub codespaces</a>, two popular open-source data science tools, to do the coding for this workshop, along with <a href="">GitHub classroom</a> to distribute the activity. You will not need to download or install anything on your computer - everything we’ll do can be done in the cloud!</p>
+<p>For those interested, we have created a working Python environment that we host on <a href="https://hub.docker.com/r/earthlab/earth-analytics-dev-env">Docker Hub</a>. Feel free to share this with your students or research group.</p>
+<p>A reminder that you will need a GitHub account in order to accept the assignment from GitHub classroom and complete the activity.</p>
+<p>We’re excited to get started doing some EDS with you!</p>
+<div id="ed857d21" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import Python libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="noaa-national-centers-for-environmental-information" class="level2">
+<h2 class="anchored" data-anchor-id="noaa-national-centers-for-environmental-information">NOAA National Centers for Environmental Information</h2>
+<p><img src="https://www.ncei.noaa.gov/sites/g/files/anmtlf171/files/2021-08/NCEI%20GEO%20Locations-May-2021-V9-01.png" width="500"></p>
+<p>We’ll be using climate data from NOAA’s NCEI Climate Data Online <a href="https://www.ncdc.noaa.gov/cdo-web/search">search tool</a> for this activity. Specifically we will examine maximum temperature values collected through NCEI’s <a href="https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily">Global Historical Climate Network daily</a> program. These data can be obtained programmatically through the cloud using NCEI’s application programming interface (API). Read more about <a href="https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation">NCEI’s API</a> and the <a href="https://www.ncei.noaa.gov/cdo-web/">Climate Data Online</a> database.</p>
+<p>For this activity we have created an API call for two climate stations in the greater Chicago area. We will walk through each line of the url to explain what it is doing.</p>
+<section id="ohare-international-airport" class="level3">
+<h3 class="anchored" data-anchor-id="ohare-international-airport">O’Hare International Airport</h3>
+<p>Chicago O’Hare International Airport (ORD) is one of the busiest airports in the world, serving as a major hub for both domestic and international flights. Located about 14 miles northwest of downtown Chicago, it offers flights to more than 200 destinations and handles over 83 million passengers annually. It is home to Chicago’s official meteorological station. It creates an urban heat island due to the amount of concrete and asphalt needed to support the infrastructure.</p>
+<p><strong>Station ID: USW00094846</strong></p>
+<div id="cf107e55" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an API call for the O'Hare climate station</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ohare_url <span class="op">=</span> (<span class="st">'https://www.ncei.noaa.gov/access/services/data/v1?'</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>             <span class="st">'dataset=daily-summaries'</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>             <span class="st">'&amp;dataTypes=TMAX'</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>             <span class="st">'&amp;stations=USW00094846'</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>             <span class="st">'&amp;startDate=2024-06-01'</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>             <span class="st">'&amp;endDate=2024-06-30'</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>             <span class="st">'&amp;includeStationName=true'</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>             <span class="st">'&amp;includeStationLocation=1'</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>             <span class="st">'&amp;units=standard'</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>ohare_url</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>'https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&amp;dataTypes=TMAX&amp;stations=USW00094846&amp;startDate=2024-06-01&amp;endDate=2024-06-30&amp;includeStationName=true&amp;includeStationLocation=1&amp;units=standard'</code></pre>
+</div>
+</div>
+<div id="533aff9c" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open data using pandas</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ohare_df <span class="op">=</span> pd.read_csv(ohare_url,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                       parse_dates<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                       index_col<span class="op">=</span><span class="st">'DATE'</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                       na_values<span class="op">=</span>[<span class="st">'NaN'</span>])</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check data</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>ohare_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">STATION</th>
+<th data-quarto-table-cell-role="th">NAME</th>
+<th data-quarto-table-cell-role="th">LATITUDE</th>
+<th data-quarto-table-cell-role="th">LONGITUDE</th>
+<th data-quarto-table-cell-role="th">ELEVATION</th>
+<th data-quarto-table-cell-role="th">TMAX</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">DATE</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-01</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>68</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-02</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>77</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-03</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>86</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-04</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>85</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-05</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>79</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-06</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>78</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-07</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>78</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-08</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>77</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-09</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>80</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-10</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>69</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-11</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>78</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-12</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>91</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-13</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>91</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-14</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>86</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-15</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>86</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-16</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>95</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-17</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>97</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-18</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>94</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-19</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>93</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-20</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>85</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-21</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>94</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-22</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>93</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-23</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>80</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-24</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>88</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-25</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>85</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-26</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>87</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-27</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>74</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-28</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>74</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-29</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>88</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-30</td>
+<td>USW00094846</td>
+<td>CHICAGO OHARE INTERNATIONAL AIRPORT, IL US</td>
+<td>41.96017</td>
+<td>-87.93164</td>
+<td>204.8</td>
+<td>71</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="dd61c96f" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean data</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ohare_df <span class="op">=</span> ohare_df[<span class="st">'TMAX'</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ohare_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>DATE
+2024-06-01    68
+2024-06-02    77
+2024-06-03    86
+2024-06-04    85
+2024-06-05    79
+2024-06-06    78
+2024-06-07    78
+2024-06-08    77
+2024-06-09    80
+2024-06-10    69
+2024-06-11    78
+2024-06-12    91
+2024-06-13    91
+2024-06-14    86
+2024-06-15    86
+2024-06-16    95
+2024-06-17    97
+2024-06-18    94
+2024-06-19    93
+2024-06-20    85
+2024-06-21    94
+2024-06-22    93
+2024-06-23    80
+2024-06-24    88
+2024-06-25    85
+2024-06-26    87
+2024-06-27    74
+2024-06-28    74
+2024-06-29    88
+2024-06-30    71
+Name: TMAX, dtype: int64</code></pre>
+</div>
+</div>
+<div id="cc263ebe" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data using pandas</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ohare_df.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="urban-heat-island_files/figure-html/cell-6-output-1.png" width="566" height="474" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="northerly-island" class="level3">
+<h3 class="anchored" data-anchor-id="northerly-island">Northerly Island</h3>
+<p>Northerly Island is a 91-acre man-made peninsula located along the Lake Michigan shoreline in Chicago. Originally part of Daniel Burnham’s 1909 Plan of Chicago, it was transformed into a nature-focused park featuring walking trails, natural habitats, and scenic lakefront views. The site also hosts the Huntington Bank Pavilion, a popular outdoor concert venue.</p>
+<p><strong>Station ID: USC00111550</strong></p>
+<div id="c55eefe3" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an API call for the Northerly climate station</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>northerly_url <span class="op">=</span> (<span class="st">'https://www.ncei.noaa.gov/access/services/data/v1?'</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'dataset=daily-summaries'</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'&amp;dataTypes=TMAX'</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'&amp;stations=USC00111550'</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'&amp;startDate=2024-06-01'</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'&amp;endDate=2024-06-30'</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'&amp;includeStationName=true'</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'&amp;includeStationLocation=1'</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'&amp;units=standard'</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>northerly_url</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>'https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&amp;dataTypes=TMAX&amp;stations=USC00111550&amp;startDate=2024-06-01&amp;endDate=2024-06-30&amp;includeStationName=true&amp;includeStationLocation=1&amp;units=standard'</code></pre>
+</div>
+</div>
+<div id="35894ec4" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open data</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>northerly_df <span class="op">=</span> pd.read_csv(northerly_url,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                           parse_dates<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                           index_col<span class="op">=</span><span class="st">'DATE'</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                           na_values<span class="op">=</span>[<span class="st">'NaN'</span>])</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check data</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>northerly_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">STATION</th>
+<th data-quarto-table-cell-role="th">NAME</th>
+<th data-quarto-table-cell-role="th">LATITUDE</th>
+<th data-quarto-table-cell-role="th">LONGITUDE</th>
+<th data-quarto-table-cell-role="th">ELEVATION</th>
+<th data-quarto-table-cell-role="th">TMAX</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">DATE</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-01</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>67</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-02</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>67</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-03</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>85</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-04</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>77</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-05</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>79</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-06</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>77</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-07</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>76</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-08</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>76</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-09</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>79</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-10</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>63</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-11</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>71</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-12</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>88</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-13</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>88</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-14</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>75</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-15</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>77</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-16</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>93</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-17</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>94</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-18</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>91</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-19</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>92</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-20</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>72</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-21</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>90</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-22</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>91</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-23</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>78</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-24</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>80</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-25</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>84</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-26</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>85</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-27</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>68</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-28</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>74</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-29</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>88</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-30</td>
+<td>USC00111550</td>
+<td>CHICAGO NORTHERLY ISLAND, IL US</td>
+<td>41.8558</td>
+<td>-87.6094</td>
+<td>177.7</td>
+<td>72</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="5dd3cb34" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean data</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>northerly_df <span class="op">=</span> northerly_df[<span class="st">'TMAX'</span>]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>northerly_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>DATE
+2024-06-01    67
+2024-06-02    67
+2024-06-03    85
+2024-06-04    77
+2024-06-05    79
+2024-06-06    77
+2024-06-07    76
+2024-06-08    76
+2024-06-09    79
+2024-06-10    63
+2024-06-11    71
+2024-06-12    88
+2024-06-13    88
+2024-06-14    75
+2024-06-15    77
+2024-06-16    93
+2024-06-17    94
+2024-06-18    91
+2024-06-19    92
+2024-06-20    72
+2024-06-21    90
+2024-06-22    91
+2024-06-23    78
+2024-06-24    80
+2024-06-25    84
+2024-06-26    85
+2024-06-27    68
+2024-06-28    74
+2024-06-29    88
+2024-06-30    72
+Name: TMAX, dtype: int64</code></pre>
+</div>
+</div>
+<div id="1211ca28" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data using pandas</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>northerly_df.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="urban-heat-island_files/figure-html/cell-10-output-1.png" width="566" height="474" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="8426f0ed" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Concatenate the data</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>ohare_northerly <span class="op">=</span> pd.concat([ohare_df, northerly_df], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>ohare_northerly</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">TMAX</th>
+<th data-quarto-table-cell-role="th">TMAX</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">DATE</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-01</td>
+<td>68</td>
+<td>67</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-02</td>
+<td>77</td>
+<td>67</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-03</td>
+<td>86</td>
+<td>85</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-04</td>
+<td>85</td>
+<td>77</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-05</td>
+<td>79</td>
+<td>79</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-06</td>
+<td>78</td>
+<td>77</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-07</td>
+<td>78</td>
+<td>76</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-08</td>
+<td>77</td>
+<td>76</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-09</td>
+<td>80</td>
+<td>79</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-10</td>
+<td>69</td>
+<td>63</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-11</td>
+<td>78</td>
+<td>71</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-12</td>
+<td>91</td>
+<td>88</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-13</td>
+<td>91</td>
+<td>88</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-14</td>
+<td>86</td>
+<td>75</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-15</td>
+<td>86</td>
+<td>77</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-16</td>
+<td>95</td>
+<td>93</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-17</td>
+<td>97</td>
+<td>94</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-18</td>
+<td>94</td>
+<td>91</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-19</td>
+<td>93</td>
+<td>92</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-20</td>
+<td>85</td>
+<td>72</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-21</td>
+<td>94</td>
+<td>90</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-22</td>
+<td>93</td>
+<td>91</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-23</td>
+<td>80</td>
+<td>78</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-24</td>
+<td>88</td>
+<td>80</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-25</td>
+<td>85</td>
+<td>84</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-26</td>
+<td>87</td>
+<td>85</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-27</td>
+<td>74</td>
+<td>68</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-28</td>
+<td>74</td>
+<td>74</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-29</td>
+<td>88</td>
+<td>88</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-30</td>
+<td>71</td>
+<td>72</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="3526dd78" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>ohare_northerly.columns <span class="op">=</span> [<span class="st">'ohare'</span>, <span class="st">'northerly'</span>]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ohare_northerly</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">ohare</th>
+<th data-quarto-table-cell-role="th">northerly</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">DATE</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-01</td>
+<td>68</td>
+<td>67</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-02</td>
+<td>77</td>
+<td>67</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-03</td>
+<td>86</td>
+<td>85</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-04</td>
+<td>85</td>
+<td>77</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-05</td>
+<td>79</td>
+<td>79</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-06</td>
+<td>78</td>
+<td>77</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-07</td>
+<td>78</td>
+<td>76</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-08</td>
+<td>77</td>
+<td>76</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-09</td>
+<td>80</td>
+<td>79</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-10</td>
+<td>69</td>
+<td>63</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-11</td>
+<td>78</td>
+<td>71</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-12</td>
+<td>91</td>
+<td>88</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-13</td>
+<td>91</td>
+<td>88</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-14</td>
+<td>86</td>
+<td>75</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-15</td>
+<td>86</td>
+<td>77</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-16</td>
+<td>95</td>
+<td>93</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-17</td>
+<td>97</td>
+<td>94</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-18</td>
+<td>94</td>
+<td>91</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-19</td>
+<td>93</td>
+<td>92</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-20</td>
+<td>85</td>
+<td>72</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-21</td>
+<td>94</td>
+<td>90</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-22</td>
+<td>93</td>
+<td>91</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-23</td>
+<td>80</td>
+<td>78</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-24</td>
+<td>88</td>
+<td>80</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-25</td>
+<td>85</td>
+<td>84</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-26</td>
+<td>87</td>
+<td>85</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-27</td>
+<td>74</td>
+<td>68</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-28</td>
+<td>74</td>
+<td>74</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-29</td>
+<td>88</td>
+<td>88</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-30</td>
+<td>71</td>
+<td>72</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="2f52955e" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot both datasets on the same axis using matplotlib</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Northerly Island data</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>plt.plot(ohare_northerly.index, ohare_northerly[<span class="st">'ohare'</span>], marker<span class="op">=</span><span class="st">'o'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, label<span class="op">=</span><span class="st">"O'Hare International Airport"</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot O'Hare International Airport data</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>plt.plot(ohare_northerly.index, ohare_northerly[<span class="st">'northerly'</span>], marker<span class="op">=</span><span class="st">'o'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, label<span class="op">=</span><span class="st">"Northerly Island"</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Add title and labels</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Daily Maximum Temperatures - Chicago, IL - June 2024'</span>, weight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Temperature (°F)'</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Rotate x-axis labels for better readability</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Add grid</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Add legend</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust layout to prevent clipping</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Show plot</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="urban-heat-island_files/figure-html/cell-13-output-1.png" width="947" height="565" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="what-do-you-notice-about-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="what-do-you-notice-about-the-data">What do you notice about the data?</h2>
+<p>Take a few minutes to discuss the patterns and trends you see in the data with your neighbors.</p>
+</section>
+<section id="is-it-really-cooler-by-the-lake" class="level2">
+<h2 class="anchored" data-anchor-id="is-it-really-cooler-by-the-lake">Is it really cooler by the Lake?</h2>
+<p>We might be able to make some claims based on the plot above but is there more we can say about the differences in temperature between O’Hare and Northerly Island last June? What other kinds of test might we be able to do on this data to help tell this story in more detail?</p>
+</section>
+<section id="statistical-test-text-and-code-goes-here" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-test-text-and-code-goes-here">Statistical test text and code goes here…</h2>
+</section>
+</section>
+<section id="optional-bonus-activities-if-you-have-time" class="level1">
+<h1><strong>OPTIONAL BONUS activities (if you have time)</strong></h1>
+<ul>
+<li>Use ChatGPT to make a different kind of plot</li>
+<li>Compare two different climate stations</li>
+<li>Add a line that represents the average temperature</li>
+</ul>
+<div id="a0cdd282" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From ChatGPT - Can we make a similar plot using bars instead of points/lines?</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data (replace with your actual DataFrame)</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ohare_northerly should be your DataFrame with 'ohare' and 'northerly' columns and a DateTime index</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the width of the bars</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>bar_width <span class="op">=</span> <span class="fl">0.4</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a numpy array for the indices (x-axis positions)</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="bu">len</span>(ohare_northerly.index))</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a figure</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot O'Hare data as bars</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>plt.bar(x <span class="op">-</span> bar_width <span class="op">/</span> <span class="dv">2</span>, ohare_northerly[<span class="st">'ohare'</span>], width<span class="op">=</span>bar_width, label<span class="op">=</span><span class="st">"O'Hare International Airport"</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Northerly Island data as bars</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>plt.bar(x <span class="op">+</span> bar_width <span class="op">/</span> <span class="dv">2</span>, ohare_northerly[<span class="st">'northerly'</span>], width<span class="op">=</span>bar_width, label<span class="op">=</span><span class="st">"Northerly Island"</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Add title and labels</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Daily Maximum Temperatures - June 2024'</span>)</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Temperature (°F)'</span>)</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Set x-axis ticks to the index (date) and rotate for better readability</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>plt.xticks(x, ohare_northerly.index.strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">'</span>), rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Add grid</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Add legend</span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust layout to prevent clipping</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Show plot</span></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="urban-heat-island_files/figure-html/cell-14-output-1.png" width="949" height="565" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("^(?!((http:|https:)\/\/))");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+          // default icon
+          link.classList.add("external");
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://esiil.org/">
+<p>About ESIIL</p>
+</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
