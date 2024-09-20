@@ -1,0 +1,286 @@
+---
+title: Urban Heat Wave
+subtitle: An example of 
+learning-goals:
+  - Analyze temperature data over time
+  - Parse date information so that it is represented as a datetime type
+  - Use operators to convert to different units
+  - Compare temperature in different locations
+jupyter: python3
+format:
+  html: default
+---
+
+## **ESIIL EDS Workshop**
+This notebook will be used for the [ESIIL](https://www.esiil.org) EDS workshop at the Chicago Symposium, Nov. 2024. Here we'll try to answer whether it's *really* [**cooler by the Lake**]() by looking at a locally relevant issue - a heat wave that took place in Chicago, June 2024. Participants will learn how to access open weather and climate data from NOAA using GitHub, Python, and Jupyter notebooks.
+
+<img src="https://assets1.cbsnewsstatic.com/hub/i/r/2023/05/03/468530a5-7196-4f1b-84d9-97d4af548b39/thumbnail/1920x1080/584f22080d2a6129f60aacba422c7f30/f1db335277c49d3927e94578ba6f96ef.jpg?v=a23cb4bdf4fa7f3cb72e5118085577f9" width="250" title="CBS 2 Meteorologist Mary Kay Kleist has your 10 p.m. First Alert Weather forecast for Tuesday, May 2, 2023.">
+
+<img src="https://wgntv.com/wp-content/uploads/sites/5/2024/05/ST00COOLERLAKESIDE.jpg?resize=755,1118" width="25%">
+
+<img src="https://wgntv.com/wp-content/uploads/sites/5/2023/04/NLanimation10and11.gif" width="250" title="Source WGN April 6, 2023; Friday afternoon temperature snapshot — 50s inland but low 40s near the lake.">
+
+We will select two climate stations located within the greater Chicago area: O'Hare International Airport (Station ID: USW00094846), and Northerly Island (Station ID: USC00111550) to explore trends in maximum daily temperatures.
+
+<img src="https://fly-ord.com/sites/default/files/inline-images/chicago-ord-miguel-angel-sanz-unsplash.jpg" width="300" title="Photo of O'Hare Airport by Miguel Angel Sanz - Unsplash. https://fly-ord.com/airlines">
+
+<img src="https://ik.imagekit.io/ChicagoArchitecture/image/assets%2F49af4dfb0fbc43d58bf8ce407e839d74%2Fc5ead4a81e4e41a28d6cee59bc4c1761?tr=q-50,fm-webp" width="300" title="Aerial view of Northerly Island. Photo by Tom Harris. https://www.architecture.org/online-resources/buildings-of-chicago/northerly-island">
+
+#### **Workshop objectives**
+* Introduce ESIIL's approach to EDS Education
+* Teach open EDS tools (GitHub, Python, Jupyter Notebooks)
+* Access open weather and climate data from NOAA
+* Answer a cuturally relevant question using EDS
+
+***
+
+### What is Open Science?
+<img src="https://www.earthdata.nasa.gov/s3fs-public/2021-11/Circle_Diagram_UPDATE_2.jpg?VersionId=pFRniRpjtgc_MEXUJKi9_sXLoMsSX.pB" width="300" title="Source: https://www.earthdata.nasa.gov/technology/open-science/oss-for-eso-workshops">
+
+***
+
+### What is Culturally Relevant Curriculum?
+<img src="https://successfulacademics.com/IMAGES/Our-Org-Culturally-Responsive-Teaching_Title.png" width="300" title="Source: https://successfulacademics.com/BlackChildSEL/CRT.html">
+
+
+
+
+
+
+
+
+
+# **Case Study:** Looking at temperature data in Chicago - *Heat Islands and the Summer 2024 Heat Wave*
+
+<img src="https://wgntv.com/wp-content/uploads/sites/5/2024/07/2024UHI_chicago_en_title_lg.jpg" width="500" title="Source: https://wgntv.com/weather/weather-blog/chicago-is-an-urban-heat-island-so-what-does-that-mean/">
+
+#### **Urban heat islands in Chicago**
+Climate change is intensifying summer heat in Chicago, particularly in heat island areas, which disproportionately affects marginalized communities. These neighborhoods, often with less green space and more heat-trapping infrastructure, face higher temperatures and greater health risks ([Chicago Tribune](https://www.chicagotribune.com/2023/05/25/mapping-a-threat-climate-changes-deadly-summer-heat-may-deepen-disparities-in-chicago/_)). Chicago O'Hare International Airport is a known heat island often reporting temperatures 5-10 degrees warmer than surrounding communities ([NBC Chicago](https://www.nbcchicago.com/news/local/what-is-an-urban-heat-island-and-how-is-chicago-affected/2973405/)).
+
+***
+
+#### **Chicago Heat Wave 2024**
+<img src="https://stateclimatologist.web.illinois.edu/wp-content/uploads/2024/07/Chicago_temps-768x338.png" title="Source: Illinois State Climatologist; Daily June average temperatures and departures from normal in Chicago" width="500">
+
+According to the [Illinois state climatology office](https://stateclimatologist.web.illinois.edu/2024/07/), daily average temperatures between June 13 and June 25 were 5 to 15 degrees above normal in Chicago and statewide. Overnight temperatures in Chicago were forecast to [stay into the 70's](https://chicago.suntimes.com/weather/2024/06/17/chicago-weather-heat-dome-wave-hot-temperatures-what-you-should-know) with record breaking temperatures being attributed to [climate change](https://www.cbsnews.com/chicago/news/chicago-heat-wave-how-to-stay-cool-safe/).
+
+<img src="https://ewscripps.brightspotcdn.com/dims4/default/88c8feb/2147483647/strip/true/crop/2016x1104+0+0/resize/1280x701!/quality/90/?url=http%3A%2F%2Fewscripps-brightspot.s3.amazonaws.com%2F3d%2F40%2Fe299467c47ac8176e326d4159ba2%2Fscreen-shot-2024-06-13-at-9-10-43-am.png" title="Source: NOAA
+Magenta indicates the highest risk of extreme heat on Monday June 17, 2024" width="300">
+<img src="https://cst.brightspotcdn.com/dims4/default/ec8ca7b/2147483647/strip/false/crop/3000x2000+0+0/resize/1486x991!/quality/90/?url=https%3A%2F%2Fchorus-production-cst-web.s3.us-east-1.amazonaws.com%2Fbrightspot%2F3c%2F72%2F37c4c5124af88bb45a3f591cea94%2Fweather-061824-15.jpg" title="Source: Chicago Sun Times; Children and adults cool down at the Crown Fountain in the Loop on Monday June 17, 2024" width="300">
+
+## **EDS with Python and GitHub**
+We will be using [Python]() and [GitHub codespaces](), two popular open-source data science tools, to do the coding for this workshop, along with [GitHub classroom]() to distribute the activity. You will not need to download or install anything on your computer - everything we'll do can be done in the cloud!
+
+For those interested, we have created a working Python environment that we host on [Docker Hub](https://hub.docker.com/r/earthlab/earth-analytics-dev-env). Feel free to share this with your students or research group.
+
+A reminder that you will need a GitHub account in order to accept the assignment from GitHub classroom and complete the activity.
+
+We're excited to get started doing some EDS with you!
+
+```{python}
+# Import Python libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+```
+
+## NOAA National Centers for Environmental Information
+
+<img src="https://www.ncei.noaa.gov/sites/g/files/anmtlf171/files/2021-08/NCEI%20GEO%20Locations-May-2021-V9-01.png" width="500">
+
+We'll be using climate data from NOAA's NCEI Climate Data Online [search tool](https://www.ncdc.noaa.gov/cdo-web/search) for this activity. Specifically we will examine maximum temperature values collected through NCEI's [Global Historical Climate Network daily](https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily) program. These data can be obtained programmatically through the cloud using NCEI's application programming interface (API). Read more about [NCEI's API](https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation) and the [Climate Data Online](https://www.ncei.noaa.gov/cdo-web/) database.
+
+For this activity we have created an API call for two climate stations in the greater Chicago area. We will walk through each line of the url to explain what it is doing.
+
+### O'Hare International Airport
+Chicago O'Hare International Airport (ORD) is one of the busiest airports in the world, serving as a major hub for both domestic and international flights. Located about 14 miles northwest of downtown Chicago, it offers flights to more than 200 destinations and handles over 83 million passengers annually. It is home to Chicago's official meteorological station. It creates an urban heat island due to the amount of concrete and asphalt needed to support the infrastructure.
+
+**Station ID: USW00094846**
+
+```{python}
+#| colab: {base_uri: 'https://localhost:8080/', height: 70}
+# Create an API call for the O'Hare climate station
+ohare_url = ('https://www.ncei.noaa.gov/access/services/data/v1?'
+             'dataset=daily-summaries'
+             '&dataTypes=TMAX'
+             '&stations=USW00094846'
+             '&startDate=2024-06-01'
+             '&endDate=2024-06-30'
+             '&includeStationName=true'
+             '&includeStationLocation=1'
+             '&units=standard')
+ohare_url
+```
+
+```{python}
+#| colab: {base_uri: 'https://localhost:8080/', height: 1000}
+# Open data using pandas
+ohare_df = pd.read_csv(ohare_url,
+                       parse_dates=True,
+                       index_col='DATE',
+                       na_values=['NaN'])
+
+# Check data
+ohare_df
+```
+
+```{python}
+#| colab: {base_uri: 'https://localhost:8080/', height: 1000}
+# Clean data
+ohare_df = ohare_df['TMAX']
+ohare_df
+```
+
+```{python}
+#| colab: {base_uri: 'https://localhost:8080/', height: 515}
+# Plot the data using pandas
+ohare_df.plot()
+```
+
+### Northerly Island
+Northerly Island is a 91-acre man-made peninsula located along the Lake Michigan shoreline in Chicago. Originally part of Daniel Burnham’s 1909 Plan of Chicago, it was transformed into a nature-focused park featuring walking trails, natural habitats, and scenic lakefront views. The site also hosts the Huntington Bank Pavilion, a popular outdoor concert venue.
+
+**Station ID: USC00111550**
+
+```{python}
+#| colab: {base_uri: 'https://localhost:8080/', height: 70}
+# Create an API call for the Northerly climate station
+northerly_url = ('https://www.ncei.noaa.gov/access/services/data/v1?'
+                 'dataset=daily-summaries'
+                 '&dataTypes=TMAX'
+                 '&stations=USC00111550'
+                 '&startDate=2024-06-01'
+                 '&endDate=2024-06-30'
+                 '&includeStationName=true'
+                 '&includeStationLocation=1'
+                 '&units=standard')
+northerly_url
+```
+
+```{python}
+#| colab: {base_uri: 'https://localhost:8080/', height: 1000}
+# Open data
+northerly_df = pd.read_csv(northerly_url,
+                           parse_dates=True,
+                           index_col='DATE',
+                           na_values=['NaN'])
+
+# Check data
+northerly_df
+```
+
+```{python}
+#| colab: {base_uri: 'https://localhost:8080/', height: 1000}
+# Clean data
+northerly_df = northerly_df['TMAX']
+northerly_df
+```
+
+```{python}
+#| colab: {base_uri: 'https://localhost:8080/', height: 515}
+# Plot the data using pandas
+northerly_df.plot()
+```
+
+```{python}
+#| colab: {base_uri: 'https://localhost:8080/', height: 1000}
+# Concatenate the data
+ohare_northerly = pd.concat([ohare_df, northerly_df], axis=1)
+ohare_northerly
+```
+
+```{python}
+#| colab: {base_uri: 'https://localhost:8080/', height: 1000}
+# Rename the columns
+ohare_northerly.columns = ['ohare', 'northerly']
+ohare_northerly
+```
+
+```{python}
+#| colab: {base_uri: 'https://localhost:8080/', height: 393}
+# Plot both datasets on the same axis using matplotlib
+plt.figure(figsize=(10, 6))
+
+# Plot Northerly Island data
+plt.plot(ohare_northerly.index, ohare_northerly['ohare'], marker='o', linestyle='-', label="O'Hare International Airport", color='red')
+
+# Plot O'Hare International Airport data
+plt.plot(ohare_northerly.index, ohare_northerly['northerly'], marker='o', linestyle='-', label="Northerly Island", color='blue')
+
+# Add title and labels
+plt.title('Daily Maximum Temperatures - Chicago, IL - June 2024', weight='bold')
+plt.xlabel('Date')
+plt.ylabel('Temperature (°F)')
+
+# Rotate x-axis labels for better readability
+plt.xticks(rotation=45)
+
+# Add grid
+plt.grid(True)
+
+# Add legend
+plt.legend()
+
+# Adjust layout to prevent clipping
+plt.tight_layout()
+
+# Show plot
+plt.show()
+```
+
+## What do you notice about the data?
+Take a few minutes to discuss the patterns and trends you see in the data with your neighbors.
+
+## Is it really cooler by the Lake?
+We might be able to make some claims based on the plot above but is there more we can say about the differences in temperature between O'Hare and Northerly Island last June? What other kinds of test might we be able to do on this data to help tell this story in more detail?
+
+## Statistical test text and code goes here...
+
+# **OPTIONAL BONUS activities (if you have time)**
+* Use ChatGPT to make a different kind of plot
+* Compare two different climate stations
+* Add a line that represents the average temperature
+
+```{python}
+#| colab: {base_uri: 'https://localhost:8080/', height: 392}
+# From ChatGPT - Can we make a similar plot using bars instead of points/lines?
+
+# Sample data (replace with your actual DataFrame)
+# ohare_northerly should be your DataFrame with 'ohare' and 'northerly' columns and a DateTime index
+
+# Define the width of the bars
+bar_width = 0.4
+
+# Create a numpy array for the indices (x-axis positions)
+x = np.arange(len(ohare_northerly.index))
+
+# Create a figure
+plt.figure(figsize=(10, 6))
+
+# Plot O'Hare data as bars
+plt.bar(x - bar_width / 2, ohare_northerly['ohare'], width=bar_width, label="O'Hare International Airport", color='red')
+
+# Plot Northerly Island data as bars
+plt.bar(x + bar_width / 2, ohare_northerly['northerly'], width=bar_width, label="Northerly Island", color='blue')
+
+# Add title and labels
+plt.title('Daily Maximum Temperatures - June 2024')
+plt.xlabel('Date')
+plt.ylabel('Temperature (°F)')
+
+# Set x-axis ticks to the index (date) and rotate for better readability
+plt.xticks(x, ohare_northerly.index.strftime('%Y-%m-%d'), rotation=45)
+
+# Add grid
+plt.grid(True)
+
+# Add legend
+plt.legend()
+
+# Adjust layout to prevent clipping
+plt.tight_layout()
+
+# Show plot
+plt.show()
+```
+
