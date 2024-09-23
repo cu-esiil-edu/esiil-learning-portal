@@ -1,10 +1,6 @@
 ---
-title: Climate coding challenge, Part 6
-subtitle: Getting your own data
+title: Get your own climate data from Climate Data Online
 jupyter: python3
-format:
-  ipynb:
-    output-file: "Get Started with Open Reproducible Science, Part 6!"
 ---
 
 ```{python}
@@ -25,9 +21,7 @@ Here we're using the NOAA National Centers for Environmental Information (NCEI) 
 
 For this example we're requesting [daily summary data in {{< meta params.01-climate.location >}} (station ID {{< meta params.01-climate.station_id >}})](https://www.ncdc.noaa.gov/cdo-web/datasets/GHCND/stations/GHCND:{{< meta params.01-climate.station_id >}}/detail).
 
-::: {.cell .markdown}
-:::: {.callout-important icon="false"}
-## {{< fa pencil size=large >}} Your task:
+::: {.callout-response title="Research and cite your data"}
 
   1.  Research the [**Global Historical Climatology Network - Daily**](https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.ncdc:C00861/html) data source.
   2. In the cell below, write a 2-3 sentence description of the data source. 
@@ -39,18 +33,19 @@ Your description should include:
   + where the data were taken
   + what the maximum temperature units are
   + how the data are collected
-::::
 :::
 
-::: {.cell .markdown}
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
 **YOUR DATA DESCRIPTION AND CITATION HERE** 🛎️
+::::
 :::
 
 ## Access NCEI GHCNd Data from the internet using its API 🖥️ 📡 🖥️
 
 The cell below contains the URL for the data you will use in this part of the notebook. We created this URL by generating what is called an **API endpoint** using the NCEI [API documentation](https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation).
 
-::: callout-note
+::: {.callout-note .column-margin title="What's an API?"}
 An **application programming interface** (API) is a way for two or more computer programs or components to communicate with each other. It is a type of software interface, offering a service to other pieces of software ([Wikipedia](https://en.wikipedia.org/wiki/API)).
 :::
 
@@ -69,12 +64,12 @@ import pandas as pd
 ```
 :::
 
-::: {.callout-important icon="false"}
-# {{< fa keyboard size=large >}} Your task:
+::: {.callout-task title="Format your URL for readability"}
 
-  1. Pick an expressive variable name for the URL.
-  2. Reformat the URL so that it adheres to the [79-character PEP-8 line limit](https://peps.python.org/pep-0008/#maximum-line-length). You should see two vertical lines in each cell - don't let your code go past the second line.
-  3. At the end of the cell where you define your url variable, **call your variable (type out its name)** so it can be tested.
+1. Pick an expressive variable name for the URL.
+2. Reformat the URL so that it adheres to the [79-character PEP-8 line limit](https://peps.python.org/pep-0008/#maximum-line-length). You should see two vertical lines in each cell - don't let your code go past the second line.
+3. At the end of the cell where you define your url variable, **call your variable (type out its name)** so it can be tested.
+
 :::
 
 ```{python}
@@ -100,26 +95,9 @@ ncei_url
 ```
 :::
 
-```{python}
-# DO NOT MODIFY THIS TEST CELL
-resp_url = _
-
-if type(resp_url)==str:
-    print('\u2705 Great work! You correctly called your url variable.')
-else:
-    print('\u274C Oops - your url variable was not called correctly.')
-
-if len(resp_url)==218:
-    print('\u2705 Great work! Your url is the correct length.')
-else:
-    print('\u274C Oops - your url variable is not the correct length.')
-```
-
-------------------------------------------------------------------------
-
 ## **Download and get started working with NCEI data**
 
-Just like you did with the practice data, go ahead and use pandas to import data from your API URL into Python. If you didn't do it already, you should import the pandas library **at the top of this notebook** so that others who want to use your code can find it easily.
+Go ahead and use pandas to import data from your API URL into Python. If you didn't already, you should import the pandas library **at the top of this notebook** so that others who want to use your code can find it easily.
 
 ```{python}
 #| error: true
@@ -133,23 +111,15 @@ Just like you did with the practice data, go ahead and use pandas to import data
 #| code-summary: See our solution!
 # Download the climate data
 climate_df = pd.read_csv(
-  ncei_url,
-  index_col='DATE',
-  parse_dates=True,
-  na_values=['NaN'])
-climate_df
+    ncei_url,
+    index_col='DATE',
+    parse_dates=True,
+    na_values=['NaN'])
+
+# Check that the download worked
+climate_df.head()
 ```
 :::
-
-```{python}
-# DO NOT MODIFY THIS TEST CELL
-tmax_df_resp = _
-
-if isinstance(tmax_df_resp, pd.DataFrame):
-    print('\u2705 Great work! You called a DataFrame.')
-else:
-    print('\u274C Oops - make sure to call your DataFrame for testing.')
-```
 
 ::: {.content-hidden}
 ```{python}

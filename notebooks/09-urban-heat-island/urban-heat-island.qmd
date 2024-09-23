@@ -1,6 +1,16 @@
 ---
 title: Urban Heat Wave
 subtitle: A cross-disciplinary, place-based Earth Data Science activity 
+description: In this hands-on Earth Data Science activity, we'll look at temperature data from two locations in the Chicago area and compare them. 
+author:
+  - Nate Quarderer
+  - Elsa Culler
+keywords:
+  - "Open Science"
+  - "Urban Heat Island"
+  - "Place-based Learning"
+date: last-modified
+image: /img/earth-analytics/urban-heat-island/uhi-icon.png
 learning-goals:
   - Access open weather and climate data from NOAA
   - Answer a cuturally relevant question using EDS
@@ -16,9 +26,9 @@ format:
 
 ## We're all feeling the heat!
 
-[The summer of 2024 was the hottest yet](https://www.nasa.gov/earth/nasa-finds-summer-2024-hottest-to-date/), (@younger_nasa_2024) and every indication is that the heat is only going to get more intense. Communities need to protect their vulnerable members by adapting to the changing climate with solutions informed by their cultural, geographic, and political context.
+![Source: Chicago Sun Times; Children and adults cool down at the Crown Fountain in the Loop on Monday June 17, 2024](https://cst.brightspotcdn.com/dims4/default/ec8ca7b/2147483647/strip/false/crop/3000x2000+0+0/resize/1486x991!/quality/90/?url=https%3A%2F%2Fchorus-production-cst-web.s3.us-east-1.amazonaws.com%2Fbrightspot%2F3c%2F72%2F37c4c5124af88bb45a3f591cea94%2Fweather-061824-15.jpg)
 
-In this hands-on Earth Data Science activity, we'll look at temperature data from two locations in the Chicago area and compare them. 
+[The summer of 2024 was the hottest yet](https://www.nasa.gov/earth/nasa-finds-summer-2024-hottest-to-date/), [@younger_nasa_2024] and every indication is that the heat is only going to get more intense. Communities need to protect their vulnerable members by adapting to the changing climate with solutions informed by their cultural, geographic, and political context.
 
 ### Place-based, culturally-relevant curriculum is essential to engaging diverse groups of students
 
@@ -26,16 +36,25 @@ Because this is a **place-based** learning exercise, it can be adapted to differ
 
 ![Source: https://successfulacademics.com/BlackChildSEL/CRT.html](https://successfulacademics.com/IMAGES/Our-Org-Culturally-Responsive-Teaching_Title.png)
 
-For example, depending on the context you might as students:
-  * What effects has heat had on your community?
-  * What changes have you observed to the climate over your lifetime? Can you talk to an elder and find out what changes they have observed?
-  * How have policies like redlining influenced community vulnerability to heat waves?
-  * Are there traditional building methods or ecological practices in your culture that help to mitigate the effects of heat waves?
-  * What are some short- and long-term strategies for mitigating the effects of heat on your community? If you were implementing mitigation strategies, who would you reach out to first? For example:
-      * Reaching out to vulnerable community members through cultural and religious institutions to provide aid such as transportation to an air conditioned space, ensure water supply, and cool down buildings with strategies like fans and radiation-blocking window films.
-      * Culturally and climatically appropriate changes to the built environment to reduce heat absorption and storage during heat waves.
-      * Culturally and climatically appropriate changes and/or expansion of green space to reduce heat absorption and storage
-      * Cultural events to help your community adapt
+::: {.callout-discuss}
+Heat affects different communities in different ways. Here are some questions to help spark a conversation with classmates or with members of your community:
+
+  * What effects has **heat** had on your **community**?
+  * What **changes** have you observed to the climate over your lifetime? Can you talk to an elder and find out what changes they have observed? 
+  * How have **policies** like redlining influenced **community vulnerability** to heat waves?
+  * Are there **traditional building methods or ecological practices** in your culture that help to mitigate the effects of heat waves?
+:::
+
+We know it can be tough to talk about climate change -- be easy on yourselves! One way to help have a positive conversation about climate change is to talk about solutions. After all, when it comes to a life-or-death issue like heat waves, we can't let the conversation end with observing the situation. 
+
+::: {.callout-discuss}
+What are some short- and long-term strategies for **mitigating** the effects of heat on your community? If you were implementing mitigation strategies, **who would you reach out to first**? Below are some examples of some types of strategies you could discuss:
+
+  * **Reaching out to vulnerable community members** through cultural and religious institutions to provide aid such as transportation to an air conditioned space, ensure water supply, and cool down buildings with strategies like fans and radiation-blocking window films.
+  * Culturally and climatically appropriate **changes to the built environment** to reduce heat absorption and storage during heat waves.
+  * Culturally and climatically appropriate changes and/or **expansion of green space** to reduce heat absorption and storage
+  * **Cultural events** to help your community adapt
+:::
 
 Making cultural connections is important for achieving learning goals and engaging diverse groups of students.
 
@@ -44,42 +63,51 @@ Making cultural connections is important for achieving learning goals and engagi
 We have also developed this activity so that it can be adapted to many different academic disciplines, and we encourage you to do so in your classes! For example:
 
 | Discipline | Learning Goals |
-| --- | --- |
-| Physics | Heat transfer concepts that cause the Urban Heat Island effect such as albedo, thermal mass, and latent heat |
-| Biology | Biological concepts that cause the Urban Heat Island effect such as transpiration, photosynthesis, and homeostasis |
+| ------- | ------------------------------------------------ |
+| Physics | Explain how aspects of heat transfer such as**albedo**, **thermal mass**, and **latent heat** relate to the Urban Heat Island effect|
+| Biology | Biological concepts that cause the Urban Heat Island effect such as **transpiration**, **photosynthesis**, and **homeostasis** |
 | Statistics | Probability distributions for average and extreme temperatures, stationarity, and hypothesis testing to determine differences among sites |
 | Calculus | Processes governing heat transfer |
+
+:::{.callout-read .column-margin title="Air Temperature vs. Surface Temperature"}
+We'll be looking at air temperature in this analysis rather than surface temperature. Some of you may have clocked that the surface temperature is more related to the Urban Heat Island mechanism! However, the two are closely related, so we think we can still examing Urban Heat Island effects using air temperature. Check out this resource from the EPA [@us_epa_learn_2014] on the relationship between air temperature and surface temperature and the Urban Heat Island effect:
+
+[![](https://www.epa.gov/sites/default/files/2020-07/heat_island_effect_diagram.jpg)](https://www.epa.gov/heatislands/learn-about-heat-islands)
+:::
 
 ## **Case Study:** Chicago summer 2024 heat wave
 
 ![Source: Illinois State Climatologist; Daily June average temperatures and departures from normal in Chicago](https://stateclimatologist.web.illinois.edu/wp-content/uploads/2024/07/Chicago_temps-768x338.png)
 
-According to the [Illinois state climatology office](https://stateclimatologist.web.illinois.edu/2024/07/), daily average temperatures between June 13 and June 25 were 5 to 15 degrees above normal in Chicago and statewide. Overnight temperatures in Chicago were forecast to [stay into the 70's](https://chicago.suntimes.com/weather/2024/06/17/chicago-weather-heat-dome-wave-hot-temperatures-what-you-should-know) with record breaking temperatures being attributed to [climate change](https://www.cbsnews.com/chicago/news/chicago-heat-wave-how-to-stay-cool-safe/).
+According to the [Illinois state climatology office](https://stateclimatologist.web.illinois.edu/2024/07/) [@illinois_state_water_survey_warm_2024], daily average temperatures between June 13 and June 25 were 5 to 15 degrees above normal in Chicago and statewide. Overnight temperatures in Chicago were forecast to [stay into the 70's](https://chicago.suntimes.com/weather/2024/06/17/chicago-weather-heat-dome-wave-hot-temperatures-what-you-should-know) with record breaking temperatures being attributed to [climate change](https://www.cbsnews.com/chicago/news/chicago-heat-wave-how-to-stay-cool-safe/).
 
-<img src="https://ewscripps.brightspotcdn.com/dims4/default/88c8feb/2147483647/strip/true/crop/2016x1104+0+0/resize/1280x701!/quality/90/?url=http%3A%2F%2Fewscripps-brightspot.s3.amazonaws.com%2F3d%2F40%2Fe299467c47ac8176e326d4159ba2%2Fscreen-shot-2024-06-13-at-9-10-43-am.png" title="Source: NOAA
-Magenta indicates the highest risk of extreme heat on Monday June 17, 2024" width="300">
+![Source: NOAA, Magenta indicates the highest risk of extreme heat on Monday June 17, 2024](https://ewscripps.brightspotcdn.com/dims4/default/88c8feb/2147483647/strip/true/crop/2016x1104+0+0/resize/1280x701!/quality/90/?url=http%3A%2F%2Fewscripps-brightspot.s3.amazonaws.com%2F3d%2F40%2Fe299467c47ac8176e326d4159ba2%2Fscreen-shot-2024-06-13-at-9-10-43-am.png)
 
-<img src="https://cst.brightspotcdn.com/dims4/default/ec8ca7b/2147483647/strip/false/crop/3000x2000+0+0/resize/1486x991!/quality/90/?url=https%3A%2F%2Fchorus-production-cst-web.s3.us-east-1.amazonaws.com%2Fbrightspot%2F3c%2F72%2F37c4c5124af88bb45a3f591cea94%2Fweather-061824-15.jpg" title="Source: Chicago Sun Times; Children and adults cool down at the Crown Fountain in the Loop on Monday June 17, 2024" width="300">
-
-If you teach in or near Chicago, your students probably have some feelings about how hot it was! The Chicago area is known for its at times extreme weather, but cities get hit particularly hard by heat waves due to the urban heat island effect. [This article from WGN](https://wgntv.com/weather/weather-blog/chicago-is-an-urban-heat-island-so-what-does-that-mean/) explains what this means for cities like Chicago.
+If you teach in or near Chicago, your students probably have some feelings about how hot it was! The Chicago area is known for its at times extreme weather, but cities get hit particularly hard by heat waves due to the urban heat island effect. [This article from WGN](https://wgntv.com/weather/weather-blog/chicago-is-an-urban-heat-island-so-what-does-that-mean/) [@alix_martichoux_urban_2024] explains what this means for cities like Chicago.
 
 ### Heat kills
 
-Climate change is intensifying summer heat in Chicago, particularly in heat island areas, which disproportionately affects marginalized communities. These neighborhoods, often with less green space and more heat-trapping infrastructure, face higher temperatures and greater health risks ([Chicago Tribune](https://www.chicagotribune.com/2023/05/25/mapping-a-threat-climate-changes-deadly-summer-heat-may-deepen-disparities-in-chicago/_)). Chicago O'Hare International Airport is a known heat island often reporting temperatures 5-10 degrees warmer than surrounding communities ([NBC Chicago](https://www.nbcchicago.com/news/local/what-is-an-urban-heat-island-and-how-is-chicago-affected/2973405/)).
+Climate change is intensifying summer heat in Chicago, particularly in heat island areas, which disproportionately affects marginalized communities. These neighborhoods, often with less green space and more heat-trapping infrastructure, face higher temperatures and greater health risks [@us_epa_heat_2019]. 
+
+::: {.callout-read .column-margin title="What is a Heat Island?"}
+Read more about the Urban Heat Island effect at the [EPA](https://www.epa.gov/heatislands).
+:::
+
+Chicago O'Hare International Airport is a known heat island often reporting temperatures 5-10 degrees warmer than surrounding communities [@nbc_chicago_what_2022].
 
 ### Is it cooler by the lake?
 
 Many Chicagoans know that one of the best ways to beat the heat is to head to the lake. In this we'll try to answer whether it's *really* [**cooler by the Lake**](), and what Chicago could do to cool down the rest of the City.
 
-![WGN Temperature Forecast -- it's cooler by the lake!]https://wgntv.com/wp-content/uploads/sites/5/2023/04/NLanimation10and11.gif)
+![WGN Temperature Forecast -- it's cooler by the lake!](https://wgntv.com/wp-content/uploads/sites/5/2023/04/NLanimation10and11.gif)
 
 We will select two climate stations located within the greater Chicago area: O'Hare International Airport (Station ID: USW00094846), and Northerly Island (Station ID: USC00111550) to explore trends in maximum daily temperatures.
 
-::: {.layout-ncol=2}
+::: {layout-ncol=2}
 
-![Photo of O'Hare Airport by Miguel Angel Sanz - Unsplash. https://fly-ord.com/airlines](https://fly-ord.com/sites/default/files/inline-images/chicago-ord-miguel-angel-sanz-unsplash.jpg)
+![[Photo of O'Hare Airport by Miguel Angel Sanz - Unsplash.](https://fly-ord.com/airlines)](https://fly-ord.com/sites/default/files/inline-images/chicago-ord-miguel-angel-sanz-unsplash.jpg)
 
-![Aerial view of Northerly Island. Photo by Tom Harris. https://www.architecture.org/online-resources/buildings-of-chicago/northerly-island](https://ik.imagekit.io/ChicagoArchitecture/image/assets%2F49af4dfb0fbc43d58bf8ce407e839d74%2Fc5ead4a81e4e41a28d6cee59bc4c1761?tr=q-50,fm-webp)
+![[Aerial view of Northerly Island. Photo by Tom Harris.](https://www.architecture.org/online-resources/buildings-of-chicago/northerly-island)](https://ik.imagekit.io/ChicagoArchitecture/image/assets%2F49af4dfb0fbc43d58bf8ce407e839d74%2Fc5ead4a81e4e41a28d6cee59bc4c1761?tr=q-50,fm-webp)
 
 :::
 
@@ -132,9 +160,9 @@ import numpy as np
 
 ### Global Historical Climatology Network
 
-One way scientists know that the climate is changing is by looking at records from temperature sensors around the globe. Some of these sensors have been recording data for over a century! For this activity, we'll get daily maximum temperature measurements from the [Global Historical Climate Network daily](https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily), an openly available and extensively validated global network of temperature sensors.
+One way scientists know that the climate is changing is by looking at records from temperature sensors around the globe. Some of these sensors have been recording data for over a century! For this activity, we'll get daily maximum temperature measurements from the [Global Historical Climate Network daily](https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily) [@menne_overview_2012], an openly available and extensively validated global network of temperature sensors.
 
-![The Global Historical Climatology Network Source: CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=2084097](https://en.wikipedia.org/wiki/Global_Historical_Climatology_Network#/media/File:GHCN_Temperature_Stations.png)
+![The Global Historical Climatology Network Source: CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=2084097](https://upload.wikimedia.org/wikipedia/commons/a/ab/GHCN_Temperature_Stations.png)
 
 The GHCNd data are available through by the National Oceanic and Atmospheric Administration's (NOAA) National Centers for Environmental Information (NCEI) Climate Data Online [search tool](https://www.ncdc.noaa.gov/cdo-web/search). We can get also get these data using code by contacting NCEI's API.
 
@@ -179,8 +207,8 @@ ohare_df = pd.read_csv(
     index_col='DATE',
     na_values=['NaN'])
 
-# Check data
-ohare_df
+# Check the first 5 lines of data
+ohare_df.head()
 ```
 
 ```{python}
@@ -189,6 +217,7 @@ ohare_df.TMAX.plot()
 ```
 
 ### Northerly Island
+
 Northerly Island is a 91-acre man-made peninsula located along the Lake Michigan shoreline in Chicago. Originally part of Daniel Burnham’s 1909 Plan of Chicago, it was transformed into a nature-focused park featuring walking trails, natural habitats, and scenic lakefront views. The site also hosts the Huntington Bank Pavilion, a popular outdoor concert venue.
 
 **Station ID: USC00111550**
@@ -218,8 +247,8 @@ northerly_df = pd.read_csv(
     index_col='DATE',
     na_values=['NaN'])
 
-# Check data
-northerly_df
+# Check the first 5 lines of data
+northerly_df.head()
 ```
 
 ```{python}
@@ -232,12 +261,12 @@ northerly_df.TMAX.plot()
 
 ```{python}
 ohare_tmax_df = ohare_df[['TMAX']]
-ohare_tmax_df
+ohare_tmax_df.head()
 ```
 
 ```{python}
 northerly_tmax_df = northerly_df[['TMAX']]
-northerly_tmax_df
+northerly_tmax_df.head()
 ```
 
 ### Join data
@@ -251,25 +280,44 @@ tmax_df = (
         lsuffix='_ohare', 
         rsuffix='_northerly')
 )
-tmax_df
+tmax_df.head()
 ```
 
 ## STEP 4: Plot
 
-### Rename columns
-```{python}
-# Rename the columns
-tmax_df.rename(mapper={
-    "O'Hare International Airport": 'TMAX_ohare', 
-    'Northerly Island': 'TMAX_northerly'})
-tmax_df
-```
+Let's try plotting the joined `DataFrame`, just like we plotted the data above:
 
 ```{python}
-tmax_df.plot(
-    figsize=(10, 6),
+tmax_df.plot()
+```
+
+Hopefully you can see all the data! However, this plot is missing some key elements, and is lacking in style.
+
+::: {.callout-response}
+What do you notice about this plot that you would like to change for a final figure?
+:::
+
+### Rename columns for nicer labels
+
+Something you might have noticed about your plot is that the labels in the legend don't look very nice. Most things about hte plot we can change by passing **parameters** to the `.plot()` method (see below). However, the easiest way to change the legend labels in Python, we think, is to rename the columns. Python will automatically use the column names as legend labels just like it did in the first plot.
+
+```{python}
+# Rename the columns
+tmax_plot_df = tmax_df.rename(columns={
+    'TMAX_ohare': "O'Hare Airport", 
+    'TMAX_northerly': 'Northerly Island'})
+tmax_plot_df.head()
+```
+
+### Generate a figure
+
+Now, we're ready to make a quality figure of the data!
+
+```{python}
+tmax_plot_df.plot(
+    figsize=(8, 5),
     marker='o', linestyle='-',
-    xlabel='Date', ylabel='Temperature $^\circ$F',
+    xlabel='Date', ylabel='Temperature ($^\circ$F)',
     title='Daily Maximum Temperatures - Chicago, IL - June 2024',
     colormap='Set1'
 )

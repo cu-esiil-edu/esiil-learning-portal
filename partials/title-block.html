@@ -1,33 +1,38 @@
 <!-- Modified from https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/html/templates/banner/title-block.html -->
 <header id="title-block-header" class="quarto-title-block default">
     <div class="esiil-title-goals">
-      <div class="quarto-title column-body">
-        $if(title)$
-        <h1 class="title">$title$</h1>
-        $endif$
-        $if(subtitle)$
-        <p class="subtitle lead">$subtitle$</p>
-        $endif$
-        $if(description)$
-        <div>
-          <div class="description">
-            $description$
-          </div>
-        </div>
-        $endif$
+        <div class="quarto-title column-body">
+            $if(title)$
+            <h1 class="title">
+                $title$
+            </h1>
+            $endif$
+            $if(subtitle)$
+            <p class="subtitle lead">
+                $subtitle$
+            </p>
+            $endif$
+            $if(description)$
+            <div class="description">
+                $description$
+            </div>
+            $endif$
         
-        $if(learning-goals)$
-        <div class="esiil-learning-goals-title">Learning Goals:</div>
-        <ul class="esiil-learning-goals">
-          $for(learning-goals)$
-          <li class="esiil-learning-goal">$learning-goals$</li>
-          $endfor$
-        </ul>
-        $endif$
-      </div>
+            $if(learning-goals)$
+            <div class="esiil-learning-goals-title">Learning Goals:</div>
+            <ul class="esiil-learning-goals">
+                $for(learning-goals)$
+                <li class="esiil-learning-goal">$learning-goals$</li>
+                $endfor$
+            </ul>
+            $endif$
+        </div>
     
-      <div class="column-margin">
-        $title-metadata.html()$
-      </div>
+        <div class="column-margin">
+            $if(image)$
+            <img src=$image$ width="100%">
+            $endif$
+            $title-metadata.html()$
+        </div>
     </div>
 </header>

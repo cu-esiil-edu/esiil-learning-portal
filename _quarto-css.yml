@@ -1,8 +1,10 @@
 project:
   output-dir: _site/css
   render:
-    - pages/00-course-overviews/css/home.qmd
+    - pages/00-course-overviews/css/00-home.qmd
+    - pages/01-reproducible-science-tools/open-reproducible-science/01-intro.qmd
     - notebooks/09-urban-heat-island/*.qmd
+    - notebooks/01-climate/climate-98-download.qmd
     - "!index.qmd"
 
 website:
@@ -19,15 +21,29 @@ website:
       search: true
 
       contents:
-        - text: Chicago Symposium
-          href: https://chicagosymposium.org/
         - text: Workshop Overview
           href: pages/00-course-overviews/css/00-home.qmd
-        - text: Keynote
-          href: 
+        - text: Chicago Symposium
+          href: https://chicagosymposium.org/
+        - text: ESIIL
+          href: https://esiil.org/
+        - text: Plenary Speakers
+          href: https://chicagosymposium.org/profile/139/
         - section: Session 1
           contents:
+            - text: Open Reproducible Science
+              href: pages/01-reproducible-science-tools/open-reproducible-science/01-intro.qmd
             - text: Urban Heat Island
               href: notebooks/09-urban-heat-island/urban-heat-island.qmd
+            - text: Data Download
+              href: notebooks/01-climate/climate-98-download.qmd
             - text: Try it on GitHub!
               href: https://classroom.github.com/a/UWz9FQ_E
+
+params:
+  01-climate:
+    location: "Boulder, CO"
+    station_id: "USC00050848"
+    start_date: "1893-10-01"
+    end_date: "2023-09-30"
+    output_filename: "climate-foundations-data.csv"
