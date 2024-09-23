@@ -6,6 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Nate Quarderer">
+<meta name="author" content="Elsa Culler">
+<meta name="dcterms.date" content="2024-09-23">
+<meta name="keywords" content="Open Science, Urban Heat Island, Place-based Learning">
+<meta name="description" content="In this hands-on Earth Data Science activity, we’ll look at temperature data from two locations in the Chicago area and compare them.">
 
 <title>Urban Heat Wave</title>
 <style>
@@ -84,7 +89,8 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../pages/00-course-overviews/css/00-home.qmd" rel="prev">
+<link href="../../notebooks/01-climate/climate-98-download.html" rel="next">
+<link href="../../pages/01-reproducible-science-tools/open-reproducible-science/01-intro.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -147,7 +153,7 @@ div.csl-indent {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="../../pages/00-course-overviews/css/00-home.qmd" aria-current="page"> 
+    <a class="nav-link active" href="../../pages/00-course-overviews/css/00-home.html" aria-current="page"> 
 <span class="menu-text">Indigenous Data Science Workshop with Chicago Symposium</span></a>
   </li>  
 </ul>
@@ -167,7 +173,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../notebooks/09-urban-heat-island/urban-heat-island.html">Session 1</a></li><li class="breadcrumb-item"><a href="../../notebooks/09-urban-heat-island/urban-heat-island.html">Urban Heat Island</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/01-reproducible-science-tools/open-reproducible-science/01-intro.html">Session 1</a></li><li class="breadcrumb-item"><a href="../../notebooks/09-urban-heat-island/urban-heat-island.html">Urban Heat Island</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -189,19 +195,28 @@ div.csl-indent {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../pages/00-course-overviews/css/00-home.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Workshop Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="https://chicagosymposium.org/" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Chicago Symposium</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../pages/00-course-overviews/css/00-home.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Workshop Overview</span></a>
+  <a href="https://esiil.org/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ESIIL</span></a>
   </div>
 </li>
         <li class="sidebar-item">
- <span class="menu-text">Keynote</span>
-  </li>
+  <div class="sidebar-item-container"> 
+  <a href="https://chicagosymposium.org/profile/139/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Plenary Speakers</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
@@ -213,8 +228,20 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../pages/01-reproducible-science-tools/open-reproducible-science/01-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Open Reproducible Science</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../notebooks/09-urban-heat-island/urban-heat-island.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Urban Heat Island</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/01-climate/climate-98-download.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Download</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -263,7 +290,8 @@ div.csl-indent {
   </ul></li>
   <li><a href="#step-4-plot" id="toc-step-4-plot" class="nav-link" data-scroll-target="#step-4-plot">STEP 4: Plot</a>
   <ul class="collapse">
-  <li><a href="#rename-columns" id="toc-rename-columns" class="nav-link" data-scroll-target="#rename-columns">Rename columns</a></li>
+  <li><a href="#rename-columns-for-nicer-labels" id="toc-rename-columns-for-nicer-labels" class="nav-link" data-scroll-target="#rename-columns-for-nicer-labels">Rename columns for nicer labels</a></li>
+  <li><a href="#generate-a-figure" id="toc-generate-a-figure" class="nav-link" data-scroll-target="#generate-a-figure">Generate a figure</a></li>
   </ul></li>
   <li><a href="#step-5-analysis" id="toc-step-5-analysis" class="nav-link" data-scroll-target="#step-5-analysis">STEP 5: Analysis</a>
   <ul class="collapse">
@@ -278,42 +306,75 @@ div.csl-indent {
 <main class="content page-columns page-full" id="quarto-document-content">
 
 <!-- Modified from https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/html/templates/banner/title-block.html -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../notebooks/09-urban-heat-island/urban-heat-island.html">Session 1</a></li><li class="breadcrumb-item"><a href="../../notebooks/09-urban-heat-island/urban-heat-island.html">Urban Heat Island</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default page-columns page-full"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/01-reproducible-science-tools/open-reproducible-science/01-intro.html">Session 1</a></li><li class="breadcrumb-item"><a href="../../notebooks/09-urban-heat-island/urban-heat-island.html">Urban Heat Island</a></li></ol></nav>
     <div class="esiil-title-goals page-columns page-full">
-      <div class="quarto-title column-body">
-                <h1 class="title">Urban Heat Wave</h1>
-                        <p class="subtitle lead">A cross-disciplinary, place-based Earth Data Science activity</p>
-                        
-                <div class="esiil-learning-goals-title">Learning Goals:</div>
-        <ul class="esiil-learning-goals">
-                    <li class="esiil-learning-goal">Access open weather and climate data from NOAA</li>
-                    <li class="esiil-learning-goal">Answer a cuturally relevant question using EDS</li>
-                    <li class="esiil-learning-goal">Adapt curriculum to different disciplines and cultural contexts</li>
-                    <li class="esiil-learning-goal">Analyze temperature data over time</li>
-                    <li class="esiil-learning-goal">Parse date information so that it is represented as a datetime type</li>
-                    <li class="esiil-learning-goal">Use operators to convert to different units</li>
-                    <li class="esiil-learning-goal">Compare temperature in different locations</li>
-                  </ul>
-              </div>
+        <div class="quarto-title column-body">
+                        <h1 class="title">
+                Urban Heat Wave
+            </h1>
+                                    <p class="subtitle lead">
+                A cross-disciplinary, place-based Earth Data Science activity
+            </p>
+                                    <div class="description">
+                In this hands-on Earth Data Science activity, we’ll look at temperature data from two locations in the Chicago area and compare them.
+            </div>
+                    
+                        <div class="esiil-learning-goals-title">Learning Goals:</div>
+            <ul class="esiil-learning-goals">
+                                <li class="esiil-learning-goal">Access open weather and climate data from NOAA</li>
+                                <li class="esiil-learning-goal">Answer a cuturally relevant question using EDS</li>
+                                <li class="esiil-learning-goal">Adapt curriculum to different disciplines and cultural contexts</li>
+                                <li class="esiil-learning-goal">Analyze temperature data over time</li>
+                                <li class="esiil-learning-goal">Parse date information so that it is represented as a datetime type</li>
+                                <li class="esiil-learning-goal">Use operators to convert to different units</li>
+                                <li class="esiil-learning-goal">Compare temperature in different locations</li>
+                            </ul>
+                    </div>
     
-      
-    <div class="no-row-height column-margin column-container"><div class="">
         
-        <div class="quarto-title-meta">
+    <div class="no-row-height column-margin column-container"><div class="">
+                        <img src="../../img/earth-analytics/urban-heat-island/uhi-icon.png" width="100%">
+                        
+                        <div class="quarto-title-meta">
 
-            
-          
-            
-          </div>
-          
-      </div></div></div>
+                            <div>
+                            <div class="quarto-title-meta-heading">Authors</div>
+                            <div class="quarto-title-meta-contents">
+                                     <p>Nate Quarderer </p>
+                                     <p>Elsa Culler </p>
+                                  </div>
+                          </div>
+                            
+                            <div>
+                            <div class="quarto-title-meta-heading">Published</div>
+                            <div class="quarto-title-meta-contents">
+                              <p class="date">September 23, 2024</p>
+                            </div>
+                          </div>
+                          
+                            
+                          </div>
+                          
+
+                        <div>
+                          <div class="keywords">
+                            <div class="block-title">Keywords</div>
+                            <p>Open Science, Urban Heat Island, Place-based Learning</p>
+                          </div>
+                        </div>
+        </div></div></div>
 </header>
 
 
 <section id="were-all-feeling-the-heat" class="level2">
 <h2 class="anchored" data-anchor-id="were-all-feeling-the-heat">We’re all feeling the heat!</h2>
-<p><a href="https://www.nasa.gov/earth/nasa-finds-summer-2024-hottest-to-date/">The summer of 2024 was the hottest yet</a>, (<span class="citation" data-cites="younger_nasa_2024">Younger (<a href="#ref-younger_nasa_2024" role="doc-biblioref">2024</a>)</span>) and every indication is that the heat is only going to get more intense. Communities need to protect their vulnerable members by adapting to the changing climate with solutions informed by their cultural, geographic, and political context.</p>
-<p>In this hands-on Earth Data Science activity, we’ll look at temperature data from two locations in the Chicago area and compare them.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://cst.brightspotcdn.com/dims4/default/ec8ca7b/2147483647/strip/false/crop/3000x2000+0+0/resize/1486x991!/quality/90/?url=https%3A%2F%2Fchorus-production-cst-web.s3.us-east-1.amazonaws.com%2Fbrightspot%2F3c%2F72%2F37c4c5124af88bb45a3f591cea94%2Fweather-061824-15.jpg" class="img-fluid figure-img"></p>
+<figcaption>Source: Chicago Sun Times; Children and adults cool down at the Crown Fountain in the Loop on Monday June 17, 2024</figcaption>
+</figure>
+</div>
+<p><a href="https://www.nasa.gov/earth/nasa-finds-summer-2024-hottest-to-date/">The summer of 2024 was the hottest yet</a>, <span class="citation" data-cites="younger_nasa_2024">(<a href="#ref-younger_nasa_2024" role="doc-biblioref">Younger 2024</a>)</span> and every indication is that the heat is only going to get more intense. Communities need to protect their vulnerable members by adapting to the changing climate with solutions informed by their cultural, geographic, and political context.</p>
 <section id="place-based-culturally-relevant-curriculum-is-essential-to-engaging-diverse-groups-of-students" class="level3">
 <h3 class="anchored" data-anchor-id="place-based-culturally-relevant-curriculum-is-essential-to-engaging-diverse-groups-of-students">Place-based, culturally-relevant curriculum is essential to engaging diverse groups of students</h3>
 <p>Because this is a <strong>place-based</strong> learning exercise, it can be adapted to different cultural contexts. This is a key element we hear about when asking communities how to teach Earth Data Science in a culturally responsive way.</p>
@@ -323,7 +384,45 @@ div.csl-indent {
 <figcaption>Source: https://successfulacademics.com/BlackChildSEL/CRT.html</figcaption>
 </figure>
 </div>
-<p>For example, depending on the context you might as students: * What effects has heat had on your community? * What changes have you observed to the climate over your lifetime? Can you talk to an elder and find out what changes they have observed? * How have policies like redlining influenced community vulnerability to heat waves? * Are there traditional building methods or ecological practices in your culture that help to mitigate the effects of heat waves? * What are some short- and long-term strategies for mitigating the effects of heat on your community? If you were implementing mitigation strategies, who would you reach out to first? For example: * Reaching out to vulnerable community members through cultural and religious institutions to provide aid such as transportation to an air conditioned space, ensure water supply, and cool down buildings with strategies like fans and radiation-blocking window films. * Culturally and climatically appropriate changes to the built environment to reduce heat absorption and storage during heat waves. * Culturally and climatically appropriate changes and/or expansion of green space to reduce heat absorption and storage * Cultural events to help your community adapt</p>
+<div class="callout callout-style-default callout-discuss callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Conversation Starter
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Heat affects different communities in different ways. Here are some questions to help spark a conversation with classmates or with members of your community:</p>
+<ul>
+<li>What effects has <strong>heat</strong> had on your <strong>community</strong>?</li>
+<li>What <strong>changes</strong> have you observed to the climate over your lifetime? Can you talk to an elder and find out what changes they have observed?</li>
+<li>How have <strong>policies</strong> like redlining influenced <strong>community vulnerability</strong> to heat waves?</li>
+<li>Are there <strong>traditional building methods or ecological practices</strong> in your culture that help to mitigate the effects of heat waves?</li>
+</ul>
+</div>
+</div>
+<p>We know it can be tough to talk about climate change – be easy on yourselves! One way to help have a positive conversation about climate change is to talk about solutions. After all, when it comes to a life-or-death issue like heat waves, we can’t let the conversation end with observing the situation.</p>
+<div class="callout callout-style-default callout-discuss callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Conversation Starter
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What are some short- and long-term strategies for <strong>mitigating</strong> the effects of heat on your community? If you were implementing mitigation strategies, <strong>who would you reach out to first</strong>? Below are some examples of some types of strategies you could discuss:</p>
+<ul>
+<li><strong>Reaching out to vulnerable community members</strong> through cultural and religious institutions to provide aid such as transportation to an air conditioned space, ensure water supply, and cool down buildings with strategies like fans and radiation-blocking window films.</li>
+<li>Culturally and climatically appropriate <strong>changes to the built environment</strong> to reduce heat absorption and storage during heat waves.</li>
+<li>Culturally and climatically appropriate changes and/or <strong>expansion of green space</strong> to reduce heat absorption and storage</li>
+<li><strong>Cultural events</strong> to help your community adapt</li>
+</ul>
+</div>
+</div>
 <p>Making cultural connections is important for achieving learning goals and engaging diverse groups of students.</p>
 </section>
 <section id="meet-your-classroom-learning-goals-with-earth-data-science" class="level3">
@@ -331,8 +430,8 @@ div.csl-indent {
 <p>We have also developed this activity so that it can be adapted to many different academic disciplines, and we encourage you to do so in your classes! For example:</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
+<col style="width: 12%">
+<col style="width: 87%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -343,11 +442,11 @@ div.csl-indent {
 <tbody>
 <tr class="odd">
 <td>Physics</td>
-<td>Heat transfer concepts that cause the Urban Heat Island effect such as albedo, thermal mass, and latent heat</td>
+<td>Explain how aspects of heat transfer such as<strong>albedo</strong>, <strong>thermal mass</strong>, and <strong>latent heat</strong> relate to the Urban Heat Island effect</td>
 </tr>
 <tr class="even">
 <td>Biology</td>
-<td>Biological concepts that cause the Urban Heat Island effect such as transpiration, photosynthesis, and homeostasis</td>
+<td>Biological concepts that cause the Urban Heat Island effect such as <strong>transpiration</strong>, <strong>photosynthesis</strong>, and <strong>homeostasis</strong></td>
 </tr>
 <tr class="odd">
 <td>Statistics</td>
@@ -359,6 +458,20 @@ div.csl-indent {
 </tr>
 </tbody>
 </table>
+<div class="callout callout-style-default callout-read callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Read More: Air Temperature vs. Surface Temperature
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We’ll be looking at air temperature in this analysis rather than surface temperature. Some of you may have clocked that the surface temperature is more related to the Urban Heat Island mechanism! However, the two are closely related, so we think we can still examing Urban Heat Island effects using air temperature. Check out this resource from the EPA <span class="citation" data-cites="us_epa_learn_2014">(<a href="#ref-us_epa_learn_2014" role="doc-biblioref">US EPA 2014</a>)</span> on the relationship between air temperature and surface temperature and the Urban Heat Island effect:</p>
+<p><a href="https://www.epa.gov/heatislands/learn-about-heat-islands"><img src="https://www.epa.gov/sites/default/files/2020-07/heat_island_effect_diagram.jpg" class="img-fluid"></a></p>
+</div>
+</div>
 </section>
 </section>
 <section id="case-study-chicago-summer-2024-heat-wave" class="level2">
@@ -369,32 +482,63 @@ div.csl-indent {
 <figcaption>Source: Illinois State Climatologist; Daily June average temperatures and departures from normal in Chicago</figcaption>
 </figure>
 </div>
-<p>According to the <a href="https://stateclimatologist.web.illinois.edu/2024/07/">Illinois state climatology office</a>, daily average temperatures between June 13 and June 25 were 5 to 15 degrees above normal in Chicago and statewide. Overnight temperatures in Chicago were forecast to <a href="https://chicago.suntimes.com/weather/2024/06/17/chicago-weather-heat-dome-wave-hot-temperatures-what-you-should-know">stay into the 70’s</a> with record breaking temperatures being attributed to <a href="https://www.cbsnews.com/chicago/news/chicago-heat-wave-how-to-stay-cool-safe/">climate change</a>.</p>
-<p><img src="https://ewscripps.brightspotcdn.com/dims4/default/88c8feb/2147483647/strip/true/crop/2016x1104+0+0/resize/1280x701!/quality/90/?url=http%3A%2F%2Fewscripps-brightspot.s3.amazonaws.com%2F3d%2F40%2Fe299467c47ac8176e326d4159ba2%2Fscreen-shot-2024-06-13-at-9-10-43-am.png" title="Source: NOAA
-Magenta indicates the highest risk of extreme heat on Monday June 17, 2024" width="300"></p>
-<p><img src="https://cst.brightspotcdn.com/dims4/default/ec8ca7b/2147483647/strip/false/crop/3000x2000+0+0/resize/1486x991!/quality/90/?url=https%3A%2F%2Fchorus-production-cst-web.s3.us-east-1.amazonaws.com%2Fbrightspot%2F3c%2F72%2F37c4c5124af88bb45a3f591cea94%2Fweather-061824-15.jpg" title="Source: Chicago Sun Times; Children and adults cool down at the Crown Fountain in the Loop on Monday June 17, 2024" width="300"></p>
-<p>If you teach in or near Chicago, your students probably have some feelings about how hot it was! The Chicago area is known for its at times extreme weather, but cities get hit particularly hard by heat waves due to the urban heat island effect. <a href="https://wgntv.com/weather/weather-blog/chicago-is-an-urban-heat-island-so-what-does-that-mean/">This article from WGN</a> explains what this means for cities like Chicago.</p>
+<p>According to the <a href="https://stateclimatologist.web.illinois.edu/2024/07/">Illinois state climatology office</a> <span class="citation" data-cites="illinois_state_water_survey_warm_2024">(<a href="#ref-illinois_state_water_survey_warm_2024" role="doc-biblioref">Illinois State Water Survey 2024</a>)</span>, daily average temperatures between June 13 and June 25 were 5 to 15 degrees above normal in Chicago and statewide. Overnight temperatures in Chicago were forecast to <a href="https://chicago.suntimes.com/weather/2024/06/17/chicago-weather-heat-dome-wave-hot-temperatures-what-you-should-know">stay into the 70’s</a> with record breaking temperatures being attributed to <a href="https://www.cbsnews.com/chicago/news/chicago-heat-wave-how-to-stay-cool-safe/">climate change</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ewscripps.brightspotcdn.com/dims4/default/88c8feb/2147483647/strip/true/crop/2016x1104+0+0/resize/1280x701!/quality/90/?url=http%3A%2F%2Fewscripps-brightspot.s3.amazonaws.com%2F3d%2F40%2Fe299467c47ac8176e326d4159ba2%2Fscreen-shot-2024-06-13-at-9-10-43-am.png" class="img-fluid figure-img"></p>
+<figcaption>Source: NOAA, Magenta indicates the highest risk of extreme heat on Monday June 17, 2024</figcaption>
+</figure>
+</div>
+<p>If you teach in or near Chicago, your students probably have some feelings about how hot it was! The Chicago area is known for its at times extreme weather, but cities get hit particularly hard by heat waves due to the urban heat island effect. <a href="https://wgntv.com/weather/weather-blog/chicago-is-an-urban-heat-island-so-what-does-that-mean/">This article from WGN</a> <span class="citation" data-cites="alix_martichoux_urban_2024">(<a href="#ref-alix_martichoux_urban_2024" role="doc-biblioref">Alix Martichoux 2024</a>)</span> explains what this means for cities like Chicago.</p>
 <section id="heat-kills" class="level3">
 <h3 class="anchored" data-anchor-id="heat-kills">Heat kills</h3>
-<p>Climate change is intensifying summer heat in Chicago, particularly in heat island areas, which disproportionately affects marginalized communities. These neighborhoods, often with less green space and more heat-trapping infrastructure, face higher temperatures and greater health risks (<a href="https://www.chicagotribune.com/2023/05/25/mapping-a-threat-climate-changes-deadly-summer-heat-may-deepen-disparities-in-chicago/_">Chicago Tribune</a>). Chicago O’Hare International Airport is a known heat island often reporting temperatures 5-10 degrees warmer than surrounding communities (<a href="https://www.nbcchicago.com/news/local/what-is-an-urban-heat-island-and-how-is-chicago-affected/2973405/">NBC Chicago</a>).</p>
+<p>Climate change is intensifying summer heat in Chicago, particularly in heat island areas, which disproportionately affects marginalized communities. These neighborhoods, often with less green space and more heat-trapping infrastructure, face higher temperatures and greater health risks <span class="citation" data-cites="us_epa_heat_2019">(<a href="#ref-us_epa_heat_2019" role="doc-biblioref">US EPA 2019</a>)</span>.</p>
+<div class="callout callout-style-default callout-read callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Read More: What is a Heat Island?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Read more about the Urban Heat Island effect at the <a href="https://www.epa.gov/heatislands">EPA</a>.</p>
+</div>
+</div>
+<p>Chicago O’Hare International Airport is a known heat island often reporting temperatures 5-10 degrees warmer than surrounding communities <span class="citation" data-cites="nbc_chicago_what_2022">(<a href="#ref-nbc_chicago_what_2022" role="doc-biblioref">NBC Chicago 2022</a>)</span>.</p>
 </section>
 <section id="is-it-cooler-by-the-lake" class="level3">
 <h3 class="anchored" data-anchor-id="is-it-cooler-by-the-lake">Is it cooler by the lake?</h3>
 <p>Many Chicagoans know that one of the best ways to beat the heat is to head to the lake. In this we’ll try to answer whether it’s <em>really</em> <a href=""><strong>cooler by the Lake</strong></a>, and what Chicago could do to cool down the rest of the City.</p>
-<p>![WGN Temperature Forecast – it’s cooler by the lake!]https://wgntv.com/wp-content/uploads/sites/5/2023/04/NLanimation10and11.gif)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://wgntv.com/wp-content/uploads/sites/5/2023/04/NLanimation10and11.gif" class="img-fluid figure-img"></p>
+<figcaption>WGN Temperature Forecast – it’s cooler by the lake!</figcaption>
+</figure>
+</div>
 <p>We will select two climate stations located within the greater Chicago area: O’Hare International Airport (Station ID: USW00094846), and Northerly Island (Station ID: USC00111550) to explore trends in maximum daily temperatures.</p>
-<div class="{.layout-ncol=2}">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://fly-ord.com/sites/default/files/inline-images/chicago-ord-miguel-angel-sanz-unsplash.jpg" class="img-fluid figure-img"></p>
-<figcaption>Photo of O’Hare Airport by Miguel Angel Sanz - Unsplash. https://fly-ord.com/airlines</figcaption>
+<figcaption><a href="https://fly-ord.com/airlines">Photo of O’Hare Airport by Miguel Angel Sanz - Unsplash.</a></figcaption>
 </figure>
 </div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://ik.imagekit.io/ChicagoArchitecture/image/assets%2F49af4dfb0fbc43d58bf8ce407e839d74%2Fc5ead4a81e4e41a28d6cee59bc4c1761?tr=q-50,fm-webp.png" class="img-fluid figure-img"></p>
-<figcaption>Aerial view of Northerly Island. Photo by Tom Harris. https://www.architecture.org/online-resources/buildings-of-chicago/northerly-island</figcaption>
+<figcaption><a href="https://www.architecture.org/online-resources/buildings-of-chicago/northerly-island">Aerial view of Northerly Island. Photo by Tom Harris.</a></figcaption>
 </figure>
+</div>
+</div>
 </div>
 </div>
 </section>
@@ -452,7 +596,7 @@ Try It: Import a package
 </ol>
 </div>
 </div>
-<div id="68b32844" class="cell" data-execution_count="1">
+<div id="0468e9d9" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use tabular data</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -465,10 +609,10 @@ Try It: Import a package
 <h2 class="anchored" data-anchor-id="step-2-download-data">STEP 2: Download Data</h2>
 <section id="global-historical-climatology-network" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="global-historical-climatology-network">Global Historical Climatology Network</h3>
-<p>One way scientists know that the climate is changing is by looking at records from temperature sensors around the globe. Some of these sensors have been recording data for over a century! For this activity, we’ll get daily maximum temperature measurements from the <a href="https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily">Global Historical Climate Network daily</a>, an openly available and extensively validated global network of temperature sensors.</p>
+<p>One way scientists know that the climate is changing is by looking at records from temperature sensors around the globe. Some of these sensors have been recording data for over a century! For this activity, we’ll get daily maximum temperature measurements from the <a href="https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily">Global Historical Climate Network daily</a> <span class="citation" data-cites="menne_overview_2012">(<a href="#ref-menne_overview_2012" role="doc-biblioref">Menne et al. 2012</a>)</span>, an openly available and extensively validated global network of temperature sensors.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://en.wikipedia.org/wiki/Global_Historical_Climatology_Network#/media/File:GHCN_Temperature_Stations.png" class="img-fluid figure-img"></p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/GHCN_Temperature_Stations.png" class="img-fluid figure-img"></p>
 <figcaption>The Global Historical Climatology Network Source: CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=2084097</figcaption>
 </figure>
 </div>
@@ -505,7 +649,7 @@ Read More
 <h3 class="anchored" data-anchor-id="ohare-international-airport">O’Hare International Airport</h3>
 <p>Chicago O’Hare International Airport (ORD) is one of the busiest airports in the world, serving as a major hub for both domestic and international flights. Located about 14 miles northwest of downtown Chicago, it offers flights to more than 200 destinations and handles over 83 million passengers annually. It is home to Chicago’s official meteorological station. It creates an urban heat island due to the amount of concrete and asphalt needed to support the infrastructure.</p>
 <p><strong>Station ID: USW00094846</strong></p>
-<div id="9723a0d6" class="cell" data-execution_count="2">
+<div id="f0f7a1a7" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an API call for the O'Hare climate station</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ohare_url <span class="op">=</span> (</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://www.ncei.noaa.gov/access/services/data/v1?'</span></span>
@@ -523,7 +667,7 @@ Read More
 <pre><code>'https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&amp;dataTypes=TMAX&amp;stations=USW00094846&amp;startDate=2024-06-01&amp;endDate=2024-06-30&amp;units=standard'</code></pre>
 </div>
 </div>
-<div id="ec363a8f" class="cell" data-execution_count="3">
+<div id="553261b1" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open data using pandas</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ohare_df <span class="op">=</span> pd.read_csv(</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    ohare_url,</span>
@@ -533,8 +677,8 @@ Read More
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="st">'DATE'</span>,</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    na_values<span class="op">=</span>[<span class="st">'NaN'</span>])</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Check data</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>ohare_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the first 5 lines of data</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>ohare_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
@@ -578,138 +722,13 @@ Read More
 <td>USW00094846</td>
 <td>79</td>
 </tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-06</td>
-<td>USW00094846</td>
-<td>78</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-07</td>
-<td>USW00094846</td>
-<td>78</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-08</td>
-<td>USW00094846</td>
-<td>77</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-09</td>
-<td>USW00094846</td>
-<td>80</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-10</td>
-<td>USW00094846</td>
-<td>69</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-11</td>
-<td>USW00094846</td>
-<td>78</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-12</td>
-<td>USW00094846</td>
-<td>91</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-13</td>
-<td>USW00094846</td>
-<td>91</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-14</td>
-<td>USW00094846</td>
-<td>86</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-15</td>
-<td>USW00094846</td>
-<td>86</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-16</td>
-<td>USW00094846</td>
-<td>95</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-17</td>
-<td>USW00094846</td>
-<td>97</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-18</td>
-<td>USW00094846</td>
-<td>94</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-19</td>
-<td>USW00094846</td>
-<td>93</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-20</td>
-<td>USW00094846</td>
-<td>85</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-21</td>
-<td>USW00094846</td>
-<td>94</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-22</td>
-<td>USW00094846</td>
-<td>93</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-23</td>
-<td>USW00094846</td>
-<td>80</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-24</td>
-<td>USW00094846</td>
-<td>88</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-25</td>
-<td>USW00094846</td>
-<td>85</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-26</td>
-<td>USW00094846</td>
-<td>87</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-27</td>
-<td>USW00094846</td>
-<td>74</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-28</td>
-<td>USW00094846</td>
-<td>74</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-29</td>
-<td>USW00094846</td>
-<td>88</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-30</td>
-<td>USW00094846</td>
-<td>71</td>
-</tr>
 </tbody>
 </table>
 
 </div>
 </div>
 </div>
-<div id="64407cef" class="cell" data-execution_count="4">
+<div id="3b13aea3" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data using pandas</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ohare_df.TMAX.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -725,7 +744,7 @@ Read More
 <h3 class="anchored" data-anchor-id="northerly-island">Northerly Island</h3>
 <p>Northerly Island is a 91-acre man-made peninsula located along the Lake Michigan shoreline in Chicago. Originally part of Daniel Burnham’s 1909 Plan of Chicago, it was transformed into a nature-focused park featuring walking trails, natural habitats, and scenic lakefront views. The site also hosts the Huntington Bank Pavilion, a popular outdoor concert venue.</p>
 <p><strong>Station ID: USC00111550</strong></p>
-<div id="59eaf0d1" class="cell" data-execution_count="5">
+<div id="de4b7089" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an API call for the Northerly climate station</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>northerly_url <span class="op">=</span> (<span class="st">'https://www.ncei.noaa.gov/access/services/data/v1?'</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'dataset=daily-summaries'</span></span>
@@ -741,7 +760,7 @@ Read More
 <pre><code>'https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&amp;dataTypes=TMAX&amp;stations=USC00111550&amp;startDate=2024-06-01&amp;endDate=2024-06-30&amp;units=standard'</code></pre>
 </div>
 </div>
-<div id="bf149549" class="cell" data-execution_count="6">
+<div id="43b0aba1" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open data</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>northerly_df <span class="op">=</span> pd.read_csv(</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    northerly_url,</span>
@@ -751,8 +770,8 @@ Read More
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="st">'DATE'</span>,</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    na_values<span class="op">=</span>[<span class="st">'NaN'</span>])</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Check data</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>northerly_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the first 5 lines of data</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>northerly_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
@@ -796,138 +815,13 @@ Read More
 <td>USC00111550</td>
 <td>79</td>
 </tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-06</td>
-<td>USC00111550</td>
-<td>77</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-07</td>
-<td>USC00111550</td>
-<td>76</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-08</td>
-<td>USC00111550</td>
-<td>76</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-09</td>
-<td>USC00111550</td>
-<td>79</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-10</td>
-<td>USC00111550</td>
-<td>63</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-11</td>
-<td>USC00111550</td>
-<td>71</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-12</td>
-<td>USC00111550</td>
-<td>88</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-13</td>
-<td>USC00111550</td>
-<td>88</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-14</td>
-<td>USC00111550</td>
-<td>75</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-15</td>
-<td>USC00111550</td>
-<td>77</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-16</td>
-<td>USC00111550</td>
-<td>93</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-17</td>
-<td>USC00111550</td>
-<td>94</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-18</td>
-<td>USC00111550</td>
-<td>91</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-19</td>
-<td>USC00111550</td>
-<td>92</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-20</td>
-<td>USC00111550</td>
-<td>72</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-21</td>
-<td>USC00111550</td>
-<td>90</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-22</td>
-<td>USC00111550</td>
-<td>91</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-23</td>
-<td>USC00111550</td>
-<td>78</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-24</td>
-<td>USC00111550</td>
-<td>80</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-25</td>
-<td>USC00111550</td>
-<td>84</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-26</td>
-<td>USC00111550</td>
-<td>85</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-27</td>
-<td>USC00111550</td>
-<td>68</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-28</td>
-<td>USC00111550</td>
-<td>74</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-29</td>
-<td>USC00111550</td>
-<td>88</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-30</td>
-<td>USC00111550</td>
-<td>72</td>
-</tr>
 </tbody>
 </table>
 
 </div>
 </div>
 </div>
-<div id="d27cc28e" class="cell" data-execution_count="7">
+<div id="5ed47865" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>northerly_df.TMAX.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -943,9 +837,9 @@ Read More
 <h2 class="anchored" data-anchor-id="step-3-wrangle-data">STEP 3: Wrangle Data</h2>
 <section id="select-only-the-columns-you-want" class="level3">
 <h3 class="anchored" data-anchor-id="select-only-the-columns-you-want">Select only the columns you want</h3>
-<div id="ca11d315" class="cell" data-execution_count="8">
+<div id="a9e7a1df" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ohare_tmax_df <span class="op">=</span> ohare_df[[<span class="st">'TMAX'</span>]]</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ohare_tmax_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ohare_tmax_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
@@ -982,115 +876,15 @@ Read More
 <td data-quarto-table-cell-role="th">2024-06-05</td>
 <td>79</td>
 </tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-06</td>
-<td>78</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-07</td>
-<td>78</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-08</td>
-<td>77</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-09</td>
-<td>80</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-10</td>
-<td>69</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-11</td>
-<td>78</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-12</td>
-<td>91</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-13</td>
-<td>91</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-14</td>
-<td>86</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-15</td>
-<td>86</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-16</td>
-<td>95</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-17</td>
-<td>97</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-18</td>
-<td>94</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-19</td>
-<td>93</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-20</td>
-<td>85</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-21</td>
-<td>94</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-22</td>
-<td>93</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-23</td>
-<td>80</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-24</td>
-<td>88</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-25</td>
-<td>85</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-26</td>
-<td>87</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-27</td>
-<td>74</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-28</td>
-<td>74</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-29</td>
-<td>88</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-30</td>
-<td>71</td>
-</tr>
 </tbody>
 </table>
 
 </div>
 </div>
 </div>
-<div id="83703e2f" class="cell" data-execution_count="9">
+<div id="010a031b" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>northerly_tmax_df <span class="op">=</span> northerly_df[[<span class="st">'TMAX'</span>]]</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>northerly_tmax_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>northerly_tmax_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
@@ -1127,106 +921,6 @@ Read More
 <td data-quarto-table-cell-role="th">2024-06-05</td>
 <td>79</td>
 </tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-06</td>
-<td>77</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-07</td>
-<td>76</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-08</td>
-<td>76</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-09</td>
-<td>79</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-10</td>
-<td>63</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-11</td>
-<td>71</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-12</td>
-<td>88</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-13</td>
-<td>88</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-14</td>
-<td>75</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-15</td>
-<td>77</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-16</td>
-<td>93</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-17</td>
-<td>94</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-18</td>
-<td>91</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-19</td>
-<td>92</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-20</td>
-<td>72</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-21</td>
-<td>90</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-22</td>
-<td>91</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-23</td>
-<td>78</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-24</td>
-<td>80</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-25</td>
-<td>84</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-26</td>
-<td>85</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-27</td>
-<td>68</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-28</td>
-<td>74</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-29</td>
-<td>88</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-30</td>
-<td>72</td>
-</tr>
 </tbody>
 </table>
 
@@ -1236,7 +930,7 @@ Read More
 </section>
 <section id="join-data" class="level3">
 <h3 class="anchored" data-anchor-id="join-data">Join data</h3>
-<div id="4ee7da59" class="cell" data-execution_count="10">
+<div id="c1eb2c8b" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Concatenate the data</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>tmax_df <span class="op">=</span> (</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    ohare_tmax_df</span>
@@ -1245,7 +939,7 @@ Read More
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        lsuffix<span class="op">=</span><span class="st">'_ohare'</span>, </span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        rsuffix<span class="op">=</span><span class="st">'_northerly'</span>)</span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>tmax_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>tmax_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 
@@ -1289,131 +983,6 @@ Read More
 <td>79</td>
 <td>79</td>
 </tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-06</td>
-<td>78</td>
-<td>77</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-07</td>
-<td>78</td>
-<td>76</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-08</td>
-<td>77</td>
-<td>76</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-09</td>
-<td>80</td>
-<td>79</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-10</td>
-<td>69</td>
-<td>63</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-11</td>
-<td>78</td>
-<td>71</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-12</td>
-<td>91</td>
-<td>88</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-13</td>
-<td>91</td>
-<td>88</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-14</td>
-<td>86</td>
-<td>75</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-15</td>
-<td>86</td>
-<td>77</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-16</td>
-<td>95</td>
-<td>93</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-17</td>
-<td>97</td>
-<td>94</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-18</td>
-<td>94</td>
-<td>91</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-19</td>
-<td>93</td>
-<td>92</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-20</td>
-<td>85</td>
-<td>72</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-21</td>
-<td>94</td>
-<td>90</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-22</td>
-<td>93</td>
-<td>91</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-23</td>
-<td>80</td>
-<td>78</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-24</td>
-<td>88</td>
-<td>80</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-25</td>
-<td>85</td>
-<td>84</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-26</td>
-<td>87</td>
-<td>85</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-27</td>
-<td>74</td>
-<td>68</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-28</td>
-<td>74</td>
-<td>74</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-29</td>
-<td>88</td>
-<td>88</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-30</td>
-<td>71</td>
-<td>72</td>
-</tr>
 </tbody>
 </table>
 
@@ -1424,15 +993,31 @@ Read More
 </section>
 <section id="step-4-plot" class="level2">
 <h2 class="anchored" data-anchor-id="step-4-plot">STEP 4: Plot</h2>
-<section id="rename-columns" class="level3">
-<h3 class="anchored" data-anchor-id="rename-columns">Rename columns</h3>
-<div id="30a606c3" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>tmax_df.rename(mapper<span class="op">=</span>{</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"O'Hare International Airport"</span>: <span class="st">'TMAX_ohare'</span>, </span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Northerly Island'</span>: <span class="st">'TMAX_northerly'</span>})</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>tmax_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<p>Let’s try plotting the joined <code>DataFrame</code>, just like we plotted the data above:</p>
+<div id="80b60c38" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>tmax_df.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="urban-heat-island_files/figure-html/cell-12-output-1.png" width="566" height="474" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Hopefully you can see all the data! However, this plot is missing some key elements, and is lacking in style.</p>
+<div class="callout-response">
+<p>What do you notice about this plot that you would like to change for a final figure?</p>
+</div>
+<section id="rename-columns-for-nicer-labels" class="level3">
+<h3 class="anchored" data-anchor-id="rename-columns-for-nicer-labels">Rename columns for nicer labels</h3>
+<p>Something you might have noticed about your plot is that the labels in the legend don’t look very nice. Most things about hte plot we can change by passing <strong>parameters</strong> to the <code>.plot()</code> method (see below). However, the easiest way to change the legend labels in Python, we think, is to rename the columns. Python will automatically use the column names as legend labels just like it did in the first plot.</p>
+<div id="dfbed2d8" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>tmax_plot_df <span class="op">=</span> tmax_df.rename(columns<span class="op">=</span>{</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TMAX_ohare'</span>: <span class="st">"O'Hare Airport"</span>, </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TMAX_northerly'</span>: <span class="st">'Northerly Island'</span>})</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
 <div>
 
 
@@ -1440,8 +1025,8 @@ Read More
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">TMAX_ohare</th>
-<th data-quarto-table-cell-role="th">TMAX_northerly</th>
+<th data-quarto-table-cell-role="th">O'Hare Airport</th>
+<th data-quarto-table-cell-role="th">Northerly Island</th>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">DATE</th>
@@ -1475,149 +1060,28 @@ Read More
 <td>79</td>
 <td>79</td>
 </tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-06</td>
-<td>78</td>
-<td>77</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-07</td>
-<td>78</td>
-<td>76</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-08</td>
-<td>77</td>
-<td>76</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-09</td>
-<td>80</td>
-<td>79</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-10</td>
-<td>69</td>
-<td>63</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-11</td>
-<td>78</td>
-<td>71</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-12</td>
-<td>91</td>
-<td>88</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-13</td>
-<td>91</td>
-<td>88</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-14</td>
-<td>86</td>
-<td>75</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-15</td>
-<td>86</td>
-<td>77</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-16</td>
-<td>95</td>
-<td>93</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-17</td>
-<td>97</td>
-<td>94</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-18</td>
-<td>94</td>
-<td>91</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-19</td>
-<td>93</td>
-<td>92</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-20</td>
-<td>85</td>
-<td>72</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-21</td>
-<td>94</td>
-<td>90</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-22</td>
-<td>93</td>
-<td>91</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-23</td>
-<td>80</td>
-<td>78</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-24</td>
-<td>88</td>
-<td>80</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-25</td>
-<td>85</td>
-<td>84</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-26</td>
-<td>87</td>
-<td>85</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-27</td>
-<td>74</td>
-<td>68</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-28</td>
-<td>74</td>
-<td>74</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-29</td>
-<td>88</td>
-<td>88</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-30</td>
-<td>71</td>
-<td>72</td>
-</tr>
 </tbody>
 </table>
 
 </div>
 </div>
 </div>
-<div id="6725ea8f" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tmax_df.plot(</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>),</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    marker<span class="op">=</span><span class="st">'o'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Date'</span>, ylabel<span class="op">=</span><span class="st">'Temperature $^\circ$F'</span>,</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Daily Maximum Temperatures - Chicago, IL - June 2024'</span>,</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    colormap<span class="op">=</span><span class="st">'Set1'</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="generate-a-figure" class="level3">
+<h3 class="anchored" data-anchor-id="generate-a-figure">Generate a figure</h3>
+<p>Now, we’re ready to make a quality figure of the data!</p>
+<div id="5098216f" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.plot(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    marker<span class="op">=</span><span class="st">'o'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Date'</span>, ylabel<span class="op">=</span><span class="st">'Temperature ($^\circ$F)'</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Daily Maximum Temperatures - Chicago, IL - June 2024'</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    colormap<span class="op">=</span><span class="st">'Set1'</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="urban-heat-island_files/figure-html/cell-13-output-1.png" width="810" height="568" class="figure-img"></p>
+<p><img src="urban-heat-island_files/figure-html/cell-14-output-1.png" width="661" height="494" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1654,50 +1118,50 @@ Conversation Starter: What do you notice about the data?
 <li>Compare two different climate stations</li>
 <li>Add a line that represents the average temperature</li>
 </ul>
-<div id="1918f988" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From ChatGPT - Can we make a similar plot using bars instead of points/lines?</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data (replace with your actual DataFrame)</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># tmax_df should be your DataFrame with 'TMAX_ohare' and 'TMAX_northerly' columns and a DateTime index</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the width of the bars</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>bar_width <span class="op">=</span> <span class="fl">0.4</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a numpy array for the indices (x-axis positions)</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="bu">len</span>(tmax_df.index))</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a figure</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot O'Hare data as bars</span></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>plt.bar(x <span class="op">-</span> bar_width <span class="op">/</span> <span class="dv">2</span>, tmax_df[<span class="st">'TMAX_ohare'</span>], width<span class="op">=</span>bar_width, label<span class="op">=</span><span class="st">"O'Hare International Airport"</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Northerly Island data as bars</span></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>plt.bar(x <span class="op">+</span> bar_width <span class="op">/</span> <span class="dv">2</span>, tmax_df[<span class="st">'TMAX_northerly'</span>], width<span class="op">=</span>bar_width, label<span class="op">=</span><span class="st">"Northerly Island"</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Add title and labels</span></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Daily Maximum Temperatures - June 2024'</span>)</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Date'</span>)</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Temperature (°F)'</span>)</span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Set x-axis ticks to the index (date) and rotate for better readability</span></span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>plt.xticks(x, tmax_df.index.strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">'</span>), rotation<span class="op">=</span><span class="dv">45</span>)</span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Add grid</span></span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Add legend</span></span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust layout to prevent clipping</span></span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Show plot</span></span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="be0add7c" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From ChatGPT - Can we make a similar plot using bars instead of points/lines?</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data (replace with your actual DataFrame)</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># tmax_df should be your DataFrame with 'TMAX_ohare' and 'TMAX_northerly' columns and a DateTime index</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the width of the bars</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>bar_width <span class="op">=</span> <span class="fl">0.4</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a numpy array for the indices (x-axis positions)</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="bu">len</span>(tmax_df.index))</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a figure</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot O'Hare data as bars</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>plt.bar(x <span class="op">-</span> bar_width <span class="op">/</span> <span class="dv">2</span>, tmax_df[<span class="st">'TMAX_ohare'</span>], width<span class="op">=</span>bar_width, label<span class="op">=</span><span class="st">"O'Hare International Airport"</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Northerly Island data as bars</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>plt.bar(x <span class="op">+</span> bar_width <span class="op">/</span> <span class="dv">2</span>, tmax_df[<span class="st">'TMAX_northerly'</span>], width<span class="op">=</span>bar_width, label<span class="op">=</span><span class="st">"Northerly Island"</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Add title and labels</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Daily Maximum Temperatures - June 2024'</span>)</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Temperature (°F)'</span>)</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Set x-axis ticks to the index (date) and rotate for better readability</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>plt.xticks(x, tmax_df.index.strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">'</span>), rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Add grid</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Add legend</span></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust layout to prevent clipping</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Show plot</span></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="urban-heat-island_files/figure-html/cell-14-output-1.png" width="949" height="565" class="figure-img"></p>
+<p><img src="urban-heat-island_files/figure-html/cell-15-output-1.png" width="949" height="565" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1708,6 +1172,24 @@ Conversation Starter: What do you notice about the data?
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-alix_martichoux_urban_2024" class="csl-entry" role="listitem">
+Alix Martichoux. 2024. <span>“Urban <span>Heat</span> <span>Island</span> <span>Effect</span>: <span>Why</span> <span>Some</span> <span>Chicago</span> <span>Areas</span> <span>May</span> <span>Feel</span> <span>Warmer</span> <span>Than</span> <span>Predicted</span>.”</span> <em>WGN</em>, July. <a href="https://wgntv.com/weather/weather-blog/chicago-is-an-urban-heat-island-so-what-does-that-mean/">https://wgntv.com/weather/weather-blog/chicago-is-an-urban-heat-island-so-what-does-that-mean/</a>.
+</div>
+<div id="ref-illinois_state_water_survey_warm_2024" class="csl-entry" role="listitem">
+Illinois State Water Survey. 2024. <span>“Warm and <span>Active</span> <span>June</span> <span>Kicks</span> <span>Off</span> <span>Summer</span>.”</span> <em>Illinois State Climatologist</em>. <a href="https://stateclimatologist.web.illinois.edu/2024/07/">https://stateclimatologist.web.illinois.edu/2024/07/</a>.
+</div>
+<div id="ref-menne_overview_2012" class="csl-entry" role="listitem">
+Menne, Matthew J., Imke Durre, Russell S. Vose, Byron E. Gleason, and Tamara G. Houston. 2012. <span>“An <span>Overview</span> of the <span>Global</span> <span>Historical</span> <span>Climatology</span> <span>Network</span>-<span>Daily</span> <span>Database</span>.”</span> <em>Journal of Atmospheric and Oceanic Technology</em> 29 (7): 897–910. <a href="https://doi.org/10.1175/JTECH-D-11-00103.1">https://doi.org/10.1175/JTECH-D-11-00103.1</a>.
+</div>
+<div id="ref-nbc_chicago_what_2022" class="csl-entry" role="listitem">
+NBC Chicago. 2022. <span>“What Is an <span>Urban</span> <span>Heat</span> <span>Island</span> and <span>How</span> Is <span>Chicago</span> <span>Affected</span>?”</span> <em>NBC Chicago</em>, October. <a href="https://www.nbcchicago.com/news/local/what-is-an-urban-heat-island-and-how-is-chicago-affected/2973405/">https://www.nbcchicago.com/news/local/what-is-an-urban-heat-island-and-how-is-chicago-affected/2973405/</a>.
+</div>
+<div id="ref-us_epa_learn_2014" class="csl-entry" role="listitem">
+US EPA, OAR. 2014. <span>“Learn <span>About</span> <span>Heat</span> <span>Islands</span>.”</span> Overviews and {Factsheets}. <a href="https://www.epa.gov/heatislands/learn-about-heat-islands">https://www.epa.gov/heatislands/learn-about-heat-islands</a>.
+</div>
+<div id="ref-us_epa_heat_2019" class="csl-entry" role="listitem">
+———. 2019. <span>“Heat <span>Islands</span> and <span>Equity</span>.”</span> Overviews and {Factsheets}. <a href="https://www.epa.gov/heatislands/heat-islands-and-equity">https://www.epa.gov/heatislands/heat-islands-and-equity</a>.
+</div>
 <div id="ref-younger_nasa_2024" class="csl-entry" role="listitem">
 Younger, Sally. 2024. <span>“<span>NASA</span> <span>Finds</span> <span>Summer</span> 2024 <span>Hottest</span> to <span>Date</span>.”</span> <a href="https://www.nasa.gov/earth/nasa-finds-summer-2024-hottest-to-date/">https://www.nasa.gov/earth/nasa-finds-summer-2024-hottest-to-date/</a>.
 </div>
@@ -2141,11 +1623,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../pages/00-course-overviews/css/00-home.qmd" class="pagination-link" aria-label="Workshop Overview">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Workshop Overview</span>
+      <a href="../../pages/01-reproducible-science-tools/open-reproducible-science/01-intro.html" class="pagination-link" aria-label="Open Reproducible Science">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Open Reproducible Science</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../notebooks/01-climate/climate-98-download.html" class="pagination-link" aria-label="Data Download">
+        <span class="nav-page-text">Data Download</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
