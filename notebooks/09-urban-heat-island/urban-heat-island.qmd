@@ -163,15 +163,21 @@ ohare_url = (
     '&startDate=2024-06-01'
     '&endDate=2024-06-30'
     '&units=standard')
+
+# Path to local data file (Codespaces only)
+ohare_path = 'ohare-temps.csv'
 ohare_url
 ```
 
 ```{python}
 # Open data using pandas
-ohare_df = pd.read_csv(ohare_url,
-                       parse_dates=True,
-                       index_col='DATE',
-                       na_values=['NaN'])
+ohare_df = pd.read_csv(
+    ohare_url,
+    # Comment above and uncomment below if NCEI isn't working
+    # ohare_path,
+    parse_dates=True,
+    index_col='DATE',
+    na_values=['NaN'])
 
 # Check data
 ohare_df
@@ -197,15 +203,20 @@ northerly_url = ('https://www.ncei.noaa.gov/access/services/data/v1?'
                  '&startDate=2024-06-01'
                  '&endDate=2024-06-30'
                  '&units=standard')
+# Path to local data file (Codespaces only)
+northerly_path = 'northerly-temps.csv'
 northerly_url
 ```
 
 ```{python}
 # Open data
-northerly_df = pd.read_csv(northerly_url,
-                           parse_dates=True,
-                           index_col='DATE',
-                           na_values=['NaN'])
+northerly_df = pd.read_csv(
+    northerly_url,
+    # Comment above and uncomment below in the event that NCEI isn't working
+    # northerly_path,
+    parse_dates=True,
+    index_col='DATE',
+    na_values=['NaN'])
 
 # Check data
 northerly_df
@@ -251,11 +262,11 @@ tmax_df
 tmax_df.rename(mapper={
     "O'Hare International Airport": 'TMAX_ohare', 
     'Northerly Island': 'TMAX_northerly'})
-ohare_northerly
+tmax_df
 ```
 
 ```{python}
-ohare_northerly.plot(
+tmax_df.plot(
     figsize=(10, 6),
     marker='o', linestyle='-',
     xlabel='Date', ylabel='Temperature $^\circ$F',
@@ -264,16 +275,17 @@ ohare_northerly.plot(
 )
 ```
 
-::: {.callout-discuss}
-## What do you notice about the data?
+::: {.callout-discuss title="What do you notice about the data?"}
 
 Take a few minutes to discuss the patterns and trends you see in the data with your neighbors.
 :::
 
-## Is it really cooler by the Lake?
+## STEP 5: Analysis
+
+### Is it really cooler by the Lake?
 We might be able to make some claims based on the plot above but is there more we can say about the differences in temperature between O'Hare and Northerly Island last June? What other kinds of test might we be able to do on this data to help tell this story in more detail?
 
-## Statistical test text and code goes here...
+### Statistical test text and code goes here...
 
 # **OPTIONAL BONUS activities (if you have time)**
 * Use ChatGPT to make a different kind of plot
@@ -284,22 +296,22 @@ We might be able to make some claims based on the plot above but is there more w
 # From ChatGPT - Can we make a similar plot using bars instead of points/lines?
 
 # Sample data (replace with your actual DataFrame)
-# ohare_northerly should be your DataFrame with 'ohare' and 'northerly' columns and a DateTime index
+# tmax_df should be your DataFrame with 'TMAX_ohare' and 'TMAX_northerly' columns and a DateTime index
 
 # Define the width of the bars
 bar_width = 0.4
 
 # Create a numpy array for the indices (x-axis positions)
-x = np.arange(len(ohare_northerly.index))
+x = np.arange(len(tmax_df.index))
 
 # Create a figure
 plt.figure(figsize=(10, 6))
 
 # Plot O'Hare data as bars
-plt.bar(x - bar_width / 2, ohare_northerly['ohare'], width=bar_width, label="O'Hare International Airport", color='red')
+plt.bar(x - bar_width / 2, tmax_df['TMAX_ohare'], width=bar_width, label="O'Hare International Airport", color='red')
 
 # Plot Northerly Island data as bars
-plt.bar(x + bar_width / 2, ohare_northerly['northerly'], width=bar_width, label="Northerly Island", color='blue')
+plt.bar(x + bar_width / 2, tmax_df['TMAX_northerly'], width=bar_width, label="Northerly Island", color='blue')
 
 # Add title and labels
 plt.title('Daily Maximum Temperatures - June 2024')
@@ -307,7 +319,7 @@ plt.xlabel('Date')
 plt.ylabel('Temperature (°F)')
 
 # Set x-axis ticks to the index (date) and rotate for better readability
-plt.xticks(x, ohare_northerly.index.strftime('%Y-%m-%d'), rotation=45)
+plt.xticks(x, tmax_df.index.strftime('%Y-%m-%d'), rotation=45)
 
 # Add grid
 plt.grid(True)
