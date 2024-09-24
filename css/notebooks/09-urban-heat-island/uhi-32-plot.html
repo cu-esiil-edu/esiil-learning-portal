@@ -221,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="https://classroom.github.com/a/UWz9FQ_E" class="sidebar-item-text sidebar-link">
+  <a href="https://classroom.github.com/a/D24VgT6A" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Try it on GitHub!</span></a>
   </div>
 </li>
@@ -269,8 +269,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Let’s try plotting the joined <code>DataFrame</code>, just like we plotted the data above:</p>
-<div id="6d2b3294" class="cell" data-execution_count="2">
+<p>Let’s try plotting the joined <code>DataFrame</code>, just like we plotted the data previously:</p>
+<div id="7d0a11dd" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>tmax_df.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -280,19 +280,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Hopefully you can see all the data! However, this plot is missing some key elements, and is lacking in style.</p>
+<p>Hopefully you can see all the data! However, this plot is missing some key elements, and is sadly lacking in style.</p>
 <div class="callout-response">
 <p>What do you notice about this plot that you would like to change for a final figure?</p>
 </div>
 <section id="rename-columns-for-nicer-labels" class="level3">
 <h3 class="anchored" data-anchor-id="rename-columns-for-nicer-labels">Rename columns for nicer labels</h3>
-<p>Something you might have noticed about your plot is that the labels in the legend don’t look very nice. Most things about hte plot we can change by passing <strong>parameters</strong> to the <code>.plot()</code> method (see below). However, the easiest way to change the legend labels in Python, we think, is to rename the columns. Python will automatically use the column names as legend labels just like it did in the first plot.</p>
-<div id="303cf98a" class="cell" data-execution_count="3">
+<p>Something you might have noticed about your plot is that the labels in the legend don’t look very nice. Most things about hte plot we can change by passing <strong>parameters</strong> to the <code>.plot()</code> method (see below). However, we think the easiest way to change the legend labels in Python is to rename the columns. Python will automatically use the column names as legend labels just like it did in the first plot!</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Once we rename columns to non-machine-readable names that include spaces and special characters, they will be harder to work with in Python. That’s why we’ve used a different name to store the <code>DataFrame</code> with renamed columns.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It: Rename `DataFrame` columns
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Starting with the sample code below, which contains a <strong>dictionary</strong>, or set of named values:</p>
+<ol type="1">
+<li>Change <code>previous_column_name</code> to the name of one of the columns you want to rename, and <code>New Column Name</code> to the label you want to appear on your plot.</li>
+<li>Run the code and check that you have successfully changed the column name. Watch out for typos in the column name.</li>
+<li>Make a new entry inside the dictionary (look for the curly braces (<code>{}</code>)), and change the values to match the other column you want to rename. <strong>Make sure to separate the two rows with a comma</strong> so Python knows you’re starting a new entry.</li>
+<li>Check that your code works.</li>
+</ol>
+</div>
+</div>
+<div id="2f4298d2" class="cell student-code" data-highlight="true" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>tmax_plot_df <span class="op">=</span> tmax_df.rename(columns<span class="op">=</span>{</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TMAX_ohare'</span>: <span class="st">"O'Hare Airport"</span>, </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TMAX_northerly'</span>: <span class="st">'Northerly Island'</span>})</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>tmax_plot_df <span class="op">=</span> tmax_df.rename(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>{</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">'previous_column_name'</span>: <span class="st">"New Column Name"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="a6506a2d" class="cell answer-code" data-highlight="true" data-execution_count="4">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>tmax_plot_df <span class="op">=</span> tmax_df.rename(columns<span class="op">=</span>{</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TMAX_ohare'</span>: <span class="st">"O'Hare Airport"</span>, </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TMAX_northerly'</span>: <span class="st">'Northerly Island'</span>})</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
@@ -346,18 +390,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="generate-a-figure" class="level3">
 <h3 class="anchored" data-anchor-id="generate-a-figure">Generate a figure</h3>
 <p>Now, we’re ready to make a quality figure of the data!</p>
-<div id="e12676d4" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.plot(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>),</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    marker<span class="op">=</span><span class="st">'o'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Date'</span>, ylabel<span class="op">=</span><span class="st">'Temperature ($^\circ$F)'</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Daily Maximum Temperatures - Chicago, IL - June 2024'</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    colormap<span class="op">=</span><span class="st">'Set1'</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Below, you’ll see some code to make a customized figure of your data. Starting there:</p>
+<ol type="1">
+<li>Replace <code>TITLE HERE</code> with your figure title</li>
+<li>Uncomment the other parameters by removing the <code>#</code> at the beginning of the line.</li>
+<li>Experiment with different figure sizes, <a href="https://matplotlib.org/stable/api/markers_api.html">markers</a>, <a href="https://matplotlib.org/stable/gallery/lines_bars_and_markers/linestyles.html">line styles</a>, and <a href="https://matplotlib.org/stable/users/explain/colors/colormaps.html">color maps</a>.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="What does `#` do in Python?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What does <code>#</code> do in Python?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>#</code> indicates a comment – it tells Python to ignore everything on that line. Comments are great for leaving notes to yourself or others, or for trying out slightly different pieces of code.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="39f98f12" class="cell student-code" data-highlight="true" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.plot(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#figsize=(8, 5),</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#marker='o', linestyle='-',</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Date'</span>, ylabel<span class="op">=</span><span class="st">'Temperature ($^\circ$F)'</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'TITLE HERE'</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#colormap='Set1'</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="8fa74801" class="cell answer-code" data-highlight="true" data-execution_count="6">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.plot(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    marker<span class="op">=</span><span class="st">'o'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Date'</span>, ylabel<span class="op">=</span><span class="st">'Temperature ($^\circ$F)'</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Daily Maximum Temperatures - Chicago, IL - June 2024'</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    colormap<span class="op">=</span><span class="st">'Set1'</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="uhi-32-plot_files/figure-html/cell-5-output-1.png" width="661" height="494" class="figure-img"></p>
+<p><img src="uhi-32-plot_files/figure-html/cell-7-output-1.png" width="661" height="494" class="figure-img"></p>
 </figure>
 </div>
 </div>
