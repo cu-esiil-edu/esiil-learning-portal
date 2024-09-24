@@ -1,0 +1,264 @@
+## STEP 1: Import packages
+
+### Python **packages** let you use code written by experts around the world
+
+Because Python is open source, lots of different people and organizations can contribute (including you!). Many contributions are in the form of **packages** which do not come with a standard Python download.
+
+::: {.callout-read title="Packages need to be installed and imported."}
+Learn more about using Python packages. How do you find and use packages? What is the difference between installing and importing packages? When do you need to do each one? [This article on Python packages](https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/use-python-packages/) will walk you through the basics.
+:::
+
+In the cell below, someone was trying to import the **pandas package**, which helps us to work with [**tabular data** such as comma-separated value or csv files](https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-text-files/).
+
+::: {.callout-task title="Import a package"}
+
+  1. Correct the typo below to properly import the pandas package under its **alias** pd.
+  2. Run the cell to import pandas
+
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.callout-warning}
+Make sure to run your code in the right **environment** to avoid import errors!
+
+We've created a coding **environment** for you to use that already has all the software and packages you will need! When you try to run some code, you may be prompted to select a **kernel**. The **kernel** refers to the version of Python you are using. You should use the **base** kernel, which should be the default option for you.
+::::
+:::
+
+```{python}
+#| template: student
+# Import libraries
+import pandsa as pd
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Use tabular data
+import pandas as pd
+```
+:::
+
+## STEP 2: Download Data
+
+### Global Historical Climatology Network
+
+One way scientists know that the climate is changing is by looking at records from temperature sensors around the globe. Some of these sensors have been recording data for over a century! For this activity, we'll get daily maximum temperature measurements from the [Global Historical Climate Network daily](https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily) [@menne_overview_2012], an openly available and extensively validated global network of temperature sensors.
+
+![The Global Historical Climatology Network Source: CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=2084097](https://upload.wikimedia.org/wikipedia/commons/a/ab/GHCN_Temperature_Stations.png)
+
+The GHCNd data are available through by the National Oceanic and Atmospheric Administration's (NOAA) National Centers for Environmental Information (NCEI) Climate Data Online [search tool](https://www.ncdc.noaa.gov/cdo-web/search). We can get also get these data using code by contacting NCEI's API.
+
+::: {.callout-tip .column-margin title="What's an API?"}
+An API, or Application Programming Interface, is how computers talk to each other.
+:::
+
+::: {.callout-read}
+Read more about [NCEI's API](https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation) and the [Climate Data Online](https://www.ncei.noaa.gov/cdo-web/) database.
+:::
+
+For this activity we have created URLs that contacts the NCEI API  for two climate stations in the greater Chicago area. We will walk through each line of the url to explain what it is doing.
+
+### O'Hare International Airport
+Chicago O'Hare International Airport (ORD) is one of the busiest airports in the world, serving as a major hub for both domestic and international flights. Located about 14 miles northwest of downtown Chicago, it offers flights to more than 200 destinations and handles over 83 million passengers annually. It is home to Chicago's official meteorological station. It creates an urban heat island due to the amount of concrete and asphalt needed to support the infrastructure.
+
+**Station ID: USW00094846**
+
+::: {.callout-task title='Build your API URL'}
+
+1. Add the station ID for the O'Hare station (USW00094846) into the URL below
+2. Run the code to store the URL in Python
+
+:::
+
+::: {.callout-important .column-margin title='What if the API is down?'}
+Getting data from APIs relies on internet services you don't have control over. If you are getting a response something like `503: Service Unavailable`, it may be that the API is down temperarily! If that happens during the workshop, we'll have you use some data we've already downloaded. That's what `ohare_path` is for -- with any luck we won't need it.
+:::
+
+```{python}
+#| template: student
+# Create a URL API call for the O'Hare climate station
+ohare_url = (
+    'https://www.ncei.noaa.gov/access/services/data/v1?'
+    'dataset=daily-summaries'
+    '&dataTypes=TMAX'
+    '&stations='
+    '&startDate=2024-06-01'
+    '&endDate=2024-06-30'
+    '&units=standard')
+
+# Path to local data file (Codespaces only)
+ohare_path = 'ohare-temps.csv'
+
+# Check the URL
+ohare_url
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Create a URL API call for the O'Hare climate station
+ohare_url = (
+    'https://www.ncei.noaa.gov/access/services/data/v1?'
+    'dataset=daily-summaries'
+    '&dataTypes=TMAX'
+    '&stations=USW00094846'
+    '&startDate=2024-06-01'
+    '&endDate=2024-06-30'
+    '&units=standard')
+
+# Path to local data file (Codespaces only)
+ohare_path = 'ohare-temps.csv'
+
+# Check the URL
+ohare_url
+```
+:::
+
+::: {.callout-task title='Load maximum temperature data for O'Hare'}
+
+1. Replace `url_or_path` with the variable name you used above to store the O'Hare station API URL (or O'Hare data path if the API is down). Run the code to make sure you've got it right! 
+2. Uncomment lines 4 and 5. Then, replace `date_column_name` with the actual column name that has the date.
+3. Run the code, again. Check that the date column is the **index** and that it is parsed into a `DateTimeIndex` using the `.describe()` method.
+:::
+
+```{python}
+#| template: student
+# Open data using pandas
+ohare_df = pd.read_csv(
+    url_or_path,
+    #parse_dates=True,
+    #index_col='date_column_name'
+)
+
+# Plot the data using pandas
+ohare_df.TMAX.plot()
+
+# Check the first 5 lines of data
+ohare_df.head()
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Open data using pandas
+ohare_df = pd.read_csv(
+    ohare_url,
+    # Comment above and uncomment below if NCEI isn't working
+    # ohare_path,
+    parse_dates=True,
+    index_col='DATE',
+    na_values=['NaN'])
+
+# Plot the data using pandas
+ohare_df.TMAX.plot()
+
+# Check the data types
+ohare_df.describe()
+```
+:::
+
+### Northerly Island
+
+Northerly Island is a 91-acre man-made peninsula located along the Lake Michigan shoreline in Chicago. Originally part of Daniel Burnham’s 1909 Plan of Chicago, it was transformed into a nature-focused park featuring walking trails, natural habitats, and scenic lakefront views. The site also hosts the Huntington Bank Pavilion, a popular outdoor concert venue.
+
+
+
+::: {.callout-task title="Load data, part 2"}
+
+1. Repeat the above data loading process using the Northerly Island site (**Station ID: USC00111550**)
+
+:::: {.callout-important title="Make sure to give your new variables different names!"}
+e.g. `northerly_url` instead of `ohare_url`. Otherwise, you will write over the data you just downloaded!
+::::
+
+:::
+
+```{python}
+#| template: student
+# Create an API call for the Northerly climate station
+
+# Path to local data file (Codespaces only)
+northerly_path = 'northerly-temps.csv'
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Create an API call for the Northerly climate station
+northerly_url = (
+    'https://www.ncei.noaa.gov/access/services/data/v1?'
+    'dataset=daily-summaries'
+    '&dataTypes=TMAX'
+    '&stations=USC00111550'
+    '&startDate=2024-06-01'
+    '&endDate=2024-06-30'
+    '&units=standard')
+# Path to local data file (Codespaces only)
+northerly_path = 'northerly-temps.csv'
+northerly_url
+```
+:::
+
+```{python}
+#| template: student
+# Open data
+
+# Plot the data
+
+# Check the first 5 lines of data
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Open data
+northerly_df = pd.read_csv(
+    northerly_url,
+    # Comment above and uncomment below in the event that NCEI isn't working
+    # northerly_path,
+    parse_dates=True,
+    index_col='DATE',
+    na_values=['NaN'])
+
+# Plot the data
+northerly_df.TMAX.plot()
+
+# Check the first 5 lines of data
+northerly_df.head()
+```
+:::
+
+## STEP 3: Wrangle Data
+
+### Select only the columns you want
+
+```{python}
+ohare_tmax_df = ohare_df[['TMAX']]
+ohare_tmax_df.head()
+```
+
+```{python}
+northerly_tmax_df = northerly_df[['TMAX']]
+northerly_tmax_df.head()
+```
+
+### Join data
+
+```{python}
+# Join the data
+tmax_df = (
+    ohare_tmax_df
+    .join(
+        northerly_tmax_df, 
+        lsuffix='_ohare', 
+        rsuffix='_northerly')
+)
+tmax_df.head()
+```
+
+::: {.content-visible when-format="ipynb"}
+```{python}
+%store tmax_df
+```
+:::

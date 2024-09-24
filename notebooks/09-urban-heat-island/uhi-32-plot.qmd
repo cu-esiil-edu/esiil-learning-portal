@@ -1,0 +1,54 @@
+## STEP 4: Plot
+
+::: {.content-visible when-format="ipynb"}
+First things first -- make sure to load the climate `DataFrame` you stored in the previous notebooks using Jupyter cell magic:
+
+```{python}
+# Load all stored variables
+%store -r
+```
+:::
+
+Let's try plotting the joined `DataFrame`, just like we plotted the data above:
+
+```{python}
+tmax_df.plot()
+```
+
+Hopefully you can see all the data! However, this plot is missing some key elements, and is lacking in style.
+
+::: {.callout-response}
+What do you notice about this plot that you would like to change for a final figure?
+:::
+
+### Rename columns for nicer labels
+
+Something you might have noticed about your plot is that the labels in the legend don't look very nice. Most things about hte plot we can change by passing **parameters** to the `.plot()` method (see below). However, the easiest way to change the legend labels in Python, we think, is to rename the columns. Python will automatically use the column names as legend labels just like it did in the first plot.
+
+```{python}
+# Rename the columns
+tmax_plot_df = tmax_df.rename(columns={
+    'TMAX_ohare': "O'Hare Airport", 
+    'TMAX_northerly': 'Northerly Island'})
+tmax_plot_df.head()
+```
+
+### Generate a figure
+
+Now, we're ready to make a quality figure of the data!
+
+```{python}
+tmax_plot_df.plot(
+    figsize=(8, 5),
+    marker='o', linestyle='-',
+    xlabel='Date', ylabel='Temperature ($^\circ$F)',
+    title='Daily Maximum Temperatures - Chicago, IL - June 2024',
+    colormap='Set1'
+)
+```
+
+::: {.callout-discuss title="What do you notice about the data?"}
+
+Take a few minutes to discuss the patterns and trends you see in the data with your neighbors.
+:::
+

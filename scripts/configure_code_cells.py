@@ -97,11 +97,12 @@ def main():
     for input_file in input_file_list:
         print(f'  Pre-rendering { input_file }')
         notebook = os.path.basename(os.path.dirname(input_file))
+        params = {}
         if 'params' in config:
             if notebook in config['params']:
                 params = config['params'][notebook]
                 print('    Parameters:', params)
-                process_file(input_file, params, code_block_templates)
+        process_file(input_file, params, code_block_templates)
 
 if __name__ == "__main__":
     main()
