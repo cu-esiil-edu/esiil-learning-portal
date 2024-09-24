@@ -9,35 +9,94 @@ First things first -- make sure to load the climate `DataFrame` you stored in th
 ```
 :::
 
-Let's try plotting the joined `DataFrame`, just like we plotted the data above:
+Let's try plotting the joined `DataFrame`, just like we plotted the data previously:
 
 ```{python}
 tmax_df.plot()
 ```
 
-Hopefully you can see all the data! However, this plot is missing some key elements, and is lacking in style.
+Hopefully you can see all the data! However, this plot is missing some key elements, and is sadly lacking in style.
 
 ::: {.callout-response}
 What do you notice about this plot that you would like to change for a final figure?
 :::
 
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+YOUR ANSWER HERE
+::::
+:::
+
 ### Rename columns for nicer labels
 
-Something you might have noticed about your plot is that the labels in the legend don't look very nice. Most things about hte plot we can change by passing **parameters** to the `.plot()` method (see below). However, the easiest way to change the legend labels in Python, we think, is to rename the columns. Python will automatically use the column names as legend labels just like it did in the first plot.
+Something you might have noticed about your plot is that the labels in the legend don't look very nice. Most things about hte plot we can change by passing **parameters** to the `.plot()` method (see below). However, we think the easiest way to change the legend labels in Python is to rename the columns. Python will automatically use the column names as legend labels just like it did in the first plot!
+
+::: {.callout-tip}
+Once we rename columns to non-machine-readable names that include spaces and special characters, they will be harder to work with in Python. That's why we've used a different name to store the `DataFrame` with renamed columns. 
+:::
+
+::: {.callout-task title="Rename `DataFrame` columns"}
+Starting with the sample code below, which contains a **dictionary**, or set of named values:
+
+  1. Change `previous_column_name` to the name of one of the columns you want to rename, and `New Column Name` to the label you want to appear on your plot.
+  2. Run the code and check that you have successfully changed the column name. Watch out for typos in the column name.
+  3. Make a new entry inside the dictionary (look for the curly braces (`{}`)), and change the values to match the other column you want to rename. **Make sure to separate the two rows with a comma** so Python knows you're starting a new entry.
+  4. Check that your code works.
+  
+:::
 
 ```{python}
+#| template: student
+# Rename the columns
+tmax_plot_df = tmax_df.rename(
+    columns={
+        'previous_column_name': "New Column Name"
+    }
+)
+tmax_plot_df.head()
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
 # Rename the columns
 tmax_plot_df = tmax_df.rename(columns={
     'TMAX_ohare': "O'Hare Airport", 
     'TMAX_northerly': 'Northerly Island'})
 tmax_plot_df.head()
 ```
+:::
 
 ### Generate a figure
 
 Now, we're ready to make a quality figure of the data!
 
+::: {.callout-task}
+Below, you'll see some code to make a customized figure of your data. Starting there:
+
+  1. Replace `TITLE HERE` with your figure title
+  2. Uncomment the other parameters by removing the `#` at the beginning of the line. 
+  3. Experiment with different figure sizes, [markers](https://matplotlib.org/stable/api/markers_api.html), [line styles](https://matplotlib.org/stable/gallery/lines_bars_and_markers/linestyles.html), and [color maps](https://matplotlib.org/stable/users/explain/colors/colormaps.html).
+
+:::: {.callout-note title="What does `#` do in Python?"}
+The `#` indicates a comment -- it tells Python to ignore everything on that line. Comments are great for leaving notes to yourself or others, or for trying out slightly different pieces of code.
+::::
+:::
+
 ```{python}
+#| template: student
+tmax_plot_df.plot(
+    #figsize=(8, 5),
+    #marker='o', linestyle='-',
+    xlabel='Date', ylabel='Temperature ($^\circ$F)',
+    title='TITLE HERE',
+    #colormap='Set1'
+)
+```
+
+:::{.content-visible when-format="html"}
+```{python}
+#| template: answer
 tmax_plot_df.plot(
     figsize=(8, 5),
     marker='o', linestyle='-',
@@ -46,9 +105,16 @@ tmax_plot_df.plot(
     colormap='Set1'
 )
 ```
+:::
 
 ::: {.callout-discuss title="What do you notice about the data?"}
 
 Take a few minutes to discuss the patterns and trends you see in the data with your neighbors.
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+YOUR ANSWER HERE
+::::
 :::
 

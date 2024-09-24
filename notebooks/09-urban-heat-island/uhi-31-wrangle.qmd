@@ -233,19 +233,76 @@ northerly_df.head()
 
 ### Select only the columns you want
 
+Notice that your data came with a `STATION` column as well as the maximum temperature  `TMAX` column. The extra column can make your data a bit unweildy.
+
+::: {.callout-task}
+To select only the `TMAX` column:
+
+  1. Replace `df` with the name of your `DataFrame`
+  2. Replace `column_name` with the name of the column you want to select
+  3. Replace `tmax_df` in all locations with a descriptive name for the new single-column `DataFrame`
+
+:::: {.callout-tip title="What's with those double square brackets? (`[[]]`)"}
+If you use single brackets, you will find that you get back something called a `Series` rather than a `DataFrame`, which will make things difficult down the road. A `Series` is a single column of a `DataFrame`. It still has an index (in this case our dates), but can't do all the things a `DataFrame` can do. It also displays as plain text instead of a formatted table, so you can easily tell the difference.
+::::
+:::
+
 ```{python}
-ohare_tmax_df = ohare_df[['TMAX']]
-ohare_tmax_df.head()
+#| template: student
+# Select only the TMAX column of the O'Hare data
+tmax_df = df[['column_name']]
+tmax_df.describe()
 ```
 
 ```{python}
-northerly_tmax_df = northerly_df[['TMAX']]
-northerly_tmax_df.head()
+#| template: student
+# Select only the TMAX column of the Northerly data
+tmax_df = df[['column_name']]
+tmax_df.describe()
 ```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+ohare_tmax_df = ohare_df[['TMAX']]
+northerly_tmax_df = northerly_df[['TMAX']]
+ohare_tmax_df.describe(), northerly_tmax_df.describe()
+```
+:::
 
 ### Join data
 
+Right now, we have data from two stations in two separate `DataFrames`. We could work with that, but to make things go smoother (and learn how to work with `DataFrames`) we can **join** them together.
+
+::: {.callout-tip title="What's a **join**?"}
+There are a few different ways to combine `DataFrame`s in Python. A **join** combines two `DataFrame`s by their **index** (the dates in our case), checking to make sure that every date matches. In our case, we could **concatenate** instead without checking the dates, because all the dates are the same for our two `DataFrame`s. That would probably be faster! But also, we think it is more error-prone. For example, it might not tell you that something was wrong if you accidentally downloaded data from two different years.
+:::
+
+::: {.callout-task title="Join two `DataFrame`s"}
+
+Starting with the sample code below:
+
+  1. Replace `left_df` with the name of the first `DataFrame`. In this case, it doesn't matter which one you choose to be on the left, but you need to make sure that it matches the **left suffix** label (`lsuffix`).
+  2. Replace `right_df` with the name of the second `DataFrame`, making sure it matches `rsuffix`.
+  3. Run the code and check that your join happened correctly.
+:::
+
 ```{python}
+#| template: student
+# Join the data
+tmax_df = (
+    left_df
+    .join(
+        right_df, 
+        lsuffix='_ohare', 
+        rsuffix='_northerly')
+)
+tmax_df.head()
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
 # Join the data
 tmax_df = (
     ohare_tmax_df
@@ -256,6 +313,7 @@ tmax_df = (
 )
 tmax_df.head()
 ```
+:::
 
 ::: {.content-visible when-format="ipynb"}
 ```{python}
