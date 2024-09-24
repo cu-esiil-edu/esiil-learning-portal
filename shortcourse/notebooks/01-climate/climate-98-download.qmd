@@ -3,15 +3,7 @@ title: Get your own climate data from Climate Data Online
 jupyter: python3
 ---
 
-```{python}
-#| tags: [parameters]
-#| echo: false
-#| eval: false
-__param_station_id = "USC00050848"
-__param_start_date = "1893-10-01"
-__param_end_date = "2023-09-30"
-__param_output_filename = "climate-test-data.csv"
-```
+
 
 ## There are more Earth Observation data online than any one person could ever look at
 
@@ -74,7 +66,7 @@ import pandas as pd
 
 ```{python}
 stuff23 = ('https://www.ncei.noaa.gov/access/services/da'
-f'ta/v1?dataset=daily-summaries&dataTypes=TOBS,PRCP&stations={__param_station_id}&startDate={__param_start_date}&{__param_end_date}')
+'ta/v1?dataset=daily-summaries&dataTypes=TOBS,PRCP&stations=USC00050848&startDate=1893-10-01&2023-09-30')
 stuff23
 ```
 
@@ -86,9 +78,9 @@ ncei_url = (
     'https://www.ncei.noaa.gov/access/services/data/v1'
     '?dataset=daily-summaries'
     '&dataTypes=TOBS,PRCP'
-    f'&stations={__param_station_id}'
-    f'&startDate={__param_start_date}'
-    f'&endDate={__param_end_date}'
+    '&stations=USC00050848'
+    '&startDate=1893-10-01'
+    '&endDate=2023-09-30'
     '&units=standard'
 )
 ncei_url
@@ -131,11 +123,11 @@ import requests
 # Download data
 response = requests.get(ncei_url)
 
-with open(f"{__param_output_filename}", 'wb') as out_file:
+with open("climate-foundations-data.csv", 'wb') as out_file:
     out_file.write(response.content)
 subprocess.run([
     'gh', 'release', 'upload', 'data-release',
-    f'{__param_output_filename}',
+    'climate-foundations-data.csv',
     '--repo', 'cu-esiil-edu/esiil-learning-portal',
     '--clobber'
     ])
