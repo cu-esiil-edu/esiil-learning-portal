@@ -1,15 +1,17 @@
 import os
+import pathlib
 import shutil
 import subprocess
 
 def main():
     # Path to .ipython database
     db_path = os.path.join(
-        os.environ['IPYTHONDIR'],
+        pathlib.Path.home(),
+        '.ipython',
         'profile_default',
         'db'
     )
-    print('Path to ipython database: {db_path}')
+    print(f'Path to ipython database: {db_path}')
 
     # Zip up .ipython database
     print('Zipping variable db...')
