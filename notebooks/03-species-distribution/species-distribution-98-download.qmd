@@ -10,6 +10,7 @@ Before your get started, go to the [GBIF occurrences search page](https://www.gb
 
 You can get your own observations added to GBIF using [iNaturalist](https://www.inaturalist.org/)!
 :::
+
 ### Set up your code to prepare for download
 
 We will be getting data from a source called [GBIF (Global Biodiversity Information Facility)](https://www.gbif.org/). We need a package called `pygbif` to access the data, which may not be included in your environment. Install it by running the cell below:
@@ -297,15 +298,17 @@ import subprocess
 
 import requests
 
-# Download data
-file_name = "species-distribution-foundations-data.zip"
-shutil.copy2(download_info['path'], file_name)
+try:
+    file_name = "species-distribution-foundations-data.zip"
+    shutil.copy2(download_info['path'], file_name)
 
-subprocess.run([
-    'gh', 'release', 'upload', 'data-release',
-    file_name,
-    '--repo', 'cu-esiil-edu/esiil-learning-portal',
-    '--clobber'
-    ])
+    subprocess.run([
+        'gh', 'release', 'upload', 'data-release',
+        file_name,
+        '--repo', 'cu-esiil-edu/esiil-learning-portal',
+        '--clobber'
+        ])
+except NameError:
+    print('Looks like the current version of data has already been uploaded.')
 ```
 :::
