@@ -12,8 +12,8 @@ IPYTHONDIR_LINE="IPYTHONDIR=${IPYTHONDIR}"
 
 # Define the URL and the destination file name
 URL="https://github.com/cu-esiil-edu/esiil-learning-portal/releases/download/data-release/db.zip"
-DEST="${IPYTHONDIR}/profile_default"
-DEST_DIR="db"
+DEST="db.zip"
+DEST_DIR="${IPYTHONDIR}/profile_default/db"
 
 # Download the ZIP file using wget
 wget $URL -O $DEST
