@@ -7,7 +7,27 @@ ENV_FILE="_environment.local"
 CURRENT_DIR=$(pwd)
 
 # Define the IPYTHONDIR line
-IPYTHONDIR_LINE="IPYTHONDIR=${CURRENT_DIR}/.ipython"
+IPYTHONDIR="${CURRENT_DIR}/.ipython"
+IPYTHONDIR_LINE="IPYTHONDIR=${IPYTHONDIR}"
+
+# Define the URL and the destination file name
+URL="https://github.com/cu-esiil-edu/esiil-learning-portal/releases/download/data-release/db.zip"
+DEST="${IPYTHONDIR}/profile_default"
+DEST_DIR="db"
+
+# Download the ZIP file using wget
+wget $URL -O $DEST
+
+# Create the directory to extract to
+mkdir -p $DEST_DIR
+
+# Extract the ZIP file
+unzip $DEST -d $DEST_DIR
+
+# Clean up by removing the downloaded ZIP file
+rm $DEST
+
+echo "Download and extraction complete."
 
 # Ensure the file ends with a newline if it exists
 if [ -f "$ENV_FILE" ]; then

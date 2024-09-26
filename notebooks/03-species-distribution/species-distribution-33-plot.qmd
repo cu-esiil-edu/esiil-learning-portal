@@ -6,6 +6,25 @@ First thing first -- let's load your stored variables and import libraries.
 %store -r
 ```
 
+::: {.callout-task title="Import packages"}
+
+In the imports cell, we've included some packages that you will need. Add imports for packages that will help you:
+
+1. Make interactive maps with vector data
+
+:::
+
+```{python}
+#| template: student
+# Get month names
+import calendar
+
+# Libraries for Dynamic mapping
+import cartopy.crs as ccrs
+import panel as pn
+```
+
+::: {.content-visible when-format="html"}
 ```{python}
 # Get month names
 import calendar
@@ -15,6 +34,7 @@ import cartopy.crs as ccrs
 import hvplot.pandas
 import panel as pn
 ```
+:::
 
 ### Create a simplified `GeoDataFrame` for plotting
 
@@ -24,18 +44,13 @@ Plotting larger files can be time consuming. The code below will streamline plot
 
 Download and save ecoregion boundaries from the EPA:
 
-1.  Make a copy of your ecoregions `GeoDataFrame` with the `.copy()` method, and save it to another variable name. Make sure to do everything else in this cell with your new copy!
-2. Select rows where the `REALM` is `Neotropic` (roughtly South America) or `Nearctic` (roughly North America). This narrows down the dataset and also eliminates some geometries that might cause us problems.
-3.  Simplify the ecoregions with `.simplify(.1)`, and save it back to the `geometry` column.
-4.  Change the Coordinate Reference System (CRS) to Mercator with `.to_crs(ccrs.Mercator())`
-5.  Use the plotting code in the cell to check that the plotting runs quickly and looks the way you want, making sure to change `gdf` to YOUR `GeoDataFrame` name.
+1. Simplify the ecoregions with `.simplify(.05)`, and save it back to the `geometry` column.
+2.  Change the Coordinate Reference System (CRS) to Mercator with `.to_crs(ccrs.Mercator())`
+3.  Use the plotting code that is already in the cell to check that the plotting runs quickly (less than a minute) and looks the way you want, making sure to change `gdf` to YOUR `GeoDataFrame` name.
 :::
 
 ```{python}
 #| template: student
-
-# Make a copy of the ecoregions
-
 # Simplify the geometry to speed up processing
 
 # Change the CRS to Mercator for mapping
@@ -47,21 +62,15 @@ gdf.hvplot(geo=True, crs=ccrs.Mercator())
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-# Make a copy of the ecoregions
-ecoregions_plot_gdf = ecoregions_gdf.copy()
-
-# Select only Neotropic and Nearctic realms
-ecoregions_plot_gdf = ecoregions_plot_gdf[
-    ecoregions_plot_gdf.realm.isin(['Neotropic', 'Nearctic']) ]
-
 # Simplify the geometry to speed up processing
-ecoregions_plot_gdf.geometry = ecoregions_plot_gdf.simplify(.1)
+ecoregions_gdf.geometry = ecoregions_gdf.simplify(
+    .05, preserve_topology=False)
 
 # Change the CRS to Mercator for mapping
-ecoregions_plot_gdf = ecoregions_plot_gdf.to_crs(ccrs.Mercator())
+ecoregions_gdf = ecoregions_gdf.to_crs(ccrs.Mercator())
 
 # Check that the plot runs
-ecoregions_plot_gdf.hvplot(geo=True, crs=ccrs.Mercator())
+ecoregions_gdf.hvplot(geo=True, crs=ccrs.Mercator())
 ```
 :::
 
@@ -70,12 +79,16 @@ ecoregions_plot_gdf.hvplot(geo=True, crs=ccrs.Mercator())
 1. If applicable, replace any variable names with the names you defined previously.
 2. Replace `column_name_used_for_ecoregion_color` and `column_name_used_for_slider` with the column names you wish to use.
 3. Customize your plot with your choice of title, tile source, color map, and size.
+
+:::: {.callout-note}
+Your plot will probably still change months very slowly in your Jupyter notebook, because it calculates each month's plot as needed. Open up the saved HTML file to see faster performance!
+::::
 :::
 
 ```{python}
 #| template: student
 # Join the occurrences with the plotting GeoDataFrame
-occurrence_gdf = ecoregions_plot_gdf.join(occurrence_df)
+occurrence_gdf = ecoregions_gdf.join(occurrence_df)
 
 # Get the plot bounds so they don't change with the slider
 xmin, ymin, xmax, ymax = occurrence_gdf.total_bounds
@@ -107,7 +120,7 @@ migration_plot
 ```{python}
 #| template: answer
 # Join the occurrences with the plotting GeoDataFrame
-occurrence_gdf = ecoregions_plot_gdf.join(occurrence_df)
+occurrence_gdf = ecoregions_gdf.join(occurrence_df)
 
 # Get the plot bounds so they don't change with the slider
 xmin, ymin, xmax, ymax = occurrence_gdf.total_bounds
