@@ -217,23 +217,24 @@ gbif_path = glob(gbif_pattern)[0]
 # Only download once
 gbif_pattern = os.path.join(gbif_dir, '*.csv')
 if not glob(gbif_pattern):
-    # Submit query to GBIF
-    gbif_query = occ.download([
-        "speciesKey = 2490804",
-        "hasCoordinate = TRUE",
-        "year = 2023",
-    ])
     download_key = gbif_query[0]
 
-    # Wait for the download to build
+    # Only submit one request
     if not 'GBIF_DOWNLOAD_KEY' in os.environ:
+        # Submit query to GBIF
+        gbif_query = occ.download([
+            "speciesKey = ",
+            "hasCoordinate = ",
+            "year = ",
+        ])
         os.environ['GBIF_DOWNLOAD_KEY'] = gbif_query[0]
 
-        # Wait for the download to build
+    # Wait for the download to build
+    download_key = os.environ['GBIF_DOWNLOAD_KEY']
+    wait = occ.download_meta(download_key)['status']
+    while not wait=='SUCCEEDED':
         wait = occ.download_meta(download_key)['status']
-        while not wait=='SUCCEEDED':
-            wait = occ.download_meta(download_key)['status']
-            time.sleep(5)
+        time.sleep(5)
 
     # Download GBIF data
     download_info = occ.download_get(

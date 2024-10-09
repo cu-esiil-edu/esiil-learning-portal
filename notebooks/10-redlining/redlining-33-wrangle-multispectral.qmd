@@ -1,0 +1,102 @@
+# Download and prepare green reflectance data
+
+## Working with **raster** data
+
+::: {.callout-task title='Import stored variables and libraries'}
+
+:::
+
+```{python}
+%store -r
+```
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+import re
+import zipfile
+from io import BytesIO
+from glob import glob
+
+import requests
+import rioxarray as rxr
+```
+:::
+
+## STEP 3: Download raster data
+
+::: {.callout-task title='Download sample data'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+hls_url = (
+    "https://github.com/cu-esiil-edu/esiil-learning-portal/releases"
+    "/download/data-release/redlining-foundations-data.zip"
+)
+hls_dir = os.path.join(data_dir, 'hls')
+hls_response = requests.get(hls_url)
+with zipfile.ZipFile(BytesIO(hls_response.content)) as hls_zip:
+    hls_zip.extractall(hls_dir)
+```
+:::
+
+
+::: {.callout-task title=''}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Find the path to the green layer
+green_path = glob(os.path.join(hls_dir, '*green*.tif'))[0]
+
+# Open the green data in Python
+green_da = rxr.open_rasterio(green_path, masked=True).squeeze()
+display(green_da)
+green_da.plot(cmap='Greens', vmin=0, robust=True)
+```
+:::
+
+::: {.callout-task title='Load all bands'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+band_re = re.compile(r"(?P<band_name>[a-z]+).tif")
+band_dict = {}
+for band_path in glob(os.path.join(hls_dir, '*.tif')):
+    band_name = band_re.search(band_path).group('band_name')
+    band_dict[band_name] = rxr.open_rasterio(green_path, masked=True).squeeze()
+band_dict
+```
+:::
+
+```{python}
+%store band_dict
+```

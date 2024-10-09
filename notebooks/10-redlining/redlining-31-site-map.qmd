@@ -1,0 +1,151 @@
+## STEP 1: Set up your analysis
+
+::: {.callout-task title='Import packages'}
+
+Add imports for packages that help you:
+
+  1. Work with the file system interoperably
+  2. Work with vector data
+  3. Create interactive plots of vector data
+:::
+
+```{python}
+#| template: student
+# Interoperable file paths
+# Find the home folder
+# Work with vector data
+# Interactive plots of vector data
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+import os # Interoperable file paths
+import pathlib # Find the home folder
+
+import geopandas as gpd # Work with vector data
+import hvplot.pandas # Interactive plots of vector data
+```
+:::
+
+::: {.callout-task title='Prepare data directory'}
+
+In the cell below, **reproducibly and interoperably** define and create a project data directory somewhere in your home folder. Be careful not to save data files to your `git` repository!
+:::
+
+```{python}
+#| template: student
+# Define and create the project data directory
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+data_dir = os.path.join(
+    pathlib.Path.home(),
+    'earth-analytics',
+    'data',
+    'redlining'
+)
+os.makedirs(data_dir, exist_ok=True)
+```
+:::
+
+## STEP 2: Site map
+::: {.callout-task title='Define your study area'}
+
+1. Copy the **geopackage** URL for the [University of Richmond](https://dsl.richmond.edu/panorama/redlining/data)
+2. Load the *vector* data into Python, making sure to cache the download so you don't have to run it multiple times.
+3. Create a quick plot to check the data
+:::
+
+```{python}
+#| template: student
+# Define info for redlining download
+
+# Only download once
+
+# Load from file
+
+# Check the data
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Define info for redlining download
+redlining_url = (
+    "https://dsl.richmond.edu/panorama/redlining/static"
+    "/mappinginequality.gpkg"
+)
+redlining_dir = os.path.join(data_dir, 'redlining')
+os.makedirs(redlining_dir, exist_ok=True)
+redlining_path = os.path.join(redlining_dir, 'redlining.shp')
+
+# Only download once
+if not os.path.exists(redlining_path):
+    redlining_gdf = gpd.read_file(redlining_url)
+    redlining_gdf.to_file(redlining_path)
+
+# Load from file
+redlining_gdf = gpd.read_file(redlining_path)
+
+# Check the data
+redlining_gdf.plot()
+```
+:::
+
+
+::: {.callout-task title='Create an interactive site map'}
+
+In the cell below:
+
+  1. Select only the data where the city is equal to `"Denver"`.
+  2. For now, dissolve the regions with the `.dissolve()` method so we see only a map of Denver.
+  3. Plot the data with the `EsriImagery` tile source basemap. Make sure we can see your basemap underneath!
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+denver_redlining_gdf = redlining_gdf[redlining_gdf.city=='Denver']
+denver_redlining_gdf.dissolve().hvplot(
+    geo=True, tiles='EsriImagery',
+    title='City of Denver',
+    fill_color=None, line_color='darkorange', line_width=3,
+    frame_width=600
+)
+```
+:::
+
+::: {.callout-respond title='Write a site description'}
+
+Your site description should address:
+
+  1. Is there anything relevant to this analysis that you notice in your site map? 
+  2. Research about the **context** of this analysis. You could include information about the climate and history of the Denver area. How might racism, water rights, or other societal forces have influenced the distribution of urban green space in Denver? Aim for a paragraph of text.
+  3. Citations for the site data and your context sources.
+
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+YOUR SITE DESCRIPTION HERE
+::::
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.callout-task title="Store variables"}
+
+Store any variables you want for later. This should definitely include your un-dissolved denver redlining `GeoDataFrame` and your data directory path.
+::::
+```{python}
+%store denver_redlining_gdf data_dir
+```
+:::

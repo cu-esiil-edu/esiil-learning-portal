@@ -1,0 +1,639 @@
+# Download Data with `earthaccess`
+
+
+
+## STEP 1: Set up
+
+Load your stored variables into memory:
+
+```{python}
+%store -r denver_redlining_gdf data_dir
+```
+
+::: {.callout-task title='Import packages'}
+
+Add imports for packages that help you:
+
+  1. Work with the file system interoperably
+  2. Work with vector data
+  3. Create interactive plots of vector data
+  4. Group and aggregate tabular data
+:::
+
+```{python}
+#| template: student
+import re # Use regular expressions to extract metadata
+
+import earthaccess # Access NASA data from the cloud
+import numpy as np # Process bit-wise cloud mask
+import rioxarray as rxr # Work with raster data
+from rioxarray.merge import merge_arrays # Merge rasters
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+import os # Interoperable file paths
+import pathlib # Find the home folder
+import re # Use regular expressions to extract metadata
+
+import earthaccess # Access NASA data from the cloud
+import numpy as np # Process bit-wise cloud mask
+import pandas as pd # Group and aggregate
+import rioxarray as rxr # Work with raster data
+from rioxarray.merge import merge_arrays # Mosaic rasters
+```
+:::
+
+::: {.callout-task title='Set up `earthaccess` connection'}
+
+1. Make an account on the [earthdata site](https://urs.earthdata.nasa.gov/). You don't need to spend a lot of time on the registration form -- go ahead answer their questions to the best of your ability. That information is used for internal reporting and analysis, not to decide whether or not to grant you an account!
+2. Run the code below an enter your credentials to log into earthaccess from Python. You should only need to do this once, as long as `persist=True` is set.
+
+:::
+
+```{python}
+#| template: student
+earthaccess.login(strategy="interactive", persist=True)
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+earthaccess.login(strategy="interactive", persist=True)
+```
+:::
+
+
+## STEP 2: Search
+::: {.callout-task title='Search for HLS data'}
+
+It can be useful to use NASA's online resources to find the data you want to download before accessing it over API. To do that:
+
+  1. Go to the [NASA Worldview Site](https://worldview.earthdata.nasa.gov/) and search for Denver, CO.
+  2. Add the `HLSL30` product as a base map. You can do this by clicking `Add Layer` and then searching for the **short name** `HLSL30`. When looking for other datasets, the short name can usually be found by on the data homepage, accessible from the **doi**. Practice opening the data page for `HLSL30` to find where the shortcode is.
+  3. By dragging the date indicator on the bottom, search the month of July, 2023 for a day that has data available and little to no cloud cover over Denver. You may need to wait a second or so for the data to load for any given date.
+
+Now, using the code below:
+
+  1. Put the short name of the dataset into the `earthaccess.search_data()` function.
+  2. Replace `gdf` with the name of your denver redlining `GeoDataFrame`.
+  3. Put the date you found into the `temporal` parameter, replacing `YYYY-MM-DD` with the appropriate year (Y), month (M), and day (D) digits.
+  4. Run the code and make sure there are results! If not, double check your date.
+
+:::
+
+```{python}
+#| template: student
+denver_results = earthaccess.search_data(
+    short_name="",
+    bounding_box=tuple(gdf.total_bounds),
+    temporal=("YYYY-MM-DD"),
+)
+denver_results
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+denver_results = earthaccess.search_data(
+    short_name='HLSL30',
+    bounding_box=tuple(denver_redlining_gdf.total_bounds),
+    temporal=("2023-07-12", "2023-07-12"),
+)
+denver_results
+```
+:::
+
+## STEP 3: Open data connections
+
+::: {.callout-task title='Access HLS data'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+hls_dir = os.path.join(data_dir, 'denver-july-hls')
+os.makedirs(hls_dir, exist_ok=True)
+
+ea_uris = earthaccess.open(denver_results, hls_dir)
+ea_uris
+```
+:::
+
+## STEP 4a: Process data
+
+### Connect with Python
+
+::: {.callout-task title='Practice importing multispectral data'}
+We want to load in the Red and Near-infrared bands of the 
+
+  1. **Find a green layer:** Check out the [HLSL30 User Guide](https://hls.gsfc.nasa.gov/wp-content/uploads/2019/01/HLS.v1.4.UserGuide_draft_ver3.1.pdf). Which layer is the green layer? What is its **index** in the list of files you got from `earthaccess`? Remember that Python starts counting at 0!
+  2. **Open the layer:** Open one of **green** layers you downloaded using the `rxr.open_rasterio()` function. You can do this by index if you like -- this code is for you to explore using the data. 
+  3. **Remove extra dimensions:** Notice that there are **three** dimensions up at the top - `band`, `y`, and `x`. However, in this case, `band` is just set to `1`, rather than indicating which data layer we're looking at. To get rid of the `band` dimension, apply the `.squeeze()` method to your DataArray. Now, your DataArray should have dimensions `y` and `x` only (although `band` will still appear in the Coordinates). This will help you with plotting and other operations later on.
+  4. **Mask nodata values:** Now, plot your Data Array. Notice that many of the values are somewhere around -10000. We can guess, because it's common in datasets like this, that the value -9999 is used here as a "no data" value to mark where no measurement was taken. To encode the no data values correctly, add the parameter `masked=True` to the `rxr.open_rasterio()` function. Now, the image should be white where there's no data.
+
+You will want to use `masked=True` and `squeeze()` **whenever** you load raster data into Python from a `GeoTIFF` (usually .tif) file. It's rare for a `GeoTIFF` to actually have multiple layers, and also rare that we do not want to parse nodata values in a properly formatted `GeoTIFF`.
+:::
+
+```{python}
+#| template: student
+# Import one tile of green data
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+green_da = rxr.open_rasterio(ea_uris[8], masked=True).squeeze()
+green_da.plot(cmap='Greens')
+```
+:::
+
+
+### Crop
+
+In this example, our study area vector data and our raster multispectral reflectance data come in different **Coordinate Reference System**s (CRSs). In this example, we are converting the vector data to be in the same CRS as the raster data.
+
+::: {.callout-respond title='Why convert vector data?'}
+You're being asked to convert vector data to the raster CRS instead of the other way around for two specific reasons. Why do you think this is important?
+:::
+
+::: {.callout-task title='Get your study bounds'}
+
+  1. Access the CRS of the redlining data (`.crs`) and the reflectance data (`.rio.crs`) to verify that they are not the same
+  2. Convert the redlining `GeoDataFrame` to the same CRS as the reflectance data.
+  3. Get the `.total_bounds` of the redlining data so you can crop to it.
+:::
+
+```{python}
+#| template: student
+# Get the study bounds
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+denver_bounds = (
+    denver_redlining_gdf
+    .to_crs(green_da.rio.crs)
+    .total_bounds
+)
+denver_bounds
+```
+:::
+
+::: {.callout-task title='Crop raster data'}
+
+To crop your data, use the method `.rio.clip_box(*your_bounds_here)`.
+
+The asterisk **unpacks** the bounds so that they go in as four separate arguments instead of a single tuple.
+:::
+
+```{python}
+#| template: student
+# Crop the green reflectance data
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+green_cropped_da = green_da.rio.clip_box(*denver_bounds)
+green_cropped_da.plot(cmap='Greens')
+```
+:::
+
+### Cloud mask
+
+In your original image, you may have noticed some bright spots right next to dark spots on the image. These are clouds and cloud shadows. Ideally, we don't want to include either clouds or the shadows in our image! Luckily, our data comes with a cloud mask file, labeled as the `Fmask` band.
+
+::: {.callout-task title='Take a look at the cloud mask'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+cloud_da = rxr.open_rasterio(ea_uris[14], masked=True).squeeze()
+cloud_da = cloud_da.rio.clip_box(*denver_bounds)
+cloud_da.plot()
+```
+:::
+
+
+Notice that your Fmask layer seems to range from 0 to somewhere in the mid-200s. Our cloud mask actually comes as 8-bit **binary** numbers, where each **bit** represents a different category of pixel we might want to mask out.
+
+::: {.callout-task title='Process the Fmask'}
+
+  1. Use the sample code below to **unpack** the cloud mask data. Using `bitorder='little'` means that the bit indices will match the Fmask categories in the User Guide, and `axis=-1` creates a new dimension for the bits so that now our array is `x`x`y`x8. 
+  2. Look up the bits to mask in the User Guide. You should mask clouds, adjacent to clouds, and cloud shadow, as well as water (because water may confuse our greenspace analogy)
+:::
+
+```{python}
+#| template: student
+cloud_bits = (
+    np.unpackbits(
+        (
+            # Get the cloud mask as an array...
+            cloud_da.values
+            # ... of 8-bit integers
+            .astype('uint8')
+            # With an extra axis to unpack the bits into
+            [:, :, np.newaxis]
+        ), 
+        # List the least significat bit first to match the user guide
+        bitorder='little',
+        # Expand the array in a new dimension
+        axis=-1)
+)
+
+bits_to_mask = [
+    , # Cloud
+    , # Adjacent to cloud
+    , # Cloud shadow
+    ] # Water
+cloud_mask = np.sum(
+    # Select bits 1, 2, and 3
+    cloud_bits[:,:,bits_to_mask], 
+    # Sum along the bit axis
+    axis=-1
+# Check if any of bits 1, 2, or 3 are true
+) == 0
+
+cloud_mask
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+cloud_bits = (
+    np.unpackbits(
+        (
+            # Get the cloud mask as an array...
+            cloud_da.values
+            # ... of 8-bit integers
+            .astype('uint8')
+            # With an extra axis to unpack the bits into
+            [:, :, np.newaxis]
+        ), 
+        # List the least significat bit first to match the user guide
+        bitorder='little',
+        # Expand the array in a new dimension
+        axis=-1)
+)
+
+bits_to_mask = [
+    1, # Cloud
+    2, # Adjacent to cloud
+    3, # Cloud shadow
+    5] # Water
+cloud_mask = np.sum(
+    # Select bits 1, 2, and 3
+    cloud_bits[:,:,bits_to_mask], 
+    # Sum along the bit axis
+    axis=-1
+# Check if any of bits 1, 2, or 3 are true
+) == 0
+cloud_mask
+```
+:::
+
+::: {.callout-task title='Apply the cloud mask'}
+
+  1. Use the `.where()` method to remove all the pixels you identified in the previous step from your green reflectance `DataArray`.
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+green_masked_da = green_cropped_da.where(cloud_mask)
+green_masked_da.plot(cmap='Greens', robust=True)
+```
+:::
+
+### Scale factor
+
+::: {.callout-task title=''}
+
+  1. Get the scale_factor for your green `DataArray`
+  2. Multiply by your masked array by the scale factor to get numbers ranging from 0 to 1
+  3. When you plot, set `vmin=0` (because that is the lowest reflectance value possible) and `robust=True` (to shrink the color scale and sharpen the image). Your NaN values where you masked should still be visible.
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Multiply by the scale factor
+green_scaled_da = green_masked_da * green_masked_da.scale_factor
+green_scaled_da.plot(cmap='Greens', vmin=0, robust=True)
+```
+:::
+
+## STEP 4b: Putting it all together
+
+Whew -- we've processed some reflectance data! But you may have noticed that your image doesn't include all of Denver. To get a complete image, we will have to:
+
+  1. Load in all 4 rasters that cover Denver
+  2. Process them the same way as above
+  3. Merge, or mosaic, them into one image
+
+And...we haven't even talked about the other bands you might need, or what to do if you want a time-series of images. You can see that if we were to copy and paste all the code above for each raster we need to load, it could get pretty overwhelming, and *very* error-prone. This is the opposite of what we mean by **DRY** (Don't Repeat Yourself) code.
+
+Before we continue, we're going to make some functions to do the tasks you completed up above. When writing a function, we recommend the following process:
+
+  1. Set up the function syntax with your code inside, and a line of code that runs the function.
+  2. Identify any variables that are **too specific**. For example, if I called a `DataArray` `denver_da`, but I could use my function to process data from anywhere...I might change the name to `da` whereever it appears.
+  3. Identify the function **parameters** or **arguments**. What variables do you need to run the code in the function that you don't define within the function? Those should all be parameters.
+  4. Indentify the function **returns**. What do you want to be able to access at the end? Keep in mind that unless you return them, the variables you create in a function will be stuck there. Make sure to use the `return` statement at the end of your function to return the variables you want to keep.
+  5. Test your function, line by line if necessary, to check that your names work
+  6. Write your **docstring** in numpy style, specifying what your function does, what parameters it takes, and what values it returns.
+  7. Restart the kernel and run your function to check that doesn't have any hidden requirements.
+
+::: {.callout-task title="DRY code with functions"}
+Take each processing step from above, and  create a function to do it. We recommend writing the following 2 functions:
+
+  1. A function to load a raster, crop it, and apply the scale factor
+  2. A function to process the cloud mask
+
+Applying the cloud mask is a single line of code, so we don't think it needs its own function.
+
+Make sure to test all your functions using your example from up top! 
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+def process_image(uri, bounds_gdf):
+    """
+    Load, crop, and scale a raster image from earthaccess
+
+    Parameters
+    ----------
+    uri: file-like or path-like
+      File accessor downloaded or obtained from earthaccess
+    bounds_gdf: gpd.GeoDataFrame
+      Area of interest to crop to
+
+    Returns
+    -------
+    scaled_da: rxr.DataArray
+      Cropped and scaled raster
+    """
+    da = rxr.open_rasterio(uri, masked=True).squeeze()
+    bounds = (
+        bounds_gdf
+        .to_crs(da.rio.crs)
+        .total_bounds
+    )
+    cropped_da = da.rio.clip_box(*bounds)
+    scaled_da = cropped_da * da.scale_factor
+    return scaled_da
+
+def process_cloud_mask(cloud_uri, bounds_gdf, bits_to_mask):
+    """
+    Load an 8-bit Fmask file and process to a boolean mask
+
+    Parameters
+    ----------
+    uri: file-like or path-like
+      Fmask file accessor downloaded or obtained from earthaccess
+    bounds_gdf: gpd.GeoDataFrame
+      Area of interest to crop to
+    bits_to_mask: list of int
+      The indices of the bits to mask if set
+
+    Returns
+    -------
+    cloud_mask: np.array
+      Cloud mask
+    """
+    cloud_da = process_image(cloud_uri, bounds_gdf)
+    bounds = (
+        bounds_gdf
+        .to_crs(cloud_da.rio.crs)
+        .total_bounds
+    )
+    cloud_bits = (
+        np.unpackbits(
+            (
+                # Get the cloud mask as an array...
+                cloud_da.values
+                # ... of 8-bit integers
+                .astype('uint8')
+                # With an extra axis to unpack the bits into
+                [:, :, np.newaxis]
+            ), 
+            # List the least significat bit first to match the user guide
+            bitorder='little',
+            # Expand the array in a new dimension
+            axis=-1)
+    )
+    cloud_mask = np.sum(
+        # Select bits to mask
+        cloud_bits[:,:,bits_to_mask], 
+        # Sum along the bit axis
+        axis=-1
+    # Check if any of the masked bits are true
+    ) == 0
+    return cloud_mask
+
+green_da = process_image(ea_uris[8], denver_redlining_gdf)
+
+bits_to_mask = [
+    1, # Cloud
+    2, # Adjacent to cloud
+    3, # Cloud shadow
+    5, # Water
+]
+cloud_mask = process_cloud_mask(
+    ea_uris[14], denver_redlining_gdf, bits_to_mask)
+green_masked_da = green_da.where(cloud_mask)
+green_masked_da.plot(cmap='Greens', vmin=0, robust=True)
+```
+:::
+
+
+Our next new tool to help you write DRY and correct code is the regular expression. Regular expressions are a little like the patterns we use with `glob` that contain wildcard characters (`*`) -- but, they are **much** more powerful. With regular expressions, we can extract different segments from a string (file name, in this case) based on landmarks -- even if those segments are not always the same length!
+
+::: {.callout-task title='Get metadata with **regular expressions**'}
+
+Using the code below as a starting point, extract metadata from file names and put them into a `DataFrame`. This strategy will help you later on because you will be able to group rasters by their metadata values, such as tile ID, band ID, and/or date.
+
+  1. Build your regular expression. ChatGPT is a great tool to get started with your regular expression. You can also check out [https://regex101.com/](https://regex101.com/) to test your regular expressions, making sure to select the `Python` regular expression engine.
+  2. Replace file_name with a **string** version of the URI. You can access it from the object you got from `earthaccess` through the `.full_name` attribute.
+  3. Add the URIs from `earthaccess` to the `DataFrame` you created as a new column. 
+:::
+
+```{python}
+#| template: student
+# Compile a regular expression to search for metadata
+uri_re = re.compile(
+    ...
+)
+
+# Find all the metadata in the file name
+uri_groups = [
+    uri_re.search(file_name_to_search).groupdict()
+    for uri in ea_uris]
+
+# Create a DataFrame with the metadata
+raster_df = pd.DataFrame(uri_groups)
+
+# Add the File-like URI to the DataFrame
+
+# Check the results
+raster_df
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Compile a regular expression to search for metadata
+uri_re = re.compile(
+    r'HLS.L30.(?P<tile_id>[^.]*)'
+    r'.(?P<date>\d*)'
+    r'T\d*.v2.0.'
+    r'(?P<band_id>[^.]*)'
+    r'.tif'
+)
+
+# Find all the metadata in the file name
+uri_groups = [
+    uri_re.search(uri.full_name).groupdict()
+    for uri in ea_uris]
+
+# Create a DataFrame with the metadata
+raster_df = pd.DataFrame(uri_groups)
+
+# Add the File-like URI to the DataFrame
+raster_df['uri'] = ea_uris
+
+# Check the results
+raster_df
+```
+:::
+
+
+::: {.callout-task title='Crop data'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+bands = {
+    'B02': 'red',
+    'B03': 'green',
+    'B04': 'blue',
+    'B05': 'nir'
+}
+# Initialize structure for saving images
+denver_das = {band_name: [] for band_name in bands.values()}
+for tile_id, tile_df in raster_df.groupby('tile_id'):
+
+    # Load the cloud mask
+    cloud_mask = process_cloud_mask(
+        tile_df.loc[tile_df.band_id=='Fmask', 'uri'].values[0],
+        denver_redlining_gdf, 
+        [1, 2, 3, 5])
+
+    for band_id, row in tile_df.groupby('band_id'):
+        if band_id in bands:
+            band_name = bands[band_id]
+            band_da = process_image(
+                row.uri.values[0], 
+                denver_redlining_gdf)
+            band_masked_da = band_da.where(cloud_mask)
+            denver_das[band_name].append(band_masked_da)
+
+# Merge all tiles
+denver_das = {
+    band_name: merge_arrays(das) 
+    for band_name, das 
+    in denver_das.items()}
+
+denver_das['green'].plot(cmap='Greens', robust=True)
+```
+:::
+
+::: {.callout-task title='Check your data'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+import matplotlib.pyplot as plt
+denver_das['green'].plot(cmap='Greens', vmin=0, robust=True)
+denver_redlining_gdf.to_crs(denver_das['green'].rio.crs).plot(
+    ax=plt.gca(),
+    edgecolor='black', color='none')
+```
+:::
+
+::: {.content-hidden}
+```{python}
+#| eval: true
+import os
+import shutil
+import subprocess
+
+try:
+    zip_name = "redlining-foundations-data"
+    to_zip_dir = os.path.join(hls_dir, zip_name)
+    os.makedirs(to_zip_dir, exist_ok=True)
+
+    for band_name, da in denver_das.items():
+        band_path = os.path.join(
+            to_zip_dir,
+            f'HLSL30.20230712.denver.{band_name}.tif'
+        )
+        if not os.path.exists(band_path):
+            da.rio.to_raster(band_path)
+    shutil.make_archive(to_zip_dir, 'zip', to_zip_dir)
+    subprocess.run([
+        'gh', 'release', 'upload', 'data-release',
+        to_zip_dir + '.zip',
+        '--repo', 'cu-esiil-edu/esiil-learning-portal',
+        '--clobber'
+        ])
+except NameError:
+    print('Looks like the current version of data has already been uploaded.')
+```
+:::
