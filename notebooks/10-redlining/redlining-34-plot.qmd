@@ -1,0 +1,195 @@
+```{python}
+%store -r band_dict ndvi_da denver_redlining_gdf
+```
+
+
+::: {.callout-task title=''}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+import cartopy.crs as ccrs
+import hvplot.pandas
+import hvplot.xarray
+import matplotlib.pyplot as plt
+import xarray as xr
+```
+:::
+
+
+::: {.callout-task title='Prepare to plot'}
+
+:::
+
+```{python}
+#| template: student
+ndvi_plot_gdf.y.plot()
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Make sure the CRSs match
+aoi_plot_gdf = denver_redlining_gdf.to_crs(ccrs.Mercator())
+ndvi_plot_da = ndvi_da.rio.reproject(ccrs.Mercator())
+band_plot_dict = {
+    band_name: da.rio.reproject(ccrs.Mercator())
+    for band_name, da in band_dict.items()
+}
+ndvi_plot_da.plot(cmap='Greens', robust=True)
+ndvi_plot_da.hvplot(geo=True, cmap='Greens', robust=True)
+```
+:::
+
+
+::: {.callout-task title='Plot raster with overlay with xarray'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+ndvi_plot_da.plot(
+    cmap='Greens', vmin=0, robust=True)
+aoi_plot_gdf.to_crs(ndvi_da.rio.crs).plot(
+    ax=plt.gca(), 
+    edgecolor='gold', color='none', linewidth=1.5)
+plt.gca().set(
+    title='Denver NDVI July 2023',
+    xlabel='', ylabel='', xticks=[], yticks=[]
+)
+plt.show()
+```
+:::
+
+
+::: {.callout-task title='Plot raster with overlay with hvplot'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+(
+    ndvi_plot_da.hvplot(
+        geo=True, robust=True, cmap='Greens', 
+        title='Denver NDVI July 2023',
+        xaxis=None, yaxis=None
+    )
+    * aoi_plot_gdf.hvplot(
+        geo=True, crs=ccrs.Mercator(),
+        fill_color=None)
+)
+```
+:::
+
+
+::: {.callout-task title='Plot bands with linked subplots'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+raster_kwargs = dict(
+    geo=True, robust=True, 
+    xaxis=None, yaxis=None
+)
+(
+    (
+        band_plot_dict['red'].hvplot(
+            cmap='Reds', title='Red Reflectance', **raster_kwargs)
+        + band_plot_dict['nir'].hvplot(
+            cmap='Greys', title='NIR Reflectance', **raster_kwargs)
+        + band_plot_dict['green'].hvplot(
+            cmap='Greens', title='Green Reflectance', **raster_kwargs)
+    )
+    * aoi_plot_gdf.hvplot(
+        geo=True, crs=ccrs.Mercator(),
+        fill_color=None)
+)
+```
+:::
+
+::: {.callout-task title='Plot RBG'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+rgb_da = (
+    xr.concat(
+        [
+            band_plot_dict['red'],
+            band_plot_dict['green'],
+            band_plot_dict['blue']
+        ],
+        dim='rgb')
+)
+rgb_da = rgb_da.where(rgb_da>0)
+rgb_da = rgb_da.where(~np.isnan(rgb_da), 0)
+rgb_da = rgb_da * 8
+rgb_da.plot.imshow(rgb='rgb')
+#rgb_da.hvplot.rgb(geo=True, x='x', y='y', bands='ms_band')
+```
+:::
+
+::: {.callout-task title='Plot CIR'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+
+```
+:::
+
+::: {.callout-task title='Plot NDVI'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+
+```
+:::

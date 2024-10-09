@@ -92,10 +92,12 @@ band_re = re.compile(r"(?P<band_name>[a-z]+).tif")
 band_dict = {}
 for band_path in glob(os.path.join(hls_dir, '*.tif')):
     band_name = band_re.search(band_path).group('band_name')
-    band_dict[band_name] = rxr.open_rasterio(green_path, masked=True).squeeze()
+    band_dict[band_name] = rxr.open_rasterio(
+        band_path, masked=True).squeeze()
 band_dict
 ```
 :::
+
 
 ```{python}
 %store band_dict

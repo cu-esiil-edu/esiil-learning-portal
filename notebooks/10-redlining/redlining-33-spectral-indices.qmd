@@ -1,0 +1,30 @@
+## 
+
+```{python}
+store -r band_dict
+```
+
+::: {.callout-task title='Calculate NDVI'}
+
+:::
+
+```{python}
+#| template: student
+band_dict['nir'].rio.nodata
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+ndvi_da = band_dict['nir'].copy()
+ndvi_da.values = (
+    (band_dict['nir'] - band_dict['red'])
+    / (band_dict['nir'] + band_dict['red'])
+)
+ndvi_da.plot(robust=True)
+```
+:::
+
+```{python}
+%store ndvi_da
+```
