@@ -324,7 +324,7 @@ for band_path in glob(os.path.join(hls_dir, '*.B*.tif')):
 
     # Open the band
     band_dict[band_name] = rxr.open_rasterio(
-        band_path, mask_and_scale=True).squeeze()
+        band_path, mask_and_scale=True).squeeze().load()
 
 band_dict
 ```
