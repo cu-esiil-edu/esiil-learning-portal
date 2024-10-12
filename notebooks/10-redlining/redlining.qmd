@@ -1,38 +1,21 @@
-```{python}
-import os
-import pathlib
+---
+title: Redlining and Urban Green Space
+subtitle: Introduction to raster data operations
+learning-goals:
+  - Process multispectral raster data
+  - Compute spectral indices
+  - Combine heterogenous datasets
+jupyter: python3
+format:
+  html: default
+---
 
-import geopandas as gpd
-import hvplot.pandas
-import pandas as pd
-import requests
+{{< include redlining-30-overview.qmd >}}
 
-data_dir = os.path.join(
-    pathlib.Path.home(),
-    'earth-analytics',
-    'data',
-    'redlining'
-)
-os.makedirs(data_dir, exist_ok=True)
-```
+{{< include redlining-31-site-map.qmd >}}
 
-```{python}
-redlining_url = (
-    "https://dsl.richmond.edu/panorama/redlining/static/mappinginequality.gpkg")
+{{< include redlining-32-wrangle-multispectral.qmd >}}
 
-redlining_gdf = gpd.read_file(redlining_url)
-```
+{{< include redlining-33-spectral-indices.qmd >}}
 
-```{python}
-denver_redlining_gdf = (
-    redlining_gdf
-    [(redlining_gdf.state=='CO') & (redlining_gdf.city=='Denver')]
-)
-denver_redlining_gdf.loc[:, 'grade'] = pd.Categorical(
-    denver_redlining_gdf.grade,
-    categories = ['A', 'B', 'C', 'D'],
-    ordered=True)
-denver_redlining_gdf.plot(
-    column='grade', legend=True,
-    cmap='bwr', edgecolor='black')
-```
+{{< include redlining-34-plot.qmd >}}

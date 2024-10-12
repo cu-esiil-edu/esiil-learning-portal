@@ -1,12 +1,11 @@
-# Download Data with `earthaccess`
+# Bulk Download Data with `earthaccess`
 
+Whew -- we've processed some reflectance data! But you may have noticed that your image doesn't include all of Denver, or all the spectral bands you will need -- Your search returned 60 different files covering different spectral bands and spatial areas! To work with all of them, we will have to utilize **DRY** coding techniques -- `for` loops and functions.
 
-
-## STEP 1: Set up
-
-Load your stored variables into memory:
+First things first -- load your stored variables into memory:
 
 ```{python}
+#| eval: true
 %store -r denver_redlining_gdf data_dir
 ```
 
@@ -22,11 +21,14 @@ Add imports for packages that help you:
 
 ```{python}
 #| template: student
+# Interoperable file paths
 import re # Use regular expressions to extract metadata
 
 import earthaccess # Access NASA data from the cloud
+# Overlay plots
 import numpy as np # Process bit-wise cloud mask
-import rioxarray as rxr # Work with raster data
+# Group and aggregate
+# Work with raster data
 from rioxarray.merge import merge_arrays # Merge rasters
 ```
 
@@ -34,10 +36,10 @@ from rioxarray.merge import merge_arrays # Merge rasters
 ```{python}
 #| template: answer
 import os # Interoperable file paths
-import pathlib # Find the home folder
 import re # Use regular expressions to extract metadata
 
 import earthaccess # Access NASA data from the cloud
+import matplotlib.pyplot as plt # Overlay plots
 import numpy as np # Process bit-wise cloud mask
 import pandas as pd # Group and aggregate
 import rioxarray as rxr # Work with raster data
@@ -46,106 +48,46 @@ from rioxarray.merge import merge_arrays # Mosaic rasters
 :::
 
 ::: {.callout-task title='Set up `earthaccess` connection'}
-
-1. Make an account on the [earthdata site](https://urs.earthdata.nasa.gov/). You don't need to spend a lot of time on the registration form -- go ahead answer their questions to the best of your ability. That information is used for internal reporting and analysis, not to decide whether or not to grant you an account!
-2. Run the code below an enter your credentials to log into earthaccess from Python. You should only need to do this once, as long as `persist=True` is set.
-
+As you did before, log in to your `earthaccess` account, search for the Denver data, and open the file connections. You will find that you have to re-run your search every time you access a file -- keep this in mind if you get errors later!
 :::
 
 ```{python}
 #| template: student
-earthaccess.login(strategy="interactive", persist=True)
+# Search earthaccess
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
 earthaccess.login(strategy="interactive", persist=True)
-```
-:::
-
-
-## STEP 2: Search
-::: {.callout-task title='Search for HLS data'}
-
-It can be useful to use NASA's online resources to find the data you want to download before accessing it over API. To do that:
-
-  1. Go to the [NASA Worldview Site](https://worldview.earthdata.nasa.gov/) and search for Denver, CO.
-  2. Add the `HLSL30` product as a base map. You can do this by clicking `Add Layer` and then searching for the **short name** `HLSL30`. When looking for other datasets, the short name can usually be found by on the data homepage, accessible from the **doi**. Practice opening the data page for `HLSL30` to find where the shortcode is.
-  3. By dragging the date indicator on the bottom, search the month of July, 2023 for a day that has data available and little to no cloud cover over Denver. You may need to wait a second or so for the data to load for any given date.
-
-Now, using the code below:
-
-  1. Put the short name of the dataset into the `earthaccess.search_data()` function.
-  2. Replace `gdf` with the name of your denver redlining `GeoDataFrame`.
-  3. Put the date you found into the `temporal` parameter, replacing `YYYY-MM-DD` with the appropriate year (Y), month (M), and day (D) digits.
-  4. Run the code and make sure there are results! If not, double check your date.
-
-:::
-
-```{python}
-#| template: student
-denver_results = earthaccess.search_data(
-    short_name="",
-    bounding_box=tuple(gdf.total_bounds),
-    temporal=("YYYY-MM-DD"),
-)
-denver_results
-```
-
-::: {.content-visible when-format="html"}
-```{python}
-#| template: answer
 denver_results = earthaccess.search_data(
     short_name='HLSL30',
     bounding_box=tuple(denver_redlining_gdf.total_bounds),
     temporal=("2023-07-12", "2023-07-12"),
+    count=1
 )
-denver_results
+ea_uris = earthaccess.open(denver_results)
 ```
 :::
 
-## STEP 3: Open data connections
+## Putting it all together
 
-::: {.callout-task title='Access HLS data'}
-
-:::
-
-```{python}
-#| template: student
-
-```
-
-::: {.content-visible when-format="html"}
-```{python}
-#| template: answer
-hls_dir = os.path.join(data_dir, 'denver-july-hls')
-os.makedirs(hls_dir, exist_ok=True)
-
-ea_uris = earthaccess.open(denver_results, hls_dir)
-ea_uris
-```
-:::
-
-## STEP 4: Putting it all together
-
-Whew -- we've processed some reflectance data! But you may have noticed that your image doesn't include all of Denver. To get a complete image, we will have to:
+To get a complete image, we will have to:
 
   1. Load in all 4 rasters that cover Denver
-  2. Process them the same way as above
+  2. Process them
   3. Merge, or mosaic, them into one image
 
 And...we haven't even talked about the other bands you might need, or what to do if you want a time-series of images. You can see that if we were to copy and paste all the code above for each raster we need to load, it could get pretty overwhelming, and *very* error-prone. This is the opposite of what we mean by **DRY** (Don't Repeat Yourself) code.
 
-Before we continue, we're going to make some functions to do the tasks you completed up above. When writing a function, we recommend the following process:
+Before we continue, we're going to make some functions to do the tasks you completed up above. We've already set up the code for you, identified **parameters** and **returns**, and added **docstrings** to document your function. When writing a function, we recommend the following process:
 
-  1. Set up the function syntax with your code inside, and a line of code that runs the function.
+  1. Copy the code you're using into the function shell, making sure to indent it so Python knows it is part of the function.
   2. Identify any variables that are **too specific**. For example, if I called a `DataArray` `denver_da`, but I could use my function to process data from anywhere...I might change the name to `da` whereever it appears.
-  3. Identify the function **parameters** or **arguments**. What variables do you need to run the code in the function that you don't define within the function? Those should all be parameters.
-  4. Indentify the function **returns**. What do you want to be able to access at the end? Keep in mind that unless you return them, the variables you create in a function will be stuck there. Make sure to use the `return` statement at the end of your function to return the variables you want to keep.
-  5. Test your function, line by line if necessary, to check that your names work
-  6. Write your **docstring** in numpy style, specifying what your function does, what parameters it takes, and what values it returns.
-  7. Restart the kernel and run your function to check that doesn't have any hidden requirements.
+  3. Identify the function **parameters** or arguments and make sure they match your code. Python may let you, but we recommend not using variables defined outside the function inside the function -- if you need something in your function make sure to pass it in as a parameter!
+  4. Identify the function **returns** and make sure they match your code. What do you want to be able to access at the end? Keep in mind that unless you return them, the variables you create in a function will be stuck there. The `return` statement at the end of your function will pass the variables you want to keep back out of the function.
+  5. Write some code to test your function, such as by plotting the results. We recommend going line by line when you're just getting started. This usually involves commenting code later on, and modifying the returns and test code as you go.
+  6. Restart the kernel and run your function to check that doesn't have any hidden requirements.
 
 ::: {.callout-task title="DRY code with functions"}
 Take each processing step from above, and  create a function to do it. We recommend writing the following 2 functions:
@@ -159,8 +101,25 @@ Make sure to test all your functions using your example from up top!
 :::
 
 ```{python}
-#| template: student
+#| template: student 
+def process_image(uri, bounds_gdf):
+    """
+    Load, crop, and scale a raster image from earthaccess
 
+    Parameters
+    ----------
+    uri: file-like or path-like
+      File accessor downloaded or obtained from earthaccess
+    bounds_gdf: gpd.GeoDataFrame
+      Area of interest to crop to
+
+    Returns
+    -------
+    cropped_da: rxr.DataArray
+      Processed raster
+    """
+
+    return cropped_da
 ```
 
 ::: {.content-visible when-format="html"}
@@ -179,19 +138,46 @@ def process_image(uri, bounds_gdf):
 
     Returns
     -------
-    scaled_da: rxr.DataArray
-      Cropped and scaled raster
+    cropped_da: rxr.DataArray
+      Processed raster
     """
-    da = rxr.open_rasterio(uri, masked=True).squeeze()
-    bounds = (
-        bounds_gdf
-        .to_crs(da.rio.crs)
-        .total_bounds
-    )
-    cropped_da = da.rio.clip_box(*bounds)
-    scaled_da = cropped_da * da.scale_factor
-    return scaled_da
+    # Open raster connection
+    da = rxr.open_rasterio(uri, mask_and_scale=True).squeeze()
 
+    # Crop raster
+    bounds = bounds_gdf.to_crs(da.rio.crs).total_bounds
+    cropped_da = da.rio.clip_box(*bounds)
+    return cropped_da
+```
+:::
+
+```{python}
+#| template: student
+def process_cloud_mask(cloud_uri, bounds_gdf, bits_to_mask):
+    """
+    Load an 8-bit Fmask file and process to a boolean mask
+
+    Parameters
+    ----------
+    uri: file-like or path-like
+      Fmask file accessor downloaded or obtained from earthaccess
+    bounds_gdf: gpd.GeoDataFrame
+      Area of interest to crop to
+    bits_to_mask: list of int
+      The indices of the bits to mask if set
+
+    Returns
+    -------
+    cloud_mask: np.array
+      Cloud mask
+    """
+    
+    return cloud_mask
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
 def process_cloud_mask(cloud_uri, bounds_gdf, bits_to_mask):
     """
     Load an 8-bit Fmask file and process to a boolean mask
@@ -211,11 +197,6 @@ def process_cloud_mask(cloud_uri, bounds_gdf, bits_to_mask):
       Cloud mask
     """
     cloud_da = process_image(cloud_uri, bounds_gdf)
-    bounds = (
-        bounds_gdf
-        .to_crs(cloud_da.rio.crs)
-        .total_bounds
-    )
     cloud_bits = (
         np.unpackbits(
             (
@@ -226,7 +207,7 @@ def process_cloud_mask(cloud_uri, bounds_gdf, bits_to_mask):
                 # With an extra axis to unpack the bits into
                 [:, :, np.newaxis]
             ), 
-            # List the least significat bit first to match the user guide
+            # List the least significant bit first to match the user guide
             bitorder='little',
             # Expand the array in a new dimension
             axis=-1)
@@ -236,27 +217,48 @@ def process_cloud_mask(cloud_uri, bounds_gdf, bits_to_mask):
         cloud_bits[:,:,bits_to_mask], 
         # Sum along the bit axis
         axis=-1
+    )
     # Check if any of the masked bits are true
-    ) == 0
+    cloud_mask = cloud_mask == 0
     return cloud_mask
 
-green_da = process_image(ea_uris[8], denver_redlining_gdf)
-
-bits_to_mask = [
-    1, # Cloud
-    2, # Adjacent to cloud
-    3, # Cloud shadow
-    5, # Water
-]
-cloud_mask = process_cloud_mask(
-    ea_uris[14], denver_redlining_gdf, bits_to_mask)
-green_masked_da = green_da.where(cloud_mask)
-green_masked_da.plot(cmap='Greens', vmin=0, robust=True)
+# green_da = process_image(ea_uris[8], denver_redlining_gdf)
+# bits_to_mask = [
+#     1, # Cloud
+#     2, # Adjacent to cloud
+#     3, # Cloud shadow
+#     5, # Water
+# ]
+# cloud_mask = process_cloud_mask(
+#     ea_uris[14], denver_redlining_gdf, bits_to_mask)
+# green_masked_da = green_da.where(cloud_mask)
+# green_masked_da.plot(cmap='Greens', vmin=0, robust=True)
 ```
 :::
 
-
 Our next new tool to help you write DRY and correct code is the regular expression. Regular expressions are a little like the patterns we use with `glob` that contain wildcard characters (`*`) -- but, they are **much** more powerful. With regular expressions, we can extract different segments from a string (file name, in this case) based on landmarks -- even if those segments are not always the same length!
+
+First -- run another `earthaccess` search, this time removing the `count=1` argument, or setting it to `count=-1`. This will include all the results.
+
+```{python}
+#| template: student
+# Search earthaccess
+
+# Open earthaccess results
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+earthaccess.login(strategy="interactive", persist=True)
+denver_results = earthaccess.search_data(
+    short_name='HLSL30',
+    bounding_box=tuple(denver_redlining_gdf.total_bounds),
+    temporal=("2023-07-12", "2023-07-12"),
+)
+ea_uris = earthaccess.open(denver_results)
+```
+:::
 
 ::: {.callout-task title='Get metadata with **regular expressions**'}
 
@@ -318,18 +320,58 @@ raster_df
 :::
 
 
-::: {.callout-task title='Crop data'}
+Now you are ready to run your code repeatedly on each raster you want to load. To do this, we'll use a structure called a `for` loop, which runs the same code repeatedly with different variable values. The values that change are special variables called **looping variables**.
 
+To set up a `for` loop, you can use the following process:
+
+  1. Copy the code you're using into the `for` loop shell, making sure to indent it so Python knows it is part of the loop.
+  2. Identify any variables that are **too specific**. For example, if I called a `DataArray` `green_da`, but the loop will be processing data from other bands...I might change the name to `da` whereever it appears.
+  3. Identify the **looping variable(s)** and make sure they match your code.
+  4. Establish an **accumulator** -- a data structure to store the result. Add what you want to keep from each iteration of the loop to it.
+  5. Write some code to test your loop, such as by printing out an intermediate value in the loop, or eventually plotting the final results. We recommend going line by line when you're just getting started. This usually involves commenting code later on, and modifying the accumulator and testing as you go. You can also use the `break` keywork to stop the loop after a single iteration for testing.
+
+::: {.callout-task title='Process data'}
+Process all your bands. We've provided the structure of the `for` loop -- you will need to call your functions and work out how to pass them the arguments they need.
+
+Something that is tricky about looping through `DataFrame`s is that they tend to wrap values in external structures like `Series` (which are the data type of columns in a `DataFrame`). The print out of a `Series` containing one value and the print out of that value are not identical, but the are **very similar**. To get a **value** out from inside a `Series`, you can add the following code: `.values[0]`. This will first remove the `Series` wrapper, leaving an array, and the get the first value in the array.
 :::
+
 
 ```{python}
 #| template: student
+# Labels for each band to process
+bands = {
+    'B02': 'red',
+    ...
+}
+# Initialize structure for saving images
+denver_das = {band_name: [] for band_name in bands.values()}
+for tile_id, tile_df in raster_df.groupby('tile_id'):
+    # Load the cloud mask
 
+    for band_id, row in tile_df.groupby('band_id'):
+        if band_id in bands:
+            band_name = bands[band_id]
+            # Process band
+
+            # Mask band
+            
+            # Store the resulting DataArray ofr later
+            denver_das[band_name].append(band_masked_da)
+
+# Merge all tiles
+denver_das = {
+    band_name: merge_arrays(das) 
+    for band_name, das 
+    in denver_das.items()}
+
+denver_das['green'].plot(cmap='Greens', robust=True)
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+# Labels for each band to process
 bands = {
     'B02': 'red',
     'B03': 'green',
@@ -366,52 +408,20 @@ denver_das['green'].plot(cmap='Greens', robust=True)
 :::
 
 ::: {.callout-task title='Check your data'}
-
+Make a plot of one of your merged bands with the denver boundary superimposed. You should now have data for the whole city!
 :::
 
 ```{python}
 #| template: student
-
+# Plot a merged raster band
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-import matplotlib.pyplot as plt
 denver_das['green'].plot(cmap='Greens', vmin=0, robust=True)
 denver_redlining_gdf.to_crs(denver_das['green'].rio.crs).plot(
     ax=plt.gca(),
     edgecolor='black', color='none')
-```
-:::
-
-::: {.content-hidden}
-```{python}
-#| eval: true
-import os
-import shutil
-import subprocess
-
-try:
-    zip_name = "redlining-foundations-data"
-    to_zip_dir = os.path.join(hls_dir, zip_name)
-    os.makedirs(to_zip_dir, exist_ok=True)
-
-    for band_name, da in denver_das.items():
-        band_path = os.path.join(
-            to_zip_dir,
-            f'HLSL30.20230712.denver.{band_name}.tif'
-        )
-        if not os.path.exists(band_path):
-            da.rio.to_raster(band_path)
-    shutil.make_archive(to_zip_dir, 'zip', to_zip_dir)
-    subprocess.run([
-        'gh', 'release', 'upload', 'data-release',
-        to_zip_dir + '.zip',
-        '--repo', 'cu-esiil-edu/esiil-learning-portal',
-        '--clobber'
-        ])
-except NameError:
-    print('Looks like the current version of data has already been uploaded.')
 ```
 :::

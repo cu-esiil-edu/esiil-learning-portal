@@ -1,83 +1,153 @@
-# Download and prepare green reflectance data
+## STEP 3: Download and prepare green reflectance data
 
 ## Working with **raster** data
 
-::: {.callout-task title='Import stored variables and libraries'}
+**Raster** data is arranged on a grid -- for example a digital photograph.
 
+::: {.callout-read}
+Learn more about raster data at this [Introduction to Raster Data with Python](https://www.earthdatascience.org/courses/use-data-open-source-python/intro-raster-data-python/)
 :::
 
+
+::: {.callout-task title='Import stored variables and libraries'}
+For this case study, you will need a library for working with geospatial raster data (`rioxarray`), more advanced libraries for working with data from the internet and files on your computer (`requests`, `zipfile`, `io`, `re`). You will need to add:
+
+  1. A library for building interoperable file paths
+  2. A library to locate files using a pattern with wildcards
+:::
+
+First 
 ```{python}
-%store -r
+#| eval: true
+%store -r denver_redlining_gdf data_dir
 ```
 
 ```{python}
 #| template: student
+# Reproducible file paths
+import re # Extract metadata from file names
+import zipfile # Work with zip files
+from io import BytesIO # Stream binary (zip) files
+# Find files by pattern
 
+import numpy as np # Unpack bit-wise Fmask
+import requests # Request data over HTTP
+import rioxarray as rxr # Work with geospatial raster data
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-import re
-import zipfile
-from io import BytesIO
-from glob import glob
+import os # Reproducible file paths
+import re # Extract metadata from file names
+import zipfile # Work with zip files
+from io import BytesIO # Stream binary (zip) files
+from glob import glob # Find files by pattern
 
-import requests
-import rioxarray as rxr
+import numpy as np # Unpack bit-wise Fmask
+import requests # Request data over HTTP
+import rioxarray as rxr # Work with geospatial raster data
 ```
 :::
 
-## STEP 3: Download raster data
+### Download raster data
 
 ::: {.callout-task title='Download sample data'}
-
+  1. Define a descriptive variable with the sample data url: [https://github.com/cu-esiil-edu/esiil-learning-portal/releases/download/data-release/redlining-foundations-data.zip](https://github.com/cu-esiil-edu/esiil-learning-portal/releases/download/data-release/redlining-foundations-data.zip)
+  2. Define a descriptive variable with the path you want to store the sample raster data.
+  3. Use a conditional to make sure you only download the data once!
+  4. Check that you successfully downloaded some `.tif` files.
 :::
 
 ```{python}
 #| template: student
+# Prepare URL and file path for download
+
+# Download sample raster data
+response = requests.get(url)
+
+# Save the raster data (uncompressed)
+with zipfile.ZipFile(BytesIO(response.content)) as sample_data_zip:
+    sample_data_zip.extractall(sample_data_dir)
 
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+# Prepare URL and file path for download
 hls_url = (
     "https://github.com/cu-esiil-edu/esiil-learning-portal/releases"
     "/download/data-release/redlining-foundations-data.zip"
 )
 hls_dir = os.path.join(data_dir, 'hls')
-hls_response = requests.get(hls_url)
-with zipfile.ZipFile(BytesIO(hls_response.content)) as hls_zip:
-    hls_zip.extractall(hls_dir)
+
+if not glob(os.path.join(hls_dir, '*.tif')):
+    # Download sample raster data
+    hls_response = requests.get(hls_url)
+
+    # Save the raster data (uncompressed)
+    with zipfile.ZipFile(BytesIO(hls_response.content)) as hls_zip:
+        hls_zip.extractall(hls_dir)
 ```
 :::
 
+### Working with multispectral data
 
-::: {.callout-task title=''}
+The data you just downloaded is **multispectral** raster data. When you take a color photograph, your camera actually takes three images that get combined -- a red, a green, and a blue image (or band, or channel). Multispectral data is a little like that, except that it also often contains spectral bands from outside the range human eyes can see. In this case, you should have a Near-Infrared (NIR) band as well as the red, green, and blue.
 
+This multispectral data is part of the [Harmonized Landsat Sentinel 30m dataset](https://lpdaac.usgs.gov/products/hlsl30v002/) (HLSL30), which is a combination of data taken by the NASA Landsat missions and the European Space Agency (ESA) Sentinel-2 mission. Both missions collect multispectral data, and combining them gives us more frequent images, usually every 2-3 days. Because they are harmonized with Landsat satellites, they are also comparable with Landsat data from previous missions, which go back to the 1980s.
+
+::: {.callout-read}
+Learn more about multispectral data in this [Introduction to Multispectral Remote Sensing Data](https://www.earthdatascience.org/courses/use-data-open-source-python/multispectral-remote-sensing/intro-multispectral-data/)
+:::
+
+For now, we'll work with the green layer to get some practice opening up raster data.
+
+::: {.callout-task title='Find the green layer file'}
+One of the files you downloaded should contain the **green** band. To open it up:
+
+  1. Check out the [HLSL30 User Guide](https://lpdaac.usgs.gov/documents/1698/HLS_User_Guide_V2.pdf) to determine which band is the green one. The band number will be in the file name as `Bxx` where `xx` is the two-digit band number.
+  2. Write some code to **reproducibly** locate that file on any system. Make sure that you get the **path**, not a **list** containing the path.
+  3. Run the starter code, which opens up the green layer.
+  4. Notice that the values range from 0 to about 2500. Reflectance values should range from 0 to 1, but they are **scaled** in most files so that they can be represented as 16-bit integers instead of 64-bit float values. This makes the file size 4x smaller without any loss of accuracy! To make sure that the data are scaled correctly in Python, go ahead and add the `mask_and_scale=True` parameter to the `rxr.open_rasterio` function. Now your values should run between 0 and about .25. `mask_and_scale=True` also represents nodata or na values correctly as nan rather than, in this case -9999. However, this image has been cropped so there are no nodata values in it.
+  5. Notice that this array also has 3 **dimensions**: `band`, `y`, and `x`. You can see the dimensions in parentheses just to the right of `xarray.DataArray` in the displayed version of the `DataArray`. Sometimes we do have arrays with different bands, for example if different multispectral bands are contained in the same file. However, `band` in this case is not giving us any information; it's an artifact of how Python interacts with the `geoTIFF` file format. Drop it as a dimension by using the `.squeeze()` method on your `DataArray`. This makes certain concatenation and plotting operations go smoother -- you pretty much always want to do this when importing a `DataArray` with `rioxarray`.
 :::
 
 ```{python}
 #| template: student
+# Find the path to the green layer
 
+# Open the green data in Python
+green_da = rxr.open_rasterio(green_path)
+display(green_da)
+green_da.plot(cmap='Greens', vmin=0, robust=True)
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
 # Find the path to the green layer
-green_path = glob(os.path.join(hls_dir, '*green*.tif'))[0]
+green_path = glob(os.path.join(hls_dir, '*B03*.tif'))[0]
 
 # Open the green data in Python
-green_da = rxr.open_rasterio(green_path, masked=True).squeeze()
+green_da = rxr.open_rasterio(green_path, mask_and_scale=True).squeeze()
 display(green_da)
 green_da.plot(cmap='Greens', vmin=0, robust=True)
 ```
 :::
 
-::: {.callout-task title='Load all bands'}
 
+### Cloud mask
+
+In your original image, you may have noticed some splotches on the image. These are clouds, and sometimes you will also see darker areas next to them, which are cloud shadows. Ideally, we don't want to include either clouds or the shadows in our image! Luckily, our data comes with a cloud mask file, labeled as the `Fmask` band.
+
+::: {.callout-task title='Take a look at the cloud mask'}
+
+  1. Locate the `Fmask` file.
+  2. Load the `Fmask` layer into Python
+  3. Crop the `Fmask` layer
+  4. Plot the `Fmask` layer
 :::
 
 ```{python}
@@ -88,12 +158,174 @@ green_da.plot(cmap='Greens', vmin=0, robust=True)
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-band_re = re.compile(r"(?P<band_name>[a-z]+).tif")
+cloud_path = glob(os.path.join(hls_dir, '*Fmask*.tif'))[0]
+cloud_da = rxr.open_rasterio(cloud_path, mask_and_scale=True).squeeze()
+cloud_da.plot()
+```
+:::
+
+
+Notice that your Fmask layer seems to range from 0 to somewhere in the mid-200s. Our cloud mask actually comes as 8-bit **binary** numbers, where each **bit** represents a different category of pixel we might want to mask out.
+
+::: {.callout-task title='Process the Fmask'}
+
+  1. Use the sample code below to **unpack** the cloud mask data. Using `bitorder='little'` means that the bit indices will match the Fmask categories in the User Guide, and `axis=-1` creates a new dimension for the bits so that now our array is `x`x`y`x8. 
+  2. Look up the bits to mask in the User Guide. You should mask clouds, adjacent to clouds, and cloud shadow, as well as water (because water may confuse our greenspace analogy)
+:::
+
+```{python}
+#| template: student
+cloud_bits = (
+    np.unpackbits(
+        (
+            # Get the cloud mask as an array...
+            cloud_da.values
+            # ... of 8-bit integers
+            .astype('uint8')
+            # With an extra axis to unpack the bits into
+            [:, :, np.newaxis]
+        ), 
+        # List the least significat bit first to match the user guide
+        bitorder='little',
+        # Expand the array in a new dimension
+        axis=-1)
+)
+
+bits_to_mask = [
+    , # Cloud
+    , # Adjacent to cloud
+    , # Cloud shadow
+    ] # Water
+cloud_mask = np.sum(
+    # Select bits 1, 2, and 3
+    cloud_bits[:,:,bits_to_mask], 
+    # Sum along the bit axis
+    axis=-1
+# Check if any of bits 1, 2, or 3 are true
+) == 0
+
+cloud_mask
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Get the cloud mask as bits
+cloud_bits = (
+    np.unpackbits(
+        (
+            # Get the cloud mask as an array...
+            cloud_da.values
+            # ... of 8-bit integers
+            .astype('uint8')
+            # With an extra axis to unpack the bits into
+            [:, :, np.newaxis]
+        ), 
+        # List the least significat bit first to match the user guide
+        bitorder='little',
+        # Expand the array in a new dimension
+        axis=-1)
+)
+
+# Select only the bits we want to mask
+bits_to_mask = [
+    1, # Cloud
+    2, # Adjacent to cloud
+    3, # Cloud shadow
+    5] # Water
+# And add up the bits for each pixel
+cloud_mask = np.sum(
+    # Select bits 
+    cloud_bits[:,:,bits_to_mask], 
+    # Sum along the bit axis
+    axis=-1
+)
+
+# Mask the pixel if the sum is greater than 0
+# (If any of the bits are True)
+cloud_mask = cloud_mask == 0
+cloud_mask
+```
+:::
+
+::: {.callout-task title='Apply the cloud mask'}
+
+  1. Use the `.where()` method to remove all the pixels you identified in the previous step from your green reflectance `DataArray`.
+:::
+
+```{python}
+#| echo: True
+#| eval: False
+#| class: student-code
+#| highlight: True
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+green_masked_da = green_da.where(cloud_mask, green_da.rio.nodata)
+green_masked_da.plot(cmap='Greens', vmin=0, robust=True)
+```
+:::
+
+::: {.callout-task title='Load all bands'}
+The sample data comes with 15 different bands. Some of these are spectral bands, while others are things like a cloud mask, or the angles from which the image was taken. You only need the spectral bands. Luckily, all the spectral bands have similar file names, so you can use **indices** to extract which band is which from the name:
+
+  1. Fill out the `bands` dictionary based on the User Guide. You will use this to replace band numbers from the file name with human-readable names.
+  2. Locate the position of the band id number in the file path. It is easiest to do this from the end, with negative indices. Fill out the `start_index` and `end_index` variables with the position values. You might need to test this before moving on!
+  3. Add code to open up the band in the spot to save it to the `band_dict`
+:::
+
+```{python}
+#| template: student
+# Define band labels
+bands = {
+    'B01': 'aerosol',
+    ...
+}
+
 band_dict = {}
-for band_path in glob(os.path.join(hls_dir, '*.tif')):
-    band_name = band_re.search(band_path).group('band_name')
+band_paths = glob(os.path.join(hls_dir, '*.tif'))
+for band_path in band_paths:
+    # Get the band number and name
+    start_index = 
+    end_index = 
+    band_id = band_path[start_index:end_index]
+    band_name = bands[band_id]
+
+    # Open the band and accumulate
+    band_dict[band_name] = 
+band_dict
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Define band labels
+bands = {
+    'B01': 'aerosol',
+    'B02': 'red',
+    'B03': 'green',
+    'B04': 'blue',
+    'B05': 'nir',
+    'B06': 'swir1',
+    'B07': 'swir2',
+    'B09': 'cirrus',
+    'B10': 'thermalir1',
+    'B11': 'thermalir2'
+}
+
+band_re = re.compile(r"(?P<band_id>[a-z]+).tif")
+band_dict = {}
+for band_path in glob(os.path.join(hls_dir, '*.B*.tif')):
+    # Get the band name
+    band_name = bands[band_path[-7:-4]]
+
+    # Open the band
     band_dict[band_name] = rxr.open_rasterio(
-        band_path, masked=True).squeeze()
+        band_path, mask_and_scale=True).squeeze()
+
 band_dict
 ```
 :::

@@ -1,36 +1,59 @@
+# Plotting multispectral data
+
+Multispectral data can be plotted as:
+
+  1. Individual bands
+  2. Spectral indices
+  3. True color 3-band images
+  4. False color 3-band images
+
+Spectral indices and false color images can both be used to enhance images to clearly show things that might be hidden from a true color image, such as vegetation health.
+
 ```{python}
+#| eval: true
 %store -r band_dict ndvi_da denver_redlining_gdf
 ```
 
 
-::: {.callout-task title=''}
-
+::: {.callout-task title='Import libraries'}
+Add missing libraries to the imports
 :::
 
 ```{python}
 #| template: student
-
+import cartopy.crs as ccrs # CRSs
+# Interactive tabular and vector data
+import hvplot.xarray # Interactive raster
+# Overlay plots
+import numpy as np # Adjust images
+import xarray as xr # Adjust images
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-import cartopy.crs as ccrs
-import hvplot.pandas
-import hvplot.xarray
-import matplotlib.pyplot as plt
-import xarray as xr
+import cartopy.crs as ccrs # CRSs
+import hvplot.pandas # Interactive tabular and vector data
+import hvplot.xarray # Interactive raster
+import matplotlib.pyplot as plt # Overlay plots
+import numpy as np # Adjust images
+import xarray as xr # Adjust images
 ```
 :::
 
 
-::: {.callout-task title='Prepare to plot'}
+There are many different ways to represent geospatial coordinates, either spherically or on a flat map. These different systems are called Coordinate Reference Systems.
 
+::: {.callout-task title='Prepare to plot'}
+To make interactive geospatial plots, at the moment we need everything to be in the Mercator CRS.
+
+  1. Reproject your area of interest with `.to_crs(ccrs.Mercator())`
+  2. Reproject your NDVI and band raster data using `.rio.reproject(ccrs.Mercator())
 :::
 
 ```{python}
 #| template: student
-ndvi_plot_gdf.y.plot()
+
 ```
 
 ::: {.content-visible when-format="html"}
@@ -50,12 +73,23 @@ ndvi_plot_da.hvplot(geo=True, cmap='Greens', robust=True)
 
 
 ::: {.callout-task title='Plot raster with overlay with xarray'}
+Plotting raster and vector data together using `pandas` and `xarray` requires the `matplotlib.pyplot` library to access some plot layour tools. Using the code below as a starting point, you can play around with adding:
 
+  1. Labels and titles
+  2. Different colors with `cmap` and `edgecolor`
+  3. Different line thickness with `line_width`
+
+See if you can also figure out what `vmin`, `robust`, and the `.set()` methods do.
 :::
 
 ```{python}
 #| template: student
-
+ndvi_plot_da.plot(vmin=0, robust=True)
+aoi_plot_gdf.plot(ax=plt.gca(), color='none')
+plt.gca().set(
+    xlabel='', ylabel='', xticks=[], yticks=[]
+)
+plt.show()
 ```
 
 ::: {.content-visible when-format="html"}
@@ -63,7 +97,7 @@ ndvi_plot_da.hvplot(geo=True, cmap='Greens', robust=True)
 #| template: answer
 ndvi_plot_da.plot(
     cmap='Greens', vmin=0, robust=True)
-aoi_plot_gdf.to_crs(ndvi_da.rio.crs).plot(
+aoi_plot_gdf.plot(
     ax=plt.gca(), 
     edgecolor='gold', color='none', linewidth=1.5)
 plt.gca().set(
@@ -76,12 +110,20 @@ plt.show()
 
 
 ::: {.callout-task title='Plot raster with overlay with hvplot'}
-
+Now, do the same with `hvplot`. Note that some parameter names are the same and some are different. Do you notice any physical lines in the NDVI data that line up with the redlining boundaries?
 :::
 
 ```{python}
 #| template: student
-
+(
+    ndvi_plot_da.hvplot(
+        geo=True,
+        xaxis=None, yaxis=None
+    )
+    * aoi_plot_gdf.hvplot(
+        geo=True, crs=ccrs.Mercator(),
+        fill_color=None)
+)
 ```
 
 ::: {.content-visible when-format="html"}
@@ -95,19 +137,35 @@ plt.show()
     )
     * aoi_plot_gdf.hvplot(
         geo=True, crs=ccrs.Mercator(),
-        fill_color=None)
+        line_color='darkorange', line_width=2, fill_color=None)
 )
 ```
 :::
 
 
 ::: {.callout-task title='Plot bands with linked subplots'}
-
+The following code will make a three panel plot with Red, NIR, and Green bands. Why do you think we aren't using the green band to look at vegetation?
 :::
 
 ```{python}
 #| template: student
-
+raster_kwargs = dict(
+    geo=True, robust=True, 
+    xaxis=None, yaxis=None
+)
+(
+    (
+        band_plot_dict['red'].hvplot(
+            cmap='Reds', title='Red Reflectance', **raster_kwargs)
+        + band_plot_dict['nir'].hvplot(
+            cmap='Greys', title='NIR Reflectance', **raster_kwargs)
+        + band_plot_dict['green'].hvplot(
+            cmap='Greens', title='Green Reflectance', **raster_kwargs)
+    )
+    * aoi_plot_gdf.hvplot(
+        geo=True, crs=ccrs.Mercator(),
+        fill_color=None)
+)
 ```
 
 ::: {.content-visible when-format="html"}
@@ -134,12 +192,51 @@ raster_kwargs = dict(
 :::
 
 ::: {.callout-task title='Plot RBG'}
+The following code will plot an RGB image using both matplotlib and hvplot. It also performs an action called "Contrast stretching", and brightens the image.
 
+  1. Read through the `stretch_rgb` function, and fill out the **docstring** with the rest of the parameters and your own descriptions. You can ask ChatGPT or another LLM to help you read the code if needed! Please use the [numpy style of docstrings](https://numpydoc.readthedocs.io/en/latest/format.html)
+  2. Adjust the `low`, `high`, and `brighten` numbers until you are satisfied with the image. You can also ask ChatGPT to help you figure out what adjustments to make by describing or uploading an image.
 :::
 
 ```{python}
 #| template: student
+rgb_da = (
+    xr.concat(
+        [
+            band_plot_dict['red'],
+            band_plot_dict['green'],
+            band_plot_dict['blue']
+        ],
+        dim='rgb')
+)
 
+def stretch_rgb(rgb_da, low, high, brighten):
+    """
+    Short description
+
+    Long description...
+
+    Parameters
+    ----------
+    rgb_da: array-like
+      ...
+    param2: ...
+      ...
+
+    Returns
+    -------
+    rgb_da: array-like
+      ...
+    """
+    p_low, p_high = np.nanpercentile(rgb_da, (low, high))
+    rgb_da = (rgb_da - p_low)  / (p_high - p_low) + brighten
+    rgb_da = rgb_da.clip(0, 1)
+    return rgb_da
+
+rgb_da = stretch_rgb(rgb_da, 1, 99, .01)
+
+rgb_da.plot.imshow(rgb='rgb')
+rgb_da.hvplot.rgb(geo=True, x='x', y='y', bands='rgb')
 ```
 
 ::: {.content-visible when-format="html"}
@@ -154,16 +251,48 @@ rgb_da = (
         ],
         dim='rgb')
 )
-rgb_da = rgb_da.where(rgb_da>0)
-rgb_da = rgb_da.where(~np.isnan(rgb_da), 0)
-rgb_da = rgb_da * 8
+
+def stretch_rgb(rgb_da, low, high, brighten):
+    """ 
+    Contrast stretching on an image
+
+    Parameters
+    ----------
+    rgb_da: array-like
+      The three channels concatenated into a single array
+    low: int
+      The low-end percentile to crop at
+    high: int
+      The high-end percentile to crop at
+    brighen: float
+      Additional value to brighten the image by
+
+    Returns:
+    --------
+    rgb_da: array-like
+      The stretched and clipped image
+    """
+    p_low, p_high = np.nanpercentile(rgb_da, (low, high))
+    rgb_da = (rgb_da - p_low)  / (p_high - p_low) + brighten
+    rgb_da = rgb_da.clip(0, 1)
+    return rgb_da
+
+rgb_da = stretch_rgb(rgb_da, 2, 95, .15)
 rgb_da.plot.imshow(rgb='rgb')
-#rgb_da.hvplot.rgb(geo=True, x='x', y='y', bands='ms_band')
+rgb_da.hvplot.rgb(geo=True, x='x', y='y', bands='rgb')
 ```
 :::
 
 ::: {.callout-task title='Plot CIR'}
+Now, plot a false color RGB image. CIR images have the following bands:
 
+  * red becomes NIR
+  * green becomes red
+  * blue becomes green
+:::
+
+::: {.callout-extra title='Adjust the levels'}
+You may notice that the NIR band in this image is very bright. Can you adjust it so it is balanced more effectively by the other bands?
 :::
 
 ```{python}
@@ -174,22 +303,18 @@ rgb_da.plot.imshow(rgb='rgb')
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+rgb_da = (
+    xr.concat(
+        [
+            band_plot_dict['nir'] * .8,
+            band_plot_dict['red'],
+            band_plot_dict['green']
+        ],
+        dim='rgb')
+)
 
-```
-:::
-
-::: {.callout-task title='Plot NDVI'}
-
-:::
-
-```{python}
-#| template: student
-
-```
-
-::: {.content-visible when-format="html"}
-```{python}
-#| template: answer
-
+rgb_da = stretch_rgb(rgb_da, 2, 98, 0)
+rgb_da.plot.imshow(rgb='rgb')
+rgb_da.hvplot.rgb(geo=True, x='x', y='y', bands='rgb')
 ```
 :::
