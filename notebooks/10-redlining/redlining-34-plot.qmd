@@ -11,11 +11,12 @@ Multispectral data can be plotted as:
 
 Spectral indices and false color images can both be used to enhance images to clearly show things that might be hidden from a true color image, such as vegetation health.
 
+::: {.content-visible when-format="ipynb"}
 ```{python}
 #| eval: true
-%store -r band_dict ndvi_da denver_redlining_gdf
+%store -r band_dict denver_ndvi_da denver_redlining_gdf
 ```
-
+:::
 
 ::: {.callout-task title='Import libraries'}
 Add missing libraries to the imports
@@ -63,7 +64,7 @@ To make interactive geospatial plots, at the moment we need everything to be in 
 #| template: answer
 # Make sure the CRSs match
 aoi_plot_gdf = denver_redlining_gdf.to_crs(ccrs.Mercator())
-ndvi_plot_da = ndvi_da.rio.reproject(ccrs.Mercator())
+ndvi_plot_da = denver_ndvi_da.rio.reproject(ccrs.Mercator())
 band_plot_dict = {
     band_name: da.rio.reproject(ccrs.Mercator())
     for band_name, da in band_dict.items()

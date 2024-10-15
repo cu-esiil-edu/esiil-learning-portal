@@ -45,17 +45,19 @@ store -r band_dict
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-ndvi_da = (
+denver_ndvi_da = (
     (band_dict['nir'] - band_dict['red'])
     / (band_dict['nir'] + band_dict['red'])
 )
-ndvi_da.plot(robust=True)
+denver_ndvi_da.plot(robust=True)
 ```
 :::
 
+::: {.content-visible when-format="ipynb"}
 ```{python}
-%store ndvi_da
+%store denver_ndvi_da
 ```
+:::
 
 ::: {.callout-extra title="Calculate another index"}
 You can also calculating other indices that you find on the internet or in the scientific literature. Some common ones in this context might be the NDMI (moisture), NDBaI (bareness), or the NDBI (built-up).
