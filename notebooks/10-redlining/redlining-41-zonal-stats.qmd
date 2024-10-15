@@ -1,0 +1,126 @@
+```{python}
+#| eval: true
+store -r ndvi_da denver_redlining_gdf
+```
+
+::: {.callout-task title='Import packages'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+import hvplot.pandas
+import numpy as np
+import pandas as pd
+import regionmask
+from xrspatial import zonal_stats
+```
+:::
+
+::: {.callout-task title='Reproject raster data'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+ndvi_latlon_da = ndvi_da.rio.reproject(4326)
+```
+:::
+
+
+::: {.callout-task title='Convert vector to raster'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+denver_redlining_mask = regionmask.mask_geopandas(
+    denver_redlining_gdf,
+    ndvi_latlon_da.x, ndvi_latlon_da.y,
+    overlap=False
+)
+```
+:::
+
+
+::: {.callout-task title='Calculate zonal statistics'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+denver_ndvi_stats = zonal_stats(
+    denver_redlining_mask, 
+    ndvi_latlon_da
+)
+```
+:::
+
+::: {.callout-task title='Plot regional statistics'}
+
+:::
+
+```{python}
+#| template: student
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Merge NDVI stats with redlining geometry
+denver_ndvi_gdf = (
+    denver_redlining_gdf
+    .merge(
+        denver_ndvi_stats,
+        left_index=True, right_on='zone'
+    )
+)
+
+# Change grade to ordered Categorical for plotting
+denver_ndvi_gdf.grade = pd.Categorical(
+    denver_ndvi_gdf.grade,
+    ordered=True,
+    categories=['A', 'B', 'C', 'D']
+)
+
+# Drop rows with NA grads
+denver_ndvi_gdf = denver_ndvi_gdf.dropna()
+
+(
+    denver_ndvi_gdf.hvplot(
+        c='mean', cmap='Greens',
+        geo=True, tiles='CartoLight',
+    )
+    +
+    denver_ndvi_gdf.hvplot(
+        c='grade', cmap='Reds',
+        geo=True, tiles='CartoLight'
+    )
+)
+```
+:::

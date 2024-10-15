@@ -1,6 +1,6 @@
-# Spectral Indices
+## STEP 4: Spectral Indices
 
-## Observing vegetation health from space
+### Observing vegetation health from space
 
 When working with multispectral data, the individual reflectance values do not tell us much, but their relationships do. A normalized **spectral index** is a way of measuring the relationship between two (or more) bands. 
 
@@ -24,6 +24,8 @@ Read more about NDVI and other vegetation indices:
 -   [USGS](https://www.usgs.gov/landsat-missions/landsat-surface-reflectance-derived-spectral-indices)
 
 
+### Calculate spectral indices
+
 ```{python}
 #| eval: true
 store -r band_dict
@@ -31,18 +33,19 @@ store -r band_dict
 
 ::: {.callout-task title='Calculate NDVI'}
 
+  1. Use the NDVI formula to calculate it using bands selected from your band `dict`.
+  2. Plot the result, checking that the data now range from -1 to 1.
 :::
 
 ```{python}
 #| template: student
-band_dict['nir'].rio.nodata
+# Calculate NDVI
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-ndvi_da = band_dict['nir'].copy()
-ndvi_da.values = (
+ndvi_da = (
     (band_dict['nir'] - band_dict['red'])
     / (band_dict['nir'] + band_dict['red'])
 )

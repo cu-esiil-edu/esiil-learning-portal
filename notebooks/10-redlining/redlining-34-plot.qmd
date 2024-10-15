@@ -1,4 +1,6 @@
-# Plotting multispectral data
+## STEP 5: Plot
+
+### Plotting multispectral data
 
 Multispectral data can be plotted as:
 
@@ -72,7 +74,9 @@ ndvi_plot_da.hvplot(geo=True, cmap='Greens', robust=True)
 :::
 
 
-::: {.callout-task title='Plot raster with overlay with xarray'}
+### Plot raster with overlay
+
+::: {.callout-task title='Plot raster with overlay using xarray and geopandas'}
 Plotting raster and vector data together using `pandas` and `xarray` requires the `matplotlib.pyplot` library to access some plot layour tools. Using the code below as a starting point, you can play around with adding:
 
   1. Labels and titles
@@ -143,6 +147,7 @@ Now, do the same with `hvplot`. Note that some parameter names are the same and 
 :::
 
 
+### Plotting bands as subplots
 ::: {.callout-task title='Plot bands with linked subplots'}
 The following code will make a three panel plot with Red, NIR, and Green bands. Why do you think we aren't using the green band to look at vegetation?
 :::
@@ -190,6 +195,8 @@ raster_kwargs = dict(
 )
 ```
 :::
+
+### Color images
 
 ::: {.callout-task title='Plot RBG'}
 The following code will plot an RGB image using both matplotlib and hvplot. It also performs an action called "Contrast stretching", and brightens the image.
@@ -283,8 +290,10 @@ rgb_da.hvplot.rgb(geo=True, x='x', y='y', bands='rgb')
 ```
 :::
 
+### False color images
+
 ::: {.callout-task title='Plot CIR'}
-Now, plot a false color RGB image. CIR images have the following bands:
+Now, plot a **false color** RGB image. This is an RGB image, but with different bands represented as R, G, and B in the image. Color-InfraRed (CIR) images are used to look at vegetation health, and have the following bands:
 
   * red becomes NIR
   * green becomes red

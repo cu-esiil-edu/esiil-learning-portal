@@ -269,12 +269,23 @@ green_masked_da.plot(cmap='Greens', vmin=0, robust=True)
 ```
 :::
 
+### Load multiple bands
+
+You could load multiple bands by pasting the same code over and over and modifying it. We call this approach "copy pasta", because it is hard to read (and error-prone). Instead, we recommend that you use a `for` loop.
+
+::: {.callout-read title="`for` loops"}
+Read more about `for` loops in this [Introduction to using `for` loops to automate workflows in Python](https://www.earthdatascience.org/courses/intro-to-earth-data-science/write-efficient-python-code/loops/)
+:::
+
 ::: {.callout-task title='Load all bands'}
 The sample data comes with 15 different bands. Some of these are spectral bands, while others are things like a cloud mask, or the angles from which the image was taken. You only need the spectral bands. Luckily, all the spectral bands have similar file names, so you can use **indices** to extract which band is which from the name:
 
   1. Fill out the `bands` dictionary based on the User Guide. You will use this to replace band numbers from the file name with human-readable names.
-  2. Locate the position of the band id number in the file path. It is easiest to do this from the end, with negative indices. Fill out the `start_index` and `end_index` variables with the position values. You might need to test this before moving on!
-  3. Add code to open up the band in the spot to save it to the `band_dict`
+  2. Modify the code so that it is only loading **spectral bands**. There are several ways to do this -- we recommend either by modifying the **pattern** used for `glob`, or by using a conditional inside your `for` loop.
+  3. Locate the position of the band id number in the file path. It is easiest to do this from the end, with negative indices. Fill out the `start_index` and `end_index` variables with the position values. You might need to test this before moving on!
+  4. Add code to open up the band in the spot to save it to the `band_dict`
+
+`for` loops can be a bit tricky! You may want to test your loop line-by-line by printing out the results of each step to make sure it is doing what you think it is.
 :::
 
 ```{python}
