@@ -20,10 +20,7 @@ Add imports for packages that help you:
 :::
 
 ```{python}
-#| echo: True
-#| eval: False
-#| class: student-code
-#| highlight: True
+#| template: student
 import re # Use regular expressions to extract metadata
 
 import earthaccess # Access NASA data from the cloud
@@ -36,12 +33,7 @@ from rioxarray.merge import merge_arrays # Merge rasters
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: True
-#| eval: True
-#| code-fold: True
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: True
+#| template: answer
 import os # Interoperable file paths
 import pathlib # Find the home folder
 import re # Use regular expressions to extract metadata
@@ -63,21 +55,13 @@ from rioxarray.merge import merge_arrays # Mosaic rasters
 :::
 
 ```{python}
-#| echo: True
-#| eval: False
-#| class: student-code
-#| highlight: True
+#| template: student
 earthaccess.login(strategy="interactive", persist=True)
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: True
-#| eval: True
-#| code-fold: True
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: True
+#| template: answer
 earthaccess.login(strategy="interactive", persist=True)
 ```
 :::
@@ -102,10 +86,7 @@ Now, using the code below:
 :::
 
 ```{python}
-#| echo: True
-#| eval: False
-#| class: student-code
-#| highlight: True
+#| template: student
 denver_results = earthaccess.search_data(
     short_name="",
     bounding_box=tuple(gdf.total_bounds),
@@ -117,12 +98,7 @@ denver_results
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: True
-#| eval: True
-#| code-fold: True
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: True
+#| template: answer
 denver_results = earthaccess.search_data(
     short_name='HLSL30',
     bounding_box=tuple(denver_redlining_gdf.total_bounds),
@@ -140,21 +116,13 @@ denver_results
 :::
 
 ```{python}
-#| echo: True
-#| eval: False
-#| class: student-code
-#| highlight: True
+#| template: student
 
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: True
-#| eval: True
-#| code-fold: True
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: True
+#| template: answer
 ea_uris = earthaccess.open(denver_results)
 ea_uris
 ```
@@ -176,22 +144,14 @@ To load in the green band of data to work with them:
 :::
 
 ```{python}
-#| echo: True
-#| eval: False
-#| class: student-code
-#| highlight: True
+#| template: student
 # Import one tile of green data
 
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: True
-#| eval: True
-#| code-fold: True
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: True
+#| template: answer
 green_da = rxr.open_rasterio(
     ea_uris[8], mask_and_scale=True).squeeze()
 green_da.plot(cmap='Greens', vmin=0, robust=True)
@@ -220,21 +180,13 @@ You're being asked to convert vector data to the raster CRS instead of the other
 :::
 
 ```{python}
-#| echo: True
-#| eval: False
-#| class: student-code
-#| highlight: True
+#| template: student
 # Get the study bounds
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: True
-#| eval: True
-#| code-fold: True
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: True
+#| template: answer
 denver_bounds = (
     denver_redlining_gdf
     .to_crs(green_da.rio.crs)
@@ -256,21 +208,13 @@ You can also practice cloud masking again here if you like. Note that you will a
 :::
 
 ```{python}
-#| echo: True
-#| eval: False
-#| class: student-code
-#| highlight: True
+#| template: student
 # Crop the green reflectance data
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: True
-#| eval: True
-#| code-fold: True
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: True
+#| template: answer
 green_cropped_da = green_da.rio.clip_box(*denver_bounds)
 green_cropped_da.plot(cmap='Greens', vmin=0, robust=True)
 ```

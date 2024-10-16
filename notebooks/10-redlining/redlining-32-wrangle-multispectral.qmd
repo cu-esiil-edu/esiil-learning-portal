@@ -47,6 +47,7 @@ from io import BytesIO # Stream binary (zip) files
 from glob import glob # Find files by pattern
 
 import numpy as np # Unpack bit-wise Fmask
+import matplotlib.pyplot as plt # Make subplots
 import requests # Request data over HTTP
 import rioxarray as rxr # Work with geospatial raster data
 ```
@@ -329,17 +330,24 @@ bands = {
     'B11': 'thermalir2'
 }
 
+fig, ax = plt.subplots(5, 2, figsize=(10, 15))
 band_re = re.compile(r"(?P<band_id>[a-z]+).tif")
 band_dict = {}
-for band_path in glob(os.path.join(hls_dir, '*.B*.tif')):
+band_paths = glob(os.path.join(hls_dir, '*.B*.tif'))
+
+for band_path, subplot in zip(band_paths, ax.flatten()):
     # Get the band name
     band_name = bands[band_path[-7:-4]]
 
     # Open the band
     band_dict[band_name] = rxr.open_rasterio(
-        band_path, mask_and_scale=True).squeeze().load()
+        band_path, mask_and_scale=True).squeeze()
+    
+    # Plot the band to make sure it loads
+    band_dict[band_name].plot(ax=subplot)
+    subplot.set(title='')
+    subplot.axis('off')
 
-band_dict
 ```
 :::
 
