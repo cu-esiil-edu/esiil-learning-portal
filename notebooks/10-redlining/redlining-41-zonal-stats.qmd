@@ -1,92 +1,120 @@
+## STEP 6: Calculate zonal statistics
+
+In order to evaluate the connection between vegetation health and redlining, we need to summarize NDVI across the same geographic areas as we have redlining information.
+
+::: {.content-visible when-format="ipynb"}
+First, import variables from previous notebooks:
 ```{python}
 #| eval: true
-store -r ndvi_da denver_redlining_gdf
+store -r denver_redlining_gdf denver_ndvi_da
 ```
+:::
 
 ::: {.callout-task title='Import packages'}
+Some packages are included that will help you calculate statistics for areas imported below. Add packages for:
 
+  1. Interactive plotting of tabular and vector data
+  2. Working with categorical data in `DataFrame`s
 :::
 
 ```{python}
 #| template: student
-
+# Interactive plots with pandas
+# Ordered categorical data
+import regionmask # Convert shapefile to mask
+from xrspatial import zonal_stats # Calculate zonal statistics
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-import hvplot.pandas
-import numpy as np
-import pandas as pd
-import regionmask
-from xrspatial import zonal_stats
-```
-:::
-
-::: {.callout-task title='Reproject raster data'}
-
-:::
-
-```{python}
-#| template: student
-
-```
-
-::: {.content-visible when-format="html"}
-```{python}
-#| template: answer
-ndvi_latlon_da = ndvi_da.rio.reproject(4326)
+import hvplot.pandas # interactive plots with pandas
+import pandas as pd # Ordered categorical data
+import regionmask # Convert shapefile to mask
+from xrspatial import zonal_stats # Calculate zonal statistics
 ```
 :::
 
 
 ::: {.callout-task title='Convert vector to raster'}
+You can convert your vector data to a raster mask using the `regionmask` package. You will need to give `regionmask` the geographic coordinates of the grid you are using for this to work:
 
+  1. Replace `gdf` with your redlining `GeoDataFrame`.
+  2. Add code to put your `GeoDataFrame` in the same CRS as your raster data.
+  2. Replace `x_coord` and `y_coord` with the x and y coordinates from your raster data.
 :::
 
 ```{python}
 #| template: student
-
+denver_redlining_mask = regionmask.mask_geopandas(
+    gdf,
+    x_coord, y_coord,
+    # The regions do not overlap
+    overlap=False,
+    # We're not using geographic coordinates
+    wrap_lon=False
+)
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
 denver_redlining_mask = regionmask.mask_geopandas(
-    denver_redlining_gdf,
-    ndvi_latlon_da.x, ndvi_latlon_da.y,
-    overlap=False
+    denver_redlining_gdf.to_crs(denver_ndvi_da.rio.crs),
+    denver_ndvi_da.x, denver_ndvi_da.y,
+    # The regions do not overlap
+    overlap=False,
+    # We're not using geographic coordinates
+    wrap_lon=False
 )
 ```
 :::
 
-
 ::: {.callout-task title='Calculate zonal statistics'}
-
+Calculate zonal status using the `zonal_stats()` function. To figure out which arguments it needs, use either the `help()` function in Python, or search the internet.
 :::
 
 ```{python}
 #| template: student
+# Calculate NDVI stats for each redlining zone
 
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+# Calculate NDVI stats for each redlining zone
 denver_ndvi_stats = zonal_stats(
     denver_redlining_mask, 
-    ndvi_latlon_da
+    denver_ndvi_da
 )
 ```
 :::
 
 ::: {.callout-task title='Plot regional statistics'}
+Plot the regional statistics:
 
+  1. Merge the NDVI values into the redlining `GeoDataFrame`.
+  2. Use the code template below to convert the `grade` column (`str` or `object` type) to an ordered `pd.Categorical` type. This will let you use ordered color maps with the grade data!
+  3. Drop all `NA` grade values.
+  4. Plot the NDVI and the redlining grade next to each other in linked subplots.
 :::
 
 ```{python}
 #| template: student
+# Merge the NDVI stats with redlining geometry into one `GeoDataFrame`
 
+# Change grade to ordered Categorical for plotting
+gdf.grade = pd.Categorical(
+    gdf.grade,
+    ordered=True,
+    categories=['A', 'B', 'C', 'D']
+)
+
+# Drop rows with NA grades
+denver_ndvi_gdf = denver_ndvi_gdf.dropna()
+
+# Plot NDVI and redlining grade in linked subplots
 ```
 
 ::: {.content-visible when-format="html"}
@@ -109,7 +137,7 @@ denver_ndvi_gdf.grade = pd.Categorical(
 )
 
 # Drop rows with NA grads
-denver_ndvi_gdf = denver_ndvi_gdf.dropna()
+denver_ndvi_gdf = denver_ndvi_gdf.dropna(subset=['grade'])
 
 (
     denver_ndvi_gdf.hvplot(
@@ -122,5 +150,11 @@ denver_ndvi_gdf = denver_ndvi_gdf.dropna()
         geo=True, tiles='CartoLight'
     )
 )
+```
+:::
+
+::: {.content-visible when-format="ipynb"}
+```{python}
+store denver_ndvi_gdf
 ```
 :::
