@@ -4,7 +4,7 @@ First thing first -- let's load your stored variables and import libraries.
 
 ```{python}
 #| eval: true
-%store -r
+%store -r ecoregions_gdf occurrence_df
 ```
 
 ::: {.callout-task title="Import packages"}
@@ -150,8 +150,12 @@ migration_plot = (
     )
 )
 
-# Save the plot
-migration_plot.save('migration.html', embed=True)
+# Save the plot (if possible)
+try:
+    migration_plot.save('migration.html', embed=True)
+except Exception as exc:
+    print('Could not save the migration plot due to the following error:')
+    print(exc)
 
 # Show the plot
 migration_plot
