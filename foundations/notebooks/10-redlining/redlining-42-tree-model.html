@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>redlining-42-tree-model</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-019f3dac4e5f82ab00573d2a88f6b900.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../img/ESIIL_portal.png" alt="ESIIL Learning Portal" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../pages/00-course-overviews/foundations/00-home.html"> 
+<span class="menu-text">Earth Data Analytics – Foundations</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-courses" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Courses</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-courses">    
+        <li>
+    <a class="dropdown-item" href="../../pages/00-course-overviews/foundations/01-fundamentals/00-home.html">
+ <span class="dropdown-text">COURSE 1: Fundamentals of Earth Data Analytics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-course-overviews/foundations/02-topics/00-home.qmd">
+ <span class="dropdown-text">COURSE 2: Topics in Earth Analytics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-course-overviews/foundations/03-applications/00-home.html">
+ <span class="dropdown-text">COURSE 3: Earth Analytics Applications</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="http://earthdatascience.org"> 
+<span class="menu-text">Classic earthdatascience.org</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+                STEP 7: Fit a model
+            </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/00-course-overviews/foundations/01-fundamentals/00-home.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fundamentals of Earth Data Analytics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/00-course-overviews/foundations/01-fundamentals/01-portfolio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Text File Types</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Text File Formats for Earth Data Science</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Format Text With Markdown</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Version Control</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/03-git-github/01-intro-version-control/01-intro-version-control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What Is Version Control</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/03-git-github/02-github-collaboration/01-intro-collaboration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Use GitHub to Collaborate on Open Science Projects</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/03-git-github/02-github-collaboration/02-pull-requests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Propose changes to GitHub repositories</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/03-git-github/02-github-collaboration/06-pr-activity-fork.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Practice Forking a GitHub Repository and Submitting Pull Requests</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Portfolio</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/03-git-github/03-github-portfolio/00-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Join the Open Earth Data Science community online</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/03-git-github/03-github-portfolio/01-create-portfolio-website.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create your own portfolio webpage</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/03-git-github/03-github-portfolio/02-images.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Add images to your portfolio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/03-git-github/03-github-portfolio/03-html.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Customize your website content</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/03-git-github/03-github-portfolio/04-jekyll.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spruce up your website</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/03-git-github/03-github-portfolio/05-map.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Add a map to your website</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Practice Submitting Pull Requests</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/00-course-overviews/foundations/01-fundamentals/02-time-series.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Open Science Tools</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/01-reproducible-science-tools/open-reproducible-science/01-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What Is Open Reproducible Science?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/01-reproducible-science-tools/open-reproducible-science/02-open-science-tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tools For Open Reproducible Science</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/01-reproducible-science-tools/open-reproducible-science/03-best-practices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How To Organize Your Project: Best Practices for Open Reproducible Science</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Time-series Data</span></span>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Climate Coding Challenge</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/01-climate/climate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Climate Coding Challenge</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/00-course-overviews/foundations/01-fundamentals/03-vector.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 3</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Geospatial Vector Data</span></span>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">Species Distribution Coding Challenge</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/03-species-distribution/species-distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapping migration</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/00-course-overviews/foundations/01-fundamentals/04-raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 4</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://www.earthdatascience.org/workshops/setup-earth-analytics-python/setup-git-bash-conda/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Install Python on your computer</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Geospatial Raster Data</span></span>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
+ <span class="menu-text">Urban Greenspace and Redlining Coding Challenge</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/10-redlining/redlining.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Redlining and Urban Green Space</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/00-course-overviews/foundations/01-fundamentals/05-final.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 5</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-15" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-15" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Climate Data 101</span></span>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-17" role="navigation" aria-expanded="false">
+ <span class="menu-text">Habitat Suitability Coding Challenge</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-17" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-17" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/08-habitat/habitat.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Habitat Suitability Coding Challenge</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/00-course-overviews/foundations/01-fundamentals/05-final.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unit 6</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-18" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-18" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-19" role="navigation" aria-expanded="false">
+ <span class="menu-text">Urban Greenspace – Big Data</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-19" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-19" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/11-big-data/big-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Urban Greenspace and Asthma Prevalence</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#your-model-description-and-evaluation-here" id="toc-your-model-description-and-evaluation-here" class="nav-link active" data-scroll-target="#your-model-description-and-evaluation-here">YOUR MODEL DESCRIPTION AND EVALUATION HERE</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<!-- Modified from https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/html/templates/banner/title-block.html -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+    <div class="esiil-title-goals page-columns page-full">
+        <div class="quarto-title column-body">
+                        <h1 class="title">
+                STEP 7: Fit a model
+            </h1>
+                                            
+                    </div>
+    
+        
+    <div class="no-row-height column-margin column-container"><div class="">
+                        
+                        <div class="quarto-title-meta">
+
+                            
+                          
+                            
+                          </div>
+                          
+        </div></div></div>
+</header>
+
+
+<p>One way to determine if redlining is related to NDVI is to see if we can correctly predict the redlining grade from the mean NDVI value. With 4 categories, we’d expect to be right only about 25% of the time if we guessed the redlining grade at random. Any accuracy greater than 25% indicates that there is a relationship between vegetation health and redlining.</p>
+<p>To start out, we’ll fit a Decision Tree Classifier to the data. A decision tree is good at splitting data up into squares by setting thresholds. That makes sense for us here, because we’re looking for thresholds in the mean NDVI that indicate a particular redlining grade.</p>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It: Import packages
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The cell below imports some functions and classes from the <code>scikit-learn</code> package to help you fit and evaluate a decision tree model on your data. You may need some additional packages later one. Make sure to import them here.</p>
+</div>
+</div>
+<div id="d80455bd" class="cell student-code" data-highlight="true" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier, plot_tree</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split, cross_val_score</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="51ee6b54" class="cell answer-code" data-highlight="true" data-execution_count="3">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hvplot.pandas</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier, plot_tree</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split, cross_val_score</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<script type="esms-options">{"shimMode": true}</script><style>*[data-root-id],
+*[data-root-id] > * {
+  box-sizing: border-box;
+  font-family: var(--jp-ui-font-family);
+  font-size: var(--jp-ui-font-size1);
+  color: var(--vscode-editor-foreground, var(--jp-ui-font-color1));
+}
+
+/* Override VSCode background color */
+.cell-output-ipywidget-background:has(
+    > .cell-output-ipywidget-background > .lm-Widget > *[data-root-id]
+  ),
+.cell-output-ipywidget-background:has(> .lm-Widget > *[data-root-id]) {
+  background-color: transparent !important;
+}
+</style>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/javascript">
+(function(root) {
+  function now() {
+    return new Date();
+  }
+
+  const force = true;
+  const py_version = '3.6.2'.replace('rc', '-rc.').replace('.dev', '-dev.');
+  const reloading = false;
+  const Bokeh = root.Bokeh;
+
+  // Set a timeout for this load but only if we are not already initializing
+  if (typeof (root._bokeh_timeout) === "undefined" || (force || !root._bokeh_is_initializing)) {
+    root._bokeh_timeout = Date.now() + 5000;
+    root._bokeh_failed_load = false;
+  }
+
+  function run_callbacks() {
+    try {
+      root._bokeh_onload_callbacks.forEach(function(callback) {
+        if (callback != null)
+          callback();
+      });
+    } finally {
+      delete root._bokeh_onload_callbacks;
+    }
+    console.debug("Bokeh: all callbacks have finished");
+  }
+
+  function load_libs(css_urls, js_urls, js_modules, js_exports, callback) {
+    if (css_urls == null) css_urls = [];
+    if (js_urls == null) js_urls = [];
+    if (js_modules == null) js_modules = [];
+    if (js_exports == null) js_exports = {};
+
+    root._bokeh_onload_callbacks.push(callback);
+
+    if (root._bokeh_is_loading > 0) {
+      // Don't load bokeh if it is still initializing
+      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
+      return null;
+    } else if (js_urls.length === 0 && js_modules.length === 0 && Object.keys(js_exports).length === 0) {
+      // There is nothing to load
+      run_callbacks();
+      return null;
+    }
+
+    function on_load() {
+      root._bokeh_is_loading--;
+      if (root._bokeh_is_loading === 0) {
+        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
+        run_callbacks()
+      }
+    }
+    window._bokeh_on_load = on_load
+
+    function on_error(e) {
+      const src_el = e.srcElement
+      console.error("failed to load " + (src_el.href || src_el.src));
+    }
+
+    const skip = [];
+    if (window.requirejs) {
+      window.requirejs.config({'packages': {}, 'paths': {}, 'shim': {}});
+      root._bokeh_is_loading = css_urls.length + 0;
+    } else {
+      root._bokeh_is_loading = css_urls.length + js_urls.length + js_modules.length + Object.keys(js_exports).length;
+    }
+
+    const existing_stylesheets = []
+    const links = document.getElementsByTagName('link')
+    for (let i = 0; i < links.length; i++) {
+      const link = links[i]
+      if (link.href != null) {
+        existing_stylesheets.push(link.href)
+      }
+    }
+    for (let i = 0; i < css_urls.length; i++) {
+      const url = css_urls[i];
+      const escaped = encodeURI(url)
+      if (existing_stylesheets.indexOf(escaped) !== -1) {
+        on_load()
+        continue;
+      }
+      const element = document.createElement("link");
+      element.onload = on_load;
+      element.onerror = on_error;
+      element.rel = "stylesheet";
+      element.type = "text/css";
+      element.href = url;
+      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
+      document.body.appendChild(element);
+    }    var existing_scripts = []
+    const scripts = document.getElementsByTagName('script')
+    for (let i = 0; i < scripts.length; i++) {
+      var script = scripts[i]
+      if (script.src != null) {
+        existing_scripts.push(script.src)
+      }
+    }
+    for (let i = 0; i < js_urls.length; i++) {
+      const url = js_urls[i];
+      const escaped = encodeURI(url)
+      if (skip.indexOf(escaped) !== -1 || existing_scripts.indexOf(escaped) !== -1) {
+        if (!window.requirejs) {
+          on_load();
+        }
+        continue;
+      }
+      const element = document.createElement('script');
+      element.onload = on_load;
+      element.onerror = on_error;
+      element.async = false;
+      element.src = url;
+      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
+      document.head.appendChild(element);
+    }
+    for (let i = 0; i < js_modules.length; i++) {
+      const url = js_modules[i];
+      const escaped = encodeURI(url)
+      if (skip.indexOf(escaped) !== -1 || existing_scripts.indexOf(escaped) !== -1) {
+        if (!window.requirejs) {
+          on_load();
+        }
+        continue;
+      }
+      var element = document.createElement('script');
+      element.onload = on_load;
+      element.onerror = on_error;
+      element.async = false;
+      element.src = url;
+      element.type = "module";
+      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
+      document.head.appendChild(element);
+    }
+    for (const name in js_exports) {
+      const url = js_exports[name];
+      const escaped = encodeURI(url)
+      if (skip.indexOf(escaped) >= 0 || root[name] != null) {
+        if (!window.requirejs) {
+          on_load();
+        }
+        continue;
+      }
+      var element = document.createElement('script');
+      element.onerror = on_error;
+      element.async = false;
+      element.type = "module";
+      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
+      element.textContent = `
+      import ${name} from "${url}"
+      window.${name} = ${name}
+      window._bokeh_on_load()
+      `
+      document.head.appendChild(element);
+    }
+    if (!js_urls.length && !js_modules.length) {
+      on_load()
+    }
+  };
+
+  function inject_raw_css(css) {
+    const element = document.createElement("style");
+    element.appendChild(document.createTextNode(css));
+    document.body.appendChild(element);
+  }
+
+  const js_urls = ["https://cdn.holoviz.org/panel/1.5.5/dist/bundled/reactiveesm/es-module-shims@^1.10.0/dist/es-module-shims.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-3.6.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.6.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.6.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.6.2.min.js", "https://cdn.holoviz.org/panel/1.5.5/dist/panel.min.js"];
+  const js_modules = [];
+  const js_exports = {};
+  const css_urls = [];
+  const inline_js = [    function(Bokeh) {
+      Bokeh.set_log_level("info");
+    },
+function(Bokeh) {} // ensure no trailing comma for IE
+  ];
+
+  function run_inline_js() {
+    if ((root.Bokeh !== undefined) || (force === true)) {
+      for (let i = 0; i < inline_js.length; i++) {
+        try {
+          inline_js[i].call(root, root.Bokeh);
+        } catch(e) {
+          if (!reloading) {
+            throw e;
+          }
+        }
+      }
+      // Cache old bokeh versions
+      if (Bokeh != undefined && !reloading) {
+        var NewBokeh = root.Bokeh;
+        if (Bokeh.versions === undefined) {
+          Bokeh.versions = new Map();
+        }
+        if (NewBokeh.version !== Bokeh.version) {
+          Bokeh.versions.set(NewBokeh.version, NewBokeh)
+        }
+        root.Bokeh = Bokeh;
+      }
+    } else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(run_inline_js, 100);
+    } else if (!root._bokeh_failed_load) {
+      console.log("Bokeh: BokehJS failed to load within specified timeout.");
+      root._bokeh_failed_load = true;
+    }
+    root._bokeh_is_initializing = false
+  }
+
+  function load_or_wait() {
+    // Implement a backoff loop that tries to ensure we do not load multiple
+    // versions of Bokeh and its dependencies at the same time.
+    // In recent versions we use the root._bokeh_is_initializing flag
+    // to determine whether there is an ongoing attempt to initialize
+    // bokeh, however for backward compatibility we also try to ensure
+    // that we do not start loading a newer (Panel>=1.0 and Bokeh>3) version
+    // before older versions are fully initialized.
+    if (root._bokeh_is_initializing && Date.now() > root._bokeh_timeout) {
+      // If the timeout and bokeh was not successfully loaded we reset
+      // everything and try loading again
+      root._bokeh_timeout = Date.now() + 5000;
+      root._bokeh_is_initializing = false;
+      root._bokeh_onload_callbacks = undefined;
+      root._bokeh_is_loading = 0
+      console.log("Bokeh: BokehJS was loaded multiple times but one version failed to initialize.");
+      load_or_wait();
+    } else if (root._bokeh_is_initializing || (typeof root._bokeh_is_initializing === "undefined" && root._bokeh_onload_callbacks !== undefined)) {
+      setTimeout(load_or_wait, 100);
+    } else {
+      root._bokeh_is_initializing = true
+      root._bokeh_onload_callbacks = []
+      const bokeh_loaded = root.Bokeh != null && (root.Bokeh.version === py_version || (root.Bokeh.versions !== undefined && root.Bokeh.versions.has(py_version)));
+      if (!reloading && !bokeh_loaded) {
+        if (root.Bokeh) {
+          root.Bokeh = undefined;
+        }
+        console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
+      }
+      load_libs(css_urls, js_urls, js_modules, js_exports, function() {
+        console.debug("Bokeh: BokehJS plotting callback run at", now());
+        run_inline_js();
+      });
+    }
+  }
+  // Give older versions of the autoload script a head-start to ensure
+  // they initialize before we start loading newer version.
+  setTimeout(load_or_wait, 100)
+}(window));
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/javascript">
+
+if ((window.PyViz === undefined) || (window.PyViz instanceof HTMLElement)) {
+  window.PyViz = {comms: {}, comm_status:{}, kernels:{}, receivers: {}, plot_index: []}
+}
+
+
+    function JupyterCommManager() {
+    }
+
+    JupyterCommManager.prototype.register_target = function(plot_id, comm_id, msg_handler) {
+      if (window.comm_manager || ((window.Jupyter !== undefined) && (Jupyter.notebook.kernel != null))) {
+        var comm_manager = window.comm_manager || Jupyter.notebook.kernel.comm_manager;
+        comm_manager.register_target(comm_id, function(comm) {
+          comm.on_msg(msg_handler);
+        });
+      } else if ((plot_id in window.PyViz.kernels) && (window.PyViz.kernels[plot_id])) {
+        window.PyViz.kernels[plot_id].registerCommTarget(comm_id, function(comm) {
+          comm.onMsg = msg_handler;
+        });
+      } else if (typeof google != 'undefined' && google.colab.kernel != null) {
+        google.colab.kernel.comms.registerTarget(comm_id, (comm) => {
+          var messages = comm.messages[Symbol.asyncIterator]();
+          function processIteratorResult(result) {
+            var message = result.value;
+            console.log(message)
+            var content = {data: message.data, comm_id};
+            var buffers = []
+            for (var buffer of message.buffers || []) {
+              buffers.push(new DataView(buffer))
+            }
+            var metadata = message.metadata || {};
+            var msg = {content, buffers, metadata}
+            msg_handler(msg);
+            return messages.next().then(processIteratorResult);
+          }
+          return messages.next().then(processIteratorResult);
+        })
+      }
+    }
+
+    JupyterCommManager.prototype.get_client_comm = function(plot_id, comm_id, msg_handler) {
+      if (comm_id in window.PyViz.comms) {
+        return window.PyViz.comms[comm_id];
+      } else if (window.comm_manager || ((window.Jupyter !== undefined) && (Jupyter.notebook.kernel != null))) {
+        var comm_manager = window.comm_manager || Jupyter.notebook.kernel.comm_manager;
+        var comm = comm_manager.new_comm(comm_id, {}, {}, {}, comm_id);
+        if (msg_handler) {
+          comm.on_msg(msg_handler);
+        }
+      } else if ((plot_id in window.PyViz.kernels) && (window.PyViz.kernels[plot_id])) {
+        var comm = window.PyViz.kernels[plot_id].connectToComm(comm_id);
+        comm.open();
+        if (msg_handler) {
+          comm.onMsg = msg_handler;
+        }
+      } else if (typeof google != 'undefined' && google.colab.kernel != null) {
+        var comm_promise = google.colab.kernel.comms.open(comm_id)
+        comm_promise.then((comm) => {
+          window.PyViz.comms[comm_id] = comm;
+          if (msg_handler) {
+            var messages = comm.messages[Symbol.asyncIterator]();
+            function processIteratorResult(result) {
+              var message = result.value;
+              var content = {data: message.data};
+              var metadata = message.metadata || {comm_id};
+              var msg = {content, metadata}
+              msg_handler(msg);
+              return messages.next().then(processIteratorResult);
+            }
+            return messages.next().then(processIteratorResult);
+          }
+        })
+        var sendClosure = (data, metadata, buffers, disposeOnDone) => {
+          return comm_promise.then((comm) => {
+            comm.send(data, metadata, buffers, disposeOnDone);
+          });
+        };
+        var comm = {
+          send: sendClosure
+        };
+      }
+      window.PyViz.comms[comm_id] = comm;
+      return comm;
+    }
+    window.PyViz.comm_manager = new JupyterCommManager();
+    
+
+
+var JS_MIME_TYPE = 'application/javascript';
+var HTML_MIME_TYPE = 'text/html';
+var EXEC_MIME_TYPE = 'application/vnd.holoviews_exec.v0+json';
+var CLASS_NAME = 'output';
+
+/**
+ * Render data to the DOM node
+ */
+function render(props, node) {
+  var div = document.createElement("div");
+  var script = document.createElement("script");
+  node.appendChild(div);
+  node.appendChild(script);
+}
+
+/**
+ * Handle when a new output is added
+ */
+function handle_add_output(event, handle) {
+  var output_area = handle.output_area;
+  var output = handle.output;
+  if ((output.data == undefined) || (!output.data.hasOwnProperty(EXEC_MIME_TYPE))) {
+    return
+  }
+  var id = output.metadata[EXEC_MIME_TYPE]["id"];
+  var toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
+  if (id !== undefined) {
+    var nchildren = toinsert.length;
+    var html_node = toinsert[nchildren-1].children[0];
+    html_node.innerHTML = output.data[HTML_MIME_TYPE];
+    var scripts = [];
+    var nodelist = html_node.querySelectorAll("script");
+    for (var i in nodelist) {
+      if (nodelist.hasOwnProperty(i)) {
+        scripts.push(nodelist[i])
+      }
+    }
+
+    scripts.forEach( function (oldScript) {
+      var newScript = document.createElement("script");
+      var attrs = [];
+      var nodemap = oldScript.attributes;
+      for (var j in nodemap) {
+        if (nodemap.hasOwnProperty(j)) {
+          attrs.push(nodemap[j])
+        }
+      }
+      attrs.forEach(function(attr) { newScript.setAttribute(attr.name, attr.value) });
+      newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+      oldScript.parentNode.replaceChild(newScript, oldScript);
+    });
+    if (JS_MIME_TYPE in output.data) {
+      toinsert[nchildren-1].children[1].textContent = output.data[JS_MIME_TYPE];
+    }
+    output_area._hv_plot_id = id;
+    if ((window.Bokeh !== undefined) && (id in Bokeh.index)) {
+      window.PyViz.plot_index[id] = Bokeh.index[id];
+    } else {
+      window.PyViz.plot_index[id] = null;
+    }
+  } else if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
+    var bk_div = document.createElement("div");
+    bk_div.innerHTML = output.data[HTML_MIME_TYPE];
+    var script_attrs = bk_div.children[0].attributes;
+    for (var i = 0; i < script_attrs.length; i++) {
+      toinsert[toinsert.length - 1].childNodes[1].setAttribute(script_attrs[i].name, script_attrs[i].value);
+    }
+    // store reference to server id on output_area
+    output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
+  }
+}
+
+/**
+ * Handle when an output is cleared or removed
+ */
+function handle_clear_output(event, handle) {
+  var id = handle.cell.output_area._hv_plot_id;
+  var server_id = handle.cell.output_area._bokeh_server_id;
+  if (((id === undefined) || !(id in PyViz.plot_index)) && (server_id !== undefined)) { return; }
+  var comm = window.PyViz.comm_manager.get_client_comm("hv-extension-comm", "hv-extension-comm", function () {});
+  if (server_id !== null) {
+    comm.send({event_type: 'server_delete', 'id': server_id});
+    return;
+  } else if (comm !== null) {
+    comm.send({event_type: 'delete', 'id': id});
+  }
+  delete PyViz.plot_index[id];
+  if ((window.Bokeh !== undefined) & (id in window.Bokeh.index)) {
+    var doc = window.Bokeh.index[id].model.document
+    doc.clear();
+    const i = window.Bokeh.documents.indexOf(doc);
+    if (i > -1) {
+      window.Bokeh.documents.splice(i, 1);
+    }
+  }
+}
+
+/**
+ * Handle kernel restart event
+ */
+function handle_kernel_cleanup(event, handle) {
+  delete PyViz.comms["hv-extension-comm"];
+  window.PyViz.plot_index = {}
+}
+
+/**
+ * Handle update_display_data messages
+ */
+function handle_update_output(event, handle) {
+  handle_clear_output(event, {cell: {output_area: handle.output_area}})
+  handle_add_output(event, handle)
+}
+
+function register_renderer(events, OutputArea) {
+  function append_mime(data, metadata, element) {
+    // create a DOM node to render to
+    var toinsert = this.create_output_subarea(
+    metadata,
+    CLASS_NAME,
+    EXEC_MIME_TYPE
+    );
+    this.keyboard_manager.register_events(toinsert);
+    // Render to node
+    var props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
+    render(props, toinsert[0]);
+    element.append(toinsert);
+    return toinsert
+  }
+
+  events.on('output_added.OutputArea', handle_add_output);
+  events.on('output_updated.OutputArea', handle_update_output);
+  events.on('clear_output.CodeCell', handle_clear_output);
+  events.on('delete.Cell', handle_clear_output);
+  events.on('kernel_ready.Kernel', handle_kernel_cleanup);
+
+  OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
+    safe: true,
+    index: 0
+  });
+}
+
+if (window.Jupyter !== undefined) {
+  try {
+    var events = require('base/js/events');
+    var OutputArea = require('notebook/js/outputarea').OutputArea;
+    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
+      register_renderer(events, OutputArea);
+    }
+  } catch(err) {
+  }
+}
+
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<div id="p1002">
+  <div id="e9f63f98-2727-44e2-9edd-acc7caf194c9" data-root-id="p1002" style="display: contents;"></div>
+</div>
+<script type="application/javascript">(function(root) {
+  var docs_json = {"9a47bd3b-cebc-4a03-a993-bceab90530a6":{"version":"3.6.2","title":"Bokeh Application","roots":[{"type":"object","name":"panel.models.browser.BrowserInfo","id":"p1002"},{"type":"object","name":"panel.models.comm_manager.CommManager","id":"p1003","attributes":{"plot_id":"p1002","comm_id":"82d9e12c9f4e4b7fbb047a9bfd6be41a","client_comm_id":"08ef1c53769f4838965eabfde294dbb8"}}],"defs":[{"type":"model","name":"ReactiveHTML1"},{"type":"model","name":"FlexBox1","properties":[{"name":"align_content","kind":"Any","default":"flex-start"},{"name":"align_items","kind":"Any","default":"flex-start"},{"name":"flex_direction","kind":"Any","default":"row"},{"name":"flex_wrap","kind":"Any","default":"wrap"},{"name":"gap","kind":"Any","default":""},{"name":"justify_content","kind":"Any","default":"flex-start"}]},{"type":"model","name":"FloatPanel1","properties":[{"name":"config","kind":"Any","default":{"type":"map"}},{"name":"contained","kind":"Any","default":true},{"name":"position","kind":"Any","default":"right-top"},{"name":"offsetx","kind":"Any","default":null},{"name":"offsety","kind":"Any","default":null},{"name":"theme","kind":"Any","default":"primary"},{"name":"status","kind":"Any","default":"normalized"}]},{"type":"model","name":"GridStack1","properties":[{"name":"mode","kind":"Any","default":"warn"},{"name":"ncols","kind":"Any","default":null},{"name":"nrows","kind":"Any","default":null},{"name":"allow_resize","kind":"Any","default":true},{"name":"allow_drag","kind":"Any","default":true},{"name":"state","kind":"Any","default":[]}]},{"type":"model","name":"drag1","properties":[{"name":"slider_width","kind":"Any","default":5},{"name":"slider_color","kind":"Any","default":"black"},{"name":"value","kind":"Any","default":50}]},{"type":"model","name":"click1","properties":[{"name":"terminal_output","kind":"Any","default":""},{"name":"debug_name","kind":"Any","default":""},{"name":"clears","kind":"Any","default":0}]},{"type":"model","name":"FastWrapper1","properties":[{"name":"object","kind":"Any","default":null},{"name":"style","kind":"Any","default":null}]},{"type":"model","name":"NotificationAreaBase1","properties":[{"name":"js_events","kind":"Any","default":{"type":"map"}},{"name":"position","kind":"Any","default":"bottom-right"},{"name":"_clear","kind":"Any","default":0}]},{"type":"model","name":"NotificationArea1","properties":[{"name":"js_events","kind":"Any","default":{"type":"map"}},{"name":"notifications","kind":"Any","default":[]},{"name":"position","kind":"Any","default":"bottom-right"},{"name":"_clear","kind":"Any","default":0},{"name":"types","kind":"Any","default":[{"type":"map","entries":[["type","warning"],["background","#ffc107"],["icon",{"type":"map","entries":[["className","fas fa-exclamation-triangle"],["tagName","i"],["color","white"]]}]]},{"type":"map","entries":[["type","info"],["background","#007bff"],["icon",{"type":"map","entries":[["className","fas fa-info-circle"],["tagName","i"],["color","white"]]}]]}]}]},{"type":"model","name":"Notification","properties":[{"name":"background","kind":"Any","default":null},{"name":"duration","kind":"Any","default":3000},{"name":"icon","kind":"Any","default":null},{"name":"message","kind":"Any","default":""},{"name":"notification_type","kind":"Any","default":null},{"name":"_rendered","kind":"Any","default":false},{"name":"_destroyed","kind":"Any","default":false}]},{"type":"model","name":"TemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"BootstrapTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"TemplateEditor1","properties":[{"name":"layout","kind":"Any","default":[]}]},{"type":"model","name":"MaterialTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"ReactiveESM1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"JSComponent1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"ReactComponent1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"AnyWidgetComponent1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"request_value1","properties":[{"name":"fill","kind":"Any","default":"none"},{"name":"_synced","kind":"Any","default":null},{"name":"_request_sync","kind":"Any","default":0}]}]}};
+  var render_items = [{"docid":"9a47bd3b-cebc-4a03-a993-bceab90530a6","roots":{"p1002":"e9f63f98-2727-44e2-9edd-acc7caf194c9"},"root_ids":["p1002"]}];
+  var docs = Object.values(docs_json)
+  if (!docs) {
+    return
+  }
+  const py_version = docs[0].version.replace('rc', '-rc.').replace('.dev', '-dev.')
+  async function embed_document(root) {
+    var Bokeh = get_bokeh(root)
+    await Bokeh.embed.embed_items_notebook(docs_json, render_items);
+    for (const render_item of render_items) {
+      for (const root_id of render_item.root_ids) {
+    const id_el = document.getElementById(root_id)
+    if (id_el.children.length && id_el.children[0].hasAttribute('data-root-id')) {
+      const root_el = id_el.children[0]
+      root_el.id = root_el.id + '-rendered'
+      for (const child of root_el.children) {
+            // Ensure JupyterLab does not capture keyboard shortcuts
+            // see: https://jupyterlab.readthedocs.io/en/4.1.x/extension/notebook.html#keyboard-interaction-model
+        child.setAttribute('data-lm-suppress-shortcuts', 'true')
+      }
+    }
+      }
+    }
+  }
+  function get_bokeh(root) {
+    if (root.Bokeh === undefined) {
+      return null
+    } else if (root.Bokeh.version !== py_version) {
+      if (root.Bokeh.versions === undefined || !root.Bokeh.versions.has(py_version)) {
+    return null
+      }
+      return root.Bokeh.versions.get(py_version);
+    } else if (root.Bokeh.version === py_version) {
+      return root.Bokeh
+    }
+    return null
+  }
+  function is_loaded(root) {
+    var Bokeh = get_bokeh(root)
+    return (Bokeh != null && Bokeh.Panel !== undefined)
+  }
+  if (is_loaded(root)) {
+    embed_document(root);
+  } else {
+    var attempts = 0;
+    var timer = setInterval(function(root) {
+      if (is_loaded(root)) {
+        clearInterval(timer);
+        embed_document(root);
+      } else if (document.readyState == "complete") {
+        attempts++;
+        if (attempts > 200) {
+          clearInterval(timer);
+      var Bokeh = get_bokeh(root)
+      if (Bokeh == null || Bokeh.Panel == null) {
+            console.warn("Panel: ERROR: Unable to run Panel code because Bokeh or Panel library is missing");
+      } else {
+        console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
+        embed_document(root)
+      }
+        }
+      }
+    }, 25, root)
+  }
+})(window);</script>
+</div>
+</div>
+<p>As with all models, it is possible to <strong>overfit</strong> our Decision Tree Classifier by splitting the data into too many disconnected rectangles. We could theoretically get 100% accuracy this way, but drawing a rectangle for each individual data point. There are many ways to try to avoid overfitting. In this case, we can limit the <strong>depth</strong> of the decision tree to 2. This means we’ll be drawing 4 rectangles, the same as the number of categories we have.</p>
+<p>Alternative methods of limiting overfitting include:</p>
+<ul>
+<li>Splitting the data into test and train groups – the overfitted model is unlikely to fit data it hasn’t seen. In this case, we have relatively little data compared to the number of categories, and so it is hard to evaluate a test/train split.</li>
+<li>Pruning the decision tree to maximize accuracy while minimizing complexity. <code>scikit-learn</code> will do this for you automatically. You can also fit the model at a variety of depths, and look for diminishing accuracy returns.</li>
+</ul>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It: Fit a tree model
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Replace <code>predictor_variables</code> and <code>observed_values</code> with the values you want to use in your model.</p>
+</div>
+</div>
+<div id="f33a3c68" class="cell student-code" data-highlight="true" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert categories to numbers</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>denver_ndvi_gdf[<span class="st">'grade_codes'</span>] <span class="op">=</span> denver_ndvi_gdf.grade.cat.codes</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>tree_classifier <span class="op">=</span> DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">2</span>).fit(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    predictor_variables,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    observed_values,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize tree</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>plot_tree(tree_classifier)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="35d3420e" class="cell answer-code" data-highlight="true" data-execution_count="5">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>denver_ndvi_gdf[<span class="st">'grade_codes'</span>] <span class="op">=</span> denver_ndvi_gdf.grade.cat.codes</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>tree_classifier <span class="op">=</span> DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">2</span>).fit(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    denver_ndvi_gdf[[<span class="st">'mean'</span>]],</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    denver_ndvi_gdf.grade_codes,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plot_tree(tree_classifier)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="redlining-42-tree-model_files/figure-html/cell-6-output-1.png" width="540" height="389" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It: Plot model results
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Create a plot of the results by:</p>
+<ol type="1">
+<li>Predict grades for each region using the <code>.predict()</code> method of your <code>DecisionTreeClassifier</code>.</li>
+<li>Subtract the actual grades from the predicted grades</li>
+<li>Plot the calculated prediction errors as a chloropleth.</li>
+</ol>
+</div>
+</div>
+<div id="61c2eb65" class="cell answer-code" data-highlight="true" data-execution_count="7">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>denver_ndvi_gdf[<span class="st">'predict'</span>] <span class="op">=</span> tree_classifier.predict(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    denver_ndvi_gdf[[<span class="st">'mean'</span>]],</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>denver_ndvi_gdf[<span class="st">'error'</span>] <span class="op">=</span> (</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    denver_ndvi_gdf[<span class="st">'predict'</span>]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span> denver_ndvi_gdf[<span class="st">'grade_codes'</span>]</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>denver_ndvi_gdf.hvplot(</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    c<span class="op">=</span><span class="st">'error'</span>, cmap<span class="op">=</span><span class="st">'coolwarm'</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    geo<span class="op">=</span><span class="va">True</span>, tiles<span class="op">=</span><span class="st">'CartoLight'</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div id="p1013">
+  <div id="b040d155-3261-41df-a0cc-96f22b28796d" data-root-id="p1013" style="display: contents;"></div>
+</div>
+<script type="application/javascript">(function(root) {
+  var docs_json = {"d78948d1-0ae9-46aa-aa19-e3bbb8717960":{"version":"3.6.2","title":"Bokeh Application","roots":[{"type":"object","name":"Row","id":"p1013","attributes":{"name":"Row01728","tags":["embedded"],"stylesheets":["\n:host(.pn-loading):before, .pn-loading:before {\n  background-color: #c3c3c3;\n  mask-size: auto calc(min(50%, 400px));\n  -webkit-mask-size: auto calc(min(50%, 400px));\n}",{"type":"object","name":"ImportedStyleSheet","id":"p1016","attributes":{"url":"https://cdn.holoviz.org/panel/1.5.5/dist/css/loading.css"}},{"type":"object","name":"ImportedStyleSheet","id":"p1130","attributes":{"url":"https://cdn.holoviz.org/panel/1.5.5/dist/css/listpanel.css"}},{"type":"object","name":"ImportedStyleSheet","id":"p1014","attributes":{"url":"https://cdn.holoviz.org/panel/1.5.5/dist/bundled/theme/default.css"}},{"type":"object","name":"ImportedStyleSheet","id":"p1015","attributes":{"url":"https://cdn.holoviz.org/panel/1.5.5/dist/bundled/theme/native.css"}}],"margin":0,"sizing_mode":"stretch_width","align":"start","children":[{"type":"object","name":"Spacer","id":"p1017","attributes":{"name":"HSpacer01734","stylesheets":["\n:host(.pn-loading):before, .pn-loading:before {\n  background-color: #c3c3c3;\n  mask-size: auto calc(min(50%, 400px));\n  -webkit-mask-size: auto calc(min(50%, 400px));\n}",{"id":"p1016"},{"id":"p1014"},{"id":"p1015"}],"margin":0,"sizing_mode":"stretch_width","align":"start"}},{"type":"object","name":"Figure","id":"p1070","attributes":{"width":null,"height":null,"margin":[5,10],"sizing_mode":"fixed","align":"start","x_range":{"type":"object","name":"Range1d","id":"p1033","attributes":{"tags":[[["Longitude",null]],[]],"start":-11697355.779118441,"end":-11673850.712795954,"reset_start":-11697355.779118441,"reset_end":-11673850.712795954,"min_interval":5}},"y_range":{"type":"object","name":"Range1d","id":"p1034","attributes":{"tags":[[["Latitude",null]],{"type":"map","entries":[["invert_yaxis",false],["autorange",false]]}],"start":4810176.240992434,"end":4835066.54957726,"reset_start":4810176.240992434,"reset_end":4835066.54957726,"min_interval":5}},"x_scale":{"type":"object","name":"LinearScale","id":"p1080"},"y_scale":{"type":"object","name":"LinearScale","id":"p1081"},"title":{"type":"object","name":"Title","id":"p1073","attributes":{"text_color":"black","text_font_size":"12pt"}},"renderers":[{"type":"object","name":"TileRenderer","id":"p1103","attributes":{"level":"underlay","tile_source":{"type":"object","name":"WMTSTileSource","id":"p1099","attributes":{"url":"https://cartodb-basemaps-4.global.ssl.fastly.net/light_all/{Z}/{X}/{Y}.png","attribution":"&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors, &copy; <a href=\"https://cartodb.com/attributions\">CartoDB</a>"}}}},{"type":"object","name":"GlyphRenderer","id":"p1119","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1108","attributes":{"selected":{"type":"object","name":"Selection","id":"p1109","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1110"},"data":{"type":"map","entries":[["xs",[[[{"type":"ndarray","array":{"type":"bytes","data":"hiEyF05GZsHNDmt7T0ZmwUlgFwOMRmbB7719wopGZsEw3SIMkEZmwTcPlVqfRmbBkLEum6BGZsFZkgwGoUZmwS6MpsyuRmbBlXOXBPdGZsEkeqRoM0dmwbU7YD40R2bBd+R3XFVHZsFTerajVUdmwUQQfghnR2bBdZP7HHRHZsHmmfyumUdmwXlCApKYR2bB1gMpeHFHZsEsEPXqVUdmwSwQ9epVR2bBCjwBAHNHZsHAZ36Oc0dmwd2fzfhjR2bBhjtOAxJHZsFh0YxKEkdmwalHhYbORmbBX3MCFc9GZsHLU7wJi0ZmwTmSADSKRmbB"},"shape":[30],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"mfCu3xFHZsEX/QnZEkdmwbU7YD40R2bBmTUAbk1HZsGeSOUWhUdmwVtVWLSzR2bBIzY2H7RHZsGVspSUYkdmwQTx2L5hR2bBiQMLazhHZsFh0YxKEkdmwZnwrt8RR2bB"},"shape":[12],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"sdDHEo9GZsGekqde1EZmwUTwDR7TRmbBcNfmse1GZsFluNZXEEdmwb5acJgRR2bBRKyf1FNHZsFErJ/UU0dmwbocVk1iR2bB8jt44mFHZsG15I8Ag0dmwUamS9aDR2bBeI2nHqRHZsGurMmzo0dmwcV6YzerR2bByvd6EsZHZsHK93oSxkdmwfve1lrmR2bBM/747+VHZsG80pMFE0hmwQanFncSSGbBKxHYLxJIZsGZTxxaEUhmwa0EfTYRSGbBdOVaoRFIZsFPe5noEUhmwQcQZmQ5R2bBNw+VWp9GZsEw3SIMkEZmwbHQxxKPRmbB"},"shape":[30],"dtype":"float64","order":"little"},{"type":"ndarray","array":{"type":"bytes","data":"fNjPX7VHZsGhQpEYtUdmwaYjhyfjR2bBJDDiIORHZsF82M9ftUdmwQ=="},"shape":[5],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"sa4S8iFJZsGxrhLyIUlmwc20csIISWbBkFB86sdIZsFUBb+5jkhmwR6hS5ZTSGbBPvgnphtIZsF05VqhEUhmwa0EfTYRSGbBxZrTIT9IZsFUBb+5jkhmwdSIWtvUSGbBcyU7djlJZsFuH2TDY0lmwV+1Kyh1SWbB38GGIXZJZsGWPoDvV0lmwZY+gO9XSWbBeo/wXCJJZsGxrhLyIUlmwQ=="},"shape":[20],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"Ch+9mBlJZsGwfCNYGElmwWrUO4JSSWbBSVHE1lBJZsEOBgemF0lmwWuP6vMWSWbBkPmrrBZJZsFrj+rzFklmwRQZ7E5PSWbBb1FTXW1JZsHVOESVtUlmwY99+sq9SWbBMD+8CcpJZsHYzhFj0klmwQ7uM/jRSWbBVyzpm7RJZsERP7A3s0lmwRGWgHVkSWbBbh9kw2NJZsFGiQdvKklmweW0+98ZSWbBCh+9mBlJZsE="},"shape":[22],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"uKGHsMVIZsHhVnGq1khmwTdEsHfjSGbBcl1+DhNJZsGofKCjEklmwTo+XHkTSWbB3bR4KxRJZsGYC64QkkhmwYVWTTSSSGbBgAsl84BIZsG9EZGVfkhmwQ7mlruDSGbBRgW5UINIZsHxrUdRk0hmwfGtR1GTSGbBW+a0yLxIZsE="},"shape":[16],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"3Z/N+GNHZsE2Qmc5ZUdmwbQp4Y6+R2bB3VULsRRIZsHuCmyNFEhmwQLAzGkUSGbBYDZOw+FHZsFgNk7D4UdmwSHlud/SR2bBfG6dLdJHZsE065b7s0dmwX+/GW2zR2bBVHRipYVHZsFUdGKlhUdmwRgKGM90R2bBvIA0gXVHZsFNYX38TUdmwXPLPrVNR2bB7kcg3wFHZsGRvjyRAkdmwRf9CdkSR2bBUBwsbhJHZsHvNL7qz0ZmwV9zAhXPRmbBqUeFhs5GZsFh0YxKEkdmwYY7TgMSR2bB3Z/N+GNHZsE="},"shape":[28],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"fLTVCG9NZsEKfOXcP01mwYxviuM+TWbBvhGVnSNNZsG+EZWdI01mwYxviuM+TWbB1kMNVT5NZsF42pnx0k1mwcOuHGPSTWbBstP3nW5NZsE="},"shape":[10],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"3Z/N+GNHZsHAZ36Oc0dmwQo8AQBzR2bBLBD16lVHZsEsEPXqVUdmwdYDKXhxR2bBeUICkphHZsHmmfyumUdmwdZ0FaLmR2bBhLNxcBNIZsGEs3FwE0hmwe4KbI0USGbB3VULsRRIZsG0KeGOvkdmwTZCZzllR2bB3Z/N+GNHZsE="},"shape":[16],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"kLEum6BGZsFxxIS9u0ZmwTAcIJz7RmbBmfCu3xFHZsFh0YxKEkdmwYkDC2s4R2bBBPHYvmFHZsGVspSUYkdmwSM2Nh+0R2bBW1VYtLNHZsHBPEns+0dmwU97megRSGbBvNKTBRNIZsGs0o2cB0hmwazSjZwHSGbByqCq1BRIZsGEs3FwE0hmwdZ0FaLmR2bB5pn8rplHZsF1k/scdEdmwUQQfghnR2bBU3q2o1VHZsF35HdcVUdmwbU7YD40R2bBJHqkaDNHZsGVc5cE90ZmwS6MpsyuRmbBWZIMBqFGZsE="},"shape":[28],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"59XNu8pFZsH+cXilyEVmwaNGH40MRmbBANAC2wtGZsGx0McSj0ZmwTDdIgyQRmbB7719wopGZsFJYBcDjEZmwc0Oa3tPRmbBhiEyF05GZsFFbL//K0ZmweP7kaQuRmbB"},"shape":[12],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"rQR9NhFIZsGZTxxaEUhmwSVQUgt4SGbBRokHbypJZsFuH2TDY0lmwW4fZMNjSWbBcyU7djlJZsHUiFrb1EhmwVQFv7mOSGbBxZrTIT9IZsE="},"shape":[10],"dtype":"float64","order":"little"}],[{"type":"ndarray","array":{"type":"bytes","data":"F1x3UxJIZsFPe5noEUhmwXTlWqERSGbBPvgnphtIZsEeoUuWU0hmwVQFv7mOSGbBkFB86sdIZsHNtHLCCElmwbGuEvIhSWbBsa4S8iFJZsGpBWB7zUhmwakFYHvNSGbBI/mBzcZIZsEREjJXvUhmwZhvjESlSGbBRzeo6oxIZsGIQ+s/YEhmwRdcd1MSSGbB"},"shape":[18],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"mU8cWhFIZsErEdgvEkhmwb02cjkmSGbBPioXQCVIZsEKH72YGUlmweW0+98ZSWbBRokHbypJZsElUFILeEhmwQ=="},"shape":[8],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"38GGIXZJZsFftSsodUlmwW4fZMNjSWbBbh9kw2NJZsERloB1ZElmwRE/sDezSWbBVyzpm7RJZsEO7jP40UlmwdjOEWPSSWbBTg3ZQddJZsG0wtrfFUpmwdssnJgVSmbBrxPUavFJZsFSivAc8klmwfcADc/ySWbBNqlx8LJJZsERP7A3s0lmwfUl7nKaSWbBTsiHs5tJZsHfwYYhdklmwQ=="},"shape":[20],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"3bR4KxRJZsE6Plx5E0lmwah8oKMSSWbBcl1+DhNJZsE3RLB340hmweFWcarWSGbBuKGHsMVIZsFf/+1vxEhmwXtKn87mSGbB6Yjj+OVIZsFYxycj5UhmwXJdfg4TSWbBClGsMiNJZsGxrhLyIUlmwY6oL201SWbBVokN2DVJZsHhEgNhV0lmwZNXNuJZSWbBzHAEeYlJZsGUUeLjiUlmwfUl7nKaSWbBDcKYXJhJZsF7AN2Gl0lmwZ99ADTJSWbBQvQc5slJZsH4H5p0yklmwXuJnF5SSWbBW8HTJBVJZsHsgo/6FUlmwUYlKTsXSWbB"},"shape":[30],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"/fOBjZZJZsGs5zjPt0lmwXbIFjq4SWbBg9t+l/VJZsEqOeVW9ElmwYJFscnYSWbByDLqLdpJZsE/+nDkmUlmwQ=="},"shape":[8],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"Fw1ASgpFZsHwon6RCkVmwZUZm0MLRWbBXp1UcopFZsHcqa9ri0VmwefVzbvKRWbB4/uRpC5GZsFFbL//K0ZmwUEBJ9SGRWbB9yykYodFZsEXDUBKCkVmwRcNQEoKRWbB"},"shape":[12],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"FBR7lTtKZsHtqbncO0pmwSXJ23E7SmbBNKpUNW9KZsHEaxALcEpmwQS9pO5+SmbBc/voGH5KZsHbB7v0bUpmwaPomF9uSmbBEC0xiD1KZsFITFMdPUpmwX0a+XJbSmbBeqSbj9JKZsHEeB4B0kpmwchfaA7QSmbBz5cuW69KZsFgWeowsEpmwVYneOKgSmbB6OgzuKFKZsGzfmyWlkpmwZL79OqUSmbBejOvZV1KZsFBFI3QXUpmweC2wWmSSmbBcXh9P5NKZsEBOjkVlEpmwVrc0lWVSmbB652OK5ZKZsHra5+RjEpmwT7DEJF8SmbBQnhrBHFKZsH/DZ55Wkpmwd6KJs5YSmbBmoQ3d1VKZsEY+8SiOUpmwfGQA+o5SmbB4NuiDTpKZsEY+8SiOUpmwQ=="},"shape":[38],"dtype":"float64","order":"little"}],[{"type":"ndarray","array":{"type":"bytes","data":"dQj3DuBKZsEA42jX4kpmwXTWB3XWSmbBdNYHddZKZsHSfnhorUpmwQmemv2sSmbBrniV48BKZsHml7d4wEpmwfX7mxXfSmbBdQj3DuBKZsE="},"shape":[10],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"QvQc5slJZsHxkAPqOUpmwRj7xKI5SmbBmoQ3d1VKZsHeiibOWEpmwf8NnnlaSmbBQnhrBHFKZsE+wxCRfEpmwetrn5GMSmbBh8/WmlVKZsE9l3X1QkpmwT2XdfVCSmbBUorwHPJJZsGvE9Rq8UlmwdssnJgVSmbBtMLa3xVKZsFODdlB10lmwd/OlBfYSWbB+B+adMpJZsFC9BzmyUlmwQ=="},"shape":[20],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"gkWxydhJZsEqOeVW9ElmwYPbfpf1SWbBdsgWOrhJZsGs5zjPt0lmwf3zgY2WSWbBEfpeqXdJZsFKGYE+d0lmwRgyJfZWSWbB8sdjPVdJZsEUFHuVO0pmwRj7xKI5SmbB4NuiDTpKZsHxkAPqOUpmwUL0HObJSWbBn30ANMlJZsE="},"shape":[16],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"hBLf6hJJZsGXxz/HEklmwQFSDMPZSWbBOHEuWNlJZsHtqbncO0pmwRQUe5U7SmbB8sdjPVdJZsHhEgNhV0lmwV+oHTITSWbBhBLf6hJJZsE="},"shape":[10],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"X6gdMhNJZsFyXX4OE0lmwVjHJyPlSGbB6Yjj+OVIZsF7Sp/O5khmwV//7W/ESGbBXAVCbpRIZsESMb/8lEhmwaTyetKVSGbB2RfxZWVIZsGTKrgBZEhmwbJJUXlSSGbBfxF58VBIZsFc+DN4MkhmwfGgOVsxSGbBM7qKpmZIZsGMwAIbe0hmwYQS3+oSSWbB"},"shape":[18],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"ii1h0JhKZsFmw58XmUpmwVD1BZSRSmbBG70tDJBKZsHwo2Xea0pmwSknZqd+SmbB31LjNX9KZsFGtoVPIEpmwULPO0IiSmbBZkxf71NKZsGLX1BqokpmwRA6P36fSmbBSTSAb/dKZsEU/Kfn9UpmwSAVZEMDS2bBVU08ywRLZsHT72SSIktmwZ+3jAohS2bBWDSG2AJLZsGiCAlKAktmwQ=="},"shape":[20],"dtype":"float64","order":"little"}],[{"type":"ndarray","array":{"type":"bytes","data":"eqSbj9JKZsF9GvlyW0pmwX0a+XJbSmbBzJB0Yx1KZsFKnc9cHkpmwbBS0fpcSmbBejOvZV1KZsGnM8Ggf0pmwV5fPi+ASmbBG70tDJBKZsFBJ+/Ej0pmwVLcT6GPSmbB4MPPX/RKZsEJFdsl8kpmwTFm5uvvSmbBeqSbj9JKZsE="},"shape":[16],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"ptIO8KZMZsFvs+xap0xmwaLrxOKoTGbBXHXMpuxMZsFvKi2D7ExmwbHmWZKgTWbBseZZkqBNZsGhOLOtMk5mwaE4s60yTmbBfLTVCG9NZsGy0/edbk1mwcOuHGPSTWbBeNqZ8dJNZsHWQw1VPk1mwYxviuM+TWbBvhGVnSNNZsG+EZWdI01mwYxviuM+TWbBCnzl3D9NZsGm0g7wpkxmwQ=="},"shape":[20],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"+tpM7jNOZsFXZDA8M05mwSq2fYWuTmbBKrZ9ha5OZsFZcT4ylU5mwZCQYMeUTmbBfM7x9DJOZsH62kzuM05mwQ=="},"shape":[8],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"5vGzOaxMZsFDe5eHq0xmwX1PFJCfTGbBfU8UkJ9MZsFKFzwInkxmwTN7kR6gTGbBlB2uE6dMZsGm0g7wpkxmwQp85dw/TWbBjG+K4z5NZsFwNzt5Tk1mwTcYGeROTWbBO0S0f4hNZsEd2nV7jk1mwbWbtAWVTWbBjHyY2aBNZsGMfJjZoE1mwcG0cGGiTWbBLgYXgNNNZsEuBheA001mwfraTO4zTmbBfM7x9DJOZsGMnAjENE5mwf6Pp2EoTmbB1QytASFOZsFo/3Qsb01mwR8r8rpvTWbBI1aqEe1MZsHrNoh87UxmwSc99B7rTGbBwrONHOZMZsGAe68r2UxmwSPA3EPQTGbBD9mMzcZMZsH6CvNJv0xmwe7xNu6xTGbBwYfygKxMZsHm8bM5rExmwQ=="},"shape":[38],"dtype":"float64","order":"little"},{"type":"ndarray","array":{"type":"bytes","data":"tLsk8ChOZsFq56F+KU5mweR25ZwPTmbBaFHUsAxOZsGMfJjZoE1mwUePX3WfTWbB6aGd84xNZsHtiOcAi01mwYXg81iuTWbBzc0sva9NZsG0uyTwKE5mwQ=="},"shape":[11],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"PleVIBtJZsF2dre1GklmwWy7hY9QSWbByURp3U9JZsEi5wIeUUlmwc2PkR5hSWbBqCXQZWFJZsFyBq7QYUlmwamujz0cSWbBiCsYkhpJZsGIKxiSGklmwT5XlSAbSWbB"},"shape":[12],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"Ge3TZxtJZsH0ghKvG0lmwb+Pi7VVSWbBsM6C3LVJZsFrqQbg2klmwe2cq+bZSWbBXdvvENlJZsH984GNlklmwSJeQ0aWSWbBWwYls1BJZsFsu4WPUElmwXZ2t7UaSWbB"},"shape":[12],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"hLNxcBNIZsHKoKrUFEhmwazSjZwHSGbBrNKNnAdIZsG80pMFE0hmwU97megRSGbBF1x3UxJIZsGIQ+s/YEhmwUc3qOqMSGbBmG+MRKVIZsEREjJXvUhmwSP5gc3GSGbBqQVge81IZsFCx54F1EhmwULHngXUSGbBY8FW2RpJZsH0ghKvG0lmwRnt02cbSWbBc+Y95s1IZsGEs3FwE0hmwQ=="},"shape":[20],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"7Zyr5tlJZsFrqQbg2klmwaDh3mfcSWbBoqmbzwJKZsEhsKLKM0pmwUFGfGpnSmbB1+6BTWZKZsESsJxhKEpmwQ=="},"shape":[8],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"Y8FW2RpJZsGDiR8TWElmwaQMl75ZSWbBCdtOT5pJZsH1Je5ymklmwRE/sDezSWbBNqlx8LJJZsH3AA3P8klmwVKK8BzySWbBPZd19UJKZsE9l3X1QkpmwYfP1ppVSmbBuwevIldKZsFrhCU8M0pmwSGwosozSmbBoqmbzwJKZsGg4d5n3ElmwWupBuDaSWbBsM6C3LVJZsG/j4u1VUlmwfSCEq8bSWbBY8FW2RpJZsE="},"shape":[22],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"IbCiyjNKZsFrhCU8M0pmwbsHryJXSmbBh8/WmlVKZsHra5+RjEpmwVqq47uLSmbB5LyYHGhKZsFBRnxqZ0pmwQ=="},"shape":[8],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"KxHYLxJIZsEGpxZ3EkhmwSqoiELrSGbBa4/q8xZJZsEOBgemF0lmwUlRxNZQSWbBatQ7glJJZsGwfCNYGElmwQofvZgZSWbBPioXQCVIZsG9NnI5JkhmwSsR2C8SSGbB"},"shape":[12],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"cgau0GFJZsGoJdBlYUlmwdPauV9ySWbBumTTXthJZsFODdlB10lmwaPIKHXaSWbBXdvvENlJZsHtnKvm2UlmwRKwnGEoSmbB1+6BTWZKZsHEnf+keUpmwcSd/6R5SmbBXsMcY5NKZsFiqmZwkUpmwRbJ1QgwSmbBOHEuWNlJZsEW7ras10lmwU9eVYG4SWbBJkWNU5RJZsECyGmmYklmwQ=="},"shape":[20],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"qCXQZWFJZsHNj5EeYUlmwSLnAh5RSWbByURp3U9JZsFsu4WPUElmwVsGJbNQSWbBIl5DRpZJZsH984GNlklmwV3b7xDZSWbBo8goddpJZsFODdlB10lmwbpk017YSWbB09q5X3JJZsGoJdBlYUlmwQ=="},"shape":[14],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"BqcWdxJIZsG80pMFE0hmweE8Vb4SSGbBxjCh71tIZsEiMcVloEhmwWge/smhSGbBkPmrrBZJZsFrj+rzFklmwSqoiELrSGbBBqcWdxJIZsE="},"shape":[10],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"6+/trzNLZsEfKMY3NUtmwVFBERpfS2bBUUERGl9LZsGtmAXOVEtmwRzXSfhTS2bBI3PueEZLZsGlNKTlO0tmwRxBfCo3S2bBHEF8KjdLZsFMkgqlOktmwZlN1yM4S2bBdeMVazhLZsFp/EipNEtmwQ=="},"shape":[14],"dtype":"float64","order":"little"}],[{"type":"ndarray","array":{"type":"bytes","data":"6OgzuKFKZsFWJ3jioEpmwWBZ6jCwSmbBz5cuW69KZsHIX2gO0EpmwcR4HgHSSmbBcSGtAeJKZsFxIa0B4kpmwQ8owM4pS2bBik3RuixLZsGKTdG6LEtmwSndo18vS2bB3wgh7i9LZsFOR2UYL0tmwSndo18vS2bBs9DLGjRLZsFaLjLaMktmwU5sRrzWSmbB7DNc+bJKZsGw+wC9q0pmwb/JF4ytSmbB6OgzuKFKZsE="},"shape":[22],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"STSAb/dKZsGGNJgTJUtmwdAIG4UkS2bB+Cc3sRhLZsFC/LkiGEtmwWRNQjQQS2bBVU08ywRLZsEgFWRDA0tmwRT8p+f1SmbBSTSAb/dKZsE="},"shape":[10],"dtype":"float64","order":"little"}],[{"type":"ndarray","array":{"type":"bytes","data":"0+9kkiJLZsHvbAWLTktmwe9sBYtOS2bBEDXOxItLZsH3bIg/VEtmwaIICUoCS2bBWDSG2AJLZsGft4wKIUtmwQ=="},"shape":[8],"dtype":"float64","order":"little"}],[{"type":"ndarray","array":{"type":"bytes","data":"QSfvxI9KZsEbvS0MkEpmwV5fPi+ASmbBpzPBoH9KZsF6M69lXUpmwbBS0fpcSmbBSp3PXB5KZsFKnc9cHkpmwfCjZd5rSmbBG70tDJBKZsFQ9QWUkUpmwWbDnxeZSmbBii1h0JhKZsGxlyKJmEpmwQ=="},"shape":[14],"dtype":"float64","order":"little"}],[{"type":"ndarray","array":{"type":"bytes","data":"4MPPX/RKZsFR/L+LI0tmwZ+3jAohS2bBCRXbJfJKZsE="},"shape":[4],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"jDX+DOdLZsEhL4Avx0tmwaYJb0PES2bBDuRRhapLZsE/A/FlpEtmweRgVyWjS2bB/LewgGVLZsFgDyjpYEtmwS8ozKBAS2bB9wiqC0FLZsHkYFclo0tmwXUiE/ujS2bBM5NkzOVLZsGMNf4M50tmwQ=="},"shape":[14],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"0n54aK1KZsF01gd11kpmwXTWB3XWSmbBAONo1+JKZsF1CPcO4EpmwYYCqXkbS2bBr7eScyxLZsHFyn2Fb0tmwShU5Id0S2bBUwnOgYVLZsEc6qvshUtmwY9gtmNkS2bBZiINkphLZsHH9hghqUtmwShU5Id0S2bBmZIosnNLZsEOgHNRl0tmwUWfleaWS2bBE/2KLLJLZsF2D7EGcktmwR8oxjc1S2bBul9ipcRKZsFhvchkw0pmwZNf0x6oSmbBIDpF56pKZsHSfnhorUpmwQ=="},"shape":[26],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"jU8a+apMZsHOW11OfkxmwYj348E3TGbB9G1rhBBMZsFDKTgDDkxmwSxorHVoTGbBeDwv52dMZsHOgD7yJUxmwWEpRNUkTGbBYOXVi6VMZsE="},"shape":[10],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"ouvE4qhMZsHWv742l0xmwSCUQaiWTGbBeZq5HKtMZsGNTxr5qkxmwWDl1YulTGbBN/M3QKdNZsHtHrXOp01mwZNqnN4wTmbBl1Hm6y5OZsEJRYWJIk5mwW6c/PEdTmbBg/mpS7BNZsEqVxALr01mwRo3mrcPTWbBGjeatw9NZsHIggR8nk1mwbHmWZKgTWbBseZZkqBNZsFvKi2D7ExmwVx1zKbsTGbBouvE4qhMZsE="},"shape":[22],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"hk60/+hLZsFFn5XmlktmwUWfleaWS2bBTDs6Z4lLZsFEerRC70tmwa+fv8XmS2bBkXrSTyhMZsGRetJPKExmwRzS2D5ATGbBFARFJERMZsHGSHilRkxmwareOaFMTGbBiY2xj1RMZsGJjbGPVExmwW+z7FqnTGbBptIO8KZMZsGUHa4Tp0xmwTN7kR6gTGbBShc8CJ5MZsF9TxSQn0xmwX1PFJCfTGbBQ3uXh6tMZsHm8bM5rExmwYZOtP/oS2bB"},"shape":[24],"dtype":"float64","order":"little"},{"type":"ndarray","array":{"type":"bytes","data":"OE95N2xMZsGlClKIgExmwdqmCESVTGbBkNKF0pVMZsFd6ymKdUxmwSqBYmhqTGbBOE95N2xMZsE="},"shape":[7],"dtype":"float64","order":"little"}]]]],["ys",[[[{"type":"ndarray","array":{"type":"bytes","data":"QEcLwSJsUkEyu271NGtSQY6KKyYza1JBdn0VpoppUkHFe1tfi2lSQXZ9FaaKaVJBNdCdptxqUkHMfGK4LWtSQcx8Yrgta1JBmprGRSxrUkFaa6WHL2tSQeFjD+BZa1JB4WMP4FlrUkHSBdZJiWtSQbnMvIuMa1JB23F1vIprUkHSBdZJiWtSQTs8Gpm7a1JBPZK7C71rUkE7PBqZu2tSQSPGApIPbFJBI8YCkg9sUkFXv7W6O2xSQQo0DF47bFJBv4i8jjlsUkG4vZiARWxSQWZ4RcdEbFJBzSkC5KJsUkHZmALOoWxSQaPHvPEgbFJB"},"shape":[30],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"EmhR7dtqUkFCupFWTWpSQYy4E99PalJB13ZdmFBqUkGMuBPfT2pSQbYhJclOalJBYvevU9RqUkFcy5R/1mpSQWYoTGfqalJBZihMZ+pqUkEs9MzI5mpSQRJoUe3balJB"},"shape":[12],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"mrZ6yABpUkH9m1LZBWlSQWxDwd9caFJBYqeh9V1oUkERh2IhYGhSQf2bUtkFaVJB/ZtS2QVpUkGZ+AT23GhSQZn4BPbcaFJB4qKSj61oUkHiopKPrWhSQYKl5HhkaFJBBBIEY2NoUkFEQkLTsmdSQURCQtOyZ1JBREJC07JnUkG4jibrfGdSQduZ2hZ/Z1JB7/rUFLZnUkEgYPn+tGdSQT2LciIpaFJBzQJDN2FoUkH9E5aSBmlSQW3fMkA1aVJBssU8x11pUkGhf3JJimlSQcV7W1+LaVJBdn0VpoppUkHFe1tfi2lSQZq2esgAaVJB"},"shape":[30],"dtype":"float64","order":"little"},{"type":"ndarray","array":{"type":"bytes","data":"XTjZPu9nUkFxhiNNYmhSQXGGI01iaFJBgg+bhe5nUkFdONk+72dSQQ=="},"shape":[5],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"rZdDeohpUkEVA/QIYWlSQRumaZZfaVJBFQP0CGFpUkHZNjnCYWlSQZ7pgYBeaVJBssU8x11pUkGyxTzHXWlSQW3fMkA1aVJBQ4TuhjRpUkFKb0QlOGlSQcVuGVY2aVJBxK/DtzJpUkEBWEwqNGlSQUOE7oY0aVJB8+srlYVpUkHz6yuVhWlSQXpizNy7aVJBrUFaT71pUkGtl0N6iGlSQQ=="},"shape":[20],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"QCUMjMJoUkFPgt//VWhSQU+C3/9VaFJBrBcn4jZoUkGsFyfiNmhSQY0Mr8AsaFJBdD41cg9oUkG/cTpF/GdSQcl1zWsCaFJBra9y4/9nUkGj746yAWhSQX4HdCsQaFJB6PgBHBxoUkEzhOAxHWhSQXU5v4FLaFJBuU9/yEpoUkHLV4HdgmhSQXvmn8eBaFJBz3gBOwJpUkFk/ykKBGlSQVEtJqXlaFJBQCUMjMJoUkE="},"shape":[22],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"Zr+SJvJkUkH3NVo882RSQS+LPOXuZFJBwFDLEPFkUkGsDnUxg2VSQWnpw9DsZVJB9sCi8fZlUkH8LG449mVSQTOmteI1ZlJBjIpQPzZmUkHSzYl56GVSQezBxvWdZVJBvaCQTG9lUkGupMIFcGVSQdwdt+rqZFJBL4s85e5kUkE="},"shape":[16],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"CjQMXjtsUkG2n7yfaW1SQe/ap0dlbVJB79qnR2VtUkHMh875qG1SQSnJ5yEpblJBKcnnISluUkHFAcll7W1SQXmrbazsbVJBIsmIIMRtUkEiyYggxG1SQT2kgmyqbVJBPaSCbKptUkGz08yIfW1SQYMMJkJ+bVJBwLfcJattUkHAt9wlq21SQaWoFAB7bVJB7Mi1MHltUkFx2KseJG1SQWPmWpElbVJBr3/QqudsUkF8JHrx5mxSQc0pAuSibFJBZnhFx0RsUkG4vZiARWxSQb+IvI45bFJBCjQMXjtsUkE="},"shape":[28],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"7q9z5qFrUkHur3PmoWtSQfRrZdr5a1JBPxLHUfdrUkG85smfG2tSQbzmyZ8ba1JBwQ0cReBqUkHNRGzB2WpSQbzmyZ8ba1JBwrQuLRprUkE="},"shape":[10],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"CjQMXjtsUkFXv7W6O2xSQSPGApIPbFJBI8YCkg9sUkE7PBqZu2tSQT2Suwu9a1JBOzwambtrUkHSBdZJiWtSQbEqP8GGa1JB0gXWSYlrUkEZUSsXoGtSQeHmTTkhbVJB79qnR2VtUkHv2qdHZW1SQbafvJ9pbVJBCjQMXjtsUkE="},"shape":[16],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"NdCdptxqUkESaFHt22pSQVzLlH/WalJBEmhR7dtqUkEs9MzI5mpSQWYoTGfqalJBZihMZ+pqUkFcy5R/1mpSQWL3r1PUalJBtiElyU5qUkG2ISXJTmpSQeHGOsRSalJBchTbhpdqUkFyFNuGl2pSQYf1qo4Wa1JBPwRGARhrUkHSBdZJiWtSQbEqP8GGa1JB0gXWSYlrUkHbcXW8imtSQbnMvIuMa1JB0gXWSYlrUkHhYw/gWWtSQeFjD+BZa1JBWmulhy9rUkGamsZFLGtSQcx8Yrgta1JBzHxiuC1rUkE="},"shape":[28],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"tlgHh3FqUkGkwKx+TWlSQRvOVOBJaVJBH7XLhv1oUkGatnrIAGlSQcV7W1+LaVJBdn0VpoppUkGOiismM2tSQTK7bvU0a1JBQEcLwSJsUkFARwvBImxSQRzMF3FwalJB"},"shape":[12],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"bd8yQDVpUkH9E5aSBmlSQf0TlpIGaVJBZP8pCgRpUkHPeAE7AmlSQQFYTCo0aVJBxK/DtzJpUkHFbhlWNmlSQUpvRCU4aVJBQ4TuhjRpUkE="},"shape":[10],"dtype":"float64","order":"little"}],[{"type":"ndarray","array":{"type":"bytes","data":"sLWuKe5pUkGhf3JJimlSQbLFPMddaVJBssU8x11pUkGe6YGAXmlSQdk2OcJhaVJBFQP0CGFpUkEbpmmWX2lSQRUD9AhhaVJBrZdDeohpUkHGurcHh2lSQXReKrLwaVJBRmiGVfBpUkFyMSLD9WlSQXVNcmvxaVJBmS9Kl/NpUkGQOl6B8mlSQbC1rinuaVJB"},"shape":[18],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"/ROWkgZpUkHNAkM3YWhSQc0CQzdhaFJBoWfB7b5oUkFAJQyMwmhSQVEtJqXlaFJBZP8pCgRpUkH9E5aSBmlSQQ=="},"shape":[8],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"8+srlYVpUkFDhO6GNGlSQQFYTCo0aVJBz3gBOwJpUkF75p/HgWhSQctXgd2CaFJBuU9/yEpoUkF1Ob+BS2hSQTOE4DEdaFJBo++OsgFoUkHJdc1rAmhSQSr8+96TaFJBUrK6JZNoUkH9E5aSBmlSQZI9/cp/aVJBoHe3EX9pUkFtpnxbSWpSQR8X+9JGalJBv8UUq4ZpUkHz6yuVhWlSQQ=="},"shape":[20],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"9sCi8fZlUkFp6cPQ7GVSQawOdTGDZVJBwFDLEPFkUkEvizzl7mRSQfc1WjzzZFJBZr+SJvJkUkGdFsf7q2RSQVYMUieuZFJBUeTSgvdjUkEzbk7KYWNSQaaMMpljY1JBXZXG9WNjUkFt3vyRiWNSQQYQuqeKY1JB1/i58qdjUkG5PfQzq2NSQcN5qLBsZFJBRtjkmmtkUkE1AA4XqWRSQZ6nAeaqZFJBhe/sTeZlUkEJNBaIeWZSQS/R6J16ZlJBDysGGwBnUkFPq7QsgGdSQU+rtCyAZ1JB25naFn9nUkE9PzCzamZSQeVJT7EmZlJB"},"shape":[30],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"K86qxGVjUkHPtIILZWNSQRBBm/MrZFJBxOseHy5kUkEv0eidemZSQS/R6J16ZlJBw3mosGxkUkFVxrfhamRSQQ=="},"shape":[8],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"VBb48YRrUkFeTEWwrmpSQeTRi9doalJBdu8YOWVqUkHaulFAcmpSQbZYB4dxalJBHMwXcXBqUkFARwvBImxSQXBeD6shbFJBFdWUJ+BrUkEA5qbl3GtSQVQW+PGEa1JB"},"shape":[12],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"09UJDKFiUkH7YOaYX2JSQV5WwoLeYVJBXlbCgt5hUkFH+OwQnWFSQUf47BCdYVJB4VGw5xphUkHI4QTSGWFSQZxzLXRZYVJB5PqHn1thUkFnPtsK1GBSQUWgv1HTYFJBfxLfydBgUkHhUbDnGmFSQXMt5jsfYlJBlFQzJh5iUkH7YOaYX2JSQcoWm65gYlJB4t2/qaRiUkHi3b+ppGJSQcBQyxDxZFJBRzR1z+1kUkGEjbdBd2VSQcfOgld4ZVJBkWGeGB9mUkHxLGSjbGdSQdoAX8NOaFJBID/kV0dpUkENMBYsRWlSQZ11IoAnaVJBzvvDIRZpUkEhWwab7WhSQTGiQn2XaFJBzzJrvYloUkFvrwJ+YGhSQQ8rBhsAZ1JBsjNejFNmUkGT7aoif2RSQQ=="},"shape":[38],"dtype":"float64","order":"little"}],[{"type":"ndarray","array":{"type":"bytes","data":"4bJSiYBnUkHDUrJcDGlSQaC3l3INaVJBG85U4ElpUkGyhbiIRWlSQc1IahcmZ1JBG+Dj1SJnUkEl+6J3AGdSQccn9kv+ZlJB4bJSiYBnUkE="},"shape":[10],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"DysGGwBnUkEPKwYbAGdSQW+vAn5gaFJBzzJrvYloUkExokJ9l2hSQSFbBpvtaFJBzvvDIRZpUkGddSKAJ2lSQQ0wFixFaVJBR+KMuUNpUkGtQEgAQ2lSQc6g5zAKaVJB/ROWkgZpUkFSsrolk2hSQSr8+96TaFJByXXNawJoUkGj746yAWhSQU+rtCyAZ1JBT6u0LIBnUkEPKwYbAGdSQQ=="},"shape":[20],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"L9HonXpmUkEv0eidemZSQcTrHh8uZFJBEEGb8ytkUkHPtIILZWNSQSvOqsRlY1JBK9w+IWZjUkENlg6XI2NSQQ2WDpcjY1JBn2jAIaJiUkHT1QkMoWJSQZPtqiJ/ZFJBsjNejFNmUkEPKwYbAGdSQQ8rBhsAZ1JBL9HonXpmUkE="},"shape":[16],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"9Ye80FlhUkHYLS421mBSQWyx10vXYFJByhabrmBiUkH7YOaYX2JSQdPVCQyhYlJBn2jAIaJiUkGMidXD4WFSQV5WwoLeYVJB9Ye80FlhUkE="},"shape":[10],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"XlbCgt5hUkGmjDKZY2NSQTNuTsphY1JBUeTSgvdjUkFWDFInrmRSQZ0Wx/urZFJBGoqxpKdkUkEFf4F0v2NSQT08cbbcYlJBdZc1NcViUkGAQcPfXmJSQSH4WbRcYlJBUmqvQdthUkGxNG7P2WFSQdE7gF5YYVJBY0o1tVxhUkFl8LSPVmFSQfWHvNBZYVJB"},"shape":[18],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"0V1bQMReUkFCDQZril5SQZQdJ92LXlJBYmFtWHheUkHrR6oaRl5SQSDByIxHXlJBe6e6isJdUkEc2vSQvl1SQYtPCrd8W1JBnjsRm39bUkEbVHySdltSQTo8XGBCXFJBR8Kz9DxcUkEHT+dmgF1SQXyJeHyBXVJBv0JVwrxdUkG/QlXCvF1SQQpzdOxyXlJBCnN07HJeUkFXAddPyV5SQQ=="},"shape":[20],"dtype":"float64","order":"little"}],[{"type":"ndarray","array":{"type":"bytes","data":"fxLfydBgUkFFoL9R02BSQcHVF8nYX1JBBil4udNfUkGkwpJbhV5SQewb4WSOXlJBiZUjoNFeUkGJlSOg0V5SQbL6hhAgX1JBF/bp+h5fUkEhRoRCPF9SQe5OosdPX1JBsHXzq1JfUkFgbxCwF2BSQZaFQ3HdYFJBfxLfydBgUkE="},"shape":[16],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"MLwf5VJsUkGrMAPtJGxSQe6vc+aha1JBCdzDn6JrUkEalgdsmmpSQZMvJkCYalJBHTzdX5FqUkEalgdsmmpSQVUx212fa1JB7q9z5qFrUkHCtC4tGmtSQbzmyZ8ba1JBzURswdlqUkHBDRxF4GpSQbzmyZ8ba1JBvObJnxtrUkE/EsdR92tSQfRrZdr5a1JBxsxo9ldsUkEwvB/lUmxSQQ=="},"shape":[20],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"GnMoeulsUkGbEmZOIWxSQQA4B9cjbFJBuf/GzixtUkG5/8bOLG1SQUx1AJu1blJBwjQPsbZuUkEacyh66WxSQQ=="},"shape":[8],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"t6NkHS1uUkFQO8tItW1SQVA7y0i1bVJBq6nB7YptUkFZyGcpV21SQW2n/6msbFJBOgqrrqhsUkEwvB/lUmxSQcbMaPZXbFJB9Gtl2vlrUkEOlxMh+WtSQQqD71oqbFJBk4ioXyZsUkFQq+twK2xSQYhD1fQxbFJBfiJSb0BsUkFRrJWWRmxSQadyskombVJBV/lk0yhtUkG2RdXs6mxSQRpzKHrpbFJBwjQPsbZuUkFsnEmNP29SQRR7nXs6b1JBfmwEgDZvUkH0BbCRO29SQcI0D7G2blJBLp2Sy7NuUkE20KeJm25SQRqoiXySblJBfCLnc4VuUkEnFElreG5SQbW5++ZxblJB10xzzHRuUkEtFgXeeW5SQRjkokxqblJBhCMORF1uUkG3o2QdLW5SQQ=="},"shape":[38],"dtype":"float64","order":"little"},{"type":"ndarray","array":{"type":"bytes","data":"qaGJY0FuUkG/bG1Q121SQWjTdWbYbVJB4wcLSMptUkHjBwtIym1SQYe6AJSwbVJBFV94pbVtUkE9NkDBF25SQTKK+DMZblJBqaGJY0FuUkGpoYljQW5SQQ=="},"shape":[11],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"Clo+yxttUkEp3ENWaWxSQeLMP4JrbFJBGHhtKqdtUkHzFghkLG5SQdbHHZAublJBbQQ4F4VuUkFpTf5/DG9SQRqID5YNb1JBwF36DmNuUkGVp4rL5W1SQQpaPssbbVJB"},"shape":[12],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"FhWLpJ5rUkEAJH3uTWtSQV36QglLa1JBXfpCCUtrUkFOlC41TWtSQfLpY2i9a1JBvBQMZg1sUkG8FAxmDWxSQRQguaQ6bFJBapcPSDpsUkHizD+Ca2xSQSncQ1ZpbFJB"},"shape":[12],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"0gXWSYlrUkE/BEYBGGtSQYf1qo4Wa1JBchTbhpdqUkFyFNuGl2pSQeHGOsRSalJBsLWuKe5pUkGQOl6B8mlSQZkvSpfzaVJBdU1ya/FpUkFyMSLD9WlSQUZohlXwaVJBdF4qsvBpUkF1TXJr8WlSQUh3lIoQalJBX+66Xg5qUkEAJH3uTWtSQRYVi6Sea1JBVTHbXZ9rUkEZUSsXoGtSQQ=="},"shape":[20],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"8uljaL1rUkFOlC41TWtSQWWOJ/ASa1JBBbGMfRFrUkFgAnWpE2tSQeF5wmIUa1JBU67wHMJrUkHy6WNovWtSQQ=="},"shape":[8],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"X+66Xg5qUkHRbQMYD2pSQTg+vouTalJBMtj5WpVqUkEfF/vSRmpSQW2mfFtJalJBoHe3EX9pUkGSPf3Kf2lSQf0TlpIGaVJBzqDnMAppUkGtQEgAQ2lSQUfijLlDaVJB6U6Z2i1qUkHxGb6uK2pSQWACdakTa1JBBbGMfRFrUkFljifwEmtSQU6ULjVNa1JBXfpCCUtrUkFd+kIJS2tSQQAkfe5Na1JBX+66Xg5qUkE="},"shape":[22],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"YAJ1qRNrUkHxGb6uK2pSQelOmdotalJBR+KMuUNpUkENMBYsRWlSQcjxOtzWalJBw+ofCNlqUkHhecJiFGtSQQ=="},"shape":[8],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"zQJDN2FoUkE9i3IiKWhSQY0Mr8AsaFJBjQyvwCxoUkGsFyfiNmhSQawXJ+I2aFJBT4Lf/1VoUkFPgt//VWhSQUAlDIzCaFJBoWfB7b5oUkHNAkM3YWhSQc0CQzdhaFJB"},"shape":[12],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"aU3+fwxvUkFtBDgXhW5SQYX5yyiKblJBmA2x/IduUkHldvl9r21SQZPysJCabFJBvBQMZg1sUkHy6WNovWtSQfLpY2i9a1JBU67wHMJrUkHJQ5KPw2tSQaa5M53ya1JB0W6FVvNrUkFAc+dxkW1SQYVUOK5RblJBdFkQS/1uUkFrBjVCL29SQWL5whpob1JBNEohILhvUkE0SiEguG9SQQ=="},"shape":[20],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"bQQ4F4VuUkHWxx2QLm5SQfMWCGQsblJBGHhtKqdtUkHizD+Ca2xSQWqXD0g6bFJBFCC5pDpsUkG8FAxmDWxSQbwUDGYNbFJBk/KwkJpsUkHldvl9r21SQZgNsfyHblJBhfnLKIpuUkFtBDgXhW5SQQ=="},"shape":[14],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"PYtyIiloUkEgYPn+tGdSQdm4NogFZ1JBPyZgcgRnUkHMnnhzf2dSQROG+9MLaFJBdD41cg9oUkGNDK/ALGhSQY0Mr8AsaFJBPYtyIiloUkE="},"shape":[10],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"4SNrT4JhUkEDL6ZYXGFSQaVmxBFdYVJBdgwXNuNhUkEv0zfv42FSQdYrU762YlJBB/3j6qdiUkHst1fWlWJSQSqDaw5/YlJBEw19bV1iUkG06Be+JWJSQc4Z84kJYlJB/RnoIdFhUkHf6VVGqGFSQQ=="},"shape":[14],"dtype":"float64","order":"little"}],[{"type":"ndarray","array":{"type":"bytes","data":"4t2/qaRiUkHKFpuuYGJSQftg5phfYlJBlFQzJh5iUkFzLeY7H2JSQeFRsOcaYVJB4VGw5xphUkGeIh89X2FSQQMvplhcYVJBjexCMpZhUkH0PwNJxmFSQaCkHf/oYVJB+5r4tjpiUkEjmgTaYmJSQad30UmGYlJBfsYIHKZiUkFqpH/W5mJSQWqkf9bmYlJBpzAxUCxkUkGnMDFQLGRSQd/O5NqiYlJB4t2/qaRiUkE="},"shape":[22],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"R8Kz9DxcUkHbYvxdNVxSQcNAotgaXVJBShjbFE1dUkFNDG3DgF1SQTNIvOekXVJBv0JVwrxdUkF8iXh8gV1SQQdP52aAXVJBR8Kz9DxcUkE="},"shape":[10],"dtype":"float64","order":"little"}],[{"type":"ndarray","array":{"type":"bytes","data":"v0JVwrxdUkEc2vSQvl1SQeqHKstAXVJBlsgLoD5dUkEslnFlyl5SQVcB10/JXlJBCnN07HJeUkEKc3Tscl5SQQ=="},"shape":[8],"dtype":"float64","order":"little"}],[{"type":"ndarray","array":{"type":"bytes","data":"IUaEQjxfUkEX9un6Hl9SQbL6hhAgX1JBiZUjoNFeUkGJlSOg0V5SQewb4WSOXlJBpMKSW4VeUkE5dhMFRV5SQetHqhpGXlJBYmFtWHheUkGUHSfdi15SQUINBmuKXlJB0V1bQMReUkE4dOYsO19SQQ=="},"shape":[14],"dtype":"float64","order":"little"}],[{"type":"ndarray","array":{"type":"bytes","data":"sHXzq1JfUkGwdfOrUl9SQUPtFKobYFJBYG8QsBdgUkE="},"shape":[4],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"LEU2ZORnUkFyNvCP5mdSQRdEi6ewZ1JBF0SLp7BnUkF9GVG8oGdSQVC60a+GZ1JBTEAdhIRnUkF8a/w7fmZSQQIl3854ZlJBdljXqvdlUkEONHXW+WVSQQsNOqN2ZlJBEpUMuXdmUkEsRTZk5GdSQQ=="},"shape":[14],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"soW4iEVpUkEbzlTgSWlSQaC3l3INaVJBw1KyXAxpUkHhslKJgGdSQeGyUomAZ1JBlKxGBcJnUkGFw7ZcxmdSQSjSvBoLaFJBWuGaMAxoUkGrue6jnWhSQRlYKnibaFJBu6tegm9pUkHpTpnaLWpSQfgXUDIyalJBvuFW145qUkFJOSgZkmpSQeJdGjn9alJBKYDLeWFrUkGYtyfCrGtSQRJoUe3balJBzURswdlqUkGzcIs0Q2pSQbEsklD0aVJBVL48kOZpUkGyhbiIRWlSQQ=="},"shape":[26],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"BlI6fXlqUkGxICqTempSQUZohlXwaVJBBYuaP+9pUkGj746yAWhSQY4z5B8HaFJBxslDNEVnUkFhmfWrQmdSQYyurMP7ZlJBtczrRfFmUkE="},"shape":[10],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"7q9z5qFrUkEzm8uJoWtSQR3Msssda1JBAIUXWRxrUkEGUjp9eWpSQbXM60XxZlJBbmBjO/lmUkEfjpX2hWdSQUaOwpSJZ1JByJZf+UhoUkEsXN9rSmhSQYkP/wRSaFJBzQt/rU1oUkGsFyfiNmhSQawXJ+I2aFJB6225tKJoUkGdqmD2pWhSQR083V+RalJBky8mQJhqUkEalgdsmmpSQQncw5+ia1JB7q9z5qFrUkE="},"shape":[22],"dtype":"float64","order":"little"}]],[[{"type":"ndarray","array":{"type":"bytes","data":"8xYIZCxuUkHj0VkHLG5SQdZ8Tr0GblJBeattrOxtUkE+l6gII21SQXYSOEDzbFJBsddWs6RsUkFzk8AaiGxSQTmRaKOKbFJBFQDREntsUkFMA459b2xSQW3N6d5rbFJB4yH0cGZsUkFHMf8CJmxSQaswA+0kbFJBMLwf5VJsUkE6CquuqGxSQW2n/6msbFJBWchnKVdtUkGrqcHtim1SQVA7y0i1bVJBUDvLSLVtUkG3o2QdLW5SQfMWCGQsblJB"},"shape":[24],"dtype":"float64","order":"little"},{"type":"ndarray","array":{"type":"bytes","data":"2ZgCzqFsUkE6CquuqGxSQToKq66obFJBJp95hXxsUkHvK9TmeGxSQTMp2aR1bFJB2ZgCzqFsUkE="},"shape":[7],"dtype":"float64","order":"little"}]]]],["error",{"type":"ndarray","array":{"type":"bytes","data":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////wEAAAD/////AQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAAAAAP////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////AAAAAA=="},"shape":[43],"dtype":"int32","order":"little"}],["color",{"type":"ndarray","array":{"type":"bytes","data":"AAAAAAAA/wH/AQAAAQAAAQAAAAAAAAAAAAAAAAABAAEAAP8AAAAAAAD/AA=="},"shape":[43],"dtype":"int8","order":"little"}]]}}},"view":{"type":"object","name":"CDSView","id":"p1120","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1121"}}},"glyph":{"type":"object","name":"MultiPolygons","id":"p1114","attributes":{"xs":{"type":"field","field":"xs"},"ys":{"type":"field","field":"ys"},"fill_color":{"type":"field","field":"color","transform":{"type":"object","name":"LinearColorMapper","id":"p1107","attributes":{"palette":["#3a4cc0","#3b4dc1","#3c4fc3","#3e51c4","#3f53c6","#4054c7","#4156c9","#4258ca","#435acc","#455bcd","#465dcf","#475fd0","#4860d1","#4962d3","#4b64d4","#4c66d6","#4d67d7","#4e69d8","#506bda","#516cdb","#526edc","#5370dd","#5571de","#5673e0","#5775e1","#5876e2","#5a78e3","#5b79e4","#5c7be5","#5d7de6","#5f7ee7","#6080e8","#6182ea","#6383ea","#6485eb","#6586ec","#6788ed","#6889ee","#698bef","#6b8df0","#6c8ef1","#6d90f1","#6f91f2","#7093f3","#7194f4","#7395f4","#7497f5","#7598f6","#779af6","#789bf7","#7a9df8","#7b9ef8","#7ca0f9","#7ea1f9","#7fa2fa","#80a4fa","#82a5fb","#83a6fb","#85a8fb","#86a9fc","#87aafc","#89acfc","#8aadfd","#8baefd","#8daffd","#8eb1fd","#90b2fe","#91b3fe","#92b4fe","#94b5fe","#95b7fe","#97b8fe","#98b9fe","#99bafe","#9bbbfe","#9cbcfe","#9dbdfe","#9fbefe","#a0bffe","#a2c0fe","#a3c1fe","#a4c2fe","#a6c3fd","#a7c4fd","#a8c5fd","#aac6fd","#abc7fc","#acc8fc","#aec9fc","#afcafb","#b0cbfb","#b2cbfb","#b3ccfa","#b4cdfa","#b6cef9","#b7cff9","#b8cff8","#b9d0f8","#bbd1f7","#bcd1f6","#bdd2f6","#bed3f5","#c0d3f5","#c1d4f4","#c2d4f3","#c3d5f2","#c5d5f2","#c6d6f1","#c7d6f0","#c8d7ef","#c9d7ee","#cad8ee","#ccd8ed","#cdd9ec","#ced9eb","#cfd9ea","#d0dae9","#d1dae8","#d2dae7","#d3dbe6","#d5dbe5","#d6dbe4","#d7dbe2","#d8dbe1","#d9dce0","#dadcdf","#dbdcde","#dcdcdd","#dddcdb","#dedbda","#dfdbd9","#e0dad7","#e1dad6","#e2d9d4","#e3d9d3","#e4d8d1","#e5d8d0","#e6d7cf","#e7d6cd","#e7d6cc","#e8d5ca","#e9d4c9","#ead3c7","#ebd3c6","#ecd2c4","#ecd1c3","#edd0c1","#edcfc0","#eecfbe","#efcebc","#efcdbb","#f0ccb9","#f1cbb8","#f1cab6","#f2c9b5","#f2c8b3","#f2c7b2","#f3c6b0","#f3c5af","#f4c4ad","#f4c3ab","#f4c2aa","#f5c1a8","#f5c0a7","#f5bfa5","#f6bda4","#f6bca2","#f6bba0","#f6ba9f","#f6b99d","#f6b79c","#f6b69a","#f7b598","#f7b397","#f7b295","#f7b194","#f7b092","#f7ae91","#f7ad8f","#f6ab8d","#f6aa8c","#f6a98a","#f6a789","#f6a687","#f6a486","#f6a384","#f5a182","#f5a081","#f59e7f","#f49d7e","#f49b7c","#f49a7b","#f39879","#f39678","#f39576","#f29375","#f29173","#f19072","#f18e70","#f08d6f","#f08b6d","#ef896c","#ee876a","#ee8669","#ed8467","#ec8266","#ec8064","#eb7f63","#ea7d61","#ea7b60","#e9795e","#e8775d","#e7755c","#e6745a","#e67259","#e57057","#e46e56","#e36c54","#e26a53","#e16852","#e06650","#df644f","#de624e","#dd604c","#dc5e4b","#db5c4a","#da5a48","#d95847","#d85646","#d75444","#d65243","#d44f42","#d34d40","#d24b3f","#d1493e","#cf463d","#ce443c","#cd423a","#cc3f39","#ca3d38","#c93b37","#c83835","#c63534","#c53233","#c43032","#c22d31","#c12a30","#bf282e","#be232d","#bc1f2c","#bb1a2b","#b9162a","#b81129","#b60d28","#b50827","#b30326"],"low":-1,"high":1}}},"hatch_color":{"type":"field","field":"color","transform":{"id":"p1107"}}}},"selection_glyph":{"type":"object","name":"MultiPolygons","id":"p1116","attributes":{"xs":{"type":"field","field":"xs"},"ys":{"type":"field","field":"ys"},"fill_color":{"type":"field","field":"color","transform":{"id":"p1107"}},"hatch_color":{"type":"field","field":"color","transform":{"id":"p1107"}}}},"nonselection_glyph":{"type":"object","name":"MultiPolygons","id":"p1115","attributes":{"xs":{"type":"field","field":"xs"},"ys":{"type":"field","field":"ys"},"line_alpha":{"type":"value","value":0.1},"fill_color":{"type":"field","field":"color","transform":{"id":"p1107"}},"fill_alpha":{"type":"value","value":0.1},"hatch_color":{"type":"field","field":"color","transform":{"id":"p1107"}},"hatch_alpha":{"type":"value","value":0.1}}},"hover_glyph":{"type":"object","name":"MultiPolygons","id":"p1117","attributes":{"xs":{"type":"field","field":"xs"},"ys":{"type":"field","field":"ys"},"fill_color":{"type":"field","field":"color","transform":{"id":"p1107"}},"hatch_color":{"type":"field","field":"color","transform":{"id":"p1107"}}}},"muted_glyph":{"type":"object","name":"MultiPolygons","id":"p1118","attributes":{"xs":{"type":"field","field":"xs"},"ys":{"type":"field","field":"ys"},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"field","field":"color","transform":{"id":"p1107"}},"fill_alpha":{"type":"value","value":0.2},"hatch_color":{"type":"field","field":"color","transform":{"id":"p1107"}},"hatch_alpha":{"type":"value","value":0.2}}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p1079","attributes":{"tools":[{"type":"object","name":"WheelZoomTool","id":"p1037","attributes":{"renderers":"auto","zoom_on_axis":false}},{"type":"object","name":"BoxZoomTool","id":"p1045","attributes":{"overlay":{"type":"object","name":"BoxAnnotation","id":"p1038","attributes":{"syncable":false,"line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5,"level":"overlay","visible":false,"left":{"type":"number","value":"nan"},"right":{"type":"number","value":"nan"},"top":{"type":"number","value":"nan"},"bottom":{"type":"number","value":"nan"},"left_units":"canvas","right_units":"canvas","top_units":"canvas","bottom_units":"canvas","handles":{"type":"object","name":"BoxInteractionHandles","id":"p1012","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1011","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},"match_aspect":true}},{"type":"object","name":"HoverTool","id":"p1069","attributes":{"tags":["hv_created"],"renderers":[{"id":"p1119"}],"tooltips":[["error","@{error}"]]}},{"type":"object","name":"PanTool","id":"p1093"},{"type":"object","name":"ResetTool","id":"p1094"}],"active_drag":{"id":"p1093"}}},"left":[{"type":"object","name":"LinearAxis","id":"p1087","attributes":{"ticker":{"type":"object","name":"MercatorTicker","id":"p1097","attributes":{"mantissas":[1,2,5],"dimension":"lat"}},"formatter":{"type":"object","name":"MercatorTickFormatter","id":"p1098","attributes":{"dimension":"lat"}},"axis_label":"Latitude","major_label_policy":{"type":"object","name":"AllLabels","id":"p1090"}}}],"right":[{"type":"object","name":"ColorBar","id":"p1123","attributes":{"location":[0,0],"ticker":{"type":"object","name":"BasicTicker","id":"p1122","attributes":{"mantissas":[1,2,5]}},"major_label_policy":{"type":"object","name":"NoOverlap","id":"p1124"},"label_standoff":8,"major_tick_line_color":"black","bar_line_color":"black","color_mapper":{"id":"p1107"}}}],"below":[{"type":"object","name":"LinearAxis","id":"p1082","attributes":{"ticker":{"type":"object","name":"MercatorTicker","id":"p1095","attributes":{"mantissas":[1,2,5],"dimension":"lon"}},"formatter":{"type":"object","name":"MercatorTickFormatter","id":"p1096","attributes":{"dimension":"lon"}},"axis_label":"Longitude","major_label_policy":{"type":"object","name":"AllLabels","id":"p1085"}}}],"center":[{"type":"object","name":"Grid","id":"p1086","attributes":{"axis":{"id":"p1082"},"grid_line_color":null}},{"type":"object","name":"Grid","id":"p1091","attributes":{"dimension":1,"axis":{"id":"p1087"},"grid_line_color":null}}],"frame_width":283,"frame_height":300,"min_border_top":10,"min_border_bottom":10,"min_border_left":10,"min_border_right":10,"output_backend":"webgl","match_aspect":true}},{"type":"object","name":"Spacer","id":"p1128","attributes":{"name":"HSpacer01735","stylesheets":["\n:host(.pn-loading):before, .pn-loading:before {\n  background-color: #c3c3c3;\n  mask-size: auto calc(min(50%, 400px));\n  -webkit-mask-size: auto calc(min(50%, 400px));\n}",{"id":"p1016"},{"id":"p1014"},{"id":"p1015"}],"margin":0,"sizing_mode":"stretch_width","align":"start"}}]}}],"defs":[{"type":"model","name":"ReactiveHTML1"},{"type":"model","name":"FlexBox1","properties":[{"name":"align_content","kind":"Any","default":"flex-start"},{"name":"align_items","kind":"Any","default":"flex-start"},{"name":"flex_direction","kind":"Any","default":"row"},{"name":"flex_wrap","kind":"Any","default":"wrap"},{"name":"gap","kind":"Any","default":""},{"name":"justify_content","kind":"Any","default":"flex-start"}]},{"type":"model","name":"FloatPanel1","properties":[{"name":"config","kind":"Any","default":{"type":"map"}},{"name":"contained","kind":"Any","default":true},{"name":"position","kind":"Any","default":"right-top"},{"name":"offsetx","kind":"Any","default":null},{"name":"offsety","kind":"Any","default":null},{"name":"theme","kind":"Any","default":"primary"},{"name":"status","kind":"Any","default":"normalized"}]},{"type":"model","name":"GridStack1","properties":[{"name":"mode","kind":"Any","default":"warn"},{"name":"ncols","kind":"Any","default":null},{"name":"nrows","kind":"Any","default":null},{"name":"allow_resize","kind":"Any","default":true},{"name":"allow_drag","kind":"Any","default":true},{"name":"state","kind":"Any","default":[]}]},{"type":"model","name":"drag1","properties":[{"name":"slider_width","kind":"Any","default":5},{"name":"slider_color","kind":"Any","default":"black"},{"name":"value","kind":"Any","default":50}]},{"type":"model","name":"click1","properties":[{"name":"terminal_output","kind":"Any","default":""},{"name":"debug_name","kind":"Any","default":""},{"name":"clears","kind":"Any","default":0}]},{"type":"model","name":"FastWrapper1","properties":[{"name":"object","kind":"Any","default":null},{"name":"style","kind":"Any","default":null}]},{"type":"model","name":"NotificationAreaBase1","properties":[{"name":"js_events","kind":"Any","default":{"type":"map"}},{"name":"position","kind":"Any","default":"bottom-right"},{"name":"_clear","kind":"Any","default":0}]},{"type":"model","name":"NotificationArea1","properties":[{"name":"js_events","kind":"Any","default":{"type":"map"}},{"name":"notifications","kind":"Any","default":[]},{"name":"position","kind":"Any","default":"bottom-right"},{"name":"_clear","kind":"Any","default":0},{"name":"types","kind":"Any","default":[{"type":"map","entries":[["type","warning"],["background","#ffc107"],["icon",{"type":"map","entries":[["className","fas fa-exclamation-triangle"],["tagName","i"],["color","white"]]}]]},{"type":"map","entries":[["type","info"],["background","#007bff"],["icon",{"type":"map","entries":[["className","fas fa-info-circle"],["tagName","i"],["color","white"]]}]]}]}]},{"type":"model","name":"Notification","properties":[{"name":"background","kind":"Any","default":null},{"name":"duration","kind":"Any","default":3000},{"name":"icon","kind":"Any","default":null},{"name":"message","kind":"Any","default":""},{"name":"notification_type","kind":"Any","default":null},{"name":"_rendered","kind":"Any","default":false},{"name":"_destroyed","kind":"Any","default":false}]},{"type":"model","name":"TemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"BootstrapTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"TemplateEditor1","properties":[{"name":"layout","kind":"Any","default":[]}]},{"type":"model","name":"MaterialTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"ReactiveESM1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"JSComponent1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"ReactComponent1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"AnyWidgetComponent1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"request_value1","properties":[{"name":"fill","kind":"Any","default":"none"},{"name":"_synced","kind":"Any","default":null},{"name":"_request_sync","kind":"Any","default":0}]}]}};
+  var render_items = [{"docid":"d78948d1-0ae9-46aa-aa19-e3bbb8717960","roots":{"p1013":"b040d155-3261-41df-a0cc-96f22b28796d"},"root_ids":["p1013"]}];
+  var docs = Object.values(docs_json)
+  if (!docs) {
+    return
+  }
+  const py_version = docs[0].version.replace('rc', '-rc.').replace('.dev', '-dev.')
+  async function embed_document(root) {
+    var Bokeh = get_bokeh(root)
+    await Bokeh.embed.embed_items_notebook(docs_json, render_items);
+    for (const render_item of render_items) {
+      for (const root_id of render_item.root_ids) {
+    const id_el = document.getElementById(root_id)
+    if (id_el.children.length && id_el.children[0].hasAttribute('data-root-id')) {
+      const root_el = id_el.children[0]
+      root_el.id = root_el.id + '-rendered'
+      for (const child of root_el.children) {
+            // Ensure JupyterLab does not capture keyboard shortcuts
+            // see: https://jupyterlab.readthedocs.io/en/4.1.x/extension/notebook.html#keyboard-interaction-model
+        child.setAttribute('data-lm-suppress-shortcuts', 'true')
+      }
+    }
+      }
+    }
+  }
+  function get_bokeh(root) {
+    if (root.Bokeh === undefined) {
+      return null
+    } else if (root.Bokeh.version !== py_version) {
+      if (root.Bokeh.versions === undefined || !root.Bokeh.versions.has(py_version)) {
+    return null
+      }
+      return root.Bokeh.versions.get(py_version);
+    } else if (root.Bokeh.version === py_version) {
+      return root.Bokeh
+    }
+    return null
+  }
+  function is_loaded(root) {
+    var Bokeh = get_bokeh(root)
+    return (Bokeh != null && Bokeh.Panel !== undefined)
+  }
+  if (is_loaded(root)) {
+    embed_document(root);
+  } else {
+    var attempts = 0;
+    var timer = setInterval(function(root) {
+      if (is_loaded(root)) {
+        clearInterval(timer);
+        embed_document(root);
+      } else if (document.readyState == "complete") {
+        attempts++;
+        if (attempts > 200) {
+          clearInterval(timer);
+      var Bokeh = get_bokeh(root)
+      if (Bokeh == null || Bokeh.Panel == null) {
+            console.warn("Panel: ERROR: Unable to run Panel code because Bokeh or Panel library is missing");
+      } else {
+        console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
+        embed_document(root)
+      }
+        }
+      }
+    }, 25, root)
+  }
+})(window);</script>
+</div>
+</div>
+<p>One method of evaluating your model’s accuracy is by cross-validation. This involves selecting some of your data at random, fitting the model, and then testing the model on a different group. Cross-validation gives you a range of potential accuracies using a subset of your data. It also has a couple of advantages, including:</p>
+<ol type="1">
+<li>It’s good at identifying overfitting, because it tests on a different set of data than it trains on.</li>
+<li>You can use cross-validation on any model, unlike statistics like <span class="math inline">\(p\)</span>-values and <span class="math inline">\(R^2\)</span> that you may have used in the past.</li>
+</ol>
+<p>A disadvantage of cross-validation is that with smaller datasets like this one, it is easy to end up with splits that are too small to be meaningful, or don’t have all the categories.</p>
+<p>Remember – anything above 25% is better than random!</p>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It: Evaluate the model
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use cross-validation with the <code>cross_val_score</code> to evaluate your model. Start out with the <code>'balanced_accuracy'</code> scoring method, and 4 cross-validation groups.</p>
+</div>
+</div>
+<div id="f2a2b4ab" class="cell student-code" data-highlight="true" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate the model with cross-validation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="c433ef89" class="cell answer-code" data-highlight="true" data-execution_count="9">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cross_val_score(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    tree_classifier, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    denver_ndvi_gdf[[<span class="st">'mean'</span>]],</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    denver_ndvi_gdf.grade_codes, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    scoring<span class="op">=</span><span class="st">'balanced_accuracy'</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>array([0.5       , 0.6875    , 0.91666667, 0.5       ])</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-extra callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Looking for an Extra Challenge?: Fit and evaluate an alternative model
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Try out some other models and/or hyperparameters (e.g.&nbsp;changing the max_depth). What do you notice?</p>
+</div>
+</div>
+<div id="bb45039e" class="cell student-code" data-highlight="true" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Try another model</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-respond callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Reflect and Respond
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Practice writing about your model. In a few sentences, explain your methods, including some advantages and disadvantages of the choice. Then, report back on your results. Does your model indicate that vegetation health in a neighborhood is related to its redlining grade?</p>
+</div>
+</div>
+<section id="your-model-description-and-evaluation-here" class="level1 cell markdown">
+<h1>YOUR MODEL DESCRIPTION AND EVALUATION HERE</h1>
+</section>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("^(?!((http:|https:)\/\/))");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+          // default icon
+          link.classList.add("external");
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="earthlab-education/Earth-Analytics-AY24" data-repo-id="R_kgDOMm9sKg" data-category="General" data-category-id="DIC_kwDOMm9sKs4Ch29b" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script>
+<input type="hidden" id="giscus-base-theme" value="light">
+<input type="hidden" id="giscus-alt-theme" value="dark">
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://esiil.org/">
+<p>About ESIIL</p>
+</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
