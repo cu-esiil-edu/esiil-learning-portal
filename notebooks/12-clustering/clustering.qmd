@@ -61,6 +61,7 @@ def do_something(*args, **kwargs):
 This decorator will **pickle** the results of running the `do_something()` function, and only run the code if the results don't already exist. To override the caching, for example temporarily after making changes to your code, set `override=True`. Note that to use the caching decorator, you must write your own function to perform each task!
 
 ```{python}
+#| eval: true
 def cached(func_key, override=False):
     """
     A decorator to cache function results
@@ -138,7 +139,7 @@ Try to use the **caching decorator**
 
 :::
 
-::: {.content-visible when-format="ipynb"}
+::: {.content-hidden when-format="ipynb"}
 ```{python}
 #| template: answer
 @cached('wbd_08')
@@ -173,6 +174,7 @@ delta_gdf = (
     .opts(width=600, height=300)
 )
 ```
+:::
 
 We chose this watershed because it covers parts of New Orleans an is near the Mississippi Delta. Deltas are boundary areas between the land and the ocean, and as a result tend to contain a rich variety of different land cover and land use types.
 
@@ -214,7 +216,7 @@ Write a 2-3 sentence **site description** (with citations) of this area that hel
 ```
 
 
-::: {.content-visible when-format="ipynb"}
+::: {.content-hidden when-format="ipynb"}
 ```{python}
 #| template: answer
 # Log in to earthaccess
@@ -262,7 +264,7 @@ I recommend building a GeoDataFrame, as this will allow you to plot the granules
 ```
 
 
-::: {.content-visible when-format="ipynb"}
+::: {.content-hidden when-format="ipynb"}
 ```{python}
 #| template: answer
 def get_earthaccess_links(results):
@@ -358,7 +360,7 @@ This code should include at least one **function** including a numpy-style docst
 ```
 
 
-::: {.content-visible when-format="ipynb"}
+::: {.content-hidden when-format="ipynb"}
 ```{python}
 #| template: answer
 @cached('delta_reflectance_da_df')
@@ -477,7 +479,7 @@ You will notice for this watershed that:
 ```
 
 
-::: {.content-visible when-format="ipynb"}
+::: {.content-hidden when-format="ipynb"}
 ```{python}
 #| template: answer
 @cached('delta_reflectance_da')
@@ -531,7 +533,7 @@ Cluster your data by spectral signature using the k-means algorithm.
 ```
 
 
-::: {.content-visible when-format="ipynb"}
+::: {.content-hidden when-format="ipynb"}
 ```{python}
 #| template: answer
 # Convert spectral DataArray to a tidy DataFrame
@@ -568,7 +570,7 @@ So, what is `.sortby(['x', 'y'])` doing for us? Try the code without it and find
 ```
 
 
-::: {.content-visible when-format="ipynb"}
+::: {.content-hidden when-format="ipynb"}
 ```{python}
 #| template: answer
 rgb = reflectance_da.sel(band=[4, 3, 2])
