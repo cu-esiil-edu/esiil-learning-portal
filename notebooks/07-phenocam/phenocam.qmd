@@ -17,20 +17,18 @@ nocite: |
   @richardson_phenocam_2023, @richardson_tracking_2019, @hufkens_integrated_2018
 ---
 
-::: {.content-visible when-format="html"}
-:::: {.callout-video}
-
-<div style="position: relative; width: 100%; height: 0; padding-top: 56.2500%;
+::::: {.content-visible when-format="html"}
+:::: callout-video
+::: {style="position: relative; width: 100%; height: 0; padding-top: 56.2500%;
  padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
- border-radius: 8px; will-change: transform;">
-  <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
-    src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGQqlGhTCg&#x2F;uajgS4rR0-Kif9ng9qakaw&#x2F;watch?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
-  </iframe>
-</div>
-<a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGQqlGhTCg&#x2F;uajgS4rR0-Kif9ng9qakaw&#x2F;watch?utm_content=DAGQqlGhTCg&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">DEMO: Phenocam Workshop (MEFA)</a> by Dr. Alison Post
-
-::::
+ border-radius: 8px; will-change: transform;"}
+<iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
+    src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGQqlGhTCg&#x2F;uajgS4rR0-Kif9ng9qakaw&#x2F;watch?embed" allowfullscreen="allowfullscreen" allow="fullscreen"> </iframe>
 :::
+
+<a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGQqlGhTCg&#x2F;uajgS4rR0-Kif9ng9qakaw&#x2F;watch?utm_content=DAGQqlGhTCg&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">DEMO: Phenocam Workshop (MEFA)</a> by Dr. Alison Post
+::::
+:::::
 
 Some code adapted from the [2020 NEON Tutorial](https://www.neonscience.org/resources/learning-hub/tutorials/phenocam-api-intro) by Bijan Seyednasrollah
 
@@ -120,7 +118,7 @@ library(plotly)
 
 Next, indicate a location (file path) where you want the PhenoCam images to save. For this workshop, we'll create a new file within GitHub Codespaces called `pheno_images`.
 
-::: {.callout-tip}
+::: callout-tip
 In the future, if you're using R Studio locally on your computer, you can enter the path to a local directory, or folder, on your computer instead (e.g., "/Users/username/Desktop/pheno_images"). Make sure to use the forward slash (`/`) to separate folder names. Notice that we use the `file.path()` function, which produces the correct path no matter what setup you are using.
 :::
 
@@ -170,7 +168,7 @@ sitelist_table %>%
 ```
 :::
 
-:::{.content-visible when-format="markdown"}
+::: {.content-visible when-format="markdown"}
 ```{r}
 #| error: true
 # View table and available metadata (column names)
@@ -186,7 +184,7 @@ You can filter the table by any of the available attributes (column names). For 
 GR_sites <- subset(sitelist_table, primary_veg_type == "GR")  
 ```
 
-:::{.content-visible when-format="html"}
+::: {.content-visible when-format="html"}
 ```{r}
 #| echo: false
 GR_sites %>%
@@ -198,7 +196,7 @@ GR_sites %>%
 ```
 :::
 
-:::{.content-visible when-format="markdown"}
+::: {.content-visible when-format="markdown"}
 ```{r}
 #| error: true
 # View the first few grassland entries and entire table
@@ -206,7 +204,7 @@ View(GR_sites)
 ```
 :::
 
-:::{.callout-note title="Challenge"}
+::: {.callout-note title="Challenge"}
 Can you subset the sitelist_table by a different primary vegetation type? How about by a different variable (table column)? Use the code cell below.
 :::
 
@@ -259,7 +257,7 @@ Site_map <- ggplot() +
 Site_map
 ```
 
-:::{.callout-note title="Challenge"}
+::: {.callout-note title="Challenge"}
 Can you change the title of the map? Make the change and re-run the code cell above.
 :::
 
@@ -295,7 +293,7 @@ year
 ROI
 ```
 
-First, we'll download canopy greenness (GCC = green chromatic coordinate) timeseries data for your chosen site. The GCC data are already condensed down to 1-day and 3-day data products (type = '3day' or '1day'). See [(@richardson_tracking_2018)](https://www.nature.com/articles/sdata201828) for more information about PhenoCam data processing.
+First, we'll download canopy greenness (GCC = green chromatic coordinate) timeseries data for your chosen site. The GCC data are already condensed down to 1-day and 3-day data products (type = '3day' or '1day'). See [(\@richardson_tracking_2018)](https://www.nature.com/articles/sdata201828) for more information about PhenoCam data processing.
 
 ```{r}
 # Download GCC timeseries
@@ -307,7 +305,7 @@ GCC_timeseries <- get_pheno_ts(
 )
 ```
 
-:::{.content-visible when-format="html"}
+::: {.content-visible when-format="html"}
 ```{r}
 #| echo: false
 GCC_timeseries %>%
@@ -317,7 +315,7 @@ GCC_timeseries %>%
 ```
 :::
 
-:::{.content-visible when-format="markdown"}
+::: {.content-visible when-format="markdown"}
 ```{r}
 #| error: true
 # View table and available data (column names)
@@ -344,7 +342,7 @@ plot(
 )
 ```
 
-:::{.callout-tip title="Saving plots"}
+::: {.callout-tip title="Saving plots"}
 Since this plot isn't saved as an object, it only appears in the built-in plot viewer for R. However, you can right click on the plot to copy and paste it elsewhere. If you accidentally close a plot and want to see it again, you can re-run the code cell that created it.
 :::
 
@@ -381,7 +379,7 @@ trans_dates <- read.table(trans_dates_path,
 )
 ```
 
-:::{.content-visible when-format="html"}
+::: {.content-visible when-format="html"}
 ```{r}
 #| echo: false
 trans_dates %>%
@@ -391,7 +389,7 @@ trans_dates %>%
 ```
 :::
 
-:::{.content-visible when-format="markdown"}
+::: {.content-visible when-format="markdown"}
 ```{r}
 #| error: true
 # View file
@@ -554,6 +552,7 @@ gif <- list.files(path = dir, pattern = "*.jpg", full.names = T) %>%
   image_annotate(paste(site_name,"Jan-Dec", year), 
                  location = "+900+30", 
                  size = 35, 
+                 font = "sans",
                  color = "black") %>%
   
   # Frames per second (higher number = faster, lower number = slower)
@@ -569,7 +568,7 @@ dir
 
 As an example, here's the gif I made for the lacclair site. Your gif will be saved to the directory you indicated at the beginning (dir). If you want to save it, right click on the gif file name and select "download".
 
-![Monthly Greenness](/img/notebooks/phenocam/MonthlyGreenness_gif.gif){fig-align="left" width=100%}
+![Monthly Greenness](/img/notebooks/phenocam/MonthlyGreenness_gif.gif){fig-align="left" width="100%"}
 
 ### Explore another site!
 
