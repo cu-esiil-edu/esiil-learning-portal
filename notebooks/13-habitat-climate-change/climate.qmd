@@ -7,7 +7,10 @@ jupyter: python3
 
 In this coding challenge, you will create a habitat suitability model for a species of your choice that lives in the continental United States (CONUS). We have this limitation because the downscaled climate data we suggest, the [MACAv2 dataset](https://www.climatologylab.org/maca.html), is only available in the CONUS -- if you find other downscaled climate data at an appropriate resolution you are welcome to choose a different study area. If you don't have anything in mind, you can take a look at Sorghastrum nutans, a grass native to North America. [In the past 50 years, its range has moved northward](https://www.gbif.org/species/2704414). 
 
-Your suitability assessment will be based on combining multiple data layers related to soil, topography, and climate. You will also need to create a **modular, reproducible, workflow** using functions and loops. To do this effectively, we recommend planning your code out in advance using a technique such as pseudocode outline or a flow diagram. You can find a starting flow diagram below to give you a large-scale overview. We recommend planning each of the blocks below out into multiple steps. It is unnecessary to write a step for every line of code unles you find that useful. As a rule of thumb, aim for steps that cover the major structures of your code in 2-5 line chunks.
+Your suitability assessment will be based on combining multiple data layers related to soil, topography, and climate. You will also need to create a **modular, reproducible, workflow** using functions and loops. To do this effectively, we recommend planning your code out in advance using a technique such as pseudocode outline or a flow diagram. We recommend planning each of the blocks below out into multiple steps. It is unnecessary to write a step for every line of code unles you find that useful. As a rule of thumb, aim for steps that cover the major structures of your code in 2-5 line chunks.
+
+::: {.content-visible when-format="html"}
+Below is a rough flow chart of this workflow to give you a large-scale overview:
 
 ```{mermaid}
 %%{init: {'theme': 'neutral'}}%%
@@ -44,6 +47,7 @@ flowchart TD
     I -.->K
     end
 ```
+:::
 
 ## STEP 1: STUDY OVERVIEW
 
@@ -149,6 +153,7 @@ Then, use loops to download and organize the rasters you will need to complete t
 
 ::: {.content-visible when-format="ipynb"}
 ```{python}
+#| template: student
 # Download soil data
 ```
 :::
@@ -172,6 +177,7 @@ Be careful when computing the slope from elevation that the units of elevation m
 
 ::: {.content-visible when-format="ipynb"}
 ```{python}
+#| template: student
 # Download soil data
 ```
 :::
@@ -187,6 +193,7 @@ Write a **function with a numpy-style docstring** that will download MACAv2 data
 
 ::: {.content-visible when-format="ipynb"}
 ```{python}
+#| template: student
 # Download climate data
 ```
 :::
@@ -196,10 +203,10 @@ Make sure to include a description of the climate data and how you selected your
 
 :::
 
-::: {.content-visible when-format="ipynb"}
-:::: {.cell .markdown}
+
+::: {.cell .markdown .content-visible when-format="ipynb"}
 YOUR CLIMATE DATA DESCRIPTION AND CITATIONS HERE
-::::
+
 :::
 
 ## STEP 3: HARMONIZE DATA
@@ -210,20 +217,17 @@ Make sure that the grids for all your data match each other.  Check out the [`ds
 :::
 
 ::: {.callout-warning}
-
 If you are reprojecting data as you need to here, the order of operations is important! Recall that reprojecting will typically tilt your data, leaving narrow sections of the data at the edge blank. However, to reproject efficiently it is best for the raster to be as small as possible before performing the operation. We recommend the following process:
 
-  1. Crop the data, leaving a buffer around the final boundary
-  2. Reproject to match the template grid (this will also crop any leftovers off the image)
-
+    1. Crop the data, leaving a buffer around the final boundary
+    2. Reproject to match the template grid (this will also crop any leftovers off the image)
 :::
 
 ::: {.content-visible when-format="ipynb"}
-
 ```{python}
+#| template: student
 # Download soil data
 ```
-
 :::
 
 
@@ -232,21 +236,23 @@ If you are reprojecting data as you need to here, the order of operations is imp
 A fuzzy logic model is one that is built on expert knowledge rather than training data. You may wish to use the [`scikit-fuzzy`](https://pythonhosted.org/scikit-fuzzy/) library, which includes many utilities for building this sort of model. In particular, it contains a number of **membership functions** which can convert your data into values from 0 to 1 using information such as, for example, the maximum, minimum, and optimal values for soil pH.
 
 ::: {.callout-task}
-To train a fuzzy logic habitat suitability model:
+To train a fuzzy logic habitat suitability model: 
 
-1. Research S. nutans, and find out what optimal values are for each variable you are using (e.g. soil pH, slope, and current climatological annual precipitation). 
-2. For each **digital number** in each raster, assign a **continuous** value from 0 to 1 for how close that grid square is to the optimum range (1=optimal, 0=incompatible). 
-3. Combine your layers by multiplying them together. This will give you a single suitability number for each square.
-4. Optionally, you may apply a suitability threshold to make the most suitable areas pop on your map.
+    1. Research S. nutans, and find out what optimal values are for each variable you are using (e.g. soil pH, slope, and current climatological annual precipitation). 
+    2. For each **digital number** in each raster, assign a **continuous** value from 0 to 1 for how close that grid square is to the optimum range (1=optimal, 0=incompatible). 
+    3. Combine your layers by multiplying them together. This will give you a single suitability number for each square.
+    4. Optionally, you may apply a suitability threshold to make the most suitable areas pop on your map.
 
 :::
 
 ::: {.callout-tip}
 If you use mathematical operators on a raster in Python, it will automatically perform the operation for every number in the raster. This type of operation is known as a **vectorized** function. **DO NOT DO THIS WITH A LOOP!**. A vectorized function that operates on the whole array at once will be much easier and faster.
+
 :::
 
 ::: {.content-visible when-format="ipynb"}
 ```{python}
+#| template: student
 # Create fuzzy logic suitability model
 ```
 :::
@@ -255,11 +261,13 @@ If you use mathematical operators on a raster in Python, it will automatically p
 
 ::: {.callout-task}
 Generate some plots that show your key findings. Don't forget to interpret your plots!
+
 :::
 
 ::: {.content-visible when-format="ipynb"}
 
 ```{python}
+#| template: student
 # Create plots
 ```
 

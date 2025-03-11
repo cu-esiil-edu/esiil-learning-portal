@@ -3,7 +3,7 @@ title: "Explore PhenoCam Data"
 author: 
   - "Alison Post"
 date: 2024-07-24
-image: img/earth-analytics/phenocam/phenocam.png
+image: /img/earth-analytics/phenocam/phenocam.png
 editor: visual
 warning: false
 execute:
@@ -98,7 +98,8 @@ bs_options <- c("striped", "hover", "condensed")
 #| output: false
 install.packages(
     'phenocamr', lib=.libPaths()[1],
-    repos = "http://cran.us.r-project.org")
+    repos = "http://cran.us.r-project.org",
+    INSTALL_opts = '--no-lock')
 remotes::install_github('PhenoCamNetwork/phenocamapi')
 ```
 :::
@@ -548,12 +549,12 @@ gif <- list.files(path = dir, pattern = "*.jpg", full.names = T) %>%
   
   image_join() %>% 
   
-  # Add text to each image -  you can change the size, location, color below
-  image_annotate(paste(site_name,"Jan-Dec", year), 
-                 location = "+900+30", 
-                 size = 35, 
-                 font = "sans",
-                 color = "black") %>%
+#   # Add text to each image -  you can change the size, location, color below
+#   image_annotate(paste(site_name,"Jan-Dec", year), 
+#                  location = "+900+30", 
+#                  size = 35,
+#                  font = 'sans',
+#                  color = "black") %>%
   
   # Frames per second (higher number = faster, lower number = slower)
   image_animate(fps=0.5) %>%
