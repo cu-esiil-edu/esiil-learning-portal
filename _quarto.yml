@@ -1,13 +1,53 @@
 project:
   type: website
+  output-dir: _site
   pre-render:
     - scripts/restore_original_files.py
     - scripts/configure_code_cells.py
-  render:
-    - index.qmd
   post-render:
     - scripts/restore_original_files.py
-    - scripts/update_stored_variable_database.py
+    #- scripts/update_stored_variable_database.py
+
+  render:
+    - index.qmd
+    - pages/00-overviews/
+    # Courses
+    # Foundations
+    - pages/01-reproducible-science-tools/open-reproducible-science/
+    - pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.qmd
+    - pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.qmd
+    #- pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.qmd
+    - pages/03-git-github/01-intro-version-control/01-intro-version-control.qmd
+    - pages/03-git-github/02-github-collaboration/01-intro-collaboration.qmd
+    - pages/03-git-github/02-github-collaboration/02-pull-requests.qmd
+    - pages/03-git-github/02-github-collaboration/06-pr-activity-fork.qmd
+    - pages/03-git-github/02-github-collaboration/07-pr-activity-branch.qmd
+    - pages/03-git-github/03-github-portfolio/
+    - notebooks/01-climate/climate-3*.qmd
+    - notebooks/01-climate/climate.qmd
+    - notebooks/03-species-distribution/species-distribution-3*.qmd
+    - notebooks/03-species-distribution/species-distribution.qmd
+    - notebooks/10-redlining/redlining-3*.qmd
+    - notebooks/10-redlining/redlining-4*.qmd
+    - notebooks/10-redlining/redlining.qmd
+    - notebooks/08-habitat/habitat.qmd
+    # Stars
+    #- notebooks/02-flood/flood.qmd
+    # Shortcourse
+    - notebooks/05-vegetation/vegetation.qmd
+    # Events
+    # HYR-SENSE
+    # MEFA
+    - notebooks/07-phenocam/*.qmd
+    # Chicago Symposium
+    - notebooks/09-urban-heat-island/uhi-3*.qmd
+    - notebooks/09-urban-heat-island/urban-heat-island.qmd
+    - notebooks/01-climate/climate-98-download.qmd
+    # Commodity Classic
+
+execute: 
+  cache: true
+  freeze: false
 
 bibliography: site_sources.bib
 
@@ -16,26 +56,319 @@ filters:
   - esiil-callout
 
 website:
-  navbar:
-    search: true
-    logo: img/ESIIL_portal.png
-    logo-alt: "ESIIL Learning Portal"
-    logo-href: "index.html"
-    right:
-      - href: "http://earthdatascience.org"
-        text: "Classic earthdatascience.org"
+  search: 
+    location: navbar
+    type: overlay
+    copy-button: true
+    show-item-context: true
+  page-navigation: true
+  # comments:
+  #   giscus: 
+  #     repo: cu-esiil-edu/esiil-learning-portal
   bread-crumbs: true
   page-footer:
     border: false
     left: 
       - text: "About ESIIL"
-        href: "https://esiil.org/"
-        
+        href: https://esiil.org/
+      - text: "About Earth Lab"
+        href: https://earthlab.colorado.edu/
+  navbar:
+    search: true
+    logo: /img/ESIIL_portal_dark.png
+    logo-alt: "ESIIL Environmental Data Analytics Learning Portal"
+    logo-href: /index.qmd
+    left:
+      # Get Started
+      - text: "Trying to run some code?<br><strong>Get Started</strong>"
+        menu:     
+          - pages/00-overviews/01-get-started/python/index.qmd
+          - pages/00-overviews/01-get-started/r/index.qmd
+          - pages/00-overviews/01-get-started/gee/index.qmd
+          - pages/00-overviews/01-get-started/docker/index.qmd
+      # Textbooks
+      - text: "Guided learning<br><strong>Textbooks</strong>"
+        menu:
+          - text: "Introduction to Earth Analytics"
+          - text: "Intermediate Earth Analytics"
+          - text: "Advanced Earth Analytics"
+      # Classes Workshops Events
+      - text: "Attending a<br><strong>Class or Event</strong>?"
+        menu:
+          - text: "GEOG 5463/4463: Fundamentals of Earth Data Analytics"
+            href: pages/00-overviews/04a-courses/foundations/01-fundamentals/index.qmd
+          - text: "ESIIL Stars"
+            href: pages/00-overviews/04a-courses/stars/index.qmd
+          # Short courses
+          - text: "SHORT COURSE 1: Cloud Computing, Collaboration, and Communication" 
+            href: pages/00-overviews/04a-courses/shortcourse/01-collaboration/index.qmd
+          # - pages/00-overviews/04a-courses/shortcourse/02-data/index.qmd
+          # - pages/00-overviews/04a-courses/shortcourse/03-geospatial/index.qmd
+          # - pages/00-overviews/04a-courses/shortcourse/04-applications/index.qmd
+          # Events and workshops
+          - text: "HYR-SENSE"
+            href: pages/00-overviews/04b-events/hyrsense/index.qmd
+          - text: "MEFA"
+            href: pages/00-overviews/04b-events/mefa/index.qmd
+          - text: "Chicago Symposium Series"
+            href: pages/00-overviews/04b-events/css/index.qmd
+
+      - text: "We want your<br><strong>Contributions</strong>"
+        menu:
+          - text: "Submit a module"
+            href: pages/00-overviews/05-contribute/submit.qmd
+          - text: "Support the Learning Portal"
+            href: pages/00-overviews/05-contribute/support.qmd
+
+      - text: "Classic<br>earthdatascience.org"
+        href: "http://earthdatascience.org"
+
+  sidebar:
+    #### Textbooks
+
+    #### Classes and Events
+    # Fundamentals of Earth Data Analytics
+    - title: "GEOG 5463/4463: Fundamentals of Earth Data Analytics"
+      logo: ""
+      contents: 
+        - pages/00-overviews/04a-courses/foundations/01-fundamentals/index.qmd
+        - section: "UNIT 1: Portfolio"
+          href: pages/00-overviews/04a-courses/foundations/01-fundamentals/01-portfolio.qmd
+          contents: 
+            - section: "Text File Types"
+              contents:
+                - pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.qmd
+                - pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.qmd
+                #- pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.qmd
+            - section: "Version Control"
+              contents:
+                - pages/03-git-github/01-intro-version-control/01-intro-version-control.qmd
+                - pages/03-git-github/02-github-collaboration/01-intro-collaboration.qmd
+                - pages/03-git-github/02-github-collaboration/02-pull-requests.qmd
+                - pages/03-git-github/02-github-collaboration/06-pr-activity-fork.qmd
+            - section: "Portfolio"
+              contents:
+                - pages/03-git-github/03-github-portfolio/00-introduction.qmd
+                - pages/03-git-github/03-github-portfolio/01-create-portfolio-website.qmd
+                - pages/03-git-github/03-github-portfolio/02-images.qmd
+                - pages/03-git-github/03-github-portfolio/03-html.qmd
+                - pages/03-git-github/03-github-portfolio/04-jekyll.qmd
+                - pages/03-git-github/03-github-portfolio/05-map.qmd
+                - pages/03-git-github/02-github-collaboration/07-pr-activity-branch.qmd
+        - section: "UNIT 2: Time-series Data"
+          href: pages/00-overviews/04a-courses/foundations/01-fundamentals/02-time-series.qmd
+          contents: 
+            - section: "Open Science Tools"
+              contents:
+                - pages/01-reproducible-science-tools/open-reproducible-science/01-intro.qmd
+                - pages/01-reproducible-science-tools/open-reproducible-science/02-open-science-tools.qmd
+                - pages/01-reproducible-science-tools/open-reproducible-science/03-best-practices.qmd
+            - section: "Time-series Data"
+            - section: "Climate Coding Challenge"
+              contents:
+                - notebooks/01-climate/climate.qmd
+        - section: "UNIT 3: Vector Data"
+          href: pages/00-overviews/04a-courses/foundations/01-fundamentals/03-vector.qmd
+          contents: 
+            - section: "Geospatial Vector Data"
+            - section: "Species Distribution Coding Challenge"
+              contents:
+                - notebooks/03-species-distribution/species-distribution.qmd
+        - section: "UNIT 4: Raster Data"
+          href: pages/00-overviews/04a-courses/foundations/01-fundamentals/04-raster.qmd
+          contents: 
+            - text: "Install Python on your computer"
+              href: https://www.earthdatascience.org/workshops/setup-earth-analytics-python/setup-git-bash-conda/
+            - section: "Geospatial Raster Data"
+            - section: "Urban Greenspace and Redlining Coding Challenge"
+              contents:
+                - notebooks/10-redlining/redlining.qmd
+        - section: "FINAL: Habitat Suitability"
+          href: pages/00-overviews/04a-courses/foundations/01-fundamentals/05-final.qmd
+          contents: 
+            - section: "Climate Data 101"
+            - section: "Habitat Suitability Coding Challenge"
+              contents:
+                - notebooks/08-habitat/habitat.qmd
+
+    # Short Course 1
+    - title: "SHORT COURSE 1: Cloud Computing, Collaboration, and Communication" 
+      contents:
+        - section: "Unit 1"
+          contents: 
+            - pages/00-overviews/04a-courses/shortcourse/01-collaboration/index.qmd
+            - section: "Text File Types"
+              contents:
+                - pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.qmd
+                - pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.qmd
+                #- pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.qmd
+            - section: "Version Control"
+              contents:
+                - pages/03-git-github/01-intro-version-control/01-intro-version-control.qmd
+                - pages/03-git-github/02-github-collaboration/01-intro-collaboration.qmd
+                - pages/03-git-github/02-github-collaboration/02-pull-requests.qmd
+                - pages/03-git-github/02-github-collaboration/06-pr-activity-fork.qmd
+            - section: "Portfolio"
+              contents:
+                - pages/03-git-github/03-github-portfolio/00-introduction.qmd
+                - pages/03-git-github/03-github-portfolio/01-create-portfolio-website.qmd
+                - pages/03-git-github/03-github-portfolio/02-images.qmd
+                - pages/03-git-github/03-github-portfolio/03-html.qmd
+                - pages/03-git-github/03-github-portfolio/04-jekyll.qmd
+                - pages/03-git-github/03-github-portfolio/05-map.qmd
+                - pages/03-git-github/02-github-collaboration/07-pr-activity-branch.qmd
+        - section: "Unit 2"
+          contents: 
+            - pages/00-overviews/04a-courses/shortcourse/01-collaboration/02-open-science.qmd
+            - section: "Open Science Tools"
+              contents:
+                - pages/01-reproducible-science-tools/open-reproducible-science/01-intro.qmd
+                - pages/01-reproducible-science-tools/open-reproducible-science/02-open-science-tools.qmd
+                - pages/01-reproducible-science-tools/open-reproducible-science/03-best-practices.qmd
+            - section: "Climate Coding Challenge"
+              contents:
+                - notebooks/01-climate/climate.qmd
+        - section: "Unit 3"
+          contents: 
+            - pages/00-overviews/04a-courses/shortcourse/01-collaboration/03-geospatial.qmd
+            - section: "Geospatial Data"
+            - section: "Vegetation Coding Challenge"
+              contents:
+                - notebooks/05-vegetation/vegetation.qmd
+        - section: "Unit 4"
+          contents: 
+            - pages/00-overviews/courses/shortcourse/01-collaboration/04-applications.qmd
+
+    # Stars Spring Training
+    - title: "ESIIL Stars"
+      logo: img/ESIIL_Stars_logo.png
+      contents:
+        - pages/00-overviews/04a-courses/stars/index.qmd
+        - section: "UNIT 1: Build Your Online Portfolio"
+          contents:
+            - pages/03-git-github/03-github-portfolio/00-introduction.qmd
+            - text: "STEP 1: Publish a website"
+              href: pages/03-git-github/03-github-portfolio/01-create-portfolio-website.qmd
+            - text: "STEP 2: Add images"
+              href: pages/03-git-github/03-github-portfolio/02-images.qmd
+            - text: "STEP 3: Custom content"
+              href: pages/03-git-github/03-github-portfolio/03-html.qmd
+            - text: "STEP 4: Spruce up your site"
+              href: pages/03-git-github/03-github-portfolio/04-jekyll.qmd
+            - text: "STEP 5: Add a map"
+              href: pages/03-git-github/03-github-portfolio/05-map.qmd
+        - section: "UNIT 2: Climate Change"
+          contents: 
+            - pages/00-overviews/04a-courses/stars/02-climate-change/index.qmd
+            - section: "Open Science Tools"
+              contents:
+                - pages/01-reproducible-science-tools/open-reproducible-science/01-intro.qmd
+                - pages/01-reproducible-science-tools/open-reproducible-science/02-open-science-tools.qmd
+                - pages/01-reproducible-science-tools/open-reproducible-science/03-best-practices.qmd
+            - section: "Climate Coding Challenge"
+              contents:
+                - notebooks/01-climate/climate.qmd
+        - section: "UNIT 3: Species Distribution"
+          contents: 
+            - pages/00-overviews/04a-courses/stars/04-species-distribution/index.qmd
+            - notebooks/03-species-distribution/species-distribution.qmd
+        - section: "UNIT 4: Vegetation Disturbance"
+          contents: 
+            - pages/00-overviews/04a-courses/stars/05-vegetation/index.qmd
+
+    # Workshops and Events
+    - title: "HYR-SENSE"
+      contents:
+        - pages/00-overviews/04b-events/hyrsense/index.qmd
+        - section: "Playing with GitHub"
+          contents:
+            - pages/00-overviews/04a-courses/shortcourse/01-collaboration/index.qmd
+            - section: "Text File Types"
+              contents:
+                - pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.qmd
+                - pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.qmd
+                #- pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.qmd
+            - section: "Version Control"
+              contents:
+                - pages/03-git-github/01-intro-version-control/01-intro-version-control.qmd
+                - pages/03-git-github/02-github-collaboration/01-intro-collaboration.qmd
+                - pages/03-git-github/02-github-collaboration/02-pull-requests.qmd
+                - pages/03-git-github/02-github-collaboration/06-pr-activity-fork.qmd
+            - section: "Portfolio"
+              contents:
+                - pages/03-git-github/03-github-portfolio/00-introduction.qmd
+                - pages/03-git-github/03-github-portfolio/01-create-portfolio-website.qmd
+                - pages/03-git-github/03-github-portfolio/02-images.qmd
+                - pages/03-git-github/03-github-portfolio/03-html.qmd
+                - pages/03-git-github/03-github-portfolio/04-jekyll.qmd
+                - pages/03-git-github/03-github-portfolio/05-map.qmd
+                - pages/03-git-github/02-github-collaboration/07-pr-activity-branch.qmd
+    - title: "MEFA"
+      contents:
+        - pages/00-overviews/04b-events/mefa/index.qmd
+        - notebooks/07-phenocam/phenocam.qmd
+        - text: Try it on GitHub!
+          href: https://classroom.github.com/a/5xITsap0
+    - title: "Chicago Symposium Series"
+      contents:
+        - text: Workshop Overview
+          href: pages/00-overviews/04b-events/css/index.qmd
+          contents:
+            - text: Chicago Symposium
+              href: https://chicagosymposium.org/
+            - text: ESIIL
+              href: https://esiil.org/
+            - text: Plenary Speakers
+              href: https://chicagosymposium.org/profile/139/
+        - section: Session 1 -- Chicago Heat Wave
+          href: pages/00-overviews/04b-events/css/01-urban-heat/index.qmd
+          contents:
+            - text: Make a Free GitHub Account
+              href: https://github.com/signup
+            - text: Open, Reproducible Science
+              href: pages/01-reproducible-science-tools/open-reproducible-science/01-overview.qmd
+            - text: Urban Heat Island
+              href: notebooks/09-urban-heat-island/urban-heat-island.qmd
+            - text: Data Download
+              href: notebooks/01-climate/climate-98-download.qmd
+            - text: Try it on GitHub!
+              href: https://classroom.github.com/a/D24VgT6A
+        - text: Session 2 -- Facilitating cross-cultural projects
+          href: pages/00-overviews/04b-events/css/02-facilitating/index.qmd
+        - text: Session 3 -- You don't need to be an expert to teach coding
+          href: pages/00-overviews/04b-events/css/03-ai-peer/index.qmd
+        - section: More ESIIL?
+          contents:
+            - text: "Join our mailing list."
+              href: https://esiil.org/contact-0
+            - text: Article - Fostering the Development of Earth Data Science Skills in a Diverse Community of Online Learners
+              href: https://www.tandfonline.com/doi/full/10.1080/26939169.2024.2362886
+            - text: Article - The fastest-growing and most destructive fires in the US
+              href: https://www.science.org/doi/10.1126/science.adk5737
+
+    
+    #### Contribute
+    - title: "Submit a module"
+      tools:
+        - icon: github
+          menu:
+            - text: Source Code
+              href:  https://github.com/cu-esiil-edu/esiil-learning-portal
+            - text: Intent to Submit
+              href:  https://github.com/cu-esiil-edu/esiil-learning-portal/issues/new?template=new-curriculum-module.md
+            - text: Track your lesson
+              href: https://github.com/cu-esiil-edu/esiil-learning-portal/issues?q=is%3Aopen+is%3Aissue+author%3A%40me
+      contents:
+        - pages/00-overview/05-contribute/submit.qmd
+        - pages/99-contribute/02-intent.qmd
+        - pages/99-contribute/03-authoring.qmd
+        - pages/99-contribute/04-submit.qmd
+
 format:
   html:
-    theme: [flatly, theme-esiil-light.scss]
-    css: styles.css
+    theme: sketchy
     toc: true
+    css: styles.css
     link-external-icon: true
     link-external-newwindow: true
     link-external-filter: '^(?!((http:|https:)\/\/))'
@@ -62,3 +395,28 @@ code-block-templates:
     eval: true
     class: "test-code"
     highlight: true
+
+params:
+  # Climate activity
+  01-climate:
+    location: "Boulder, CO"
+    station_id: "USC00050848"
+    start_date: "1893-10-01"
+    end_date: "2023-09-30"
+    output_filename: "climate-foundations-data.csv"
+  stars:
+    # Climate activity
+    01-climate:
+        location: "Rapid City, SD"
+        station_id: "USC00396947"
+        start_date: "1949-10-01"
+        end_date: "2023-09-30"
+        output_filename: "climate-stars-data.csv"
+  css:
+    # Urban Heat Island
+    01-climate:
+      location: "Chicago, IL"
+      station_id: "USW00094846"
+      start_date: "1950-10-01"
+      end_date: "2023-09-30"
+      output_filename: "climate-chicago-data.csv"

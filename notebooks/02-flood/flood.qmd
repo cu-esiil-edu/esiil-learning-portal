@@ -1,0 +1,764 @@
+---
+title: The Midwest underwater
+subtitle: A look at 2019 floods in South Dakota, USA
+image: /img/earth-analytics/flood-frequency/flood.png
+image-alt: "A house partially under water, with ruler lines measuring the height"
+author: 
+  - "Elsa Culler"
+  - "Nate Quarderer"
+date: last-modified
+description: |
+  In March 2019, large parts of South Dakota were flooded for weeks. What happened to cause this flooding? What were the impacts on local communities? We will use environmental data to determine where and when flooding happened and how long it lasted. Then, we'll use that same data to put the floods in context historically and discuss how to plan for future disasters.
+requires: |
+  * [Import libraries]()
+  * [Define variables]()
+  * [Tabular data]()
+  * [Create a map with web tile basemap](/pages/03-git-github/03-github-portfolio/05-map.qmd)
+goals: |
+  * Use time-series streamflow data from the USGS to identify when flooding occurred
+  * Examine potential causes for flooding
+  * Describe the impacts of flooding on infrastructure, people, and communities
+jupyter: python3
+---
+
+![Image source: [The Intercept April 5, 2019](https://theintercept.com/2019/04/05/keystone-xl-pipeline-pine-ridge-floods)](https://theintercept.imgix.net/wp-uploads/sites/1/2019/04/h_15196312-Pipeline-Flooding-1554474495-e1554474625282.jpg)
+
+
+::: {.callout-read}
+Check out what some US government and news sources said about the floods in 2019. Here are some resources from different sources to get you started:
+
+  * [The National Weather Service](https://www.weather.gov/fsd/20190314-Flooding) 
+  * [The Intercept](https://theintercept.com/2019/04/05/keystone-xl-pipeline-pine-ridge-floods/)
+  * [Yale Climate Connections](https://yaleclimateconnections.org/2019/04/did-climate-change-cause-midwest-flooding/)
+  * [South Dakota Public Radio](https://www.sdpb.org/news/2019-10-17/cheyenne-river-tribe-says-oahe-dam-has-caused-problems-for-decades)
+
+If you know someone who lived through these or similar floods, we also invite you to ask them about that experience.
+:::
+
+::: {.callout-respond}
+Based on your reading and conversations, what do you think some of the causes of the 2019 flooding in South Dakota were? 
+:::
+
+
+## STEP 1: Site Description and Map
+
+In our example analysis, we'll be focusing on the Cheyenne River, which flows into Lake Oahu by looking at a stream gage near Wasta, SD, USA. After we've completed this example analysis, we suggest that you look into another flood -- perhaps one that you have a personal connection to.
+
+### Site Description
+
+::: {.callout-task}
+Describe the Cheyenne River area in a few sentences. You can include:
+
+  * Information about the **climatology** of the area, or typical 
+  precipitation and temperature at different months of the year
+  * The **runoff ratio** (average annual runoff divided by average 
+  annual precipitation)
+  * Which **wildlife and ecosystems** exist in the area
+  * What **communities and infrastructure** are in the area
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+YOUR SITE DESCRIPTION HERE
+::::
+:::
+
+### Interactive Site Map
+
+#### Get set up to use Python
+
+Use the cell below to add necessary **package imports** to this notebook. It's best to import everything in your very first code cell because it helps folks who are reading your code to figure out where everything comes from (mostly right now this is **you** in the future). It's *very* frustrating to try to figure out what packages need to be installed to get some code to run.
+
+::: {.callout-note .column-margin}
+Our friend [the PEP-8 style guide has some things to say about imports](https://peps.python.org/pep-0008/#imports). In particular, your imports should be in alphabetical order.
+:::
+
+::: {.callout-task}
+  1. Add the **library for working with vector data in Python** and a **library for creating interactive plots of vector and time-series data** to the imports.
+  2. Check that your imports follow the PEP-8 guidelines -- they should be in alphabetical order.
+  3. Run your import cell to make sure everything will work
+:::
+
+```{python}
+#| template: student
+import dataretrieval # Get data from the USGS
+```
+
+```{python}
+#| template: answer
+import dataretrieval # Get data from the USGS
+import geopandas as gpd # Vector data
+import hvplot.pandas # Interactive plots
+```
+
+#### Site Map: The Cheyenne River near Wasta
+
+The code below will create an interactive map of the area. But something is wrong - no one defined the latitude and longitude as
+**variables**.
+
+::: {.callout-task}
+Find the location of the Cheyenne River near Wasta **USGS stream gauge** using the [National Water Information System](https://waterdata.usgs.gov/nwis?). This is not the easiest thing to find if you aren't used to NWIS, so we've provided some screenshots of the process below.
+:::
+
+#### Step 1
+
+![Go to the [National Water Information System Mapper](https://dashboard.waterdata.usgs.gov/app/nwd/en/)](/img/earth-analytics/flood-frequency/nwis-screenshots/01-nwis-dash.png)
+
+#### Step 2
+![Type in `Wasta` in the `Find a Place` box](/img/earth-analytics/flood-frequency/nwis-screenshots/02-place-search.png)
+
+#### Step 3
+
+![Click on the Cheyenne River near Wasta site. It should open a new window.](/img/earth-analytics/flood-frequency/nwis-screenshots/03-open-gage.png)
+
+#### Step 4
+![Click on `Site page` at the top](/img/earth-analytics/flood-frequency/nwis-screenshots/04-open-site-info.png)
+
+![You should now be on the Cheyenne River near Wasta gage site page](/img/earth-analytics/flood-frequency/nwis-screenshots/05-site-info.png)
+
+#### Step 5
+![Scroll to the bottom and open the `Location metadata` section. Make a note of the decimal latitude and longitude!](/img/earth-analytics/flood-frequency/nwis-screenshots/06-get-latlon.png)
+
+::: {.callout-task}
+Now, you're ready to create your site map!
+
+  1. Define latitude and longitude variables to **match the variable names used in the code**.
+  2. Change the current label, "A place?" to be descriptive of the site.
+  3. Run and test your cell to make sure everything works.
+
+:::
+
+::: {.callout-extra}
+Customize your plot [using the hvplot documentation](https://hvplot.holoviz.org/index.html) or by asking your favorite AI tool. For example, you could:
+
+  * Change the size of your map
+  * Change the base map images
+  * Change the color and size of your place marker
+  * Remove the axis labels for a cleaner map
+  
+:::
+
+```{python}
+#| template: student
+
+# Create a GeoDataFrame with the gage location
+gage_gdf = gpd.GeoDataFrame(
+    # Add a name for the gage
+    {'name': ['A place?']},
+    # Create the geometry from lat/lon
+    geometry=gpd.points_from_xy([gage_lon], [gage_lat]),
+    # Coordinate Reference System for lat/lon values
+    crs="EPSG:4326"
+)
+
+# Plot using hvPlot with a basemap
+buffer = 0.01
+gage_gdf.hvplot.points(
+    # Use web tile basemap imagery
+    geo=True, tiles='OpenTopoMap', 
+    # Set approximate bounding box
+    ylim=(gage_lat-buffer, gage_lat+buffer),
+    xlim=(gage_lon-buffer, gage_lon+buffer),
+)
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+gage_lat = 44.08109849 
+gage_lon = -102.4012746
+
+# Create a GeoDataFrame with the gage location
+gage_gdf = gpd.GeoDataFrame(
+    # Add a name for the gage
+    {'name': ['Cheyenne River near Wasta']},
+    # Create the geometry from lat/lon
+    geometry=gpd.points_from_xy([gage_lon], [gage_lat]),
+    # Coordinate Reference System for lat/lon values
+    crs="EPSG:4326"
+)
+
+# Plot using hvPlot with a basemap
+buffer = 0.01
+gage_gdf.hvplot.points(
+    # Use web tile basemap imagery
+    geo=True, tiles='EsriImagery', 
+    # Display the gage name
+    hover_cols=['name'],
+    # Format streamgage marker
+    color='red', size=100,
+    # Set figure size
+    width=500, height=300,
+    # Set approximate bounding box
+    ylim=(gage_lat-buffer, gage_lat+buffer),
+    xlim=(gage_lon-buffer, gage_lon+buffer),
+    # Remove axis labels
+    xaxis=None, yaxis=None
+)
+```
+
+## STEP 2: Access streamflow data
+
+One way to express how big a flood is by estimating how often larger floods occur. For example, you might have heard news media talking about a "100-year flood".
+
+In this notebook, you will write Python code to download and work with a **time series** of streamflow data during the flooding on the Cheyenne River.
+
+> A **time series** of data is taken at the same location but collected regularly or semi-regularly over time. 
+
+You will then use the data to assess when the flooding was at it's worst.
+
+As an **extra challenge** you could consider how the values compared to other years by computing the flood's **return period**.
+
+> A **return period** is an estimate of how often you might expect to see a flood of at least a particular size. This does *NOT* mean an extreme flood "has" to occur within the return period, or that it couldn't occur more than once. However, it does allow us to assess the probability that a sequence of floods would happen and evaluate whether or not we need to change forecasting tools or engineering standards to meet a new reality. For example, it would be really unusual to get three 100-year floods in a ten year period without some kind of underlying change in the climate.
+
+::: {.callout-read}
+
+Here are some resources from your text book you can review to learn more:
+
+  * [Introduction to time-series data](https://www.earthdatascience.org/courses/use-data-open-source-python/use-time-series-data-in-python/)
+  * [Flood return period and probability](https://www.earthdatascience.org/courses/use-data-open-source-python/use-time-series-data-in-python/floods-return-period-and-probability/)
+
+:::
+
+::: {.callout-respond}
+Explain what data you will need to complete this analysis, including:
+
+  1. What type or types of data do you need?
+  2. How many years of data do you think you need to compute the return period of an extreme event like the 2019 Cheyenne River floods?
+
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+YOUR ANSWER HERE
+::::
+:::
+
+### The National Water Information Service
+
+US streamflow data are freely available online from the National Water Information Service (NWIS). These data are collected by the US Geological Survey by comparing the height, or **stage** of a river or stream with a series of flow measurements.
+
+#### Using the NWIS data website
+
+::: {.callout-read}
+Read more about how the USGS collects streamflow data at the [USGS Water Science School site](https://www.usgs.gov/index.php/special-topics/water-science-school/science/how-does-usgs-collect-streamflow-data)
+:::
+
+You'll start out by previewing the data online so that you can get a feel for what it looks like. Then, you'll access the data using the [`dataretrieval` Python package](https://doi-usgs.github.io/dataretrieval-python/) maintained by the USGS.
+
+::: {.callout-task}
+To preview the data, follow along with the screenshots below to complete these steps:
+
+  1. Return to the Cheyenne River near Wasta site page. 
+  2. Change the dates on the data.
+  3. Try downloading some data with your web browser to see what it looks like
+:::
+
+##### Step 1: Open up the site page
+
+![Return to the Cheyenne River near Wasta site page](/img/earth-analytics/flood-frequency/nwis-screenshots/11-preview-data.png)
+
+##### Step 2: Data type
+
+![Scroll down and switch the data type to Discharge instead of Gage Height](/img/earth-analytics/flood-frequency/nwis-screenshots/12-data-type.png)
+
+##### Step 2: Change the plot dates
+
+![Scroll up and select the dates you want to look at.](/img/earth-analytics/flood-frequency/nwis-screenshots/13-dates.png)
+
+##### Step 3: Look at the data
+
+![Take a look at your data. What do you see? You can try changing some dates as well.](/img/earth-analytics/flood-frequency/nwis-screenshots/14-finish.png)
+
+::: {.callout-respond}
+
+What do you notice about this data? You can think about:
+
+  * What type of data is it?
+  * What dates in 2019 had the worst flooding?
+  * How unusual were the 2019 floods?
+  * Does anything about the data seem unusual to you?
+
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+YOUR DATA OBSERVATIONS HERE
+::::
+:::
+
+##### Step 4: Look at some raw data
+
+![Click the `Download Data` button on the USGS site page, select `Continuous Data`, and then click the `Retrieve` button.](/img/earth-analytics/flood-frequency/nwis-screenshots/15-download.png) Open up the file you downloaded -- it should automatically open in your web browser. Does this look like streamflow data to you?
+
+::: {.callout-read}
+Check out the [NWIS documentation](https://waterdata.usgs.gov/nwis/?tab_delimited_format_info) to find out more about how these data are formatted.
+:::
+
+::: {.callout-respond}
+What do you notice about the data now? In the following cell, write down your thoughts on:
+
+  * What separator or **delimiter** does the data use to separate columns?
+  * What should the data types of each column be?
+  * Which column contains the streamflow data?
+  * Do you need to skip any rows that don't contain data? How can you identify those rows?
+  * Did you notice anything else?
+
+:::
+
+#### Data description and citation
+
+::: {.callout-respond}
+Describe your data. Include the following information:
+
+  1. A 1-2 sentence description of the data
+  2. Data citation
+  3. What are the units?
+  4. What is the time interval for each data point?
+  5. Is there a "no data" value, or a value used to indicate when the sensor was broken or didn't detect anything? (These are also known as NA, N/A, NaN, nan, or nodata values)
+
+:::
+
+### Access the data
+
+::: {.callout-task}
+The code below needs some changes from you before it will run.
+
+  1. Replace the empty string `''` in the code below with the USGS NWIS URL you found, saving it in the `nwis_url` variable.
+  2. Download the data using the provided code.
+  3. Save the result to a **descriptive variable**, and call the variable at the end of the cell.
+
+:::
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+nwis_df = dataretrieval.nwis.get_discharge_measurements(sites='06423500')
+nwis_df
+```
+:::
+
+#### Using the USGS `datarelease` library
+
+One way to access data is through an **Application Programming Interface**, or **API**. Luckily for us, the USGS has written a Python library to interface with the NWIS API, called `dataretrieval`
+
+::: {.callout-respond}
+What parameter would you change in the USGS url if you wanted to switch locations?
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+PARAMETER NAME HERE
+::::
+:::
+
+#### Now we're ready to import the data with pandas. 
+
+Notice that when you print your downloaded data, each line has a `b` in front of it. The `b` stands for "bytes". In order for pandas to be able to read the data, we need to **decode** it so each line is a regular string. In the cell below, we do this using the `io.BytesIO` function, which tricks `pandas` into thinking it is reading a binary file.
+
+&#128187; Your task:
+  * Replace `response` with the name of your HTTP Response variable
+  * Uncomment the code below, **one line at a time**.
+  * Using the observations you made above, add the necessary values to get `pandas` to correctly import the data.
+  * Make sure to include units in your column names where applicable! What units are these streamflow measurements?
+
+```{python}
+#| nbgrader: {grade: false, grade_id: ans-import, locked: false, schema_version: 3, solution: true, task: false}
+pd.read_csv(
+    BytesIO(response.content),
+    comment='#',
+    #delimiter='', 
+    #skiprows=[],
+    #names=[],
+    #index_col='',
+    #parse_dates=True,
+)
+
+# BEGIN SOLUTION #
+dataframe = pd.read_csv(
+    BytesIO(response.content), 
+    sep='\t', 
+    comment='#',
+    skiprows=[29, 30],
+    names=['agency', 'site', 'datetime', 'streamflow_cfs', 'code'],
+    index_col='datetime',
+    parse_dates=True)
+dataframe
+# END SOLUTION
+```
+
+```{python}
+#| nbgrader: {grade: true, grade_id: test-import, locked: true, points: 4, schema_version: 3, solution: false, task: false}
+ans_df = _
+df_points = 0
+
+if len(ans_df) >= 39658:
+    print("\u2705 Looks like your DataFrame has enough rows!")
+    df_points += 2
+else:
+    print("\u274C Oops, your DataFrame doesnt have enough rows")
+
+if len(ans_df.columns) == 4:
+    print("\u2705 Looks like your DataFrame has enough columns!")
+    df_points += 2
+elif len(ans_df.columns) == 5:
+    print("\u274C Hmm, looks like you didn't set an index column")
+else:
+    print("\u274C Oops, your DataFrame doesn't have the right number of "
+          "columns")
+    
+print("\u27A1 You earned {} of 4 points".format(df_points))
+```
+
+Let's check your data. A useful method for looking at the **datatypes** in your `pd.DataFrame` is the `pd.DataFrame.info()` method.
+
+> In Python, you will see both **methods** and **functions**. This is an *important and tricky* distinction we'll be talking about a lot. For right now -- functions have all of their arguments/parameters **inside** the parentheses, as in `pd.read_csv(args)`. For **methods**, the first argument is always some kind of Python **object** like a `pd.DataFrame`. Take a look at the next cell for an example of using the `pd.DataFrame.info()` **method**.
+
+
+&#128187;  Replace `dataframe` with the name of your DataFrame variable
+
+```{python}
+dataframe.info()
+```
+
+Oops, we have one more problem! Take a look at the data types of your `DataFrame` columns...
+
+&#9998; In the cell below, write down what data type you would expect the streamflow column to be. The main options are: Integer, Float, Datetime, or Object.
+
+&#128214; Check out [this example showing the most common data types for pandas columns](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.dtypes.html)
+
+> A **float** is a non-integer number. You can identify them because they have decimal points in Python, unlike integers. We do not call them **decimals** for a reason - a `decimal.Decimal` is different, and more precise than, a `float` in Python. If you are ever working with really, really small numbers, you may need to use **decimals**, but for most applications floats are fine.
+
+
+`pandas` was able to apply the correct data type to some columns, but not to the streamflow column. One reason this happens is because there are some values in the `DataFrame` that cannot be read in or **parsed** as the same data type as everything else. Often, these are **no data values**. Unfortunately, the [documentation](https://waterdata.usgs.gov/nwis/?tab_delimited_format_info) does not list any no data values.
+
+The code below runs through the values in the streamflow column one by one. It **tries** to convert each value to a **float**, but if it fails it prints the result and then stops.
+
+> Q is a common variable name for streamflow in hydrology
+
+&#128187; Replace `dataframe` below with your `DataFrame` name, and `streamflow_cfs` with your streamflow column name.
+
+```{python}
+for q in dataframe.streamflow_cfs:
+    try: 
+        float(q)
+    except:
+        print(q)
+        break
+```
+
+Looks like some of the streamflow data is a string instead of a number. This lets us know that no data could be taken that day because the Cheyenne River was frozen! We can let Python know that there isn't any data there using the `na_values='...'` parameter. Substitute the value you found for the `...`
+
+&#128187; Re-import your data below, this time indicating an NA value. Call your new `DataFrame` at the end for testing.
+
+```{python}
+#| nbgrader: {grade: false, grade_id: ans-import2, locked: false, schema_version: 3, solution: true, task: false}
+# BEGIN SOLUTION #
+dataframe = pd.read_csv(
+    BytesIO(response.content), 
+    sep='\t', 
+    comment='#',
+    skiprows=[29, 30],
+    names=['agency', 'site', 'datetime', 'streamflow_cfs', 'code'],
+    index_col='datetime',
+    parse_dates=True,
+    na_values='Ice')
+print(round(dataframe.iloc[:,2].mean(), 0))
+print(dataframe.iloc[:,2].dtype)
+dataframe
+# END SOLUTION
+```
+
+```{python}
+#| nbgrader: {grade: true, grade_id: test-import2, locked: true, points: 6, schema_version: 3, solution: false, task: false}
+ans_q = _
+q_points = 0
+
+if isinstance(ans_q, pd.DataFrame):
+    print("\u2705 Great, you created a pandas dataframe above")
+    q_points += 1
+else:
+    print("\u274C Oops - the cell above should have a DataFrame output.")
+
+if type(ans_q.index) == pd.DatetimeIndex:
+    print("\u2705 Your DataFrame has the date as the index, "
+          "good job!")
+    q_points += 1
+else:
+    print("\u274C Your DataFrame does not have the date "
+          "as the index.")
+    
+import numpy as np
+if ans_q.iloc[:,2].dtype == np.float64:
+    print("\u2705 Your streamflow column is floats!")
+    q_points += 2
+else:
+    print("\u274C Your streamflow column still isn't floats.")
+
+if round(ans_q.iloc[:,2].mean(), 0)==385:
+    print("\u2705 Your streamflow DataFrame has the expected values "
+          "in it, good job!")
+    q_points += 2
+else:
+    print("\u274C Your streamflow DataFrame does not have the "
+          "expected values in it.")
+
+print("\u27A1 You received {} out of 6 points for opening the "
+      "streamflow data.".format(
+    q_points))
+q_points
+```
+
+### Can we see the flood in the streamflow data?
+
+In the cell below, subset the stream discharge data to the same timeframe that you are interested in: February - April, 2019. Save the result to a variable and call it at the end of the cell for testing.
+
+You can find some [examples of subsetting time series data in the textbook](https://www.earthdatascience.org/courses/use-data-open-source-python/use-time-series-data-in-python/date-time-types-in-pandas-python/subset-time-series-data-python/).
+
+```{python}
+#| nbgrader: {grade: false, grade_id: discharge-daily, locked: false, schema_version: 3, solution: true, task: false}
+# BEGIN SOLUTION
+dataframe_subset = dataframe['2019-02':'2019-04']
+print(round(dataframe_subset.iloc[:,2].mean(), 0))
+dataframe_subset
+# END SOLUTION
+```
+
+```{python}
+#| nbgrader: {grade: true, grade_id: test-subset, locked: true, points: 5, schema_version: 3, solution: false, task: false}
+ans_subset = _
+subset_points = 0
+
+# Answer should be a DataFrame
+if isinstance(ans_subset, pd.DataFrame):
+    print("\u2705 Great, you created a pandas dataframe above")
+    subset_points += 1
+else:
+    print("\u274C Oops - the cell above should have a DataFrame output.")
+
+# Answer should have a Datetime index
+if type(ans_subset.index) == pd.DatetimeIndex:
+    print("\u2705 Your DataFrame has the date as the index, "
+          "good job!")
+    subset_points += 1
+else:
+    print("\u274C Your DataFrame does not have the date "
+          "as the index.")
+
+# Answer should include 89 days of data
+if len(ans_subset)==89:
+    print("\u2705 Your DataFrame has the right number of days")
+    subset_points += 2
+elif len(ans_subset) > 89:
+    print("\u274C Your subset has too many days.")
+else:
+    print("\u274C Your subset has too few days.")
+
+# The mean of the streamflow column should be 1951
+if round(ans_subset.iloc[:,2].mean(), 0)==1951:
+    print("\u2705 Your streamflow DataFrame has the expected values "
+          "in it, good job!")
+    subset_points += 1
+else:
+    print("\u274C Your streamflow DataFrame does not have the "
+          "expected values in it.")
+
+print("\u27A1 You received {} out of 5 points for subsetting the "
+      "streamflow data.".format(
+    subset_points))
+subset_points
+```
+
+&#128187; Now, in the cell below, plot your subsetted data. Don't forget to label your plot!
+
+=== BEGIN MARK SCHEME ===
+
+- (2 pts) Subsetted data plotted with dates on the x-axis
+- (3 pts) Appropriate axis labels
+- (2 pt) Appropriate title or caption
+
+=== END MARK SCHEME ===
+
+```{python}
+#| nbgrader: {grade: false, grade_id: ans-plot-subset, locked: false, schema_version: 3, solution: true, task: false}
+# BEGIN SOLUTION
+(dataframe_subset
+ .streamflow_cfs
+ .plot(
+     xlabel='', 
+     ylabel='Streamflow (cfs)',
+     title='Streamflow on the Cheyenne River during a flood'))
+plt.show()
+# END SOLUTION
+```
+
+You should be able to see the flood in your data going up above 12000 cfs at its peak. But how unusual is that really?
+
+Let's start by plotting ALL the data. Then we'll use a return period **statistic** to quantify how unusual it was.
+
+&#128187; In the cell below, plot the entire time series of streamflow data, without any parameters.
+
+```{python}
+#| nbgrader: {grade: false, grade_id: ans-daily-plot, locked: false, schema_version: 3, solution: true, task: false}
+# BEGIN SOLUTION
+
+dataframe.streamflow_cfs.plot()
+
+# END SOLUTION
+```
+
+This plot looks a little fuzzy because it is trying to fit too many data points in a small area. One way to improve this is by **resampling** the data to **annual maxima**. That way we still get the same peak streamflows, but the computer will be able to plot all the values without overlapping.
+
+> **Resampling** means changing the time interval between time series observations - in this case from daily to annual.
+
+&#128214; Read about [different ways to resample time series data in your textbook](https://www.earthdatascience.org/courses/use-data-open-source-python/use-time-series-data-in-python/date-time-types-in-pandas-python/resample-time-series-data-pandas-python/)
+
+&#128214; You can use a [list of **offset aliases**](https://pandas.pydata.org/docs/dev/user_guide/timeseries.html#timeseries-offset-aliases) to look up how to specify the final dates. This list is pretty hard to find - you might want to bookmark it.
+
+&#128187; In the cell below, select the streamflow column, and then resample it to get an annual maximum.
+
+> Watch out for this gotcha - the test below is looking for a pandas `DataFrame`, but when we select a single column we get a pandas `Series` (a `DataFrame` is a collection of `Series`.) To get a `DataFrame` with a single column, use the syntax below with **two** square brackets:
+
+```python
+dataframe[['column_name']]
+```
+
+```{python}
+#| nbgrader: {grade: false, grade_id: ans-resample, locked: false, schema_version: 3, solution: true, task: false}
+# BEGIN SOLUTION
+
+dataframe_annual = dataframe[['streamflow_cfs']].resample('AS').max()
+print(round(int(dataframe_annual.mean()), 0))
+dataframe_annual
+
+# END SOLUTION
+```
+
+```{python}
+#| nbgrader: {grade: true, grade_id: test-resample, locked: true, points: 5, schema_version: 3, solution: false, task: false}
+ans_resample = _
+resample_points = 0
+
+# Answer should be a DataFrame
+if isinstance(ans_resample, pd.DataFrame):
+    print("\u2705 Great, you created a pandas DataFrame above")
+    resample_points += 1
+else:
+    print("\u274C Oops - the cell above should have a DataFrame output.")
+
+# Answer should have a Datetime index
+if type(ans_resample.index) == pd.DatetimeIndex:
+    print("\u2705 Your DataFrame has the date as the index, "
+          "good job!")
+    resample_points += 1
+else:
+    print("\u274C Your DataFrame does not have the date "
+          "as the index.")
+
+# Answer should include 89 days of data
+if len(ans_resample)>=110:
+    print("\u2705 Your DataFrame has the right number of years")
+    resample_points += 2
+else:
+    print("\u274C Oops - did you resample your DataFrame to annual?")
+
+# The mean of the streamflow Series should be 7888
+if round(int(ans_resample.mean()), 0)==7888:
+    print("\u2705 Your annual max streamflow DataFrame has the expected "
+          "values in it, good job!")
+    resample_points += 1
+else:
+    print("\u274C Your annual max streamflow DataFrame does not have the "
+          "expected values in it.")
+
+print("\u27A1 You received {} out of 5 points for subsetting the "
+      "streamflow data.".format(
+    resample_points))
+resample_points
+```
+
+&#128187; Plot your resampled data.
+
+```{python}
+#| nbgrader: {grade: false, grade_id: dicharge-monthly-max, locked: false, schema_version: 3, solution: true, task: false}
+# BEGIN SOLUTION
+
+dataframe_annual.plot(
+    figsize=(14, 4),
+    xlabel='Year',
+    ylabel='Daily Streamflow (cfs)',
+    title='Annual Maximum Daily Streamflow Values on the Cheyenne River')
+plt.show()
+# END SOLUTION
+```
+
+In the cell below, write a headline and 2-3 sentence description of your plot. What do you estimate the return period was for the flood in 2019?
+
+
+&#127798; In the cell below, calculate the exceedence probability and return period for each year of the **annual** data, and add them as columns to your DataFrame.
+
+> HINT: pandas columns have a `rank` method, which you can use. BUT -- you will need to use the `ascending=False` parameter, since higher rank should be lower exceedence probability 
+
+```{python}
+#| nbgrader: {grade: false, grade_id: ans-return, locked: false, schema_version: 3, solution: true, task: false}
+# BEGIN SOLUTION
+
+dataframe_annual['exceed_prob'] = (
+    dataframe_annual.rank(ascending=False).streamflow_cfs / len(dataframe_annual))
+dataframe_annual['return_period'] = 1 / dataframe_annual.exceed_prob
+
+print(round(dataframe_annual.mean().product(), 0))
+dataframe_annual
+
+# END SOLUTION
+```
+
+```{python}
+#| nbgrader: {grade: true, grade_id: tests-return, locked: true, points: 0, schema_version: 3, solution: false, task: false}
+ans_return = _
+return_points = 0
+
+# Answer should be a DataFrame
+if isinstance(ans_return, pd.DataFrame):
+    print("\u2705 Great, you created a pandas dataframe above")
+    return_points += 1
+else:
+    print("\u274C Oops - the cell above should have a DataFrame output.")
+
+# Answer should have a Datetime index
+if type(ans_return.index) == pd.DatetimeIndex:
+    print("\u2705 Your DataFrame has the date as the index, "
+          "good job!")
+    return_points += 1
+else:
+    print("\u274C Your DataFrame does not have the date "
+          "as the index.")
+
+# Answer should include 110 years of data
+if len(ans_return)==110:
+    print("\u2705 Your DataFrame has the right number of days")
+    return_points += 2
+elif len(ans_return) > 110:
+    print("\u274C Your DataFrame has too many years.")
+else:
+    print("\u274C Your DataFrame has too few years.")
+
+# The value "hash" should be 20549.0
+if round(ans_return.mean().product(), 0)==20549.0:
+    print("\u2705 Your streamflow DataFrame has the expected values "
+          "in it, good job!")
+    return_points += 1
+else:
+    print("\u274C Your streamflow DataFrame does not have the "
+          "expected values in it.")
+
+print("\u27A1 You received {} out of 5 extra credit points for calculating the "
+      "return period.".format(return_points))
+return_points
+```
+
+## Pep 8, and Does the Notebook Run?
+In this cell, we will give you points for the following
+
+1. PEP 8 is followed throughout the notebook (3 points)
+3. The notebook runs from top to bottom without any editing (it is reproducible) (3 points)
+
