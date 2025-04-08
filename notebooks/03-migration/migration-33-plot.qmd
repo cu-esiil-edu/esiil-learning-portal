@@ -1,4 +1,4 @@
-## STEP 5: Plot the Veery Thrush observations by month
+## STEP 5: Plot the __param_species_name observations by month
 
 First thing first -- let's load your stored variables and import libraries.
 
@@ -16,10 +16,7 @@ In the imports cell, we've included some packages that you will need. Add import
 :::
 
 ```{python}
-#| echo: True
-#| eval: False
-#| class: student-code
-#| highlight: True
+#| template: student
 # Get month names
 import calendar
 
@@ -30,12 +27,7 @@ import panel as pn
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: True
-#| eval: True
-#| code-fold: True
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: True
+#| template: answer
 # Get month names
 import calendar
 
@@ -61,10 +53,7 @@ Download and save ecoregion boundaries from the EPA:
 :::
 
 ```{python}
-#| echo: True
-#| eval: False
-#| class: student-code
-#| highlight: True
+#| template: student
 # Simplify the geometry to speed up processing
 
 # Change the CRS to Mercator for mapping
@@ -75,12 +64,7 @@ gdf.hvplot(geo=True, crs=ccrs.Mercator())
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: True
-#| eval: True
-#| code-fold: True
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: True
+#| template: answer
 # Simplify the geometry to speed up processing
 ecoregions_gdf.geometry = ecoregions_gdf.simplify(
     .05, preserve_topology=False)
@@ -105,10 +89,7 @@ Your plot will probably still change months very slowly in your Jupyter notebook
 :::
 
 ```{python}
-#| echo: True
-#| eval: False
-#| class: student-code
-#| highlight: True
+#| template: student
 # Join the occurrences with the plotting GeoDataFrame
 occurrence_gdf = ecoregions_gdf.join(occurrence_df)
 
@@ -140,12 +121,7 @@ migration_plot
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: True
-#| eval: True
-#| code-fold: True
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: True
+#| template: answer
 # Join the occurrences with the plotting GeoDataFrame
 occurrence_gdf = ecoregions_gdf.join(occurrence_df)
 
@@ -166,7 +142,7 @@ migration_plot = (
         groupby='month',
         # Use background tiles
         geo=True, crs=ccrs.Mercator(), tiles='CartoLight',
-        title="Veery Thrush migration",
+        title="__param_species_name migration",
         xlim=(xmin, xmax), ylim=(ymin, ymax),
         frame_width=500,
         colorbar=False,

@@ -12,22 +12,14 @@ In the imports cell, we've included some packages that you will need. Add import
 :::
 
 ```{python}
-#| echo: True
-#| eval: False
-#| class: student-code
-#| highlight: True
+#| template: student
 import os
 import pathlib
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: True
-#| eval: True
-#| code-fold: True
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: True
+#| template: answer
 import os
 import pathlib
 
@@ -54,10 +46,7 @@ The code below will help you get started with making a project directory
 :::
 
 ```{python}
-#| echo: True
-#| eval: False
-#| class: student-code
-#| highlight: True
+#| template: student
 # Create data directory in the home folder
 data_dir = os.path.join(
     # Home directory
@@ -73,12 +62,7 @@ os.makedirs(data_dir, exist_ok=True)
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: True
-#| eval: True
-#| code-fold: True
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: True
+#| template: answer
 # Create data directory in the home folder
 data_dir = os.path.join(
     pathlib.Path.home(),
@@ -92,7 +76,7 @@ os.makedirs(data_dir, exist_ok=True)
 
 ## STEP 2: Define your study area -- the ecoregions of North America
 
-Track observations of Veery Thrush across different **ecoregions**! You should be able to see changes in the number of observations in each ecoregion throughout the year.
+Track observations of __param_species_name across different **ecoregions**! You should be able to see changes in the number of observations in each ecoregion throughout the year.
 
 ::: {.callout-read}
 The ecoregion data will be available as a **shapefile**. Learn more about shapefiles and vector data in this [Introduction to Spatial Vector Data File Formats in Open Source Python](https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-spatial-data/use-vector-data/)
@@ -115,10 +99,7 @@ Read more about conditionals in this [Intro Conditional Statements in Python](ht
 :::
 
 ```{python}
-#| echo: True
-#| eval: False
-#| class: student-code
-#| highlight: True
+#| template: student
 # Set up the ecoregion boundary URL
 url = "your/url/here"
 
@@ -137,12 +118,7 @@ if not os.path.exists(a_path):
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: True
-#| eval: True
-#| code-fold: True
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: True
+#| template: answer
 # Set up the ecoregion boundary URL
 ecoregions_url = (
     "https://storage.googleapis.com/teow2016/Ecoregions2017.zip")
@@ -163,7 +139,7 @@ Let's check that that worked! To do so we'll use a **bash** command called `find
 
 ```{python}
 %%bash
-find ~/earth-analytics/data/species-distribution -name '*.shp' 
+find ~/earth-analytics/data/migration -name '*.shp' 
 ```
 
 ::: {.callout-tip}
@@ -187,10 +163,7 @@ Download and save ecoregion boundaries from the EPA:
 :::
 
 ```{python}
-#| echo: True
-#| eval: False
-#| class: student-code
-#| highlight: True
+#| template: student
 # Open up the ecoregions boundaries
 gdf = gpd.read_file(a_path)
 
@@ -202,12 +175,7 @@ gdf.index.name = 'ecoregion'
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: True
-#| eval: True
-#| code-fold: True
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: True
+#| template: answer
 # Open up the ecoregions boundaries
 ecoregions_gdf = (
     gpd.read_file(ecoregions_path)
@@ -239,10 +207,7 @@ For this challenge, you will use a database called the [Global Biodiversity Info
 :::
 
 ```{python}
-#| echo: True
-#| eval: False
-#| class: student-code
-#| highlight: True
+#| template: student
 # Load the GBIF data
 gbif_df = pd.read_csv(
     gbif_url, 
@@ -254,19 +219,14 @@ gbif_df.head()
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: True
-#| eval: True
-#| code-fold: True
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: True
+#| template: answer
 # Define the sample data URL
 gbif_url = (
     "https://github.com/cu-esiil-edu/esiil-learning-portal/releases/download"
-    "/data-release/migration-foundations-data.zip")
+    "/data-release/__param_sample_filename.zip")
     
 # Set up a path to save the data on your machine
-gbif_filename = "gbif_veery"
+gbif_filename = "__param_download_filename"
 gbif_dir = os.path.join(data_dir, gbif_filename)
 os.makedirs(gbif_dir, exist_ok=True)
 gbif_path = os.path.join(gbif_dir, f"{ gbif_filename }.zip")
@@ -299,10 +259,7 @@ To plot the GBIF data, we need to convert it to a `GeoDataFrame` first. This wil
 :::
 
 ```{python}
-#| echo: True
-#| eval: False
-#| class: student-code
-#| highlight: True
+#| template: student
 gbif_gdf = (
     gpd.GeoDataFrame(
         your_dataframe, 
@@ -318,12 +275,7 @@ gbif_gdf
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: True
-#| eval: True
-#| code-fold: True
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: True
+#| template: answer
 gbif_gdf = (
     gpd.GeoDataFrame(
         gbif_df, 
