@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.43">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nate Quarderer">
+<meta name="author" content="Elsa Culler">
+<meta name="dcterms.date" content="2025-04-08">
+<meta name="keywords" content="Open Science, Urban Heat Island, Place-based Learning">
+<meta name="description" content="In this hands-on Earth Data Science activity, we’ll look at temperature data from two locations in the Chicago area and compare them.">
+
+<title>Urban Heat Wave</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../notebooks/01-climate/climate-98-download.html" rel="next">
+<link href="../../pages/01-reproducible-science-tools/open-reproducible-science/01-overview.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-081323ba35f3faa89d26f09d59104d91.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": true,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": true,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../img/ESIIL_portal_dark.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-trying-to-run-some-codebrstrongget-startedstrong" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Trying to run some code?<br><strong>Get Started</strong></span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-trying-to-run-some-codebrstrongget-startedstrong">    
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/01-get-started/python/index.html">
+ <span class="dropdown-text">Get started with Python for Environmental Data Science</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/01-get-started/r/index.html">
+ <span class="dropdown-text">Get started with R for Environmental Data Science</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/01-get-started/gee/index.html">
+ <span class="dropdown-text">Get started with Google Earth Engine</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/01-get-started/docker/index.html">
+ <span class="dropdown-text">Build Your Own Environment with Docker</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guided-learningbrstrongtextbooksstrong" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Guided learning<br><strong>Textbooks</strong></span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-guided-learningbrstrongtextbooksstrong">    
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/02-textbooks/ignite/index.html">
+ <span class="dropdown-text">IGNITE Data Analytics for early-career researchers</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-attending-abrstrongclass-or-eventstrong" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Attending a<br><strong>Class or Event</strong>?</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-attending-abrstrongclass-or-eventstrong">    
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/04a-courses/foundations/01-fundamentals/index.html">
+ <span class="dropdown-text">GEOG 5463/4463: Fundamentals of Earth Data Analytics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/04a-courses/stars/index.html">
+ <span class="dropdown-text">ESIIL Stars</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/04a-courses/shortcourse/01-collaboration/index.html">
+ <span class="dropdown-text">SHORT COURSE 1: Cloud Computing, Collaboration, and Communication</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/04b-events/hyrsense/index.html">
+ <span class="dropdown-text">HYR-SENSE</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/04b-events/mefa/index.html">
+ <span class="dropdown-text">MEFA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/04b-events/css/index.html">
+ <span class="dropdown-text">Chicago Symposium Series</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-we-want-yourbrstrongcontributionsstrong" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">We want your<br><strong>Contributions</strong></span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-we-want-yourbrstrongcontributionsstrong">    
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/05-contribute/submit.html">
+ <span class="dropdown-text">Submit a module</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/05-contribute/support.html">
+ <span class="dropdown-text">Support the Learning Portal</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="http://earthdatascience.org"> 
+<span class="menu-text">Classic<br>earthdatascience.org</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/00-overviews/04b-events/css/01-urban-heat/index.html">Session 1 – Chicago Heat Wave</a></li><li class="breadcrumb-item"><a href="../../notebooks/09-urban-heat-island/urban-heat-island.html">Urban Heat Island</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../img/ESIIL_portal_dark.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/00-overviews/04b-events/css/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Workshop Overview</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://chicagosymposium.org/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chicago Symposium</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://esiil.org/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ESIIL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://chicagosymposium.org/profile/139/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Plenary Speakers</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/00-overviews/04b-events/css/01-urban-heat/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 1 -- Chicago Heat Wave</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/signup" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Make a Free GitHub Account</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/01-reproducible-science-tools/open-reproducible-science/01-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Open, Reproducible Science</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/09-urban-heat-island/urban-heat-island.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Urban Heat Island</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/01-climate/climate-98-download.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Download</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://classroom.github.com/a/D24VgT6A" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Try it on GitHub!</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/00-overviews/04b-events/css/02-facilitating/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 2 – Facilitating cross-cultural projects</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/00-overviews/04b-events/css/03-ai-peer/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 3 – You don’t need to be an expert to teach coding</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">More ESIIL?</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://esiil.org/contact-0" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Join our mailing list.</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://www.tandfonline.com/doi/full/10.1080/26939169.2024.2362886" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Article - Fostering the Development of Earth Data Science Skills in a Diverse Community of Online Learners</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://www.science.org/doi/10.1126/science.adk5737" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Article - The fastest-growing and most destructive fires in the US</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#were-all-feeling-the-heat" id="toc-were-all-feeling-the-heat" class="nav-link active" data-scroll-target="#were-all-feeling-the-heat">We’re all feeling the heat!</a>
+  <ul class="collapse">
+  <li><a href="#place-based-culturally-relevant-curriculum-is-essential-to-engaging-diverse-groups-of-students" id="toc-place-based-culturally-relevant-curriculum-is-essential-to-engaging-diverse-groups-of-students" class="nav-link" data-scroll-target="#place-based-culturally-relevant-curriculum-is-essential-to-engaging-diverse-groups-of-students">Place-based, culturally-relevant curriculum is essential to engaging diverse groups of students</a></li>
+  <li><a href="#meet-your-classroom-learning-goals-with-earth-data-science" id="toc-meet-your-classroom-learning-goals-with-earth-data-science" class="nav-link" data-scroll-target="#meet-your-classroom-learning-goals-with-earth-data-science">Meet your classroom learning goals with Earth Data Science</a></li>
+  </ul></li>
+  <li><a href="#case-study-chicago-summer-2024-heat-wave" id="toc-case-study-chicago-summer-2024-heat-wave" class="nav-link" data-scroll-target="#case-study-chicago-summer-2024-heat-wave"><strong>Case Study:</strong> Chicago summer 2024 heat wave</a>
+  <ul class="collapse">
+  <li><a href="#heat-kills" id="toc-heat-kills" class="nav-link" data-scroll-target="#heat-kills">Heat kills</a></li>
+  <li><a href="#is-it-cooler-by-the-lake" id="toc-is-it-cooler-by-the-lake" class="nav-link" data-scroll-target="#is-it-cooler-by-the-lake">Is it cooler by the lake?</a></li>
+  </ul></li>
+  <li><a href="#get-started-with-open-reproducible-science-in-the-cloud" id="toc-get-started-with-open-reproducible-science-in-the-cloud" class="nav-link" data-scroll-target="#get-started-with-open-reproducible-science-in-the-cloud">Get started with open, reproducible science in the cloud</a></li>
+  <li><a href="#step-1-import-packages" id="toc-step-1-import-packages" class="nav-link" data-scroll-target="#step-1-import-packages">STEP 1: Import packages</a>
+  <ul class="collapse">
+  <li><a href="#python-packages-let-you-use-code-written-by-experts-around-the-world" id="toc-python-packages-let-you-use-code-written-by-experts-around-the-world" class="nav-link" data-scroll-target="#python-packages-let-you-use-code-written-by-experts-around-the-world">Python <strong>packages</strong> let you use code written by experts around the world</a></li>
+  </ul></li>
+  <li><a href="#step-2-download-data" id="toc-step-2-download-data" class="nav-link" data-scroll-target="#step-2-download-data">STEP 2: Download Data</a>
+  <ul class="collapse">
+  <li><a href="#global-historical-climatology-network" id="toc-global-historical-climatology-network" class="nav-link" data-scroll-target="#global-historical-climatology-network">Global Historical Climatology Network</a></li>
+  <li><a href="#ohare-international-airport" id="toc-ohare-international-airport" class="nav-link" data-scroll-target="#ohare-international-airport">O’Hare International Airport</a></li>
+  <li><a href="#northerly-island" id="toc-northerly-island" class="nav-link" data-scroll-target="#northerly-island">Northerly Island</a></li>
+  </ul></li>
+  <li><a href="#step-3-wrangle-data" id="toc-step-3-wrangle-data" class="nav-link" data-scroll-target="#step-3-wrangle-data">STEP 3: Wrangle Data</a>
+  <ul class="collapse">
+  <li><a href="#select-only-the-columns-you-want" id="toc-select-only-the-columns-you-want" class="nav-link" data-scroll-target="#select-only-the-columns-you-want">Select only the columns you want</a></li>
+  <li><a href="#join-data" id="toc-join-data" class="nav-link" data-scroll-target="#join-data">Join data</a></li>
+  </ul></li>
+  <li><a href="#step-4-plot" id="toc-step-4-plot" class="nav-link" data-scroll-target="#step-4-plot">STEP 4: Plot</a>
+  <ul class="collapse">
+  <li><a href="#rename-columns-for-nicer-labels" id="toc-rename-columns-for-nicer-labels" class="nav-link" data-scroll-target="#rename-columns-for-nicer-labels">Rename columns for nicer labels</a></li>
+  <li><a href="#generate-a-figure" id="toc-generate-a-figure" class="nav-link" data-scroll-target="#generate-a-figure">Generate a figure</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<!-- Modified from https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/html/templates/banner/title-block.html -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/00-overviews/04b-events/css/01-urban-heat/index.html">Session 1 – Chicago Heat Wave</a></li><li class="breadcrumb-item"><a href="../../notebooks/09-urban-heat-island/urban-heat-island.html">Urban Heat Island</a></li></ol></nav>
+    <div class="esiil-title-goals page-columns page-full">
+        <div class="quarto-title column-body">
+                        <h1 class="title">
+                Urban Heat Wave
+            </h1>
+                                    <p class="subtitle lead">
+                A cross-disciplinary, place-based Earth Data Science activity
+            </p>
+                                    <div class="description">
+                In this hands-on Earth Data Science activity, we’ll look at temperature data from two locations in the Chicago area and compare them.
+            </div>
+                    
+                        <div class="esiil-learning-goals-title">Learning Goals:</div>
+            <ul class="esiil-learning-goals">
+                                <li class="esiil-learning-goal">Access open weather and climate data from NOAA</li>
+                                <li class="esiil-learning-goal">Answer a cuturally relevant question using EDS</li>
+                                <li class="esiil-learning-goal">Adapt curriculum to different disciplines and cultural contexts</li>
+                                <li class="esiil-learning-goal">Analyze temperature data over time</li>
+                                <li class="esiil-learning-goal">Parse date information so that it is represented as a datetime type</li>
+                                <li class="esiil-learning-goal">Use operators to convert to different units</li>
+                                <li class="esiil-learning-goal">Compare temperature in different locations</li>
+                            </ul>
+                    </div>
+    
+        
+    <div class="no-row-height column-margin column-container"><div class="">
+                        <img src="../../img/earth-analytics/urban-heat-island/uhi-icon.png" width="100%">
+                        
+                        <div class="quarto-title-meta">
+
+                            <div>
+                            <div class="quarto-title-meta-heading">Authors</div>
+                            <div class="quarto-title-meta-contents">
+                                     <p>Nate Quarderer </p>
+                                     <p>Elsa Culler </p>
+                                  </div>
+                          </div>
+                            
+                            <div>
+                            <div class="quarto-title-meta-heading">Published</div>
+                            <div class="quarto-title-meta-contents">
+                              <p class="date">April 8, 2025</p>
+                            </div>
+                          </div>
+                          
+                            
+                          </div>
+                          
+
+                        <div>
+                          <div class="keywords">
+                            <div class="block-title">Keywords</div>
+                            <p>Open Science, Urban Heat Island, Place-based Learning</p>
+                          </div>
+                        </div>
+        </div></div></div>
+</header>
+
+
+<section id="were-all-feeling-the-heat" class="level2">
+<h2 class="anchored" data-anchor-id="were-all-feeling-the-heat">We’re all feeling the heat!</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://cst.brightspotcdn.com/dims4/default/ec8ca7b/2147483647/strip/false/crop/3000x2000+0+0/resize/1486x991!/quality/90/?url=https%3A%2F%2Fchorus-production-cst-web.s3.us-east-1.amazonaws.com%2Fbrightspot%2F3c%2F72%2F37c4c5124af88bb45a3f591cea94%2Fweather-061824-15.jpg" class="img-fluid figure-img"></p>
+<figcaption>Source: Chicago Sun Times; Children and adults cool down at the Crown Fountain in the Loop on Monday June 17, 2024</figcaption>
+</figure>
+</div>
+<p><a href="https://www.nasa.gov/earth/nasa-finds-summer-2024-hottest-to-date/">The summer of 2024 was the hottest yet</a>, <span class="citation" data-cites="younger_nasa_2024">(<a href="#ref-younger_nasa_2024" role="doc-biblioref">Younger 2024</a>)</span> and every indication is that the heat is only going to get more intense. Communities need to protect their vulnerable members by adapting to the changing climate with solutions informed by their cultural, geographic, and political context.</p>
+<section id="place-based-culturally-relevant-curriculum-is-essential-to-engaging-diverse-groups-of-students" class="level3">
+<h3 class="anchored" data-anchor-id="place-based-culturally-relevant-curriculum-is-essential-to-engaging-diverse-groups-of-students">Place-based, culturally-relevant curriculum is essential to engaging diverse groups of students</h3>
+<p>Because this is a <strong>place-based</strong> learning exercise, it can be adapted to different cultural contexts. This is a key element we hear about when asking communities how to teach Earth Data Science in a culturally responsive way.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://successfulacademics.com/IMAGES/Our-Org-Culturally-Responsive-Teaching_Title.png" class="img-fluid figure-img"></p>
+<figcaption>Source: https://successfulacademics.com/BlackChildSEL/CRT.html</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-discuss callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Conversation Starter
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Heat affects different communities in different ways. Here are some questions to help spark a conversation with classmates or with members of your community:</p>
+<ul>
+<li>What effects has <strong>heat</strong> had on your <strong>community</strong>?</li>
+<li>What <strong>changes</strong> have you observed to the climate over your lifetime? Can you talk to an elder and find out what changes they have observed?</li>
+<li>How have <strong>policies</strong> like redlining influenced <strong>community vulnerability</strong> to heat waves?</li>
+<li>Are there <strong>traditional building methods or ecological practices</strong> in your culture that help to mitigate the effects of heat waves?</li>
+</ul>
+</div>
+</div>
+<p>We know it can be tough to talk about climate change – be easy on yourselves! One way to help have a positive conversation about climate change is to talk about solutions. After all, when it comes to a life-or-death issue like heat waves, we can’t let the conversation end with observing the situation.</p>
+<div class="callout callout-style-default callout-discuss callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Conversation Starter
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What are some short- and long-term strategies for <strong>mitigating</strong> the effects of heat on your community? If you were implementing mitigation strategies, <strong>who would you reach out to first</strong>? Below are some examples of some types of strategies you could discuss:</p>
+<ul>
+<li><strong>Reaching out to vulnerable community members</strong> through cultural and religious institutions to provide aid such as transportation to an air conditioned space, ensure water supply, and cool down buildings with strategies like fans and radiation-blocking window films.</li>
+<li>Culturally and climatically appropriate <strong>changes to the built environment</strong> to reduce heat absorption and storage during heat waves.</li>
+<li>Culturally and climatically appropriate changes and/or <strong>expansion of green space</strong> to reduce heat absorption and storage</li>
+<li><strong>Cultural events</strong> to help your community adapt</li>
+</ul>
+</div>
+</div>
+<p>Making cultural connections is important for achieving learning goals and engaging diverse groups of students.</p>
+</section>
+<section id="meet-your-classroom-learning-goals-with-earth-data-science" class="level3">
+<h3 class="anchored" data-anchor-id="meet-your-classroom-learning-goals-with-earth-data-science">Meet your classroom learning goals with Earth Data Science</h3>
+<p>We have also developed this activity so that it can be adapted to many different academic disciplines, and we encourage you to do so in your classes! For example:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 87%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Discipline</th>
+<th>Learning Goals</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Physics</td>
+<td>Explain how aspects of heat transfer such as<strong>albedo</strong>, <strong>thermal mass</strong>, and <strong>latent heat</strong> relate to the Urban Heat Island effect</td>
+</tr>
+<tr class="even">
+<td>Biology</td>
+<td>Biological concepts that cause the Urban Heat Island effect such as <strong>transpiration</strong>, <strong>photosynthesis</strong>, and <strong>homeostasis</strong></td>
+</tr>
+<tr class="odd">
+<td>Statistics</td>
+<td>Probability distributions for average and extreme temperatures, stationarity, and hypothesis testing to determine differences among sites</td>
+</tr>
+<tr class="even">
+<td>Calculus</td>
+<td>Processes governing heat transfer</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-read callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Read More: Air Temperature vs. Surface Temperature
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We’ll be looking at air temperature in this analysis rather than surface temperature. Some of you may have clocked that the surface temperature is more related to the Urban Heat Island mechanism! However, the two are closely related, so we think we can still examing Urban Heat Island effects using air temperature. Check out this resource from the EPA <span class="citation" data-cites="us_epa_learn_2014">(<a href="#ref-us_epa_learn_2014" role="doc-biblioref">US EPA 2014</a>)</span> on the relationship between air temperature and surface temperature and the Urban Heat Island effect:</p>
+<p><a href="https://www.epa.gov/heatislands/learn-about-heat-islands"><img src="https://www.epa.gov/sites/default/files/2020-07/heat_island_effect_diagram.jpg" class="img-fluid"></a></p>
+</div>
+</div>
+</section>
+</section>
+<section id="case-study-chicago-summer-2024-heat-wave" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-chicago-summer-2024-heat-wave"><strong>Case Study:</strong> Chicago summer 2024 heat wave</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://stateclimatologist.web.illinois.edu/wp-content/uploads/2024/07/Chicago_temps-768x338.png" class="img-fluid figure-img"></p>
+<figcaption>Source: Illinois State Climatologist; Daily June average temperatures and departures from normal in Chicago</figcaption>
+</figure>
+</div>
+<p>According to the <a href="https://stateclimatologist.web.illinois.edu/2024/07/">Illinois state climatology office</a> <span class="citation" data-cites="illinois_state_water_survey_warm_2024">(<a href="#ref-illinois_state_water_survey_warm_2024" role="doc-biblioref">Illinois State Water Survey 2024</a>)</span>, daily average temperatures between June 13 and June 25 were 5 to 15 degrees above normal in Chicago and statewide. Overnight temperatures in Chicago were forecast to <a href="https://chicago.suntimes.com/weather/2024/06/17/chicago-weather-heat-dome-wave-hot-temperatures-what-you-should-know">stay into the 70’s</a> with record breaking temperatures being attributed to <a href="https://www.cbsnews.com/chicago/news/chicago-heat-wave-how-to-stay-cool-safe/">climate change</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ewscripps.brightspotcdn.com/dims4/default/88c8feb/2147483647/strip/true/crop/2016x1104+0+0/resize/1280x701!/quality/90/?url=http%3A%2F%2Fewscripps-brightspot.s3.amazonaws.com%2F3d%2F40%2Fe299467c47ac8176e326d4159ba2%2Fscreen-shot-2024-06-13-at-9-10-43-am.png" class="img-fluid figure-img"></p>
+<figcaption>Source: NOAA, Magenta indicates the highest risk of extreme heat on Monday June 17, 2024</figcaption>
+</figure>
+</div>
+<p>If you teach in or near Chicago, your students probably have some feelings about how hot it was! The Chicago area is known for its at times extreme weather, but cities get hit particularly hard by heat waves due to the urban heat island effect. <a href="https://wgntv.com/weather/weather-blog/chicago-is-an-urban-heat-island-so-what-does-that-mean/">This article from WGN</a> <span class="citation" data-cites="alix_martichoux_urban_2024">(<a href="#ref-alix_martichoux_urban_2024" role="doc-biblioref">Alix Martichoux 2024</a>)</span> explains what this means for cities like Chicago.</p>
+<section id="heat-kills" class="level3">
+<h3 class="anchored" data-anchor-id="heat-kills">Heat kills</h3>
+<p>Climate change is intensifying summer heat in Chicago, particularly in heat island areas, which disproportionately affects marginalized communities. These neighborhoods, often with less green space and more heat-trapping infrastructure, face higher temperatures and greater health risks <span class="citation" data-cites="us_epa_heat_2019">(<a href="#ref-us_epa_heat_2019" role="doc-biblioref"><strong>us_epa_heat_2019?</strong></a>)</span>.</p>
+<div class="callout callout-style-default callout-read callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Read More: What is a Heat Island?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Read more about the Urban Heat Island effect at the <a href="https://www.epa.gov/heatislands">EPA</a>.</p>
+</div>
+</div>
+<p>Chicago O’Hare International Airport is a known heat island often reporting temperatures 5-10 degrees warmer than surrounding communities <span class="citation" data-cites="nbc_chicago_what_2022">(<a href="#ref-nbc_chicago_what_2022" role="doc-biblioref">NBC Chicago 2022</a>)</span>.</p>
+</section>
+<section id="is-it-cooler-by-the-lake" class="level3">
+<h3 class="anchored" data-anchor-id="is-it-cooler-by-the-lake">Is it cooler by the lake?</h3>
+<p>Many Chicagoans know that one of the best ways to beat the heat is to head to the lake. In this we’ll try to answer whether it’s <em>really</em> <a href=""><strong>cooler by the Lake</strong></a>, and what Chicago could do to cool down the rest of the City.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://wgntv.com/wp-content/uploads/sites/5/2023/04/NLanimation10and11.gif" class="img-fluid figure-img"></p>
+<figcaption>WGN Temperature Forecast – it’s cooler by the lake!</figcaption>
+</figure>
+</div>
+<p>We will select two climate stations located within the greater Chicago area: O’Hare International Airport (Station ID: USW00094846), and Northerly Island (Station ID: USC00111550) to explore trends in maximum daily temperatures.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://fly-ord.com/sites/default/files/inline-images/chicago-ord-miguel-angel-sanz-unsplash.jpg" class="img-fluid figure-img"></p>
+<figcaption><a href="https://fly-ord.com/airlines">Photo of O’Hare Airport by Miguel Angel Sanz - Unsplash.</a></figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ik.imagekit.io/ChicagoArchitecture/image/assets%2F49af4dfb0fbc43d58bf8ce407e839d74%2Fc5ead4a81e4e41a28d6cee59bc4c1761?tr=q-50,fm-webp.png" class="img-fluid figure-img"></p>
+<figcaption><a href="https://www.architecture.org/online-resources/buildings-of-chicago/northerly-island">Aerial view of Northerly Island. Photo by Tom Harris.</a></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="get-started-with-open-reproducible-science-in-the-cloud" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="get-started-with-open-reproducible-science-in-the-cloud">Get started with open, reproducible science in the cloud</h2>
+<p>We will be using <a href="">Python</a> and <a href="">GitHub codespaces</a>, two popular open-source data science tools, to do the coding for this workshop, along with <a href="">GitHub classroom</a> to distribute the activity. You will not need to download or install anything on your computer - everything we’ll do can be done in the cloud! You and your students will need a free GitHub account in order to accept the assignment from GitHub classroom and complete the activity.</p>
+
+<div class="no-row-height column-margin column-container"><div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For those interested, we have created a working Python environment that we host on <a href="https://hub.docker.com/r/earthlab/earth-analytics-python-env">Docker Hub</a>. Feel free to share this with your students or research group.</p>
+</div>
+</div></div><p>We’re excited to get started doing some EDS with you!</p>
+</section>
+<section id="step-1-import-packages" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-import-packages">STEP 1: Import packages</h2>
+<section id="python-packages-let-you-use-code-written-by-experts-around-the-world" class="level3">
+<h3 class="anchored" data-anchor-id="python-packages-let-you-use-code-written-by-experts-around-the-world">Python <strong>packages</strong> let you use code written by experts around the world</h3>
+<p>Because Python is open source, lots of different people and organizations can contribute (including you!). Many contributions are in the form of <strong>packages</strong> which do not come with a standard Python download.</p>
+<div class="callout callout-style-default callout-read callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Read More: Packages need to be installed and imported.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Learn more about using Python packages. How do you find and use packages? What is the difference between installing and importing packages? When do you need to do each one? <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/use-python-packages/">This article on Python packages</a> will walk you through the basics.</p>
+</div>
+</div>
+<p>In the cell below, someone was trying to import the <strong>pandas package</strong>, which helps us to work with <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-text-files/"><strong>tabular data</strong> such as comma-separated value or csv files</a>.</p>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It: Import a package
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Correct the typo below to properly import the pandas package under its <strong>alias</strong> pd.</li>
+<li>Run the cell to import pandas</li>
+</ol>
+</div>
+</div>
+<div id="dcfde6fa" class="cell student-code" data-highlight="true" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandsa <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="f9710899" class="cell answer-code" data-highlight="true" data-execution_count="2">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use tabular data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="step-2-download-data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="step-2-download-data">STEP 2: Download Data</h2>
+<section id="global-historical-climatology-network" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="global-historical-climatology-network">Global Historical Climatology Network</h3>
+<p>One way scientists know that the climate is changing is by looking at records from temperature sensors around the globe. Some of these sensors have been recording data for over a century! For this activity, we’ll get daily maximum temperature measurements from the <a href="https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily">Global Historical Climate Network daily</a> <span class="citation" data-cites="menne_overview_2012">(<a href="#ref-menne_overview_2012" role="doc-biblioref">Menne et al. 2012</a>)</span>, an openly available and extensively validated global network of temperature sensors.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/GHCN_Temperature_Stations.png" class="img-fluid figure-img"></p>
+<figcaption>The Global Historical Climatology Network Source: CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=2084097</figcaption>
+</figure>
+</div>
+<p>The GHCNd data are available through by the National Oceanic and Atmospheric Administration’s (NOAA) National Centers for Environmental Information (NCEI) Climate Data Online <a href="https://www.ncdc.noaa.gov/cdo-web/search">search tool</a>. We can get also get these data using code by contacting NCEI’s API.</p>
+
+<div class="no-row-height column-margin column-container"><div class="callout callout-style-default callout-tip callout-titled" title="What's an API?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What’s an API?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An API, or Application Programming Interface, is how computers talk to each other.</p>
+</div>
+</div></div><div class="callout callout-style-default callout-read callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Read More
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Read more about <a href="https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation">NCEI’s API</a> and the <a href="https://www.ncei.noaa.gov/cdo-web/">Climate Data Online</a> database.</p>
+</div>
+</div>
+<p>For this activity we have created URLs that contacts the NCEI API for two climate stations in the greater Chicago area. We will walk through each line of the url to explain what it is doing.</p>
+</section>
+<section id="ohare-international-airport" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="ohare-international-airport">O’Hare International Airport</h3>
+<p>Chicago O’Hare International Airport (ORD) is one of the busiest airports in the world, serving as a major hub for both domestic and international flights. Located about 14 miles northwest of downtown Chicago, it offers flights to more than 200 destinations and handles over 83 million passengers annually. It is home to Chicago’s official meteorological station. It creates an urban heat island due to the amount of concrete and asphalt needed to support the infrastructure.</p>
+<p><strong>Station ID: USW00094846</strong></p>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It: Build your API URL
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Add the station ID for the O’Hare station (USW00094846) into the URL below</li>
+<li>Run the code to store the URL in Python</li>
+</ol>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="callout callout-style-default callout-important callout-titled" title="What if the API is down?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What if the API is down?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Getting data from APIs relies on internet services you don’t have control over. If you are getting a response something like <code>503: Service Unavailable</code>, it may be that the API is down temperarily! If that happens during the workshop, we’ll have you use some data we’ve already downloaded and placed in the folder with this code – with any luck we won’t need it.</p>
+</div>
+</div></div><div id="f1306870" class="cell student-code" data-highlight="true" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a URL API call for the O'Hare climate station</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ohare_url <span class="op">=</span> (</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://www.ncei.noaa.gov/access/services/data/v1?'</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dataset=daily-summaries'</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;dataTypes=TMAX'</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;stations='</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;startDate=2024-06-01'</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;endDate=2024-06-30'</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;units=standard'</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the URL</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>ohare_url</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="f112cb40" class="cell answer-code" data-highlight="true" data-execution_count="4">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a URL API call for the O'Hare climate station</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ohare_url <span class="op">=</span> (</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://www.ncei.noaa.gov/access/services/data/v1?'</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dataset=daily-summaries'</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;dataTypes=TMAX'</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;stations=USW00094846'</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;startDate=2024-06-01'</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;endDate=2024-06-30'</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;units=standard'</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the URL</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>ohare_url</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>'https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&amp;dataTypes=TMAX&amp;stations=USW00094846&amp;startDate=2024-06-01&amp;endDate=2024-06-30&amp;units=standard'</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It: Load maximum temperature data for O'Hare
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Replace <code>url_or_path</code> with the variable name you used above to store the O’Hare station API URL (or O’Hare data path if the API is down). Run the code to make sure you’ve got it right!</li>
+<li>Uncomment lines 4 and 5. Then, replace <code>date_column_name</code> with the actual column name that has the date.</li>
+<li>Run the code, again. Check that the date column is the <strong>index</strong> and that it is parsed into a <code>DateTimeIndex</code> using the <code>.describe()</code> method.</li>
+</ol>
+</div>
+</div>
+<div id="b65afeb1" class="cell student-code" data-highlight="true" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open data using pandas</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ohare_df <span class="op">=</span> pd.read_csv(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    url_or_path,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#parse_dates=True,</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#index_col='date_column_name'</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data using pandas</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>ohare_df.TMAX.plot()</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the first 5 lines of data</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>ohare_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="20414fd6" class="cell answer-code" data-highlight="true" data-execution_count="6">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open data using pandas</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ohare_df <span class="op">=</span> pd.read_csv(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    ohare_url,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Comment above and uncomment below if NCEI isn't working</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ohare_path,</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    parse_dates<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="st">'DATE'</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    na_values<span class="op">=</span>[<span class="st">'NaN'</span>])</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data using pandas</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>ohare_df.TMAX.plot()</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the data types</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>ohare_df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">TMAX</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">count</td>
+<td>30.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mean</td>
+<td>83.566667</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">std</td>
+<td>8.122694</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">min</td>
+<td>68.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">25%</td>
+<td>78.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">50%</td>
+<td>85.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">75%</td>
+<td>90.250000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">max</td>
+<td>97.000000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="urban-heat-island_files/figure-html/cell-7-output-2.png" width="566" height="474" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="northerly-island" class="level3">
+<h3 class="anchored" data-anchor-id="northerly-island">Northerly Island</h3>
+<p>Northerly Island is a 91-acre man-made peninsula located along the Lake Michigan shoreline in Chicago. Originally part of Daniel Burnham’s 1909 Plan of Chicago, it was transformed into a nature-focused park featuring walking trails, natural habitats, and scenic lakefront views. The site also hosts the Huntington Bank Pavilion, a popular outdoor concert venue.</p>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It: Load data, part 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Repeat the above data loading process using the Northerly Island site (<strong>Station ID: USC00111550</strong>)</li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled" title="Make sure to give your new variables different names!">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Make sure to give your new variables different names!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>e.g.&nbsp;<code>northerly_url</code> instead of <code>ohare_url</code>. Otherwise, you will write over the data you just downloaded!</p>
+</div>
+</div>
+</div>
+</div>
+<div id="dc913c41" class="cell student-code" data-highlight="true" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an API call for the Northerly climate station</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="64ab579e" class="cell answer-code" data-highlight="true" data-execution_count="8">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an API call for the Northerly climate station</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>northerly_url <span class="op">=</span> (</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://www.ncei.noaa.gov/access/services/data/v1?'</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dataset=daily-summaries'</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;dataTypes=TMAX'</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;stations=USC00111550'</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;startDate=2024-06-01'</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;endDate=2024-06-30'</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;units=standard'</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the url</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>northerly_url</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>'https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&amp;dataTypes=TMAX&amp;stations=USC00111550&amp;startDate=2024-06-01&amp;endDate=2024-06-30&amp;units=standard'</code></pre>
+</div>
+</div>
+<div id="019f43db" class="cell student-code" data-highlight="true" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open data</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the first 5 lines of data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="82bfc42f" class="cell answer-code" data-highlight="true" data-execution_count="10">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open data</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>northerly_df <span class="op">=</span> pd.read_csv(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    northerly_url,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Comment above and uncomment below in the event that NCEI isn't working</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># northerly_path,</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    parse_dates<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="st">'DATE'</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    na_values<span class="op">=</span>[<span class="st">'NaN'</span>])</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>northerly_df.TMAX.plot()</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the first 5 lines of data</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>northerly_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">STATION</th>
+<th data-quarto-table-cell-role="th">TMAX</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">DATE</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-01</td>
+<td>USC00111550</td>
+<td>67</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-02</td>
+<td>USC00111550</td>
+<td>67</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-03</td>
+<td>USC00111550</td>
+<td>85</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-04</td>
+<td>USC00111550</td>
+<td>77</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-05</td>
+<td>USC00111550</td>
+<td>79</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="urban-heat-island_files/figure-html/cell-11-output-2.png" width="566" height="474" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="step-3-wrangle-data" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-wrangle-data">STEP 3: Wrangle Data</h2>
+<section id="select-only-the-columns-you-want" class="level3">
+<h3 class="anchored" data-anchor-id="select-only-the-columns-you-want">Select only the columns you want</h3>
+<p>Notice that your data came with a <code>STATION</code> column as well as the maximum temperature <code>TMAX</code> column. The extra column can make your data a bit unweildy.</p>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To select only the <code>TMAX</code> column:</p>
+<ol type="1">
+<li>Replace <code>df</code> with the name of your <code>DataFrame</code></li>
+<li>Replace <code>column_name</code> with the name of the column you want to select</li>
+<li>Replace <code>tmax_df</code> in all locations with a descriptive name for the new single-column <code>DataFrame</code></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="What's with those double square brackets? (`[[]]`)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What’s with those double square brackets? (<code>[[]]</code>)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you use single brackets, you will find that you get back something called a <code>Series</code> rather than a <code>DataFrame</code>, which will make things difficult down the road. A <code>Series</code> is a single column of a <code>DataFrame</code>. It still has an index (in this case our dates), but can’t do all the things a <code>DataFrame</code> can do. It also displays as plain text instead of a formatted table, so you can easily tell the difference.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="55d1c200" class="cell student-code" data-highlight="true" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select only the TMAX column of the O'Hare data</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>tmax_df <span class="op">=</span> df[[<span class="st">'column_name'</span>]]</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>tmax_df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="ba1f0bdb" class="cell student-code" data-highlight="true" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select only the TMAX column of the Northerly data</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>tmax_df <span class="op">=</span> df[[<span class="st">'column_name'</span>]]</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>tmax_df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="0b5f20b8" class="cell answer-code" data-highlight="true" data-execution_count="13">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ohare_tmax_df <span class="op">=</span> ohare_df[[<span class="st">'TMAX'</span>]]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>northerly_tmax_df <span class="op">=</span> northerly_df[[<span class="st">'TMAX'</span>]]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ohare_tmax_df.describe(), northerly_tmax_df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>(            TMAX
+ count  30.000000
+ mean   83.566667
+ std     8.122694
+ min    68.000000
+ 25%    78.000000
+ 50%    85.000000
+ 75%    90.250000
+ max    97.000000,
+             TMAX
+ count  30.000000
+ mean   79.900000
+ std     8.738934
+ min    63.000000
+ 25%    74.250000
+ 50%    78.500000
+ 75%    88.000000
+ max    94.000000)</code></pre>
+</div>
+</div>
+</section>
+<section id="join-data" class="level3">
+<h3 class="anchored" data-anchor-id="join-data">Join data</h3>
+<p>Right now, we have data from two stations in two separate <code>DataFrames</code>. We could work with that, but to make things go smoother (and learn how to work with <code>DataFrames</code>) we can <strong>join</strong> them together.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="What's a **join**?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What’s a <strong>join</strong>?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There are a few different ways to combine <code>DataFrame</code>s in Python. A <strong>join</strong> combines two <code>DataFrame</code>s by their <strong>index</strong> (the dates in our case), checking to make sure that every date matches. In our case, we could <strong>concatenate</strong> instead without checking the dates, because all the dates are the same for our two <code>DataFrame</code>s. That would probably be faster! But also, we think it is more error-prone. For example, it might not tell you that something was wrong if you accidentally downloaded data from two different years.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It: Join two `DataFrame`s
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Starting with the sample code below:</p>
+<ol type="1">
+<li>Replace <code>left_df</code> with the name of the first <code>DataFrame</code>. In this case, it doesn’t matter which one you choose to be on the left, but you need to make sure that it matches the <strong>left suffix</strong> label (<code>lsuffix</code>).</li>
+<li>Replace <code>right_df</code> with the name of the second <code>DataFrame</code>, making sure it matches <code>rsuffix</code>.</li>
+<li>Run the code and check that your join happened correctly.</li>
+</ol>
+</div>
+</div>
+<div id="7ce765e9" class="cell student-code" data-highlight="true" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Join the data</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>tmax_df <span class="op">=</span> (</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    left_df</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    .join(</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        right_df, </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>        lsuffix<span class="op">=</span><span class="st">'_ohare'</span>, </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        rsuffix<span class="op">=</span><span class="st">'_northerly'</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>tmax_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="fa4dc1a1" class="cell answer-code" data-highlight="true" data-execution_count="15">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Join the data</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>tmax_df <span class="op">=</span> (</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    ohare_tmax_df</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    .join(</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        northerly_tmax_df, </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        lsuffix<span class="op">=</span><span class="st">'_ohare'</span>, </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        rsuffix<span class="op">=</span><span class="st">'_northerly'</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>tmax_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">TMAX_ohare</th>
+<th data-quarto-table-cell-role="th">TMAX_northerly</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">DATE</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-01</td>
+<td>68</td>
+<td>67</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-02</td>
+<td>77</td>
+<td>67</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-03</td>
+<td>86</td>
+<td>85</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-04</td>
+<td>85</td>
+<td>77</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-05</td>
+<td>79</td>
+<td>79</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="step-4-plot" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-plot">STEP 4: Plot</h2>
+<p>Let’s try plotting the joined <code>DataFrame</code>, just like we plotted the data previously:</p>
+<div id="e6e331d8" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tmax_df.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="urban-heat-island_files/figure-html/cell-19-output-1.png" width="566" height="474" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Hopefully you can see all the data! However, this plot is missing some key elements, and is sadly lacking in style.</p>
+<div class="callout-response">
+<p>What do you notice about this plot that you would like to change for a final figure?</p>
+</div>
+<section id="rename-columns-for-nicer-labels" class="level3">
+<h3 class="anchored" data-anchor-id="rename-columns-for-nicer-labels">Rename columns for nicer labels</h3>
+<p>Something you might have noticed about your plot is that the labels in the legend don’t look very nice. Most things about hte plot we can change by passing <strong>parameters</strong> to the <code>.plot()</code> method (see below). However, we think the easiest way to change the legend labels in Python is to rename the columns. Python will automatically use the column names as legend labels just like it did in the first plot!</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Once we rename columns to non-machine-readable names that include spaces and special characters, they will be harder to work with in Python. That’s why we’ve used a different name to store the <code>DataFrame</code> with renamed columns.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It: Rename `DataFrame` columns
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Starting with the sample code below, which contains a <strong>dictionary</strong>, or set of named values:</p>
+<ol type="1">
+<li>Change <code>previous_column_name</code> to the name of one of the columns you want to rename, and <code>New Column Name</code> to the label you want to appear on your plot.</li>
+<li>Run the code and check that you have successfully changed the column name. Watch out for typos in the column name.</li>
+<li>Make a new entry inside the dictionary (look for the curly braces (<code>{}</code>)), and change the values to match the other column you want to rename. <strong>Make sure to separate the two rows with a comma</strong> so Python knows you’re starting a new entry.</li>
+<li>Check that your code works.</li>
+</ol>
+</div>
+</div>
+<div id="5c517c84" class="cell student-code" data-highlight="true" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>tmax_plot_df <span class="op">=</span> tmax_df.rename(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>{</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">'previous_column_name'</span>: <span class="st">"New Column Name"</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="6e152f87" class="cell answer-code" data-highlight="true" data-execution_count="20">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>tmax_plot_df <span class="op">=</span> tmax_df.rename(columns<span class="op">=</span>{</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TMAX_ohare'</span>: <span class="st">"O'Hare Airport"</span>, </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TMAX_northerly'</span>: <span class="st">'Northerly Island'</span>})</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">O'Hare Airport</th>
+<th data-quarto-table-cell-role="th">Northerly Island</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">DATE</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-01</td>
+<td>68</td>
+<td>67</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-02</td>
+<td>77</td>
+<td>67</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-03</td>
+<td>86</td>
+<td>85</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-06-04</td>
+<td>85</td>
+<td>77</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-06-05</td>
+<td>79</td>
+<td>79</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="generate-a-figure" class="level3">
+<h3 class="anchored" data-anchor-id="generate-a-figure">Generate a figure</h3>
+<p>Now, we’re ready to make a quality figure of the data!</p>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Try It
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Below, you’ll see some code to make a customized figure of your data. Starting there:</p>
+<ol type="1">
+<li>Replace <code>TITLE HERE</code> with your figure title</li>
+<li>Uncomment the other parameters by removing the <code>#</code> at the beginning of the line.</li>
+<li>Experiment with different figure sizes, <a href="https://matplotlib.org/stable/api/markers_api.html">markers</a>, <a href="https://matplotlib.org/stable/gallery/lines_bars_and_markers/linestyles.html">line styles</a>, and <a href="https://matplotlib.org/stable/users/explain/colors/colormaps.html">color maps</a>.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="What does `#` do in Python?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What does <code>#</code> do in Python?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>#</code> indicates a comment – it tells Python to ignore everything on that line. Comments are great for leaving notes to yourself or others, or for trying out slightly different pieces of code.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="6fd8194a" class="cell student-code" data-highlight="true" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.plot(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#figsize=(8, 5),</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#marker='o', linestyle='-',</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Date'</span>, ylabel<span class="op">=</span><span class="st">'Temperature ($^\circ$F)'</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'TITLE HERE'</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#colormap='Set1'</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="36026910" class="cell answer-code" data-highlight="true" data-execution_count="22">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.plot(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>),</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    marker<span class="op">=</span><span class="st">'o'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Date'</span>, ylabel<span class="op">=</span><span class="st">'Temperature ($^\circ$F)'</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Daily Maximum Temperatures - Chicago, IL - June 2024'</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    colormap<span class="op">=</span><span class="st">'Set1'</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="urban-heat-island_files/figure-html/cell-23-output-1.png" width="661" height="494" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-discuss callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Conversation Starter: What do you notice about the data?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Take a few minutes to discuss the patterns and trends you see in the data with your neighbors.</p>
+</div>
+</div>
+
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-alix_martichoux_urban_2024" class="csl-entry" role="listitem">
+Alix Martichoux. 2024. <span>“Urban <span>Heat</span> <span>Island</span> <span>Effect</span>: <span>Why</span> <span>Some</span> <span>Chicago</span> <span>Areas</span> <span>May</span> <span>Feel</span> <span>Warmer</span> <span>Than</span> <span>Predicted</span>.”</span> <em>WGN</em>, July. <a href="https://wgntv.com/weather/weather-blog/chicago-is-an-urban-heat-island-so-what-does-that-mean/">https://wgntv.com/weather/weather-blog/chicago-is-an-urban-heat-island-so-what-does-that-mean/</a>.
+</div>
+<div id="ref-illinois_state_water_survey_warm_2024" class="csl-entry" role="listitem">
+Illinois State Water Survey. 2024. <span>“Warm and <span>Active</span> <span>June</span> <span>Kicks</span> <span>Off</span> <span>Summer</span>.”</span> <em>Illinois State Climatologist</em>. <a href="https://stateclimatologist.web.illinois.edu/2024/07/">https://stateclimatologist.web.illinois.edu/2024/07/</a>.
+</div>
+<div id="ref-menne_overview_2012" class="csl-entry" role="listitem">
+Menne, Matthew J., Imke Durre, Russell S. Vose, Byron E. Gleason, and Tamara G. Houston. 2012. <span>“An <span>Overview</span> of the <span>Global</span> <span>Historical</span> <span>Climatology</span> <span>Network</span>-<span>Daily</span> <span>Database</span>.”</span> <em>Journal of Atmospheric and Oceanic Technology</em> 29 (7): 897–910. <a href="https://doi.org/10.1175/JTECH-D-11-00103.1">https://doi.org/10.1175/JTECH-D-11-00103.1</a>.
+</div>
+<div id="ref-nbc_chicago_what_2022" class="csl-entry" role="listitem">
+NBC Chicago. 2022. <span>“What Is an <span>Urban</span> <span>Heat</span> <span>Island</span> and <span>How</span> Is <span>Chicago</span> <span>Affected</span>?”</span> <em>NBC Chicago</em>, October. <a href="https://www.nbcchicago.com/news/local/what-is-an-urban-heat-island-and-how-is-chicago-affected/2973405/">https://www.nbcchicago.com/news/local/what-is-an-urban-heat-island-and-how-is-chicago-affected/2973405/</a>.
+</div>
+<div id="ref-us_epa_learn_2014" class="csl-entry" role="listitem">
+US EPA, OAR. 2014. <span>“Learn <span>About</span> <span>Heat</span> <span>Islands</span>.”</span> Overviews and {Factsheets}. <a href="https://www.epa.gov/heatislands/learn-about-heat-islands">https://www.epa.gov/heatislands/learn-about-heat-islands</a>.
+</div>
+<div id="ref-younger_nasa_2024" class="csl-entry" role="listitem">
+Younger, Sally. 2024. <span>“<span>NASA</span> <span>Finds</span> <span>Summer</span> 2024 <span>Hottest</span> to <span>Date</span>.”</span> <a href="https://www.nasa.gov/earth/nasa-finds-summer-2024-hottest-to-date/">https://www.nasa.gov/earth/nasa-finds-summer-2024-hottest-to-date/</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("^(?!((http:|https:)\/\/))");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+          // default icon
+          link.classList.add("external");
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../pages/01-reproducible-science-tools/open-reproducible-science/01-overview.html" class="pagination-link" aria-label="Open, Reproducible Science">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Open, Reproducible Science</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../notebooks/01-climate/climate-98-download.html" class="pagination-link" aria-label="Data Download">
+        <span class="nav-page-text">Data Download</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link active" href="https://esiil.org/" aria-current="page">
+<p>About ESIIL</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="https://earthlab.colorado.edu/">
+<p>About Earth Lab</p>
+</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
