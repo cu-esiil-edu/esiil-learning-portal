@@ -149,16 +149,16 @@ first_result['species'], species_key
 ```{python}
 #| template: answer
 # Query species
-species_info = species.name_lookup("sturnella neglecta", rank='SPECIES')
+species_info = species.name_lookup("Sturnella neglecta Audubon, 1844", rank='SPECIES')
 
 # Get the first result
 first_result = species_info['results'][0]
 
 # Get the species key (speciesKey)
-species_key = first_result['speciesKey']
+taxon_key = first_result['speciesKey']
 
 # Check the result
-first_result['species'], species_key
+first_result['species'], taxon_key
 ```
 :::
 
@@ -220,9 +220,9 @@ if not glob(gbif_pattern):
     if not 'GBIF_DOWNLOAD_KEY' in os.environ:
         # Submit query to GBIF
         gbif_query = occ.download([
-            f"speciesKey = { species_key }",
+            f"speciesKey = 9596413",
             "hasCoordinate = TRUE",
-            "year = 2024",
+            "year = 2023",
         ])
         os.environ['GBIF_DOWNLOAD_KEY'] = gbif_query[0]
 

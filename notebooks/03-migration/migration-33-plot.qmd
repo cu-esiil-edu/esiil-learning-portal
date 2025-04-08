@@ -1,4 +1,4 @@
-## STEP 5: Plot the Veery observations by month
+## STEP 5: Plot the Veery Thrush observations by month
 
 First thing first -- let's load your stored variables and import libraries.
 
@@ -16,7 +16,10 @@ In the imports cell, we've included some packages that you will need. Add import
 :::
 
 ```{python}
-#| template: student
+#| echo: True
+#| eval: False
+#| class: student-code
+#| highlight: True
 # Get month names
 import calendar
 
@@ -27,7 +30,12 @@ import panel as pn
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| echo: True
+#| eval: True
+#| code-fold: True
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: True
 # Get month names
 import calendar
 
@@ -49,10 +57,14 @@ Download and save ecoregion boundaries from the EPA:
 1. Simplify the ecoregions with `.simplify(.05)`, and save it back to the `geometry` column.
 2.  Change the Coordinate Reference System (CRS) to Mercator with `.to_crs(ccrs.Mercator())`
 3.  Use the plotting code that is already in the cell to check that the plotting runs quickly (less than a minute) and looks the way you want, making sure to change `gdf` to YOUR `GeoDataFrame` name.
+
 :::
 
 ```{python}
-#| template: student
+#| echo: True
+#| eval: False
+#| class: student-code
+#| highlight: True
 # Simplify the geometry to speed up processing
 
 # Change the CRS to Mercator for mapping
@@ -63,7 +75,12 @@ gdf.hvplot(geo=True, crs=ccrs.Mercator())
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| echo: True
+#| eval: True
+#| code-fold: True
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: True
 # Simplify the geometry to speed up processing
 ecoregions_gdf.geometry = ecoregions_gdf.simplify(
     .05, preserve_topology=False)
@@ -88,7 +105,10 @@ Your plot will probably still change months very slowly in your Jupyter notebook
 :::
 
 ```{python}
-#| template: student
+#| echo: True
+#| eval: False
+#| class: student-code
+#| highlight: True
 # Join the occurrences with the plotting GeoDataFrame
 occurrence_gdf = ecoregions_gdf.join(occurrence_df)
 
@@ -120,7 +140,12 @@ migration_plot
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| echo: True
+#| eval: True
+#| code-fold: True
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: True
 # Join the occurrences with the plotting GeoDataFrame
 occurrence_gdf = ecoregions_gdf.join(occurrence_df)
 
@@ -129,7 +154,7 @@ xmin, ymin, xmax, ymax = occurrence_gdf.total_bounds
 
 # Define the slider widget
 slider = pn.widgets.DiscreteSlider(
-    name='month', 
+    name='month',
     options={calendar.month_name[i]: i for i in range(1, 13)}
 )
 
@@ -141,9 +166,9 @@ migration_plot = (
         groupby='month',
         # Use background tiles
         geo=True, crs=ccrs.Mercator(), tiles='CartoLight',
-        title="Veery migration",
+        title="Veery Thrush migration",
         xlim=(xmin, xmax), ylim=(ymin, ymax),
-        frame_height=600,
+        frame_width=500,
         colorbar=False,
         widgets={'month': slider},
         widget_location='bottom'
@@ -152,7 +177,7 @@ migration_plot = (
 
 # Save the plot (if possible)
 try:
-    migration_plot.save('migration.html', embed=True)
+    migration_plot.save('__param_plot_filename.html', embed=True)
 except Exception as exc:
     print('Could not save the migration plot due to the following error:')
     print(exc)
@@ -161,7 +186,7 @@ except Exception as exc:
 
 ::: {.content-visible when-format="html"}
 ```{=html}
-<embed type="text/html" src="migration.html" width="600" height="800">
+<embed type="text/html" src="__param_plot_filename.html" width="600" height="800">
 ```
 :::
 

@@ -8,23 +8,56 @@ def load_yaml(file):
     with open(file, 'r') as stream:
         return yaml.safe_load(stream)
 
-def replace_params(content, params):
-    # Replace quoted parameters in code
-    # Note that you can't format quarto parameters and leave the
-    # string as a format string for later
-    quoted_params = {f'__param_{key}': value for key, value in params.items()}
-    format_pattern = re.compile("f[\'\"][^\'\"]*__param_[^\'\"]*[\'\"]")
-    format_strings = format_pattern.findall(content)
-    if format_strings:
-        for format_string in format_strings:
-            content = content.replace(
-                format_string, format_string.format(**quoted_params)[1:])
+def get_frontmatter_params(file_path):
+    """
+    Extracts parameters from YAML front matter
+    
+    The function assumes the YAML front matter is at the very beginning of the file
+    and is delimited by lines containing only '---'.
+    
+    :param file_path: Path to the Quarto markdown file.
+    :return: A dictionary containing the YAML data, or an empty dict if not found.
+    """
+    with open(file_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # Use a regular expression to extract the YAML block.
+    # This regex matches text between two '---' delimiters at the very beginning.
+    match = re.match(r'^---\s*\n(.*?)\n---\s*\n', content, re.DOTALL)
+    
+    if match:
+        yaml_str = match.group(1)
+        try:
+            yaml_data = yaml.safe_load(yaml_str)
+            if isinstance(yaml_data, dict):
+                if 'params' in yaml_data:
+                    return yaml_data['params'] 
+                
+        except yaml.YAMLError as e:
+            print("Error parsing YAML:", e)
+            return {}
+        
+    # No parameters found
+    return {}
 
-    # Replace unquoted parameters in code
-    for key, value in params.items():
-        placeholder = f"__param_{key}"
-        content = content.replace(placeholder, f'"{value}"')
-    return content
+def get_included_files(file_path):
+    """
+    Extracts the list of file names included via templating syntax from a markdown file.
+    
+    The function searches for directives in the form:
+        {{< include filename >}}
+    
+    :param file_path: Path to the Quarto markdown file.
+    :return: A list of filenames included in the file.
+    """
+    with open(file_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # Regex pattern to match the include directive.
+    # It looks for the keyword "include" and then captures the filename.
+    pattern = r'{{<\s*include\s+([^ >]+)\s*>}}'
+    included_files = re.findall(pattern, content)
+    return included_files
 
 def replace_exec_options(content, code_block_templates):
     # Find template params
@@ -43,7 +76,14 @@ def replace_exec_options(content, code_block_templates):
 
     return content
 
-def process_file(input_file, params, code_block_templates):
+def replace_params(content, params):
+    # Replace parameters in code
+    for key, value in params.items():
+        placeholder = f"__param_{key}"
+        content = content.replace(placeholder, f'{value}')
+    return content
+
+def process_file(input_file, code_block_templates, params):
     # Make a copy of the original
     shutil.copy2(input_file, f"{ input_file }.original")
 
@@ -51,36 +91,20 @@ def process_file(input_file, params, code_block_templates):
     with open(input_file, 'r') as file:
         content = file.read()
 
-    # Remove test parameter cell
-    param_pattern = re.compile(r'\#\| tags: \[parameters\][^`]*```')
-    param_cell = param_pattern.search(content)
-    if param_cell:
-        content = content.replace(f'```{{python}}\n{param_cell[0]}', '')
-
-    # Replace placeholders with parameter values
-    content = replace_params(content, params)
+    # Replace code block execution parameters
     content = replace_exec_options(content, code_block_templates)
 
+    # Insert code parameters
+    content = replace_params(content, params)
+    
     # Write the modified content back to the file
     with open(input_file, 'w') as file:
         file.write(content)
 
 def main():
-    print('Inserting code parameters')
-    
-    # Get the profile from environment variable
-    profiles = os.getenv('QUARTO_PROFILE').split(',')
-
+    print('Configuring code cells')
     # Load the _quarto.yml file
-    quarto_filenames = ['_quarto.yml']
-    quarto_filenames += [
-        f'_quarto-{ profile }.yml' 
-        for profile in profiles
-        if profile
-    ]
-    config = {}
-    for quarto_filename in quarto_filenames:
-        config = config | load_yaml(quarto_filename)
+    config = load_yaml("_quarto.yml")
 
     # Get code block templates
     code_block_templates = config.get('code-block-templates')
@@ -95,14 +119,20 @@ def main():
     input_file_list = input_files.split('\n')
     
     for input_file in input_file_list:
+        # Get parameters
+        params = get_frontmatter_params(input_file)
+        print('    Parameters:', params)
+                
         print(f'  Pre-rendering { input_file }')
-        notebook = os.path.basename(os.path.dirname(input_file))
-        params = {}
-        if 'params' in config:
-            if notebook in config['params']:
-                params = config['params'][notebook]
-                print('    Parameters:', params)
-        process_file(input_file, params, code_block_templates)
+        included_files = get_included_files(input_file)
+        for included_file in included_files:
+            included_file_path = os.path.join(
+                os.path.dirname(input_file),
+                included_file)
+            print(f'Configuring included file { included_file_path }')
+            process_file(included_file_path, code_block_templates, params)
+            
+        process_file(input_file, code_block_templates, params)
 
 if __name__ == "__main__":
     main()
