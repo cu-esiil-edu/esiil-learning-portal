@@ -1,0 +1,519 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Access locations and times of Veery encounters\n",
+        "\n",
+        "For this challenge, you will use a database called the [Global Biodiversity Information Facility (GBIF)](https://www.gbif.org/). GBIF is compiled from species observation data all over the world, and includes everything from museum specimens to photos taken by citizen scientists in their backyards.\n",
+        "\n",
+        "::: {.callout-task title=\"Explore GBIF\"}\n",
+        "Before your get started, go to the [GBIF occurrences search page](https://www.gbif.org/occurrence/search) and explore the data.\n",
+        ":::\n",
+        "\n",
+        "::: {.callout-tip title=\"Contribute to open data\"}\n",
+        "\n",
+        "You can get your own observations added to GBIF using [iNaturalist](https://www.inaturalist.org/)!\n",
+        ":::\n",
+        "\n",
+        "### Set up your code to prepare for download\n",
+        "\n",
+        "We will be getting data from a source called [GBIF (Global Biodiversity Information Facility)](https://www.gbif.org/). We need a package called `pygbif` to access the data, which may not be included in your environment. Install it by running the cell below:\n"
+      ],
+      "id": "0e0e10fc"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| output: false\n",
+        "%%bash\n",
+        "pip install pygbif"
+      ],
+      "id": "3a97073d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.callout-task title=\"Import packages\"}\n",
+        "\n",
+        "In the imports cell, we've included some packages that you will need. Add imports for packages that will help you:\n",
+        "\n",
+        "  1. Work with reproducible file paths\n",
+        "  2. Work with tabular data\n",
+        "\n",
+        ":::\n"
+      ],
+      "id": "8d8392f6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "template": "student"
+      },
+      "source": [
+        "import time\n",
+        "import zipfile\n",
+        "from getpass import getpass\n",
+        "from glob import glob\n",
+        "\n",
+        "import pygbif.occurrences as occ\n",
+        "import pygbif.species as species"
+      ],
+      "id": "20946d6a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.content-visible when-format=\"html\"}"
+      ],
+      "id": "8a4aac77"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "template": "answer"
+      },
+      "source": [
+        "import os\n",
+        "import pathlib\n",
+        "import time\n",
+        "import zipfile\n",
+        "from getpass import getpass\n",
+        "from glob import glob\n",
+        "\n",
+        "import pandas as pd\n",
+        "import pygbif.occurrences as occ\n",
+        "import pygbif.species as species"
+      ],
+      "id": "9ff07725",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ":::\n"
+      ],
+      "id": "d8ba29ff"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "template": "student"
+      },
+      "source": [
+        "# Create data directory in the home folder\n",
+        "data_dir = os.path.join(\n",
+        "    # Home directory\n",
+        "    pathlib.Path.home(),\n",
+        "    # Earth analytics data directory\n",
+        "    'earth-analytics',\n",
+        "    'data',\n",
+        "    # Project directory\n",
+        "    'your-project-directory-name-here',\n",
+        ")\n",
+        "os.makedirs(data_dir, exist_ok=True)\n",
+        "\n",
+        "# Define the directory name for GBIF data\n",
+        "gbif_dir = os.path.join(data_dir, 'your-gbif-data-directory-name-here')"
+      ],
+      "id": "446c7be7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.content-visible when-format=\"html\"}"
+      ],
+      "id": "addefef6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "template": "answer"
+      },
+      "source": [
+        "# Create data directory in the home folder\n",
+        "data_dir = os.path.join(\n",
+        "    pathlib.Path.home(),\n",
+        "    'earth-analytics',\n",
+        "    'data',\n",
+        "    'species-distribution',\n",
+        ")\n",
+        "os.makedirs(data_dir, exist_ok=True)\n",
+        "\n",
+        "# Define the directory name for GBIF data\n",
+        "gbif_dir = os.path.join(data_dir, 'veery_observations')"
+      ],
+      "id": "f1cd9aa2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ":::\n",
+        "\n",
+        "### Register and log in to GBIF\n",
+        "\n",
+        "You will need a [GBIF account](https://www.gbif.org/) to complete this challenge. You can use your GitHub account to authenticate with GBIF. Then, run the following code to save your credentials on your computer.\n",
+        "\n",
+        "::: {.callout-warning}\n",
+        "Your email address **must** match the email you used to sign up for GBIF!\n",
+        ":::\n",
+        "\n",
+        "::: callout-tip\n",
+        "If you accidentally enter your credentials wrong, you can set `reset_credentials=True` instead of `reset_credentials=False`.\n",
+        ":::\n"
+      ],
+      "id": "c3d9404e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "reset_credentials = False\n",
+        "# GBIF needs a username, password, and email\n",
+        "credentials = dict(\n",
+        "    GBIF_USER=(input, 'GBIF username:'),\n",
+        "    GBIF_PWD=(getpass, 'GBIF password'),\n",
+        "    GBIF_EMAIL=(input, 'GBIF email'),\n",
+        ")\n",
+        "for env_variable, (prompt_func, prompt_text) in credentials.items():\n",
+        "    # Delete credential from environment if requested\n",
+        "    if reset_credentials and (env_variable in os.environ):\n",
+        "        os.environ.pop(env_variable)\n",
+        "    # Ask for credential and save to environment\n",
+        "    if not env_variable in os.environ:\n",
+        "        os.environ[env_variable] = prompt_func(prompt_text)"
+      ],
+      "id": "baf3d403",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Get the species key\n",
+        "\n",
+        "::: {.callout-task}\n",
+        "\n",
+        "1. Replace the `species_name` with the name of the species you want to look up\n",
+        "2. Run the code to get the species key\n",
+        "\n",
+        ":::\n"
+      ],
+      "id": "14baf4c6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "template": "student"
+      },
+      "source": [
+        "# Query species\n",
+        "species_info = species.name_lookup(species_name, rank='SPECIES')\n",
+        "\n",
+        "# Get the first result\n",
+        "first_result = species_info['results'][0]\n",
+        "\n",
+        "# Get the species key (speciesKey)\n",
+        "species_key = first_result['speciesKey']\n",
+        "\n",
+        "# Check the result\n",
+        "first_result['species'], species_key"
+      ],
+      "id": "b63add24",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.content-visible when-format=\"html\"}"
+      ],
+      "id": "5188c02f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "template": "answer"
+      },
+      "source": [
+        "# Query species\n",
+        "species_info = species.name_lookup(\"__param_species_lookup\", rank='SPECIES')\n",
+        "\n",
+        "# Get the first result\n",
+        "first_result = species_info['results'][0]\n",
+        "\n",
+        "# Get the species key (speciesKey)\n",
+        "species_key = first_result['speciesKey']\n",
+        "\n",
+        "# Check the result\n",
+        "first_result['species'], species_key"
+      ],
+      "id": "6dcf693b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ":::\n",
+        "\n",
+        "### Download data from GBIF\n",
+        "\n",
+        "::: {.callout-task title=\"Submit a request to GBIF\"}\n",
+        "\n",
+        "1. Replace `csv_file_pattern` with a string that will match **any** `.csv` file when used in the `glob` function. HINT: the character `*` represents any number of any values except the file separator (e.g. `/`)\n",
+        "2. Add parameters to the GBIF download function, `occ.download()` to limit your query to:\n",
+        "\n",
+        "    - observations\n",
+        "    - from 2023\n",
+        "    - with spatial coordinates.\n",
+        "\n",
+        "3. Then, run the download. **This can take a few minutes**.\n",
+        ":::\n"
+      ],
+      "id": "dac20106"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "template": "student"
+      },
+      "source": [
+        "# Only download once\n",
+        "gbif_pattern = os.path.join(gbif_dir, csv_file_pattern)\n",
+        "if not glob(gbif_pattern):\n",
+        "    # Submit query to GBIF\n",
+        "    gbif_query = occ.download([\n",
+        "        \"speciesKey = \",\n",
+        "        \"year = \",\n",
+        "        \"hasCoordinate = \",\n",
+        "    ])\n",
+        "    # Only download once\n",
+        "    if not 'GBIF_DOWNLOAD_KEY' in os.environ:\n",
+        "        os.environ['GBIF_DOWNLOAD_KEY'] = gbif_query[0]\n",
+        "\n",
+        "        # Wait for the download to build\n",
+        "        wait = occ.download_meta(download_key)['status']\n",
+        "        while not wait=='SUCCEEDED':\n",
+        "            wait = occ.download_meta(download_key)['status']\n",
+        "            time.sleep(5)\n",
+        "\n",
+        "    # Download GBIF data\n",
+        "    download_info = occ.download_get(\n",
+        "        os.environ['GBIF_DOWNLOAD_KEY'], \n",
+        "        path=data_dir)\n",
+        "\n",
+        "    # Unzip GBIF data\n",
+        "    with zipfile.ZipFile(download_info['path']) as download_zip:\n",
+        "        download_zip.extractall(path=gbif_dir)\n",
+        "\n",
+        "# Find the extracted .csv file path\n",
+        "gbif_path = glob(gbif_pattern)[0]"
+      ],
+      "id": "d4dc06a6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.content-visible when-format=\"html\"}"
+      ],
+      "id": "2cda1bb0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "template": "answer"
+      },
+      "source": [
+        "# Only download once\n",
+        "gbif_pattern = os.path.join(gbif_dir, '*.csv')\n",
+        "if not glob(gbif_pattern):\n",
+        "    download_key = gbif_query[0]\n",
+        "\n",
+        "    # Only submit one request\n",
+        "    if not 'GBIF_DOWNLOAD_KEY' in os.environ:\n",
+        "        # Submit query to GBIF\n",
+        "        gbif_query = occ.download([\n",
+        "            \"speciesKey = \",\n",
+        "            \"hasCoordinate = \",\n",
+        "            \"year = \",\n",
+        "        ])\n",
+        "        os.environ['GBIF_DOWNLOAD_KEY'] = gbif_query[0]\n",
+        "\n",
+        "    # Wait for the download to build\n",
+        "    download_key = os.environ['GBIF_DOWNLOAD_KEY']\n",
+        "    wait = occ.download_meta(download_key)['status']\n",
+        "    while not wait=='SUCCEEDED':\n",
+        "        wait = occ.download_meta(download_key)['status']\n",
+        "        time.sleep(5)\n",
+        "\n",
+        "    # Download GBIF data\n",
+        "    download_info = occ.download_get(\n",
+        "        os.environ['GBIF_DOWNLOAD_KEY'], \n",
+        "        path=data_dir)\n",
+        "\n",
+        "    # Unzip GBIF data\n",
+        "    with zipfile.ZipFile(download_info['path']) as download_zip:\n",
+        "        download_zip.extractall(path=gbif_dir)\n",
+        "\n",
+        "# Find the extracted .csv file path (take the first result)\n",
+        "gbif_path = glob(gbif_pattern)[0]"
+      ],
+      "id": "1290f8f9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ":::\n",
+        "\n",
+        "### Load the GBIF data into Python\n",
+        "\n",
+        "::: {.callout-task title=\"Load GBIF data\"}\n",
+        "\n",
+        "1.  Look at the beginning of the file you downloaded using the code below. What do you think the **delimiter** is?\n",
+        "2.  Run the following code cell. What happens?\n",
+        "3.  Uncomment and modify the parameters of `pd.read_csv()` below until your data loads successfully and you have only the columns you want.\n",
+        ":::\n",
+        "\n",
+        "You can use the following code to look at the beginning of your file:\n"
+      ],
+      "id": "fe2e8d8e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "!head -n 2 $gbif_path "
+      ],
+      "id": "56a9b616",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "template": "student"
+      },
+      "source": [
+        "# Load the GBIF data\n",
+        "gbif_df = pd.read_csv(\n",
+        "    gbif_path, \n",
+        "    #delimiter='',\n",
+        "    #index_col='',\n",
+        "    #usecols=[]\n",
+        ")\n",
+        "gbif_df.head()"
+      ],
+      "id": "04de6ff3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.content-visible when-format=\"html\"}"
+      ],
+      "id": "bc6baeb0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "template": "answer"
+      },
+      "source": [
+        "# Load the GBIF data\n",
+        "gbif_df = pd.read_csv(\n",
+        "    gbif_path, \n",
+        "    delimiter='\\t',\n",
+        "    index_col='gbifID',\n",
+        "    usecols=['gbifID', 'decimalLatitude', 'decimalLongitude', 'month'])\n",
+        "gbif_df.head()"
+      ],
+      "id": "2bc49207",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ":::\n",
+        "\n",
+        "::: {.content-hidden}"
+      ],
+      "id": "009f2e2b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| eval: true\n",
+        "import os\n",
+        "import shutil\n",
+        "import subprocess\n",
+        "\n",
+        "import requests\n",
+        "\n",
+        "try:\n",
+        "    file_name = \"__param_sample_filename.zip\"\n",
+        "    shutil.copy2(download_info['path'], file_name)\n",
+        "\n",
+        "    subprocess.run([\n",
+        "        'gh', 'release', 'upload', 'data-release',\n",
+        "        file_name,\n",
+        "        '--repo', 'cu-esiil-edu/esiil-learning-portal',\n",
+        "        '--clobber'\n",
+        "        ])\n",
+        "except NameError:\n",
+        "    print('Looks like the current version of data has already been uploaded.')"
+      ],
+      "id": "48fcc6ae",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ":::"
+      ],
+      "id": "c0054d37"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "/Users/elsa/miniconda3/envs/learning-portal/share/jupyter/kernels/python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

@@ -1,0 +1,348 @@
+## STEP 1: Set up your reproducible workflow
+
+### Import Python libraries
+
+::: {.callout-task title="Import packages"}
+
+In the imports cell, we've included some packages that you will need. Add imports for packages that will help you:
+
+1.  Work with tabular data
+2.  Work with geospatial vector data
+
+:::
+
+```{python}
+#| echo: True
+#| eval: False
+#| class: student-code
+#| highlight: True
+import os
+import pathlib
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| echo: True
+#| eval: True
+#| code-fold: True
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: True
+import os
+import pathlib
+
+import geopandas as gpd
+import pandas as pd
+```
+:::
+
+### Create a folder for your data
+
+For this challenge, you will need to save some data to the computer you're working on. We suggest saving to somewhere in your *home* folder (e.g. `/home/username`), rather than to your GitHub repository, since data files can easily become too large for GitHub.
+
+::: callout-warning
+The **home** directory is different for every user! Your home directory probably won't exist on someone else's computer. Make sure to use code like `pathlib.Path.home()` to compute the home directory on the computer the code is running on. This is key to writing reproducible and interoperable code.
+:::
+
+::: {.callout-task title="Create a project folder"}
+
+The code below will help you get started with making a project directory
+
+1.  Replace `'your-project-directory-name-here'` and `'your-gbif-data-directory-name-here'` with **descriptive** names
+2.  Run the cell
+3.  (OPTIONAL) Check in the terminal that you created the directory using the command `ls ~/earth-analytics/data`
+:::
+
+```{python}
+#| echo: True
+#| eval: False
+#| class: student-code
+#| highlight: True
+# Create data directory in the home folder
+data_dir = os.path.join(
+    # Home directory
+    pathlib.Path.home(),
+    # Earth analytics data directory
+    'earth-analytics',
+    'data',
+    # Project directory
+    'your-project-directory-name-here',
+)
+os.makedirs(data_dir, exist_ok=True)
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| echo: True
+#| eval: True
+#| code-fold: True
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: True
+# Create data directory in the home folder
+data_dir = os.path.join(
+    pathlib.Path.home(),
+    'earth-analytics',
+    'data',
+    'species-distribution',
+)
+os.makedirs(data_dir, exist_ok=True)
+```
+:::
+
+## STEP 2: Define your study area -- the ecoregions of North America
+
+Track observations of Taciyagnunpa across different **ecoregions**! You should be able to see changes in the number of observations in each ecoregion throughout the year.
+
+::: {.callout-read}
+The ecoregion data will be available as a **shapefile**. Learn more about shapefiles and vector data in this [Introduction to Spatial Vector Data File Formats in Open Source Python](https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-spatial-data/use-vector-data/)
+:::
+
+### Download and save ecoregion boundaries
+
+The ecoregion boundaries take some time to download -- they come in at about 150MB. To use your time most efficiently, we recommend **caching** the ecoregions data on the machine you're working on so that you only have to download once. To do that, we'll also introduce the concept of **conditionals**, or code that adjusts what it does based on the situation.
+
+::: {.callout-read}
+Read more about conditionals in this [Intro Conditional Statements in Python](https://www.earthdatascience.org/courses/intro-to-earth-data-science/write-efficient-python-code/conditional-statements/)
+:::
+
+::: {.callout-task title="Get ecoregions boundaries"}
+
+1.  Find the URL for for the ecoregion boundary **Shapefile**. You can [get ecoregion boundaries from Google.](https://www.geographyrealm.com/terrestrial-ecoregions-gis-data/).
+2.  Replace `your/url/here` with the URL you found, making sure to format it so it is easily readable. Also, replace `ecoregions_dirname` and `ecoregions_filename` with descriptive and machine-readable names for your project's file structure.
+3.  Change all the variable names to **descriptive** variable names, making sure to correctly reference variables you created before.
+4.  Run the cell to download and save the data.
+:::
+
+```{python}
+#| echo: True
+#| eval: False
+#| class: student-code
+#| highlight: True
+# Set up the ecoregion boundary URL
+url = "your/url/here"
+
+# Set up a path to save the data on your machine
+the_dir = os.path.join(project_data_dir, 'ecoregions_dirname')
+# Make the ecoregions directory
+
+# Join ecoregions shapefile path
+a_path = os.path.join(the_dir, 'ecoregions_filename.shp')
+
+# Only download once
+if not os.path.exists(a_path):
+    my_gdf = gpd.read_file(your_url_here)
+    my_gdf.to_file(your_path_here)
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| echo: True
+#| eval: True
+#| code-fold: True
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: True
+# Set up the ecoregion boundary URL
+ecoregions_url = (
+    "https://storage.googleapis.com/teow2016/Ecoregions2017.zip")
+
+# Set up a path to save the data on your machine
+ecoregions_dir = os.path.join(data_dir, 'wwf_ecoregions')
+os.makedirs(ecoregions_dir, exist_ok=True)
+ecoregions_path = os.path.join(ecoregions_dir, 'wwf_ecoregions.shp')
+
+# Only download once
+if not os.path.exists(ecoregions_path):
+    ecoregions_gdf = gpd.read_file(ecoregions_url)
+    ecoregions_gdf.to_file(ecoregions_path)
+```
+:::
+
+Let's check that that worked! To do so we'll use a **bash** command called `find` to look for all the files in your project directory with the `.shp` extension:
+
+```{python}
+%%bash
+find ~/earth-analytics/data/species-distribution -name '*.shp' 
+```
+
+::: {.callout-tip}
+You can also run bash commands in the terminal!
+:::
+
+::: {.callout-read}
+Learn more about bash in this [Introduction to Bash](https://www.earthdatascience.org/courses/intro-to-earth-data-science/open-reproducible-science/bash/)
+:::
+
+### Load the ecoregions into Python
+
+::: {.callout-task title="Load ecoregions into Python"}
+
+Download and save ecoregion boundaries from the EPA:
+
+1.  Replace `a_path` with the path your created for your ecoregions file.
+2.  (optional) Consider renaming and selecting columns to make your `GeoDataFrame` easier to work with. Many of the same methods you learned for `pandas` `DataFrame`s are the same for `GeoDataFrame`s! NOTE: Make sure to keep the `'SHAPE_AREA'` column around -- we will need that later!
+3.  Make a quick plot with `.plot()` to make sure the download worked.
+4.  Run the cell to load the data into Python
+:::
+
+```{python}
+#| echo: True
+#| eval: False
+#| class: student-code
+#| highlight: True
+# Open up the ecoregions boundaries
+gdf = gpd.read_file(a_path)
+
+# Name the index so it will match the other data later on
+gdf.index.name = 'ecoregion'
+
+# Plot the ecoregions to check download
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| echo: True
+#| eval: True
+#| code-fold: True
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: True
+# Open up the ecoregions boundaries
+ecoregions_gdf = (
+    gpd.read_file(ecoregions_path)
+    .rename(columns={
+        'ECO_NAME': 'name',
+        'SHAPE_AREA': 'area'})
+    [['name', 'area', 'geometry']]
+)
+
+# We'll name the index so it will match the other data
+ecoregions_gdf.index.name = 'ecoregion'
+
+# Plot the ecoregions to check download
+ecoregions_gdf.plot(edgecolor='black', color='skyblue')
+```
+:::
+
+## STEP 3: Download species observation data
+
+For this challenge, you will use a database called the [Global Biodiversity Information Facility (GBIF)](https://www.gbif.org/). GBIF is compiled from species observation data all over the world, and includes everything from museum specimens to photos taken by citizen scientists in their backyards. We've compiled some sample data in the same format that you will get from GBIF.
+
+### Download sample data
+
+::: {.callout-task title="Import GBIF Data"}
+
+1. Define the `gbif_url` to be this sample data URL `{{ params.sample_url }}`
+2. Using the ecoregions code, modify the code cell below so that the download only runs once, as with the ecoregion data.
+3. Run the cell
+:::
+
+```{python}
+#| echo: True
+#| eval: False
+#| class: student-code
+#| highlight: True
+# Load the GBIF data
+gbif_df = pd.read_csv(
+    gbif_url, 
+    delimiter='\t',
+    index_col='gbifID',
+    usecols=['gbifID', 'decimalLatitude', 'decimalLongitude', 'month'])
+gbif_df.head()
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| echo: True
+#| eval: True
+#| code-fold: True
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: True
+# Define the sample data URL
+gbif_url = (
+    "https://github.com/cu-esiil-edu/esiil-learning-portal/releases/download"
+    "/data-release/__param_sample_filename.zip")
+    
+# Set up a path to save the data on your machine
+gbif_filename = "__param_download_filename"
+gbif_dir = os.path.join(data_dir, gbif_filename)
+os.makedirs(gbif_dir, exist_ok=True)
+gbif_path = os.path.join(gbif_dir, f"{ gbif_filename }.zip")
+
+# Only download once
+if not os.path.exists(gbif_path):
+    # Load the GBIF data
+    gbif_df = pd.read_csv(
+        gbif_url, 
+        delimiter='\t',
+        index_col='gbifID',
+        usecols=['gbifID', 'decimalLatitude', 'decimalLongitude', 'month'])
+    # Save the GBIF data
+    gbif_df.to_csv(gbif_path, index=False)
+
+gbif_df = pd.read_csv(gbif_path)
+gbif_df.head()
+```
+:::
+
+### Convert the GBIF data to a GeoDataFrame
+
+To plot the GBIF data, we need to convert it to a `GeoDataFrame` first. This will make some special geospatial operations from `geopandas` available, such as spatial joins and plotting.
+
+::: {.callout-task title="Convert `DataFrame` to `GeoDataFrame`"}
+
+1.  Replace `your_dataframe` with the name of the `DataFrame` you just got from GBIF
+2.  Replace `longitude_column_name` and `latitude_column_name` with column names from your \`DataFrame
+3.  Run the code to get a `GeoDataFrame` of the GBIF data.
+:::
+
+```{python}
+#| echo: True
+#| eval: False
+#| class: student-code
+#| highlight: True
+gbif_gdf = (
+    gpd.GeoDataFrame(
+        your_dataframe, 
+        geometry=gpd.points_from_xy(
+            your_dataframe.longitude_column_name, 
+            your_dataframe.latitude_column_name), 
+        crs="EPSG:4326")
+    # Select the desired columns
+    [[]]
+)
+gbif_gdf
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| echo: True
+#| eval: True
+#| code-fold: True
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: True
+gbif_gdf = (
+    gpd.GeoDataFrame(
+        gbif_df, 
+        geometry=gpd.points_from_xy(
+            gbif_df.decimalLongitude, 
+            gbif_df.decimalLatitude), 
+        crs="EPSG:4326")
+    # Select the desired columns
+    [['month', 'geometry']]
+)
+gbif_gdf
+```
+:::
+
+::: {.content-visible when-format="ipynb"}
+::: {.callout-task}
+Make sure to store the new version of your `DataFrame` for other notebooks!
+```{python}
+%store ecoregions_gdf gbif_gdf
+```
+:::
+:::
