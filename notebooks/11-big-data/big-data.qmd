@@ -1,0 +1,970 @@
+---
+title: Urban Greenspace and Asthma Prevalence
+subtitle: Get Started with Big Data Pipelines
+learning-goals:
+  - Access larger-than-memory data in chunks
+  - Compute fragmentation statistics
+  - Compare urban greenspace distribution to health outcomes
+jupyter: python3
+---
+
+Vegetation has the potential to provide many ecosystem services in Urban areas, such as cleaner air and water and flood mitigation. However, the results are mixed on relationships between a simple measurement of vegetation cover (such as average NDVI, a measurement of vegetation health) and human health. We do, however, find relationships between landscape metrics that attempt to quantify the connectivity and structure of greenspace and human health. These types of metrics include mean patch size, edge density, and fragmentation.
+
+::: {.callout-read}
+Check out this study by @tsai_relationships_2019 on the relationship between edge density and life expectancy in Baltimore, MD. The authors also discuss the influence of scale (e.g. the resolution of the imagery) on these relationships, which is important for this case study.
+:::
+
+In this notebook, you will write code to calculate patch, edge, and fragmentation statistics about urban greenspace in Chicago. These statistics should be reflective of the connectivity and spread of urban greenspace, which are important for ecosystem function and access. You will then use a linear model to identify statistically significant correlations between the distribution of greenspace and health data compiled by the US Center for Disease Control.
+
+### Working with larger-than-memory (big) data
+
+For this project, we are going to split up the green space (NDVI) data by census tract, because this matches the human health data from the CDC. If we were interested in the average NDVI at this spatial scale, we could easily use a source of multispectral data like Landsat (30m) or even MODIS (250m) without a noticeable impact on our results. However, because we need to know more about the structure of green space within each tract, we need higher resolution data. For that, we will access the National Agricultural Imagery Program (NAIP) data, which is taken for the continental US every few years at 1m resolution. That's enough to see individual trees and cars! The main purpose of the NAIP data is, as the name suggests, agriculture. However, it's also a great source for urban areas where lots is happening on a very small scale.
+
+The NAIP data for the City of Chicago takes up about 20GB of space. This amount of data is likely to crash your kernel if you try to load it all in at once. It also would be inconvenient to store on your harddrive so that you can load it in a bit at a time for analysis. Even if your are using a computer that would be able to handle this amount of data, imagine if you were analysing the entire United States over multiple years!
+
+To help with this problem, you will use cloud-based tools to calculate your statistics instead of downloading rasters to your computer or container. You can crop the data entirely in the cloud, thereby saving on your memory and internet connection, using `rioxarray`.
+
+### Check your work with testing!
+
+This notebook does not have pre-built tests. You will need to write your own test code to make sure everything is working the way that you want. For many operations, this will be as simple as creating a plot to check that all your data lines up spatially the way you were expecting, or printing values as you go. However, if you don't test as you go, you are likely to end up with intractable problems with the final code.
+
+## STEP 1: Set up your analysis
+
+::: {.callout-task}
+
+As always, before you get started:
+
+  1. Import necessary packages
+  2. Create **reproducible file paths** for your project file structure.
+  3. To use cloud-optimized GeoTiffs, we recommend some settings to make sure your code does not get stopped by a momentary connection lapse -- see the code cell below.
+
+:::
+```{python}
+#| template: student
+# Import libraries
+
+# Prevent GDAL from quitting due to momentary disruptions
+os.environ["GDAL_HTTP_MAX_RETRY"] = "5"
+os.environ["GDAL_HTTP_RETRY_DELAY"] = "1"
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+import os
+import pathlib
+import time
+import warnings
+
+import geopandas as gpd
+import geoviews as gv
+import holoviews as hv
+import hvplot.pandas
+import hvplot.xarray
+import numpy as np
+import pandas as pd
+import pystac_client
+import rioxarray as rxr
+import rioxarray.merge as rxrmerge
+import shapely
+import xarray as xr
+from cartopy import crs as ccrs
+from scipy.ndimage import convolve
+from sklearn.model_selection import KFold
+from scipy.ndimage import label
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from tqdm.notebook import tqdm
+
+data_dir = os.path.join(
+    pathlib.Path.home(),
+    'earth-analytics',
+    'data',
+    'chicago-greenspace')
+os.makedirs(data_dir, exist_ok=True)
+    
+warnings.simplefilter('ignore')
+
+# Prevent GDAL from quitting due to momentary disruptions
+os.environ["GDAL_HTTP_MAX_RETRY"] = "5"
+os.environ["GDAL_HTTP_RETRY_DELAY"] = "1"
+```
+:::
+
+## STEP 2: Create a site map
+
+We'll be using the Center for Disease Control (CDC) Places dataset for human health data to compare with vegetation. CDC Places also provides some modified census tracts, clipped to the city boundary, to go along with the health data. We'll start by downloading the matching geographic data, and then select the City of Chicago.
+
+::: {.callout-task}
+
+1. Download the Census tract Shapefile that goes along with CDC Places
+2. Use a **row filter** to select only the census tracts in Chicago
+3. Use a **conditional statement** to cache your download. There is no need to cache the full dataset -- stick with your pared down version containing only Chicago.
+
+:::
+
+```{python}
+#| template: student
+# Set up the census tract path
+
+# Download the census tracts (only once)
+
+# Load in the census tract data
+
+# Site plot -- Census tracts with satellite imagery in the background
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Set up the census tract path
+tract_dir = os.path.join(data_dir, 'chicago-tract')
+os.makedirs(tract_dir, exist_ok=True)
+tract_path = os.path.join(tract_dir, 'chicago-tract.shp')
+
+# Download the census tracts (only once)
+if not os.path.exists(tract_path):
+    tract_url = ('https://data.cdc.gov/download/x7zy-2xmx/application%2Fzip')
+    tract_gdf = gpd.read_file(tract_url)
+    chi_tract_gdf = tract_gdf[tract_gdf.PlaceName=='Chicago']
+    chi_tract_gdf.to_file(tract_path, index=False)
+
+# Load in the census tract data
+chi_tract_gdf = gpd.read_file(tract_path)
+
+# Site plot -- Census tracts with satellite imagery in the background
+(
+    chi_tract_gdf
+    .to_crs(ccrs.Mercator())
+    .hvplot(
+        line_color='orange', fill_color=None, 
+        crs=ccrs.Mercator(), tiles='EsriImagery',
+        frame_width=600)
+)
+```
+:::
+
+::: {.callout-respond}
+What do you notice about the City of Chicago from the coarse satellite image? Is green space evenly distributed? What can you learn about Chicago from websites, scientific papers, or other resources that might help explain what you see in the site map?
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+**WRITE YOUR CITY OF CHICAGO DATA DESCRIPTION AND CITATION HERE**
+::::
+:::
+
+### Download census tracts and select your urban area
+
+You can obtain urls for the U.S. Census Tract shapefiles from [the TIGER service](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html). You'll notice that these URLs use the state FIPS, which you can get by looking it up (e.g. [here](https://www.bls.gov/respondents/mwr/electronic-data-interchange/appendix-d-usps-state-abbreviations-and-fips-codes.htm), or by installing and using the `us` package.
+
+::: {.callout-task}
+
+1. Download the Census tract Shapefile for the state of Illinois (IL).
+2. Use a **conditional statement** to cache the download
+3. Use a **spatial join** to select only the Census tracts that lie at least partially within the City of Chicago boundary.
+
+:::
+
+## STEP 3 - Access Asthma and Urban Greenspaces Data
+
+### Access human health data
+
+The U.S. Center for Disease Control (CDC) provides a number of health variables through their [Places Dataset](https://www.cdc.gov/places/index.html) that might be correlated with urban greenspace. For this assignment, start with adult asthma. Try to limit the data as much as possible for download. Selecting the state and county is a one way to do this.
+
+::: {.callout-task}
+
+  1. You can access Places data with an API, but as with many APIs it is easier to test out your search before building a URL. Navigate to the [Places Census Tract Data Portal](https://data.cdc.gov/500-Cities-Places/PLACES-Local-Data-for-Better-Health-Census-Tract-D) and search for the data you want.
+  2. The data portal will make an API call for you, but there is a simpler, easier to read and modify way to form an API call. Check out to the [socrata documentation](https://dev.socrata.com/docs/endpoints) to see how. You can also find some limited examples and a list of available parameters for this API on [CDC Places SODA Consumer API Documentation](https://dev.socrata.com/foundry/data.cdc.gov/cwsq-ngmh).
+  3. Once you have formed your query, you may notice that you have exactly 1000 rows. The Places SODA API limits you to 1000 records in a download. Either narrow your search or check out the `&$limit=` parameter to increase the number of rows downloaded. You can find more information on the [Paging page of the SODA API documentation](https://dev.socrata.com/docs/paging)
+  4. You should also clean up this data by renaming the `'data_value'` to something descriptive, and possibly selecting a subset of columns.
+
+:::
+
+```{python}
+#| template: student
+# Set up a path for the asthma data
+
+# Download asthma data (only once)
+
+# Load in asthma data
+
+# Preview asthma data
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Set up a path for the asthma data
+cdc_path = os.path.join(data_dir, 'asthma.csv')
+
+# Download asthma data (only once)
+if not os.path.exists(cdc_path):
+    cdc_url = (
+        "https://data.cdc.gov/resource/cwsq-ngmh.csv"
+        "?year=2022"
+        "&stateabbr=IL"
+        "&countyname=Cook"
+        "&measureid=CASTHMA"
+        "&$limit=1500"
+    )
+    cdc_df = (
+        pd.read_csv(cdc_url)
+        .rename(columns={
+            'data_value': 'asthma',
+            'low_confidence_limit': 'asthma_ci_low',
+            'high_confidence_limit': 'asthma_ci_high',
+            'locationname': 'tract'})
+        [[
+            'year', 'tract', 
+            'asthma', 'asthma_ci_low', 'asthma_ci_high', 'data_value_unit',
+            'totalpopulation', 'totalpop18plus'
+        ]]
+    )
+    cdc_df.to_csv(cdc_path, index=False)
+
+# Load in asthma data
+cdc_df = pd.read_csv(cdc_path)
+
+# Preview asthma data
+cdc_df
+```
+:::
+
+### Join health data with census tract boundaries
+
+::: {.callout-task}
+
+  1. Join the census tract `GeoDataFrame` with the asthma prevalence `DataFrame` using the `.merge()` method. 
+  2. You will need to change the data type of one of the merge columns to match, e.g. using `.astype('int64')`
+  3. There are a few census tracts in Chicago that do not have data. You should be able to confirm that they are not listed through the interactive Places Data Portal. However, if you have large chunks of the city missing, it may mean that you need to expand the record limit for your download.
+
+:::
+
+```{python}
+#| template: student
+# Change tract identifier datatype for merging
+
+# Merge census data with geometry
+
+# Plot asthma data as chloropleth
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Change tract identifier datatype for merging
+chi_tract_gdf.tract2010 = chi_tract_gdf.tract2010.astype('int64')
+
+# Merge census data with geometry
+tract_cdc_gdf = (
+    chi_tract_gdf
+    .merge(cdc_df, left_on='tract2010', right_on='tract', how='inner')
+)
+
+# Plot asthma data as chloropleth
+(
+    gv.tile_sources.EsriImagery
+    * 
+    gv.Polygons(
+        tract_cdc_gdf.to_crs(ccrs.Mercator()),
+        vdims=['asthma', 'tract2010'],
+        crs=ccrs.Mercator()
+    ).opts(color='asthma', colorbar=True, tools=['hover'])
+).opts(width=600, height=600, xaxis=None, yaxis=None)
+```
+:::
+
+::: {.callout-respond}
+Write a description and citation for the asthma prevalence data. Do you notice anything about the spatial distribution of asthma in Chicago? From your research on the city, what might be some potential causes of any patterns you see?
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+**ADD YOUR CDC PLACES DESCRIPTION AND CITATION HERE**
+::::
+:::
+
+### Get Data URLs
+
+NAIP data are freely available through the Microsoft Planetary Computer SpatioTemporal Access Catalog (STAC). 
+
+::: {.callout-task}
+Get started with STAC by accessing the planetary computer catalog with the following code:
+
+```python
+e84_catalog = pystac_client.Client.open(
+    "https://planetarycomputer.microsoft.com/api/stac/v1"
+)
+```
+:::
+
+```{python}
+#| template: student
+# Connect to the planetary computer catalog
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Connect to the planetary computer catalog
+e84_catalog = pystac_client.Client.open(
+    "https://planetarycomputer.microsoft.com/api/stac/v1"
+)
+e84_catalog.title
+```
+:::
+
+::: {.callout-task}
+
+  1. Using a loop, for each Census Tract:
+  
+     1. Use the following sample code to search for data, replacing the names with applicable values with descriptive names:
+       
+        ```python
+        search = e84_catalog.search(
+            collections=["naip"],
+            intersects=shapely.to_geojson(tract_geometry),
+            datetime=f"{year}"
+        )
+        ```
+      2. Access the url using `search.assets['image'].href`
+      
+  2. Accumulate the urls in a `pd.DataFrame` or `dict` for later
+
+  3. Occasionally you may find that the STAC service is momentarily unavailable. You should include code that will retry the request up to 5 times when you get the `pystac_client.exceptions.APIError`.
+  
+:::
+::: {.callout-warning}
+As always -- DO NOT try to write this loop all at once! Stick with one step at a time, making sure to test your work. You also probably want to add a `break` into your loop to stop the loop after a single iteration. This will help prevent long waits during debugging.
+:::
+
+```{python}
+#| template: student
+# Convert geometry to lat/lon for STAC
+
+# Define a path to save NDVI stats
+
+# Check for existing data - do not access duplicate tracts
+
+# Loop through each census tract
+
+    # Check if statistics are already downloaded for this tract
+
+        # Repeat up to 5 times in case of a momentary disruption   
+
+            # Try accessing the STAC
+
+                # Search for tiles 
+
+                # Build dataframe with tracts and tile urls
+
+            # Try again in case of an APIError
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Convert geometry to lat/lon for STAC
+tract_latlon_gdf = tract_cdc_gdf.to_crs(4326)
+
+# Define a path to save NDVI stats
+ndvi_stats_path = os.path.join(data_dir, 'chicago-ndvi-stats.csv')
+
+# Check for existing data - do not access duplicate tracts
+downloaded_tracts = []
+if os.path.exists(ndvi_stats_path):
+    ndvi_stats_df = pd.read_csv(ndvi_stats_path)
+    downloaded_tracts = ndvi_stats_df.tract.values
+else:
+    print('No census tracts downloaded so far')
+    
+# Loop through each census tract
+scene_dfs = []
+for i, tract_values in tqdm(tract_latlon_gdf.iterrows()):
+    tract = tract_values.tract2010
+    # Check if statistics are already downloaded for this tract
+    if not (tract in downloaded_tracts):
+        # Retry up to 5 times in case of a momentary disruption
+        i = 0
+        retry_limit = 5
+        while i < retry_limit:
+            # Try accessing the STAC
+            try:
+                # Search for tiles
+                naip_search = e84_catalog.search(
+                    collections=["naip"],
+                    intersects=shapely.to_geojson(tract_values.geometry),
+                    datetime="2021"
+                )
+                
+                # Build dataframe with tracts and tile urls
+                scene_dfs.append(pd.DataFrame(dict(
+                    tract=tract,
+                    date=[pd.to_datetime(scene.datetime).date() 
+                          for scene in naip_search.items()],
+                    rgbir_href=[scene.assets['image'].href for scene in naip_search.items()],
+                )))
+                
+                break
+            # Try again in case of an APIError
+            except pystac_client.exceptions.APIError:
+                print(
+                    f'Could not connect with STAC server. '
+                    f'Retrying tract {tract}...')
+                time.sleep(2)
+                i += 1
+                continue
+    
+# Concatenate the url dataframes
+if scene_dfs:
+    scene_df = pd.concat(scene_dfs).reset_index(drop=True)
+else:
+    scene_df = None
+
+# Preview the URL DataFrame
+scene_df
+```
+:::
+
+### Compute NDVI Statistics
+
+Next, calculate some metrics to get at different aspects of the distribution of greenspace in each census tract. These types of statistics are called **fragmentation statistics**, and can be implemented with the `scipy` package. Some examples of fragmentation statistics are:
+
+  Percentage vegetation
+  : The percentage of pixels that exceed a vegetation threshold (.12 is common with Landsat)
+  Mean patch size
+  : The average size of **patches**, or contiguous area exceeding the vegetation threshold. Patches can be identified with the `label` function from `scipy.ndimage`
+  Edge density
+  : The proportion of edge pixels among vegetated pixels. Edges can be identified by **convolving** the image with a **kernel** designed to detect pixels that are different from their surroundings.
+
+::: {.callout-note title='What is convolution?'}
+If you are familiar with differential equations, convolution is an approximation of the LaPlace transform.
+
+For the purposes of calculating edge density, convolution means that we are taking all the possible 3x3 chunks for our image, and multiplying it by the kernel:
+
+$$
+\text{Kernel} =
+\begin{bmatrix}
+1 & 1 & 1 \\
+1 & -8 & 1 \\
+1 & 1 & 1
+\end{bmatrix}
+$$
+
+The result is a matrix the same size as the original, minus the outermost edge. If the center pixel is the same as the surroundings, its value in the final matrix will be $-8 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 = 0$. If it is higher than the surroundings, the result will be negative, and if it is lower than the surroundings, the result will be positive. As such, the edge pixels of our patches will be negative.
+:::
+
+::: {.callout-task}
+
+  1. Select a single row from the census tract `GeoDataFrame` using e.g. `.loc[[0]]`, then select all the rows from your URL `DataFrame` that match the census tract.
+  2. For each URL in crop, merge, clip, and compute NDVI for that census tract
+  3. Set a threshold to get a binary mask of vegetation
+  4. Using the sample code to compute the fragmentation statistics. Feel free to add any other statistics you think are relevant, but make sure to include a fraction vegetation, mean patch size, and edge density. If you are not sure what any line of code is doing, make a plot or print something to find out! You can also ask ChatGPT or the class.
+
+:::
+
+```{python}
+#| template: student
+# Skip this step if data are already downloaded 
+
+    # Get an example tract
+
+    # Loop through all images for tract
+
+        # Open vsi connection to data
+
+        # Crop data to the bounding box of the census tract
+
+        # Clip data to the boundary of the census tract
+
+        # Compute NDVI
+
+        # Accumulate result
+
+    # Merge data
+
+    # Mask vegetation
+
+    # Calculate mean patch size
+    labeled_patches, num_patches = label(veg_mask)
+    patch_sizes = np.bincount(labeled_patches.ravel())[1:]
+    mean_patch_size = patch_sizes.mean()
+
+    # Calculate edge density
+    kernel = np.array([
+        [1, 1, 1], 
+        [1, -8, 1], 
+        [1, 1, 1]])
+    edges = convolve(veg_mask, kernel, mode='constant')
+    edge_density = np.sum(edges != 0) / veg_mask.size
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Skip this step if data are already downloaded 
+if not scene_df is None:
+    # Get an example tract
+    tract = chi_tract_gdf.loc[0].tract2010
+    ex_scene_gdf = scene_df[scene_df.tract==tract]
+
+    # Loop through all images for tract
+    tile_das = []
+    for _, href_s in ex_scene_gdf.iterrows():
+        # Open vsi connection to data
+        tile_da = rxr.open_rasterio(
+            href_s.rgbir_href, masked=True).squeeze()
+        
+        # Crop data to the bounding box of the census tract
+        boundary = (
+            tract_cdc_gdf
+            .set_index('tract2010')
+            .loc[[tract]]
+            .to_crs(tile_da.rio.crs)
+            .geometry
+        )
+        crop_da = tile_da.rio.clip_box(
+            *boundary.envelope.total_bounds,
+            auto_expand=True)
+
+        # Clip data to the boundary of the census tract
+        clip_da = crop_da.rio.clip(boundary, all_touched=True)
+            
+        # Compute NDVI
+        ndvi_da = (
+            (clip_da.sel(band=4) - clip_da.sel(band=1)) 
+            / (clip_da.sel(band=4) + clip_da.sel(band=1))
+        )
+
+        # Accumulate result
+        tile_das.append(ndvi_da)
+
+    # Merge data
+    scene_da = rxrmerge.merge_arrays(tile_das)
+
+    # Mask vegetation
+    veg_mask = (scene_da>.3)
+
+    # Calculate mean patch size
+    labeled_patches, num_patches = label(veg_mask)
+    # Count patch pixels, ignoring background at patch 0
+    patch_sizes = np.bincount(labeled_patches.ravel())[1:]
+    mean_patch_size = patch_sizes.mean()
+
+    # Calculate edge density
+    kernel = np.array([
+        [1, 1, 1], 
+        [1, -8, 1], 
+        [1, 1, 1]])
+    edges = convolve(veg_mask, kernel, mode='constant')
+    edge_density = np.sum(edges != 0) / veg_mask.size
+```
+:::
+
+### Repeat for all tracts
+
+::: {.callout-task}
+
+  1. Using a loop, for each Census Tract:
+
+      1. Using a loop, for each data URL:
+  
+          1. Use `rioxarray` to open up a connection to the STAC asset, just like you would a file on your computer
+          2. Crop and then clip your data to the census tract boundary
+            > HINT: check out the `.clip_box` parameter `auto_expand` and the `clip` parameter `all_touched` to make sure you don't end up with an empty array
+          3. Compute NDVI for the tract
+        
+      2. Merge the NDVI rasters
+      3. Compute:
+
+         1. total number of pixels within the tract
+         2. fraction of pixels with an NDVI greater than .12 within the tract (and any other statistics you would like to look at)
+    
+      4. Accumulate the statistics in a file for later
+
+  2. Using a conditional statement, ensure that you do not run this computation if you have already saved values. You do not want to run this step many times, or have to restart from scratch! There are many approaches to this, but we actually recommend implementing your caching in the previous cell when you generate your dataframe of URLs, since that step can take a few minutes as well. However, the important thing to cache is the computation.
+:::
+
+```{python}
+#| template: student
+# Skip this step if data are already downloaded 
+
+    # Loop through the census tracts with URLs
+
+        # Open all images for tract
+
+            # Open vsi connection to data
+            
+            # Clip data
+                
+            # Compute NDVI
+
+            # Accumulate result
+
+        # Merge data
+
+        # Mask vegetation
+
+        # Calculate statistics and save data to file
+
+        # Calculate mean patch size
+
+        # Calculate edge density
+        
+        # Add a row to the statistics file for this tract
+
+# Re-load results from file
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Skip this step if data are already downloaded 
+if not scene_df is None:
+    ndvi_dfs = []
+    # Loop through the census tracts with URLs
+    for tract, tract_date_gdf in tqdm(scene_df.groupby('tract')):
+        # Open all images for tract
+        tile_das = []
+        for _, href_s in tract_date_gdf.iterrows():
+            # Open vsi connection to data
+            tile_da = rxr.open_rasterio(
+                href_s.rgbir_href, masked=True).squeeze()
+            
+            # Clip data
+            boundary = (
+                tract_cdc_gdf
+                .set_index('tract2010')
+                .loc[[tract]]
+                .to_crs(tile_da.rio.crs)
+                .geometry
+            )
+            crop_da = tile_da.rio.clip_box(
+                *boundary.envelope.total_bounds,
+                auto_expand=True)
+            clip_da = crop_da.rio.clip(boundary, all_touched=True)
+                
+            # Compute NDVI
+            ndvi_da = (
+                (clip_da.sel(band=4) - clip_da.sel(band=1)) 
+                / (clip_da.sel(band=4) + clip_da.sel(band=1))
+            )
+
+            # Accumulate result
+            tile_das.append(ndvi_da)
+
+        # Merge data
+        scene_da = rxrmerge.merge_arrays(tile_das)
+
+        # Mask vegetation
+        veg_mask = (scene_da>.3)
+
+        # Calculate statistics and save data to file
+        total_pixels = scene_da.notnull().sum()
+        veg_pixels = veg_mask.sum()
+
+        # Calculate mean patch size
+        labeled_patches, num_patches = label(veg_mask)
+        # Count patch pixels, ignoring background at patch 0
+        patch_sizes = np.bincount(labeled_patches.ravel())[1:] 
+        mean_patch_size = patch_sizes.mean()
+
+        # Calculate edge density
+        kernel = np.array([
+            [1, 1, 1], 
+            [1, -8, 1], 
+            [1, 1, 1]])
+        edges = convolve(veg_mask, kernel, mode='constant')
+        edge_density = np.sum(edges != 0) / veg_mask.size
+        
+        # Add a row to the statistics file for this tract
+        pd.DataFrame(dict(
+            tract=[tract],
+            total_pixels=[int(total_pixels)],
+            frac_veg=[float(veg_pixels/total_pixels)],
+            mean_patch_size=[mean_patch_size],
+            edge_density=[edge_density]
+        )).to_csv(
+            ndvi_stats_path, 
+            mode='a', 
+            index=False, 
+            header=(not os.path.exists(ndvi_stats_path))
+        )
+
+# Re-load results from file
+ndvi_stats_df = pd.read_csv(ndvi_stats_path)
+ndvi_stats_df
+```
+:::
+
+## STEP 3 - Explore your data with plots
+
+### Chloropleth plots
+
+Before running any statistical models on your data, you should check that your download worked. You should see differences in both median income and mean NDVI across the City.
+
+::: {.callout-task}
+
+Create a plot that contains:
+  
+  * 2 side-by-side Chloropleth plots
+  * Asthma prevelence on one and mean NDVI on the other
+  * Make sure to include a title and labeled color bars
+
+:::
+
+```{python}
+#| template: student
+# Merge census data with geometry
+
+# Plot chloropleths with vegetation statistics
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Merge census data with geometry
+chi_ndvi_cdc_gdf = (
+    tract_cdc_gdf
+    .merge(
+        ndvi_stats_df,
+        left_on='tract2010', right_on='tract', how='inner')
+)
+
+# Plot chloropleths with vegetation statistics
+def plot_chloropleth(gdf, **opts):
+    """Generate a chloropleth with the given color column"""
+    return gv.Polygons(
+        gdf.to_crs(ccrs.Mercator()),
+        crs=ccrs.Mercator()
+    ).opts(xaxis=None, yaxis=None, colorbar=True, **opts)
+
+(
+    plot_chloropleth(
+        chi_ndvi_cdc_gdf, color='asthma', cmap='viridis')
+    + 
+    plot_chloropleth(chi_ndvi_cdc_gdf, color='edge_density', cmap='Greens')
+)
+```
+:::
+
+::: {.callout-response}
+Do you see any similarities in your plots? Do you think there is a relationship between adult asthma and any of your vegetation statistics in Chicago? Relate your visualization to the research you have done (the context of your analysis) if applicable.
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+**ADD YOUR PLOT DESCRIPTION HERE**
+::::
+:::
+
+## STEP 4: Explore a linear ordinary least-squares regression
+
+### Model description
+
+One way to find if there is a statistically significant relationship between asthma prevalence and greenspace metrics is to run a linear ordinary least squares (OLS) regression and measure how well it is able to predict asthma given your chosen fragmentation statistics.
+
+Before fitting an OLS regression, you should check that your data are appropriate for the model. 
+
+::: {.callout-task}
+Write a model description for the linear ordinary least-squares regression that touches on:
+
+  1. Assumptions made about the data
+  2. What is the objective of this model? What metrics could you use to evaluate the fit?
+  3. Advantages and potential problems with choosing this model.
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+**ADD YOUR CDC PLACES DESCRIPTION AND CITATION HERE**
+::::
+:::
+
+### Data preparation
+
+When fitting statistical models, you should make sure that your data meet the model assumptions through a process of selection and/or transformation. 
+
+You can select data by:
+
+  - Eliminating observations (rows) or variables (columns) that are missing data
+  - Selecting a model that matches the way in which variables are related to each other (for example, linear models are not good at modeling circles)
+  - Selecting variables that explain the largest amount of variability in the dependent variable.
+
+You can transform data bt:
+
+  - Transforming a variable so that it follows a normal distribution. The `log` transform is the most common to eliminate excessive skew (e.g. make the data symmetrical), but you should select a transform most suited to your data.
+  - Normalizing or standardizing variables to, for example, eliminate negative numbers or effects caused by variables being in a different range.
+  - Performing a principle component analysis (PCA) to eliminate multicollinearity among the predictor variables
+
+::: {.callout-tip}  
+Keep in mind that data transforms like a log transform or a PCA must be reversed after modeling for the results to be meaningful.
+:::
+
+::: {.callout-task}
+
+  1. Use the `hvplot.scatter_matrix()` function to create an exploratory plot of your data.
+  2. Make any necessary adjustments to your data to make sure that they meet the assumptions of a linear OLS regression.
+  3. Check if there are `NaN` values, and if so drop those rows and/or columns. You can use the `.dropna()` method to drop rows with `NaN` values.
+  4. Explain any data transformations or selections you made and why
+
+:::
+
+```{python}
+#| template: student
+# Variable selection and transformation
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Variable selection and transformation
+model_df = (
+    chi_ndvi_cdc_gdf
+    .copy()
+    [['frac_veg', 'asthma', 'mean_patch_size', 'edge_density', 'geometry']]
+    .dropna()
+)
+
+model_df['log_asthma'] = np.log(model_df.asthma)
+
+# Plot scatter matrix to identify variables that need transformation
+hvplot.scatter_matrix(
+    model_df
+    [[ 
+        'mean_patch_size',
+        'edge_density',
+        'log_asthma'
+    ]]
+    )
+```
+:::
+
+::: {.content-visible when-format="ipynb"}
+
+:::: {.cell .markdown}
+
+**EXPLAIN YOUR SELECTION AND TRANSFORMATION PROCESS HERE**
+
+::::
+:::
+
+### Fit and Predict
+
+If you have worked with statistical models before, you may notice that the `scikitlearn` library has a slightly different approach than many software packages. For example, `scikitlearn` emphasizes generic model performance measures like cross-validation and importance over coefficient p-values and correlation. The scikitlearn approach is meant to generalize more smoothly to machine learning (ML) models where the statistical significance is harder to derive mathematically.
+
+::: {.callout-task}
+
+  1. Use the scikitlearn documentation or ChatGPT as a starting point, split your data into training and testing datasets.
+  2. Fit a linear regression to your training data.
+  3. Use your fitted model to predict the testing values.
+  4. Plot the predicted values against the measured values. You can use the following plotting code as a starting point.
+
+:::
+
+```{python}
+#| template: student
+# Select predictor and outcome variables
+
+# Split into training and testing datasets
+
+# Fit a linear regression
+
+# Predict asthma values for the test dataset
+
+# Plot measured vs. predicted asthma prevalence with a 1-to-1 line
+(
+    test_df
+    .hvplot.scatter(x='measured', y='predicted')
+    .opts(aspect='equal', 
+          xlim=(0, y_max), ylim=(0, y_max), 
+          width=600, height=600)
+) * hv.Slope(slope=1, y_intercept=0).opts(color='black')
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Select predictor and outcome variables
+
+X = model_df[['edge_density', 'mean_patch_size']]
+y = model_df[['log_asthma']]
+
+# Split into training and testing datasets
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.33, random_state=42)
+
+# Fit a linear regression
+reg = LinearRegression()
+reg.fit(X_train, y_train)
+
+# Predict asthma values for the test dataset
+y_test['pred_asthma'] = np.exp(reg.predict(X_test))
+y_test['asthma'] = np.exp(y_test.log_asthma)
+
+# Plot measured vs. predicted asthma prevalence with a 1-to-1 line
+y_max = y_test.asthma.max()
+(
+    y_test
+    .hvplot.scatter(
+        x='asthma', y='pred_asthma',
+        xlabel='Measured Adult Asthma Prevalence', 
+        ylabel='Predicted Adult Asthma Prevalence',
+        title='Linear Regression Performance - Testing Data'
+    )
+    .opts(aspect='equal', xlim=(0, y_max), ylim=(0, y_max), height=600, width=600)
+) * hv.Slope(slope=1, y_intercept=0).opts(color='black')
+```
+:::
+
+### Spatial bias
+
+We always need to think about bias, or systematic error, in model results. Every model is going to have some error, but we'd like to see that error evenly distributed. When the error is systematic, it can be an indication that we are missing something important in the model.
+
+In geographic data, it is common for location to be a factor that doesn't get incorporated into models. After all -- we generally expect places that are right next to each other to be more similar than places that are far away (this phenomenon is known as *spatial autocorrelation*). However, models like this linear regression don't take location into account at all.
+
+::: {.callout-task}
+
+  1. Compute the model error (predicted - measured) for all census tracts
+  2. Plot the error as a chloropleth map with a diverging color scheme
+  3. Looking at both of your error plots, what do you notice? What are some possible explanations for any bias you see in your model?
+
+:::
+
+```{python}
+#| template: student
+# Compute model error for all census tracts
+
+# Plot error geographically as a chloropleth
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Compute model error for all census tracts
+model_df['pred_asthma'] = np.exp(reg.predict(X))
+model_df['err_asthma'] = model_df['pred_asthma'] - model_df['asthma']
+
+# Plot error geographically as a chloropleth
+(
+    plot_chloropleth(model_df, color='err_asthma', cmap='RdBu')
+    .redim.range(err_asthma=(-.3, .3))
+    .opts(frame_width=600, aspect='equal')
+)
+```
+:::
+
+::: {.callout-respond}
+What do you notice about your model from looking at the error plots? What additional data, transformations, or model type might help improve your results?
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+**DESCRIBE AND INTERPRET YOUR IMAGE HERE**
+::::
+:::

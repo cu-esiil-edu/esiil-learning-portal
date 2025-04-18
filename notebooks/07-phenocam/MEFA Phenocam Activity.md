@@ -27,7 +27,11 @@ code-block-templates:
 date: 2024-07-24
 editor: visual
 image: /img/earth-analytics/phenocam/phenocam.png
-jupyter: python3
+jupyter:
+  kernelspec:
+    display_name: Learning Portal
+    language: python
+    name: learning-portal
 nocite: |
   @richardson_phenocam_2023, @richardson_tracking_2019,
   @hufkens_integrated_2018
