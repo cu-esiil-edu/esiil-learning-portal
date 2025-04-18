@@ -68,9 +68,13 @@ jobs:
         with:
           activate-environment: learning-portal
 
-      - name: Install kernelspec
-        run: python -m ipykernel install --user --name "$env_name" --display-name "Python 3.12 $env_name"
-          
+      - name: Register learning‑portal kernel
+        run: conda run --no-capture-output -n learning‑portal \
+             python -m ipykernel install \
+               --user \
+               --name learning‑portal \
+               --display-name "Python 3.12 (learning‑portal)"
+
       - name: Restore cache
         uses: actions/cache@v3
         with:
