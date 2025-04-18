@@ -14,29 +14,19 @@ jobs:
         shell: bash -el {0}
     permissions:
       contents: write
-    outputs:
-      cache-hit: ${{ steps.cache-conda.outputs.cache-hit }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up cache
-        id: cache-conda
-        uses: actions/cache@v4
-        with:
-          path: /usr/share/miniconda/envs/learning-portal
-          key: conda-${{ runner.os }}-${{ hashFiles('environment.yml') }}
-
       - name: Install conda environment
-        if: steps.cache-conda.outputs.cache-hit != 'true'
         uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: learning-portal
           environment-file: environment.yml
           auto-activate-base: false
+          cache: conda
 
       - name: Install earthpy-dev
-        if: steps.cache-conda.outputs.cache-hit != 'true'
         run: pip install git+https://github.com/earthlab/earthpy@apppears
                
   build-deploy:
@@ -74,12 +64,6 @@ jobs:
                --user \
                --name learning‑portal \
                --display-name "Python 3.12 (learning‑portal)"
-
-      - name: Restore cache
-        uses: actions/cache@v3
-        with:
-          path: /usr/share/miniconda/envs/learning-portal
-          key: conda-${{ runner.os }}-${{ hashFiles('environment.yml') }}
 
       - name: Setup IPYTHONDIR
         run: scripts/setup_ipythondir.sh
