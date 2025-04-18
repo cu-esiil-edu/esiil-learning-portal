@@ -74,12 +74,10 @@ jobs:
         with:
           activate-environment: learning-portal
 
-      - name: Register learning‑portal kernel
-        run: conda run --no-capture-output -n learning‑portal \
-             python -m ipykernel install \
-               --user \
-               --name learning‑portal \
-               --display-name "Python 3.12 (learning‑portal)"
+      - name: Register Jupyter Kernel
+        run: |
+          conda activate learning-portal
+          python -m ipykernel install --user --name learning-portal --display-name "Learning Portal"
 
       - name: Setup IPYTHONDIR
         run: scripts/setup_ipythondir.sh
