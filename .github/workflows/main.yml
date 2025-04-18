@@ -38,9 +38,6 @@ jobs:
       - name: Install earthpy-dev
         if: steps.cache-conda.outputs.cache-hit != 'true'
         run: pip install git+https://github.com/earthlab/earthpy@apppears
-
-      - name: Install kernelspec
-        run: python -m ipykernel install --user --name "$env_name" --display-name "Python 3.12 $env_name"
                
   build-deploy:
     runs-on: ubuntu-latest
@@ -70,6 +67,9 @@ jobs:
         uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: learning-portal
+
+      - name: Install kernelspec
+        run: python -m ipykernel install --user --name "$env_name" --display-name "Python 3.12 $env_name"
           
       - name: Restore cache
         uses: actions/cache@v3
