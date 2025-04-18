@@ -39,10 +39,10 @@ def get_frontmatter_params(file_path):
         
     # No parameters found
     return {}
-
-def get_included_files(file_path):
+        
+def get_included_files(file_path, project_id):
     """
-    Extracts the list of file names included via templating syntax from a markdown file.
+    Extracts the list of included filenames.
     
     The function searches for directives in the form:
         {{< include filename >}}
@@ -57,6 +57,17 @@ def get_included_files(file_path):
     # It looks for the keyword "include" and then captures the filename.
     pattern = r'{{<\s*include\s+([^ >]+)\s*>}}'
     included_files = re.findall(pattern, content)
+    
+    # Replace include shortcodes with project-specific files
+    project_included_files = []
+    for included_file in included_files:
+        included_file, project_path = add_project_key(
+            included_file, project_id)
+        new_content = content.replace(included_file, project_path)
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(new_content)
+        project_included_files.append(project_path)
+            
     return included_files
 
 def replace_exec_options(content, code_block_templates):
@@ -76,29 +87,22 @@ def replace_exec_options(content, code_block_templates):
 
     return content
 
-def replace_params(content, params):
-    # Replace parameters in code
-    for key, value in params.items():
-        placeholder = f"__param_{key}"
-        content = content.replace(placeholder, f'{value}')
-    return content
-
-def process_file(input_file, code_block_templates, params):
-    # Make a copy of the original
-    shutil.copy2(input_file, f"{ input_file }.original")
-
+def process_file(input_file, code_block_templates, params, project_id=None):
+    if project_id:
+        # Get project and regular version of file name
+        input_file, project_file = add_project_key(input_file, project_id)
+    else:
+        project_file = input_file
+    
     # Read the input file
     with open(input_file, 'r') as file:
         content = file.read()
 
     # Replace code block execution parameters
     content = replace_exec_options(content, code_block_templates)
-
-    # Insert code parameters
-    content = replace_params(content, params)
     
-    # Write the modified content back to the file
-    with open(input_file, 'w') as file:
+    # Write the modified content to the project-specific file
+    with open(project_file, 'w') as file:
         file.write(content)
 
 def main():
@@ -119,20 +123,24 @@ def main():
     input_file_list = input_files.split('\n')
     
     for input_file in input_file_list:
+        print('Pre-rendering file: ', input_file)
         # Get parameters
         params = get_frontmatter_params(input_file)
-        print('    Parameters:', params)
+        print('  Parameters: ', params)
+        if 'id' in params:
+            project_id = params['id']
+            print('  Configuring file for project: ', project_id)
+        
+            included_files = get_included_files(input_file, project_id)
+            for included_file in included_files:
+                included_path = os.path.join(
+                    os.path.dirname(input_file),
+                    included_file)
+                print(f'    Configuring included file { included_path }')
+                process_file(
+                    included_path, code_block_templates, params, project_id)
                 
-        print(f'  Pre-rendering { input_file }')
-        included_files = get_included_files(input_file)
-        for included_file in included_files:
-            included_file_path = os.path.join(
-                os.path.dirname(input_file),
-                included_file)
-            print(f'Configuring included file { included_file_path }')
-            process_file(included_file_path, code_block_templates, params)
-            
-        process_file(input_file, code_block_templates, params)
+            process_file(input_file, code_block_templates, params)
 
 if __name__ == "__main__":
     main()

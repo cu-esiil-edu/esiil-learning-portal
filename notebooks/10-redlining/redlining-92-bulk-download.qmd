@@ -21,6 +21,9 @@ Add imports for packages that help you:
 
 ```{python}
 #| template: student
+
+
+
 # Interoperable file paths
 import re # Use regular expressions to extract metadata
 
@@ -35,6 +38,8 @@ from rioxarray.merge import merge_arrays # Merge rasters
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 import os # Interoperable file paths
 import re # Use regular expressions to extract metadata
 
@@ -53,12 +58,17 @@ As you did before, log in to your `earthaccess` account, search for the Denver d
 
 ```{python}
 #| template: student
+
+
+
 # Search earthaccess
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 earthaccess.login(strategy="interactive", persist=True)
 denver_results = earthaccess.search_data(
     short_name='HLSL30',
@@ -101,7 +111,10 @@ Make sure to test all your functions using your example from up top!
 :::
 
 ```{python}
-#| template: student 
+#| template: student
+
+ 
+
 def process_image(uri, bounds_gdf):
     """
     Load, crop, and scale a raster image from earthaccess
@@ -125,6 +138,8 @@ def process_image(uri, bounds_gdf):
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 def process_image(uri, bounds_gdf):
     """
     Load, crop, and scale a raster image from earthaccess
@@ -153,6 +168,9 @@ def process_image(uri, bounds_gdf):
 
 ```{python}
 #| template: student
+
+
+
 def process_cloud_mask(cloud_uri, bounds_gdf, bits_to_mask):
     """
     Load an 8-bit Fmask file and process to a boolean mask
@@ -178,6 +196,8 @@ def process_cloud_mask(cloud_uri, bounds_gdf, bits_to_mask):
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 def process_cloud_mask(cloud_uri, bounds_gdf, bits_to_mask):
     """
     Load an 8-bit Fmask file and process to a boolean mask
@@ -242,6 +262,9 @@ First -- run another `earthaccess` search, this time removing the `count=1` argu
 
 ```{python}
 #| template: student
+
+
+
 # Search earthaccess
 
 # Open earthaccess results
@@ -250,6 +273,8 @@ First -- run another `earthaccess` search, this time removing the `count=1` argu
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 earthaccess.login(strategy="interactive", persist=True)
 denver_results = earthaccess.search_data(
     short_name='HLSL30',
@@ -271,6 +296,9 @@ Using the code below as a starting point, extract metadata from file names and p
 
 ```{python}
 #| template: student
+
+
+
 # Compile a regular expression to search for metadata
 uri_re = re.compile(
     ...
@@ -294,6 +322,8 @@ raster_df
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 # Compile a regular expression to search for metadata
 uri_re = re.compile(
     r'HLS.L30.(?P<tile_id>[^.]*)'
@@ -339,6 +369,9 @@ Something that is tricky about looping through `DataFrame`s is that they tend to
 
 ```{python}
 #| template: student
+
+
+
 # Labels for each band to process
 bands = {
     'B02': 'red',
@@ -371,6 +404,8 @@ denver_das['green'].plot(cmap='Greens', robust=True)
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 # Labels for each band to process
 bands = {
     'B02': 'blue',
@@ -413,12 +448,17 @@ Make a plot of one of your merged bands with the denver boundary superimposed. Y
 
 ```{python}
 #| template: student
+
+
+
 # Plot a merged raster band
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 denver_das['green'].plot(cmap='Greens', vmin=0, robust=True)
 denver_redlining_gdf.to_crs(denver_das['green'].rio.crs).plot(
     ax=plt.gca(),

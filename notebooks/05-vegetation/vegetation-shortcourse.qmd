@@ -48,6 +48,9 @@ What are we using the rest of these packages for? See if you can figure it out a
 
 ```{python}
 #| template: student
+
+
+
 import getpass
 import json
 import os
@@ -63,6 +66,8 @@ import xarray as xr
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 import getpass
 import json
 import os
@@ -91,6 +96,9 @@ In the cell below, replace 'my-data-folder' with a **descriptive** directory nam
 
 ```{python}
 #| template: student
+
+
+
 data_dir = os.path.join(pathlib.Path.home(), 'my-data-folder')
 # Make the data directory
 os.makedirs(data_dir, exist_ok=True)
@@ -99,6 +107,8 @@ os.makedirs(data_dir, exist_ok=True)
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 data_dir = os.path.join(
     pathlib.Path.home(), 'earth-analytics', 'data', 'cameron-peak')
 # Make the data directory
@@ -137,12 +147,17 @@ For this coding challenge, we are interested in the boundary of the Cameron Peak
 
 ```{python}
 #| template: student
+
+
+
 # Download the Cameron Peak fire boundary
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 # Download the Cameron Peak fire boundary
 url = (
     "https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services"
@@ -169,12 +184,17 @@ We always want to create a site map when working with geospatial data. This help
 
 ```{python}
 #| template: student
+
+
+
 # Plot the Cameron Peak Fire boundary
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 gdf.hvplot(
     geo=True,
     title='Cameron Peak Fire, 2020',
@@ -218,6 +238,9 @@ It can take some time for Appeears to process your request - anything from a few
 
 ```{python}
 #| template: student
+
+
+
 # Initialize AppeearsDownloader for MODIS NDVI data
 ndvi_downloader = eaapp.AppeearsDownloader(
     download_key='cp-ndvi',
@@ -237,6 +260,8 @@ ndvi_downloader.download_files(cache=True)
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 # Initialize AppeearsDownloader for MODIS NDVI data
 ndvi_downloader = eaapp.AppeearsDownloader(
     download_key='cp-ndvi',
@@ -263,12 +288,17 @@ Now you need to load all the downloaded files into Python. Let's start by gettin
 
 ```{python}
 #| template: student
+
+
+
 # Get a list of NDVI tif file paths
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 # Get list of NDVI tif file paths
 ndvi_paths = sorted(glob(os.path.join(data_dir, 'cp-ndvi', '*', '*NDVI*.tif')))
 len(ndvi_paths)
@@ -297,6 +327,9 @@ There's some code below that uses a `for` loop in what is called an **accumulati
 
 ```{python}
 #| template: student
+
+
+
 doy_start = -1
 doy_end = -1
 
@@ -319,6 +352,8 @@ for ndvi_path in ndvi_paths:
 
 ```{python}
 #| template: answer
+
+
 doy_start = -19
 doy_end = -12
 
@@ -348,12 +383,17 @@ Next, stack your arrays by date into a time series using the `xr.combine_by_coor
 
 ```{python}
 #| template: student
+
+
+
 # Combine NDVI images from all dates
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 # Combine NDVI images from all dates
 ndvi_da = xr.combine_by_coords(ndvi_das, coords=['date'])
 ndvi_da
@@ -379,6 +419,9 @@ For an extra challenge, add the fire boundary to the plot.
 
 ```{python}
 #| template: student
+
+
+
 # Compute the difference in NDVI before and after the fire
 
 # Plot the difference
@@ -392,6 +435,8 @@ For an extra challenge, add the fire boundary to the plot.
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 ndvi_diff = (
     ndvi_da
         .sel(date=slice('2021', '2023'))
@@ -416,6 +461,9 @@ You will compute the mean NDVI inside and outside the fire boundary. First, use 
 
 ```{python}
 #| template: student
+
+
+
 # Compute the area outside the fire boundary
 
 ```
@@ -423,6 +471,8 @@ You will compute the mean NDVI inside and outside the fire boundary. First, use 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 # Compute the area outside the fire boundary
 out_gdf = (
     gpd.GeoDataFrame(geometry=gdf.envelope)
@@ -438,12 +488,17 @@ It's important to use `from_disk=True` when clipping large arrays like this. It 
 
 ```{python}
 #| template: student
+
+
+
 # Clip data to both inside and outside the boundary
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 # Clip data to both inside and outside the boundary
 ndvi_cp_da = ndvi_da.rio.clip(gdf.geometry, from_disk=True)
 ndvi_out_da = ndvi_da.rio.clip(out_gdf.geometry, from_disk=True)
@@ -468,12 +523,17 @@ Finally, plot annual July means for both inside and outside the Reservation on t
 
 ```{python}
 #| template: student
+
+
+
 # Compute mean annual July NDVI
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 # Compute mean annual July NDVI
 jul_ndvi_cp_df = (
     ndvi_cp_da
@@ -504,12 +564,17 @@ Now, take the difference between outside and inside the Reservation and plot tha
 
 ```{python}
 #| template: student
+
+
+
 # Plot difference inside and outside the reservation
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+
+
 # Plot difference inside and outside the reservation
 jul_ndvi_df['difference'] = (
     jul_ndvi_df['NDVI Burned Area']
