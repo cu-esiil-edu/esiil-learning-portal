@@ -1,84 +1,37 @@
 ---
-title: Installation
+title: Using LLMs
 jupyter: python3
 ---
 
+# What is an LLM
+You should already have Ollama [setup](./Reproducible_prompts_0.Qmd). This will
+allow us to work with large language models (LLMs) that will run locally on our
+compute instance. LLM are a kind of machine learning model, with the specific
+goal of underdanding and generativing natural languages. These models have a 
+very large number of parameters (often in the billions), and these are fitted
+using very large amounts of text. We will be utilizing a model that has already
+been trained for us by [Meta](meta.com) called 
+[Llama 2](https://www.llama.com/llama2/)
 
-We will be working with Ollama, which will allow us to install a number of large language models (LLMs) locally. It has a few installation options.
+# Jupyter AI **🪄Magic🪄** 
+## Getting Started
 
-1. Windows
-    * [Installer](https://ollama.com/download/OllamaSetup.exe)
-2. Mac
-    * [Installer](https://ollama.com/download/Ollama-darwin.zip)
-3. Linux
-    * `curl -fsSL https://ollama.com/install.sh | sh`
-4. Conda environment
-    * `conda install --yes conda-forge::ollama`
-    * ::: {.callout-caution}
-      The conda package is somewhat out of date
+First lets load all the packages we will need for this lesson.
 
-      :::
-
-We will also want to install python packages to help interface with our LLM
-models. There are two options we will explore the Jupyter Notebooks AI extension
-and ollama langchain package. We will also be using the `pydantic` and `pandas`
-packages a little later.
-
-```{bash}
-pip install jupyter-ai langchain-ollama pydantic pandas
+ ```{python}
+import pandas as pd
+from ollama import chat
+from ollama import ChatResponse
+from pydantic import BaseModel
 ```
 
-::: {.callout-tip}
-[Langchain](https://www.langchain.com/) is a software platform that offers a
-standardized way to interface with LLM models. It is particularly useful when
-you want to integrate them into your code or applications.
-:::
-
-
-## Loading the ai extension
-It is important to now restart the you jupyter kernel. Then run the following
-command to load the jupyter_ai_magicks extensions which are part of the 
-jupyter-ai package.
+Now we again need to make sure the ai_magicks extension is loaded to use it in
+our notebook
 
 ```{python}
 %load_ext jupyter_ai_magics
 ```
 
-We can see the LLM options that we could interface with by using the `%ai list`
-command.
-
-```{python}
-%ai list
-```
-
-## Installing our LLM models
-Ollama is a framework that allows for the installation of many LLM models
-locally. We need to choose a starting model and then install it. A popular
-option is the llama model. While not open source it has fairly permissive
-[terms](https://www.llama.com/llama3/license/) of use.
-
-::: {.callout-note}
-We will be running a console command here. We will be using the integrated
-jupyter magic command `!` which will send our code to the system shell. Make sure the ollama server is running, or this will give an error.
-
-:::
-
-```{python}
-# Meta's Llama 3.2 goes small with 1B and 3B models. 3B is default
-# Licensed under the llama Community Licence Agreement 
-!ollama pull llama3.2
-```
-
-We can check that the model was successfully installed with the
-`ollama list` command.
-
-```{python}
-!ollama list
-```
-
-# Jupyter AI **🪄Magic🪄** 
-## Now let's play
-- We already loaded the ai_magicks extension to use it in our notebook
 - We'll also just set the AiMagics max_history to 0, so it wont remember any past prompt information in the current prompt
   - This is to make things a little more repeatable
   - ::: {.callout-warning}
@@ -107,12 +60,14 @@ the code we must include:
 Introduce yourself
 ```
 
-## Now let's try incoporating a python object
+## Incoporating a python object
 We can incoporate a python object using the `{}` syntax inside our prompt. First
 Lets make a list in python.
 
 ```{python}
-random_words = ["cat", "dog", "bird", "monkey", "elephant", "deer", "wolf", "bison", "elk"]  
+random_words = [
+  "cat", "dog", "bird", "monkey", "elephant", "deer", "wolf", "bison", "elk"
+]  
 print(random_words)
 ```
 
@@ -133,17 +88,19 @@ our output in json.
 Create a list from the text of {random_words} in random order
 ```
 
-## Lets keep making things more reproducible
+## Improving reproduciblity
 We can Set a seed to try and get more reproducible results. This is an ollama
 parameter, so we provide it inside the `-m {}` arguments. Just add `"seed:42`
-after our `"base_url":"http://localhost:11434"` seperated by a comma. **Do not add any spaces**, as it can interfere with parsing the arguments.
+after our `"base_url":"http://localhost:11434"` seperated by a comma. 
+**Do not add any spaces**, as it can interfere with parsing the arguments.
 
 ```{python}
 %%ai ollama:llama3.2 -m {"base_url":"http://localhost:11434","seed":42}
 Create a bullet list from the text of {random_words} in random order
 ```
 
-## Let's keep tweaking the randomness
+## Adjusting the randomness
+
 - You can adjust to "Creativeness" of the responses with the `"temperature"` 
 - Default is 0.8, higher is more creative
 - You can set `"temperature":0` to give the least "creative" response which can help reproducibity.
@@ -169,22 +126,24 @@ dictionary.
 Create a list of 10 random words
 ```
 
-To capture the output of this cell You can call the `Out[##]` function, substituting `##` for the cell number. This can be tricky because the cell
-number changes based on the order of cells run or if you rerun a cell. The `_`
-operator will return the output of the last run cell. As long as you run two
-cells one after the other, it should always successfully retrieve the output.
-The output will likely be a `IPython.core.display.JSON` object which has the
-contents of the json saved as a python dictionary in the .data property.
+The `_` operator will return the output of the last run cell. As long as you run
+two cells one after the other, it should always successfully retrieve the 
+output. The output will likely be a `IPython.core.display.JSON` object which has
+the contents of the json saved as a python dictionary in the .data property.
+
+::: {.column-margin title="Why not use Out[]?"}
+To capture the output of this cell you could call the `Out[##]` function, 
+substituting `##` for the cell number. However, this can be tricky because the 
+cell number changes based on the order of cells run or if you rerun a cell.
+Using the `_` operator ensures that only the the previous cell and the current
+cell need to be run in the correct order.
+:::
 
 Lets call the retrieve the output.data `_.data` and save it to a object `rando`.
 
 ```{python}
 rando = _.data
 type(rando)
-```
-
-```{python}
-type(Out[13])
 ```
 
 We can select an element of the dictionary using a key.
@@ -199,20 +158,18 @@ get the list of keys using `.keys()`, coerce it into a `list()` and then select
 and element by index `[#]`. This will give use the key at position `#`.
 
 ```{python}
-rando[list(rando.keys())[3]]
+rando[
+  list(
+    rando.keys()
+  )[3]
+]
 ```
 
 # Langchain
 ## What about embeding LLM prompts directly into Python Code?
-Thats what langchain is for! Lets load a few packages; `pandas`, and `ollama`,
-`pydantic`
+Thats what langchain is for! Will be using a few new packages we already 
+imported; `pandas`, `ollama`, and `pydantic`
 
-```{python}
-import pandas as pd
-from ollama import chat
-from ollama import ChatResponse
-from pydantic import BaseModel
-```
 
 Using the pandas library let's read in the example dataset 
 `Agaricus_descriptions_examples.csv`. This is table of species descriptions. We
@@ -220,19 +177,19 @@ are going to use an LLM to parse the descriptions and extract some trait
 for information.
 
 ```{python}
-df = pd.read_csv('Agaricus_descriptions_examples.csv')
+df = pd.read_csv('https://github.com/cu-esiil-edu/esiil-learning-portal/releases/download/data-release/reproducible_prompts_Agaricus_descriptiosn.csv')
 print(df)
 ```
 
 First we are going to use BaseModel from pydantic to create a json schema that
 we will use to constrain to form of our LLM output. Lets specify two possible
-variables `stripe_length` which will be a `float` and `stripe_unit` which will
+variables `stipe_length` which will be a `float` and `stipe_unit` which will
 be `str`.
 
 ```{python}
-class Stripe(BaseModel):
-  stripe_length: float
-  stripe_unit: str
+class Stipe(BaseModel):
+  stipe_length: float
+  stipe_unit: str
 ```
 
 We can call a LLM using the `chat` function from `ollama`. 
@@ -244,7 +201,7 @@ response: ChatResponse = chat(
     'content': f'extract the length of the Stipe from {df.iloc[1, 3]} as stipe_length and the unit of measurement labed as stripe_unit',
   }],
   model='llama3.2', 
-  format=Stripe.model_json_schema(),
+  format=Stipe.model_json_schema(),
   options={"temperature":0, "seed":42, "repeat_last_n":0,"repeat_penalty":0}
 )
 ```
@@ -256,23 +213,23 @@ response.message.content
 ```
 
 This gets output as a string, but we can use the `.model_validate_json` function that was inherited from `BaseModel` to the
-Stripe object to get it into a `Stripe` object.
+Stipe object to get it into a `Stipe` object.
 
 ```{python}
-stripe_data = Stripe.model_validate_json(response.message.content)
-stripe_data
+stipe_data = Stipe.model_validate_json(response.message.content)
+stipe_data
 ```
 
-Finally, the Stripe object can be directly coerced into a dict if we need it.
+Finally, the Stipe object can be directly coerced into a dict if we need it.
 
 ```{python}
-dict(stripe_data)
+dict(stipe_data)
 ```
 
 One advantage to using the `langchain-ollama` package is that we can embed our
 LLM calls into more complex python code. A good example is embedding our LLM
 call into a for loop. In this way we can go row by row over our entire table,
-and generate two new columns `stripe_length` and `stripe_units`.
+and generate two new columns `stipe_length` and `stipe_units`.
 
 ```{python}
 results = pd.DataFrame()
@@ -281,17 +238,17 @@ for i,col in df.iterrows():
   response: ChatResponse = chat(
     messages=[{
       'role': 'user',
-      'content': f'extract the length of the Stipe from {col.iloc[3]} as stipe_length and the unit of measurement labed as stripe_unit',
+      'content': f'extract the length of the Stipe from {col.iloc[3]} as stipe_length and the unit of measurement labed as stipe_unit',
     }],
     model='llama3.2', 
-    format=Stripe.model_json_schema(),
+    format=Stipe.model_json_schema(),
     options={"temperature":0, "seed":42, "repeat_last_n":0,"repeat_penalty":0}
   )
-  stripe = Stripe.model_validate_json(response.message.content)
-  print(i, stripe)
+  stipe = Stipe.model_validate_json(response.message.content)
+  print(i, stipe)
   results = pd.concat([
     results,
-    pd.concat([col, pd.Series(dict(stripe))]).to_frame().T
+    pd.concat([col, pd.Series(dict(stipe))]).to_frame().T
   ])
 
 print(results)
