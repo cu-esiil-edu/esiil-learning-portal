@@ -2,11 +2,11 @@ project:
   type: website
   output-dir: _site
   pre-render:
-    - scripts/restore_original_files.py
-    - scripts/configure_code_cells.py
+    - scripts/install_kernelspec.sh
+    - scripts/sync_parameters.py
+    - scripts/expand_templates.py
   post-render:
-    - scripts/restore_original_files.py
-    #- scripts/update_stored_variable_database.py
+    - scripts/compress_templates.py
 
   render:
     - index.qmd
@@ -22,18 +22,21 @@ project:
     - pages/03-git-github/02-github-collaboration/01-intro-collaboration.qmd
     - pages/03-git-github/02-github-collaboration/02-pull-requests.qmd
     - pages/03-git-github/02-github-collaboration/06-pr-activity-fork.qmd
-    - pages/03-git-github/02-github-collaboration/07-pr-activity-branch.qmd
+    #- pages/03-git-github/02-github-collaboration/07-pr-activity-branch.qmd
     - pages/03-git-github/03-github-portfolio/
-    - notebooks/01-climate/climate-3*.qmd
     - notebooks/01-climate/climate.qmd
-    - notebooks/03-species-distribution/species-distribution-3*.qmd
-    - notebooks/03-species-distribution/species-distribution.qmd
-    - notebooks/10-redlining/redlining-3*.qmd
-    - notebooks/10-redlining/redlining-4*.qmd
-    - notebooks/10-redlining/redlining.qmd
+    #- notebooks/03-migration/migration-eda.qmd
+    #- notebooks/10-redlining/redlining.qmd
     - notebooks/08-habitat/habitat.qmd
+    #- notebooks/11-big-data/big-data.qmd
+    #- notebooks/12-clustering/clustering.qmd
     # Stars
+    - pages/03-git-github/03-github-portfolio/
     - notebooks/02-flood/flood.qmd
+    - notebooks/05-vegetation/vegetation-stars.qmd
+    - notebooks/05-vegetation/vegetation-download-stars.qmd
+    #- notebooks/03-migration/migration-stars.qmd
+    #- notebooks/03-migration/migration-download-stars.qmd
     # Shortcourse
     - notebooks/05-vegetation/vegetation.qmd
     # Events
@@ -41,12 +44,15 @@ project:
     # MEFA
     - notebooks/07-phenocam/*.qmd
     # Chicago Symposium
-    - notebooks/09-urban-heat-island/uhi-3*.qmd
     - notebooks/09-urban-heat-island/urban-heat-island.qmd
     - notebooks/01-climate/climate-98-download.qmd
     # Commodity Classic
 
-jupyter: python3
+jupyter:
+  kernelspec:
+    name: learning-portal
+    language: python
+    display_name: "Learning Portal"
 execute:
   cache: true
   freeze: false
@@ -91,9 +97,9 @@ website:
       # Textbooks
       - text: "Guided learning<br><strong>Textbooks</strong>"
         menu:
-          - text: "Introduction to Earth Analytics"
-          - text: "Intermediate Earth Analytics"
-          - text: "Advanced Earth Analytics"
+          #- text: "Python for Earth and Environmental Scientists"
+          - text: "IGNITE Data Analytics for early-career researchers"
+            href: pages/00-overviews/02-textbooks/ignite/index.qmd
       # Classes Workshops Events
       - text: "Attending a<br><strong>Class or Event</strong>?"
         menu:
@@ -130,68 +136,86 @@ website:
 
     #### Classes and Events
     # Fundamentals of Earth Data Analytics
-    - title: "GEOG 5463/4463: Fundamentals of Earth Data Analytics"
-      logo: ""
+    # - title: "GEOG 5463/4463: Fundamentals of Earth Data Analytics"
+    #   logo: ""
+    #   contents:
+    #     - pages/00-overviews/04a-courses/foundations/01-fundamentals/index.qmd
+    #     - section: "UNIT 1: Portfolio"
+    #       href: pages/00-overviews/04a-courses/foundations/01-fundamentals/01-portfolio.qmd
+    #       contents:
+    #         - section: "Text File Types"
+    #           contents:
+    #             - pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.qmd
+    #             - pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.qmd
+    #             #- pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.qmd
+    #         - section: "Version Control"
+    #           contents:
+    #             - pages/03-git-github/01-intro-version-control/01-intro-version-control.qmd
+    #             - pages/03-git-github/02-github-collaboration/01-intro-collaboration.qmd
+    #             - pages/03-git-github/02-github-collaboration/02-pull-requests.qmd
+    #             - pages/03-git-github/02-github-collaboration/06-pr-activity-fork.qmd
+    #         - section: "Portfolio"
+    #           contents:
+    #             - pages/03-git-github/03-github-portfolio/00-introduction.qmd
+    #             - pages/03-git-github/03-github-portfolio/01-create-portfolio-website.qmd
+    #             - pages/03-git-github/03-github-portfolio/02-images.qmd
+    #             - pages/03-git-github/03-github-portfolio/03-html.qmd
+    #             - pages/03-git-github/03-github-portfolio/04-jekyll.qmd
+    #             - pages/03-git-github/03-github-portfolio/05-map.qmd
+    #             - pages/03-git-github/02-github-collaboration/07-pr-activity-branch.qmd
+    #     - section: "UNIT 2: Time-series Data"
+    #       href: pages/00-overviews/04a-courses/foundations/01-fundamentals/02-time-series.qmd
+    #       contents:
+    #         - section: "Open Science Tools"
+    #           contents:
+    #             - pages/01-reproducible-science-tools/open-reproducible-science/01-intro.qmd
+    #             - pages/01-reproducible-science-tools/open-reproducible-science/02-open-science-tools.qmd
+    #             - pages/01-reproducible-science-tools/open-reproducible-science/03-best-practices.qmd
+    #         - section: "Time-series Data"
+    #         - section: "Climate Coding Challenge"
+    #           contents:
+    #             - notebooks/01-climate/climate.qmd
+    #     - section: "UNIT 3: Vector Data"
+    #       href: pages/00-overviews/04a-courses/foundations/01-fundamentals/03-vector.qmd
+    #       contents:
+    #         - section: "Geospatial Vector Data"
+    #         - section: "Species Distribution Coding Challenge"
+    #           contents:
+    #             - notebooks/03-migration/migration.qmd
+    #     - section: "UNIT 4: Raster Data"
+    #       href: pages/00-overviews/04a-courses/foundations/01-fundamentals/04-raster.qmd
+    #       contents:
+    #         - text: "Install Python on your computer"
+    #           href: https://www.earthdatascience.org/workshops/setup-earth-analytics-python/setup-git-bash-conda/
+    #         - section: "Geospatial Raster Data"
+    #         - section: "Urban Greenspace and Redlining Coding Challenge"
+    #           contents:
+    #             - notebooks/10-redlining/redlining.qmd
+    #     - section: "FINAL: Habitat Suitability"
+    #       href: pages/00-overviews/04a-courses/foundations/01-fundamentals/05-final.qmd
+    #       contents:
+    #         - section: "Climate Data 101"
+    #         - section: "Habitat Suitability Coding Challenge"
+    #           contents:
+    #             - notebooks/08-habitat/habitat.qmd
+
+    # IGNITE
+    - title: "IGNITE Data Analytics for early-career researchers"
       contents:
-        - pages/00-overviews/04a-courses/foundations/01-fundamentals/index.qmd
-        - section: "UNIT 1: Portfolio"
-          href: pages/00-overviews/04a-courses/foundations/01-fundamentals/01-portfolio.qmd
+        - pages/00-overviews/02-textbooks/ignite/index.qmd
+        - section: "Access Environmental Data in the Cloud"
           contents:
-            - section: "Text File Types"
-              contents:
-                - pages/02-file-formats-eds/04-text-file-formats-eds/01-intro-text-file-formats.qmd
-                - pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.qmd
-                #- pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.qmd
-            - section: "Version Control"
-              contents:
-                - pages/03-git-github/01-intro-version-control/01-intro-version-control.qmd
-                - pages/03-git-github/02-github-collaboration/01-intro-collaboration.qmd
-                - pages/03-git-github/02-github-collaboration/02-pull-requests.qmd
-                - pages/03-git-github/02-github-collaboration/06-pr-activity-fork.qmd
-            - section: "Portfolio"
-              contents:
-                - pages/03-git-github/03-github-portfolio/00-introduction.qmd
-                - pages/03-git-github/03-github-portfolio/01-create-portfolio-website.qmd
-                - pages/03-git-github/03-github-portfolio/02-images.qmd
-                - pages/03-git-github/03-github-portfolio/03-html.qmd
-                - pages/03-git-github/03-github-portfolio/04-jekyll.qmd
-                - pages/03-git-github/03-github-portfolio/05-map.qmd
-                - pages/03-git-github/02-github-collaboration/07-pr-activity-branch.qmd
-        - section: "UNIT 2: Time-series Data"
-          href: pages/00-overviews/04a-courses/foundations/01-fundamentals/02-time-series.qmd
+            - text: Mapping migration with GBIF
+              href: notebooks/03-migration/migration-eda.qmd
+            - text: Access NASA Cloud Data
+              href: notebooks/10-redlining/redlining.qmd
+            - text: Build big data pipelines
+              href: notebooks/11-big-data/big-data.qmd
+        - section: "Processing and Harmonizing Environmental Data"
+        - section: "Analytics for Environmental and Geospatial Data"
           contents:
-            - section: "Open Science Tools"
-              contents:
-                - pages/01-reproducible-science-tools/open-reproducible-science/01-intro.qmd
-                - pages/01-reproducible-science-tools/open-reproducible-science/02-open-science-tools.qmd
-                - pages/01-reproducible-science-tools/open-reproducible-science/03-best-practices.qmd
-            - section: "Time-series Data"
-            - section: "Climate Coding Challenge"
-              contents:
-                - notebooks/01-climate/climate.qmd
-        - section: "UNIT 3: Vector Data"
-          href: pages/00-overviews/04a-courses/foundations/01-fundamentals/03-vector.qmd
-          contents:
-            - section: "Geospatial Vector Data"
-            - section: "Species Distribution Coding Challenge"
-              contents:
-                - notebooks/03-species-distribution/species-distribution.qmd
-        - section: "UNIT 4: Raster Data"
-          href: pages/00-overviews/04a-courses/foundations/01-fundamentals/04-raster.qmd
-          contents:
-            - text: "Install Python on your computer"
-              href: https://www.earthdatascience.org/workshops/setup-earth-analytics-python/setup-git-bash-conda/
-            - section: "Geospatial Raster Data"
-            - section: "Urban Greenspace and Redlining Coding Challenge"
-              contents:
-                - notebooks/10-redlining/redlining.qmd
-        - section: "FINAL: Habitat Suitability"
-          href: pages/00-overviews/04a-courses/foundations/01-fundamentals/05-final.qmd
-          contents:
-            - section: "Climate Data 101"
-            - section: "Habitat Suitability Coding Challenge"
-              contents:
-                - notebooks/08-habitat/habitat.qmd
+            - text: Clustering with K-Means
+              href: notebooks/12-clustering/clustering.qmd
 
     # Short Course 1
     - title: "SHORT COURSE 1: Cloud Computing, Collaboration, and Communication"
@@ -237,6 +261,7 @@ website:
             - section: "Vegetation Coding Challenge"
               contents:
                 - notebooks/05-vegetation/vegetation.qmd
+                - notebooks/05-vegetation/vegetation-download-stars.qmd
         - section: "Unit 4"
           contents:
             - pages/00-overviews/courses/shortcourse/01-collaboration/04-applications.qmd
@@ -246,37 +271,21 @@ website:
       logo: img/ESIIL_Stars_logo.png
       contents:
         - pages/00-overviews/04a-courses/stars/index.qmd
-        - section: "UNIT 1: Build Your Online Portfolio"
+        - section: "UNIT 0: Build Your Online Portfolio"
           contents:
-            - pages/03-git-github/03-github-portfolio/00-introduction.qmd
-            - text: "STEP 1: Publish a website"
-              href: pages/03-git-github/03-github-portfolio/01-create-portfolio-website.qmd
-            - text: "STEP 2: Add images"
-              href: pages/03-git-github/03-github-portfolio/02-images.qmd
-            - text: "STEP 3: Custom content"
-              href: pages/03-git-github/03-github-portfolio/03-html.qmd
-            - text: "STEP 4: Spruce up your site"
-              href: pages/03-git-github/03-github-portfolio/04-jekyll.qmd
-            - text: "STEP 5: Add a map"
-              href: pages/03-git-github/03-github-portfolio/05-map.qmd
-        - section: "UNIT 2: Floods"
+            - pages/03-git-github/03-github-portfolio/portfolio-stars.qmd
+        - section: "UNIT 1: First Map in Python"
           contents:
-            - pages/00-overviews/04a-courses/stars/02-climate-change/index.qmd
-            - section: "Open Science Tools"
-              contents:
-                - pages/01-reproducible-science-tools/open-reproducible-science/01-intro.qmd
-                - pages/01-reproducible-science-tools/open-reproducible-science/02-open-science-tools.qmd
-                - pages/01-reproducible-science-tools/open-reproducible-science/03-best-practices.qmd
-            - section: "Flooding Coding Challenge"
-              contents:
-                - notebooks/02-flood/flood.qmd
-        - section: "UNIT 3: Species Distribution"
+            - pages/03-git-github/03-github-portfolio/map-stars.qmd
+        - section: "UNIT 2: Flooding Coding Challenge"
           contents:
-            - pages/00-overviews/04a-courses/stars/04-species-distribution/index.qmd
-            - notebooks/03-species-distribution/species-distribution.qmd
+            - notebooks/02-flood/flood.qmd
+        - section: "UNIT 3: Migration"
+          contents:
+            - notebooks/03-migration/migration-stars.qmd
         - section: "UNIT 4: Vegetation Disturbance"
           contents:
-            - pages/00-overviews/04a-courses/stars/05-vegetation/index.qmd
+            - notebooks/05-vegetation/vegetation-stars.qmd
 
     # Workshops and Events
     - title: "HYR-SENSE"
@@ -305,6 +314,7 @@ website:
                 - pages/03-git-github/03-github-portfolio/04-jekyll.qmd
                 - pages/03-git-github/03-github-portfolio/05-map.qmd
                 - pages/03-git-github/02-github-collaboration/07-pr-activity-branch.qmd
+
     - title: "MEFA"
       contents:
         - pages/00-overviews/04b-events/mefa/index.qmd
@@ -376,6 +386,8 @@ format:
     link-external-filter: '^(?!((http:|https:)\/\/))'
     template-partials:
       - partials/title-block.html
+  ipynb:
+    toc: true
 
 code-annotations: "below"
 
