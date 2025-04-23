@@ -14,12 +14,24 @@ params:
   sample_filename: migration-foundations-data
   download_filename: gbif_veery
   plot_filename: veery_migration
+  plot_height: 800
 ---
 
-{{< include migration-30-overview-eda.qmd >}}
+{{< include _migration-30-overview-eda.qmd >}}
 
-{{< include migration-31-wrangle.qmd >}}
+```{python}
+#| tags: [parameters]
+id = 'eda'
+species_name = 'Veery Thrush'
+species_lookup = 'catharus fuscescens'
+sample_filename = 'migration-foundations-data'
+download_filename = 'gbif_veery'
+plot_filename = 'veery_migration'
+plot_height = 800
+```
 
-{{< include migration-32-normalize.qmd >}}
+{{< include _migration-31-wrangle.qmd >}}
 
-{{< include migration-33-plot.qmd >}}
+{{< include _migration-32-normalize.qmd >}}
+
+{{< include _migration-33-plot.qmd >}}

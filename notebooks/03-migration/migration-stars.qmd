@@ -21,12 +21,27 @@ params:
   sample_filename: migration-stars-data
   download_filename: gbif_tasiyagnunpa
   plot_filename: tasiyagnunpa_migration
+  plot_height: 500
 ---
 
-{{< include migration-30-overview-stars.qmd >}}
+{{< include _migration-30-overview-stars.qmd >}}
 
-{{< include migration-31-wrangle.qmd >}}
+Before we get started, let's define some parameters for the workflow. We'll use these throughout to customize the workflow for this species:
 
-{{< include migration-32-normalize.qmd >}}
+```{python}
+#| tags: [parameters]
+id = 'stars'
+species_name = 'Tasiyagnunpa'
+species_lookup = 'sturnella neglecta'
+sample_filename = 'migration-stars-data'
+download_filename = 'gbif_tasiyagnunpa'
+plot_filename = 'tasiyagnunpa_migration'
+plot_height = 500
+```
 
-{{< include migration-33-plot.proj.stars.qmd >}}
+
+{{< include _migration-31-wrangle.qmd >}}
+
+{{< include _migration-32-normalize.qmd >}}
+
+{{< include _migration-33-plot.qmd >}}

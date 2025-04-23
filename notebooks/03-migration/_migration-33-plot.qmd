@@ -1,4 +1,4 @@
-## STEP 5: Plot the __param_species_name observations by month
+## STEP 5: Plot the {{< meta params.species_name >}} observations by month
 
 First thing first -- let's load your stored variables and import libraries.
 
@@ -113,9 +113,6 @@ migration_plot = (
 
 # Save the plot
 migration_plot.save('migration.html', embed=True)
-
-# Show the plot
-migration_plot
 ```
 
 
@@ -142,7 +139,7 @@ migration_plot = (
         groupby='month',
         # Use background tiles
         geo=True, crs=ccrs.Mercator(), tiles='CartoLight',
-        title="__param_species_name migration",
+        title=f"{species_name} migration",
         xlim=(xmin, xmax), ylim=(ymin, ymax),
         frame_width=500,
         colorbar=False,
@@ -153,7 +150,7 @@ migration_plot = (
 
 # Save the plot (if possible)
 try:
-    migration_plot.save('__param_plot_filename.html', embed=True)
+    migration_plot.save(f'{plot_filename}.html', embed=True)
 except Exception as exc:
     print('Could not save the migration plot due to the following error:')
     print(exc)
@@ -162,7 +159,7 @@ except Exception as exc:
 
 ::: {.content-visible when-format="html"}
 ```{=html}
-<embed type="text/html" src="__param_plot_filename.html" width="600" height="800">
+<embed type="text/html" src="{{< meta params.plot_filename >}}.html" width="600" height="{{< meta params.plot_height>}}">
 ```
 :::
 
