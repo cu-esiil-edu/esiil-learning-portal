@@ -21,7 +21,7 @@ goals: |
 jupyter: python3
 ---
 
-![Image source: [The Intercept April 5, 2019](https://theintercept.com/2019/04/05/keystone-xl-pipeline-pine-ridge-floods)](https://theintercept.imgix.net/wp-uploads/sites/1/2019/04/h_15196312-Pipeline-Flooding-1554474495-e1554474625282.jpg)
+![Image source: [The Intercept April 5, 2019](https://theintercept.com/2019/04/05/keystone-xl-pipeline-pine-ridge-floods)](/img/earth-analytics/flood-frequency/pipeline-flooding.jpg)
 
 
 ::: {.callout-read}
@@ -80,12 +80,20 @@ Our friend [the PEP-8 style guide has some things to say about imports](https://
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 import dataretrieval # Get data from the USGS
 ```
 
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 import dataretrieval # Get data from the USGS
 import geopandas as gpd # Vector data
 import hvplot.pandas # Interactive plots
@@ -139,7 +147,10 @@ Customize your plot [using the hvplot documentation](https://hvplot.holoviz.org/
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 # Create a GeoDataFrame with the gage location
 gdf = gpd.GeoDataFrame(
     # Create the geometry from lat/lon
@@ -161,7 +172,12 @@ gdf.hvplot.points(
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 gage_lat = 44.08109849 
 gage_lon = -102.4012746
 
@@ -351,7 +367,10 @@ PARAMETER NAME HERE
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 # Define download parameters
 
 # Get discharge data and metadata from NWIS
@@ -364,7 +383,12 @@ nwis_df
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 # Define download parameters
 site_number = '06423500'
 start_date = '1934-10-01'
@@ -392,13 +416,21 @@ Replace `dataframe` with the name of your DataFrame variable
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 dataframe.info()
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 nwis_df.info()
 ```
 :::
@@ -430,7 +462,10 @@ Using the code below as a starting point, select the discharge column and rename
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 discharge_df = (
     nwis_df
     # Select only the discharge column as a DataFrame
@@ -443,7 +478,12 @@ discharge_df
 ```
 
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 discharge_df = (
     nwis_df
     # Select only the discharge column as a DataFrame
@@ -480,12 +520,20 @@ Below, you will see an example of how to subset your streamflow data by date.We 
 You can find some [examples of subsetting time series data in the textbook](https://www.earthdatascience.org/courses/use-data-open-source-python/use-time-series-data-in-python/date-time-types-in-pandas-python/subset-time-series-data-python/).
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 dataframe_name.loc['2019-02':'2019-09']
 ```
 
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 flood_df = discharge_df.loc['2019-02':'2019-09']
 flood_df
 ```
@@ -499,7 +547,10 @@ Next, plot your subsetted data. Don't forget to label your plot!
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 (
     dataframe_name
     .plot(
@@ -510,7 +561,12 @@ Next, plot your subsetted data. Don't forget to label your plot!
 ```
 
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 (
     flood_df
     .plot(
@@ -561,7 +617,12 @@ In the cell below, plot the entire time series of streamflow data, without any p
 ```
 
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 # Plot the entire streamflow time series
 (
     discharge_df
@@ -599,13 +660,21 @@ Resample your `DataFrame` to get an annual maximum:
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 # Resample to annual maxima
 dataframe_name.resample(offset_alias).max()
 ```
 
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 # Resample to annual maxima
 peaks_df = discharge_df.resample('YS').max()
 peaks_df
@@ -616,12 +685,20 @@ Plot your resampled data.
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 # Plot annual maximum streamflow values
 ```
 
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 # Plot annual maximum streamflow values
 peaks_df.plot(
     figsize=(8, 4),
@@ -666,12 +743,20 @@ Remove years of data before the construction of the Oahe Dam. You can use a colo
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 # Select data from after dam construction
 ```
 
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 peaks_df = peaks_df.loc['1948':]
 peaks_df
 ```
@@ -696,7 +781,10 @@ When you rank the floods in your `DataFrame` with the `.rank()` method, you will
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 df['exceed_prob'] = (df.rank(ascending=False).col / len(df))
 df['return_period'] = 
 
@@ -704,7 +792,12 @@ peaks_df
 ```
 
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 # Make a copy so this is a dataframe and not a view
 peaks_df = peaks_df.copy()
 
@@ -728,12 +821,20 @@ Select only the value for 2019.
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 dataframe_name.loc[]
 ```
 
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 peaks_df.loc['2019']
 ```
 
