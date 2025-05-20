@@ -96,33 +96,28 @@ Check out the [list of all the different amenity types available on Open Street 
 
 ```{python}
 # Search for United Tribes Technical College
-uttc_gdf = osm.features_from_address(
-    'United Tribes Technical College, Bismarck, ND, United States',
-    {'amenity': ['college']},
+osm_gdf = osm.features_from_address(
+    address,
+    {'amenity': [amenity_type]},
     dist=1000)
-uttc_gdf
+osm_gdf
 ```
 
 ```{python}
-uttc_gdf.plot()
+osm_gdf.plot()
 ```
 
-We have a map of the UTTC Campus!
-
-::: {.callout-warning}
-The Open Street Maps (OSM) database is not always complete. For example, try searching for UTTC with the `{'building': True}`, and compare it to the [map of the UTTC campus on their website](https://uttc.edu/wp-content/uploads/2022/12/CAMPUS-MAP-2022-23.pdf). What do you notice?
-:::
-
+We have a map of {{< meta params.plot_title>}}!
 
 ### Create an interactive map
 
 There are lots of different ways to create maps and plots in Python. Here, we're going to use a tool called `'hvplot'` and `'geoviews'` to create an interactive map, including the online `'EsriImagery'` tile source basemap.
 
 ```{python}
-# Plot UTTC boundary
-uttc_map = uttc_gdf.hvplot(
+# Plot boundary
+osm_map = osm_gdf.hvplot(
     # Givethe map a descriptive title
-    title="United Tribes Technical College, Bismarck, ND",
+    title=long_name,
     # Add a basemap
     geo=True, tiles='EsriImagery',
     # Change the colors
@@ -132,10 +127,10 @@ uttc_map = uttc_gdf.hvplot(
     frame_width=400, frame_height=400)
 
 # Save the map as a file to put on the web
-hv.save(uttc_map, 'uttc.html')
+hv.save(osm_map, map_filename)
 
 # Display the map
-uttc_map
+osm_map
 ```
 
 
@@ -144,7 +139,7 @@ uttc_map
 If you are doing this activity on GitHub Codespaces or another cloud service, you will need to download the map you created:
 
   1. Open the `Folders` tab on the left hand side
-  2. Right-click on `uttc.html` (or whatever you named your file)
+  2. Right-click on `{{< meta params.map_filename >}}` (or whatever you named your file)
   3. Select `Download...`
 
 This should download your map.
@@ -154,10 +149,10 @@ This should download your map.
 You are now ready to upload your map to your portfolio repository and place it in your webpage. Because it is HTML and not an image, you will need to use the following HTML to get it on your page:
 
 ```markdown
-<embed type="text/html" src="uttc.html" width="600" height="600">
+<embed type="text/html" src="{{< meta params.map_filename >}}" width="600" height="600">
 ```
 
-<embed type="text/html" src="uttc.html" width="600" height="600">
+<embed type="text/html" src="{{< meta params.map_filename >}}" width="600" height="600">
 
 ::: {.callout-important}
 Make sure to make the `width` and `height` of your `embed` element larger than the `frame_width` and `frame_height` of your plot, or it will get cut off!
