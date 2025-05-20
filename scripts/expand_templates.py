@@ -2,6 +2,8 @@ import os
 import re
 from pathlib import Path
 
+from parsing import get_included_files
+
 TEMPLATES = {
     "student": {
         "echo": "true",
@@ -21,29 +23,6 @@ TEMPLATES = {
 
 def expand_template_lines(template_name):
     return "\n".join(f"#| {k}: {v}" for k, v in TEMPLATES[template_name].items())
-
-
-def get_included_files(file_path, seen=None):
-    seen = seen or set()
-    seen.add(file_path)
-    all_files = [file_path]
-    
-    include_re = re.compile(r"{{<\s*include\s+([^\s>]+)\s*>}}")
-    with open(file_path, "r", encoding="utf-8") as f:
-        for line in f:
-            match = include_re.search(line)
-            if match:
-                include_path = os.path.join(
-                    os.path.dirname(file_path), match.group(1))
-
-                if include_path in seen:
-                    raise RecursionError(
-                        f"Recursive include detected: {include_path}")
-
-                included = get_included_files(include_path, seen)
-                all_files.extend(included)
-
-    return all_files
 
 def process_file(path):
     
@@ -66,12 +45,12 @@ def main():
     files = os.getenv("QUARTO_PROJECT_INPUT_FILES", "").split("\n")
     included_files = []
     for file in files:
-        file = file.strip()
+        file = Path(file.strip())
         included_files.extend(get_included_files(file))
         included_files.append(file)
     for file in included_files:
-        if file.endswith(".qmd"):
-            process_file(Path(file))
+        if file.suffix==".qmd":
+            process_file(file)
             print(f"✅ Expanded code execution templates in {file}")
 
 if __name__ == "__main__":

@@ -1,0 +1,167 @@
+---
+title: The Midwest underwater
+subtitle: A look at 2019 floods in South Dakota, USA
+image: /img/earth-analytics/flood-frequency/flood.png
+image-alt: "A house partially under water, with ruler lines measuring the height"
+author: 
+  - "Elsa Culler"
+  - "Nate Quarderer"
+date: last-modified
+description: |
+  In March 2019, large parts of South Dakota were flooded for weeks. What happened to cause this flooding? What were the impacts on local communities? We will use environmental data to determine where and when flooding happened and how long it lasted. Then, we'll use that same data to put the floods in context historically and discuss how to plan for future disasters.
+goals:
+  - Use time-series streamflow data from the USGS to identify when flooding occurred
+  - Examine potential causes for flooding
+  - Describe the impacts of flooding on infrastructure, people, and communities
+params:
+  id: stars
+  site_name: "Cheyenne River near Wasta"
+  year: 2019
+  project_title: "Cheyenne River Flood Frequency"
+  project_dirname: flood-cheyenne
+jupyter: python3
+---
+
+# Access streamflow data
+
+One way to express how big a flood is by estimating how often larger floods occur. For example, you might have heard news media talking about a "100-year flood".
+
+In this notebook, you will write Python code to download and work with a **time series** of streamflow data during the flooding on the Cheyenne River.
+
+::: {.callout-tip} 
+A **time series** of data is taken at the same location but collected regularly or semi-regularly over time. 
+:::
+
+You will then use the data to assess when the flooding was at it's worst.
+
+As an **extra challenge** you could consider how the values compared to other years by computing the flood's **return period**.
+
+::: {.callout-tip}
+A **return period** is an estimate of how often you might expect to see a flood of at least a particular size. This does *NOT* mean an extreme flood "has" to occur within the return period, or that it couldn't occur more than once. However, it does allow us to assess the probability that a sequence of floods would happen and evaluate whether or not we need to change forecasting tools or engineering standards to meet a new reality. For example, it would be really unusual to get three 100-year floods in a ten year period without some kind of underlying change in the climate.
+:::
+
+::: {.callout-read}
+
+Here are some resources from your text book you can review to learn more:
+
+  * [Introduction to time-series data](https://www.earthdatascience.org/courses/use-data-open-source-python/use-time-series-data-in-python/)
+  * [Flood return period and probability](https://www.earthdatascience.org/courses/use-data-open-source-python/use-time-series-data-in-python/floods-return-period-and-probability/)
+
+:::
+
+::: {.callout-respond}
+Explain what data you will need to complete this analysis, including:
+
+  1. What type or types of data do you need?
+  2. How many years of data do you think you need to compute the return period of an extreme event like the {{< meta params.year >}} {{< meta params.site_name >}} floods?
+
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+YOUR ANSWER HERE
+::::
+:::
+
+## STEP 0: Get set up to use Python
+
+Use the cell below to add necessary **package imports** to this notebook. It's best to import everything in your very first code cell because it helps folks who are reading your code to figure out where everything comes from (mostly right now this is **you** in the future). It's *very* frustrating to try to figure out what packages need to be installed to get some code to run.
+
+::: {.callout-note .column-margin}
+Our friend [the PEP-8 style guide has some things to say about imports](https://peps.python.org/pep-0008/#imports). In particular, your imports should be in alphabetical order.
+:::
+
+::: {.callout-task}
+In the sample code below, we've imported a library needed for working with **tabular**, or spreadsheet, data, as well as our own library for common Environmental Data Analytics tasks (in this case, managing files on your computer). You will also need to:
+
+  1. Add the **library for working with vector data in Python** and a **library for creating interactive plots of vector and time-series data** to the imports.
+  2. Check that your imports follow the PEP-8 guidelines -- they should be in alphabetical order.
+  3. Run your import cell to make sure everything will work
+  
+:::
+
+```{python}
+#| template: student
+# Import libraries
+import earthpy
+import pandas as pd
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Import libraries
+import earthpy
+import geopandas as gpd # Vector data
+import hvplot.pandas # Interactive plots
+import pandas as pd
+```
+:::
+
+We like to keep important values up at the top of the notebook -- it makes them easy to modify. You can use the following cell to change parameters about your workflow if you like:
+
+```{python}
+#| tags: [parameters]
+id = 'stars'
+site_name = 'Cheyenne River near Wasta'
+year = 2019
+project_title = 'Cheyenne River Flood Frequency'
+project_dirname = 'flood-cheyenne'
+```
+
+Finally, we have arranged some sample data for you, which you can download using the `earthpy` library. Later on, you'll learn how to download data from the NWIS using the `dataretrieval` library. For now, you can use the sample data downloaded with the `earthpy` library.
+
+::: {.callout-task}
+The following code will download the sample data based on the value of "title", and store it in the data directory on your computer. It will also save the path to the downloaded data. You can use the `project` later on to do things like locate data files on the computer or image you're using to code. You should practice writing descriptive code by:
+
+  1. Change `'project-folder-name'` to a descriptive directory name where you want to store your data.
+  2. Change `data_path` to a descriptive variable name
+  3. Run the data download cell to make sure everything will work
+  
+:::
+
+```{python}
+#| template: student
+# Create project directory
+project = earthpy.Project(title=project_title, dirname='project-folder-name')
+# Download data
+data_path = project.get_data()
+# Display the project data directory location
+project.project_dir
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Create project directory
+project = earthpy.Project(title=project_title, dirname=project_dirname)
+# Download data
+streamflow_path = project.get_data()
+# Display the project data directory location
+project.project_dir
+```
+:::
+
+You can use an open science tool called `bash` or the `shell` to work with files and get information about your file system. For example, this code will **list** (ls) the contents of the project directory
+
+```{python}
+!ls "$project.project_dir"
+```
+
+::: {.callout-task}
+Go check to see if you can find the files using some other method!
+:::
+
+::: {.callout-warning}
+Are you working in the cloud, such as on GitHub Codespaces? Be aware that any files you download to a cloud computer **will not be saved** on the physical computer you are using! They will remain in the cloud. So, you will not be able to see any downloaded files using the File Explorer or Finder on your computer because they aren't there.
+:::
+
+## Wrap up
+
+Don't forget to store your variables so you can use them in other notebooks! This code will store all your variables. You might want to specify specific variables, especially if you have large objects in memory that you won't need in the future.
+
+```{python}
+%store
+```
+
+Finally, be sure to `Restart` and `Run all` to make sure your notebook works all the way through!

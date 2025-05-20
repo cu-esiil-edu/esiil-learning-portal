@@ -1,0 +1,110 @@
+---
+title: The Midwest underwater
+subtitle: A look at 2019 floods in South Dakota, USA
+image: /img/earth-analytics/flood-frequency/flood.png
+image-alt: "A house partially under water, with ruler lines measuring the height"
+author: 
+  - "Elsa Culler"
+  - "Nate Quarderer"
+date: last-modified
+description: |
+  In March 2019, large parts of South Dakota were flooded for weeks. What happened to cause this flooding? What were the impacts on local communities? We will use environmental data to determine where and when flooding happened and how long it lasted. Then, we'll use that same data to put the floods in context historically and discuss how to plan for future disasters.
+goals:
+  - Use time-series streamflow data from the USGS to identify when flooding occurred
+  - Examine potential causes for flooding
+  - Describe the impacts of flooding on infrastructure, people, and communities
+params:
+  id: stars
+  site_name: "Cheyenne River near Wasta"
+  year: 2019
+  project_title: "Cheyenne River Flood Frequency"
+  project_dirname: flood-cheyenne
+jupyter: python3
+---
+
+
+
+## Set up
+
+To get started on this notebook, you'll need to restore any variables from previous notebooks to your workspace.
+
+```{python}
+%store -r
+
+# Import libraries
+```
+
+## STEP 3: Visualize the flood
+
+Visualizing the data will help make sure that everything is formatted correctly and makes sense. It also helps later on with communicating your results.
+
+### Can we see the flood in the streamflow data?
+
+Let's take a look at the data from February - September, 2019. This should let us see the peak streamflow values and when they occurred.
+
+::: {.callout-task}
+Below, you will see an example of how to subset your streamflow data by date.We do this using the `.loc` attribute of your `DataFrame`, which is a powerful tool for selecting the rows you want. Because the dates are in the Python `datetime64` format, you can select based on the year and month, without needing to type out dates or times!
+
+  1. Replace `dataframe_name` with your streamflow `DataFrame` name.
+  2. Save the result to a descriptive variable name, and call it at the end of the cell for testing.
+:::
+
+You can find some [examples of subsetting time series data in the textbook](https://www.earthdatascience.org/courses/use-data-open-source-python/use-time-series-data-in-python/date-time-types-in-pandas-python/subset-time-series-data-python/).
+
+```{python}
+#| template: student
+dataframe_name.loc['2019-02':'2019-09']
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+flood_df = discharge_df.loc['2019-02':'2019-09']
+flood_df
+```
+:::
+
+### Create a line plot with Python
+
+Next, plot your subsetted data. Don't forget to label your plot!
+
+::: {.callout-task}
+
+:::
+
+```{python}
+#| template: student
+(
+    dataframe_name
+    .plot(
+        xlabel='', 
+        ylabel='',
+        title='')
+)
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+(
+    flood_df
+    .plot(
+        xlabel='Date', 
+        ylabel='Streamflow (cfs)',
+        title='Streamflow on the Cheyenne River during a flood',
+        legend=False)
+)
+```
+:::
+
+You should be able to see the flood in your data going up above 12000 cfs at its peak! In the next section, you'll analyze how unusual that is.
+
+## Wrap up
+
+Don't forget to store your variables so you can use them in other notebooks! This code will store all your variables. You might want to specify specific variables, especially if you have large objects in memory that you won't need in the future.
+
+```{python}
+%store
+```
+
+Finally, be sure to `Restart` and `Run all` to make sure your notebook works all the way through!

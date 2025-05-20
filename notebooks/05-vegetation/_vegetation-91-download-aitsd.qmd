@@ -1,186 +1,165 @@
-# STEP 1: Site map
+# STEP 1: Study area
 
-We'll need some Python libraries to complete this workflow.
+You can use any boundary for your study. In the example, we used the "American Indian Tribal Subdivisions" available from the US Census.
 
-::: {.callout-task title="Import necessary libraries"}
-In the cell below, making sure to keep the packages in order, add packages for:
-
-  - Working with DataFrames
-  - Working with GeoDataFrames
-  - Making interactive plots of tabular and vector data
-
+::: {.callout-info .column-margin title="Nothing about us without us"}
+We realize not everyone is cool with the term "American Indian", especially when used by people who aren't Tribal members. At the same time, others feel that it is important to reclaim "Indian", and more importantly that's the term a lot of Tribal people use every day. In this case, we're stuck because of how this dataset is named in the Census boundary datasets...however, when sharing your work or publishing your own data, it's important to include local communities in the area you are studying, about language choices but also *throughout* your project.
 :::
 
-::: {.callout-respond}
-What are we using the rest of these packages for? See if you can figure it out as you complete the notebook.
-:::
+We'll be downloading the boundaries using a web browser. The data source, [data.gov](https://catalog.data.gov/), has placed restrictions on programmatic downloads (downloads using code). There are a number of ways to attempt to get around these restrictions, such as pretending to be a web browser by setting the **User Agent** parameter, but in this case we've found it's just not worth the time and effort. Follow the steps below to download the data and put it somewhere that your Python code can find it.
 
-```{python}
-#| template: student
-import json
-import os
-import pathlib
-from glob import glob
+## STEP 1A: Open up the data catalog
 
-import earthpy.api.appeears as eaapp
-import earthpy
-import hvplot.xarray
-import rioxarray as rxr
-import xarray as xr
-```
+Click this link: [https://catalog.data.gov](https://catalog.data.gov/). You can also open your web browser and type it in if you prefer.
 
-::: {.content-visible when-format="html"}
-```{python}
-#| template: answer
-import json
-import os
-import pathlib
-from glob import glob
+![Open up the data.gov catalog.](/img/earth-analytics/download/aitsd/01-catalog.png)
 
-import earthpy.api.appeears as eaapp
-import earthpy
-import geopandas as gpd
-import hvplot.pandas
-import hvplot.xarray
-import pandas as pd
-import rioxarray as rxr
-import xarray as xr
-```
-:::
+## STEP 1B: Search
 
-We have one more setup task. We're not going to be able to load all our data directly from the web to Python this time. That means we need to set up a place for it.
+Search for the data you want. To get the American Indian Tribal Subdivisions census data, we recommend the search term "American Indian Tribal Subdivisions 2020". These census files are updated regularly at the time of the census, so we want to make sure we have the most recent version. The last census was in 2020.
 
-::: {.callout-caution title="GOTCHA ALERT!" icon="false"}
-A lot of times in Python we say "directory" to mean a "folder" on your computer. The two words mean the same thing in this context.
-:::
+![**Search** for "American Indian Tribal Subdivisions 2020"](/img/earth-analytics/download/aitsd/02-search.png)
+
+## STEP 1C: Open the dataset page
+
+Find the "TIGER/Line Shapefile, 2020, Nation, U.S., American Indian Tribal Subdivisions" dataset in the search results, and click on the title to go to the dataset page.
+
+![Select the "TIGER/Line Shapefile, 2020, Nation, U.S., American Indian Tribal Subdivisions" dataset.](/img/earth-analytics/download/aitsd/03-select.png)
+
+![You should now be on the dataset page.](/img/earth-analytics/download/aitsd/04-dataset.png)
+## STEP 1D: Download
+
+Next, scroll down to the available files to download. Click on the `Download` button for the `.zip` file -- this will be the easiest one to open in Python.
+
+![Scroll down and click on the `.zip` file `Download` button.](/img/earth-analytics/download/aitsd/05-download)
+
+## STEP 1E: Move your file
+
+We now need to locate the file you downloaded and put it somewhere where Python can find it. Ideally, you should put the downloaded `.zip` file in your project directory. Most web browsers will pop up with some kind of button to open up your File Explorer (Windows) or Finder (Mac) in the location of your downloaded files. You can also check in your user home directory for a `Downloads` folder. If none of that works, try opening up your File Explorer/Finder and searching for the file
+
+![Open up the downloaded file in your Finder/File Explorer](/img/earth-analytics/download/aitsd/06-open-folder.png)
+![You should now see the file in your File Explorer/Finder](/img/earth-analytics/download/aitsd/07-view.png)
+
+If you are working on GitHub Codespaces, you will need to upload your file before relocating it:
+
+  1. Go to the `Explorer` tab in your Codespace
+  2. Right-click on the `data` folder
+  3. Click `Upload`
+  4. Select the `.zip` file you just downloaded.
+
+![If you are using GitHub Codespaces, upload the file.](/img/earth-analytics/download/aitsd/08-upload.png)
+
+If you are working in GitHub Codespaces, you're done! If not, you'll need to relocate your file on your computer. One way to do that is with **bash**.
 
 ::: {.callout-task}
 
-1. Replace 'my-data-folder' with a **descriptive** directory name.
-2. Run the cell to display your project directory. 
-3. Can you find the directory, either in a terminal or through your operating system's file browser/explorer/finder?
+The code cell below is using a language called **bash**, which can be used to move files around your computer. To do that, we're using the `cp` command, which stands for **copy**. In bash, you indicate that you want to retrieve a variable with the `$` character. Since we're in a Jupyter notebook, we can also access Python variables this way!
+
+  1. Check that the path to your file, `~/Downloads/tl_2020_us_aitsn.zip` is accurate, and change it if it isn't
+  2. Run the cell to move your file.
 
 :::
 
 ```{python}
-#| template: student
-# Create a project directory in the system data folder
-project = earthpy.project.Project(project_dirname=data_dir)
-project.project_dir
+!cp ~/Downloads/tl_2020_us_aitsn.zip "$project.project_dir"
 ```
 
-::: {.content-visible when-format="html"}
+Now, let's check that the file got moved.
+
 ```{python}
-#| template: answer
-# Create a project directory in the system data folder
-project = earthpy.project.Project(project_dirname=data_dir)
-project.project_dir
+!ls "$project.project_dir"
 ```
-:::
 
-## Study Area: {{< meta params.site_name >}}
-
-### Earth Data Science data formats
-
-In Earth Data Science, we get data in three main formats:
-
-| Data type   | Descriptions                                                              | Common file formats                                                                                              | Python type            |
-|-------------|---------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|------------------------|
-| Time Series | The same data points (e.g. streamflow) collected multiple times over time | Tabular formats (e.g. .csv, or .xlsx)                                                                            | pandas DataFrame       |
-| Vector      | Points, lines, and areas (with coordinates)                               | Shapefile (often an archive like a `.zip` file because a Shapefile is actually a collection of at least 3 files) | geopandas GeoDataFrame |
-| Raster      | Evenly spaced spatial grid (with coordinates)                             | GeoTIFF (`.tif`), NetCDF (`.nc`), HDF (`.hdf`)                                                                   | rioxarray DataArray    |
-
-::: {.callout-read}
-Check out the sections about about [vector data](https://www.earthdatascience.org/courses/use-data-open-source-python/intro-vector-data-python/spatial-data-vector-shapefiles/) and [raster data](https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-spatial-data/use-raster-data/) in the textbook.
-:::
-
-::: {.callout-respond}
-For this coding challenge, we are interested in the boundary of the {{< meta params.site_name >}}. In the cell below, answer the following question: **What data type do you think the boundary will be?**
-:::
-
-::: {.content-visible when-format="ipynb"}
-:::: {.cell .markdown}
-YOUR ANSWER HERE
-::::
-:::
+## STEP 1F: Open boundary in Python
 
 ::: {.callout-task}
 
-  - **Search** the US open data website for "American Indian Tribal Subdivisions" [data.gov](https://catalog.data.gov/) for 
-  - Find the `tl_2020_us_aitsn.zip` file. Click on `Download`. Put the downloaded files into your data folder for this project.
-  - Modify the code below to use **descriptive variable names** and to point at the path where you put your data. Feel free to refer back to previous challenges for similar code!
+  1. Replace `"file-name.zip"` with the actual name of the file you downloaded and put in your project directory.
+  2. Modify the code below to use **descriptive variable names**. Feel free to refer back to previous challenges for similar code!
+  3. Add a line of code to open up the data path. What library and function do you need to open this type of data?
+  4. Add some code to check your data, either by viewing it or making a quick plot. Does it look like what you expected?
 
-:::
-
-::: {.callout-info}
-Take a look at your sample code for this task below. You might notice that there is some extra code:
-
-```python
-# Create a session with a valid User-Agent header
-fs = fsspec.filesystem("http", headers={"User-Agent": "Mozilla/5.0"})
-
-# Open the file using fsspec and pass to geopandas
-with fs.open(url) as f:
-    gdf = gpd.read_file(f)
-```
-
-We need this code because the `data.gov` site doesn't want bots or code downloading their data. What we're doing won't cause any harm, but computers can be programmed to repeatedly hit URLs so that they overload the online data service. This is sometimes called a **denial of service** attack. With this extra two lines of code, your code can **pretend to be the Mozilla web browser**, allowing the data to download normally.
 :::
 
 ```{python}
 #| template: student
-# Download the site boundary
+# Define boundary path
+path = os.path.join(project.project_dir, "file-name.zip")
 
-# Create a session with a valid User-Agent header
-fs = fsspec.filesystem("http", headers={"User-Agent": "Mozilla/5.0"})
+# Open the site boundary
 
-# Open the file using fsspec and pass to geopandas
-with fs.open(url) as f:
-    gdf = gpd.read_file(f)
-    
+
 # Check that the data were downloaded correctly
+
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+# Define boundary path
+aitsd_path = os.path.join(project.project_dir, "tl_2020_us_aitsn.zip")
+
+# Open the site boundary
+aitsd_gdf = gpd.read_file(aitsd_path)
+
+# Check that the data were downloaded correctly
+aitsd_gdf.NAME
 ```
 :::
 
+You might notice in this dataset that some of the names are not easily searchable. For example, the Gila River subdivisions are named "District 1-7"! So, how do we know what to search for? We recommend making an **interactive** plot of the data so that you can find the information you need, e.g.:
 
-::: {.callout-task}
+```{python}
+aitsd_gdf.hvplot(
+    geo=True, tiles='EsriImagery', 
+    frame_width=500,
+    legend=False, fill_color='white', edge_color=None,
+    # This parameter makes all the column values in the dataset visible.
+    hover_cols='all')
+```
 
-  - **Select** all the subdivision of the Gila River Indian Community from the resulting `DataFrame`
-  - **Spatially merge the results to get a single boundary for the Gila River Indian Community.
-
+::: {.callout-respond}
+What method(s) do you see for uniquely identifying the subdivisions of the reservation you want to study?
 :::
 
+It's also a good idea to check the data types of each column. For example, we suggest looking at the `AIANNHCE` column...but is that value some kind of number or an object like a text string?
 
-### Site Map
+```{python}
+aitsd_gdf.info()
+```
 
-We usually want to create a site map as a first step when working with geospatial data. This helps us see that we're looking at the right location, and learn something about the context of the analysis.
+
+::: {.callout-respond}
+What is the data type of the `AIANNHCE` column? How will that affect your code?
+:::
+
+Let's go ahead and select the Gila River subdivisions, and make a site map.
 
 ::: {.callout-task}
 
-  1. Plot your {{< meta params.site_name >}} shapefile on an interactive map
-  2. Make sure to add a title
-  3. Add ESRI World Imagery as the basemap/background using the `tiles=...` parameter. To get the tiles to match up with your data, you will also need to add the `geo=True` parameter.
+  1. Replace `identifier` with the value you found from exploring the interactive map.
+  2. Change the plot to have a web tile basemap, and look the way you want it to.
 
 :::
 
 ```{python}
 #| template: student
-# Plot the site boundary
+# Select and merge the subdivisions you want
+gila_gdf = aitsd_gdf.loc[aitsd_gdf.AIANNHCE==identifier].dissolve()
+# Plot the results with web tile images
+gila_gdf.hvplot()
 ```
 
-::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-# Plot the site boundary
-# gdf.hvplot(
-#     geo=True,
-#     title=site_name,
-#     tiles='EsriImagery')
+# Select and merge the subdivisions you want
+gila_gdf = aitsd_gdf.loc[aitsd_gdf.AIANNHCE=='1310'].dissolve()
+# Plot the results with web tile images
+gila_gdf.hvplot(
+    geo=True, tiles='EsriImagery',
+    fill_color=None, line_color='black',
+    title=site_name,
+    frame_width=500)
 ```
-:::
+
 

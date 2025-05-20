@@ -37,8 +37,8 @@ jobs:
 
       - name: Install earthpy-dev
         if: steps.cache-conda.outputs.cache-hit != 'true'
-        run: pip install git+https://github.com/earthlab/earthpy@apppears
-               
+        run: pip install git+https://github.com/earthlab/earthpy@main
+
   build-deploy:
     runs-on: ubuntu-latest
     needs: setup-conda
@@ -50,9 +50,9 @@ jobs:
       EARTHDATA_USERNAME: ${{ secrets.EARTHDATA_USERNAME }}
       EARTHDATA_PASSWORD: ${{ secrets.EARTHDATA_PASSWORD }}
       APPEEARS_TASKID: ${{ secrets.APPEEARS_TASKID }}
-      GBIF_USER: ${{ secrets.GBIF_USER}}
-      GBIF_PWD: ${{ secrets.GBIF_PWD}}
-      GBIF_EMAIL: ${{ secrets.GBIF_EMAIL}}
+      GBIF_USER: ${{ secrets.GBIF_USER }}
+      GBIF_PWD: ${{ secrets.GBIF_PWD }}
+      GBIF_EMAIL: ${{ secrets.GBIF_EMAIL }}
       GBIF_DOWNLOAD_KEY: ${{ secrets.GBIF_DOWNLOAD_KEY }}
     defaults:
       run:
@@ -62,26 +62,37 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-        
+
       - name: Activate conda environment
         uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: learning-portal
-          
-      - name: Restore cache
+
+      - name: Restore environment cache
         uses: actions/cache@v3
         with:
           path: /usr/share/miniconda/envs/learning-portal
           key: conda-${{ runner.os }}-${{ hashFiles('environment.yml') }}
 
-      - name: Setup IPYTHONDIR
-        run: scripts/setup_ipythondir.sh
+      - name: Download latest freeze cache (if exists)
+        uses: actions/download-artifact@v4
+        with:
+          name: freeze-cache
+          path: .freeze
+        continue-on-error: true
 
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-        
       - name: Render
         uses: quarto-dev/quarto-actions/render@v2
+
+      - name: Compress freeze directory
+        run: |
+          tar -czf freeze-cache.tar.gz .freeze
+
+      - name: Upload compressed freeze archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: freeze-cache
+          path: freeze-cache.tar.gz
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4

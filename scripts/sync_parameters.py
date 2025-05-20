@@ -3,41 +3,50 @@ import re
 import yaml
 from pathlib import Path
 
-def extract_yaml_and_body(qmd_path):
-    with open(qmd_path, 'r', encoding='utf-8') as f:
-        content = f.read()
+from parsing import get_included_files
 
+def extract_yaml(content):
     match = re.match(r"(?s)^---\n(.*?)\n---\n(.*)", content)
     if not match:
         raise ValueError(f"No YAML front matter found in {qmd_path}")
 
     yaml_str, body = match.groups()
     yaml_data = yaml.safe_load(yaml_str)
-    return yaml_data, body
+    return yaml_data
 
 def build_param_code(params):
     # Convert Python values with proper syntax
     return "\n".join(f"{key} = {repr(value)}" for key, value in params.items())
 
-def replace_parameters_cell(body, new_code):
+def replace_parameters_cell(qmd_path, new_code):
     # Match a python code block with tags: 
     # [parameters] on a `#|` line (can be followed by other `#|` lines too)
     pattern = (
-        r"(```\{python\}\n(?:#\|.*\n)*#\|\s*tags:\s*\[parameters\]\s*\n)(.*?)(\n```)"
+        r"(```\{python\}\n(?:#\|.*\n)*"
+        r"#\|\s*tags:\s*\[parameters\]\s*\n)(.*?)(\n```)"
     )
-    new_body, count = re.subn(pattern, r"\1" + new_code + r"\3", body, flags=re.DOTALL)
+    with open(qmd_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    new_content, count = re.subn(
+        pattern, r"\1" + new_code + r"\3", content, flags=re.DOTALL)
     if count == 0:
-        print("⚠️ No parameters code cell found. Skipping file.")
-    return new_body
+        print(f"⚠️ No parameters code cell found. Skipping file {qmd_path}.")
+        
+    with open(qmd_path, 'w', encoding='utf-8') as f:
+        f.write(new_content)
+    
+    return
 
 
 def sync_params_to_qmd(qmd_path):
     qmd_path = Path(qmd_path)
     if not qmd_path.exists() or qmd_path.suffix != ".qmd":
         return
-
+    with open(qmd_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+        
     try:
-        yaml_data, body = extract_yaml_and_body(qmd_path)
+        yaml_data = extract_yaml(content)
     except Exception as e:
         print(f"⚠️ Skipping {qmd_path.name}: {e}")
         return
@@ -48,11 +57,15 @@ def sync_params_to_qmd(qmd_path):
         return
 
     new_code = build_param_code(params)
-    new_body = replace_parameters_cell(body, new_code)
-
-    full_content = f"---\n{yaml.dump(yaml_data, sort_keys=False)}---\n{new_body}"
-    with open(qmd_path, 'w', encoding='utf-8') as f:
-        f.write(full_content)
+    
+    replace_parameters_cell(qmd_path, new_code)
+    
+    # Get all included files too
+    included_files = get_included_files(qmd_path)
+    for file in included_files:
+        if file.suffix=='.qmd':
+            replace_parameters_cell(file, new_code)
+            print(f"✅ Synced parameters in {file}")
 
     print(f"✅ Synced params in {qmd_path}")
 

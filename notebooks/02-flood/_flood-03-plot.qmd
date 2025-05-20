@@ -1,0 +1,65 @@
+
+## STEP 3: Visualize the flood
+
+Visualizing the data will help make sure that everything is formatted correctly and makes sense. It also helps later on with communicating your results.
+
+### Can we see the flood in the streamflow data?
+
+Let's take a look at the data from February - September, 2019. This should let us see the peak streamflow values and when they occurred.
+
+::: {.callout-task}
+Below, you will see an example of how to subset your streamflow data by date.We do this using the `.loc` attribute of your `DataFrame`, which is a powerful tool for selecting the rows you want. Because the dates are in the Python `datetime64` format, you can select based on the year and month, without needing to type out dates or times!
+
+  1. Replace `dataframe_name` with your streamflow `DataFrame` name.
+  2. Save the result to a descriptive variable name, and call it at the end of the cell for testing.
+:::
+
+You can find some [examples of subsetting time series data in the textbook](https://www.earthdatascience.org/courses/use-data-open-source-python/use-time-series-data-in-python/date-time-types-in-pandas-python/subset-time-series-data-python/).
+
+```{python}
+#| template: student
+dataframe_name.loc['2019-02':'2019-09']
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+flood_df = discharge_df.loc['2019-02':'2019-09']
+flood_df
+```
+:::
+
+### Create a line plot with Python
+
+Next, plot your subsetted data. Don't forget to label your plot!
+
+::: {.callout-task}
+
+:::
+
+```{python}
+#| template: student
+(
+    dataframe_name
+    .plot(
+        xlabel='', 
+        ylabel='',
+        title='')
+)
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+(
+    flood_df
+    .plot(
+        xlabel='Date', 
+        ylabel='Streamflow (cfs)',
+        title='Streamflow on the Cheyenne River during a flood',
+        legend=False)
+)
+```
+:::
+
+You should be able to see the flood in your data going up above 12000 cfs at its peak! In the next section, you'll analyze how unusual that is.

@@ -1,0 +1,166 @@
+---
+title: The Midwest underwater
+subtitle: A look at 2019 floods in South Dakota, USA
+image: /img/earth-analytics/flood-frequency/flood.png
+image-alt: "A house partially under water, with ruler lines measuring the height"
+author: 
+  - "Elsa Culler"
+  - "Nate Quarderer"
+date: last-modified
+description: |
+  In March 2019, large parts of South Dakota were flooded for weeks. What happened to cause this flooding? What were the impacts on local communities? We will use environmental data to determine where and when flooding happened and how long it lasted. Then, we'll use that same data to put the floods in context historically and discuss how to plan for future disasters.
+goals:
+  - Use time-series streamflow data from the USGS to identify when flooding occurred
+  - Examine potential causes for flooding
+  - Describe the impacts of flooding on infrastructure, people, and communities
+params:
+  id: stars
+  site_name: "Cheyenne River near Wasta"
+  year: 2019
+  project_title: "Cheyenne River Flood Frequency"
+  project_dirname: flood-cheyenne
+jupyter: python3
+---
+
+
+## Set up
+
+To get started on this notebook, you'll need to restore any variables from previous notebooks to your workspace.
+
+```{python}
+%store -r
+
+# Import libraries
+```
+
+## STEP 2 Data wrangling
+
+### Load sample data
+
+You should now have the sample data downloaded, but you still need to open it up so you can use it. First, you'll need the path to your data.
+
+::: {.callout-task}
+
+  1. Replace `data_path` with a descriptive name
+  2. Check your data directory for the file name of the streamflow data, and put it in the place of `data-filename-here`
+  
+:::
+
+```{python}
+#| template: student
+data_path = project.project_dir / 'data-filename-here.csv'
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+nwis_path = project.project_dir / 'cheyenne_streamflow_1934_2024.csv'
+```
+:::
+
+Let's take a look at the raw data (make sure to replace `nwis_path` with the name of your variable!):
+
+```{python}
+!head -n 5 $nwis_path
+```
+
+::: {.callout-task}
+The cell below imports `CSV` data like the flood data into Python. A useful method for looking at the **datatypes** in your `pd.DataFrame` is the `pd.DataFrame.info()` method.
+
+  1. Replace `dataframe` with a descriptive name for your DataFrame variable
+  2. Run the cell to see the datatypes of each column.
+  3. Try **uncommenting** lines one by one by deleting the `#` at the beginning and running the code again.
+  
+What changes? Why do you think those lines are needed?
+:::
+
+::: {.callout-tip .column-margin} 
+In Python, you will see both **methods** and **functions** when you want to give the computer some instructions. This is an *important and tricky* distinction. For right now -- functions have all of their arguments/parameters **inside** the parentheses, as in `dataretrieval.nwis.get_discharge_measurements()`. For **methods**, the first argument is always some kind of Python object that is placed **before** the method. For example, take a look at the next cell for an example of using the `pd.DataFrame.info()` **method**.
+:::
+
+```{python}
+#| template: student
+dataframe = pd.read_csv(
+    data_path,
+    #index_col='datetime',
+    #parse_dates=True)
+dataframe.info()
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+nwis_df = pd.read_csv(
+    nwis_path,
+    index_col='datetime',
+    parse_dates=True)
+nwis_df.info()
+```
+:::
+
+::: {.callout-respond}
+What column do you think the streamflow, or discharge, measurements are in?
+:::
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+COLUMN NAME HERE
+::::
+:::
+
+### Organize your data descriptively
+
+It's important to make sure that your code is easy to read. Even if you don't plan to share it, **you** will likely need to read code you've written in the future!
+
+::: {.callout-task}
+Using the code below as a starting point, select the discharge column and rename it to something descriptive:
+
+  1. Identify the discharge/streamflow column.
+  2. Replace `discharge_column_name` with the discharge column name.
+  3. Replace `new_column_name` with a descriptive name. We recommend including the **units** of the discharge values in the column name as a way to keep track of them.
+
+:::
+
+```{python}
+#| template: student
+discharge_df = (
+    nwis_df
+    # Select only the discharge column as a DataFrame
+    [['discharge_column_name']]
+    # Rename the discharge column
+    .rename(columns={'discharge_column_name': 'new_column_name'})
+)
+
+discharge_df
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+discharge_df = (
+    nwis_df
+    # Select only the discharge column as a DataFrame
+    [['00060_Mean']]
+    # Rename the discharge column
+    .rename(columns={'00060_Mean': 'streamflow_cfs'})
+)
+
+discharge_df
+```
+:::
+
+::: {.callout-tip .column-margin title="Strings"}
+How does a computer tell the difference between a **name** which is linked to a value, and a **string** of characters to be interpreted as text (like a column name)? 
+
+In most programming languages, we have to put quotes around strings of characters that are meant to be interpreted **literally** as text rather than **symbolically** as a variable. In Python, you can use either single `'` or double `"` quotes around strings. If you forget to put quotes around your strings, Python will try to interpret them as variable **names** instead, and will probably give you a `NameError` when it can't find the linked value.
+
+:::
+
+## Wrap up
+
+Don't forget to store your variables so you can use them in other notebooks! This code will store all your variables. You might want to specify specific variables, especially if you have large objects in memory that you won't need in the future.
+
+```{python}
+%store
+```
+
+Finally, be sure to `Restart` and `Run all` to make sure your notebook works all the way through!

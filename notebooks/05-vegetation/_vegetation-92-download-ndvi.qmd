@@ -1,4 +1,4 @@
-# STEP 2: Download NDVI data
+# STEP 2: AppEEARS API
 
 ## Exploring the AppEEARS API for NASA Earthdata access
 
@@ -16,7 +16,7 @@ Since we're asking for a special download that only covers our study area, we ca
 Often when we want to do something more complex in coding we find an example and modify it. This download code is already almost a working example. Your task will be:
 
   1. Replace the start and end dates in the task parameters. Download data from July, when greenery is at its peak in the Northern Hemisphere.
-  2. Replace the year range. You should get 3 years before and after the fire so you can see the change!
+  2. Replace the year range. You should get 3 years before and after the event so you can see the change!
   3. Replace `gdf` with the name of **your** site geodataframe.
   4. **Enter your NASA Earthdata username and password when prompted.** The prompts can be a little hard to see -- look at the top of your screen!
 :::
@@ -36,11 +36,10 @@ It can take some time for Appeears to process your request - anything from a few
 
 ```{python}
 #| template: student
-
 # Initialize AppeearsDownloader for MODIS NDVI data
 ndvi_downloader = eaapp.AppeearsDownloader(
-    download_key='cp-ndvi',
-    ea_dir=data_dir,
+    download_key=download_key,
+    ea_dir=project.project_dir,
     product='MOD13Q1.061',
     layer='_250m_16_days_NDVI',
     start_date="01-01",
@@ -50,32 +49,34 @@ ndvi_downloader = eaapp.AppeearsDownloader(
     polygon=gdf
 )
 # Download the prepared download -- this can take some time!
-ndvi_downloader.download_files(cache=True)
+ndvi_paths = ndvi_downloader.download_files(cache=True)
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-
 # Initialize AppeearsDownloader for MODIS NDVI data
 ndvi_downloader = eaapp.AppeearsDownloader(
-    download_key='cp-ndvi',
-    ea_dir=data_dir,
+    download_key=download_key,
+    ea_dir=project.project_dir,
     product='MOD13Q1.061',
     layer='_250m_16_days_NDVI',
-    start_date="07-01",
-    end_date="07-31",
+    start_date="06-01",
+    end_date="09-01",
     recurring=True,
-    year_range=[2018, 2023],
-    polygon=gdf
+    year_range=[2001, 2007],
+    polygon=gila_gdf
 )
-ndvi_downloader.download_files(cache=True)
+ndvi_paths = ndvi_downloader.download_files(cache=True)
+ndvi_paths[:10]
 ```
 :::
 
 ## Putting it together: Working with multi-file raster datasets in Python
 
-Now you need to load all the downloaded files into Python. Let's start by getting all the file names. You will also need to extract the date from the filename. Check out [the lesson on getting information from filenames in the textbook](https://www.earthdatascience.org/courses/intro-to-earth-data-science/write-efficient-python-code/loops/data-workflows-with-loops/).
+Now you need to load all the downloaded files into Python. You may have noticed that the `earthpy.appears module gives us all the downloaded file names...but only some of those are the NDVI files we want while others are quality files that tell us about the confidence in the dataset. For now, the files we want all have "NDVI" in the name.
+
+Let's start by getting all the NDVI file names. You will also need to extract the date from the filename. Check out [the lesson on getting information from filenames in the textbook](https://www.earthdatascience.org/courses/intro-to-earth-data-science/write-efficient-python-code/loops/data-workflows-with-loops/).
 
 ::: {.callout-caution title="GOTCHA ALERT!"}
 `glob` doesn't necessarily find files in the order you would expect. Make sure to **sort** your file names like it says in the textbook.
@@ -83,17 +84,16 @@ Now you need to load all the downloaded files into Python. Let's start by gettin
 
 ```{python}
 #| template: student
-
 # Get a list of NDVI tif file paths
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-
 # Get list of NDVI tif file paths
-ndvi_paths = sorted(glob(os.path.join(data_dir, 'cp-ndvi', '*', '*NDVI*.tif')))
-len(ndvi_paths)
+ndvi_paths = sorted(glob(os.path.join(
+    ndvi_downloader.data_dir, '**', '*NDVI*.tif')))
+f'len(ndvi_paths) NDVI paths found'
 ```
 :::
 
@@ -106,7 +106,7 @@ Now you should have a few dozen files! For each file, you need to:
   - Add the date as a dimension coordinate
   - Give your data variable a name
 
-You don't want to write out the code for each file! That's a recipe for copy pasta. Luckily, Python has tools for doing similar tasks repeatedly. In this case, you'll use one called a `for` loop.
+You don't want to write out the code for each file! That's a recipe for **copy pasta** and errors. Luckily, Python has tools for doing similar tasks repeatedly. In this case, you'll use one called a `for` loop.
 
 There's some code below that uses a `for` loop in what is called an **accumulation pattern** to process each file. That means that you will save the results of your processing to a list each time you process the files, and then merge all the arrays in the list.
 
@@ -119,7 +119,6 @@ There's some code below that uses a `for` loop in what is called an **accumulati
 
 ```{python}
 #| template: student
-
 doy_start = -1
 doy_end = -1
 
@@ -142,7 +141,6 @@ for ndvi_path in ndvi_paths:
 
 ```{python}
 #| template: answer
-
 doy_start = -19
 doy_end = -12
 
@@ -168,18 +166,23 @@ len(ndvi_das)
 ```
 :::
 
-Next, stack your arrays by date into a time series using the `xr.combine_by_coords()` function. You will have to tell it which dimension you want to stack your data in.
+::: {.callout-task}
+Next, stack your arrays by date into a time series:
+
+  1. Modify the code to match your prior workflow steps and to use descriptive variable names
+  2. Replace `coordinate_name` with the actual name of the coordinate you want to build up.
+:::
 
 ```{python}
 #| template: student
-
 # Combine NDVI images from all dates
+da = xr.combine_by_coords(list_of_data_arrays, coords=['coordinate_name'])
+da
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-
 # Combine NDVI images from all dates
 ndvi_da = xr.combine_by_coords(ndvi_das, coords=['date'])
 ndvi_da

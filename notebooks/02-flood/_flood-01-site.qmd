@@ -1,0 +1,126 @@
+## STEP 1: Site Description and Map
+
+In our example analysis, we'll be focusing on the Cheyenne River, which flows into Lake Oahu by looking at a stream gage near Wasta, SD, USA. After we've completed this example analysis, we suggest that you look into another flood -- perhaps one that you have a personal connection to.
+
+
+### Site Description
+
+::: {.callout-task}
+Describe the Cheyenne River area in a few sentences. You can include:
+
+  * Information about the **climatology** of the area, or typical 
+  precipitation and temperature at different months of the year
+  * The **runoff ratio** (average annual runoff divided by average 
+  annual precipitation)
+  * Which **wildlife and ecosystems** exist in the area
+  * What **communities and infrastructure** are in the area
+
+:::
+
+::: {.content-visible when-format="ipynb"}
+::: {.cell .markdown}
+YOUR SITE DESCRIPTION HERE
+:::
+:::
+
+### Site Map: The Cheyenne River near Wasta
+
+The code below will create an interactive map of the area. But something is wrong - no one defined the latitude and longitude as **variables**. Try running the code to see what happens when you reference a variable name that doesn't exist!
+
+::: {.callout-task}
+Find the location of the Cheyenne River near Wasta **USGS stream gauge** using the [National Water Information System](https://waterdata.usgs.gov/nwis?). This is not the easiest thing to find if you aren't used to NWIS, so we've provided some screenshots of the process below.
+:::
+
+##### Step 1: NWIS Mapper
+
+![Go to the [National Water Information System Mapper](https://dashboard.waterdata.usgs.gov/app/nwd/en/)](/img/earth-analytics/flood-frequency/nwis-screenshots/01-nwis-dash.png)
+
+##### Step 2: Search
+![Type in `Wasta` in the `Find a Place` box](/img/earth-analytics/flood-frequency/nwis-screenshots/02-place-search.png)
+
+##### Step 3: Select gage
+
+![Click on the Cheyenne River near Wasta site. It should open a new window.](/img/earth-analytics/flood-frequency/nwis-screenshots/03-open-gage.png)
+
+##### Step 4: Open site page
+![Click on `Site page` at the top](/img/earth-analytics/flood-frequency/nwis-screenshots/04-open-site-info.png)
+
+![You should now be on the Cheyenne River near Wasta gage site page](/img/earth-analytics/flood-frequency/nwis-screenshots/05-site-info.png)
+
+##### Step 5: Get coordinates
+
+![Scroll to the bottom and open the `Location metadata` section. Make a note of the decimal latitude and longitude!](/img/earth-analytics/flood-frequency/nwis-screenshots/06-get-latlon.png)
+
+::: {.callout-task}
+Now, you're ready to create your site map!
+
+  1. Define latitude and longitude variables to **match the variable names used in the code**.
+  2. Rename the variable `gdf` with something **descriptive** wherever it occurs.
+  3. Run and test your cell to make sure everything works.
+
+:::
+
+::: {.callout-extra}
+Customize your plot [using the hvplot documentation](https://hvplot.holoviz.org/index.html) or by asking your favorite AI tool. For example, you could:
+
+  * Change the size of your map
+  * Change the base map images
+  * Change the color and size of your place marker
+  * Remove the axis labels for a cleaner map
+  
+:::
+
+```{python}
+#| template: student
+# Create a GeoDataFrame with the gage location
+gdf = gpd.GeoDataFrame(
+    # Create the geometry from lat/lon
+    geometry=gpd.points_from_xy([gage_lon], [gage_lat]),
+    # Coordinate Reference System for lat/lon values
+    crs="EPSG:4326"
+)
+
+# Plot using hvPlot with a basemap
+buffer = 0.01
+gdf.hvplot.points(
+    # Use web tile basemap imagery
+    geo=True, tiles='OpenTopoMap', 
+    # Set approximate bounding box
+    ylim=(gage_lat-buffer, gage_lat+buffer),
+    xlim=(gage_lon-buffer, gage_lon+buffer),
+)
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+gage_lat = 44.08109849 
+gage_lon = -102.4012746
+
+# Create a GeoDataFrame with the gage location
+gage_gdf = gpd.GeoDataFrame(
+    # Create the geometry from lat/lon
+    geometry=gpd.points_from_xy([gage_lon], [gage_lat]),
+    # Coordinate Reference System for lat/lon values
+    crs="EPSG:4326"
+)
+
+# Plot using hvPlot with a basemap
+buffer = 0.01
+gage_gdf.hvplot.points(
+    # Use web tile basemap imagery
+    geo=True, tiles='EsriImagery', 
+    # Display the gage name
+    hover_cols=['name'],
+    # Format streamgage marker
+    color='red', size=100,
+    # Set figure size
+    width=500, height=300,
+    # Set approximate bounding box
+    ylim=(gage_lat-buffer, gage_lat+buffer),
+    xlim=(gage_lon-buffer, gage_lon+buffer),
+    # Remove axis labels
+    xaxis=None, yaxis=None
+)
+```
+:::

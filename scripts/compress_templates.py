@@ -37,7 +37,7 @@ from pathlib import Path
 
 def is_visible_qmd(file: Path) -> bool:
     parts = file.parts
-    # Exclude any file or folder that starts with . or _
+    # Exclude any file or folder that starts with .
     return all(not part.startswith((".")) for part in parts) and file.suffix == ".qmd"
 
 def main():
