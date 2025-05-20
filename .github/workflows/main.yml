@@ -35,7 +35,7 @@ jobs:
           environment-file: environment.yml
           auto-activate-base: false
 
-      - name: Install earthpy-dev
+      - name: Install earthpy
         if: steps.cache-conda.outputs.cache-hit != 'true'
         run: pip install git+https://github.com/earthlab/earthpy@main
 
@@ -81,18 +81,21 @@ jobs:
           path: .freeze
         continue-on-error: true
 
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
       - name: Render
         uses: quarto-dev/quarto-actions/render@v2
 
-      - name: Compress freeze directory
-        run: |
-          tar -czf freeze-cache.tar.gz .freeze
+      # - name: Compress freeze directory
+      #   run: |
+      #     tar -czf freeze-cache.tar.gz .freeze
 
-      - name: Upload compressed freeze archive
-        uses: actions/upload-artifact@v4
-        with:
-          name: freeze-cache
-          path: freeze-cache.tar.gz
+      # - name: Upload compressed freeze archive
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: freeze-cache
+      #     path: freeze-cache.tar.gz
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
