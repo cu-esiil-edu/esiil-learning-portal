@@ -123,7 +123,7 @@ gdf.index.name = 'ecoregion'
 #| template: answer
 # Open up the ecoregions boundaries
 ecoregions_gdf = (
-    gpd.read_file(ecoregions_path)
+    gpd.read_file(project.project_dir / ecoregions_dir)
     .rename(columns={
         'ECO_NAME': 'name',
         'SHAPE_AREA': 'area'})
@@ -142,33 +142,46 @@ ecoregions_gdf.plot(edgecolor='black', color='skyblue')
 
 For this challenge, you will use a database called the [Global Biodiversity Information Facility (GBIF)](https://www.gbif.org/). GBIF is compiled from species observation data all over the world, and includes everything from museum specimens to photos taken by citizen scientists in their backyards. We've compiled some sample data in the same format that you will get from GBIF.
 
-You may notice in your data folder that the GBIF
+Let's start by looking at a little of the raw data.
 
-::: {.callout-task title="Import GBIF Data"}
+```{python}
+gbif_path = project.project_dir / gbif_filename
+```
 
-1. Change `'gbif-filename-here'` to match the filename of the GBIF data you downloaded ()
-2. Load the data in with an appropriate library for the file extension.
-3. Run the cell
+::: {.callout-task title="Load GBIF data"}
+
+1.  Look at the beginning of the file you downloaded using the code below. What do you think the **delimiter** is?
+2.  Run the following code cell. What happens?
+3.  Uncomment and modify the parameters of `pd.read_csv()` below until your data loads successfully and you have only the columns you want.
 :::
+
+You can use the following code to look at the beginning of your file:
+
+```{python}
+!head -n 2 $gbif_path 
+```
 
 ```{python}
 #| template: student
-# Get a path to the GBIF data
-gbif_path = project.data.get_data_path('gbif-filename-here')
 # Load the GBIF data
-
-# Check the data
+gbif_df = pd.read_csv(
+    gbif_path, 
+    delimiter='',
+    index_col='',
+    usecols=[]
+)
 gbif_df.head()
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-# Get a path to the GBIF data
-gbif_path = project.data.get_data_path(gbif_filename)
 # Load the GBIF data
-gbif_df = pd.read_csv(gbif_path)
-# Check the data
+gbif_df = pd.read_csv(
+    gbif_path, 
+    delimiter='\t',
+    index_col='gbifID',
+    usecols=['gbifID', 'decimalLatitude', 'decimalLongitude', 'month'])
 gbif_df.head()
 ```
 :::
