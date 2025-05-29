@@ -106,7 +106,7 @@ YOUR ANSWER HERE
 ```{python}
 #| template: student
 # Load in the boundary data
-aitsd_gdf = gpd.read_file(project.project_dir / 'subdivision-directory')
+aitsn_gdf = gpd.read_file(project.project_dir / 'subdivision-directory')
 # Check that it worked
 
 ```
@@ -115,9 +115,9 @@ aitsd_gdf = gpd.read_file(project.project_dir / 'subdivision-directory')
 ```{python}
 #| template: answer
 # Load in the boundary data
-aitsd_gdf = gpd.read_file(project.project_dir / 'tl_2020_us_aitsn')
+aitsn_gdf = gpd.read_file(project.project_dir / 'tl_2020_us_aitsn')
 # Check that it worked
-aitsd_gdf
+aitsn_gdf
 
 ```
 :::
@@ -126,7 +126,7 @@ You might notice in this dataset that some of the names are not easily searchabl
 
 
 ```{python}
-aitsd_gdf.hvplot(
+aitsn_gdf.hvplot(
     geo=True, tiles='EsriImagery', 
     frame_width=500,
     legend=False, fill_color=None, edge_color='white',
@@ -148,7 +148,7 @@ YOUR ANSWER HERE
 Now that you have the info you need, it's also a good idea to check the data type. For example, we suggest looking at the `AIANNHCE` column...but is that value some kind of **number** or an **object** like a text string? We can't tell just by looking, which is where our friend the `.info()` method comes in:
 
 ```{python}
-aitsd_gdf.info()
+aitsn_gdf.info()
 ```
 
 
@@ -174,7 +174,7 @@ Let's go ahead and select the Gila River subdivisions, and make a site map.
 ```{python}
 #| template: student
 # Select and merge the subdivisions you want
-gdf = aitsd_gdf.loc[aitsd_gdf.AIANNHCE==identifier].dissolve()
+gdf = aitsn_gdf.loc[aitsn_gdf.AIANNHCE==identifier].dissolve()
 # Plot the results with web tile images
 gdf.hvplot()
 ```
@@ -182,7 +182,7 @@ gdf.hvplot()
 ```{python}
 #| template: answer
 # Select and merge the subdivisions you want
-boundary_gdf = aitsd_gdf.loc[aitsd_gdf.AIANNHCE=='1310'].dissolve()
+boundary_gdf = aitsn_gdf.loc[aitsn_gdf.AIANNHCE=='1310'].dissolve()
 # Plot the results with web tile images
 boundary_gdf.hvplot(
     geo=True, tiles='EsriImagery',

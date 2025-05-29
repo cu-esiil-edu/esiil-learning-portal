@@ -35,7 +35,10 @@ It can take some time for Appeears to process your request - anything from a few
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 # Initialize AppeearsDownloader for MODIS NDVI data
 ndvi_downloader = eaapp.AppeearsDownloader(
     download_key=download_key,
@@ -54,7 +57,12 @@ ndvi_paths = ndvi_downloader.download_files(cache=True)
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 # Initialize AppeearsDownloader for MODIS NDVI data
 ndvi_downloader = eaapp.AppeearsDownloader(
     download_key=download_key,
@@ -83,13 +91,21 @@ Let's start by getting all the NDVI file names. You will also need to extract th
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 # Get a list of NDVI tif file paths
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 # Get list of NDVI tif file paths
 ndvi_paths = sorted(glob(os.path.join(
     ndvi_downloader.data_dir, '**', '*NDVI*.tif')))
@@ -118,7 +134,10 @@ There's some code below that uses a `for` loop in what is called an **accumulati
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 doy_start = -1
 doy_end = -1
 
@@ -140,7 +159,12 @@ for ndvi_path in ndvi_paths:
 ::: {.content-visible when-format="html"}
 
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 doy_start = -19
 doy_end = -12
 
@@ -174,7 +198,10 @@ Next, stack your arrays by date into a time series:
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 # Combine NDVI images from all dates
 da = xr.combine_by_coords(list_of_data_arrays, coords=['coordinate_name'])
 da
@@ -182,7 +209,12 @@ da
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 # Combine NDVI images from all dates
 ndvi_da = xr.combine_by_coords(ndvi_das, coords=['date'])
 ndvi_da
