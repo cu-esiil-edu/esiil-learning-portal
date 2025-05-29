@@ -49,7 +49,7 @@ If you are working on GitHub Codespaces, you will need to upload your file befor
 
 ![If you are using GitHub Codespaces, upload the file.](/img/earth-analytics/download/aitsd/08-upload.png)
 
-If you are working in GitHub Codespaces, you're done! If not, you'll need to relocate your file on your computer. One way to do that is with **bash**.
+If you are working in GitHub Codespaces, you can skip ahead to unzipping the file! If not, you'll need to relocate your file on your computer. One way to do that is with **bash**.
 
 ::: {.callout-task}
 
@@ -66,7 +66,10 @@ The code cell below is using a language called **bash**, which can be used to mo
 
 ::: {.content-hidden}
 ```{python}
-project.get_data(url='https://figshare.com/ndownloader/files/54896600')
+# Download without unzipping to imitate manual download
+project.data._download(
+    'https://figshare.com/ndownloader/files/54896600', 
+    'tl_2020_us_aitsn.zip', 'file', False, False)
 ```
 :::
 
@@ -76,11 +79,21 @@ Now, let's check that the file got moved.
 !ls "$project.project_dir"
 ```
 
+You can optionally unzip the file. `geopandas` will be able to read this particular shapefile from a `.zip` archive, but some other files may need to be unzipped. We'll first define the path in Python, and then use bash to unzip. You can also unzip with the `Python` `zipfile` library, but it is more complicated than we need right now.
+
+```{python}
+zip_path = project.project_dir / "tl_2020_us_aitsn.zip"
+```
+
+```{python}
+!unzip "$zip_path"
+```
+
 ## STEP 1F: Open boundary in Python
 
 ::: {.callout-task}
 
-  1. Replace `"file-name.zip"` with the actual name of the file you downloaded and put in your project directory.
+  1. Replace `"directory-name"` with the actual name of the file you downloaded and put in your project directory.
   2. Modify the code below to use **descriptive variable names**. Feel free to refer back to previous challenges for similar code!
   3. Add a line of code to open up the data path. What library and function do you need to open this type of data?
   4. Add some code to check your data, either by viewing it or making a quick plot. Does it look like what you expected?
@@ -90,7 +103,7 @@ Now, let's check that the file got moved.
 ```{python}
 #| template: student
 # Define boundary path
-path = os.path.join(project.project_dir, "file-name.zip")
+path = project.project_dir / "directory-name"
 
 # Open the site boundary
 
@@ -103,7 +116,7 @@ path = os.path.join(project.project_dir, "file-name.zip")
 ```{python}
 #| template: answer
 # Define boundary path
-aitsd_path = project.project_dir / "tl_2020_us_aitsn.zip"
+aitsd_path = project.project_dir / "tl_2020_us_aitsn"
 
 # Open the site boundary
 aitsd_gdf = gpd.read_file(aitsd_path)
