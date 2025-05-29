@@ -1,0 +1,138 @@
+
+# STEP 2: Wrangle Raster Data
+
+## Load in NDVI data
+
+Now you need to load all the downloaded files into Python. Let's start by getting all the file names. You will also need to extract the date from the filename. Check out [the lesson on getting information from filenames in the textbook](https://www.earthdatascience.org/courses/intro-to-earth-data-science/write-efficient-python-code/loops/data-workflows-with-loops/). 
+
+In this lesson, you will use the `glob.glob()` function in Python to find all files that match a **pattern** formed with the **wildcard** character `*`. The wildcard can represent any string of alphanumberic characters. For example, the pattern `'file_*.tif'` will match the files `'file_1.tif'`, `'file_2.tiv'`, or even `'file_qeoiurghtfoqaegbn34pf.tif'`... but it will not match `'something-else.csv'` or even `'something-else.tif'`.
+
+In this notebook, we'll use the `.rglob()`, or **recursive** glob method of the Path object instead. It works similarly, but you'll notice that we have to convert the results to a list with the `list()` function.
+
+::: {.callout-caution title="GOTCHA ALERT!"}
+`glob` doesn't necessarily find files in the order you would expect. Make sure to **sort** your file names like it says in the textbook.
+:::
+
+::: {.callout-respond}
+Take a look at the file names for the NDVI files. What do you notice is the same for all the files? Keep in mind that you only want the NDVI files, not the Quality files (which will flag potential incorrect measurements).
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+YOUR ANSWER HERE
+::::
+:::
+
+::: {.callout-task}
+
+  1. Create a **pattern** for the files you want to import. Your pattern should include the parts of the file names that are the same for all files, and replace the rest with the `*` character. Make sure to match the NDVI files, but not the Quality files!
+  2. Replace `ndvi-pattern` with your pattern
+  3. Run the code and make sure that you are getting all the files you want and none of the files you don't!
+  
+:::
+
+```{python}
+#| template: student
+# Get a sorted list of NDVI tif file paths
+ndvi_paths = sorted(list(project.project_dir.rglob('ndvi-pattern')))
+
+# Display the first and last three files paths to check the pattern
+ndvi_paths[:3], ndvi_paths[-3:]
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Get a sorted list of NDVI tif file paths
+ndvi_paths = sorted(list(project.project_dir.rglob('*NDVI*.tif')))
+
+# Display the first and last three files paths to check the pattern
+ndvi_paths[:3], ndvi_paths[-3:]
+```
+:::
+
+## Repeating tasks in Python
+
+Now you should have a few dozen files! For each file, you need to:
+
+  - Load the file in using the `rioxarray` library
+  - Get the date from the file name
+  - Add the date as a dimension coordinate
+  - Give your data variable a name
+
+You don't want to write out the code for each file! That's a recipe for copy pasta. Luckily, Python has tools for doing similar tasks repeatedly. In this case, you'll use one called a `for` loop.
+
+There's some code below that uses a `for` loop in what is called an **accumulation pattern** to process each file. That means that you will save the results of your processing to a list each time you process the files, and then merge all the arrays in the list.
+
+::: {.callout-task}
+
+  - Look at the file names. How many characters from the end is the date? `doy_start` and `doy_end` are used to extract the day of the year (doy) from the file name. You will need to count characters from the end and change the values to get the right part of the file name. HINT: the index -1 in Python means the last value, -2 second-to-last, and so on.
+  - Replace any required variable names with your chosen variable names
+
+:::
+
+```{python}
+#| template: student
+doy_start = -1
+doy_end = -1
+
+# Loop through each NDVI image
+ndvi_das = []
+for ndvi_path in ndvi_paths:
+    # Get date from file name
+
+    # Open dataset
+
+    # Add date dimension and clean up metadata
+    da = da.assign_coords({'date': date})
+    da = da.expand_dims({'date': 1})
+    da.name = 'NDVI'
+
+    # Prepare for concatenation
+```
+
+::: {.content-visible when-format="html"}
+
+```{python}
+#| template: answer
+doy_start = -19
+doy_end = -12
+
+# Loop through each NDVI image
+ndvi_das = []
+for ndvi_path in ndvi_paths:
+    # Get date from the file name
+    doy = ndvi_path.name[doy_start:doy_end]
+    date = pd.to_datetime(doy, format='%Y%j')
+
+    # Open dataset
+    da = rxr.open_rasterio(ndvi_path, mask_and_scale=True).squeeze()
+
+    # Add date dimension and clean up metadata
+    da = da.assign_coords({'date': date})
+    da = da.expand_dims({'date': 1})
+    da.name = 'NDVI'
+
+    # Prepare for concatenation
+    ndvi_das.append(da)
+
+len(ndvi_das)
+```
+:::
+
+## Combine Rasters
+Next, stack your arrays by date into a time series using the `xr.combine_by_coords()` function. You will have to tell it which dimension you want to stack your data in.
+
+```{python}
+#| template: student
+# Combine NDVI images from all dates
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Combine NDVI images from all dates
+ndvi_da = xr.combine_by_coords(ndvi_das, coords=['date'])
+ndvi_da
+```
+:::

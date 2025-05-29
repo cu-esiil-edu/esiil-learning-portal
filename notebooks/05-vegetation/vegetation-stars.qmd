@@ -1,11 +1,14 @@
 ---
 title: Water Rights Restored to the Gila River
 subtitle: The impacts of irrigation on vegetation health in the Gila River Valley
-description: 'In 2004, the Akimel O''otham and Tohono O''odham tribes won a water
-  rights settlement in the US Supreme Court. Using satellite imagery, we can see the
-  effects of irrigation water on the local vegetation.
-
-  '
+author:
+  - Elsa Culler
+  - Nate Quarderer
+date: last-modified
+image: /img/earth-analytics/water-rights/lesson-water-rights.png
+image-alt: "Dry river with dead plants turns into a stream with living plants"
+description: |
+  In 2004, the Akimel O''otham and Tohono O''odham tribes won a water rights settlement in the US Supreme Court. Using satellite imagery, we can see the effects of irrigation water on the local vegetation.
 learning-goals:
 - Open raster or image data using code
 - Combine raster data and vector data to crop images to an area of interest
@@ -14,6 +17,7 @@ learning-goals:
 params:
   id: stars
   site_name: Gila River Indian Community
+  event: water rights case
   data_dir: gila-river
 jupyter:
   kernelspec:
@@ -29,3 +33,21 @@ The Gila River Reservation south of Phoenix, AZ is the ancestral home of the [Ak
 In 2004, the Gila River community won back much of its water rights in court. The settlement granted senior water rights nearly matching pre-colonial water use. Work has begun to rebuild the agriculture in the Gila River Reservation. According to the Akimel O'otham and Tohono O'odham tribes, "It will take years to complete but in the end the community members will once again hear the sweet music of rushing water."
 
 {{< include _vegetation-00-overview.qmd >}}
+
+Before we get started coding, you can use the following parameters to change things about the workflow:
+
+```{python}
+#| tags: [parameters]
+id = 'stars'
+site_name = 'Gila River Indian Community'
+event = 'water rights case'
+data_dir = 'gila-river'
+```
+
+{{< include _vegetation-01-site-map.qmd >}}
+
+{{< include _vegetation-02-wrangle.qmd >}}
+
+{{< include _vegetation-03-plot.qmd >}}
+
+{{< include _vegetation-04-summarize.qmd >}}

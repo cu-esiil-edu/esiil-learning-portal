@@ -1,0 +1,51 @@
+# STEP 3: Plot NDVI
+
+::: {.callout-task title="Plot the change in NDVI spatially"}
+Complete the following:
+
+  - Select data from 2021 to 2023 (3 years after the {{< meta params.event >}})
+  - Take the temporal mean (over the **date**, not spatially)
+  - Get the NDVI variable (should be a DataArray, not a Dataset)
+  - Repeat for the data from 2018 to 2020 (3 years before the {{< meta params.event >}})
+  - Subtract the 2018-2020 time period **from** the 2021-2023 time period
+  - Plot the result using a **diverging** color map like `cmap=plt.cm.PiYG`
+
+There are different types of color maps for different types of data. In this case, we want decreases to be a different color from increases, so we should use a **diverging** color map. Check out available colormaps in the [matplotlib documentation](https://matplotlib.org/stable/tutorials/colors/colormaps.html).
+:::
+
+::: {.callout-extra}
+For an extra challenge, add the {{< meta params.site_name >}} boundary to the plot.
+:::
+
+```{python}
+#| template: student
+# Compute the difference in NDVI before and after
+
+# Plot the difference
+(
+    ndvi_diff.hvplot(x='', y='', cmap='', geo=True)
+    *
+    gdf.hvplot(geo=True, fill_color=None, line_color='black')
+)
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+ndvi_diff = (
+    ndvi_da
+        .sel(date=slice('2021', '2023'))
+        .mean('date')
+        .NDVI 
+   - ndvi_da
+        .sel(date=slice('2018', '2020'))
+        .mean('date')
+        .NDVI
+)
+(
+    ndvi_diff.hvplot(x='x', y='y', cmap='PiYG', geo=True)
+    *
+    boundary_gdf.hvplot(geo=True, fill_color=None, line_color='black')
+)
+```
+:::
