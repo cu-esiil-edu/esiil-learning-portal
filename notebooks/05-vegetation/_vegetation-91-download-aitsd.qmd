@@ -64,6 +64,12 @@ The code cell below is using a language called **bash**, which can be used to mo
 !cp ~/Downloads/tl_2020_us_aitsn.zip "$project.project_dir"
 ```
 
+::: {.content-hidden}
+```{python}
+project.get_data(url='https://figshare.com/ndownloader/files/54896600')
+```
+:::
+
 Now, let's check that the file got moved.
 
 ```{python}
@@ -106,5 +112,35 @@ aitsd_gdf = gpd.read_file(aitsd_path)
 aitsd_gdf.NAME
 ```
 :::
+
+
+Let's go ahead and select the Gila River subdivisions, and make a site map.
+
+::: {.callout-task}
+
+  1. Replace `identifier` with the value you found from exploring the interactive map. Make sure that you are using the correct **data type**!
+  2. Change the plot to have a web tile basemap, and look the way you want it to.
+
+:::
+
+```{python}
+#| template: student
+# Select and merge the subdivisions you want
+
+# Plot the results with web tile images
+
+```
+
+```{python}
+#| template: answer
+# Select and merge the subdivisions you want
+boundary_gdf = aitsd_gdf.loc[aitsd_gdf.AIANNHCE=='1310'].dissolve()
+# Plot the results with web tile images
+boundary_gdf.hvplot(
+    geo=True, tiles='EsriImagery',
+    fill_color=None, line_color='black',
+    title=site_name,
+    frame_width=500)
+```
 
 
