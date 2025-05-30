@@ -40,6 +40,10 @@ def sync_params_to_qmd(qmd_path):
         print(f"⚠️ Skipping {qmd_path.name}: {e}")
         return
 
+    if not yaml_data:
+        print(f"ℹ️ No YAML header found in {qmd_path.name}.")
+        return
+
     params = yaml_data.get("params", {})
     if not params:
         print(f"ℹ️ No params found in {qmd_path.name}.")
@@ -61,7 +65,8 @@ def sync_params_to_qmd(qmd_path):
 def main():
     file_list = os.getenv("QUARTO_PROJECT_INPUT_FILES")
     if not file_list:
-        print("❌ QUARTO_PROJECT_INPUT_FILES not set. This should be run as a Quarto pre-render hook.")
+        print("❌ QUARTO_PROJECT_INPUT_FILES not set. "
+              "This should be run as a Quarto pre-render hook.")
         return
 
     for path in file_list.split("\n"):

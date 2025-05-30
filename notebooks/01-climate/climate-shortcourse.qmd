@@ -6,21 +6,33 @@ learning-goals:
   - Parse date information so that it is represented as a datetime type
   - Use operators to convert to different units
   - "Resample time-series data to different frequencies"
-jupyter: python3
-format:
-  html: default
+params:
+  id: shortcourse
+  location: "Rapid City, SD"
+  station_id: "USC00396947"
+  start_date: "1949-10-01"
+  end_date: "2023-09-30"
+  output_filename: "climate-shortcourse-data.csv"
 ---
 
 {{< include _climate-31-overview.qmd >}}
+
+Before we get started, let's define some parameters. You can use these if you want to change how the workflow runs from the top:
+
+```{python}
+#| tags: [parameters]
+id = 'shortcourse'
+location = 'Rapid City, SD'
+station_id = 'USC00396947'
+start_date = '1949-10-01'
+end_date = '2023-09-30'
+output_filename = 'climate-shortcourse-data.csv'
+```
 
 {{< include _climate-32-wrangle.qmd >}}
 
 {{< include _climate-33-units.qmd >}}
 
 {{< include _climate-34-plot.qmd >}}
-
-::: {.content-visible when-profile="foundations"}
-{{< include _climate-35-trend-line.qmd >}}
-:::
 
 {{< include _climate-40-wrapup.qmd >}}
