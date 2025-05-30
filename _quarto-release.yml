@@ -1,10 +1,16 @@
 project:
   type: book
   output-dir: _release
-  pre-render: scripts/generate_lesson_segments.py
+  pre-render:
+    - scripts/expand_templates.py
+    - scripts/generate_lesson_segments.py
   render:
     - notebooks/02-flood/flood-stars.qmd
     - notebooks/02-flood/flood-download-stars.qmd
+    - notebooks/03-migration/migration-stars.qmd
+    - notebooks/03-migration/migration-download-stars.qmd
+    - notebooks/05-vegetation/vegetation-stars.qmd
+    - notebooks/05-vegetation/vegetation-download-stars.qmd
 
 book:
   title: "ESIIL Learning Portal"
@@ -12,10 +18,13 @@ book:
   date: today
   chapters:
     - index.qmd
-    #- notebooks/02-flood/flood-stars.qmd
-    #- notebooks/02-flood/flood-download-stars.qmd
+    # Stars
+    - notebooks/02-flood/flood-stars.qmd
+    - notebooks/02-flood/flood-download-stars.qmd
     - notebooks/03-migration/migration-stars.qmd
     - notebooks/03-migration/migration-download-stars.qmd
+    - notebooks/05-vegetation/vegetation-stars.qmd
+    - notebooks/05-vegetation/vegetation-download-stars.qmd
 
 format:
   pdf:

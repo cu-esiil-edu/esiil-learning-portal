@@ -31,7 +31,7 @@ Find the "TIGER/Line Shapefile, 2020, Nation, U.S., American Indian Tribal Subdi
 
 Next, scroll down to the available files to download. Click on the `Download` button for the `.zip` file -- this will be the easiest one to open in Python.
 
-![Scroll down and click on the `.zip` file `Download` button.](/img/earth-analytics/download/aitsn/05-download)
+![Scroll down and click on the `.zip` file `Download` button.](/img/earth-analytics/download/aitsn/05-download.png)
 
 ## STEP 1E: Move your file
 
@@ -87,8 +87,9 @@ zip_path = project.project_dir / f"{filename}.zip"
 unzip_dir = project.project_dir / filename
 ```
 
+The following command unzips a zip archive to the specified directory (`-d`). Any files that already exist are skipped without prompting (`-n`)
 ```{python}
-!unzip "$zip_path" -d "$unzip_dir"
+!unzip -n "$zip_path" -d "$unzip_dir"
 ```
 
 You can also delete the zip file, now that it is extracted. This will help keep your data directory tidy:

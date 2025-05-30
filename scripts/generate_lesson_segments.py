@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 import re
 
-from parsing import get_included_files
+from parsing import get_included_files, extract_yaml
 
 # Read Quarto input files
 input_files = os.getenv("QUARTO_PROJECT_INPUT_FILES", "")
@@ -30,17 +30,16 @@ end_boilerplate = (
 segment_count = 0
 
 for top_file in qmd_files:
-    lines = top_file.read_text(encoding="utf-8").splitlines()
-    if not lines:
+    # Get lesson id
+    yaml_data, yaml_header = extract_yaml(top_file)
+    if yaml_data is None:
+        print(f"⚠️  Skipping {top_file.name}: missing YAML header")
         continue
-
-    # Extract YAML front matter
-    if lines[0].strip() == "---":
-        end_idx = lines.index("---", 1)
-        yaml_header = "\n".join(lines[:end_idx + 1])
-        rest = lines[end_idx + 1:]
-    else:
-        print(f"⚠️  Skipping {top_file.name}: missing YAML front matter")
+    try:
+        lesson_id = yaml_data['params']['id']
+    except KeyError:
+        print(f"⚠️  Skipping {top_file.name}:"
+              " missing required id parameter in YAML header")
         continue
 
     # Find included files
@@ -48,11 +47,10 @@ for top_file in qmd_files:
     if not included_files:
         print(f"ℹ️  No includes found in {top_file.name}, skipping.")
         continue
-    print(included_files)
     included_files.sort()
 
     # Prepare output directory
-    segment_output_dir = Path(os.path.dirname(top_file), "segments")
+    segment_output_dir = top_file.parent / f"segments-{lesson_id}"
     segment_output_dir.mkdir(exist_ok=True)
 
     for i, file_name in enumerate(included_files):

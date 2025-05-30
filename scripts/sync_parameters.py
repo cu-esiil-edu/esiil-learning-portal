@@ -3,16 +3,7 @@ import re
 import yaml
 from pathlib import Path
 
-from parsing import get_included_files
-
-def extract_yaml(content):
-    match = re.match(r"(?s)^---\n(.*?)\n---\n(.*)", content)
-    if not match:
-        raise ValueError(f"No YAML front matter found in {qmd_path}")
-
-    yaml_str, body = match.groups()
-    yaml_data = yaml.safe_load(yaml_str)
-    return yaml_data
+from parsing import get_included_files, extract_yaml
 
 def build_param_code(params):
     # Convert Python values with proper syntax
@@ -42,11 +33,9 @@ def sync_params_to_qmd(qmd_path):
     qmd_path = Path(qmd_path)
     if not qmd_path.exists() or qmd_path.suffix != ".qmd":
         return
-    with open(qmd_path, 'r', encoding='utf-8') as f:
-        content = f.read()
         
     try:
-        yaml_data = extract_yaml(content)
+        yaml_data, _ = extract_yaml(qmd_path)
     except Exception as e:
         print(f"⚠️ Skipping {qmd_path.name}: {e}")
         return
