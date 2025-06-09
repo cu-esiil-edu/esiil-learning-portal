@@ -45,7 +45,7 @@ ndvi_downloader = eaapp.AppeearsDownloader(
     start_date="01-01",
     end_date="01-31",
     recurring=True,
-    year_range=[2021, 2021],
+    year_range=[, ],
     polygon=gdf
 )
 # Download the prepared download -- this can take some time!
@@ -64,7 +64,7 @@ ndvi_downloader = eaapp.AppeearsDownloader(
     start_date="06-01",
     end_date="09-01",
     recurring=True,
-    year_range=[2001, 2007],
+    year_range=[start_year, end_year],
     polygon=boundary_gdf
 )
 # Download the prepared download -- this can take some time!
@@ -76,7 +76,7 @@ ndvi_downloader.download_files(cache=True)
 
 Now you need to load all the downloaded files into Python. You may have noticed that the `earthpy.appears module gives us all the downloaded file names...but only some of those are the NDVI files we want while others are quality files that tell us about the confidence in the dataset. For now, the files we want all have "NDVI" in the name.
 
-Let's start by getting all the NDVI file names. You will also need to extract the date from the filename. Check out [the lesson on getting information from filenames in the textbook](https://www.earthdatascience.org/courses/intro-to-earth-data-science/write-efficient-python-code/loops/data-workflows-with-loops/).
+Let's start by getting all the NDVI file names. You will also need to extract the date from the filename. Check out [the lesson on getting information from filenames in the textbook](https://www.earthdatascience.org/courses/intro-to-earth-data-science/write-efficient-python-code/loops/data-workflows-with-loops/). We're using a slightly different method here (the `.rglob()` or **recursive** glob method, which searchs all the directories nested inside the path), but the principle is the same.
 
 ::: {.callout-caution title="GOTCHA ALERT!"}
 `glob` doesn't necessarily find files in the order you would expect. Make sure to **sort** your file names like it says in the textbook.
@@ -84,16 +84,21 @@ Let's start by getting all the NDVI file names. You will also need to extract th
 
 ```{python}
 #| template: student
-# Get a list of NDVI tif file paths
+# Get a sorted list of NDVI tif file paths
+ndvi_paths = sorted(list(project.project_dir.rglob('ndvi-pattern')))
+
+# Display the first and last three files paths to check the pattern
+ndvi_paths[:3], ndvi_paths[-3:]
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-# Get list of NDVI tif file paths
-ndvi_paths = sorted(glob(os.path.join(
-    project.project_dir, '**', '*NDVI*.tif')))
-f'{len(ndvi_paths)} NDVI paths found'
+# Get a sorted list of NDVI tif file paths
+ndvi_paths = sorted(list(project.project_dir.rglob('*NDVI*.tif')))
+
+# Display the first and last three files paths to check the pattern
+ndvi_paths[:3], ndvi_paths[-3:]
 ```
 :::
 
@@ -141,14 +146,14 @@ for ndvi_path in ndvi_paths:
 
 ```{python}
 #| template: answer
-doy_start = -19
-doy_end = -12
+doy_start = -25
+doy_end = -19
 
 # Loop through each NDVI image
 ndvi_das = []
 for ndvi_path in ndvi_paths:
     # Get date from file name
-    doy = ndvi_path[doy_start:doy_end]
+    doy = ndvi_path.name[doy_start:doy_end]
     date = pd.to_datetime(doy, format='%Y%j')
 
     # Open dataset
@@ -186,5 +191,11 @@ da
 # Combine NDVI images from all dates
 ndvi_da = xr.combine_by_coords(ndvi_das, coords=['date'])
 ndvi_da
+```
+:::
+
+::: {.content-hidden}
+```{python}
+project.data.prepare_for_upload()
 ```
 :::

@@ -52,13 +52,6 @@ def sync_params_to_qmd(qmd_path):
     new_code = build_param_code(params)
     
     replace_parameters_cell(qmd_path, new_code)
-    
-    # Get all included files too
-    included_files = get_included_files(qmd_path)
-    for file in included_files:
-        if file.suffix=='.qmd':
-            replace_parameters_cell(file, new_code)
-            print(f"✅ Synced parameters in {file}")
 
     print(f"✅ Synced params in {qmd_path}")
 

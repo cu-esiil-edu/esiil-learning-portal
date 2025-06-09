@@ -1,8 +1,3 @@
----
-title: Get your own climate data from Climate Data Online
-jupyter: python3
----
-
 ## There are more Earth Observation data online than any one person could ever look at
 
 [NASA's Earth Observing System Data and Information System (EOSDIS) alone manages over 9PB of data](https://www.earthdata.nasa.gov/learn/articles/getting-petabytes-people-how-eosdis-facilitates-earth-observing-data-discovery-and-use). 1 PB is roughly 100 times the entire Library of Congress (a good approximation of all the books available in the US). It's all available to **you** once you learn how to download what you want.
@@ -40,7 +35,7 @@ The cell below contains the URL for the data you will use in this part of the no
 An **application programming interface** (API) is a way for two or more computer programs or components to communicate with each other. It is a type of software interface, offering a service to other pieces of software ([Wikipedia](https://en.wikipedia.org/wiki/API)).
 :::
 
-First things first -- you will need to import the `pandas` library to access NCEI data through its URL:
+First things first -- you will need to import the `earthpy` library to help with data management and the `pandas` library to work with tabular data:
 
 ```{python}
 # Import required packages
@@ -51,19 +46,26 @@ First things first -- you will need to import the `pandas` library to access NCE
 #| code-fold: true
 #| code-summary: See our solution!
 # Import required packages
+import earthpy
 import pandas as pd
 ```
 :::
 
+The cell below contains the URL you will use to download climate data. There are two things to notice about the URL code:
+
+  1. It is surrounded by quotes -- that means Python will interpret it as a `string`, or text, type, which makes sense for a URL.
+  2. The URL is too long to display as one line on most screens. We've put parentheses around it so that we can easily split it into multiple lines by writing two strings -- one on each line.
+
 ::: {.callout-task title="Format your URL for readability"}
 
-1. Pick an expressive variable name for the URL.
-2. Reformat the URL so that it adheres to the [79-character PEP-8 line limit](https://peps.python.org/pep-0008/#maximum-line-length). You should see two vertical lines in each cell - don't let your code go past the second line.
-3. At the end of the cell where you define your url variable, **call your variable (type out its name)** so it can be tested.
+  1. Pick an expressive variable name for the URL.
+  2. Reformat the URL so that it adheres to the [79-character PEP-8 line limit](https://peps.python.org/pep-0008/#maximum-line-length). If you are using GitHub Codespaces, you should see two vertical lines in each cell -- don't let your code go past the second line.
+  3. At the end of the cell where you define your url variable, **call your variable (type out its name)** so it can be tested.
 
 :::
 
 ```{python}
+#| template: student
 stuff23 = ('https://www.ncei.noaa.gov/access/services/da'
 'ta/v1?dataset=daily-summaries&dataTypes=TOBS,PRCP&stations=USC00050848&startDate=1893-10-01&2023-09-30')
 stuff23
@@ -71,41 +73,55 @@ stuff23
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| code-fold: true
-#| code-summary: See our solution!
+#| template: answer
 ncei_url = (
     'https://www.ncei.noaa.gov/access/services/data/v1'
     '?dataset=daily-summaries'
     '&dataTypes=TOBS,PRCP'
-    '&stations=USC00050848'
-    '&startDate=1893-10-01'
-    '&endDate=2023-09-30'
-    '&units=standard'
+    f'&stations={station_id}'
+    f'&startDate={start_date}'
+    f'&endDate={end_date}'
+    '&units=metric'
 )
 ncei_url
 ```
 :::
 
-## **Download and get started working with NCEI data**
+## Download and get started working with NCEI data
 
-Go ahead and use pandas to import data from your API URL into Python. If you didn't already, you should import the pandas library **at the top of this notebook** so that others who want to use your code can find it easily.
+Go ahead and use `earthpy` to download data from your API URL. You could also use Python, but using earthpy saves a file and lets you work offline later on. If you didn't already, you should import the `earthpy` library **at the top of this notebook** so that others who want to use your code can find it easily.
 
 ```{python}
-#| error: true
-# Import data into Python from NCEI API
+project = earthpy.Project(dirname=project_dirname)
+ncei_path = project.get_data(url=ncei_url, filename=ncei_filename)
+ncei_path
+```
 
+
+
+```{python}
+#| template: student
+# Download the climate data
+climate_df = pd.read_csv(
+    ncei_path,
+    # index_col='DATE',
+    # parse_dates=True,
+    # na_values=['NaN']
+)
+
+# Check that the download worked
+climate_df.head()
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| code-fold: true
-#| code-summary: See our solution!
+#| template: answer
 # Download the climate data
 climate_df = pd.read_csv(
     ncei_url,
-    # index_col='DATE',
-    # parse_dates=True,
-    # na_values=['NaN']
+    index_col='DATE',
+    parse_dates=True,
+    na_values=['NaN']
 )
 
 # Check that the download worked
@@ -115,21 +131,6 @@ climate_df.head()
 
 ::: {.content-hidden}
 ```{python}
-import os
-import subprocess
-
-import requests
-
-# Download data
-response = requests.get(ncei_url)
-
-with open("climate-foundations-data.csv", 'wb') as out_file:
-    out_file.write(response.content)
-subprocess.run([
-    'gh', 'release', 'upload', 'data-release',
-    'climate-foundations-data.csv',
-    '--repo', 'cu-esiil-edu/esiil-learning-portal',
-    '--clobber'
-    ])
+project.data.prepare_for_upload()
 ```
 :::

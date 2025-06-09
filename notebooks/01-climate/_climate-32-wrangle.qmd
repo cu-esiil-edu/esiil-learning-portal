@@ -1,4 +1,4 @@
-# Part 2: Wrangle your data
+# STEP 2: Wrangle your data
 
 ## Python **packages** let you use code written by experts around the world
 
@@ -10,10 +10,10 @@ Learn more about using Python packages. How do you find and use packages? What i
 
 In the cell below, someone was trying to import the **pandas package**, which helps us to work with [**tabular data** such as comma-separated value or csv files](https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-text-files/).
 
-::: {.callout-task title="Import a package"}
+::: {.callout-task title="Import packages"}
 
   1. Correct the typo below to properly import the pandas package under its **alias** pd.
-  2. Run the cell to import pandas
+  2. Run the cell to import the libraries you'll need for this workflow.
 
 :::
 
@@ -27,7 +27,9 @@ We've created a coding **environment** for you to use that already has all the s
 
 ```{python}
 #| template: student
-# Import pandas
+# Import libraries
+import holoviews as hv
+import hvplot.pandas
 import pandsa as pd
 ```
 
@@ -35,18 +37,21 @@ import pandsa as pd
 ```{python}
 #| template: answer
 # Import pandas
+import holoviews as hv
+import hvplot.pandas
 import pandas as pd
 ```
 :::
 
 ## Download the practice data
 
-Next, lets download some climate data from {{< meta params.location >}} to practice with. We keep our practice data on GitHub, so that we can check that it still works and make sure it looks just like the data you would download from the original source.
+Next, lets download some climate data from {{< meta params.location >}} to practice with. We keep our practice data on a website called [figshare](https://figshare.com), so that we can check that it still works and make sure it looks just like the data you would download from the original source. Later, you'll learn how to use our `earthpy` package to download and manage data, and also how to download raw data using **APIs**...but for now we'll keep things simple and use a URL.
 
-The cell below contains the URL for the data you will use in this part of the notebook. There are two things to notice about the URL code:
+The cell below contains the starting point for URL for the data you will use in this part of the notebook. There are three things to notice about the URL code:
 
   1. It is surrounded by quotes -- that means Python will interpret it as a `string`, or text, type, which makes sense for a URL.
   2. The URL is too long to display as one line on most screens. We've put parentheses around it so that we can easily split it into multiple lines by writing two strings -- one on each line.
+  3. We replaced the figshare identifier for this dataset with `'FIGSHARE_ID_HERE'`. You'll have to replace that with the real identifier, {{< meta params.figshare_id>}}
 
 However, we still have a problem - we can't get the URL back later on because it isn't saved in a **variable**. In other words, we need to give the url a **name** so that we can request in from Python later (sadly, Python has no 'hey what was that thingy I typed yesterday?' function).
 
@@ -55,26 +60,22 @@ One of the most common challenges for new programmers is making sure that your r
 :::
 
 ::: {.callout-task title="Save the URL for later"}
-1. Pick an expressive variable name for the URL.
-2. Click on the `Jupyter` tab in the console panel at the bottom of VSCode to see all your variables. Your new url variable will not be there until you define it and run the code.
-2. At the end of the cell where you define your url variable, **call your variable (type out its name)** so it can be tested.
+
+  1. Replace `FIGSHARE_ID_HERE` with the figshare id, {{< meta params.figshare_id >}}
+  2. Pick an expressive variable name for the URL, and then save the URL using the equals sign `=`. For example, you could save the value `1` to the name `a_number` using the code `a_number = 1`.
+  3. At the end of the cell where you define your url variable, **call your variable (type out its name)** so you can see what it is.
+
 :::
 
 ```{python}
 #| template: student
-(
-    'https://github.com/cu-esiil-edu/esiil-learning-portal'
-    '/releases/download/data-release/climate-foundations-data.csv'
-)
+'https://figshare.com/ndownloader/files/FIGSHARE_ID_HERE'
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-ncei_url = (
-    'https://github.com/cu-esiil-edu/esiil-learning-portal'
-    '/releases/download/data-release/climate-foundations-data.csv'
-)
+ncei_url = f'https://figshare.com/ndownloader/files/{figshare_id}'
 ncei_url
 ```
 :::
@@ -82,23 +83,22 @@ ncei_url
 The `pandas` library you imported can download data from the internet directly into a type of Python **object** called a `DataFrame`. In the code cell below, you can see an attempt to do just this. But there are some problems...
 
 ::: {.callout-task title="Fix some code!"}
-1. Leave a space between the `#` and text in the comment and try making the comment more informative
-2. Make any changes needed to get this code to run. HINT: The `my_url` variable doesn't exist - you need to replace it with the variable name **you** chose.
-3. Modify the `.read_csv()` statement to include the following parameters:
 
-    + `index_col='DATE'` -- this sets the `DATE` column as the index. Needed for subsetting and resampling later on
-    + `parse_dates=True` -- this lets `python` know that you are working with time-series data, and values in the indexed column are **date time objects**
-    + `na_values=['NaN']` -- this lets `python` know how to handle missing values
+  1. Leave a space between the `#` and text in the comment, capitalize it, and try to make it more informative
+  2. Make any changes needed to get this code to run. HINT: The `my_url` variable doesn't exist - you need to replace it with the variable name **you** chose.
+  3. Modify the `.read_csv()` function call to include the following parameters:
 
-4. Clean up the code by using **expressive variable names**, **expressive column names**, **PEP-8 compliant code**, and **descriptive comments**
-:::
+      + `index_col='DATE'` -- this sets the `DATE` column as the index. Needed for subsetting and resampling later on
+      + `parse_dates=True` -- this lets `python` know that you are working with time-series data, and values in the indexed column are **date time objects**
+      + `na_values=['NaN']` -- this lets `python` know how to handle missing values
 
-::: {callout-warning}
-**Make sure to call your `DataFrame` by typing it's name as the last line of your code cell** Then, you will be able to run the test cell below and find out if your answer is correct.
+  4. Clean up the code by using **expressive variable names**, **expressive column names**, **PEP-8 compliant code**, and **descriptive comments**
+
 :::
 
 ```{python}
 #| template: student
+#download
 climate_df = pd.read_csv(
     my_url,
     index_col='something')
@@ -118,7 +118,9 @@ climate_df
 ```
 :::
 
-> HINT: Check out the `type()` function below - you can use it to check that your data is now in `DataFrame` type object
+:::{.callout-tip}
+Check out the `type()` function below - you can use it to check that your data is now in `DataFrame` type object.
+:::
 
 ```{python}
 #| template: student
@@ -127,18 +129,18 @@ type(climate_df)
 ```
 
 ## Clean up your `DataFrame`
+
 ::: {.callout-task title="Get rid of unwanted columns"}
 You can use **double brackets** (`[[` and `]]`) to select only the columns that you want from your `DataFrame`:
 
   1. Change `some_column_name` to the Precipitation column name and `another_column_name` to the Observed Temperature column name.
+  2. Give the `DataFrame` a more descriptive name.
+  3. Add a properly formatted comment to describe what this code is doing.
 
-:::: {.callout-warning}
-Column names are text values, not variable names, so you need to put them in quotes!
-::::
 :::
 
-::: {callout-warning}
-**Make sure to call your `DataFrame` by typing it's name as the last line of your code cell** Then, you will be able to run the test cell below and find out if your answer is correct.
+::: {.callout-warning}
+Column names are text values, not variable names, so you need to put them in quotes!
 :::
 
 ```{python}

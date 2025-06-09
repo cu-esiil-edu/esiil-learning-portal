@@ -3,11 +3,11 @@
 ::: {.callout-task title="Plot the change in NDVI spatially"}
 Complete the following:
 
-  - Select data from 2021 to 2023 (3 years after the {{< meta params.event >}})
+  - Select data from before the {{< meta params.event >}} ({{< meta params.start_year >}} to {{< meta params.event_year >}})
   - Take the temporal mean (over the **date**, not spatially)
   - Get the NDVI variable (should be a DataArray, not a Dataset)
-  - Repeat for the data from 2018 to 2020 (3 years before the {{< meta params.event >}})
-  - Subtract the 2018-2020 time period **from** the 2021-2023 time period
+  - Repeat for the data from after the {{< meta params.event >}} ({{< meta params.event_year >}} to {{< meta params.end_year >}})
+  - Subtract the pre-event data **from** the post-event data
   - Plot the result using a **diverging** color map like `cmap=plt.cm.PiYG`
 
 There are different types of color maps for different types of data. In this case, we want decreases to be a different color from increases, so we should use a **diverging** color map. Check out available colormaps in the [matplotlib documentation](https://matplotlib.org/stable/tutorials/colors/colormaps.html).
@@ -34,11 +34,11 @@ For an extra challenge, add the {{< meta params.site_name >}} boundary to the pl
 #| template: answer
 ndvi_diff = (
     ndvi_da
-        .sel(date=slice('2021', '2023'))
+        .sel(date=slice(event_year, end_year))
         .mean('date')
         .NDVI 
    - ndvi_da
-        .sel(date=slice('2018', '2020'))
+        .sel(date=slice(start_year, event_year))
         .mean('date')
         .NDVI
 )
