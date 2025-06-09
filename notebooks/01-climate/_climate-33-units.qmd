@@ -12,14 +12,13 @@ A big part of writing **expressive** code is descriptive labels. Let's rename th
 
   1. Replace `dataframe` with the name of **your** `DataFrame`, and `dataframe_units` with an expressive new name.
   2. Check out the [documentation for GCHNd data](https://www.ncei.noaa.gov/data/global-historical-climatology-network-daily/doc/GHCND_documentation.pdf). We downloaded data with "standard" units; find out what that means for both temperature and precipitation.
-  3. Replace `'TOBS_UNIT'` and `'PRCP_UNIT'` with column names that reference the correct unit for each.
+  3. Replace `'TOBS'` with the temperature column name in your data, and `'TOBS_UNIT'` with a column name that includes the correct unit.
 
 :::
 ```{python}
 #| template: student
 dataframe_units = dataframe.rename(columns={
     'TOBS': 'TOBS_UNIT',
-    'PRCP': 'PRCP_UNIT'
 })
 
 dataframe
@@ -28,8 +27,7 @@ dataframe
 ```{python}
 #| template: answer
 climate_u_df = climate_df.rename(columns={
-    'TOBS': 'temp_f',
-    'PRCP': 'precip_in'
+    f'{data_type}': 'temp_f',
 })
 climate_u_df
 ```
@@ -74,6 +72,6 @@ def convert(temperature):
     """Convert temperature to Celcius"""
     return temperature # Put your equation in here
 
-dataframe['TOBS_C'] = dataframe['TOBS'].apply(convert)
+dataframe['TEMP_C'] = dataframe['TEMP_F'].apply(convert)
 ```
 :::

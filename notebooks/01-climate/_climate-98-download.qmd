@@ -59,15 +59,15 @@ The cell below contains the URL you will use to download climate data. There are
 ::: {.callout-task title="Format your URL for readability"}
 
   1. Pick an expressive variable name for the URL.
-  2. Reformat the URL so that it adheres to the [79-character PEP-8 line limit](https://peps.python.org/pep-0008/#maximum-line-length). If you are using GitHub Codespaces, you should see two vertical lines in each cell -- don't let your code go past the second line.
-  3. At the end of the cell where you define your url variable, **call your variable (type out its name)** so it can be tested.
+  2. Reformat the URL so that it adheres to the [79-character PEP-8 line limit](https://peps.python.org/pep-0008/#maximum-line-length), and so that it is **easy to read**. If you are using GitHub Codespaces, you should see two vertical lines in each cell -- don't let your code go past the second line.
+  3. Replace 'DATATYPE', 'STATION', and the start and end dates 'YYYY-MM-DD', with the values for the data you want to download.
 
 :::
 
 ```{python}
 #| template: student
 stuff23 = ('https://www.ncei.noaa.gov/access/services/da'
-'ta/v1?dataset=daily-summaries&dataTypes=TOBS,PRCP&stations=USC00050848&startDate=1893-10-01&2023-09-30')
+'ta/v1?dataset=daily-summaries&dataTypes=DATATYPE&stations=STATION&startDate=YYYY-MM-DD&YYYY-MM-DD')
 stuff23
 ```
 
@@ -77,11 +77,11 @@ stuff23
 ncei_url = (
     'https://www.ncei.noaa.gov/access/services/data/v1'
     '?dataset=daily-summaries'
-    '&dataTypes=TOBS,PRCP'
+    f'&dataTypes={data_type}'
     f'&stations={station_id}'
     f'&startDate={start_date}'
     f'&endDate={end_date}'
-    '&units=metric'
+    '&units=standard'
 )
 ncei_url
 ```
@@ -93,8 +93,8 @@ Go ahead and use `earthpy` to download data from your API URL. You could also us
 
 ```{python}
 project = earthpy.Project(dirname=project_dirname)
-ncei_path = project.get_data(url=ncei_url, filename=ncei_filename)
-ncei_path
+project.get_data(url=ncei_url, filename=ncei_filename)
+ncei_path = project.project_dir / ncei_filename
 ```
 
 
@@ -118,7 +118,7 @@ climate_df.head()
 #| template: answer
 # Download the climate data
 climate_df = pd.read_csv(
-    ncei_url,
+    ncei_path,
     index_col='DATE',
     parse_dates=True,
     na_values=['NaN']

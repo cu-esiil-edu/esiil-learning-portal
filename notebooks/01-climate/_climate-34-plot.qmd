@@ -5,11 +5,10 @@
 Plotting in Python is easy, but not quite this easy:
 
 ```{python}
-#| template: student
-climate_df.plot()
+climate_u_df.plot()
 ```
 
-Looks like we have *both* precipitation and temperature on the same plot, and it's hard to see what it is because it's missing labels!
+Looks like we have *both* temperature units on the same plot, and it's hard to see what it is because it's missing labels!
 
 ::: {.callout-tip}
 ### **Label your plot**
@@ -28,18 +27,21 @@ When plotting in Python, you'll always need to add some instructions on labels a
 ::: {.callout-task title="Plot your data"}
 
 1.  Change `dataframe` to **your** `DataFrame` name.
-2.  Change `y=` to the name of your **observed temperature** column name.
+2.  Change `y=` to the name of your **temperature** column name.
 3.  Use the `title`, `ylabel`, and `xlabel` parameters to add key text to your plot.
 4.  Adjust the size of your figure using `figsize=(x,y)` where `x` is figure width and `y` is figure height
 
-> **HINT:** labels have to be a *type* in Python called a **string**. You can make a string by putting quotes around your label, just like the column names in the sample code (eg `y='TOBS'`).
+:::
+
+::: {.callout-tip .column-margin}
+Labels have to be a *type* in Python called a **string**. You can make a string by putting quotes around your label, just like the column names in the sample code (eg `y='temperature'`).
 :::
 
 ```{python}
 #| template: student
 # Plot the data using .plot
-climate_df.plot(
-    y='the_precipitation_column',
+climate_u_df.plot(
+    y='the_temperature_column',
     title='Title Goes Here',
     xlabel='Horizontal Axis Label Goes Here',
     ylabel='Vertical Axis Label Goes Here')
@@ -49,11 +51,11 @@ climate_df.plot(
 ```{python}
 #| template: answer
 # Plot the data using .plot
-climate_df.plot(
-    y='TOBS',
-    title='Daily Temperature in Boulder, CO',
+climate_u_df.plot(
+    y='temp_c',
+    title=f'Daily Temperature in {location}',
     xlabel='Date',
-    ylabel='Temperature ($^\circ$F)')
+    ylabel='Temperature ($^\circ$C)')
 ```
 :::
 
@@ -83,14 +85,14 @@ You may notice that your plot looks a little "fuzzy". This happens when Python i
 
 ```{python}
 #| template: student
-ann_climate_df = climate_df.resample('DT_OFFSET').agg_method_here()
+ann_climate_df = climate_u_df.resample('DT_OFFSET').agg_method_here()
 ann_climate_df
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-ann_climate_df = climate_df.resample('YS').mean()
+ann_climate_df = climate_u_df.resample('YS').mean()
 # Store for later
 %store ann_climate_df
 ann_climate_df
@@ -112,10 +114,10 @@ ann_climate_df
 #| template: answer
 # Plot the annual data using .plot
 ann_climate_df.plot(
-    y='TOBS',
-    title='Annual Average Temperature in Boulder, CO',
+    y='temp_c',
+    title=f'Annual Average Temperature in {location}',
     xlabel='Year',
-    ylabel='Temperature ($^\circ$F)'
+    ylabel='Temperature ($^\circ$C)'
 )
 ```
 :::
@@ -162,10 +164,10 @@ You can use the `.hvplot()` method with similar arguments to create an interacti
 #| template: answer
 # Plot the annual data using .hvplot
 ann_climate_plot = ann_climate_df.hvplot(
-    y='TOBS',
-    title='Annual Average Temperature in Boulder, CO',
+    y='temp_c',
+    title=f'Annual Average Temperature in {location}',
     xlabel='Year',
-    ylabel='Temperature (deg. F)'
+    ylabel='Temperature (deg. C)'
 )
 ann_climate_plot
 ```
@@ -175,7 +177,7 @@ ann_climate_plot
 :::: {.callout-task title="Explore the data"}
 
   1. Create a new Markdown cell below this one.
-  2. Hover over the lowest point on your plot. What is the overall minimum annual average temperature?
+  2. Hover over the lowest point on your plot. What is the overall maximum annual average temperature?
 
 ::::
 :::
