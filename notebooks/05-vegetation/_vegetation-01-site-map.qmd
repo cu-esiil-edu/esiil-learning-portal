@@ -18,9 +18,9 @@ What are we using the rest of these packages for? See if you can figure it out a
 ```{python}
 #| template: student
 import json
-import os
-import pathlib
+from glob import glob
 
+import earthpy
 import hvplot.xarray
 import rioxarray as rxr
 import xarray as xr
@@ -97,8 +97,8 @@ YOUR ANSWER HERE
 
 ::: {.callout-task}
 
-  - Locate the Tribal Subdivision files in your download directory
-  - Change `'subdivision-directory'` to the actual location
+  - Locate the boundary files in your download directory
+  - Change `'boundary-directory'` to the actual location
   - Load the data into Python and check that it worked
 
 :::
@@ -106,7 +106,7 @@ YOUR ANSWER HERE
 ```{python}
 #| template: student
 # Load in the boundary data
-aitsn_gdf = gpd.read_file(project.project_dir / 'subdivision-directory')
+aitsn_gdf = gpd.read_file(project.project_dir / 'boundary-directory')
 # Check that it worked
 
 ```
