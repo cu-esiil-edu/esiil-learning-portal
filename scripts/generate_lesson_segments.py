@@ -31,19 +31,28 @@ segment_count = 0
 
 for top_file in qmd_files:
     # Get lesson id
-    yaml_data, yaml_header = extract_yaml(top_file)
+    yaml_data, _, yaml_lines = extract_yaml(top_file)
     if yaml_data is None:
         print(f"⚠️  Skipping {top_file.name}: missing YAML header")
         continue
-    try:
-        lesson_id = yaml_data['params']['id']
-    except KeyError:
-        print(f"⚠️  Skipping {top_file.name}:"
-              " missing required id parameter in YAML header")
-        continue
+    if 'params' in yaml_data:
+        try:
+            lesson_id = yaml_data['params']['id']
+        except KeyError:
+            print(f"⚠️  Skipping {top_file.name}:"
+                  " missing required id parameter in YAML header")
+            continue
+        
+    yaml_lines = ['---'] + [line[:-1] for line in yaml_lines] + ['---']
 
     # Find included files
     included_files = get_included_files(top_file)[1:]
+    nested_included_files = []
+    for f in included_files:
+        nested_included_files.extend(get_included_files(f)[1:])
+        for g in nested_included_files:
+            nested_included_files.extend(get_included_files(g)[1:])
+        
     if not included_files:
         print(f"ℹ️  No includes found in {top_file.name}, skipping.")
         continue
@@ -53,8 +62,7 @@ for top_file in qmd_files:
     segment_output_dir = top_file.parent / f"segments-{lesson_id}"
     segment_output_dir.mkdir(exist_ok=True)
 
-    for i, file_name in enumerate(included_files):
-        segment_file = Path(file_name)
+    for i, segment_file in enumerate(included_files):
         segment_name = segment_file.stem.lstrip("_")
         output_path = segment_output_dir / f"{segment_name}.qmd"
 
@@ -62,6 +70,11 @@ for top_file in qmd_files:
         header_index = next((
             j for j, line in enumerate(content_lines) 
             if line.strip().startswith("##")), 0)
+            
+        # Fix paths for includes
+        content_lines = [
+            line.replace('{{< include ', '{{< include ../')
+            for line in content_lines]
 
         pre_header = content_lines[:header_index]
         post_header = content_lines[header_index:]
@@ -75,10 +88,10 @@ for top_file in qmd_files:
         end = ["", end_boilerplate, ""]
 
         final_content = "\n".join(
-            [yaml_header, ""] + pre_header + middle + post_header + end
+             yaml_lines + pre_header + middle + post_header + end
         )
 
         output_path.write_text(final_content, encoding="utf-8")
         segment_count += 1
-
-print(f"✅ Wrote {segment_count} segment files to {segment_output_dir}")
+    
+    print(f"✅ Wrote {segment_count} segment files to {segment_output_dir}")

@@ -3,7 +3,7 @@ import re
 import yaml
 from pathlib import Path
 
-from parsing import get_included_files, extract_yaml
+from parsing import extract_yaml
 
 def build_param_code(params):
     # Convert Python values with proper syntax
@@ -35,7 +35,7 @@ def sync_params_to_qmd(qmd_path):
         return
         
     try:
-        yaml_data, _ = extract_yaml(qmd_path)
+        yaml_data, _, _ = extract_yaml(qmd_path)
     except Exception as e:
         print(f"⚠️ Skipping {qmd_path.name}: {e}")
         return

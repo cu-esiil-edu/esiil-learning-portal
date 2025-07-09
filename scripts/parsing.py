@@ -5,17 +5,18 @@ from pathlib import Path
 import yaml
 
 def get_included_files(file_path, seen=None):
+    file_path = Path(file_path)
+    
     seen = seen or set()
     seen.add(file_path)
     all_files = [file_path]
     
     include_re = re.compile(r"{{<\s*include\s+([^\s>]+)\s*>}}")
-    with open(file_path, "r", encoding="utf-8") as f:
+    with file_path.open("r", encoding="utf-8") as f:
         for line in f:
             match = include_re.search(line)
             if match:
-                include_path = os.path.join(
-                    os.path.dirname(file_path), match.group(1))
+                include_path = file_path.parent / match.group(1)
 
                 if include_path in seen:
                     raise RecursionError(
@@ -49,4 +50,4 @@ def extract_yaml(qmd_path):
 
     yaml_header = '\n'.join(yaml_lines)
     yaml_data = yaml.safe_load(yaml_header)
-    return yaml_data, yaml_header
+    return yaml_data, yaml_header, yaml_lines

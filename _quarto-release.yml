@@ -2,8 +2,11 @@ project:
   type: book
   output-dir: _release
   pre-render:
+    - scripts/compress_templates.py
     - scripts/expand_templates.py
     - scripts/generate_lesson_segments.py
+  post-render:
+    -scripts/compress_templates.py
   render:
     - notebooks/02-flood/flood-stars.qmd
     - notebooks/02-flood/flood-download-stars.qmd
@@ -11,6 +14,15 @@ project:
     - notebooks/03-migration/migration-download-stars.qmd
     - notebooks/05-vegetation/vegetation-stars.qmd
     - notebooks/05-vegetation/vegetation-download-stars.qmd
+    # Shortcourse
+    - notebooks/01-climate/climate-shortcourse.qmd
+    - notebooks/01-climate/climate-download-shortcourse.qmd
+    - notebooks/05-vegetation/vegetation-shortcourse.qmd
+    - notebooks/05-vegetation/vegetation-download-shortcourse.qmd
+
+execute:
+  cache: true
+  freeze: false
 
 book:
   title: "ESIIL Learning Portal"
@@ -25,6 +37,12 @@ book:
     - notebooks/03-migration/migration-download-stars.qmd
     - notebooks/05-vegetation/vegetation-stars.qmd
     - notebooks/05-vegetation/vegetation-download-stars.qmd
+    # Shortcourse
+    - notebooks/01-climate/climate-shortcourse.qmd
+    - notebooks/01-climate/climate-download-shortcourse.qmd
+    - notebooks/05-vegetation/vegetation-shortcourse.qmd
+    - notebooks/05-vegetation/vegetation-download-shortcourse.qmd
+
 
 format:
   pdf:
