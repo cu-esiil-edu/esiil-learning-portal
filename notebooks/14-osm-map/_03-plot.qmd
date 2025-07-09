@@ -1,0 +1,23 @@
+# STEP 2: Create an interactive map
+
+There are lots of different ways to create maps and plots in Python. Here, we're going to use a tool called `'hvplot'` and `'geoviews'` to create an interactive map, including the online `'EsriImagery'` tile source basemap.
+
+```{python}
+# Plot boundary
+osm_map = boundary_gdf.hvplot(
+    # Givethe map a descriptive title
+    title=long_name,
+    # Add a basemap
+    geo=True, tiles='EsriImagery',
+    # Change the colors
+    fill_color='white', fill_alpha=0.2,
+    line_color='skyblue', line_width=5,
+    # Change the image size
+    frame_width=400, frame_height=400)
+
+# Save the map as a file to put on the web (OPTIONAL)
+hv.save(osm_map, map_filename)
+
+# Display the map
+osm_map
+```

@@ -1,0 +1,113 @@
+# STEP 0: Set up
+
+You'll need to start by importing some libraries to have access to all the code you need.
+
+::: {.content-visible when-format="ipynb"}
+:::: {.callout-tip}
+To run code in Codespaces, click on the play button in the upper left corner of the code you want to run. You may be asked to "Select a kernel". If you press <kbd>Return</kbd> or click on `base` up at the top, that should select the default kernel.
+::::
+:::
+
+::: {.callout-task}
+The code cell below 
+:::
+
+```{python}
+#| template: student
+import hvplot.pandas # Create interactive maps and plots
+from osmnx import features as osm # Search for locations by name
+import geopandas as gpd # Work with vector data
+import holoviews as hv # Save maps and plots to files
+```
+
+:::
+```{python}
+#| template: answer
+import geopandas as gpd # Work with vector data
+import holoviews as hv # Save maps and plots to files
+import hvplot.pandas # Create interactive maps and plots
+from osmnx import features as osm # Search for locations by name
+```
+
+### Search for a point of interest
+
+You can use the `osmnx` package to download and search for spatial vector data in your area, or anywhere around the world.
+
+In this case, we're looking for the location of the United Tribes Technical College campus in North Dakota. The address in here, `'United Tribes Technical College, Bismarck, ND, United States'`, does not have to be complete or exact, but it should be specific enough to narrow it down. 
+
+
+::: {.callout-tip}
+You can use the [Open Street Maps](https://www.openstreetmap.org/) website to fine-tune your address before you copy it into your code.
+:::
+
+With the `osmnx` library, in addition to the address or place name you are using, you need to supply at least one tag. In this case, we are specifying that we want it to be tagged as a {{< meta params.tag_key >}} of type {{< meta params.tag_value >}}. You might have to try a couple different searches with different addresses and/or tags to get the address you want, just like if you are using a map website or app.
+
+
+::: {.callout-tip}
+Check out the [list of all the different amenity types available on Open Street Maps](https://wiki.openstreetmap.org/wiki/Key:amenity)! Different amenity types might be different types of vector data, such as a **point** location or a building footprint **polygon**.
+:::
+
+
+```{python}
+# Search for your site
+osm_gdf = osm.features_from_address(
+    address,
+    {tag_key: tag_value},
+    dist=1000)
+osm_gdf
+```
+
+```{python}
+osm_gdf.plot()
+```
+
+We have a map of {{< meta params.short_name>}}!
+
+### Create an interactive map
+
+There are lots of different ways to create maps and plots in Python. Here, we're going to use a tool called `'hvplot'` and `'geoviews'` to create an interactive map, including the online `'EsriImagery'` tile source basemap.
+
+```{python}
+# Plot boundary
+osm_map = osm_gdf.hvplot(
+    # Givethe map a descriptive title
+    title=long_name,
+    # Add a basemap
+    geo=True, tiles='EsriImagery',
+    # Change the colors
+    fill_color='white', fill_alpha=0.2,
+    line_color='skyblue', line_width=5,
+    # Change the image size
+    frame_width=400, frame_height=400)
+
+# Save the map as a file to put on the web
+hv.save(osm_map, map_filename)
+
+# Display the map
+osm_map
+```
+
+
+### Download your map from Codespaces
+
+If you are doing this activity on GitHub Codespaces or another cloud service, you will need to download the map you created:
+
+  1. Open the `Folders` tab on the left hand side
+  2. Right-click on `{{< meta params.map_filename >}}` (or whatever you named your file)
+  3. Select `Download...`
+
+This should download your map.
+
+### Place your map in your webpage
+
+You are now ready to upload your map to your portfolio repository and place it in your webpage. Because it is HTML and not an image, you will need to use the following HTML to get it on your page:
+
+```markdown
+<embed type="text/html" src="{{< meta params.map_filename >}}" width="600" height="600">
+```
+
+<embed type="text/html" src="{{< meta params.map_filename >}}" width="600" height="600">
+
+::: {.callout-important}
+Make sure to make the `width` and `height` of your `embed` element larger than the `frame_width` and `frame_height` of your plot, or it will get cut off!
+:::

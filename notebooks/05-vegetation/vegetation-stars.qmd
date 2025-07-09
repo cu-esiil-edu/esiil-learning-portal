@@ -17,6 +17,8 @@ learning-goals:
 params:
   id: stars
   site_name: Gila River Indian Community
+  project_name: Gila River Vegetation
+  boundary_dir: 'tl_2020_us_aitsn'
   event: water rights case
   start_year: '2001'
   end_year: '2022'
@@ -34,28 +36,35 @@ The Gila River Reservation south of Phoenix, AZ is the ancestral home of the [Ak
 
 In 2004, the Gila River community won back much of its water rights in court. The settlement granted senior water rights nearly matching pre-colonial water use. Work has begun to rebuild the agriculture in the Gila River Reservation. According to the Akimel O'otham and Tohono O'odham tribes, "It will take years to complete but in the end the community members will once again hear the sweet music of rushing water."
 
-{{< include _vegetation-00-overview.qmd >}}
+{{< include _ndvi-overview.qmd >}}
 
-Before we get started coding, you can use the following parameters to change things about the workflow:
+# STEP 0: Set up
+
+First, you can use the following parameters to change things about the workflow:
 
 ```{python}
 #| tags: [parameters]
 id = 'stars'
 site_name = 'Gila River Indian Community'
+project_name = 'Gila River Vegetation'
+boundary_dir = 'tl_2020_us_aitsn'
 event = 'water rights case'
 start_year = '2001'
 end_year = '2022'
 event_year = '2012'
 ```
 
+{{< include _vegetation-00-setup.qmd >}}
+
+
 ::: {.callout-info}
 If the water rights case took place in 2004, why are we listing the event year as {{< meta params.event_year>}}? It takes time for practices to adjust. You can experiment with different years to see if it affects the results.
 :::
 
-{{< include _vegetation-01-site-map.qmd >}}
+{{< include _vegetation-01-site-map-aitsn.qmd >}}
 
 {{< include _vegetation-02-wrangle.qmd >}}
 
 {{< include _vegetation-03-plot.qmd >}}
 
-{{< include _vegetation-04-summarize.qmd >}}
+{{< include _vegetation-04-summarize-area.qmd >}}

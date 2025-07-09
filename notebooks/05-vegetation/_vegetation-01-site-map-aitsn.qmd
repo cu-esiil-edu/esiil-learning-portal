@@ -1,0 +1,115 @@
+# STEP 1: Site map
+
+## Study Area: {{< meta params.site_name >}}
+
+{{< include _eds-data-formats-overview.qmd >}}
+
+::: {.callout-respond}
+For this coding challenge, we are interested in the boundary of the {{< meta params.site_name >}}, and the health of vegetation in the area measured on a scale from -1 to 1. In the cell below, answer the following question: **What data type do you think the boundary will be? What about the vegetation health?**
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+YOUR ANSWER HERE
+::::
+:::
+
+### Load the {{< meta params.site_name >}} boundary
+
+::: {.callout-task}
+
+  - Locate the boundary files in your download directory
+  - Change `'boundary-directory'` to the actual location
+  - Load the data into Python and check that it worked
+
+:::
+
+```{python}
+#| template: student
+# Load in the boundary data
+aitsn_gdf = gpd.read_file(project.project_dir / 'boundary-directory')
+# Check that it worked
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Load in the boundary data
+aitsn_gdf = gpd.read_file(project.project_dir / 'tl_2020_us_aitsn')
+# Check that it worked
+aitsn_gdf
+
+```
+:::
+
+You might notice in this dataset that some of the names are not easily searchable. For example, the Gila River subdivisions are named "District 1-7"! So, how do we know what to search for? We recommend making an **interactive** plot of the data so that you can find the information you need, e.g.:
+
+
+```{python}
+aitsn_gdf.hvplot(
+    geo=True, tiles='EsriImagery', 
+    frame_width=500,
+    legend=False, fill_color=None, edge_color='white',
+    # This parameter makes all the column values in the dataset visible.
+    hover_cols='all')
+```
+
+::: {.callout-respond}
+What column could you use to uniquely identify the subdivisions of the reservation you want to study using this interactive map? What value do you need to use to filter the `GeoDataFrame`?
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+YOUR ANSWER HERE
+::::
+:::
+
+
+Now that you have the info you need, it's also a good idea to check the data type. For example, we suggest looking at the `AIANNHCE` column...but is that value some kind of **number** or an **object** like a text string? We can't tell just by looking, which is where our friend the `.info()` method comes in:
+
+```{python}
+aitsn_gdf.info()
+```
+
+
+::: {.callout-respond}
+What is the data type of the `AIANNHCE` column? How will that affect your code?
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+YOUR ANSWER HERE
+::::
+:::
+
+Let's go ahead and select the Gila River subdivisions, and make a site map.
+
+::: {.callout-task}
+
+  1. Replace `identifier` with the value you found from exploring the interactive map. Make sure that you are using the correct **data type**!
+  2. Change the plot to have a web tile basemap, and look the way you want it to.
+
+:::
+
+```{python}
+#| template: student
+# Select and merge the subdivisions you want
+gdf = aitsn_gdf.loc[aitsn_gdf.AIANNHCE==identifier].dissolve()
+# Plot the results with web tile images
+gdf.hvplot()
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Select and merge the subdivisions you want
+boundary_gdf = aitsn_gdf.loc[aitsn_gdf.AIANNHCE=='1310'].dissolve()
+# Plot the results with web tile images
+boundary_gdf.hvplot(
+    geo=True, tiles='EsriImagery',
+    fill_color=None, line_color='black',
+    title=site_name,
+    frame_width=500)
+```
+:::

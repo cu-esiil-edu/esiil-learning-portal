@@ -1,0 +1,70 @@
+## Import libraries
+
+We'll need some Python libraries to complete this workflow.
+
+::: {.callout-task title="Import necessary libraries"}
+In the cell below, making sure to keep the packages in order, add packages for:
+
+  - Working with DataFrames
+  - Working with GeoDataFrames
+  - Making interactive plots of tabular and vector data
+
+:::
+
+::: {.callout-respond}
+What are we using the rest of these packages for? See if you can figure it out as you complete the notebook.
+:::
+
+```{python}
+#| template: student
+import json
+from glob import glob
+
+import earthpy
+import hvplot.xarray
+import rioxarray as rxr
+import xarray as xr
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+import json
+from glob import glob
+
+import earthpy
+import geopandas as gpd
+import hvplot.pandas
+import hvplot.xarray
+import pandas as pd
+import rioxarray as rxr
+import xarray as xr
+```
+:::
+
+## Download sample data
+
+In this analysis, you'll need to download multiple data files to your computer rather than streaming them from the web. You'll need to set up a folder for the files, and while you're at it download the sample data there.
+
+::: {.callout-caution title="GOTCHA ALERT!" icon="false"}
+A lot of times in Python we say "directory" to mean a "folder" on your computer. The two words mean the same thing in this context.
+:::
+
+::: {.callout-task}
+In the cell below, replace 'Project Name' with '{{< meta params.project_name >}} and 'my-data-folder' with a **descriptive** directory name.
+:::
+
+```{python}
+#| template: student
+project = earthpy.Project(
+    'Project Name, dirname='my-data-folder')
+project.get_data()
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+project = earthpy.Project(project_name)
+project.get_data()
+```
+:::

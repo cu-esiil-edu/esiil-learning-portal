@@ -5,7 +5,7 @@
 
 Now you need to load all the downloaded files into Python. Let's start by getting all the file names. You will also need to extract the date from the filename. Check out [the lesson on getting information from filenames in the textbook](https://www.earthdatascience.org/courses/intro-to-earth-data-science/write-efficient-python-code/loops/data-workflows-with-loops/). 
 
-In this lesson, you will use `glob` to find all files that match a **pattern** formed with the **wildcard** character `*`. The wildcard can represent any string of alphanumeric characters. For example, the pattern `'file_*.tif'` will match the files `'file_1.tif'`, `'file_2.tiv'`, or even `'file_qeoiurghtfoqaegbn34pf.tif'`... but it will not match `'something-else.csv'` or even `'something-else.tif'`.
+Instead of writing out the names of all the files you want, you can use the `glob` utility to find all files that match a **pattern** formed with the **wildcard** character `*`. The wildcard can represent any string of alphanumeric characters. For example, the pattern `'file_*.tif'` will match the files `'file_1.tif'`, `'file_2.tiv'`, or even `'file_qeoiurghtfoqaegbn34pf.tif'`... but it will not match `'something-else.csv'` or even `'something-else.tif'`.
 
 In this notebook, we'll use the `.rglob()`, or **recursive** glob method of the Path object instead. It works similarly, but you'll notice that we have to convert the results to a list with the `list()` function.
 
@@ -14,7 +14,7 @@ In this notebook, we'll use the `.rglob()`, or **recursive** glob method of the 
 :::
 
 ::: {.callout-respond}
-Take a look at the file names for the NDVI files. What do you notice is the same for all the files? Keep in mind that you only want the NDVI files, not the Quality files (which will flag potential incorrect measurements).
+Take a look at the file names for the NDVI files. What do you notice is the same for all the files? Keep in mind that for this analysis you only want to import the NDVI files, not the Quality files (which would be used to identify potential incorrect measurements).
 :::
 
 ::: {.content-visible when-format="ipynb"}

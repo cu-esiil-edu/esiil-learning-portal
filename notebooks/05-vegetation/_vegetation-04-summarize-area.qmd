@@ -1,0 +1,122 @@
+# STEP 4: Is the NDVI different within the {{< meta params.site_name >}} after the {{< meta params.event >}}?
+
+You will compute the mean NDVI inside and outside the fire boundary. First, use the code below to get a `GeoDataFrame` of the area outside the Reservation. 
+
+::: {.callout-task}
+
+  1. Check the variable names - Make sure that the code uses your boundary `GeoDataFrame` 
+  2. How could you test if the geometry was modified correctly? Add some code to take a look at the results.
+  
+:::
+
+```{python}
+#| template: student
+# Compute the area outside the fire boundary
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Compute the area outside the fire boundary
+out_gdf = (
+    gpd.GeoDataFrame(geometry=boundary_gdf.envelope)
+    .overlay(boundary_gdf, how='difference'))
+```
+:::
+
+Next, clip your DataArray to the boundaries for both inside and outside the reservation. You will need to replace the `GeoDataFrame` name with your own. Check out the [lesson on clipping data with the `rioxarray` library in the textbook](https://www.earthdatascience.org/courses/use-data-open-source-python/intro-raster-data-python/raster-data-processing/crop-raster-data-with-shapefile-in-python/).
+
+::: {.callout-caution title="GOTCHA ALERT"}
+It's important to use `from_disk=True` when clipping large arrays like this. It allows the computer to use less valuable memory resources when clipping - you will probably find that otherwise the cell below crashes your kernel.
+:::
+
+```{python}
+#| template: student
+# Clip data to both inside and outside the boundary
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Clip data to both inside and outside the boundary
+ndvi_cp_da = ndvi_da.rio.clip(boundary_gdf.geometry, from_disk=True)
+ndvi_out_da = ndvi_da.rio.clip(out_gdf.geometry, from_disk=True)
+```
+:::
+
+::: {.callout-task}
+For **both inside and outside** the {{< meta params.site_name >}} boundary:
+
+  - Group the data by year
+  - Take the mean. You always need to tell reducing methods in `xarray` what dimensions you  want to reduce. When you want to summarize data across **all** dimensions, you can use the `...` syntax, e.g. `.mean(...)` as a shorthand.
+  - Select the NDVI variable
+  - Convert to a DataFrame using the `to_dataframe()` method
+  - Join the two DataFrames for plotting using the `.join()` method. You will need to rename the columns using the `lsuffix=` and `rsuffix=` parameters
+
+Finally, plot annual July means for both inside and outside the Reservation on the same plot.
+:::
+
+::: {.callout-caution title="GOTCHA ALERT"}
+The DateIndex in pandas is a little different from the Datetime Dimension in xarray. You will need to use the `.dt.year` syntax to access information about the year, not just `.year`.
+:::
+
+```{python}
+#| template: student
+# Compute mean annual July NDVI
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Compute mean annual July NDVI
+jul_ndvi_cp_df = (
+    ndvi_cp_da
+    .groupby(ndvi_cp_da.date.dt.year)
+    .mean(...)
+    .NDVI.to_dataframe())
+jul_ndvi_out_df = (
+    ndvi_out_da
+    .groupby(ndvi_out_da.date.dt.year)
+    .mean(...)
+    .NDVI.to_dataframe())
+
+# Plot inside and outside the reservation
+jul_ndvi_df = (
+    jul_ndvi_cp_df[['NDVI']]
+    .join(
+        jul_ndvi_out_df[['NDVI']], 
+        lsuffix=f' inside {site_name}', rsuffix=f' outside {site_name}')
+)
+
+jul_ndvi_df.hvplot(
+    title=f'NDVI before and after the {site_name} {event}'
+)
+```
+:::
+
+Now, take the difference between outside and inside the site boundary and plot that. What do you observe? Don't forget to write a headline and description of your plot!
+
+```{python}
+#| template: student
+# Plot difference inside and outside the boundary
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Plot difference inside and outside the boundary
+jul_ndvi_df['difference'] = (
+    jul_ndvi_df[f'NDVI inside {site_name}']
+    - jul_ndvi_df[f'NDVI outside {site_name}'])
+jul_ndvi_df.difference.hvplot(
+    title=f'Difference between NDVI within and outside the site_name'
+)
+```
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+YOUR HEADLINE AND DESCRIPTION HERE
+::::
+:::

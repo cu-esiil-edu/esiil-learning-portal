@@ -1,0 +1,66 @@
+# STEP 1: Site map
+
+## Study Area: {{< meta params.site_name >}}
+
+{{< include _eds-data-formats-overview.qmd >}}
+
+::: {.callout-respond}
+For this coding challenge, we are interested in the boundary of the {{< meta params.site_name >}}, and the health of vegetation in the area measured on a scale from -1 to 1. In the cell below, answer the following question: **What data type do you think the boundary will be? What about the vegetation health?**
+:::
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+YOUR ANSWER HERE
+::::
+:::
+
+### Load the {{< meta params.site_name >}} boundary
+
+::: {.callout-task}
+
+  - Locate the boundary files in your download directory
+  - Change `'boundary-directory'` to the actual location
+  - Load the data into Python and check that it worked
+
+:::
+
+```{python}
+#| template: student
+# Load in the boundary data
+boundary_gdf = gpd.read_file(
+    project.project_dir / 'boundary-directory')
+# Check that it worked
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Load in the boundary data
+boundary_gdf = gpd.read_file(
+    project.project_dir / boundary_dir)
+# Check that it worked
+boundary_gdf
+
+```
+:::
+
+
+
+```{python}
+#| template: student
+# Plot the results with web tile images
+boundary_gdf.hvplot()
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Plot the results with web tile images
+boundary_gdf.hvplot(
+    geo=True, tiles='EsriImagery',
+    fill_color=None, line_color='black',
+    title=site_name,
+    frame_width=500)
+```
+:::

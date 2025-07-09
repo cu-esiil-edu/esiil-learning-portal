@@ -1,0 +1,78 @@
+# STEP 4: Is the NDVI different after the {{< meta params.event >}}?
+
+You will apply an NDVI threshold and determine how many pixels have healthy vegetation. You can then look at the growth of vegetation over time.
+
+::: {.callout-task}
+
+  * Apply an NDVI threshold to identify pixels with healthy vegetation
+  * Check that your threshold worked
+  
+:::
+
+```{python}
+#| template: student
+# Apply NDVI threshold
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Create a composite of NDVI values for each year
+composite_da = (
+    ndvi_da
+    .groupby('date.year')
+    .mean(dim=['date'])
+)
+```
+:::
+
+
+Now, add up the number of pixels with healthy vegetation plot that over time. 
+
+```{python}
+#| template: student
+# Plot difference inside and outside the boundary
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Count number of vegetated pixels each year
+annual_veg_da = (
+    composite_da
+    # Identify vegetated pixels
+    .where(composite_da>0.3)
+    # Count pixels in each annual image
+    .count(dim=['x', 'y'])
+)
+annual_veg_da
+```
+:::
+
+
+Finally, plot your `DataFrame`. What do you observe? Don't forget to write a headline and description of your plot!
+
+```{python}
+#| template: student
+# Plot number of vegetated pixels over time
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Plot number of vegetated pixels over time
+(
+    annual_veg_da
+    .NDVI
+    .hvplot(
+        title=f'Vegetation over time in {site_name}',
+        ylabel='Vegetated pixels',
+        xlabel='Year')
+)
+```
+
+::: {.content-visible when-format="ipynb"}
+:::: {.cell .markdown}
+YOUR HEADLINE AND DESCRIPTION HERE
+::::
+:::

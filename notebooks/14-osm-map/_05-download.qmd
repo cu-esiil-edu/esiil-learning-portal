@@ -1,0 +1,16 @@
+# STEP 3: Save your OSM download
+
+The Open Street Map API is pretty reliable, and it caches the results automatically to avoid multiple downloads. However, you still might want to save your download, for example to distribute as part of a data release or reproducible workflow.
+
+
+```{python}
+#| warning: false
+# Create path for boundary
+boundary_path = project.project_dir / boundary_dirname
+# Can't overwrite existing files, which seems to be an intractable GDAL issue
+if boundary_path.exists():
+    shutil.rmtree(boundary_path)
+
+# Write OSM result to shapefile
+boundary_gdf.to_file(boundary_path)
+```

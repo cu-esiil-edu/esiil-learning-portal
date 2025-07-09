@@ -1,0 +1,33 @@
+# STEP 1: Search for a point of interest
+
+You can use the `osmnx` package to download and search for spatial vector data in your area, or anywhere around the world.
+
+In this case, we're looking for the location of the United Tribes Technical College campus in North Dakota. The address in here, `'United Tribes Technical College, Bismarck, ND, United States'`, does not have to be complete or exact, but it should be specific enough to narrow it down. 
+
+
+::: {.callout-tip}
+You can use the [Open Street Maps](https://www.openstreetmap.org/) website to fine-tune your address before you copy it into your code.
+:::
+
+With the `osmnx` library, in addition to the address or place name you are using, you need to supply at least one tag. In this case, we are specifying that we want it to be tagged as a {{< meta params.tag_key >}} of type {{< meta params.tag_value >}}. You might have to try a couple different searches with different addresses and/or tags to get the address you want, just like if you are using a map website or app.
+
+
+::: {.callout-tip}
+Check out the [list of all the different amenity types available on Open Street Maps](https://wiki.openstreetmap.org/wiki/Key:amenity)! Different amenity types might be different types of vector data, such as a **point** location or a building footprint **polygon**.
+:::
+
+
+```{python}
+# Search for your site
+boundary_gdf = osm.features_from_address(
+    address,
+    {tag_key: tag_value},
+    dist=1000)
+boundary_gdf
+```
+
+```{python}
+boundary_gdf.plot()
+```
+
+We have a map of {{< meta params.short_name >}}!
