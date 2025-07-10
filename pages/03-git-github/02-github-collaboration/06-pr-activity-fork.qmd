@@ -1,0 +1,123 @@
+---
+title: Practice Forking a GitHub Repository and Submitting Pull Requests
+image: img/earth-analytics/git-version-control/pr-activity/home-towns-icon.png
+image-alt: "Hometowns activity"
+author:
+  - Leah Wasser
+  - Jenny Palomino
+  - Max Joseph
+  - Nate Quarderer
+  - Elsa Culler
+description: |
+  A pull request allows anyone to suggest changes to a repository on GitHub
+  that can be easily reviewed by others. Learn how to submit pull requests on GitHub.com
+  to suggest changes to a GitHub repository.
+learning-goals:
+  - Distinguish between a **fork** and a **branch**.
+  - Explain the relationship between a forked repository (head) and the original repository (base).
+  - Submit a pull request from a **fork** to suggest changes in someone else's repository
+
+jupyter: python3
+---
+
+For this assignment, you will add a row to a `.csv` file with information about your hometown to **someone else's repository** using a **fork** to make your changes. You can practice on the Home Towns repository belonging to GitHub user `cu-esiil-edu`.
+
+::: {.callout}
+Watch the video demo:
+
+<div style="position: relative; width: 100%; height: 0; padding-top: 56.2500%;
+ padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+ border-radius: 8px; will-change: transform;">
+  <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
+    src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGE12xT5_s&#x2F;qfpHYuFPUReYOl7QAClS-A&#x2F;watch?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
+  </iframe>
+</div>
+<a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGE12xT5_s&#x2F;qfpHYuFPUReYOl7QAClS-A&#x2F;watch?utm_content=DAGE12xT5_s&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">DEMO: Home Towns activity (Shortcourse)</a> by ESIIL
+
+:::
+
+## Step 1: Fork the GitHub repo
+
+To begin, fork the [ESIIL Education Hometowns GitHub repository](https://github.com/cu-esiil-edu/hometowns)
+Remember that this step only needs to be done once. When you create this fork, you then have full ownership of the fork in your user account. Full ownership means that you can make direct changes to the fork without submitting a Pull Request.
+
+::: {.content-visible when-profile="advanced"}
+After you have forked the repo, clone it so that you have a copy locally to work with on your computer. 
+
+::: {.callout-tip}
+# Data Tip
+
+Remember that you can use `git remote -v` in the terminal to view the url path of your clone. This will allow you to ensure that your cloned your FORK rather than the repo owned by **earthlab-education**. 
+:::
+:::
+
+## Step 2: Add a row to hometowns.csv
+
+  1. Click on the `hometowns.csv` file. 
+
+     ![Click on the `hometowns.csv` file.](/img/earth-analytics/git-version-control/pr-activity/hometowns_csv.png)
+
+  2. Then, click on the edit button in the upper right. If you haven't forked the repository yet, you will be asked to at this point.
+
+     ![Click the edit button](/img/earth-analytics/git-version-control/pr-activity/edit.png)
+
+  3. Add at least one new row to the `hometowns.csv` file for your hometown -- that could be where you live now, somewhere you used to live, or another important location for you. You will add the following information to the file, separated by commas:
+
+      * **program** you are participating in. The options include: 
+
+        1. EDA Certificate
+        2. ESIIL Stars
+        3. Short Course
+        4. Summit
+        5. Hackathon
+
+      * **date**: today's date in YYYY-MM-DD format (for example, January 5, 2024 would be 2024-01-05)
+      * **type**: the type of entry this is. The options include:
+
+        1. Where I live now
+        2. Place I've lived
+        3. Place I love
+
+      * **label**: a few sentences about your place
+      * **image_url**: the URL to an image you want to display on the hometowns map
+      * **image_credit**: how you want to credit your image
+      * **latitude**: the latitude of your place
+      * **longitude**: the longitude of your place
+
+  The file will look something like this once you add your information:  
+
+  ```csv
+  program,date,type,label,image_url,image_credit,latitude,longitude
+  Short Course,2024-04-07,Where I live now,Home of ESIIL at the University of Colorado,https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Flatirons_Winter_Sunrise.jpg/1024px-Flatirons_Winter_Sunrise.jpg,Taken by Jesse Varner | https://commons.wikimedia.org/wiki/File:Flatirons_Winter_Sunrise.jpg,40.016870,-105.279620
+  ```
+
+::: {.content-visible unless-profile="advanced"}
+  4. Click `Commit`
+  5. Write a message so you can go back to this point if you want to.
+  6. Confirm by selecting `Commit`
+:::
+
+::: {.content-visible when-profile="advanced"}
+Next, you will need to push your changes up to GitHub:
+
+  1. Use `git add` and `git commit` to commit the changes locally. 
+  2. Then, use `git push` to push those changes up to your fork.
+:::
+
+## Step 3:  Submit a Pull Request
+
+Now that you have made some changes to your fork, submit a `pull request` from your fork to the original repository:
+
+  1. Select the `Pull Requests` tab.
+  2. You should see a banner saying that you are ahead of the base repository. Select the link in the banner to create a PR with your changes.
+  3. Include the following in your pull request: 
+
+      - There are a lot of similar PRs in this repository. In the **message**, include your username and the place you are submitting so the owner can tell the PRs apart easily.
+      - In the **description**, notify the owner of the repository (your instructor) that you have addressed the issue using `@github-username`.
+      - Reference the issue number using `Fixes #issue-number` (e.g. the issue number is above in the title of this issue). If you are working independently, you may not have an issue with your name on it! Just submit the PR without mentioning an issue.
+
+  4. Confirm by selecting `Create Pull Request`.
+
+::: {.callout-important}
+Be sure to check that the changes you are submitted look correct in the Pull Request before you consider your work, done!
+:::
