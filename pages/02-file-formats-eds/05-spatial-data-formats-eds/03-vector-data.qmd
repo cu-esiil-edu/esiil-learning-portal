@@ -42,13 +42,8 @@ with. There are three types of vector data:
 * **Lines:** Lines are composed of many (at least 2) vertices, or points, that are connected. For instance, a road or a stream may be represented by a line. This line is composed of a series of segments, each "bend" in the road or stream represents a vertex that has defined `x, y` location.
 
 * **Polygons:** A polygon consists of 3 or more vertices that are connected and "closed". Thus, the outlines of plot boundaries, lakes, oceans, and states or countries are often represented by polygons. 
-<figure>
-    <a href="https://www.earthdatascience.org/images/earth-analytics/spatial-data/points-lines-polygons-vector-data-types.png">
-    <img src="https://www.earthdatascience.org/images/earth-analytics/spatial-data/points-lines-polygons-vector-data-types.png" alt="There are 3 types of vector objects: points, lines or polygons. Each object type has a different structure. Image Source: Colin Williams (NEON)."></a>
-    <figcaption> There are 3 types of vector objects: points, lines or polygons. Each object type has a different structure. Image Source: Colin Williams (NEON)
-    </figcaption>
-</figure>
 
+![There are 3 types of vector objects: points, lines or polygons. Each object type has a different structure. Image Source: Colin Williams (NEON)](/img/earth-analytics/spatial-data/points-lines-polygons-vector-data-types.png)
 
 ## Introduction to the Shapefile File Format Which Stores Points, Lines, and Polygons
 
@@ -94,15 +89,6 @@ You will use the **geopandas** library to work with vector data in
 **Python**. **Geopandas** is built on top of the **Python** **Pandas** library.
 It stores spatial data in a tabular, `dataframe` format. 
 
-```{python}
-# Import packages
-import os
-
-import matplotlib.pyplot as plt
-import geopandas as gpd
-import earthpy as et
-```
-
 To begin, set your working directory to `earth-analytics` and then download a 
 single shapefile. You will start with working with the Natural Earth 
 country boundary lines layer.
@@ -118,6 +104,13 @@ all computers!
 :::
 
 ```{python}
+# Import packages
+import os
+
+import matplotlib.pyplot as plt
+import geopandas as gpd
+import earthpy as et
+
 # Download the data and set working directory
 boundary_url=(
     "https://naciscdn.org/naturalearth/50m/cultural"
@@ -447,12 +440,7 @@ You can clip the data spatially to another boundary to make it smaller. Once
 the data are clipped, your processing operations will be faster. It will also
 make creating maps of your study area easier and cleaner.
 
-<figure>
-    <a href="https://www.earthdatascience.org/images/earth-analytics/spatial-data/vector-clip.png">
-    <img src="https://www.earthdatascience.org/images/earth-analytics/spatial-data/vector-clip.png" alt="When you clip a vector data set with another layer, you remove points, lines or polygons that are outside of the spatial extent of the area that you use to clip the data. This images shows a circular clip region - you will be using a rectangular region in this example. Image Source: ESRI"></a>
-    <figcaption>When you clip a vector data set with another layer, you remove points, lines or polygons that are outside of the spatial extent of the area that you use to clip the data. This images shows a circular clip region - you will be using a rectangular region in this example. Image Source: ESRI
-    </figcaption>
-</figure>
+![When you clip a vector data set with another layer, you remove points, lines or polygons that are outside of the spatial extent of the area that you use to clip the data. This images shows a circular clip region - you will be using a rectangular region in this example. Image Source: ESRI](/img/earth-analytics/spatial-data/vector-clip.png)
 
 In the bonus challenge below, you will clip the cities point data to the boundary of a single 
 country. This will make the data smaller and easier to use.

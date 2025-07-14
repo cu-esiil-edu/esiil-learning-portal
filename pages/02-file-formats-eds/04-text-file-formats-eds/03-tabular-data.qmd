@@ -13,6 +13,7 @@ learning-goals:
   - Define the structure of tabular data.
   - "Describe the difference between the two common types of tabular text file formats, `txt` and `csv` files."
   - List some commonly used scientific data types that often are downloaded in a tabular format. 
+ipynb-shell-interactivity: none
 jupyter:
   kernelspec:
     name: learning-portal
@@ -128,13 +129,15 @@ the data.
 Not all text files store tabular text (character) based data. The `.asc` file format is a text based format that stores spatial raster data. 
 :::
 
+First, we'll need the `pandas` package to work with tabular data:
+```{pyodide-python}
+# Import packages
+import pandas as pd
+```
 
 ```{python}
-#| lines_to_next_cell: 2
+#| template: answer
 # Import packages
-import os
-
-import matplotlib.pyplot as plt
 import pandas as pd
 ```
 
@@ -174,6 +177,7 @@ Finally, you can plot the data using `.plot()`.
 
 ```{python}
 #| caption: Line plot of precipitation (mm) for one year.
+%%capture --no-display
 # Plot the data
 avg_monthly_precip.plot(
     x="months",
@@ -181,12 +185,10 @@ avg_monthly_precip.plot(
     title="Precipitation (mm) for One Year",
     xlabel='Month',
     ylabel='Precipitation (mm)')
-# Pretty display
-plt.show()
 ```
 
-::: {.callout-important}
-When you are using an interactive notebook, any plot you create in the last line of a cell will be displayed no matter what. However -- you may notice that it also displays some extra text unless you add the line `plt.show()` to the end. This line of code cleans up the display for you a bit.
+::: {.callout-tip column=margin}
+When you are using an interactive notebook, any plot you create in the last line of a cell will be displayed no matter what. However -- you may notice that it also displays some extra text unless you add the line `plt.show()` to the end. You can get access to `plt.show()` by running `import matplotlib.pyplot as plt` at the beginning of your notebook. This line of code cleans up the display for you a bit.
 :::
 
 ::: {.callout}
@@ -240,6 +242,7 @@ When using the interactive cells to plot, you may need to click on the plot to g
 
 ```{pyodide-python}
 #| caption: Line plot of precipitation (mm) for one year.
+%%capture --no-display
 # Plot the data
 avg_monthly_precip.plot(
     x="months",
@@ -247,17 +250,14 @@ avg_monthly_precip.plot(
     title="Precipitation (mm) for One Year",
     xlabel='Month',
     ylabel='Precipitation (mm)')
-plt.show()
 ```
 
 The plot below is an example of what your final plot should look like. 
 :::
 
 ```{python}
-#| code-fold: true
-#| code-summary: "Show our solution!"
-#| caption: Bar plot of precipitation (mm) for one year.
-#| tags: [hide]
+#| template: answer
+%%capture --no-display
 avg_monthly_precip.plot(
     # Make it a bar plot
     kind="bar",
@@ -268,7 +268,6 @@ avg_monthly_precip.plot(
     title="Challenge 2 Plot: Precipitation (mm) for One Year",
     xlabel='Month',
     ylabel='Precipitation (mm)')
-plt.show()
 ```
 
 ## Cleaning Tabular Text Files So You Can Open Them in Python
@@ -368,10 +367,8 @@ miami_temp = pd.read_csv(
 ```
 
 ```{python}
-#| code-fold: true
-#| code-summary: See our solution
-#| caption: 'Line plot of temperature (F) for Miami, Florida.'
-#| tags: [hide]
+#| template: answer
+%%capture --no-display
 miami_temp.plot(
    x="Date",
    y="Value",
@@ -379,7 +376,6 @@ miami_temp.plot(
    title="Challenge 3 Plot: Temperature (Fahrenheit) - Miami, FL",
    xlabel='Date',
    ylabel='Temperature (Fahrenheit)')
-plt.show()
 ```
 :::
 
@@ -395,10 +391,8 @@ Use the link below to open and plot temperature data for Seattle, Washington. Do
 ```
 
 ```{python}
-#| code-fold: true
-#| code-summary: See our solution here!
-#| caption: 'Line plot of temperature (F) for Seattle, WA.'
-#| tags: [hide]
+#| template: answer
+%%capture --no-display
 # Open the Seattle data
 seattle_temp_url = (
     "https://www.ncdc.noaa.gov/cag/city/time-series"
@@ -416,7 +410,6 @@ seattle_temp.plot(
     color="red",
     xlabel='Date',
     ylabel='Temperature (Fahrenheit)')
-plt.show()
 ```
 :::
 
@@ -429,6 +422,7 @@ Run the code below. It should download and open a new dataset that has CO2 emiss
 be able to open it using the filename `co2-emissions-barrow.csv`.
 
 Once you have downloaded the data
+
 1. Read the data in using pandas `read_csv()`
 2. The data has some additional rows of information stored as metadata. You will need to use the `skiprows=` parameter to skip those metadata rows and properly import the data. **HINT: remember when you use `skiprows` that `Python` starts counting at 0!** (i.e. uses zero-based indexing)
 3. Finally plot the data using pandas. plot the `"time_decimal"` column on the x-axis and `"value"` on the y-axis.
@@ -444,8 +438,8 @@ pd.read_csv(greenhouse_gas_url)
 ```
 
 ```python
-#| code-fold: true
-#| code-summary: See our solution!
+#| template: answer
+%%capture --no-display
 # Add your code to open and view the data here
 
 # Download greenhouse gas CO2 data
