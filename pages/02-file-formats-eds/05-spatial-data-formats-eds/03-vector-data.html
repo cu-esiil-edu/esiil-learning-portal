@@ -602,7 +602,7 @@ Read More
 <section id="import-shapefile-data-into-python-using-geopandas" class="level2">
 <h2 class="anchored" data-anchor-id="import-shapefile-data-into-python-using-geopandas">Import Shapefile Data Into Python Using Geopandas</h2>
 <p>You will use the <strong>geopandas</strong> library to work with vector data in <strong>Python</strong>. <strong>Geopandas</strong> is built on top of the <strong>Python</strong> <strong>Pandas</strong> library. It stores spatial data in a tabular, <code>dataframe</code> format.</p>
-<div id="ffde7125" class="cell" data-execution_count="1">
+<div id="8b600765" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import packages</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -614,7 +614,7 @@ Read More
 <div class="callout-info">
 <p>Note that below you are using <strong>EarthPy</strong> to download a dataset from naturalearthdata.com. <strong>EarthPy</strong> creates the earth-analytics directory for you when you use it. You set the working directory after you download the data as a precaution to ensure that the earth-analytics directory already exists on your computer. This is not a standard order of operations but we are demonstrating it here to ensure the notebook runs on all computers!</p>
 </div>
-<div id="82575a87" class="cell" data-execution_count="2">
+<div id="b714d7d4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the data and set working directory</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>boundary_url<span class="op">=</span>(</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://naciscdn.org/naturalearth/50m/cultural"</span></span>
@@ -629,7 +629,7 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_admin_0_boundary_li
 </div>
 </div>
 <p>Next, you open the data using <strong>Geopandas</strong>. You can view the first 5 rows of the data using <code>.head()</code> in the same way you used <code>.head()</code> for <strong>Pandas</strong> dataframes.</p>
-<div id="e4055e44" class="cell" data-execution_count="3">
+<div id="ad913d7a" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>coastlines_url <span class="op">=</span> (</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://naciscdn.org/naturalearth/50m/physical"</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/ne_50m_coastline.zip"</span>)</span>
@@ -708,7 +708,7 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_coastline</code></p
 <li>the<code>GeoDataFrame</code> stores spatial attributes such as coordinate reference systems and spatial extents.</li>
 </ul>
 <p>Similar to <strong>Pandas</strong>, you can plot the data using <code>.plot()</code></p>
-<div id="e7f6a269" class="cell" data-caption="Global coastline boundaries." data-execution_count="4">
+<div id="593b109b" class="cell" data-caption="Global coastline boundaries." data-execution_count="4">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>f, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>coastlines.plot(ax<span class="op">=</span>ax1)</span>
@@ -728,7 +728,7 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_coastline</code></p
 <section id="check-the-spatial-vector-data-type" class="level3">
 <h3 class="anchored" data-anchor-id="check-the-spatial-vector-data-type">Check the Spatial Vector Data Type</h3>
 <p>You can look at the data to figure out what type of data are stored in the shapefile (points, line or polygons). However, you can also get that information by calling <code>.geom_type</code></p>
-<div id="7793091a" class="cell" data-execution_count="5">
+<div id="663251d4" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Is the geometry type point, line or polygon?</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>coastlines.geom_type</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
@@ -747,7 +747,7 @@ Length: 1428, dtype: object</code></pre>
 </div>
 </div>
 <p>Also similar to <strong>Pandas</strong>, you can view descriptive information about the <code>GeoDataFrame</code> using <code>.info()</code>. This includes the number of columns, rows and the header name and type of each column.</p>
-<div id="7dbc4ebc" class="cell" data-execution_count="6">
+<div id="9796f31c" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>coastlines.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'geopandas.geodataframe.GeoDataFrame'&gt;
@@ -768,7 +768,7 @@ memory usage: 44.8+ KB</code></pre>
 <section id="open-vector-point-data" class="level2">
 <h2 class="anchored" data-anchor-id="open-vector-point-data">Open Vector Point Data</h2>
 <p>Next, you will open up another shapefile using <strong>Geopandas</strong>.</p>
-<div id="31b47b63" class="cell" data-execution_count="7">
+<div id="0d46776a" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open populated places</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>places_url<span class="op">=</span>(</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://naciscdn.org/naturalearth/50m/cultural'</span></span>
@@ -954,7 +954,7 @@ Try It
 <p>What Geometry Type Are Your Data? Check the geometry type of the <code>cities</code> object that you opened above in your code.</p>
 </div>
 </div>
-<div id="f69ef6a4" class="cell" data-tags="[&quot;hide&quot;]" data-execution_count="8">
+<div id="b43309b9" class="cell" data-tags="[&quot;hide&quot;]" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the code here to check the geometry type of the cities object</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>cities.geom_type</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
@@ -979,7 +979,7 @@ Length: 1251, dtype: object</code></pre>
 <p>To plot two datasets together, you will first create a <strong>Matplotlib</strong> figure object. Notice in the example below that you define the figure <code>ax1</code> in the first line. You then tell <strong>GeoPandas</strong> to plot the data on that particular figure using the parameter <code>ax=</code></p>
 <p>The code looks like this:</p>
 <p><code>boundary_lines.plot(ax=ax1)</code></p>
-<div id="faa00888" class="cell" data-caption="Global coastline boundaries." data-execution_count="9">
+<div id="4c8b8738" class="cell" data-caption="Global coastline boundaries." data-execution_count="9">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>f, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>coastlines.plot(ax<span class="op">=</span>ax1)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -992,7 +992,7 @@ Length: 1251, dtype: object</code></pre>
 </div>
 </div>
 <p>To add another layer to your map, you can add a second <code>.plot()</code> call and specify the <code>ax=</code> to be <code>ax1</code> again. This tells <strong>Python</strong> to layer the two datasets in the same figure.</p>
-<div id="e272f146" class="cell" data-caption="Global coastline boundaries and major cities plotted together." data-execution_count="10">
+<div id="029b66fa" class="cell" data-caption="Global coastline boundaries and major cities plotted together." data-execution_count="10">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a map or plot with two data layers</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>f, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>coastlines.plot(ax<span class="op">=</span>ax1, color<span class="op">=</span><span class="st">"black"</span>)</span>
@@ -1010,7 +1010,7 @@ Length: 1251, dtype: object</code></pre>
 </div>
 </div>
 <p>If you don’t specify the axis when you plot using <code>ax=</code>, each layer will be plotted on a separate figure! See the example below.</p>
-<div id="4a0beb5e" class="cell" data-caption="Global coastline boundaries plotted in one plot, and another plot with global cities." data-execution_count="11">
+<div id="f30662ed" class="cell" data-caption="Global coastline boundaries plotted in one plot, and another plot with global cities." data-execution_count="11">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>f, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>coastlines.plot(ax<span class="op">=</span>ax1)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>cities.plot()</span>
@@ -1053,7 +1053,7 @@ Try It
 <p>To create a map with the three layers, you can: 1. Copy the code below that downloads the countries layer. 2. Next, use <strong>Geopandas</strong> <code>read_file()</code> to open the countries layer as a <code>GeoDataFrame</code>. 3. Create a map of all three layers - in the same figure using the same <code>ax=</code>. The countries should be the bottom layer, and the cities and lines should be on top of that layer.</p>
 </div>
 </div>
-<div id="156b59b4" class="cell" data-execution_count="12">
+<div id="ce3aaa73" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>country_data_url <span class="op">=</span> (</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://naciscdn.org/naturalearth"</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/50m/cultural/ne_50m_admin_0_countries.zip"</span>)</span>
@@ -1085,7 +1085,7 @@ Looking for an Extra Challenge?
 <p>Finally, add a title to your map using <code>ax1.set(title="my title here")</code></p>
 </div>
 </div>
-<div id="773aca07" class="cell" data-caption="Global political boundaries with major cities." data-tags="[&quot;hide&quot;]" data-execution_count="13">
+<div id="fbd78991" class="cell" data-caption="Global political boundaries with major cities." data-tags="[&quot;hide&quot;]" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a map or plot with two data layers</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>f, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">18</span>, <span class="dv">12</span>))</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>coastlines.plot(ax<span class="op">=</span>ax1, color<span class="op">=</span><span class="st">"grey"</span>, edgecolor<span class="op">=</span><span class="st">"grey"</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
@@ -1135,7 +1135,7 @@ Each spatial feature in a spatial object has the same set of associated attribut
 </figcaption>
 </figure>
 <p>The attributes for a shapefile imported into a GeoDataFrame can be viewed in the GeoDataFrame itself.</p>
-<div id="a3ef99fd" class="cell" data-execution_count="14">
+<div id="95171ea7" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View first 5 rows of GeoDataFrame</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>cities.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
@@ -1297,7 +1297,7 @@ Each spatial feature in a spatial object has the same set of associated attribut
 </div>
 </div>
 </div>
-<div id="314832b0" class="cell" data-execution_count="15">
+<div id="b6b67bdb" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View data just in the pop_max column of the cities object</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>cities.pop_max</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
@@ -1328,7 +1328,7 @@ Read More
 <p>The spatial and attribute data are not the only important aspects of a shapefile. The metadata of a shapefile are also very important. The metadata includes data on the Coordinate Reference System (CRS), the extent, and much more. For more information on what the metadata is, and how to access it, see the full lesson on vector data on the Earth Lab website, <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/intro-vector-data-python/spatial-data-vector-shapefiles/">here</a>.</p>
 </div>
 </div>
-<div id="cd77bb71" class="cell" data-caption="Countries symbolized on a color gradient by how large their population is." data-execution_count="16">
+<div id="8d60b24f" class="cell" data-caption="Countries symbolized on a color gradient by how large their population is." data-execution_count="16">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.axes_grid1 <span class="im">import</span> make_axes_locatable</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>f, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
@@ -1379,7 +1379,7 @@ Read More
 <p>Check out <a href="https://geopandas.org/mapping.html" target="_blank">this page on creating maps with Geopandas </a> for more information on customizing maps in <strong>Geopandas</strong>:</p>
 </div>
 </div>
-<div id="683755e5" class="cell" data-caption="Global cities plotted without boundaries." data-tags="[&quot;hide&quot;]" data-execution_count="17">
+<div id="9eb82f15" class="cell" data-caption="Global cities plotted without boundaries." data-tags="[&quot;hide&quot;]" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View the geom_type and the first few rows</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cities.geom_type)</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>display(cities.head())</span>
@@ -1585,7 +1585,7 @@ Try It
 </ul>
 </div>
 </div>
-<div id="c433e1c9" class="cell" data-caption="Global cities symoblized on a color gradient by population." data-tags="[&quot;hide&quot;]" data-execution_count="18">
+<div id="e492c6e0" class="cell" data-caption="Global cities symoblized on a color gradient by population." data-tags="[&quot;hide&quot;]" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Customize cities plot</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>f, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>cities.plot(ax<span class="op">=</span>ax1, markersize<span class="op">=</span><span class="dv">15</span>, legend<span class="op">=</span><span class="va">True</span>,</span>
@@ -1632,7 +1632,7 @@ Read More
 <li>you then plot the data to look at the newly subsetted data!</li>
 <li>Finally you clip the cities data to only include cities that fall within the boundary of the United States</li>
 </ol>
-<div id="b80e440a" class="cell" data-caption="Plot of the United States using Geopandas." data-execution_count="19">
+<div id="25cc0748" class="cell" data-caption="Plot of the United States using Geopandas." data-execution_count="19">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset the countries data to just a single</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>united_states_boundary <span class="op">=</span> (</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    countries.loc[countries[<span class="st">'SOVEREIGNT'</span>]<span class="op">==</span><span class="st">'United States of America'</span>])</span>
@@ -1649,7 +1649,7 @@ Read More
 </div>
 </div>
 </div>
-<div id="1852bc51" class="cell" data-caption="Plot of cities in the United States using Geopandas." data-execution_count="20">
+<div id="20767fda" class="cell" data-caption="Plot of cities in the United States using Geopandas." data-execution_count="20">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clip the cities data to the USA boundary</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Note -- this operation may take some time to run - be patient</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>cities_in_usa <span class="op">=</span> gpd.clip(cities, united_states_boundary)</span>
@@ -1689,7 +1689,7 @@ Looking for an Extra Challenge?
 <p>When you clip, all of the spatial data outside of the spatial clip boundary (Canada) will not be included in the output dataset.</p>
 </div>
 </div>
-<div id="6e9df1ba" class="cell" data-tags="[&quot;hide&quot;]" data-execution_count="21">
+<div id="279146a7" class="cell" data-tags="[&quot;hide&quot;]" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset the countries data to just a single</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>canada_boundary <span class="op">=</span> (</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    countries.loc[countries[<span class="st">'SOVEREIGNT'</span>] <span class="op">==</span> <span class="st">'Canada'</span>])</span>
@@ -1697,7 +1697,7 @@ Looking for an Extra Challenge?
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Below this line clip the cities data to the Canada boundary that you created above.</span></span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>cities_in_canada <span class="op">=</span> gpd.clip(cities, canada_boundary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="637bc633" class="cell" data-caption="Plot of cities clipped to the Canadian border." data-tags="[&quot;hide&quot;]" data-execution_count="22">
+<div id="9c01540e" class="cell" data-caption="Plot of cities clipped to the Canadian border." data-tags="[&quot;hide&quot;]" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot your final clipped data here</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>f, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>cities_in_canada.plot(ax<span class="op">=</span>ax)</span>
