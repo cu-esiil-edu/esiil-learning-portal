@@ -119,15 +119,19 @@ all computers!
 
 ```{python}
 # Download the data and set working directory
-et.data.get_data(
-    url='https://naciscdn.org/naturalearth/50m/cultural/ne_50m_admin_0_boundary_lines_land.zip')
+boundary_url=(
+    "https://naciscdn.org/naturalearth/50m/cultural"
+    "/ne_50m_admin_0_boundary_lines_land.zip")
+et.data.get_data(url=boundary_url)
 ```
 
 Next, you open the data using **Geopandas**. You can view the first 5 rows of the 
 data using `.head()` in the same way you used `.head()` for **Pandas** dataframes. 
 
 ```{python}
-coastlines_url = "https://naciscdn.org/naturalearth/50m/physical/ne_50m_coastline.zip"
+coastlines_url = (
+    "https://naciscdn.org/naturalearth/50m/physical"
+    "/ne_50m_coastline.zip")
 
 coastlines_path = et.data.get_data(url=coastlines_url)
 coastlines = gpd.read_file(coastlines_path)
@@ -179,16 +183,14 @@ coastlines.info()
 Next, you will open up another shapefile using **Geopandas**.  
 
 ```{python}
-# Open a second layer
-et.data.get_data(
-    url='https://naciscdn.org/naturalearth/50m/cultural/ne_50m_populated_places_simple.zip')
+# Open populated places
+places_url=(
+    'https://naciscdn.org/naturalearth/50m/cultural'
+    '/ne_50m_populated_places_simple.zip')
+places_path = et.data.get_data(url=places_url)
 
-# Create a path to the populated places shapefile
-populated_places_path = os.path.join("data", "earthpy-downloads",
-                                     "ne_50m_populated_places_simple",
-                                     "ne_50m_populated_places_simple.shp")
-
-cities = gpd.read_file(populated_places_path)
+# Read the populated places shapefile
+cities = gpd.read_file(places_path)
 cities.head()
 ```
 
@@ -235,8 +237,7 @@ datasets in the same figure.
 #| caption: Global coastline boundaries and major cities plotted together.
 # Create a map or plot with two data layers
 f, ax1 = plt.subplots(figsize=(10, 6))
-coastlines.plot(ax=ax1,
-                color="black")
+coastlines.plot(ax=ax1, color="black")
 cities.plot(ax=ax1)
 
 # Add a title
@@ -277,14 +278,12 @@ To create a map with the three layers, you can:
 
 ```{python}
 country_data_url = (
-    "https://naciscdn.org/naturalearth/"
+    "https://naciscdn.org/naturalearth"
     "/50m/cultural/ne_50m_admin_0_countries.zip")
-et.data.get_data(url=country_data_url)
+country_path = et.data.get_data(url=country_data_url)
 
-# Create a path to the countries shapefile
-countries_path = os.path.join("data", "earthpy-downloads",
-                              "ne_50m_admin_0_countries", 
-                              "ne_50m_admin_0_countries.shp")
+# Load the countries data
+countries = gpd.read_file(country_path)
 ```
 
 ::: {.callout-extra}
@@ -302,19 +301,6 @@ Finally, add a title to your map using
 ```{python}
 #| caption: Global political boundaries with major cities.
 #| tags: [hide]
-# Write the code for your map in this cell
-country_data_url = "https://naciscdn.org/naturalearth/50m/cultural/ne_50m_admin_0_countries.zip"
-et.data.get_data(url=country_data_url)
-
-# Create a path to the countries shapefile
-countries_path = os.path.join("data", "earthpy-downloads",
-                              "ne_50m_admin_0_countries",
-                              "ne_50m_admin_0_countries.shp")
-
-
-countries = gpd.read_file(countries_path)
-countries.head()
-
 # Create a map or plot with two data layers
 f, ax1 = plt.subplots(figsize=(18, 12))
 coastlines.plot(ax=ax1, color="grey", edgecolor="grey", linewidth=1)
@@ -418,20 +404,9 @@ Check out <a href="https://geopandas.org/mapping.html" target="_blank">this page
 ```{python}
 #| caption: Global cities plotted without boundaries.
 #| tags: [hide]
-# Open your dataset below this line. Make sure to view the geom_type and the first few rows of the dataset
-et.data.get_data(
-    url='https://naciscdn.org/naturalearth/50m/cultural/ne_50m_populated_places_simple.zip')
-
-# Create a path to the populated places shapefile
-populated_places_path = os.path.join("data", "earthpy-downloads",
-                                     "ne_50m_populated_places_simple",
-                                     "ne_50m_populated_places_simple.shp")
-
-cities = gpd.read_file(populated_places_path)
-
-cities.geom_type
-
-cities.head()
+# View the geom_type and the first few rows
+print(cities.geom_type)
+display(cities.head())
 
 f, ax1 = plt.subplots(figsize=(18, 12))
 cities.plot(ax=ax1, color="purple")
@@ -454,21 +429,7 @@ Set the following parameters:
 ```{python}
 #| caption: Global cities symoblized on a color gradient by population.
 #| tags: [hide]
-# Add your plot code here
-# Open the data
-et.data.get_data(
-    url='https://naciscdn.org/naturalearth/50m/cultural/ne_50m_populated_places_simple.zip')
-
-# Create a path to the populated places shapefile
-populated_places_path = os.path.join("data", "earthpy-downloads",
-                                     "ne_50m_populated_places_simple",
-                                     "ne_50m_populated_places_simple.shp")
-
-cities = gpd.read_file(populated_places_path)
-cities.head()
-
-
-# Add your plot code here
+# Customize cities plot
 f, ax1 = plt.subplots(figsize=(10, 6))
 cities.plot(ax=ax1, markersize=15, legend=True,
             column="pop_max", scheme='quantiles')
@@ -510,8 +471,8 @@ Below you do the following:
 ```{python}
 #| caption: Plot of the United States using Geopandas.
 # Subset the countries data to just a single
-united_states_boundary = countries.loc[countries['SOVEREIGNT']
-                                       == 'United States of America']
+united_states_boundary = (
+    countries.loc[countries['SOVEREIGNT']=='United States of America'])
 
 # Notice in the plot below, that only the boundary for the USA is in the new variable
 f, ax = plt.subplots(figsize=(10, 6))
@@ -555,7 +516,8 @@ included in the output dataset.
 ```{python}
 #| tags: [hide]
 # Subset the countries data to just a single
-canada_boundary = countries.loc[countries['SOVEREIGNT'] == 'Canada']
+canada_boundary = (
+    countries.loc[countries['SOVEREIGNT'] == 'Canada'])
 
 # Below this line clip the cities data to the Canada boundary that you created above.
 cities_in_canada = gpd.clip(cities, canada_boundary)

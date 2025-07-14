@@ -179,13 +179,18 @@ end_date = '2024-09-30'
 # Get discharge data and metadata from NWIS if not already downloaded
 project = earthpy.project.Project(dirname=data_dir)
 nwis_path = project.project_dir / csv_filename
-if not nwis_path.exists():
-    nwis_df, meta = dataretrieval.nwis.get_dv(
-        sites=site_number,
-        start=start_date,
-        end=end_date)
-        
-    nwis_df.to_csv(nwis_path)
+
+# NWIS is not reliable -- may take a few tries
+while not nwis_path.exists():
+    try:
+        nwis_df, meta = dataretrieval.nwis.get_dv(
+            sites=site_number,
+            start=start_date,
+            end=end_date)
+            
+        nwis_df.to_csv(nwis_path)
+    except:
+        continue
 
 # Load from file
 nwis_df = pd.read_csv(nwis_path, index_col='datetime', parse_dates=True)
