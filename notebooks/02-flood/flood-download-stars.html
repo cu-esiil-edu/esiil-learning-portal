@@ -362,12 +362,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../notebooks/05-vegetation/vegetation-download-stars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Vegetation Data Access</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="https://classroom.github.com/a/E5IoyfPO" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Try it on GitHub!</span></a>
   </div>
@@ -608,10 +602,10 @@ Try It
 <p>If you want to store the data so that you are not dependant on the API to keep working, you will also need the <code>earthpy</code> library for managing local files and the <code>pandas</code> library for loading a <code>csv</code> file. If you are going that route, import the libraries you need, making sure to follow PEP-8 guidelines by keeping your libraries in alphabetical order.</p>
 </div>
 </div>
-<div id="a8d27140" class="cell student-code" data-highlight="true" data-execution_count="1">
+<div id="51c5d235" class="cell student-code" data-highlight="true" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import libraries</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="90cacc1e" class="cell answer-code" data-highlight="true" data-execution_count="2">
+<div id="bb550c9f" class="cell answer-code" data-highlight="true" data-execution_count="2">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import libraries</span></span>
@@ -621,7 +615,7 @@ Try It
 </details>
 </div>
 <p>Next, we’ll set some parameters. You can use these to customize your workflow.</p>
-<div id="b4c018ec" class="cell" data-tags="[&quot;parameters&quot;]" data-execution_count="3">
+<div id="85c216df" class="cell" data-tags="[&quot;parameters&quot;]" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">id</span> <span class="op">=</span> <span class="st">'stars'</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>site_name <span class="op">=</span> <span class="st">'Cheyenne River'</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>year <span class="op">=</span> <span class="dv">2019</span></span>
@@ -694,7 +688,7 @@ Reflect and Respond
 <p>What parameter would you change in the code below if you wanted to switch locations?</p>
 </div>
 </div>
-<div id="b951a55a" class="cell student-code" data-highlight="true" data-execution_count="4">
+<div id="8db70fd2" class="cell student-code" data-highlight="true" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define download parameters HERE</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get discharge data and metadata from NWIS</span></span>
@@ -704,7 +698,7 @@ Reflect and Respond
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    end<span class="op">=</span>end_date)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>nwis_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="dab6aa38" class="cell answer-code" data-highlight="true" data-execution_count="5">
+<div id="880b21e9" class="cell answer-code" data-highlight="true" data-execution_count="5">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define download parameters</span></span>
@@ -715,19 +709,24 @@ Reflect and Respond
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Get discharge data and metadata from NWIS if not already downloaded</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> earthpy.project.Project(dirname<span class="op">=</span>data_dir)</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>nwis_path <span class="op">=</span> project.project_dir <span class="op">/</span> csv_filename</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> nwis_path.exists():</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    nwis_df, meta <span class="op">=</span> dataretrieval.nwis.get_dv(</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        sites<span class="op">=</span>site_number,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        start<span class="op">=</span>start_date,</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        end<span class="op">=</span>end_date)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    nwis_df.to_csv(nwis_path)</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Load from file</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>nwis_df <span class="op">=</span> pd.read_csv(nwis_path, index_col<span class="op">=</span><span class="st">'datetime'</span>, parse_dates<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Display downloaded data</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>nwis_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># NWIS is not reliable -- may take a few tries</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="kw">not</span> nwis_path.exists():</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        nwis_df, meta <span class="op">=</span> dataretrieval.nwis.get_dv(</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>            sites<span class="op">=</span>site_number,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            start<span class="op">=</span>start_date,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>            end<span class="op">=</span>end_date)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        nwis_df.to_csv(nwis_path)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Load from file</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>nwis_df <span class="op">=</span> pd.read_csv(nwis_path, index_col<span class="op">=</span><span class="st">'datetime'</span>, parse_dates<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Display downloaded data</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>nwis_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -854,7 +853,7 @@ Reflect and Respond
 </div>
 </div>
 <p>Now, let’s check the data:</p>
-<div id="1fd9b329" class="cell" data-execution_count="6">
+<div id="c076f9d2" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>nwis_df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;

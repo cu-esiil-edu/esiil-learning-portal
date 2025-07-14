@@ -1,0 +1,144 @@
+---
+title: Vegetation Data Access
+subtitle: Accessing NDVI data
+description: |
+  For the vegetation health coding challenge, you used some sample data that we packaged up for you. In this lesson, we'll go through how we got that data. Give it a try, and then modify it to answer your own scientific question!
+params:
+  id: shortcourse
+  data_dir: al-jawf
+  download_key: al-jawf-ndvi
+  project_title: Irrigation in Saudi Arabia
+  start_year: 2001
+  end_year: 2022
+  event_year: 2012
+  address: Al Jawf Region
+  tag_key: boundary
+  tag_value: administrative
+  boundary_dirname: 'al-jawf-region'
+ 
+jupyter:
+  kernelspec:
+    name: learning-portal
+    language: python
+    display_name: Learning Portal
+
+---
+
+# STEP 0: Set up
+
+## Import libraries
+
+We'll need some Python libraries to complete this workflow.
+
+::: {.callout-task title="Import necessary libraries"}
+In the cell below, making sure to keep the packages in order, add packages for:
+
+  - Working with DataFrames
+  - Working with GeoDataFrames
+  - Making interactive plots of tabular and vector data
+
+:::
+
+::: {.callout-respond}
+What are we using the rest of these packages for? See if you can figure it out as you complete the notebook.
+:::
+
+```{python}
+#| template: student
+import json
+import os
+import pathlib
+import shutil
+from glob import glob
+
+import earthpy.api.appeears as eaapp
+import earthpy
+import hvplot.xarray
+import rioxarray as rxr
+import xarray as xr
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+import json
+import os
+import pathlib
+import shutil
+from glob import glob
+
+import earthpy.api.appeears as eaapp
+import earthpy
+import geopandas as gpd
+import hvplot.pandas
+import hvplot.xarray
+import pandas as pd
+import rioxarray as rxr
+import xarray as xr
+```
+:::
+
+::: {.content-hidden when-format=.ipynb}
+Next, we'll set some parameters that are used later on in the workflow. You can use these to customize your workflow, or you can choose to put the values you want directly into your code.
+
+```{python}
+#| tags: [parameters]
+id = 'shortcourse'
+data_dir = 'al-jawf'
+download_key = 'al-jawf-ndvi'
+project_title = 'Irrigation in Saudi Arabia'
+start_year = 2001
+end_year = 2022
+event_year = 2012
+address = 'Al Jawf Region'
+tag_key = 'boundary'
+tag_value = 'administrative'
+boundary_dirname = 'al-jawf-region'
+```
+:::
+
+We have one more setup task. We're not going to be able to load all our data directly from the web to Python this time. That means we need to set up a place for it.
+
+::: {.callout-caution title="GOTCHA ALERT!" icon="false"}
+A lot of times in Python we say "directory" to mean a "folder" on your computer. The two words mean the same thing in this context.
+:::
+
+::: {.callout-task}
+
+1. Replace 'my-data-folder' with a **descriptive** directory name.
+2. Run the cell to display your project directory. 
+3. Can you find the directory, either in a terminal or through your operating system's file browser/explorer/finder?
+
+:::
+
+```{python}
+#| template: student
+# Create a project directory in the system data folder
+project = earthpy.project.Project(
+    dirname='my-data-folder')
+project.project_dir
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Create a project directory in the system data folder
+project = earthpy.project.Project(
+    dirname=data_dir)
+project.project_dir
+```
+:::
+
+{{< include _vegetation-93-download-osm.qmd >}}
+
+{{< include _vegetation-92-download-ndvi.qmd >}}
+
+## Your turn! Repeat this workflow in a different time and place.
+
+It's not only irrigation that affects NDVI! You could look at:
+
+  - Recovery after a national disaster, like a wildfire or hurricane
+  - Drought
+  - Deforestation
+  - Irrigation
+  - Beaver reintroduction

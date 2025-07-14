@@ -359,12 +359,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../notebooks/05-vegetation/vegetation-download-stars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Vegetation Data Access</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="https://classroom.github.com/a/E5IoyfPO" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Try it on GitHub!</span></a>
   </div>
@@ -424,7 +418,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Before we get started, let’s define some parameters for the workflow. We’ll use these throughout to customize the workflow for this species:</p>
-<div id="67329224" class="cell" data-tags="[&quot;parameters&quot;]" data-execution_count="1">
+<div id="196bd4de" class="cell" data-tags="[&quot;parameters&quot;]" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">id</span> <span class="op">=</span> <span class="st">'stars'</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>project_dirname <span class="op">=</span> <span class="st">'tasiyagnunpa-migration-2023'</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>species_name <span class="op">=</span> <span class="st">'Tasiyagnunpa'</span></span>
@@ -466,7 +460,7 @@ Contribute to open data
 <section id="set-up-your-code-to-prepare-for-download" class="level3">
 <h3 class="anchored" data-anchor-id="set-up-your-code-to-prepare-for-download">Set up your code to prepare for download</h3>
 <p>We will be getting data from a source called <a href="https://www.gbif.org/">GBIF (Global Biodiversity Information Facility)</a>. We need a package called <code>pygbif</code> to access the data, which may not be included in your environment. Install it by running the cell below:</p>
-<div id="19d8344e" class="cell" data-execution_count="2">
+<div id="8f282972" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>bash</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pip install pygbif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -487,7 +481,7 @@ Try It: Import packages
 </ol>
 </div>
 </div>
-<div id="ee70bcac" class="cell student-code" data-highlight="true" data-execution_count="3">
+<div id="381a9734" class="cell student-code" data-highlight="true" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> getpass <span class="im">import</span> getpass</span>
@@ -496,7 +490,7 @@ Try It: Import packages
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pygbif.occurrences <span class="im">as</span> occ</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pygbif.species <span class="im">as</span> species</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="91e1cc1d" class="cell answer-code" data-highlight="true=" data-execution_count="4">
+<div id="8dafb06f" class="cell answer-code" data-highlight="true=" data-execution_count="4">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -557,7 +551,7 @@ File structure
 <p>These days, a lot of people find your file by searching for them or selecting from a <code>Bookmarks</code> or <code>Recents</code> list. Even if you don’t use it, your computer also keeps files in a <strong>tree</strong> structure of folders. Put another way, you can organize and find files by travelling along a unique <strong>path</strong>, e.g.&nbsp;<code>My Drive</code> &gt; <code>Documents</code> &gt; <code>My awesome project</code> &gt; <code>A project file</code> where each subsequent folder is <strong>inside</strong> the previous one. This is convenient because all the files for a project can be in the same place, and both people and computers can rapidly locate files they want, provided they remember the path.</p>
 <p>You may notice that when Python prints out a file path like this, the folder names are <strong>separated</strong> by a <code>/</code> or <code>\</code> (depending on your operating system). This character is called the <strong>file separator</strong>, and it tells you that the next piece of the path is <strong>inside</strong> the previous one.</p>
 </div>
-</div></div><div id="5e4d65e6" class="cell student-code" data-highlight="true" data-execution_count="5">
+</div></div><div id="116d8986" class="cell student-code" data-highlight="true" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data directory</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> earthpy.Project(</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    project_dirname<span class="op">=</span><span class="st">'your-project-directory-name-here'</span>)</span>
@@ -567,7 +561,7 @@ File structure
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the project directory</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>project.project_dir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="81d051ab" class="cell answer-code" data-highlight="true" data-execution_count="6">
+<div id="99059bd8" class="cell answer-code" data-highlight="true" data-execution_count="6">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data directory</span></span>
@@ -633,7 +627,7 @@ Tip
 <p>If you accidentally enter your credentials wrong, you can set <code>reset=True</code> instead of <code>reset=False</code>.</p>
 </div>
 </div>
-<div id="f3473247" class="cell" data-execution_count="7">
+<div id="6949e820" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">####--------------------------####</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#### DO NOT MODIFY THIS CODE! ####</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">####--------------------------####</span></span>
@@ -674,7 +668,7 @@ Try It
 </ol>
 </div>
 </div>
-<div id="e0ba132e" class="cell student-code" data-highlight="true" data-execution_count="8">
+<div id="577467ae" class="cell student-code" data-highlight="true" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Query species</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>species_info <span class="op">=</span> species.name_lookup(species_name, rank<span class="op">=</span><span class="st">'SPECIES'</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -687,7 +681,7 @@ Try It
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the result</span></span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>first_result[<span class="st">'species'</span>], species_key</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f533f7f0" class="cell answer-code" data-highlight="true" data-execution_count="9">
+<div id="39a79725" class="cell answer-code" data-highlight="true" data-execution_count="9">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Query species</span></span>
@@ -703,7 +697,7 @@ Try It
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>first_result[<span class="st">'species'</span>], taxon_key</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>('Sturnella neglecta', 165910110)</code></pre>
+<pre><code>('Sturnella neglecta', 159147257)</code></pre>
 </div>
 </div>
 </section>
@@ -731,7 +725,7 @@ Try It: Submit a request to GBIF
 </ol>
 </div>
 </div>
-<div id="08b90222" class="cell student-code" data-highlight="true" data-execution_count="10">
+<div id="773871c7" class="cell student-code" data-highlight="true" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only download once</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> glob(<span class="bu">str</span>(project.project_dir <span class="op">/</span> csv_file_pattern)):</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Submit query to GBIF</span></span>
@@ -763,7 +757,7 @@ Try It: Submit a request to GBIF
 <span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>original_gbif_path <span class="op">=</span> glob(<span class="bu">str</span>(project.project_dir <span class="op">/</span> csv_file_pattern))[<span class="dv">0</span>]</span>
 <span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>original_gbif_path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="5bc74b0f" class="cell answer-code" data-highlight="true" data-execution_count="11">
+<div id="7d488b1c" class="cell answer-code" data-highlight="true" data-execution_count="11">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only download once</span></span>
@@ -823,14 +817,14 @@ Try It
 </ol>
 </div>
 </div>
-<div id="d843293b" class="cell student-code" data-highlight="true" data-execution_count="12">
+<div id="a7bc7900" class="cell student-code" data-highlight="true" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Give the download a descriptive name</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>gbif_path <span class="op">=</span> project.project_dir <span class="op">/</span> <span class="st">'your-gbif-filename-here'</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>shutil.move(original_gbif_path, gbif_path)</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up</span></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>shutil.rmtree(download_info[<span class="st">'path'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="990c0339" class="cell answer-code" data-highlight="true" data-execution_count="13">
+<div id="d86cec01" class="cell answer-code" data-highlight="true" data-execution_count="13">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Give the download a descriptive name</span></span>
@@ -862,14 +856,14 @@ Try It: Load GBIF data
 </div>
 </div>
 <p>You can use the following code to look at the beginning of your file:</p>
-<div id="9352d8e5" class="cell" data-execution_count="14">
+<div id="203c6e3d" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>head <span class="op">-</span>n <span class="dv">2</span> $gbif_path </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>gbifID  datasetKey  occurrenceID    kingdom phylum  class   order   family  genus   species infraspecificEpithet    taxonRank   scientificName  verbatimScientificName  verbatimScientificNameAuthorship    countryCode locality    stateProvince   occurrenceStatus    individualCount publishingOrgKey    decimalLatitude decimalLongitude    coordinateUncertaintyInMeters   coordinatePrecision elevation   elevationAccuracy   depth   depthAccuracy   eventDate   day month   year    taxonKey    speciesKey  basisOfRecord   institutionCode collectionCode  catalogNumber   recordNumber    identifiedBy    dateIdentified  license rightsHolder    recordedBy  typeStatus  establishmentMeans  lastInterpreted mediaType   issue
 4501319588  2f54cb88-4167-499a-81fb-0a2d02465212    http://arctos.database.museum/guid/DMNS:Bird:57539?seid=6172480 Animalia    Chordata    Aves    Passeriformes   Icteridae   Sturnella   Sturnella neglecta      SPECIES Sturnella neglecta Audubon, 1844    Sturnella neglecta      US  Fort Collins, 6888 East County Road 56  Colorado    PRESENT     a2ef6dd1-8886-48c9-8025-c62bac973cc7    40.657779   -104.94913  80.0        1609.0  0.0         2023-05-30  30  5   2023    9596413 9596413 PRESERVED_SPECIMEN  DMNS    Bird    DMNS:Bird:57539     Greenwood Wildlife Rehabilitation Center    2023-05-30T00:00:00 CC_BY_NC_4_0        Collector(s): Greenwood Wildlife Rehabilitation Center          2025-02-06T17:47:06.161Z        COORDINATE_ROUNDED;CONTINENT_DERIVED_FROM_COORDINATES;INSTITUTION_MATCH_FUZZY;COLLECTION_MATCH_FUZZY</code></pre>
 </div>
 </div>
-<div id="73313a71" class="cell student-code" data-highlight="true" data-execution_count="15">
+<div id="a98cebeb" class="cell student-code" data-highlight="true" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the GBIF data</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>gbif_df <span class="op">=</span> pd.read_csv(</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    gbif_path, </span>
@@ -879,7 +873,7 @@ Try It: Load GBIF data
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>gbif_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="71ddbdc7" class="cell answer-code" data-highlight="true" data-execution_count="16">
+<div id="f5860f9d" class="cell answer-code" data-highlight="true" data-execution_count="16">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the GBIF data</span></span>
