@@ -46,7 +46,6 @@ First things first -- you will need to import the `earthpy` library to help with
 #| code-fold: true
 #| code-summary: See our solution!
 # Import required packages
-import earthpy
 import pandas as pd
 ```
 :::
@@ -67,7 +66,7 @@ The cell below contains the URL you will use to download climate data. There are
 ```{python}
 #| template: student
 stuff23 = ('https://www.ncei.noaa.gov/access/services/da'
-'ta/v1?dataset=daily-summaries&dataTypes=DATATYPE&stations=STATION&startDate=YYYY-MM-DD&endDate=YYYY-MM-DD')
+'ta/v1?dataset=daily-summaries&dataTypes=DATATYPE&stations=STATION&startDate=YYYY-MM-DD&endDate=YYYY-MM-DD&units=standard')
 stuff23
 ```
 
@@ -87,26 +86,23 @@ ncei_url
 ```
 :::
 
-## Download and get started working with NCEI data
+## Get NCEI data using the API
 
-Go ahead and use `earthpy` to download data from your API URL. You could also use Python, but using earthpy saves a file and lets you work offline later on. If you didn't already, you should import the `earthpy` library **at the top of this notebook** so that others who want to use your code can find it easily.
+::: {.callout-task}
 
-```{python}
-project = earthpy.Project(dirname=project_dirname)
-project.get_data(url=ncei_url, filename=ncei_filename)
-ncei_path = project.project_dir / ncei_filename
-```
-
-
+  1. Replace `url` with the name of your URL
+  2. Run the code to download and check your data
+  
+:::
 
 ```{python}
 #| template: student
 # Download the climate data
 climate_df = pd.read_csv(
-    ncei_path,
-    # index_col='DATE',
-    # parse_dates=True,
-    # na_values=['NaN']
+    url,
+    index_col='DATE',
+    parse_dates=True,
+    na_values=['NaN']
 )
 
 # Check that the download worked
@@ -121,7 +117,7 @@ climate_df.head()
 for i in range(10):
     try:
         climate_df = pd.read_csv(
-            ncei_path,
+            ncei_url,
             index_col='DATE',
             parse_dates=True,
             na_values=['NaN'])
@@ -132,6 +128,35 @@ for i in range(10):
 
 # Check that the download worked
 climate_df.head()
+```
+:::
+
+## Save climate data to your computer
+
+::: {.callout-task}
+
+  1. Replace `filename` with the 
+  2. Run the code to download and check your data
+  
+:::
+
+::: {.callout-warning}
+For this activity it's fine, but as a general rule you don't want to upload data files to a GitHub repository! You can get into a situation where it's impossible to upload to GitHub.
+:::
+
+```{python}
+#| template: student
+# Save the climate data
+climate_df.to_csv('filename')
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Save the climate data using earthpy
+import earthpy
+project = earthpy.Project(dirname=project_dirname)
+climate_df.to_csv(project.project_dir / ncei_filename)
 ```
 :::
 
