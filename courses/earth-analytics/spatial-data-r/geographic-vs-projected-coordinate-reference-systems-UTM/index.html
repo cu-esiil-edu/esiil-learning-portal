@@ -1,0 +1,4378 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+
+<meta charset="utf-8">
+
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>GIS With R: Projected vs Geographic Coordinate Reference Systems | Earth Data Science - Earth Lab </title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Earth Data Science - Earth Lab">
+<meta property="og:title" content="GIS With R: Projected vs Geographic Coordinate Reference Systems">
+
+
+  <link rel="canonical" href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/geographic-vs-projected-coordinate-reference-systems-UTM/">
+  <meta property="og:url" content="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/geographic-vs-projected-coordinate-reference-systems-UTM/">
+
+
+
+  <meta content="Geographic coordinate reference systems are often used to make maps of the world. Projected coordinate reference systems are use to optimize spatial analysis for a region. Learn about WGS84 and UTM Coordinate Reference Systems as used in R." name="description">
+  <meta property="og:description" content="Geographic coordinate reference systems are often used to make maps of the world. Projected coordinate reference systems are use to optimize spatial analysis for a region. Learn about WGS84 and UTM Coordinate Reference Systems as used in R.">
+
+
+<!-- twitter cards -->
+
+  <meta name="twitter:site" content="@earthlabcu">
+  <meta name="twitter:title" content="GIS With R: Projected vs Geographic Coordinate Reference Systems">
+  <meta name="twitter:description" content="Geographic coordinate reference systems are often used to make maps of the world. Projected coordinate reference systems are use to optimize spatial analysis for a region. Learn about WGS84 and UTM Coordinate Reference Systems as used in R.">
+  <meta name="twitter:url" content="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/geographic-vs-projected-coordinate-reference-systems-UTM/">
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://earthdatascience.org/images/earth_sm_twit.png">
+    <meta name="twitter:image:alt" content="The Earthlab Logo - image of a globe with courses, lessons and tutorials">
+
+    
+  
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2017-02-15T00:00:00-06:00">
+  
+    <link rel="next" href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/understand-epsg-wkt-and-other-crs-definition-file-types/" title="GIS in R: Understand EPSG, WKT and other CRS definition styles">
+  
+  
+    <link rel="prev" href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/intro-to-coordinate-reference-systems/" title="Coordinate Reference System and Spatial Projection">
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Earth Analytics",
+      "url" : "https://www.earthdatascience.org",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://www.earthdatascience.org/feed.xml" type="application/atom+xml" rel="alternate" title="Earth Data Science - Earth Lab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="LfpevjsE0wlELv5KKOZv1T2RhRimGSiRckWv5ZC19GU" />
+<!-- don't use the old cataloged meta tags -->
+<meta name="googlebot" content="noodp">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+
+<!-- For all browsers
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">-->
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+
+    <script src="https://www.earthdatascience.org/assets/js/copy-code.js"></script>
+  </head>
+
+  <body>
+
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<!-- search bar begin  - turning off for now-->
+
+<div class="search">
+<form role="search" method="get" action="https://www.earthdatascience.org/search/">
+    <input id="q" name="q"
+           placeholder="Search earth data science site" type="text">
+</form>
+<!--<span class='cu-boulder'><a href="http://www.colorado.edu/earthlab" target="_blank">Earth Lab University of Colorado - Boulder Home </a></span> -->
+</div>
+
+
+<!-- search bar END -->
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://www.earthdatascience.org/"><img src="/images/earth-lab-logo.png" alt="Earth Lab - Earth Data Science" style="height:80%;width:85%"></a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tutorials/">Tutorials</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/courses/">Courses</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/workshops/">Workshops</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tools/">Tools</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/blog/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/about/">About</a></li>
+          
+
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+  <div class="page__hero--overlay" style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.earthdatascience.org/images/header-images/earth-data-analytics-professional-certificate-banner.jpg');">
+  <div class="wrapper">
+        <h1 class="page__title" itemprop="headline">
+          Earth Data Analytics Online Certificate
+        </h1>
+        <p><a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target = "_blank" class="btn btn--light-outline btn--large">Enroll now! Learn more.</a></p>
+  </div>
+</div>
+
+
+
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="breadcrumbs" role="menubar" aria-label="breadcrumbs">
+ <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+ <a href="https://www.earthdatascience.org"></a>
+ 
+ 
+ <!-- there is an offset of 1 so subtract 2 from the final crumb number-->
+ 
+   
+   
+     <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+       <a href="https://www.earthdatascience.org/" itemprop="item"><span itemprop="name">Home</span></a>
+       <meta itemprop="position" content="1" />
+     </li>
+     <span class="sep">/</span>
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/">Courses </a>
+        <meta itemprop="position" content="2" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/earth-analytics/">Earth analytics </a>
+        <meta itemprop="position" content="3" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/">Spatial data r </a>
+        <meta itemprop="position" content="4" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        <li class="current">GIS With R: Projected vs Geographic Coordinate Reference Systems</li>
+    
+  
+</ol>
+</nav>
+
+<!-- from min mistakes -->
+
+
+
+
+  
+
+
+<div id="main" role="main">
+  
+
+
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+    
+    
+
+
+    
+
+    
+     <!--  Might be able to delete this This is the code that populates the side bar navigation if there is a class-->
+      
+
+
+
+
+
+
+
+<!-- make sure we're only grabbing pages for the course -->
+
+
+
+<!--<h3>Week 4 Lessons</h3>-->
+<!-- i don't think the code below is used as modules is defined lower down as well. -->
+
+<!-- This is how modules are sorted on the left hand side bar -->
+
+
+
+
+
+
+<h5><a href="https://www.earthdatascience.org/courses/earth-analytics/" ><i class="fa fa-home" aria-hidden="true"></i> Earth analytics</a></h5>
+
+<!-- Just get the pages from this course -->
+
+
+
+
+
+
+<nav class="nav__list">
+
+
+
+
+
+
+
+<ul>
+  <li><span class="nav__sub-title"><i class="fa fa-book" aria-hidden="true"></i> Units</span>
+   <ul>
+
+       
+
+        
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 1 <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 DOCUMENT YOUR SCIENCE USING R MARKDOWN AND R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/google-earth-time-series/"> 1.1   Use data for science </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/setup-r-rstudio/"> 1.2   Set up R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/about-open-science-and-why-open-science-is-important/"> 1.3   R Markdown Intro </a>
+                                </li>
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 2 <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 INTRO TO R & WORK WITH TIME SERIES DATA</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/write-clean-code-with-r/"> 2.   Clean Code & Getting Help with R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/basic-r-syntax-scientific-programming/"> 2.1   Get to Know R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/date-class-in-r/"> 2.2   Time Series Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 3 <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LIDAR RASTER DATA IN R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/ggmap-basemap/"> 3.   Refine R Markdown Reports with Images and Basemaps </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/lidar-intro/"> 3.1   Intro to Lidar Data </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/open-lidar-raster-r/"> 3.2   Lidar Raster Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+                
+                    <li class='active-section'> <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/"><i class="fa fa-folder-open" aria-hidden="true"></i>
+                     4. SPATIAL DATA IN R</a></li>
+
+            
+
+<div class='active-menu'>
+      <ul>
+        
+        <!-- Note that class-order allows you to sort modules by class order if there are more than 1 in a class -->
+        
+
+        
+
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   4. Spatial data in r  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/intro-vector-data-r/><!--4.1 --> - Vector Data in R</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/shapefile-structure/><!--4.2 --> - Shapefile Structure</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/intro-to-coordinate-reference-systems/><!--4.3 --> - Coordinate Reference Systems</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/geographic-vs-projected-coordinate-reference-systems-UTM/ class='active'> <!--4.4 -->- Geographic vs Projected CRS</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/understand-epsg-wkt-and-other-crs-definition-file-types/><!--4.5 --> - EPSG, Proj4, WKT crs Formats</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/reproject-vector-data/><!--4.6 --> - Reproject Vector Data</a></li>
+          
+          
+
+        
+       </ul>
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   4.2 Custom maps in r  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/r-create-custom-legend-with-base-plot/><!--4.1 --> - Maps with Base Plot</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/make-maps-with-ggplot-in-R/><!--4.2 --> - Maps with ggplot</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/make-interactive-maps-with-leaflet-r/><!--4.3 --> - Interactive Leaflet Maps</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+       </ul>
+        
+
+        
+      </ul>
+
+      <!-- BEGIN Learn how to lessons -->
+       <ul>
+         
+         
+       </ul>
+
+
+     </div>
+
+
+      <!-- END BEGIN Learn how to lessons -->
+
+      <!--  -->
+      
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 5 <a href="https://www.earthdatascience.org/courses/earth-analytics/remote-sensing-uncertainty/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LIDAR DATA IN R - REMOTE SENSING UNCERTAINTY</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/remote-sensing-uncertainty/about-uncertainty-lidar/"> 5.   Uncertainty in Scientific Data & Metadata  </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 6 <a href="https://www.earthdatascience.org/courses/earth-analytics/automate-science-workflows/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FUNCTIONS & AUTOMATION</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/automate-science-workflows/write-efficient-code-for-science-r/"> 6.   Efficient Programming Using Functions </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 7 <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MULTISPECTRAL IMAGERY R - NAIP, LANDSAT, FIRE & REMOTE SENSING</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/introduction-multispectral-imagery-r/"> 7.   Fire / Spectral Remote Sensing Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/source-function-in-R/"> 7.2   Source Functions in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 8 <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 QUANTIFY FIRE IMPACTS - REMOTE SENSING</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/intro-spectral-data-r/"> 8.1   Fire / spectral remote sensing data - in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/add-variables-to-rmarkdown-report/"> 8.2   Refine Rmarkdown Reports </a>
+                                </li>
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 9 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-9/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 STUDY FIRE USING REMOTE SENSING DATA</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 10 <a href="https://www.earthdatascience.org/courses/earth-analytics/communicate-your-science/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MIDTERM REVIEW / PRESENTATION BEST PRACTICES</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 11 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-11/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MIDTERM PRESENTATIONS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 12 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-12/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FALL BREAK: NO CLASS!</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 13 <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 PROGRAMMATIC DATA ACCESS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-social-media-text-mining-r/"> 13.1   twitter APIs </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-programmatic-data-access-r/"> 13.2   APIs </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 14 <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-final-projects/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FINAL PROJECTS & COURSE FEEDBACK DISCUSSION</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 15 <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-final-week/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LAST CLASS: FINAL PROJECT PRESENTATIONS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+  </ul></li>
+ </ul>
+
+
+ <ul>
+   <li><span class="nav__sub-title"><i class="fa fa-folder-open" aria-hidden="true"></i> Overview</span>
+    <ul>
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/">
+           Course Home Page </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-syllabus/">
+           Course Syllabus </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/mid-term/">
+           Midterm Project </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/final-project/">
+           Final Project </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/data-sources/">
+           Data Source List </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/search-course-lessons/">
+           Search Course Lessons </a></li>
+         
+
+     
+   </ul>
+ </li>
+</ul>
+</nav>
+
+<h5><a href="https://www.earthdatascience.org/courses/earth-analytics/" ><i class="fa fa-home" aria-hidden="true"></i> earth-analytics Home</a></h5>
+
+    
+
+    
+
+  
+  </div>
+
+
+
+
+
+
+<!-- begin science / science themes side bar nav -->
+
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+
+    <meta itemprop="headline" content="GIS With R: Projected vs Geographic Coordinate Reference Systems">
+    <meta itemprop="description" content="Geographic coordinate reference systems are often used to make maps of the world. Projected coordinate reference systems are use to optimize spatial analysis for a region. Learn about WGS84 and UTM Coordinate Reference Systems as used in R.">
+    <meta itemprop="datePublished" content="February 15, 2017">
+    <meta itemprop="dateModified" content="March 13, 2020">
+
+    <div class="page__inner-wrap">
+        <header>
+          
+
+          <!-- BEGIN: insert a welcome to the module block on pages that are part of a module set -->
+
+          <!-- END: insert welcome block -->
+
+          
+              
+
+            
+                <h1 class="page__title" itemprop="headline">
+                Lesson 4. 
+                 GIS With R: Projected vs Geographic Coordinate Reference Systems
+
+                
+                </h1>
+            
+
+          
+
+          
+            <div class="page__meta">
+              
+              
+              <a href="https://www.earthdatascience.org/authors/leah-wasser">Leah Wasser</a>
+              
+            </div>
+          
+
+            <br/>
+
+            
+
+              
+            
+
+            <!-- For tools pages add authors and tool title -->
+
+            
+        </header>
+
+
+
+      <section class="page__content" itemprop="text">
+
+        <!-- would like to include the TOC automatically but this does weird things-->
+        
+          
+            <aside class="sidebar__right">
+<nav class="toc">
+    <header><h4 class="nav__title"><i class="fa fa-file-text"></i> In This Lesson</h4></header>
+<ul class="toc__menu" id="markdown-toc">
+  <li><a href="#learning-objectives" id="markdown-toc-learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</a></li>
+  <li><a href="#what-you-need" id="markdown-toc-what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What You Need</a></li>
+  <li><a href="#geographic-vs-projected-crs" id="markdown-toc-geographic-vs-projected-crs">Geographic vs Projected CRS</a></li>
+  <li><a href="#intro-to-geographic-coordinate-reference-systems" id="markdown-toc-intro-to-geographic-coordinate-reference-systems">Intro to Geographic Coordinate Reference Systems</a></li>
+  <li><a href="#the-structure-of-a-geographic-crs" id="markdown-toc-the-structure-of-a-geographic-crs">The Structure of a Geographic CRS</a></li>
+  <li><a href="#projected-coordinate-reference-systems" id="markdown-toc-projected-coordinate-reference-systems">Projected Coordinate Reference Systems</a></li>
+  <li><a href="#optional-challenge" id="markdown-toc-optional-challenge"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge</a></li>
+  <li><a href="#additional-resources" id="markdown-toc-additional-resources">Additional Resources</a></li>
+</ul>
+
+  </nav>
+</aside>
+
+<p>This lesson briefly discusses the key differences between projected vs. geographic
+coordinate reference systems.</p>
+
+<div class="notice--success">
+
+  <h2 id="learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</h2>
+
+  <p>After completing this tutorial, you will be able to:</p>
+
+  <ul>
+    <li>List 2-3 fundamental differences between a geographic and a projected CRS.</li>
+    <li>Describe the elements of each zone within a Universal Trans Mercator (UTM) CRS and a Geographic (WGS84) CRS.</li>
+  </ul>
+
+  <h2 id="what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What You Need</h2>
+
+  <p>You will need a computer with internet access to complete this lesson and the data for week 4 of the course.</p>
+
+  <p><a href="https://ndownloader.figshare.com/files/7525363" data-proofer-ignore="" class="btn"><i class="fa fa-download" aria-hidden="true"></i> Download Week 4 Data (~500 MB)</a></p>
+
+</div>
+
+<h2 id="geographic-vs-projected-crs">Geographic vs Projected CRS</h2>
+
+<p>In the previous tutorial, you explored the basic concept of a coordinate reference
+system. During the lesson you looked at two different types of Coordinate Reference Systems:</p>
+
+<ol>
+  <li><strong>Geographic coordinate systems:</strong> coordinate systems that span the entire
+globe (e.g. latitude / longitude).</li>
+  <li><strong>Projected coordinate systems:</strong> coordinate systems that are localized to
+minimize visual distortion in a particular region (e.g. Robinson, UTM, State Plane)</li>
+</ol>
+
+<p>In this tutorial, you will learn the differences between these <code class="language-plaintext highlighter-rouge">CRS</code>’s in more
+detail.</p>
+
+<p>As you learned in the previous lesson, each <code class="language-plaintext highlighter-rouge">CRS</code> is optimized to best represent the:</p>
+
+<ul>
+  <li>shape and/or</li>
+  <li>scale / distance and/or</li>
+  <li>area</li>
+</ul>
+
+<p>of features in a dataset. There is not a single <code class="language-plaintext highlighter-rouge">CRS</code> that does a great job at
+optimizing all three elements: shape, distance AND area. Some CRSs are optimized
+for shape, some are optimized for distance and some are optimized for area. Some
+<code class="language-plaintext highlighter-rouge">CRS</code>’s are also optimized for particular regions, for instance the United States,
+or Europe.</p>
+
+<h2 id="intro-to-geographic-coordinate-reference-systems">Intro to Geographic Coordinate Reference Systems</h2>
+
+<p>Geographic coordinate systems (which are often but not always in decimal degree
+units) are often optimal when you need to locate places on the Earth. Or when
+you need to create global maps. However, latitude and longitude locations are not
+located using uniform measurement units. Thus, geographic <code class="language-plaintext highlighter-rouge">CRS</code>’s are not ideal
+for measuring distance. This is why other projected <code class="language-plaintext highlighter-rouge">CRS</code> have been developed.</p>
+
+<figure>
+	<a href="https://www.earthdatascience.org/images/courses/earth-analytics/spatial-data/latitude-longitude-globe-ESRI.gif">
+	<img src="https://www.earthdatascience.org/images/courses/earth-analytics/spatial-data/latitude-longitude-globe-ESRI.gif" alt="Graphic showing lat long as it's placed over the globe by ESRI." /></a>
+	<figcaption>A geographic coordinate system locates latitude and longitude
+	location using angles. Thus the spacing of each line of latitude moving north
+	and south is not uniform.
+	Source: ESRI
+	</figcaption>
+</figure>
+
+<h2 id="the-structure-of-a-geographic-crs">The Structure of a Geographic CRS</h2>
+
+<p>A geographic <code class="language-plaintext highlighter-rouge">CRS</code> uses a grid that wraps around the entire globe. This means that
+each point on the globe is defined using the SAME coordinate system and the same
+units as defined within that particular geographic CRS. Geographic coordinate
+reference systems are best for global analysis however it is important to remember
+that distance is distorted using a geographic lat / long <code class="language-plaintext highlighter-rouge">CRS</code>.</p>
+
+<p>The <strong>geographic WGS84 lat/long</strong> <code class="language-plaintext highlighter-rouge">CRS</code> has an origin - (0,0) - located at the
+intersection of the Equator (0° latitude) and Prime Meridian (0° longitude) on
+the globe.</p>
+
+<p>Let’s remind ourselves what data projects in a geographic <code class="language-plaintext highlighter-rouge">CRS</code> look like.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">rgdal</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">raster</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/04-vector-data-gis-r/in-class/2017-02-15-spatial04-geographic-vs-projected-crs/geographic-WGS84-1.png" title="wgs 84 plot" alt="wgs 84 plot" width="90%" /></p>
+
+<p class="notice--success"><i class="fa fa-star"></i> <strong>Data Note:</strong> The distance between the 2 degrees of
+longitude at the equator (0°) is ~ 69 miles. The distance between 2 degrees of
+longitude at 40°N (or S) is only 53 miles. This difference in actual distance relative to
+“distance” between the actual parallels and meridians demonstrates how distance
+calculations will be less accurate when using geographic <code class="language-plaintext highlighter-rouge">CRS</code>’s</p>
+
+<h2 id="projected-coordinate-reference-systems">Projected Coordinate Reference Systems</h2>
+
+<p>As you learned above, geographic coordinate systems are ideal for creating global
+maps. However, they are prone to error when quantifying distance. In contrast,
+various spatial projections have evolved that can be used to more accurately
+capture distance, shape and/or area.</p>
+
+<h3 id="what-is-a-spatial-projection">What is a Spatial Projection</h3>
+<p>Spatial projection refers to the mathematical calculations
+performed to flatten the 3D data onto a 2D plane (your computer screen
+or a paper map). Projecting data from a round surface onto a flat surface results
+in visual modifications to the data when plotted on a map. Some areas are stretched
+and some some are compressed. You can see this distortion when you look at a map
+of the entire globe.</p>
+
+<p>The mathematical calculations used in spatial projections are designed to
+optimize the relative size and shape of a particular region on the globe.</p>
+
+<figure>
+    <a href="https://www.earthdatascience.org/images/courses/earth-analytics/spatial-data/spatial-projection-transformations-crs.png">
+    <img src="https://www.earthdatascience.org/images/courses/earth-analytics/spatial-data/spatial-projection-transformations-crs.png" alt="projection surfaces graphic" />
+    </a>
+    <figcaption>The 3-dimensional globe must be transformed to create a flat
+    2-dimensional map. How that transformation or projection occurs changes
+    the appearance of the final map and the relative size of objects in
+    different parts of the map.
+    Source: CA Furuti, progonos.com/furuti</figcaption>
+</figure>
+
+<h3 id="about-utm">About UTM</h3>
+
+<p>The <strong>Universal Transverse Mercator</strong> (UTM) system is a commonly used projected
+coordinate reference system. UTM subdivides the globe into zones, numbered 0-60
+(equivalent to longitude) and regions (north and south).</p>
+
+<p class="notice--success"><i class="fa fa-star"></i> <strong>Data Note:</strong> UTM zones are also defined using bands,
+lettered C-X (equivalent to latitude) however, the band designation is often
+dropped as it isn’t essential to specifying the location.</p>
+
+<p>While UTM zones span the entire globe, UTM uses a regional projection and
+associated coordinate system. The coordinate system grid for each
+zone is projected individually using the <strong>Mercator projection</strong>.</p>
+
+<p>The origin (0,0) for each UTM zone and associated region is located at the
+intersection of the equator and a location, 500,000 meters east of the central
+meridian of each zone. The origin location is placed outside of the boundary of
+the UTM zone, to avoid negative Easting numbers.</p>
+
+<figure>
+    <a href="https://www.earthdatascience.org/images/courses/earth-analytics/spatial-data/utm-zone-characteristics.png">
+    <img src="https://www.earthdatascience.org/images/courses/earth-analytics/spatial-data/utm-zone-characteristics.png" alt="utm zone characteristics" />
+    </a>
+    <figcaption>The 0,0 origin of each UTM zone is located in the <strong>Bottom left</strong> hand corner (south west) of the zone - exactly 500,000 m EAST from the central meridian of the zone.
+    Source: Penn State E-education</figcaption>
+</figure>
+
+<hr />
+
+<figure>
+    <a href="https://www.earthdatascience.org/images/courses/earth-analytics/spatial-data/800px-utm-zones.jpg">
+    <img src="https://www.earthdatascience.org/images/courses/earth-analytics/spatial-data/800px-utm-zones.jpg" alt="Nasa image showing the UTM x and y zones" />
+    </a>
+    <figcaption>The gridded UTM coordinate system across the globe.
+    Source: NASA Earth Observatory</figcaption>
+</figure>
+
+<figure>
+    <a href="https://www.earthdatascience.org/images/courses/earth-analytics/spatial-data/UTM-zones.png">
+    <img src="https://www.earthdatascience.org/images/courses/earth-analytics/spatial-data/UTM-zones.png" alt="The UTM zones across the continental United States. Source:
+   	Chrismurf, wikimedia.org." /></a>
+   	<figcaption> UTM zones across the continental United States. Source:
+   	Chrismurf, wikimedia.org.
+		</figcaption>
+</figure>
+<h3 id="understand-utm-coordinates">Understand UTM Coordinates</h3>
+
+<p>Let’s compare coordinates for one location, but saved in two different <code class="language-plaintext highlighter-rouge">CRS</code>’s to
+better understand what this looks like. The coordinates for Boulder, Colorado in
+UTM are:</p>
+
+<p><code class="language-plaintext highlighter-rouge">UTM Zone 13N easting: 476,911.31m, northing: 4,429,455.35</code></p>
+
+<p>Remember that N denotes that it is in the Northern hemisphere on the Earth.</p>
+
+<p>Let’s plot this coordinate on a map.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># create a data.frame with the x,y location</span><span class="w">
+</span><span class="n">boulder_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">lon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">476911.31</span><span class="p">),</span><span class="w">
+                </span><span class="n">lat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">4429455.35</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># plot boulder</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+                </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">boulder_df</span><span class="p">,</span><span class="w">
+                </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lon</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">),</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"springgreen"</span><span class="p">,</span><span class="w">
+                      </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/04-vector-data-gis-r/in-class/2017-02-15-spatial04-geographic-vs-projected-crs/plot-wgs842-1.png" title="Plot location - wgs84" alt="Plot location - wgs84" width="90%" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># convert to spatial points</span><span class="w">
+</span><span class="n">coordinates</span><span class="p">(</span><span class="n">boulder_df</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="w">
+
+</span><span class="nf">class</span><span class="p">(</span><span class="n">boulder_df</span><span class="p">)</span><span class="w">
+</span><span class="c1">## [1] "SpatialPoints"</span><span class="w">
+</span><span class="c1">## attr(,"package")</span><span class="w">
+</span><span class="c1">## [1] "sp"</span><span class="w">
+</span><span class="n">crs</span><span class="p">(</span><span class="n">boulder_df</span><span class="p">)</span><span class="w">
+</span><span class="c1">## CRS arguments: NA</span><span class="w">
+
+</span><span class="c1"># assign crs - you know it is utm zone 13N</span><span class="w">
+</span><span class="n">crs</span><span class="p">(</span><span class="n">boulder_df</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">CRS</span><span class="p">(</span><span class="s2">"+init=epsg:2957"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Note what the projection string for your data in UTM looks like: +init=epsg:2957 +proj=utm +zone=13 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</p>
+
+<p>If you spatially project your data into a geographic coordinate reference system,
+notice how your new coordinates are different - yet they still represent the same
+location.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">boulder_df_geog</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">spTransform</span><span class="p">(</span><span class="n">boulder_df</span><span class="p">,</span><span class="w"> </span><span class="n">crs</span><span class="p">(</span><span class="n">worldBound</span><span class="p">))</span><span class="w">
+</span><span class="n">coordinates</span><span class="p">(</span><span class="n">boulder_df_geog</span><span class="p">)</span><span class="w">
+</span><span class="c1">##            lon      lat</span><span class="w">
+</span><span class="c1">## [1,] -105.2705 40.01498</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now you can plot your data on top of your world map which is also in a geographic <code class="language-plaintext highlighter-rouge">CRS</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">boulder_df_geog</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">coordinates</span><span class="p">(</span><span class="n">boulder_df_geog</span><span class="p">))</span><span class="w">
+</span><span class="c1"># plot map</span><span class="w">
+</span><span class="n">worldMap</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">worldBound_df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">long</span><span class="p">,</span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_polygon</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">xlab</span><span class="p">(</span><span class="s2">"Longitude (Degrees)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ylab</span><span class="p">(</span><span class="s2">"Latitude (Degrees)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_equal</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">"Global Map - Geographic Coordinate System - WGS84 Datum\n Units: Degrees - Latitude / Longitude"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># map boulder</span><span class="w">
+</span><span class="n">worldMap</span><span class="w"> </span><span class="o">+</span><span class="w">
+        </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">boulder_df_geog</span><span class="p">,</span><span class="w">
+        </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lon</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">),</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"springgreen"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/04-vector-data-gis-r/in-class/2017-02-15-spatial04-geographic-vs-projected-crs/plot-world-map-1.png" title="global map in wgs84 with points" alt="global map in wgs84 with points" width="90%" /></p>
+
+<h3 id="important">Important</h3>
+
+<p>While sometimes UTM zones in the north vs south are specified using N and S
+respectively (e.g. UTM Zone 18N) other times you may see a letter as follows:
+Zone 18T, 730782m Easting, 4712631m Northing vs UTM Zone 18N, 730782m, 4712631m.</p>
+
+<p class="notice--success"><i class="fa fa-star"></i><strong>Data Tip:</strong>  The UTM system doesn’t apply to polar
+regions (&gt;80°N or S). Universal Polar Stereographic (UPS) coordinate system is
+used in these area. This is where zones A, B and Y, Z are used if you were
+wondering why they weren’t in the UTM lettering system.</p>
+
+<div class="notice--warning">
+
+  <h2 id="optional-challenge"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge</h2>
+
+  <p>The Penn State e-Education Institute has a nice interactive tool that you can
+use to explore UTM coordinate reference systems.</p>
+
+  <p><a href="https://www.e-education.psu.edu/natureofgeoinfo/sites/www.e-education.psu.edu.natureofgeoinfo/files/flash/coord_practice_utm_v06.swf" target="_blank">View UTM Interactive tool</a> Note: You will need Adobe
+Flash Player to use this tool.</p>
+
+</div>
+
+<h3 id="datum">Datum</h3>
+
+<p>The datum describes the vertical and horizontal reference point of the coordinate
+system. The vertical datum describes the relationship between a specific ellipsoid
+(the top of the earth’s surface) and the center of the earth. The datum also describes
+the origin (0,0) of a coordinate system.</p>
+
+<p>Frequently encountered datums:</p>
+
+<ul>
+  <li><em>WGS84</em> – World Geodetic System (created in) 1984.  The origin is the center of
+the Earth.</li>
+  <li><em>NAD27</em> &amp; <em>NAD83</em> – North American Datum 1927 and 1983,
+respectively.  The origin for NAD 27 is Meades Ranch in Kansas.</li>
+  <li><em>ED50</em> – European Datum 1950</li>
+</ul>
+
+<blockquote>
+  <p>NOTE: All coordinate reference systems have a vertical and horizontal datum
+which defines a “0, 0” reference point. There are two models used to define
+the datum: <strong>ellipsoid</strong> (or spheroid): a mathematically representation of the shape of
+the earth. Visit
+<a href="https://en.wikipedia.org/wiki/Earth_ellipsoid" target="_blank">Wikipedia’s article on the earth ellipsoid </a>  for more information and <strong>geoid</strong>: a
+model of the Earth’s gravitatinal field which approximates the mean sea level
+across the entire Earth.  It is from this that elevation is measured. Visit
+<a href="https://en.wikipedia.org/wiki/Geoid" target="_blank">Wikipedia’s geoid
+article </a>for more information. You will not learn these concepts in this tutorial.</p>
+</blockquote>
+
+<h3 id="coordinate-reference-system-formats">Coordinate Reference System Formats</h3>
+
+<p>There are numerous formats that are used to document a <strong>CRS</strong>. In the next tutorial
+you will learn three of the commonly encountered formats including: <strong>Proj4</strong>,
+<strong>WKT</strong> (Well Known Text) and <strong>EPSG</strong>.</p>
+
+<div class="notice--info">
+
+  <h2 id="additional-resources">Additional Resources</h2>
+
+  <h3 id="more-about-the-utm-crs">More About the UTM CRS</h3>
+  <ul>
+    <li><a href="https://www.e-education.psu.edu/natureofgeoinfo/c2_p22.html" target="_blank">
+Penn State E-education overview of UTM</a></li>
+    <li><a href="https://www.e-education.psu.edu/natureofgeoinfo/c2_p23.html " target="_blank">
+More about UTM Zones - Penn State e-Education</a></li>
+  </ul>
+
+  <h3 id="more-about-datums">More About Datums</h3>
+  <ul>
+    <li><a href="http://help.arcgis.com/en/arcgisdesktop/10.0/help/index.html#/Datums/003r00000008000000/" target="_blank">ESRI’s ArcGIS discussion of Datums.</a></li>
+    <li><a href="https://web.archive.org/web/20200225021219/https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf" target="_blank">page 2 in M. Fraiser’s CRS Overview.</a></li>
+  </ul>
+
+</div>
+
+          
+
+        
+
+        <!-- if the page is a course lesson, add pagination -->
+
+        
+         <!-- This is clunky code that forces pagination across lesson sets -->
+<!-- NOTE: it won't include slideshows as written which makes sense -->
+<!-- add forced pagination -->
+<!-- first, get total lesson count -->
+
+<div class="previous--next">
+
+
+
+
+
+<!-- if it's page one - then no previous button -->
+<!-- how do i figure out the link? i have to loop through again? -->
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+       <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/understand-epsg-wkt-and-other-crs-definition-file-types/" class="btn btn--info btn--large btn-success" style="float:right" >
+         EPSG, Proj4, WKT crs Formats
+         <i class="fa fa-4 fa-arrow-circle-right" aria-hidden="true"></i></a>
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+        <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/intro-to-coordinate-reference-systems/" class="btn btn--info btn--large btn-success">
+          <i class="fa fa-4 fa-arrow-circle-left fa-4" aria-hidden="true"></i>
+          Coordinate Reference Systems </a>
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags
+  
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/spatial-data-and-gis/>Spatial data and gis</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/spatial-data-and-gis/vector-data/>vector data</a> 
+    
+    , 
+  
+    
+    <a href=https://www.earthdatascience.org/tags/spatial-data-and-gis/coordinate-reference-systems/>coordinate reference systems</a> 
+    
+    
+  
+
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/reproducible-science-and-programming/>Reproducible science and programming</a>:
+  </span>
+  
+
+
+
+
+
+
+
+
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-03-13">March 13, 2020</time></p>
+        
+        <!-- Add license information w/ DOI to the bottom -->
+        
+  
+  
+
+  
+     The Earth analytics course is subject to the
+     <a href="https://www.earthdatascience.org/license" target="_blank">CC BY-SA 4.0 License </a>.
+      Citation DOI: <a href="https://zenodo.org/badge/latestdoi/143348761" target="_blank"> https://zenodo.org/badge/latestdoi/143348761</a>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+      </footer>
+
+      
+
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/geographic-vs-projected-coordinate-reference-systems-UTM/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/geographic-vs-projected-coordinate-reference-systems-UTM/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/geographic-vs-projected-coordinate-reference-systems-UTM/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/geographic-vs-projected-coordinate-reference-systems-UTM/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+<br><br>
+  <a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target="_blank">
+    <img src="https://www.earthdatascience.org/images/earth-data-analytics-professional-certificate-banner.png" alt="Get a professional Certificate in Earth Data Analytics at University of Colorado, Boulder" width="40%"></a>
+</section>
+
+
+       
+    </div>
+
+    
+      
+
+
+<div class="page__comments">
+  <h4 class="page__comments-title">Leave a Comment</h4>
+  
+    <section id="disqus_thread"></section>
+  
+</div>
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/earth-analytics-bootcamp/plot-data-python">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Plot Data With Matplotlib
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  1 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">
+
+     This Week
+
+  
+
+
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/summarize-climate-data-by-season/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Seasonal Summary Values from Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Learn how to calculate seasonal summary values for MACA 2 climate data using xarray and region mask in open source Python.
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/subset-netcdf4-climate-data-spatially-aoi/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Summary Values Using Spatial Areas of Interest (AOIs) including Shapefiles for Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  32 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Climate datasets stored in netcdf 4 format often cover the entire globe or an entire country. Learn how to subset climate data spatially and by time slices u...</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/use-netcdf-in-python-xarray/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">How to Open and Process NetCDF 4 Data Format in Open Source Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Historic and projected climate data are most often stored in netcdf 4 format. Learn how to open and process MACA version 2 climate data for the Continental U...</p>
+    </article>
+  </a>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+
+<!-- Adding analytics code -->
+
+        
+
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    <li>
+      <strong>&copy; 2025 Earth Lab -
+      <a href="https://www.earthdatascience.org/license"> All materials on this site
+        are subject to the CC BY-SA 4.0 License. </a>
+      </strong>
+    </li>
+  </ul>
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/earthlabcu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+    
+      <li><a href="http://github.com/earthlab"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://www.earthdatascience.org/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<!--
+<div class="page__footer-copyright">Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+-->
+
+      </footer>
+    </div>
+
+    <script src="https://www.earthdatascience.org/assets/js/main.min.js"></script>
+
+
+
+
+
+
+  
+  <script type="text/javascript">
+  	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  	var disqus_shortname = 'earthlabcu';
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function() {
+  		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  	})();
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function () {
+  		var s = document.createElement('script'); s.async = true;
+  		s.type = 'text/javascript';
+  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  	}());
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-84081999-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>
+

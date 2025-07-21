@@ -1,0 +1,3928 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+
+<meta charset="utf-8">
+
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Set Up Your Conda Earth Analytics Python Environment | Earth Data Science - Earth Lab </title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Earth Data Science - Earth Lab">
+<meta property="og:title" content="Set Up Your Conda Earth Analytics Python Environment">
+
+
+  <link rel="canonical" href="https://www.earthdatascience.org/workshops/setup-earth-analytics-python/setup-python-conda-earth-analytics-environment/">
+  <meta property="og:url" content="https://www.earthdatascience.org/workshops/setup-earth-analytics-python/setup-python-conda-earth-analytics-environment/">
+
+
+
+  <meta content="Conda environments allow you to easily manage the Python package installations on your computer. Learn how to install a conda environment using a yml file." name="description">
+  <meta property="og:description" content="Conda environments allow you to easily manage the Python package installations on your computer. Learn how to install a conda environment using a yml file.">
+
+
+<!-- twitter cards -->
+
+  <meta name="twitter:site" content="@earthlabcu">
+  <meta name="twitter:title" content="Set Up Your Conda Earth Analytics Python Environment">
+  <meta name="twitter:description" content="Conda environments allow you to easily manage the Python package installations on your computer. Learn how to install a conda environment using a yml file.">
+  <meta name="twitter:url" content="https://www.earthdatascience.org/workshops/setup-earth-analytics-python/setup-python-conda-earth-analytics-environment/">
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://earthdatascience.org/images/earth_sm_twit.png">
+    <meta name="twitter:image:alt" content="The Earthlab Logo - image of a globe with courses, lessons and tutorials">
+
+    
+  
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2018-07-20T00:00:00-05:00">
+  
+    <link rel="next" href="https://www.earthdatascience.org/workshops/setup-earth-analytics-python/text-editors-for-science-workflows/" title="Text Editors for the Command Line and Scientific Programming">
+  
+  
+    <link rel="prev" href="https://www.earthdatascience.org/workshops/setup-earth-analytics-python/introduction-to-bash-shell/" title="How to Access and Use Shell to Set Up a Working Directory">
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Earth Analytics",
+      "url" : "https://www.earthdatascience.org",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://www.earthdatascience.org/feed.xml" type="application/atom+xml" rel="alternate" title="Earth Data Science - Earth Lab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="LfpevjsE0wlELv5KKOZv1T2RhRimGSiRckWv5ZC19GU" />
+<!-- don't use the old cataloged meta tags -->
+<meta name="googlebot" content="noodp">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+
+<!-- For all browsers
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">-->
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+
+    <script src="https://www.earthdatascience.org/assets/js/copy-code.js"></script>
+  </head>
+
+  <body>
+
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<!-- search bar begin  - turning off for now-->
+
+<div class="search">
+<form role="search" method="get" action="https://www.earthdatascience.org/search/">
+    <input id="q" name="q"
+           placeholder="Search earth data science site" type="text">
+</form>
+<!--<span class='cu-boulder'><a href="http://www.colorado.edu/earthlab" target="_blank">Earth Lab University of Colorado - Boulder Home </a></span> -->
+</div>
+
+
+<!-- search bar END -->
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://www.earthdatascience.org/"><img src="/images/earth-lab-logo.png" alt="Earth Lab - Earth Data Science" style="height:80%;width:85%"></a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tutorials/">Tutorials</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/courses/">Courses</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/workshops/">Workshops</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tools/">Tools</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/blog/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/about/">About</a></li>
+          
+
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+  <div class="page__hero--overlay" style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.earthdatascience.org/images/header-images/earth-data-analytics-professional-certificate-banner.jpg');">
+  <div class="wrapper">
+        <h1 class="page__title" itemprop="headline">
+          Earth Data Analytics Online Certificate
+        </h1>
+        <p><a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target = "_blank" class="btn btn--light-outline btn--large">Enroll now! Learn more.</a></p>
+  </div>
+</div>
+
+
+
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="breadcrumbs" role="menubar" aria-label="breadcrumbs">
+ <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+ <a href="https://www.earthdatascience.org"></a>
+ 
+ 
+ <!-- there is an offset of 1 so subtract 2 from the final crumb number-->
+ 
+   
+   
+     <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+       <a href="https://www.earthdatascience.org/" itemprop="item"><span itemprop="name">Home</span></a>
+       <meta itemprop="position" content="1" />
+     </li>
+     <span class="sep">/</span>
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/workshops/">Workshops </a>
+        <meta itemprop="position" content="2" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/workshops/setup-earth-analytics-python/">Setup earth analytics python </a>
+        <meta itemprop="position" content="3" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        <li class="current">Set Up Your Conda Earth Analytics Python Environment</li>
+    
+  
+</ol>
+</nav>
+
+<!-- from min mistakes -->
+
+
+
+
+  
+
+
+<div id="main" role="main">
+  
+
+
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+    
+    
+
+
+    
+
+    
+
+    
+    <!--  If it's not attached to a class, just show the lessons and slides-->
+      
+
+<nav class="nav__list">
+  <ul>
+    <li><span class="nav__sub-title"><i class="fa fa-book" aria-hidden="true"></i>  Lessons</span>
+      <ul>
+        
+
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <li><a href= https://www.earthdatascience.org/workshops/setup-earth-analytics-python/>1. Setup the Earth Analytics Python</a></li>
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <li><a href= https://www.earthdatascience.org/workshops/setup-earth-analytics-python/setup-git-bash-conda/>2. Setup Git Bash & Conda</a></li>
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <li><a href= https://www.earthdatascience.org/workshops/setup-earth-analytics-python/introduction-to-bash-shell/>3. Intro to Bash</a></li>
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <li><a href= https://www.earthdatascience.org/workshops/setup-earth-analytics-python/setup-python-conda-earth-analytics-environment/ class='active'>4. Set up Conda Environment</a></li>
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <li><a href= https://www.earthdatascience.org/workshops/setup-earth-analytics-python/text-editors-for-science-workflows/>5. Text Editors For Coding</a></li>
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </li>
+  </ul>
+<!-- slide list will only render if there are slideshows associated with a lesson series -->
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+              </ul>
+            </li>
+          </ul>
+          
+        
+<!-- end slideshows  -->
+</nav>
+
+
+
+    
+
+  
+  </div>
+
+
+
+
+
+
+<!-- begin science / science themes side bar nav -->
+
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+
+    <meta itemprop="headline" content="Set Up Your Conda Earth Analytics Python Environment">
+    <meta itemprop="description" content="Conda environments allow you to easily manage the Python package installations on your computer. Learn how to install a conda environment using a yml file.">
+    <meta itemprop="datePublished" content="July 20, 2018">
+    <meta itemprop="dateModified" content="January 15, 2020">
+
+    <div class="page__inner-wrap">
+        <header>
+          
+
+          <!-- BEGIN: insert a welcome to the module block on pages that are part of a module set -->
+
+          <!-- END: insert welcome block -->
+
+          
+              
+
+            
+                <h1 class="page__title" itemprop="headline">
+                Lesson 4. 
+                 Set Up Your Conda Earth Analytics Python Environment
+
+                 Setup earth analytics environment  
+                </h1>
+            
+
+          
+
+          
+            <div class="page__meta">
+              
+              
+              <a href="https://www.earthdatascience.org/authors/leah-wasser">Leah Wasser</a>, 
+              
+              
+              <a href="https://www.earthdatascience.org/authors/jenny-palomino">Jenny Palomino</a>, 
+              
+              
+              <a href="https://www.earthdatascience.org/authors/martha-morrissey">Martha Morrissey</a>, 
+              
+              
+              <a href="https://www.earthdatascience.org/authors/will-norris">Will Norris</a>
+              
+            </div>
+          
+
+            <br/>
+
+            
+
+              
+            
+
+            <!-- For tools pages add authors and tool title -->
+
+            
+        </header>
+
+
+
+      <section class="page__content" itemprop="text">
+
+        <!-- would like to include the TOC automatically but this does weird things-->
+        
+          
+            <aside class="sidebar__right">
+<nav class="toc">
+    <header><h4 class="nav__title"><i class="fa fa-file-text"></i> In This Lesson</h4></header>
+<ul class="toc__menu" id="markdown-toc">
+  <li><a href="#learning-objectives" id="markdown-toc-learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</a></li>
+  <li><a href="#what-you-need" id="markdown-toc-what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What You Need</a></li>
+  <li><a href="#why-use-conda-environments-for-python" id="markdown-toc-why-use-conda-environments-for-python">Why Use Conda Environments for Python</a></li>
+  <li><a href="#install-the-earth-analytics-python-conda-environment" id="markdown-toc-install-the-earth-analytics-python-conda-environment">Install the Earth Analytics Python Conda Environment</a></li>
+  <li><a href="#about-conda-environments" id="markdown-toc-about-conda-environments">About Conda Environments</a></li>
+  <li><a href="#use-conda-environments" id="markdown-toc-use-conda-environments">Use Conda Environments</a></li>
+</ul>
+
+  </nav>
+</aside>
+
+<p>In this lesson, you will learn how to install a conda environment from a .yml file that contains a list of desired <strong>Python</strong> packages. You will install a conda environment called <code class="language-plaintext highlighter-rouge">earth-analytics-python</code>, which has been designed specifically for the <strong>Python</strong> lessons on this website.</p>
+
+<div class="notice--success">
+
+  <h2 id="learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</h2>
+
+  <p>At the end of this activity, you will be able to:</p>
+
+  <ul>
+    <li>Install a new environment using conda.</li>
+    <li>View a list of the available environments in conda.</li>
+    <li>Activate, update and delete conda environments.</li>
+  </ul>
+
+  <h2 id="what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What You Need</h2>
+
+  <p>You should have <strong>Bash</strong> and the Miniconda distribution of <strong>Python</strong> 3.x setup on your computer and an <code class="language-plaintext highlighter-rouge">earth-analytics</code> working directory. Be sure you have:</p>
+
+  <ul>
+    <li>Completed <a href="https://www.earthdatascience.org/workshops/setup-earth-analytics-python/setup-git-bash-conda/">the setup for Git, Bash and Conda</a>.</li>
+    <li>Created a <code class="language-plaintext highlighter-rouge">earth-analytics</code> directory on your computer.</li>
+  </ul>
+
+</div>
+
+<p>Information below is adapted from materials developed by the Conda documentation for <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/install/" target="_blank">installing conda</a> and <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html" target="_blank">managing conda environments</a>.</p>
+
+<h2 id="why-use-conda-environments-for-python">Why Use Conda Environments for Python</h2>
+
+<p>Conda allows you to have different environments installed on your computer to access different versions of <strong>Python</strong> and different libraries. Sometimes libraries conflict which causes errors and packages not to work.</p>
+
+<p>To avoid conflicts, we created an environment called <code class="language-plaintext highlighter-rouge">earth-analytics-python</code> that contains all of the libraries that you will need for the <strong>Earth Analytics Python</strong> course lessons on this website.</p>
+
+<div class="notice--success">
+
+  <p><i class="fa fa-star"></i> <strong>Data Tip:</strong> For general information about conda environments, see the section below on <strong>About Conda Environments</strong>.</p>
+
+  <p>For a more detailed explanation of conda environments, see the Intro to Earth Data Science textbook page on <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/use-python-packages/introduction-to-python-conda-environments/">Using Conda Environments to Manage Python Dependencies</a>.</p>
+
+  <p>You can also check out the <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html" target="_blank">documentation on conda environments</a>.</p>
+
+</div>
+
+<h2 id="install-the-earth-analytics-python-conda-environment">Install the Earth Analytics Python Conda Environment</h2>
+
+<p>To install the <code class="language-plaintext highlighter-rouge">earth-analytics-python</code> environment, you will need to follow these steps:</p>
+
+<ol>
+  <li>Fork and clone a GitHub repository from <code class="language-plaintext highlighter-rouge">https://github.com/earthlab/earth-analytics-python-env</code> to your <code class="language-plaintext highlighter-rouge">earth-analytics</code> directory.
+    <ul>
+      <li>This repository contains a file called <code class="language-plaintext highlighter-rouge">environment.yml</code> that contains the instructions to install the environment.</li>
+      <li>For a refresher on forking/cloning repositories, see the section below on <strong>Fork and Clone GitHub Repository</strong> at the bottom of this lesson.</li>
+    </ul>
+  </li>
+  <li>If it’s not already open, open the Terminal on your computer (e.g. Git Bash for Windows or Terminal on a Mac/Linux).</li>
+  <li>In the Terminal, set your directory to the cloned <code class="language-plaintext highlighter-rouge">earth-analytics-python-env</code> dir using <code class="language-plaintext highlighter-rouge">cd</code> to change directories (e.g. <code class="language-plaintext highlighter-rouge">cd earth-analytics-python-env</code>).</li>
+  <li>Once you are in the <code class="language-plaintext highlighter-rouge">earth-analytics-python-env</code> directory, you can create your environment. To do this run: <code class="language-plaintext highlighter-rouge">conda env create -f environment.yml</code>.
+    <ul>
+      <li>Once the environment is installed you can activate it using: <code class="language-plaintext highlighter-rouge">conda activate earth-analytics-python</code>.</li>
+    </ul>
+  </li>
+  <li>To view a list of all conda environments available on your machine run: <code class="language-plaintext highlighter-rouge">conda info --envs</code>.</li>
+</ol>
+
+<p>IMPORTANT: <strong>always make sure that the earth-analytics-python environment is activated</strong> before doing work for lessons on this website.</p>
+
+<p>Note that it takes time to install of the packages found in the earth-analytics-python environment as it needs to download and install each library. Also, you need to have internet access for this to run!</p>
+
+<p class="notice--success"><i class="fa fa-star"></i> <strong>Data Tip:</strong>
+The instructions above will only work if you run them in the directory where you placed the environment.yml file.</p>
+
+<p class="notice--success"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> <strong>Windows Users:</strong> A reminder that the lessons on this website assume that you are using Git Bash as your primary terminal.</p>
+
+<h2 id="about-conda-environments">About Conda Environments</h2>
+
+<h3 id="what-is-a-yaml-yml-file">What is a YAML (.yml) File?</h3>
+
+<p>When you work with conda, you can create custom lists that tell conda where to install libraries from, and in what order. You can even specify a particular version.</p>
+
+<p>You write this list using  <a href="http://yaml.org/" target="_blank">YAML</a> (Yet Another Markup Language). This is an alternative to using <code class="language-plaintext highlighter-rouge">pip</code> to install <strong>Python</strong> packages.</p>
+
+<p>In previous steps, you used a custom .yml list to install all of the <strong>Python</strong> libraries that you will need to complete the <strong>Python</strong> lessons on this website. This .yml list is customized to install libraries from the repositories and in an order that minimizes conflicts.</p>
+
+<p>If you run into any issues installing the environment from the .yml, let us know!</p>
+
+<p>Next, explore your new conda environment. Here’s what part of the .yml file looks like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name: earth-analytics-python
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.7
+  - pip
+  # Core scientific python
+  - numpy
+  - matplotlib
+</code></pre></div></div>
+
+<p>Notice at the top of the file there is the environment name. This file has a few key parts:</p>
+
+<ol>
+  <li>
+    <p>Name: the name of the environment that you will call when you want to activate the environment. The name <code class="language-plaintext highlighter-rouge">earth-analytics-python</code> is defined in the environment.yml file.</p>
+  </li>
+  <li>
+    <p>Channels: this list identifies where packages will be installed from. There are many options including conda, conda-forge and pip. You will be predominately using conda-forge for the <code class="language-plaintext highlighter-rouge">earth-analytics-python</code> environment.</p>
+  </li>
+  <li>
+    <p>Dependencies: Dependencies are all of the things that you need installed in order for the environment to be complete. In the example, <strong>Python</strong> version 3.7 is specified. The order in which the libraries should be installed is also specified.</p>
+  </li>
+</ol>
+
+<h2 id="use-conda-environments">Use Conda Environments</h2>
+
+<p>You can have different <strong>Python</strong> environments on your computer. Conda allows you to easily jump between environments using a set of commands that you run in your terminal.</p>
+
+<p>This section provides an overview of various commands to manage your conda environments.</p>
+
+<p>For more detailed instructions for using these commands, see the Intro to Earth Data Science textbook page on <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/use-python-packages/use-conda-environments-and-install-packages/">Installing Python Packages in Conda Environments</a>.</p>
+
+<p>Or, have a look at the <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#viewing-a-list-of-your-environments" target="_blank">Conda documentation notes that review the steps below and more!</a></p>
+
+<h3 id="view-a-list-of-all-installed-conda-environments">View a List of All Installed Conda Environments</h3>
+
+<p>You can see a list of all installed conda environments by typing:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+conda info <span class="nt">--envs</span>
+
+</code></pre></div></div>
+
+<p>If you want to use a particular environment that you have installed on your computer, you need to activate it.</p>
+
+<p>For example, if a <strong>Python</strong> package such as <code class="language-plaintext highlighter-rouge">geopandas</code> is only installed in the <code class="language-plaintext highlighter-rouge">earth-analytics-python</code> environment, and not the default conda environment, you will not be able to access it (e.g. import it to <code class="language-plaintext highlighter-rouge">Jupyter Notebook</code>), unless you have the <code class="language-plaintext highlighter-rouge">earth-analytics-python</code> environment activated.</p>
+
+<h3 id="activate-a-conda-environment">Activate a Conda Environment</h3>
+
+<p><strong>To activate an environment</strong>, use the Terminal to navigate to your earth-analytics directory (e.g. <code class="language-plaintext highlighter-rouge">cd</code> to the directory). Then, type the following command to activate the environment (e.g. <code class="language-plaintext highlighter-rouge">earth-analytics-python</code>):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate earth-analytics-python
+</code></pre></div></div>
+
+<p><a href="https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html" target="_blank">For older installations of conda (versions prior to 4.6)</a> on Mac, Linux, and Git Bash for Windows, type:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source </span>activate earth-analytics-python
+</code></pre></div></div>
+
+<p class="notice--success"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> <strong>Windows Users:</strong> The first time that you try to run the “conda activate” command, you may be asked to configure Git Bash to use “conda activate”. You can do this by running the command “conda init bash”, just one time. After that, Git Bash will be configured to use “conda activate” moving forward.</p>
+
+<p>Once the environment is activated, the name of the activated environment will appear in parentheses on the left side of your terminal (e.g. <code class="language-plaintext highlighter-rouge">(earth-analytics-python</code>).</p>
+
+<p class="notice--success"><i class="fa fa-star"></i> <strong>Data Tip:</strong>
+Note that after you restart the Terminal, the <code class="language-plaintext highlighter-rouge">earth-analytics-python</code> environment is no longer active. You will need to activate the <code class="language-plaintext highlighter-rouge">earth-analytics-python</code> environment each time you start the Terminal by running the appropriate command provided above for your operating system.</p>
+
+<h3 id="deactivate-a-conda-environment">Deactivate a Conda Environment</h3>
+
+<p>If needed, you can deactivate a conda environment. Deactivating the environment switches you back to the default environment in your computer.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda deactivate
+
+</code></pre></div></div>
+
+<h3 id="delete-a-conda-environment">Delete a Conda Environment</h3>
+
+<p>If you ever want to delete an envrionment, you must first deactivate that environment and then type:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda <span class="nb">env </span>remove <span class="nt">--name</span> myenv
+</code></pre></div></div>
+
+<p>and replace <code class="language-plaintext highlighter-rouge">myenv</code> with the name of the environment that you want to remove.</p>
+
+<p><strong>Remember to never delete your root environment.</strong></p>
+
+<h3 id="update-a-conda-environment-using-a-yaml-file">Update a Conda Environment Using a YAML File</h3>
+
+<p>Once you have created a conda environment, you can update it anytime by first activating the environment and then running the <code class="language-plaintext highlighter-rouge">conda env update</code> command.</p>
+
+<p>The example below updates the <code class="language-plaintext highlighter-rouge">earth-analytics-python environment</code> using the <code class="language-plaintext highlighter-rouge">environment.yml</code> file. In this example, the command <code class="language-plaintext highlighter-rouge">conda env update</code> is run in the same directory that contains the <code class="language-plaintext highlighter-rouge">environment.yml</code> file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>conda activate earth-analytics-python
+<span class="nv">$ </span>conda <span class="nb">env </span>update <span class="nt">-f</span> environment.yml
+</code></pre></div></div>
+
+<p>Running this command will update your current <code class="language-plaintext highlighter-rouge">earth-analytics-python</code> environment to include the most current versions of the packages listed in that environment file.</p>
+
+<div class="notice--success">
+
+  <p><strong>How to Fork and Clone a GitHub Repository</strong></p>
+
+  <p>This section provides the basic steps for forking a <strong>GitHub</strong> repository (i.e. copying an existing repository to your <code class="language-plaintext highlighter-rouge">Github</code> account) and cloning a forked repository (i.e. downloading your forked repository locally to your computer).</p>
+
+  <p>For a more detailed explanation of these steps, see the Intro to Earth Data Science textbook chapter on <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/git-github/version-control/fork-clone-github-repositories/">Copy (Fork) and Download (Clone) GitHub Repositories</a>.</p>
+
+  <p><strong>1. Fork a Repository on GitHub.com</strong></p>
+
+  <p>You can <code class="language-plaintext highlighter-rouge">fork</code> an existing <strong>GitHub</strong> repository from the main <code class="language-plaintext highlighter-rouge">Github.com</code> page of the repository that you want to copy (example: <code class="language-plaintext highlighter-rouge">https://github.com/earthlab/earth-analytics-python-env</code>).</p>
+
+  <p>On the main <code class="language-plaintext highlighter-rouge">Github.com</code> page of the repository, you will see a button on the top right that says <code class="language-plaintext highlighter-rouge">Fork</code>.</p>
+
+  <p>Click on the <code class="language-plaintext highlighter-rouge">Fork</code> button and select your <code class="language-plaintext highlighter-rouge">Github.com</code> account as the home of the forked repository.</p>
+
+  <figure>
+ <a href="https://www.earthdatascience.org/images/earth-analytics/git-version-control/git-fork-repo.gif">
+ <img src="https://www.earthdatascience.org/images/earth-analytics/git-version-control/git-fork-repo.gif" alt="You can create a copy of repositories created by other users on Github by forking their repository to your Github account." /></a>
+ <figcaption> You can create a copy of repositories created by other users on Github by forking their repository to your Github account. 
+ </figcaption>
+</figure>
+
+  <p><strong>2. Clone a Repository to Local Computer or JupyterHub</strong></p>
+
+  <p>To download your forked copy of the <code class="language-plaintext highlighter-rouge">earth-analytics-python-env</code> repository to your computer, open the Terminal and change directories to your <code class="language-plaintext highlighter-rouge">earth-analytics</code> directory (e.g. <code class="language-plaintext highlighter-rouge">cd ~</code>, then <code class="language-plaintext highlighter-rouge">cd  earth-analytics</code>).</p>
+
+  <p>Then, run the command <code class="language-plaintext highlighter-rouge">git clone</code> followed by the URL to your fork on <strong>GitHub</strong> (e.g. <code class="language-plaintext highlighter-rouge">https://github.com/your-username/earth-analytics-python-env</code>). Be sure to change <code class="language-plaintext highlighter-rouge">your-username</code> to your <code class="language-plaintext highlighter-rouge">Github.com</code> account username.</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~
+<span class="nb">cd </span>earth-analytics
+git clone https://github.com/your-username/earth-analytics-python-env
+</code></pre></div>  </div>
+
+</div>
+
+
+          
+
+        
+
+        <!-- if the page is a course lesson, add pagination -->
+
+        
+         <!-- This is clunky code that forces pagination across lesson sets -->
+<!-- NOTE: it won't include slideshows as written which makes sense -->
+<!-- add forced pagination -->
+<!-- first, get total lesson count -->
+
+<div class="previous--next">
+
+
+
+
+
+<!-- if it's page one - then no previous button -->
+<!-- how do i figure out the link? i have to loop through again? -->
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+
+      
+        
+
+        
+        
+         <a href="https://www.earthdatascience.org/workshops/setup-earth-analytics-python/text-editors-for-science-workflows/" class="btn btn--info btn--large btn-success" style="float:right" >
+           Text Editors For Coding
+           <i class="fa fa-4 fa-arrow-circle-right" aria-hidden="true"></i></a>
+        
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+
+      
+        
+
+        
+        
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+
+      
+        
+          <a href="https://www.earthdatascience.org/workshops/setup-earth-analytics-python/introduction-to-bash-shell/" class="btn btn--info btn--large btn-success">
+            <i class="fa fa-4 fa-arrow-circle-left fa-4" aria-hidden="true"></i>
+            Intro to Bash </a>
+        
+
+        
+        
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+
+      
+        
+
+        
+        
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+
+      
+        
+
+        
+        
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags
+  
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/reproducible-science-and-programming/>Reproducible science and programming</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/reproducible-science-and-programming/python/>python</a> 
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-01-15">January 15, 2020</time></p>
+        
+        <!-- Add license information w/ DOI to the bottom -->
+        
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+      </footer>
+
+      
+
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://www.earthdatascience.org/workshops/setup-earth-analytics-python/setup-python-conda-earth-analytics-environment/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.earthdatascience.org/workshops/setup-earth-analytics-python/setup-python-conda-earth-analytics-environment/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https://www.earthdatascience.org/workshops/setup-earth-analytics-python/setup-python-conda-earth-analytics-environment/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.earthdatascience.org/workshops/setup-earth-analytics-python/setup-python-conda-earth-analytics-environment/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+<br><br>
+  <a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target="_blank">
+    <img src="https://www.earthdatascience.org/images/earth-data-analytics-professional-certificate-banner.png" alt="Get a professional Certificate in Earth Data Analytics at University of Colorado, Boulder" width="40%"></a>
+</section>
+
+
+       
+    </div>
+
+    
+      
+
+
+<div class="page__comments">
+  <h4 class="page__comments-title">Leave a Comment</h4>
+  
+    <section id="disqus_thread"></section>
+  
+</div>
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/earth-analytics-bootcamp/plot-data-python">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Plot Data With Matplotlib
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  1 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">
+
+     This Week
+
+  
+
+
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/summarize-climate-data-by-season/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Seasonal Summary Values from Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Learn how to calculate seasonal summary values for MACA 2 climate data using xarray and region mask in open source Python.
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/subset-netcdf4-climate-data-spatially-aoi/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Summary Values Using Spatial Areas of Interest (AOIs) including Shapefiles for Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  32 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Climate datasets stored in netcdf 4 format often cover the entire globe or an entire country. Learn how to subset climate data spatially and by time slices u...</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/use-netcdf-in-python-xarray/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">How to Open and Process NetCDF 4 Data Format in Open Source Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Historic and projected climate data are most often stored in netcdf 4 format. Learn how to open and process MACA version 2 climate data for the Continental U...</p>
+    </article>
+  </a>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+
+<!-- Adding analytics code -->
+
+        
+
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    <li>
+      <strong>&copy; 2025 Earth Lab -
+      <a href="https://www.earthdatascience.org/license"> All materials on this site
+        are subject to the CC BY-SA 4.0 License. </a>
+      </strong>
+    </li>
+  </ul>
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/earthlabcu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+    
+      <li><a href="http://github.com/earthlab"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://www.earthdatascience.org/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<!--
+<div class="page__footer-copyright">Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+-->
+
+      </footer>
+    </div>
+
+    <script src="https://www.earthdatascience.org/assets/js/main.min.js"></script>
+
+
+
+
+
+
+  
+  <script type="text/javascript">
+  	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  	var disqus_shortname = 'earthlabcu';
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function() {
+  		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  	})();
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function () {
+  		var s = document.createElement('script'); s.async = true;
+  		s.type = 'text/javascript';
+  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  	}());
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-84081999-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>
+

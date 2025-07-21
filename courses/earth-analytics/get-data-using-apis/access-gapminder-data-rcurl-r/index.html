@@ -1,0 +1,4416 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+
+<meta charset="utf-8">
+
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Access Secure Data Connections Using the RCurl R Package. | Earth Data Science - Earth Lab </title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Earth Data Science - Earth Lab">
+<meta property="og:title" content="Access Secure Data Connections Using the RCurl R Package.">
+
+
+  <link rel="canonical" href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/access-gapminder-data-rcurl-r/">
+  <meta property="og:url" content="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/access-gapminder-data-rcurl-r/">
+
+
+
+  <meta content="This lesson reviews how to use functions within the RCurl package to access data on a secure (https) server in R." name="description">
+  <meta property="og:description" content="This lesson reviews how to use functions within the RCurl package to access data on a secure (https) server in R.">
+
+
+<!-- twitter cards -->
+
+  <meta name="twitter:site" content="@earthlabcu">
+  <meta name="twitter:title" content="Access Secure Data Connections Using the RCurl R Package.">
+  <meta name="twitter:description" content="This lesson reviews how to use functions within the RCurl package to access data on a secure (https) server in R.">
+  <meta name="twitter:url" content="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/access-gapminder-data-rcurl-r/">
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://earthdatascience.org/images/earth_sm_twit.png">
+    <meta name="twitter:image:alt" content="The Earthlab Logo - image of a globe with courses, lessons and tutorials">
+
+    
+  
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2017-04-05T00:00:00-05:00">
+  
+    <link rel="next" href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-JSON/" title="Introduction to the JSON data structure">
+  
+  
+    <link rel="prev" href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/get-data-with-rcurl-r/" title="An Example of Creating Modular Code in R - Efficient Scientific Programming">
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Earth Analytics",
+      "url" : "https://www.earthdatascience.org",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://www.earthdatascience.org/feed.xml" type="application/atom+xml" rel="alternate" title="Earth Data Science - Earth Lab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="LfpevjsE0wlELv5KKOZv1T2RhRimGSiRckWv5ZC19GU" />
+<!-- don't use the old cataloged meta tags -->
+<meta name="googlebot" content="noodp">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+
+<!-- For all browsers
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">-->
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+
+    <script src="https://www.earthdatascience.org/assets/js/copy-code.js"></script>
+  </head>
+
+  <body>
+
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<!-- search bar begin  - turning off for now-->
+
+<div class="search">
+<form role="search" method="get" action="https://www.earthdatascience.org/search/">
+    <input id="q" name="q"
+           placeholder="Search earth data science site" type="text">
+</form>
+<!--<span class='cu-boulder'><a href="http://www.colorado.edu/earthlab" target="_blank">Earth Lab University of Colorado - Boulder Home </a></span> -->
+</div>
+
+
+<!-- search bar END -->
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://www.earthdatascience.org/"><img src="/images/earth-lab-logo.png" alt="Earth Lab - Earth Data Science" style="height:80%;width:85%"></a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tutorials/">Tutorials</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/courses/">Courses</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/workshops/">Workshops</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tools/">Tools</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/blog/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/about/">About</a></li>
+          
+
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+  <div class="page__hero--overlay" style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.earthdatascience.org/images/header-images/earth-data-analytics-professional-certificate-banner.jpg');">
+  <div class="wrapper">
+        <h1 class="page__title" itemprop="headline">
+          Earth Data Analytics Online Certificate
+        </h1>
+        <p><a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target = "_blank" class="btn btn--light-outline btn--large">Enroll now! Learn more.</a></p>
+  </div>
+</div>
+
+
+
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="breadcrumbs" role="menubar" aria-label="breadcrumbs">
+ <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+ <a href="https://www.earthdatascience.org"></a>
+ 
+ 
+ <!-- there is an offset of 1 so subtract 2 from the final crumb number-->
+ 
+   
+   
+     <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+       <a href="https://www.earthdatascience.org/" itemprop="item"><span itemprop="name">Home</span></a>
+       <meta itemprop="position" content="1" />
+     </li>
+     <span class="sep">/</span>
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/">Courses </a>
+        <meta itemprop="position" content="2" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/earth-analytics/">Earth analytics </a>
+        <meta itemprop="position" content="3" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/">Get data using apis </a>
+        <meta itemprop="position" content="4" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        <li class="current">Access Secure Data Connections Using the RCurl R Package.</li>
+    
+  
+</ol>
+</nav>
+
+<!-- from min mistakes -->
+
+
+
+
+  
+
+
+<div id="main" role="main">
+  
+
+
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+    
+    
+
+
+    
+
+    
+     <!--  Might be able to delete this This is the code that populates the side bar navigation if there is a class-->
+      
+
+
+
+
+
+
+
+<!-- make sure we're only grabbing pages for the course -->
+
+
+
+<!--<h3>Week 13 Lessons</h3>-->
+<!-- i don't think the code below is used as modules is defined lower down as well. -->
+
+<!-- This is how modules are sorted on the left hand side bar -->
+
+
+
+
+
+
+<h5><a href="https://www.earthdatascience.org/courses/earth-analytics/" ><i class="fa fa-home" aria-hidden="true"></i> Earth analytics</a></h5>
+
+<!-- Just get the pages from this course -->
+
+
+
+
+
+
+<nav class="nav__list">
+
+
+
+
+
+
+
+<ul>
+  <li><span class="nav__sub-title"><i class="fa fa-book" aria-hidden="true"></i> Units</span>
+   <ul>
+
+       
+
+        
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 1 <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 DOCUMENT YOUR SCIENCE USING R MARKDOWN AND R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/google-earth-time-series/"> 1.1   Use data for science </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/setup-r-rstudio/"> 1.2   Set up R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/about-open-science-and-why-open-science-is-important/"> 1.3   R Markdown Intro </a>
+                                </li>
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 2 <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 INTRO TO R & WORK WITH TIME SERIES DATA</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/write-clean-code-with-r/"> 2.   Clean Code & Getting Help with R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/basic-r-syntax-scientific-programming/"> 2.1   Get to Know R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/date-class-in-r/"> 2.2   Time Series Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 3 <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LIDAR RASTER DATA IN R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/ggmap-basemap/"> 3.   Refine R Markdown Reports with Images and Basemaps </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/lidar-intro/"> 3.1   Intro to Lidar Data </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/open-lidar-raster-r/"> 3.2   Lidar Raster Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 4 <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 SPATIAL DATA IN R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/intro-vector-data-r/"> 4.   Spatial Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/r-create-custom-legend-with-base-plot/"> 4.2   Custom Maps in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 5 <a href="https://www.earthdatascience.org/courses/earth-analytics/remote-sensing-uncertainty/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LIDAR DATA IN R - REMOTE SENSING UNCERTAINTY</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/remote-sensing-uncertainty/about-uncertainty-lidar/"> 5.   Uncertainty in Scientific Data & Metadata  </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 6 <a href="https://www.earthdatascience.org/courses/earth-analytics/automate-science-workflows/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FUNCTIONS & AUTOMATION</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/automate-science-workflows/write-efficient-code-for-science-r/"> 6.   Efficient Programming Using Functions </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 7 <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MULTISPECTRAL IMAGERY R - NAIP, LANDSAT, FIRE & REMOTE SENSING</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/introduction-multispectral-imagery-r/"> 7.   Fire / Spectral Remote Sensing Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/source-function-in-R/"> 7.2   Source Functions in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 8 <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 QUANTIFY FIRE IMPACTS - REMOTE SENSING</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/intro-spectral-data-r/"> 8.1   Fire / spectral remote sensing data - in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/add-variables-to-rmarkdown-report/"> 8.2   Refine Rmarkdown Reports </a>
+                                </li>
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 9 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-9/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 STUDY FIRE USING REMOTE SENSING DATA</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 10 <a href="https://www.earthdatascience.org/courses/earth-analytics/communicate-your-science/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MIDTERM REVIEW / PRESENTATION BEST PRACTICES</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 11 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-11/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MIDTERM PRESENTATIONS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 12 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-12/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FALL BREAK: NO CLASS!</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+                
+                    <li class='active-section'> <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/"><i class="fa fa-folder-open" aria-hidden="true"></i>
+                     13. PROGRAMMATIC DATA ACCESS</a></li>
+
+            
+
+<div class='active-menu'>
+      <ul>
+        
+        <!-- Note that class-order allows you to sort modules by class order if there are more than 1 in a class -->
+        
+
+        
+
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   13.1 Twitter apis  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-social-media-text-mining-r/><!--13.1 --> - Twitter data for Science</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/use-twitter-api-r/><!--13.2 --> - Get Tweets - Twitter API</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/text-mining-twitter-data-intro-r/><!--13.3 --> - Twitter Data Text Mining</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/text-mine-colorado-flood-tweets-science-r/><!--13.4 --> - Text Mine CO Flood Tweets</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/map-tweet-locations-over-time-r/><!--13.5 --> - Map Tweet Locations</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/sentiment-analysis-of-twitter-data-r/><!--13.6 --> - Sentiment Analysis</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+
+        
+       </ul>
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   13.2 Apis  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-programmatic-data-access-r/><!--13.1 --> - API Intro</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/get-data-with-rcurl-r/><!--13.2 --> - Intro to RCurl</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/access-gapminder-data-rcurl-r/ class='active'> <!--13.3 -->- Get Data From Github</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-JSON/><!--13.4 --> - Into to JSON</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/API-data-access-r/><!--13.5 --> - Get JSON Data via RESTful API</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/namespaces-in-r/><!--13.6 --> - Namespaces in R</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/co-water-data-spatial-r/><!--13.7 --> - Geospatial Data From APIs</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/leaflet-r/><!--13.8 --> - Interactive Maps with Leaflet </a></li>
+          
+          
+
+        
+       </ul>
+        
+
+        
+      </ul>
+
+      <!-- BEGIN Learn how to lessons -->
+       <ul>
+         
+         
+       </ul>
+
+
+     </div>
+
+
+      <!-- END BEGIN Learn how to lessons -->
+
+      <!--  -->
+      
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 14 <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-final-projects/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FINAL PROJECTS & COURSE FEEDBACK DISCUSSION</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 15 <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-final-week/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LAST CLASS: FINAL PROJECT PRESENTATIONS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+  </ul></li>
+ </ul>
+
+
+ <ul>
+   <li><span class="nav__sub-title"><i class="fa fa-folder-open" aria-hidden="true"></i> Overview</span>
+    <ul>
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/">
+           Course Home Page </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-syllabus/">
+           Course Syllabus </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/mid-term/">
+           Midterm Project </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/final-project/">
+           Final Project </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/data-sources/">
+           Data Source List </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/search-course-lessons/">
+           Search Course Lessons </a></li>
+         
+
+     
+   </ul>
+ </li>
+</ul>
+</nav>
+
+<h5><a href="https://www.earthdatascience.org/courses/earth-analytics/" ><i class="fa fa-home" aria-hidden="true"></i> earth-analytics Home</a></h5>
+
+    
+
+    
+
+  
+  </div>
+
+
+
+
+
+
+<!-- begin science / science themes side bar nav -->
+
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+
+    <meta itemprop="headline" content="Access Secure Data Connections Using the RCurl R Package.">
+    <meta itemprop="description" content="This lesson reviews how to use functions within the RCurl package to access data on a secure (https) server in R.">
+    <meta itemprop="datePublished" content="April 05, 2017">
+    <meta itemprop="dateModified" content="September 03, 2019">
+
+    <div class="page__inner-wrap">
+        <header>
+          
+
+          <!-- BEGIN: insert a welcome to the module block on pages that are part of a module set -->
+
+          <!-- END: insert welcome block -->
+
+          
+              
+
+            
+                <h1 class="page__title" itemprop="headline">
+                Lesson 3. 
+                 Access Secure Data Connections Using the RCurl R Package.
+
+                
+                </h1>
+            
+
+          
+
+          
+            <div class="page__meta">
+              
+              
+              <a href="https://www.earthdatascience.org/authors/carson-farmer">Carson Farmer</a>, 
+              
+              
+              <a href="https://www.earthdatascience.org/authors/leah-wasser">Leah Wasser</a>, 
+              
+              
+              <a href="https://www.earthdatascience.org/authors/max-joseph">Max Joseph</a>
+              
+            </div>
+          
+
+            <br/>
+
+            
+
+              
+            
+
+            <!-- For tools pages add authors and tool title -->
+
+            
+        </header>
+
+
+
+      <section class="page__content" itemprop="text">
+
+        <!-- would like to include the TOC automatically but this does weird things-->
+        
+          
+            <aside class="sidebar__right">
+<nav class="toc">
+    <header><h4 class="nav__title"><i class="fa fa-file-text"></i> In This Lesson</h4></header>
+<ul class="toc__menu" id="markdown-toc">
+  <li><a href="#learning-objectives" id="markdown-toc-learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</a></li>
+  <li><a href="#what-you-need" id="markdown-toc-what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What You Need</a></li>
+  <li><a href="#download-gapminder-data-with-rcurl" id="markdown-toc-download-gapminder-data-with-rcurl">Download gapminder Data with RCurl</a></li>
+  <li><a href="#get-data-with-geturl" id="markdown-toc-get-data-with-geturl">Get Data with getURL()</a></li>
+  <li><a href="#secure-urls-in-r" id="markdown-toc-secure-urls-in-r">Secure url’s in R</a></li>
+</ul>
+
+  </nav>
+</aside>
+
+<div class="notice--success">
+
+  <h2 id="learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</h2>
+
+  <p>After completing this tutorial, you will be able to:</p>
+
+  <ul>
+    <li>Access data from a secure website using <code class="language-plaintext highlighter-rouge">read.csv()</code>.</li>
+    <li>Be able to describe the key difference between a <code class="language-plaintext highlighter-rouge">.tsv</code> and a <code class="language-plaintext highlighter-rouge">.csv</code> file.</li>
+    <li>Use pipes ( <code class="language-plaintext highlighter-rouge">%&gt;%</code> ) to send data directly to ggplot to plot!</li>
+  </ul>
+
+  <h2 id="what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What You Need</h2>
+
+  <p>You will need a computer with internet access to complete this lesson and the
+data that you already downloaded for week 13 of the course.</p>
+
+</div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># load libraries</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="c1"># optional</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">RCurl</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="download-gapminder-data-with-rcurl">Download gapminder Data with RCurl</h2>
+
+<p>Next, you will download data from a secure URL. It is important to note that in
+older versions of <code class="language-plaintext highlighter-rouge">R</code>, particularly on Windows machine, you would need to use
+functions in the RCUrl package that support secure URL connections. Below
+you can read more about using RCurl to access secure URL’s. However for this lessons,
+you will continue to use <code class="language-plaintext highlighter-rouge">read.csv()</code> to directly access the data given it works
+for secure connections now.</p>
+
+<h4 id="gapminder-data">Gapminder Data</h4>
+
+<p>Let’s grab a gapminder data subset from a secure URL located on
+a GitHub website. The
+<a href="http://www.gapminder.org/about-gapminder/" target="_blank">Gapminder data</a>,
+contain a suite of census-like metrics that describe global development. The data
+are ideal to experiment with when learning about plotting and working with data
+in a tool like <code class="language-plaintext highlighter-rouge">R</code>.</p>
+
+<p><a href="https://twitter.com/JennyBryan" target="_blank">@jennybryan</a>
+provides an <code class="language-plaintext highlighter-rouge">R</code> package to access the
+<a href="http://www.gapminder.org/data/" target="_blank">Gapminder data</a> for
+teaching. However, you will instead use <code class="language-plaintext highlighter-rouge">RCurl</code> to get it from
+<a href="https://github.com/jennybc/gapminder" target="_blank">Jenny Bryan’s Github Page</a>
+to practice using RCurl functions.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Store base url (note the secure -- https:// -- url)</span><span class="w">
+</span><span class="n">file_url</span><span class="w"> </span><span class="o">&lt;-</span><span class="w">  </span><span class="s2">"https://raw.githubusercontent.com/jennybc/gapminder/master/inst/extdata/gapminder.tsv"</span><span class="w">
+</span><span class="c1"># import the data!</span><span class="w">
+</span><span class="n">gap_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w">  </span><span class="n">read.csv</span><span class="p">(</span><span class="n">file_url</span><span class="p">)</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">gap_data</span><span class="p">)</span><span class="w">
+</span><span class="c1">##             country.continent.year.lifeExp.pop.gdpPercap</span><span class="w">
+</span><span class="c1">## 1  Afghanistan\tAsia\t1952\t28.801\t8425333\t779.4453145</span><span class="w">
+</span><span class="c1">## 2  Afghanistan\tAsia\t1957\t30.332\t9240934\t820.8530296</span><span class="w">
+</span><span class="c1">## 3   Afghanistan\tAsia\t1962\t31.997\t10267083\t853.10071</span><span class="w">
+</span><span class="c1">## 4  Afghanistan\tAsia\t1967\t34.02\t11537966\t836.1971382</span><span class="w">
+</span><span class="c1">## 5 Afghanistan\tAsia\t1972\t36.088\t13079460\t739.9811058</span><span class="w">
+</span><span class="c1">## 6   Afghanistan\tAsia\t1977\t38.438\t14880372\t786.11336</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Looking at the results, you notice there is a <code class="language-plaintext highlighter-rouge">\t</code> between each data element.
+This is not what you would expect when you import file into R. What is going on?</p>
+
+<h3 id="tsv-file-format">.tsv File Format</h3>
+
+<p>Note that the data format that you are using here is <code class="language-plaintext highlighter-rouge">.tsv</code> - which stands for
+Tab Separate Values. The difference between .tsv and .csv is the separator:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">.csv</code> uses a COMMA (<code class="language-plaintext highlighter-rouge">,</code>) to separate individual values in each column and row of the data.</li>
+  <li><code class="language-plaintext highlighter-rouge">.tsv</code> uses a TAB (<code class="language-plaintext highlighter-rouge">\t</code>) to separate individual values in each column / row of the data.</li>
+</ul>
+
+<p>You can use the <code class="language-plaintext highlighter-rouge">read.csv()</code> function to read in the <code class="language-plaintext highlighter-rouge">.tsv</code> format. However, you need
+to tell <code class="language-plaintext highlighter-rouge">R</code> what the separator is. In this case it’s <code class="language-plaintext highlighter-rouge">\t</code>. You can account
+for this separator with the <code class="language-plaintext highlighter-rouge">sep =</code> argument.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Use textConnection to read content of temp as tsv</span><span class="w">
+</span><span class="n">gap_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="n">file_url</span><span class="p">,</span><span class="w">
+                     </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">)</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">gap_data</span><span class="p">)</span><span class="w">
+</span><span class="c1">##       country continent year lifeExp      pop gdpPercap</span><span class="w">
+</span><span class="c1">## 1 Afghanistan      Asia 1952   28.80  8425333     779.4</span><span class="w">
+</span><span class="c1">## 2 Afghanistan      Asia 1957   30.33  9240934     820.9</span><span class="w">
+</span><span class="c1">## 3 Afghanistan      Asia 1962   32.00 10267083     853.1</span><span class="w">
+</span><span class="c1">## 4 Afghanistan      Asia 1967   34.02 11537966     836.2</span><span class="w">
+</span><span class="c1">## 5 Afghanistan      Asia 1972   36.09 13079460     740.0</span><span class="w">
+</span><span class="c1">## 6 Afghanistan      Asia 1977   38.44 14880372     786.1</span><span class="w">
+</span></code></pre></div></div>
+
+<p>That looks better.</p>
+
+<h2 id="get-data-with-geturl">Get Data with getURL()</h2>
+
+<p>If you have issues using <code class="language-plaintext highlighter-rouge">read.csv()</code>, you can try the code below which uses the
+<code class="language-plaintext highlighter-rouge">RCurl</code> library. In past versions of <code class="language-plaintext highlighter-rouge">R</code>, Windows users often had issues with
+secure URLs in <code class="language-plaintext highlighter-rouge">R</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># You can use textConnection() to read a file in as a text file</span><span class="w">
+</span><span class="c1"># however it is likely that you won't need to use it.</span><span class="w">
+</span><span class="n">gap_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="n">textConnection</span><span class="p">(</span><span class="n">gapminder_data_url</span><span class="p">),</span><span class="w">
+                     </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">)</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">gap_data</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="notice--warning">
+
+  <h2 id="secure-urls-in-r">Secure url’s in R</h2>
+
+  <h3 id="use-rcurl-to-download-data-from-secure-urls">Use RCurl to Download Data From Secure URLs</h3>
+
+  <p>When you run into errors downloading data using <code class="language-plaintext highlighter-rouge">read.csv()</code>, you may need to instead
+use functions in the RCurl package. RCurl is a powerful package that:</p>
+
+  <ul>
+    <li>Provides a set of tools to allow <code class="language-plaintext highlighter-rouge">R</code> to act like a <em>web client</em>.</li>
+    <li>Provides a number of helper functions to grab data files from the web.</li>
+  </ul>
+
+  <p>The <code class="language-plaintext highlighter-rouge">getURL()</code> function works for most secure web download protocols (e.g.,
+<code class="language-plaintext highlighter-rouge">http(s)</code>, <code class="language-plaintext highlighter-rouge">ftp(s)</code>). It also helps with web scraping, direct access to web
+resources, and even API data access.</p>
+
+  <h3 id="using-geturl-and-textconnection">Using getURL and textConnection()</h3>
+
+  <p>Older versions of <code class="language-plaintext highlighter-rouge">R</code>, particularly running Windows used to have issues with dealing with
+secure (https and ftps) connetion URLs. If you encounter issues importing the
+above data using <code class="language-plaintext highlighter-rouge">read.table()</code> directly, consider the following approach which
+uses <code class="language-plaintext highlighter-rouge">getURL()</code> to access the URL and the <code class="language-plaintext highlighter-rouge">textConnection()</code> function to read
+in text formatted data.</p>
+
+  <p>The RCurl <code class="language-plaintext highlighter-rouge">R</code> package, allows you to consistently access secure servers and also
+has additional authentication support. To use <code class="language-plaintext highlighter-rouge">getURL()</code> to open text files you
+do the following:</p>
+
+  <ol>
+    <li>You <em>grab</em> the URL using <code class="language-plaintext highlighter-rouge">getURL()</code>.</li>
+    <li>You read in the data using <code class="language-plaintext highlighter-rouge">read.csv()</code> (or <code class="language-plaintext highlighter-rouge">read.table()</code> ) via the <code class="language-plaintext highlighter-rouge">textConnection()</code> function.</li>
+  </ol>
+
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Store base url (note the secure -- https:// -- url)</span><span class="w">
+</span><span class="n">file_url</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"https://raw.githubusercontent.com/jennybc/gapminder/master/inst/extdata/gapminder.tsv"</span><span class="w">
+
+</span><span class="n">gap_data_url</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">getURL</span><span class="p">(</span><span class="n">file_url</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># grab the data vis textConnection</span><span class="w">
+</span><span class="n">gap_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="n">textConnection</span><span class="p">(</span><span class="n">gap_data_url</span><span class="p">),</span><span class="w">
+                     </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\t"</span><span class="p">)</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">gap_data</span><span class="p">)</span><span class="w">
+</span><span class="c1">##       country continent year lifeExp      pop gdpPercap</span><span class="w">
+</span><span class="c1">## 1 Afghanistan      Asia 1952   28.80  8425333     779.4</span><span class="w">
+</span><span class="c1">## 2 Afghanistan      Asia 1957   30.33  9240934     820.9</span><span class="w">
+</span><span class="c1">## 3 Afghanistan      Asia 1962   32.00 10267083     853.1</span><span class="w">
+</span><span class="c1">## 4 Afghanistan      Asia 1967   34.02 11537966     836.2</span><span class="w">
+</span><span class="c1">## 5 Afghanistan      Asia 1972   36.09 13079460     740.0</span><span class="w">
+</span><span class="c1">## 6 Afghanistan      Asia 1977   38.44 14880372     786.1</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>Note that <code class="language-plaintext highlighter-rouge">textConnection()</code> function is a base <code class="language-plaintext highlighter-rouge">R</code> that tells <code class="language-plaintext highlighter-rouge">R</code> that the
+data that you are accessing should be read as a text file. If you have trouble
+importing the data directly using <code class="language-plaintext highlighter-rouge">read.csv()</code>, you can try this as an option.</p>
+
+</div>
+
+<p class="notice--success"><i class="fa fa-lightbulb-o" aria-hidden="true"></i> <strong>Data Tip:</strong> The syntax
+<code class="language-plaintext highlighter-rouge">package::functionName()</code> is a common way to tell <code class="language-plaintext highlighter-rouge">R</code> to use a function from a particular
+package. In the example above: you specify that you are using <code class="language-plaintext highlighter-rouge">getURL()</code> from the
+RCurl package using the syntax: <code class="language-plaintext highlighter-rouge">RCurl::getURL()</code>. This syntax is not necessary to call
+getURL UNLESS there is another <code class="language-plaintext highlighter-rouge">getURL()</code> function available in your <code class="language-plaintext highlighter-rouge">R</code> session.</p>
+
+<h3 id="summarize-and-plot-the-data">Summarize and Plot the Data</h3>
+
+<p>Next, you can summarize and plot the data! Notice that when you import the data
+from github, using <code class="language-plaintext highlighter-rouge">read.csv()</code>, it imports into a <code class="language-plaintext highlighter-rouge">data.frame</code> format. Given
+it’s a <code class="language-plaintext highlighter-rouge">data.frame</code>, you can plot the data using <code class="language-plaintext highlighter-rouge">ggplot()</code> like you are used to.</p>
+
+<p>Below, you first summarize the data by median life expectancy per year per continent.
+Then you create box plots - one for each continent.</p>
+
+<!-- #tidylife -->
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># summarize the data - median value by content and year</span><span class="w">
+</span><span class="n">summary_life_exp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w">  </span><span class="n">gap_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+   </span><span class="n">group_by</span><span class="p">(</span><span class="n">continent</span><span class="p">,</span><span class="w"> </span><span class="n">year</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+   </span><span class="n">summarise</span><span class="p">(</span><span class="n">median_life</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">median</span><span class="p">(</span><span class="n">lifeExp</span><span class="p">))</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">summary_life_exp</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">median_life</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">continent</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Year"</span><span class="p">,</span><span class="w">
+           </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Median Life Expectancy (years)"</span><span class="p">,</span><span class="w">
+          </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Gapminder Data - Life Expectancy"</span><span class="p">,</span><span class="w">
+          </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Downloaded from Jenny Bryan's Github Page"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/13-programmatic-data-access/extra-apis-r/2017-04-05-api03-get-gapminder-data-github/life-by-continent-1.png" title="GGPLOT of gapminder data - life expectance by continent" alt="GGPLOT of gapminder data - life expectance by continent" width="90%" /></p>
+
+<h3 id="piping-data-to-ggplot">Piping Data to ggplot()</h3>
+
+<p>Above, you used <code class="language-plaintext highlighter-rouge">dplyr</code> pipes to summarize the data that you wanted to plot.
+Remember that you can instead send the data directly to the  <code class="language-plaintext highlighter-rouge">ggplot()</code> function
+from the pipe. Sending the data directly to the <code class="language-plaintext highlighter-rouge">ggplot()</code> function, eliminates creating
+an intermediate <code class="language-plaintext highlighter-rouge">data.frame</code> in your environment.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># summarize the data - median value by content and year</span><span class="w">
+</span><span class="n">gap_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+   </span><span class="n">group_by</span><span class="p">(</span><span class="n">continent</span><span class="p">,</span><span class="w"> </span><span class="n">year</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+   </span><span class="n">summarise</span><span class="p">(</span><span class="n">median_life</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">median</span><span class="p">(</span><span class="n">lifeExp</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+   </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">median_life</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">continent</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Year"</span><span class="p">,</span><span class="w">
+           </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Median Life Expectancy (years)"</span><span class="p">,</span><span class="w">
+          </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Gapminder Data - Life Expectancy"</span><span class="p">,</span><span class="w">
+          </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Data piped directly into GGPLOT! Plot looks the same!"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/13-programmatic-data-access/extra-apis-r/2017-04-05-api03-get-gapminder-data-github/life-by-continent-pipes-1.png" title="GGPLOT of gapminder data - life expectance by continent piped" alt="GGPLOT of gapminder data - life expectance by continent piped" width="90%" /></p>
+
+<p>Below, you make a boxplot of <code class="language-plaintext highlighter-rouge">lifeExp</code> by <code class="language-plaintext highlighter-rouge">continent</code> too. Notice in this case
+you are using the <code class="language-plaintext highlighter-rouge">dplyr</code> output above, again. Thus, it made sense above to
+save your <code class="language-plaintext highlighter-rouge">dplyr</code> output as a new <code class="language-plaintext highlighter-rouge">data.frame</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># create box plot</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">summary_life_exp</span><span class="p">,</span><span class="w">
+       </span><span class="n">aes</span><span class="p">(</span><span class="n">continent</span><span class="p">,</span><span class="w"> </span><span class="n">median_life</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">geom_boxplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Continent"</span><span class="p">,</span><span class="w">
+           </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Median Life Expectancy (years)"</span><span class="p">,</span><span class="w">
+          </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Gapminder Data - Life Expectancy"</span><span class="p">,</span><span class="w">
+          </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Downloaded from Jenny Bryan's Github Page using getURL"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/13-programmatic-data-access/extra-apis-r/2017-04-05-api03-get-gapminder-data-github/box-plot-by-continent-1.png" title="GGPLOT of gapminder data - life expectance by continent boxplot" alt="GGPLOT of gapminder data - life expectance by continent boxplot" width="90%" /></p>
+
+<p>You can also create a more advanced plot - overlaying the data points on top of
+a box plot. See the <a href="http://docs.ggplot2.org" target="_blank"> ggplot documentation</a> to learn more advanced <code class="language-plaintext highlighter-rouge">ggplot()</code> plotting approaches.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">gap_data</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">continent</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lifeExp</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_boxplot</span><span class="p">(</span><span class="n">outlier.colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"hotpink"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Continent"</span><span class="p">,</span><span class="w">
+           </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Life Expectancy (years)"</span><span class="p">,</span><span class="w">
+           </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Gapminder Data - Life Expectancy"</span><span class="p">,</span><span class="w">
+           </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Downloaded from Jenny Bryan's Github Page using getURL"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/13-programmatic-data-access/extra-apis-r/2017-04-05-api03-get-gapminder-data-github/box-plot-point-outliers-1.png" title="GGPLOT of gapminder data - life expectance by continent with jitter and outliers." alt="GGPLOT of gapminder data - life expectance by continent with jitter and outliers." width="90%" /></p>
+
+<p>Or create a box plot with the data points overlaid on top.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">gap_data</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">continent</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lifeExp</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_boxplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_jitter</span><span class="p">(</span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_jitter</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Continent"</span><span class="p">,</span><span class="w">
+           </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Life Expectancy (years)"</span><span class="p">,</span><span class="w">
+           </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Gapminder Data - Life Expectancy"</span><span class="p">,</span><span class="w">
+           </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Data points overlaid on top of the box plot."</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/13-programmatic-data-access/extra-apis-r/2017-04-05-api03-get-gapminder-data-github/box-plot-point-jitter-1.png" title="GGPLOT of gapminder data - life expectance by continent with jitter and outliers." alt="GGPLOT of gapminder data - life expectance by continent with jitter and outliers." width="90%" /></p>
+
+<h3 id="automation--secure-urls">Automation &amp; Secure Url’s</h3>
+
+<p>If you are going to grab many <code class="language-plaintext highlighter-rouge">.csv</code> files from secure <code class="language-plaintext highlighter-rouge">urls</code>, you
+might need to use functions from the RCurl package. Below you will find a function
+that uses <code class="language-plaintext highlighter-rouge">getURL()</code> and <code class="language-plaintext highlighter-rouge">textConnection()</code> to access data from a secure URL. The function
+takes a URL as in the input and returns a <code class="language-plaintext highlighter-rouge">data.frame</code> object in <code class="language-plaintext highlighter-rouge">R</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">read_secure_csv_file</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="w"> </span><span class="n">the_sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">","</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">url</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">getURL</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="w">
+  </span><span class="n">the_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="n">textConnection</span><span class="p">(</span><span class="n">url</span><span class="p">),</span><span class="w">
+                       </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">the_sep</span><span class="p">)</span><span class="w">
+  </span><span class="nf">return</span><span class="p">(</span><span class="n">the_data</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p class="notice--success"><i class="fa fa-lightbulb-o" aria-hidden="true"></i> <strong>Data Tip:</strong> The web
+changes constantly! Data available via a <em>particular</em> API at a <em>particular</em> point
+in time may not be available indefinitely. Consider documenting workflows carefully.</p>
+
+          
+
+        
+
+        <!-- if the page is a course lesson, add pagination -->
+
+        
+         <!-- This is clunky code that forces pagination across lesson sets -->
+<!-- NOTE: it won't include slideshows as written which makes sense -->
+<!-- add forced pagination -->
+<!-- first, get total lesson count -->
+
+<div class="previous--next">
+
+
+
+
+
+<!-- if it's page one - then no previous button -->
+<!-- how do i figure out the link? i have to loop through again? -->
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+       <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-JSON/" class="btn btn--info btn--large btn-success" style="float:right" >
+         Into to JSON
+         <i class="fa fa-4 fa-arrow-circle-right" aria-hidden="true"></i></a>
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+        <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/get-data-with-rcurl-r/" class="btn btn--info btn--large btn-success">
+          <i class="fa fa-4 fa-arrow-circle-left fa-4" aria-hidden="true"></i>
+          Intro to RCurl </a>
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags
+  
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/find-and-manage-data/>Find and manage data</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/find-and-manage-data/apis/>apis</a> 
+    
+    , 
+  
+    
+    <a href=https://www.earthdatascience.org/tags/find-and-manage-data/find-data/>find data</a> 
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2019-09-03">September 03, 2019</time></p>
+        
+        <!-- Add license information w/ DOI to the bottom -->
+        
+  
+  
+
+  
+     The Earth analytics course is subject to the
+     <a href="https://www.earthdatascience.org/license" target="_blank">CC BY-SA 4.0 License </a>.
+      Citation DOI: <a href="https://zenodo.org/badge/latestdoi/143348761" target="_blank"> https://zenodo.org/badge/latestdoi/143348761</a>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+      </footer>
+
+      
+
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/access-gapminder-data-rcurl-r/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/access-gapminder-data-rcurl-r/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/access-gapminder-data-rcurl-r/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/access-gapminder-data-rcurl-r/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+<br><br>
+  <a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target="_blank">
+    <img src="https://www.earthdatascience.org/images/earth-data-analytics-professional-certificate-banner.png" alt="Get a professional Certificate in Earth Data Analytics at University of Colorado, Boulder" width="40%"></a>
+</section>
+
+
+       
+    </div>
+
+    
+      
+
+
+<div class="page__comments">
+  <h4 class="page__comments-title">Leave a Comment</h4>
+  
+    <section id="disqus_thread"></section>
+  
+</div>
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/earth-analytics-bootcamp/plot-data-python">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Plot Data With Matplotlib
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  1 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">
+
+     This Week
+
+  
+
+
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/summarize-climate-data-by-season/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Seasonal Summary Values from Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Learn how to calculate seasonal summary values for MACA 2 climate data using xarray and region mask in open source Python.
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/subset-netcdf4-climate-data-spatially-aoi/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Summary Values Using Spatial Areas of Interest (AOIs) including Shapefiles for Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  32 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Climate datasets stored in netcdf 4 format often cover the entire globe or an entire country. Learn how to subset climate data spatially and by time slices u...</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/use-netcdf-in-python-xarray/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">How to Open and Process NetCDF 4 Data Format in Open Source Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Historic and projected climate data are most often stored in netcdf 4 format. Learn how to open and process MACA version 2 climate data for the Continental U...</p>
+    </article>
+  </a>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+
+<!-- Adding analytics code -->
+
+        
+
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    <li>
+      <strong>&copy; 2025 Earth Lab -
+      <a href="https://www.earthdatascience.org/license"> All materials on this site
+        are subject to the CC BY-SA 4.0 License. </a>
+      </strong>
+    </li>
+  </ul>
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/earthlabcu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+    
+      <li><a href="http://github.com/earthlab"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://www.earthdatascience.org/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<!--
+<div class="page__footer-copyright">Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+-->
+
+      </footer>
+    </div>
+
+    <script src="https://www.earthdatascience.org/assets/js/main.min.js"></script>
+
+
+
+
+
+
+  
+  <script type="text/javascript">
+  	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  	var disqus_shortname = 'earthlabcu';
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function() {
+  		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  	})();
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function () {
+  		var s = document.createElement('script'); s.async = true;
+  		s.type = 'text/javascript';
+  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  	}());
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-84081999-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>
+

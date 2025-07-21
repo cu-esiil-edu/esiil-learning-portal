@@ -1,0 +1,4494 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+
+<meta charset="utf-8">
+
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Landsat Remote Sensing tif Files in R | Earth Data Science - Earth Lab </title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Earth Data Science - Earth Lab">
+<meta property="og:title" content="Landsat Remote Sensing tif Files in R">
+
+
+  <link rel="canonical" href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/landsat-data-in-r-geotiff/">
+  <meta property="og:url" content="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/landsat-data-in-r-geotiff/">
+
+
+
+  <meta content="In this lesson you will cover the basics of using Landsat 7 and 8 in R. You will learn how to import Landsat data stored in .tif format - where each .tif file represents a single band rather than a stack of bands. Finally you will plot the data using various 3 band combinations including RGB and color-infrared." name="description">
+  <meta property="og:description" content="In this lesson you will cover the basics of using Landsat 7 and 8 in R. You will learn how to import Landsat data stored in .tif format - where each .tif file represents a single band rather than a stack of bands. Finally you will plot the data using various 3 band combinations including RGB and color-infrared.">
+
+
+<!-- twitter cards -->
+
+  <meta name="twitter:site" content="@earthlabcu">
+  <meta name="twitter:title" content="Landsat Remote Sensing tif Files in R">
+  <meta name="twitter:description" content="In this lesson you will cover the basics of using Landsat 7 and 8 in R. You will learn how to import Landsat data stored in .tif format - where each .tif file represents a single band rather than a stack of bands. Finally you will plot the data using various 3 band combinations including RGB and color-infrared.">
+  <meta name="twitter:url" content="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/landsat-data-in-r-geotiff/">
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://earthdatascience.org/images/earth_sm_twit.png">
+    <meta name="twitter:image:alt" content="The Earthlab Logo - image of a globe with courses, lessons and tutorials">
+
+    
+  
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2017-02-22T00:00:00-06:00">
+  
+    <link rel="next" href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/source-function-in-R/" title="How to Reuse Functions That You Create In Scripts - Source a Function in R">
+  
+  
+    <link rel="prev" href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/process-rasters-faster-in-R/" title="The Fastest Way to Process Rasters in R">
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Earth Analytics",
+      "url" : "https://www.earthdatascience.org",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://www.earthdatascience.org/feed.xml" type="application/atom+xml" rel="alternate" title="Earth Data Science - Earth Lab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="LfpevjsE0wlELv5KKOZv1T2RhRimGSiRckWv5ZC19GU" />
+<!-- don't use the old cataloged meta tags -->
+<meta name="googlebot" content="noodp">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+
+<!-- For all browsers
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">-->
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+
+    <script src="https://www.earthdatascience.org/assets/js/copy-code.js"></script>
+  </head>
+
+  <body>
+
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<!-- search bar begin  - turning off for now-->
+
+<div class="search">
+<form role="search" method="get" action="https://www.earthdatascience.org/search/">
+    <input id="q" name="q"
+           placeholder="Search earth data science site" type="text">
+</form>
+<!--<span class='cu-boulder'><a href="http://www.colorado.edu/earthlab" target="_blank">Earth Lab University of Colorado - Boulder Home </a></span> -->
+</div>
+
+
+<!-- search bar END -->
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://www.earthdatascience.org/"><img src="/images/earth-lab-logo.png" alt="Earth Lab - Earth Data Science" style="height:80%;width:85%"></a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tutorials/">Tutorials</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/courses/">Courses</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/workshops/">Workshops</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tools/">Tools</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/blog/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/about/">About</a></li>
+          
+
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+  <div class="page__hero--overlay" style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.earthdatascience.org/images/header-images/earth-data-analytics-professional-certificate-banner.jpg');">
+  <div class="wrapper">
+        <h1 class="page__title" itemprop="headline">
+          Earth Data Analytics Online Certificate
+        </h1>
+        <p><a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target = "_blank" class="btn btn--light-outline btn--large">Enroll now! Learn more.</a></p>
+  </div>
+</div>
+
+
+
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="breadcrumbs" role="menubar" aria-label="breadcrumbs">
+ <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+ <a href="https://www.earthdatascience.org"></a>
+ 
+ 
+ <!-- there is an offset of 1 so subtract 2 from the final crumb number-->
+ 
+   
+   
+     <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+       <a href="https://www.earthdatascience.org/" itemprop="item"><span itemprop="name">Home</span></a>
+       <meta itemprop="position" content="1" />
+     </li>
+     <span class="sep">/</span>
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/">Courses </a>
+        <meta itemprop="position" content="2" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/earth-analytics/">Earth analytics </a>
+        <meta itemprop="position" content="3" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/">Multispectral remote sensing data </a>
+        <meta itemprop="position" content="4" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        <li class="current">Landsat Remote Sensing tif Files in R</li>
+    
+  
+</ol>
+</nav>
+
+<!-- from min mistakes -->
+
+
+
+
+  
+
+
+<div id="main" role="main">
+  
+
+
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+    
+    
+
+
+    
+
+    
+     <!--  Might be able to delete this This is the code that populates the side bar navigation if there is a class-->
+      
+
+
+
+
+
+
+
+<!-- make sure we're only grabbing pages for the course -->
+
+
+
+<!--<h3>Week 7 Lessons</h3>-->
+<!-- i don't think the code below is used as modules is defined lower down as well. -->
+
+<!-- This is how modules are sorted on the left hand side bar -->
+
+
+
+
+
+
+<h5><a href="https://www.earthdatascience.org/courses/earth-analytics/" ><i class="fa fa-home" aria-hidden="true"></i> Earth analytics</a></h5>
+
+<!-- Just get the pages from this course -->
+
+
+
+
+
+
+<nav class="nav__list">
+
+
+
+
+
+
+
+<ul>
+  <li><span class="nav__sub-title"><i class="fa fa-book" aria-hidden="true"></i> Units</span>
+   <ul>
+
+       
+
+        
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 1 <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 DOCUMENT YOUR SCIENCE USING R MARKDOWN AND R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/google-earth-time-series/"> 1.1   Use data for science </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/setup-r-rstudio/"> 1.2   Set up R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/about-open-science-and-why-open-science-is-important/"> 1.3   R Markdown Intro </a>
+                                </li>
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 2 <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 INTRO TO R & WORK WITH TIME SERIES DATA</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/write-clean-code-with-r/"> 2.   Clean Code & Getting Help with R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/basic-r-syntax-scientific-programming/"> 2.1   Get to Know R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/date-class-in-r/"> 2.2   Time Series Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 3 <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LIDAR RASTER DATA IN R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/ggmap-basemap/"> 3.   Refine R Markdown Reports with Images and Basemaps </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/lidar-intro/"> 3.1   Intro to Lidar Data </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/open-lidar-raster-r/"> 3.2   Lidar Raster Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 4 <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 SPATIAL DATA IN R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/intro-vector-data-r/"> 4.   Spatial Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/r-create-custom-legend-with-base-plot/"> 4.2   Custom Maps in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 5 <a href="https://www.earthdatascience.org/courses/earth-analytics/remote-sensing-uncertainty/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LIDAR DATA IN R - REMOTE SENSING UNCERTAINTY</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/remote-sensing-uncertainty/about-uncertainty-lidar/"> 5.   Uncertainty in Scientific Data & Metadata  </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 6 <a href="https://www.earthdatascience.org/courses/earth-analytics/automate-science-workflows/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FUNCTIONS & AUTOMATION</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/automate-science-workflows/write-efficient-code-for-science-r/"> 6.   Efficient Programming Using Functions </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+                
+                    <li class='active-section'> <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/"><i class="fa fa-folder-open" aria-hidden="true"></i>
+                     7. MULTISPECTRAL IMAGERY R - NAIP, LANDSAT, FIRE & REMOTE SENSING</a></li>
+
+            
+
+<div class='active-menu'>
+      <ul>
+        
+        <!-- Note that class-order allows you to sort modules by class order if there are more than 1 in a class -->
+        
+
+        
+
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   7. Fire / spectral remote sensing data in r  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/introduction-multispectral-imagery-r/><!--7.1 --> - Intro Multispectral Data</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/naip-imagery-raster-stacks-in-r/><!--7.2 --> - Open NAIP Imagery in R</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/addititive-color-models-how-multispectral-imagery-is-drawn-on-computers/><!--7.3 --> - Additive Color Models</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/vegetation-indices-NDVI-in-R/><!--7.4 --> - Calculate NDVI NAIP</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/process-rasters-faster-in-R/><!--7.5 --> - Faster Raster Calculations</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/landsat-data-in-r-geotiff/ class='active'> <!--7.6 -->- Landsat tifs in R</a></li>
+          
+          
+
+        
+       </ul>
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   7.2 Source functions in r  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/source-function-in-R/><!--7.1 --> - Source Functions R</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+       </ul>
+        
+
+        
+      </ul>
+
+      <!-- BEGIN Learn how to lessons -->
+       <ul>
+         
+         
+       </ul>
+
+
+     </div>
+
+
+      <!-- END BEGIN Learn how to lessons -->
+
+      <!--  -->
+      
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 8 <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 QUANTIFY FIRE IMPACTS - REMOTE SENSING</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/intro-spectral-data-r/"> 8.1   Fire / spectral remote sensing data - in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/add-variables-to-rmarkdown-report/"> 8.2   Refine Rmarkdown Reports </a>
+                                </li>
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 9 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-9/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 STUDY FIRE USING REMOTE SENSING DATA</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 10 <a href="https://www.earthdatascience.org/courses/earth-analytics/communicate-your-science/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MIDTERM REVIEW / PRESENTATION BEST PRACTICES</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 11 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-11/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MIDTERM PRESENTATIONS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 12 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-12/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FALL BREAK: NO CLASS!</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 13 <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 PROGRAMMATIC DATA ACCESS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-social-media-text-mining-r/"> 13.1   twitter APIs </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-programmatic-data-access-r/"> 13.2   APIs </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 14 <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-final-projects/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FINAL PROJECTS & COURSE FEEDBACK DISCUSSION</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 15 <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-final-week/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LAST CLASS: FINAL PROJECT PRESENTATIONS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+  </ul></li>
+ </ul>
+
+
+ <ul>
+   <li><span class="nav__sub-title"><i class="fa fa-folder-open" aria-hidden="true"></i> Overview</span>
+    <ul>
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/">
+           Course Home Page </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-syllabus/">
+           Course Syllabus </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/mid-term/">
+           Midterm Project </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/final-project/">
+           Final Project </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/data-sources/">
+           Data Source List </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/search-course-lessons/">
+           Search Course Lessons </a></li>
+         
+
+     
+   </ul>
+ </li>
+</ul>
+</nav>
+
+<h5><a href="https://www.earthdatascience.org/courses/earth-analytics/" ><i class="fa fa-home" aria-hidden="true"></i> earth-analytics Home</a></h5>
+
+    
+
+    
+
+  
+  </div>
+
+
+
+
+
+
+<!-- begin science / science themes side bar nav -->
+
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+
+    <meta itemprop="headline" content="Landsat Remote Sensing tif Files in R">
+    <meta itemprop="description" content="In this lesson you will cover the basics of using Landsat 7 and 8 in R. You will learn how to import Landsat data stored in .tif format - where each .tif file represents a single band rather than a stack of bands. Finally you will plot the data using various 3 band combinations including RGB and color-infrared.">
+    <meta itemprop="datePublished" content="February 22, 2017">
+    <meta itemprop="dateModified" content="January 08, 2020">
+
+    <div class="page__inner-wrap">
+        <header>
+          
+
+          <!-- BEGIN: insert a welcome to the module block on pages that are part of a module set -->
+
+          <!-- END: insert welcome block -->
+
+          
+              
+
+            
+                <h1 class="page__title" itemprop="headline">
+                Lesson 6. 
+                 Landsat Remote Sensing tif Files in R
+
+                
+                </h1>
+            
+
+          
+
+          
+            <div class="page__meta">
+              
+              
+              <a href="https://www.earthdatascience.org/authors/leah-wasser">Leah Wasser</a>
+              
+            </div>
+          
+
+            <br/>
+
+            
+
+              
+            
+
+            <!-- For tools pages add authors and tool title -->
+
+            
+        </header>
+
+
+
+      <section class="page__content" itemprop="text">
+
+        <!-- would like to include the TOC automatically but this does weird things-->
+        
+          
+            <aside class="sidebar__right">
+<nav class="toc">
+    <header><h4 class="nav__title"><i class="fa fa-file-text"></i> In This Lesson</h4></header>
+<ul class="toc__menu" id="markdown-toc">
+  <li><a href="#learning-objectives" id="markdown-toc-learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</a></li>
+  <li><a href="#what-you-need" id="markdown-toc-what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What You Need</a></li>
+  <li><a href="#about-landsat-data" id="markdown-toc-about-landsat-data">About Landsat Data</a></li>
+  <li><a href="#julian-day" id="markdown-toc-julian-day">Julian Day</a></li>
+  <li><a href="#landsat-tif-files-in-r" id="markdown-toc-landsat-tif-files-in-r">Landsat tif Files in R</a></li>
+  <li><a href="#get-list-of-files" id="markdown-toc-get-list-of-files">Get List of Files</a></li>
+  <li><a href="#open-the-tif-files-in-r" id="markdown-toc-open-the-tif-files-in-r">Open the .tif Files in R</a></li>
+  <li><a href="#plot-rgb-composite-band-images-with-landsat-in-r" id="markdown-toc-plot-rgb-composite-band-images-with-landsat-in-r">Plot RGB Composite Band Images with Landsat in R</a></li>
+  <li><a href="#optional-challenge" id="markdown-toc-optional-challenge"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge</a></li>
+  <li><a href="#additional-resources" id="markdown-toc-additional-resources">Additional Resources</a></li>
+</ul>
+
+  </nav>
+</aside>
+
+<div class="notice--success">
+
+  <h2 id="learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</h2>
+
+  <p>After completing this tutorial, you will be able to:</p>
+
+  <ul>
+    <li>Use <code class="language-plaintext highlighter-rouge">list.files()</code> to create a subsetted list of file names within a specified directory on your computer.</li>
+    <li>Create a raster stack from a list of <code class="language-plaintext highlighter-rouge">.tif</code> files in <code class="language-plaintext highlighter-rouge">R</code>.</li>
+    <li>Plot various band combinations using a rasterstack in <code class="language-plaintext highlighter-rouge">R</code> with <code class="language-plaintext highlighter-rouge">plotRGB()</code>.</li>
+  </ul>
+
+  <h2 id="what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What You Need</h2>
+
+  <p>You will need a computer with internet access to complete this lesson and the
+data for week 7 of the course.</p>
+
+  <p><a href="https://ndownloader.figshare.com/files/7677208" data-proofer-ignore="" class="btn"><i class="fa fa-download" aria-hidden="true"></i> Download Week 7 - 9 Data (~500 MB)</a></p>
+
+</div>
+
+<p>In the previous lesson, you learned how to import a multi-band image into <code class="language-plaintext highlighter-rouge">R</code> using
+the <code class="language-plaintext highlighter-rouge">stack()</code> function. You then plotted the data as a composite, RGB (and CIR) image
+using <code class="language-plaintext highlighter-rouge">plotRGB()</code>. However, sometimes data are downloaded in individual bands rather
+than a composite raster stack.</p>
+
+<p>In this lesson you will learn how to work with Landsat data in <code class="language-plaintext highlighter-rouge">R</code>. In this case, your
+data are downloaded in <code class="language-plaintext highlighter-rouge">.tif</code> format with each <code class="language-plaintext highlighter-rouge">.tif</code> file representing a single
+band rather than a stack of bands.</p>
+
+<h2 id="about-landsat-data">About Landsat Data</h2>
+
+<blockquote>
+  <p>At over 40 years, the Landsat series of satellites provides the longest temporal record of moderate resolution multispectral data of the Earth’s surface on a global basis. The Landsat record has remained remarkably unbroken, proving a unique resource to assist a broad range of specialists in managing the world’s food, water, forests, and other natural resources for a growing world population.  It is a record unmatched in quality, detail, coverage, and value. Source: <a href="https://www.usgs.gov/land-resources/nli/landsat/about?qt-science_support_page_related_con=2#qt-science_support_page_related_con" target="_blank">USGS</a></p>
+</blockquote>
+
+<figure>
+    <a href="https://www.earthdatascience.org/images/courses/earth-analytics/remote-sensing/TimelineOnlyForWebRGB.png">
+    <img src="https://www.earthdatascience.org/images/courses/earth-analytics/remote-sensing/TimelineOnlyForWebRGB.png" alt="Landsat 40 year timeline source: USGS." />
+    </a>
+    <figcaption>The 40 year history of Landsat missions. Source: USGS - <a href="https://www.usgs.gov/land-resources/nli/landsat/landsat-satellite-missions?qt-science_support_page_related_con=2#qt-science_support_page_related_con" target="_blank"> USGS Landsat</a>
+    </figcaption>
+</figure>
+
+<p>Landsat data is a multispectral dataset collected from space. The multispectral bands
+and associated spatial resolution of the first 9 bands in the Landsat 8 sensor
+are listed below.</p>
+
+<h4 id="landsat-8-bands">Landsat 8 Bands</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Band</th>
+      <th>Wavelength range (nanometers)</th>
+      <th>Spatial Resolution (m)</th>
+      <th>Spectral Width (nm)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Band 1 - Coastal aerosol</td>
+      <td>430 - 450</td>
+      <td>30</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <td>Band 2 - Blue</td>
+      <td>450 - 510</td>
+      <td>30</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <td>Band 3 - Green</td>
+      <td>530 - 590</td>
+      <td>30</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <td>Band 4 - Red</td>
+      <td>640 - 670</td>
+      <td>30</td>
+      <td>0.03</td>
+    </tr>
+    <tr>
+      <td>Band 5 - Near Infrared (NIR)</td>
+      <td>850 - 880</td>
+      <td>30</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <td>Band 6 - SWIR 1</td>
+      <td>1570 - 1650</td>
+      <td>30</td>
+      <td>8.0</td>
+    </tr>
+    <tr>
+      <td>Band 7 - SWIR 2</td>
+      <td>2110 - 2290</td>
+      <td>30</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <td>Band 8 - Panchromatic</td>
+      <td>500 - 680</td>
+      <td>15</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <td>Band 9 - Cirrus</td>
+      <td>1360 - 1380</td>
+      <td>30</td>
+      <td>2.0</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="get-to-know-landsat-8-filenames">Get to Know Landsat 8 Filenames</h3>
+
+<p>When working with Landsat, it is important to understand both the metadata and
+the file naming convention. The metadata tell you how the data were processed,
+where the data are from and how they are structured.</p>
+
+<p>The file names, tell you what sensor collected the data, the date the data
+were collected, and more.</p>
+
+<p><a href="https://www.usgs.gov/faqs/what-naming-convention-landsat-collections-level-1-scenes?qt-news_science_products=0#qt-news_science_products" target="_blank">Landsat file naming convention</a></p>
+
+<figure>
+    <a href="https://www.earthdatascience.org/images/courses/earth-analytics/remote-sensing/Collection_FileNameDiffs.png">
+    <img src="https://www.earthdatascience.org/images/courses/earth-analytics/remote-sensing/Collection_FileNameDiffs.png" alt="landsat file naming convention" />
+    </a>
+    <figcaption>Landsat file names Source: USGS Landsat - &lt;a href="https://landsat.usgs.gov/what-are-naming-conventions-landsat-scene-identifiers
+    </figcaption>
+</figure>
+
+<p>Let’s have a look at one of the files and use the image above to guide us through
+understanding the file name.</p>
+
+<p>File: <code class="language-plaintext highlighter-rouge">LC80340322016205LGN00_sr_band1_crop.tif</code></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sensor</th>
+      <th>Sensor</th>
+      <th>Satellite</th>
+      <th>WRS path</th>
+      <th>WRS row</th>
+      <th> </th>
+      <th> </th>
+      <th> </th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>L</td>
+      <td>C</td>
+      <td>8</td>
+      <td>034</td>
+      <td>032</td>
+      <td>2016</td>
+      <td>205</td>
+      <td>LGN</td>
+      <td>00</td>
+    </tr>
+    <tr>
+      <td>Landsat</td>
+      <td>OLI &amp; TIRS</td>
+      <td>Landsat 8</td>
+      <td>path = 034</td>
+      <td>row = 032</td>
+      <td>year = 2016</td>
+      <td>Julian day= 205</td>
+      <td>Ground station: LGN</td>
+      <td>Archive (first version): 00</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>L: Landsat</li>
+  <li>X: Sensor
+    <ul>
+      <li>C = OLI &amp; TIRS
+O = OLI only
+T = IRS only
+E = ETM+
+T = TM
+M = MSS</li>
+    </ul>
+  </li>
+  <li>S Satelite</li>
+  <li>PPP</li>
+  <li>RRR</li>
+  <li>YYYY = Year</li>
+  <li>DDD = Julian DAY of the year</li>
+  <li>GSI - Ground station ID</li>
+  <li>VV = Archive Version</li>
+</ul>
+
+<p><a href="http://gisgeography.com/landsat-file-naming-convention/" target="_blank"> More here breaking down the file name.</a></p>
+
+<h2 id="julian-day">Julian Day</h2>
+
+<p>In class, we won’t spend a lot of time on Julian days. For the purpose of working with Landsat
+and MODIS data, what you need to know is that the calendar year Julian day represents
+the numeric day of the year. So Jan 1 = day 1. Feb 1 = day 32. And so on.</p>
+
+<p>There are several links at the bottom of this page that provide tables that help
+you <a href="https://landweb.modaps.eosdis.nasa.gov/browse/calendar.html" target="_blank">convert Julian days to actual date</a>.</p>
+
+<h2 id="landsat-tif-files-in-r">Landsat tif Files in R</h2>
+
+<p>Next, you can open the Landsat data in <code class="language-plaintext highlighter-rouge">R</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># load spatial packages</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">raster</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">rgdal</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">rgeos</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># turn off factors</span><span class="w">
+</span><span class="n">options</span><span class="p">(</span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>If you look at the Landsat directory for the week_07 data, you will see that
+each of the individual bands is stored individually as a GeoTIFF rather than
+being stored as a stacked or layered, multi-band raster.</p>
+
+<p>Why would they store the data this way?</p>
+
+<p>Conventionally Landsat was stored in a file format called HDF - hierarchical
+data format. However that format, while extremely efficient, is a bit more
+challenging to work with. In recent years USGS has started to make each band
+of a Landsat scene available as a .tif file. This makes it a bit easier to use
+across many different programs and platforms.</p>
+
+<p>You have already been working with the geotiff file format in this class! You
+will thus use many of the same functions you used previously, to work with Landsat.</p>
+
+<h2 id="get-list-of-files">Get List of Files</h2>
+
+<p>To begin, let’s explore your file directory in <code class="language-plaintext highlighter-rouge">R</code>, You can use <code class="language-plaintext highlighter-rouge">list.files()</code> to
+grab a list of all files within any directory on your computer.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># get list of all tifs</span><span class="w">
+</span><span class="n">list.files</span><span class="p">(</span><span class="s2">"data/week-07/landsat/LC80340322016205-SC20170127160728/crop"</span><span class="p">)</span><span class="w">
+</span><span class="c1">##  [1] "LC80340322016205LGN00_bqa_crop.tif"        </span><span class="w">
+</span><span class="c1">##  [2] "LC80340322016205LGN00_cfmask_conf_crop.tif"</span><span class="w">
+</span><span class="c1">##  [3] "LC80340322016205LGN00_cfmask_crop.tif"     </span><span class="w">
+</span><span class="c1">##  [4] "LC80340322016205LGN00_sr_band1_crop.tif"   </span><span class="w">
+</span><span class="c1">##  [5] "LC80340322016205LGN00_sr_band2_crop.tif"   </span><span class="w">
+</span><span class="c1">##  [6] "LC80340322016205LGN00_sr_band3_crop.tif"   </span><span class="w">
+</span><span class="c1">##  [7] "LC80340322016205LGN00_sr_band4_crop.tif"   </span><span class="w">
+</span><span class="c1">##  [8] "LC80340322016205LGN00_sr_band5_crop.tif"   </span><span class="w">
+</span><span class="c1">##  [9] "LC80340322016205LGN00_sr_band6_crop.tif"   </span><span class="w">
+</span><span class="c1">## [10] "LC80340322016205LGN00_sr_band7_crop.tif"   </span><span class="w">
+</span><span class="c1">## [11] "LC80340322016205LGN00_sr_cloud_crop.tif"   </span><span class="w">
+</span><span class="c1">## [12] "LC80340322016205LGN00_sr_ipflag_crop.tif"</span><span class="w">
+</span></code></pre></div></div>
+
+<p>You can also use <code class="language-plaintext highlighter-rouge">list.files()</code> with the pattern argument. This allows you to specify
+a particular pattern that further subsets your data. In this case, you just want
+to look at a list of files with the extension: <code class="language-plaintext highlighter-rouge">.tif</code>. Note that it is important
+that the file <strong>ends with</strong> .tif. So you use the dollar sign at the end of your
+pattern to tell <code class="language-plaintext highlighter-rouge">R</code> to only grab files that end with .tif.</p>
+
+<p><code class="language-plaintext highlighter-rouge">pattern = ".tif$"</code></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># but really you just want the tif files</span><span class="w">
+</span><span class="n">all_landsat_bands</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">list.files</span><span class="p">(</span><span class="s2">"data/week-07/landsat/LC80340322016205-SC20170127160728/crop"</span><span class="p">,</span><span class="w">
+                      </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">".tif$"</span><span class="p">,</span><span class="w">
+                      </span><span class="n">full.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="c1"># make sure you have the full path to the file</span><span class="w">
+</span><span class="n">all_landsat_bands</span><span class="w">
+</span><span class="c1">##  [1] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_bqa_crop.tif"        </span><span class="w">
+</span><span class="c1">##  [2] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_cfmask_conf_crop.tif"</span><span class="w">
+</span><span class="c1">##  [3] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_cfmask_crop.tif"     </span><span class="w">
+</span><span class="c1">##  [4] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_band1_crop.tif"   </span><span class="w">
+</span><span class="c1">##  [5] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_band2_crop.tif"   </span><span class="w">
+</span><span class="c1">##  [6] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_band3_crop.tif"   </span><span class="w">
+</span><span class="c1">##  [7] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_band4_crop.tif"   </span><span class="w">
+</span><span class="c1">##  [8] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_band5_crop.tif"   </span><span class="w">
+</span><span class="c1">##  [9] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_band6_crop.tif"   </span><span class="w">
+</span><span class="c1">## [10] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_band7_crop.tif"   </span><span class="w">
+</span><span class="c1">## [11] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_cloud_crop.tif"   </span><span class="w">
+</span><span class="c1">## [12] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_ipflag_crop.tif"</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Above, you use the <code class="language-plaintext highlighter-rouge">$</code> after <code class="language-plaintext highlighter-rouge">.tif</code> to tell <code class="language-plaintext highlighter-rouge">R</code> to look for files that end with .tif.
+This is a good start but there is one more condition that we’d like to meet. We
+only want the .tif files that are spectral bands. Notice that some of your files
+have text that includes “mask”, flags, etc. Those are all additional layers that
+you don’t need right now. You just need the spectral data saved in bands 1_7.</p>
+
+<h3 id="mini-introduction-to-regular-expressions">Mini Introduction to Regular Expressions</h3>
+
+<p>Thus, you want to grab all bands that both end with <code class="language-plaintext highlighter-rouge">.tif</code> AND contain the text
+“band” in them. To do this you use the function <code class="language-plaintext highlighter-rouge">glob2rx()</code> which allows you to specify
+both conditions using what is called regular expressions.</p>
+
+<p>A <a href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">regular expression </a> is a sequence of characters that defines a search pattern. Here
+you tell <code class="language-plaintext highlighter-rouge">R</code> to select all files that have the word <strong>band</strong>
+in the filename. You use a * sign before and after band because you don’t know
+exactly what text will occur before or after band. You use <code class="language-plaintext highlighter-rouge">.tif$</code> to tell <code class="language-plaintext highlighter-rouge">R</code> that
+each file needs to end with <code class="language-plaintext highlighter-rouge">.tif</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">all_landsat_bands</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">list.files</span><span class="p">(</span><span class="s2">"data/week-07/landsat/LC80340322016205-SC20170127160728/crop"</span><span class="p">,</span><span class="w">
+           </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glob2rx</span><span class="p">(</span><span class="s2">"*band*.tif$"</span><span class="p">),</span><span class="w">
+           </span><span class="n">full.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="c1"># use the dollar sign at the end to get all files that END WITH</span><span class="w">
+</span><span class="n">all_landsat_bands</span><span class="w">
+</span><span class="c1">## [1] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_band1_crop.tif"</span><span class="w">
+</span><span class="c1">## [2] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_band2_crop.tif"</span><span class="w">
+</span><span class="c1">## [3] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_band3_crop.tif"</span><span class="w">
+</span><span class="c1">## [4] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_band4_crop.tif"</span><span class="w">
+</span><span class="c1">## [5] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_band5_crop.tif"</span><span class="w">
+</span><span class="c1">## [6] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_band6_crop.tif"</span><span class="w">
+</span><span class="c1">## [7] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_band7_crop.tif"</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="open-the-tif-files-in-r">Open the .tif Files in R</h2>
+
+<p>Now you have a list of all of the Landsat bands in your folder. You could chose to
+open each file individually using the <code class="language-plaintext highlighter-rouge">raster()</code> function.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># get first file</span><span class="w">
+</span><span class="n">all_landsat_bands</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="w">
+</span><span class="c1">## [1] "data/week-07/landsat/LC80340322016205-SC20170127160728/crop/LC80340322016205LGN00_sr_band2_crop.tif"</span><span class="w">
+</span><span class="n">landsat_band2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">raster</span><span class="p">(</span><span class="n">all_landsat_bands</span><span class="p">[</span><span class="m">2</span><span class="p">])</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">landsat_band2</span><span class="p">,</span><span class="w">
+     </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Landsat cropped band 2\nCold Springs fire scar"</span><span class="p">,</span><span class="w">
+     </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gray</span><span class="p">(</span><span class="m">0</span><span class="o">:</span><span class="m">100</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">100</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral06-landsat-tifs-in-R/plot-landsat-band-2-cold-springs-1.png" title="Landsat band 2 plot of Cold Springs fire scar." alt="Landsat band 2 plot of Cold Springs fire scar." width="90%" /></p>
+
+<p>However, that is not a very efficient approach.
+It’s more efficiently to open all of the layers together as a stack. Then you can
+access each of the bands and plot / use them as you want. You can do that using the
+<code class="language-plaintext highlighter-rouge">stack()</code> function.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># stack the data</span><span class="w">
+</span><span class="n">landsat_stack_csf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">stack</span><span class="p">(</span><span class="n">all_landsat_bands</span><span class="p">)</span><span class="w">
+</span><span class="c1"># then turn it into a brick</span><span class="w">
+</span><span class="n">landsat_csf_br</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">brick</span><span class="p">(</span><span class="n">landsat_stack_csf</span><span class="p">)</span><span class="w">
+</span><span class="c1"># view stack attributes</span><span class="w">
+</span><span class="n">landsat_csf_br</span><span class="w">
+</span><span class="c1">## class      : RasterBrick </span><span class="w">
+</span><span class="c1">## dimensions : 177, 246, 43542, 7  (nrow, ncol, ncell, nlayers)</span><span class="w">
+</span><span class="c1">## resolution : 30, 30  (x, y)</span><span class="w">
+</span><span class="c1">## extent     : 455655, 463035, 4423155, 4428465  (xmin, xmax, ymin, ymax)</span><span class="w">
+</span><span class="c1">## crs        : +proj=utm +zone=13 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 </span><span class="w">
+</span><span class="c1">## source     : memory</span><span class="w">
+</span><span class="c1">## names      : LC8034032//band1_crop, LC8034032//band2_crop, LC8034032//band3_crop, LC8034032//band4_crop, LC8034032//band5_crop, LC8034032//band6_crop, LC8034032//band7_crop </span><span class="w">
+</span><span class="c1">## min values :                     0,                     0,                     0,                     0,                     0,                     0,                     0 </span><span class="w">
+</span><span class="c1">## max values :                  3488,                  3843,                  4746,                  5152,                  5674,                  4346,                  3767</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Let’s plot each individual band in your brick.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plot</span><span class="p">(</span><span class="n">landsat_csf_br</span><span class="p">,</span><span class="w">
+     </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gray</span><span class="p">(</span><span class="m">20</span><span class="o">:</span><span class="m">100</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">100</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral06-landsat-tifs-in-R/plot-stack-default-1.png" title="Plot all individual Landsat bands." alt="Plot all individual Landsat bands." width="90%" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># get list of each layer name</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">landsat_csf_br</span><span class="p">)</span><span class="w">
+</span><span class="c1">## [1] "LC80340322016205LGN00_sr_band1_crop"</span><span class="w">
+</span><span class="c1">## [2] "LC80340322016205LGN00_sr_band2_crop"</span><span class="w">
+</span><span class="c1">## [3] "LC80340322016205LGN00_sr_band3_crop"</span><span class="w">
+</span><span class="c1">## [4] "LC80340322016205LGN00_sr_band4_crop"</span><span class="w">
+</span><span class="c1">## [5] "LC80340322016205LGN00_sr_band5_crop"</span><span class="w">
+</span><span class="c1">## [6] "LC80340322016205LGN00_sr_band6_crop"</span><span class="w">
+</span><span class="c1">## [7] "LC80340322016205LGN00_sr_band7_crop"</span><span class="w">
+
+</span><span class="c1"># remove the filename from each band name for pretty plotting</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">landsat_csf_br</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"LC80340322016205LGN00_sr_"</span><span class="p">,</span><span class="w"> </span><span class="n">replacement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">landsat_csf_br</span><span class="p">))</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">landsat_csf_br</span><span class="p">,</span><span class="w">
+     </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gray</span><span class="p">(</span><span class="m">20</span><span class="o">:</span><span class="m">100</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">100</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral06-landsat-tifs-in-R/plot-stack-clean-names-1.png" title="Plot all individual Landsat bands with clean names." alt="Plot all individual Landsat bands with clean names." width="90%" /></p>
+
+<h2 id="plot-rgb-composite-band-images-with-landsat-in-r">Plot RGB Composite Band Images with Landsat in R</h2>
+
+<p>Next, let’s plot an RGB image using Landsat. Refer to the Landsat bands in the table
+at the top of this page to figure out the red, green and blue bands. Or read the
+<a href="https://blogs.esri.com/esri/arcgis/2013/07/24/band-combinations-for-landsat-8/" target="_blank">ESRI Landsat 8 band combinations</a> post.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">par</span><span class="p">(</span><span class="n">col.axis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">col.lab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">tck</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
+</span><span class="n">plotRGB</span><span class="p">(</span><span class="n">landsat_csf_br</span><span class="p">,</span><span class="w">
+     </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w">
+     </span><span class="n">stretch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lin"</span><span class="p">,</span><span class="w">
+     </span><span class="n">axes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+     </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"RGB composite image\n Landsat Bands 4, 3, 2"</span><span class="p">)</span><span class="w">
+</span><span class="n">box</span><span class="p">(</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral06-landsat-tifs-in-R/plot-landsat-rgb-composite-1.png" title="Plot Landsat RGB composite." alt="Plot Landsat RGB composite." width="90%" /></p>
+
+<p>Now we’ve created a red, green blue color composite image. Remember this is what
+your eye would see. What happens if you plot the near infrared band instead of red?
+Try the following combination:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">par</span><span class="p">(</span><span class="n">col.axis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">col.lab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">tck</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
+</span><span class="n">plotRGB</span><span class="p">(</span><span class="n">landsat_csf_br</span><span class="p">,</span><span class="w">
+     </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w">
+     </span><span class="n">stretch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lin"</span><span class="p">,</span><span class="w">
+     </span><span class="n">axes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+     </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Color infrared composite image\n Landsat Bands 5, 4, 3\n Post Fire Data"</span><span class="p">)</span><span class="w">
+</span><span class="n">box</span><span class="p">(</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral06-landsat-tifs-in-R/plot-landsat-cir-composite-1.png" title="Plot Landsat CIR composite." alt="Plot Landsat CIR composite." width="90%" /></p>
+
+<div class="notice--warning">
+
+  <h2 id="optional-challenge"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge</h2>
+  <p>Using the <a href="https://blogs.esri.com/esri/arcgis/2013/07/24/band-combinations-for-landsat-8/" target="_blank">ESRI Landsat 8 band combinations</a> post as a guide. Plot the
+following Landsat band combinations:</p>
+
+  <ul>
+    <li>False color</li>
+    <li>Color infrared</li>
+    <li>Agriculture</li>
+    <li>Healthy vegetation</li>
+  </ul>
+
+  <p>Be sure to add a title to each of your plots that specifies the band combination.</p>
+
+</div>
+
+<div class="notice--info">
+
+  <h2 id="additional-resources">Additional Resources</h2>
+
+  <ul>
+    <li><a href="https://landweb.modaps.eosdis.nasa.gov/browse/calendar.html" target="_blank">NASA Julian Day Lookup</a></li>
+    <li><a href="https://landweb.modaps.eosdis.nasa.gov/browse/calendar.html" target="_blank">Landweb NASA Julian Day Lookup</a></li>
+  </ul>
+
+</div>
+
+          
+
+        
+
+        <!-- if the page is a course lesson, add pagination -->
+
+        
+         <!-- This is clunky code that forces pagination across lesson sets -->
+<!-- NOTE: it won't include slideshows as written which makes sense -->
+<!-- add forced pagination -->
+<!-- first, get total lesson count -->
+
+<div class="previous--next">
+
+
+
+
+
+<!-- if it's page one - then no previous button -->
+<!-- how do i figure out the link? i have to loop through again? -->
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+        <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/process-rasters-faster-in-R/" class="btn btn--info btn--large btn-success">
+          <i class="fa fa-4 fa-arrow-circle-left fa-4" aria-hidden="true"></i>
+          Faster Raster Calculations </a>
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags
+  
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/remote-sensing/>Remote sensing</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/remote-sensing/landsat/>landsat</a> 
+    
+    
+  
+
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/earth-science/>Earth science</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/earth-science/fire/>fire</a> 
+    
+    
+  
+
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/reproducible-science-and-programming/>Reproducible science and programming</a>:
+  </span>
+  
+
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/spatial-data-and-gis/>Spatial data and gis</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/spatial-data-and-gis/raster-data/>raster data</a> 
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-01-08">January 08, 2020</time></p>
+        
+        <!-- Add license information w/ DOI to the bottom -->
+        
+  
+  
+
+  
+     The Earth analytics course is subject to the
+     <a href="https://www.earthdatascience.org/license" target="_blank">CC BY-SA 4.0 License </a>.
+      Citation DOI: <a href="https://zenodo.org/badge/latestdoi/143348761" target="_blank"> https://zenodo.org/badge/latestdoi/143348761</a>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+      </footer>
+
+      
+
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/landsat-data-in-r-geotiff/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/landsat-data-in-r-geotiff/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/landsat-data-in-r-geotiff/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/landsat-data-in-r-geotiff/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+<br><br>
+  <a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target="_blank">
+    <img src="https://www.earthdatascience.org/images/earth-data-analytics-professional-certificate-banner.png" alt="Get a professional Certificate in Earth Data Analytics at University of Colorado, Boulder" width="40%"></a>
+</section>
+
+
+       
+    </div>
+
+    
+      
+
+
+<div class="page__comments">
+  <h4 class="page__comments-title">Leave a Comment</h4>
+  
+    <section id="disqus_thread"></section>
+  
+</div>
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/earth-analytics-bootcamp/plot-data-python">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Plot Data With Matplotlib
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  1 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">
+
+     This Week
+
+  
+
+
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/summarize-climate-data-by-season/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Seasonal Summary Values from Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Learn how to calculate seasonal summary values for MACA 2 climate data using xarray and region mask in open source Python.
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/subset-netcdf4-climate-data-spatially-aoi/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Summary Values Using Spatial Areas of Interest (AOIs) including Shapefiles for Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  32 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Climate datasets stored in netcdf 4 format often cover the entire globe or an entire country. Learn how to subset climate data spatially and by time slices u...</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/use-netcdf-in-python-xarray/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">How to Open and Process NetCDF 4 Data Format in Open Source Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Historic and projected climate data are most often stored in netcdf 4 format. Learn how to open and process MACA version 2 climate data for the Continental U...</p>
+    </article>
+  </a>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+
+<!-- Adding analytics code -->
+
+        
+
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    <li>
+      <strong>&copy; 2025 Earth Lab -
+      <a href="https://www.earthdatascience.org/license"> All materials on this site
+        are subject to the CC BY-SA 4.0 License. </a>
+      </strong>
+    </li>
+  </ul>
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/earthlabcu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+    
+      <li><a href="http://github.com/earthlab"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://www.earthdatascience.org/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<!--
+<div class="page__footer-copyright">Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+-->
+
+      </footer>
+    </div>
+
+    <script src="https://www.earthdatascience.org/assets/js/main.min.js"></script>
+
+
+
+
+
+
+  
+  <script type="text/javascript">
+  	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  	var disqus_shortname = 'earthlabcu';
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function() {
+  		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  	})();
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function () {
+  		var s = document.createElement('script'); s.async = true;
+  		s.type = 'text/javascript';
+  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  	}());
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-84081999-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>
+

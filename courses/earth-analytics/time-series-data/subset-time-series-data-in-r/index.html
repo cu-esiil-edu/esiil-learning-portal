@@ -1,0 +1,4625 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+
+<meta charset="utf-8">
+
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Use Tidyverse Pipes to Subset Time Series Data in R | Earth Data Science - Earth Lab </title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Earth Data Science - Earth Lab">
+<meta property="og:title" content="Use Tidyverse Pipes to Subset Time Series Data in R">
+
+
+  <link rel="canonical" href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/subset-time-series-data-in-r/">
+  <meta property="og:url" content="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/subset-time-series-data-in-r/">
+
+
+
+  <meta content="Learn how to extract and plot data by a range of dates using pipes in R." name="description">
+  <meta property="og:description" content="Learn how to extract and plot data by a range of dates using pipes in R.">
+
+
+<!-- twitter cards -->
+
+  <meta name="twitter:site" content="@earthlabcu">
+  <meta name="twitter:title" content="Use Tidyverse Pipes to Subset Time Series Data in R">
+  <meta name="twitter:description" content="Learn how to extract and plot data by a range of dates using pipes in R.">
+  <meta name="twitter:url" content="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/subset-time-series-data-in-r/">
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://earthdatascience.org/images/earth_sm_twit.png">
+    <meta name="twitter:image:alt" content="The Earthlab Logo - image of a globe with courses, lessons and tutorials">
+
+    
+  
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2017-01-25T00:00:00-06:00">
+  
+    <link rel="next" href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/summarize-time-series-by-month-in-r/" title="Summarize Time Series Data by Month or Year Using Tidyverse Pipes in R">
+  
+  
+    <link rel="prev" href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/date-class-in-r/" title="Time Series Data: Work with Dates in R">
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Earth Analytics",
+      "url" : "https://www.earthdatascience.org",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://www.earthdatascience.org/feed.xml" type="application/atom+xml" rel="alternate" title="Earth Data Science - Earth Lab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="LfpevjsE0wlELv5KKOZv1T2RhRimGSiRckWv5ZC19GU" />
+<!-- don't use the old cataloged meta tags -->
+<meta name="googlebot" content="noodp">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+
+<!-- For all browsers
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">-->
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+
+    <script src="https://www.earthdatascience.org/assets/js/copy-code.js"></script>
+  </head>
+
+  <body>
+
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<!-- search bar begin  - turning off for now-->
+
+<div class="search">
+<form role="search" method="get" action="https://www.earthdatascience.org/search/">
+    <input id="q" name="q"
+           placeholder="Search earth data science site" type="text">
+</form>
+<!--<span class='cu-boulder'><a href="http://www.colorado.edu/earthlab" target="_blank">Earth Lab University of Colorado - Boulder Home </a></span> -->
+</div>
+
+
+<!-- search bar END -->
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://www.earthdatascience.org/"><img src="/images/earth-lab-logo.png" alt="Earth Lab - Earth Data Science" style="height:80%;width:85%"></a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tutorials/">Tutorials</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/courses/">Courses</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/workshops/">Workshops</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tools/">Tools</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/blog/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/about/">About</a></li>
+          
+
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+  <div class="page__hero--overlay" style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.earthdatascience.org/images/header-images/earth-data-analytics-professional-certificate-banner.jpg');">
+  <div class="wrapper">
+        <h1 class="page__title" itemprop="headline">
+          Earth Data Analytics Online Certificate
+        </h1>
+        <p><a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target = "_blank" class="btn btn--light-outline btn--large">Enroll now! Learn more.</a></p>
+  </div>
+</div>
+
+
+
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="breadcrumbs" role="menubar" aria-label="breadcrumbs">
+ <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+ <a href="https://www.earthdatascience.org"></a>
+ 
+ 
+ <!-- there is an offset of 1 so subtract 2 from the final crumb number-->
+ 
+   
+   
+     <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+       <a href="https://www.earthdatascience.org/" itemprop="item"><span itemprop="name">Home</span></a>
+       <meta itemprop="position" content="1" />
+     </li>
+     <span class="sep">/</span>
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/">Courses </a>
+        <meta itemprop="position" content="2" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/earth-analytics/">Earth analytics </a>
+        <meta itemprop="position" content="3" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/">Time series data </a>
+        <meta itemprop="position" content="4" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        <li class="current">Use Tidyverse Pipes to Subset Time Series Data in R</li>
+    
+  
+</ol>
+</nav>
+
+<!-- from min mistakes -->
+
+
+
+
+  
+
+
+<div id="main" role="main">
+  
+
+
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+    
+    
+
+
+    
+
+    
+     <!--  Might be able to delete this This is the code that populates the side bar navigation if there is a class-->
+      
+
+
+
+
+
+
+
+<!-- make sure we're only grabbing pages for the course -->
+
+
+
+<!--<h3>Week 2 Lessons</h3>-->
+<!-- i don't think the code below is used as modules is defined lower down as well. -->
+
+<!-- This is how modules are sorted on the left hand side bar -->
+
+
+
+
+
+
+<h5><a href="https://www.earthdatascience.org/courses/earth-analytics/" ><i class="fa fa-home" aria-hidden="true"></i> Earth analytics</a></h5>
+
+<!-- Just get the pages from this course -->
+
+
+
+
+
+
+<nav class="nav__list">
+
+
+
+
+
+
+
+<ul>
+  <li><span class="nav__sub-title"><i class="fa fa-book" aria-hidden="true"></i> Units</span>
+   <ul>
+
+       
+
+        
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 1 <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 DOCUMENT YOUR SCIENCE USING R MARKDOWN AND R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/google-earth-time-series/"> 1.1   Use data for science </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/setup-r-rstudio/"> 1.2   Set up R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/about-open-science-and-why-open-science-is-important/"> 1.3   R Markdown Intro </a>
+                                </li>
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+                
+                    <li class='active-section'> <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/"><i class="fa fa-folder-open" aria-hidden="true"></i>
+                     2. INTRO TO R & WORK WITH TIME SERIES DATA</a></li>
+
+            
+
+<div class='active-menu'>
+      <ul>
+        
+        <!-- Note that class-order allows you to sort modules by class order if there are more than 1 in a class -->
+        
+
+        
+
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   2.1 Get to know r  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/time-series-data/basic-r-syntax-scientific-programming/><!--2.1 --> - Get to know R</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/time-series-data/objects-in-r/><!--2.2 --> - Objects in R</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/time-series-data/work-with-data-types-r/><!--2.3 --> - Vectors in R</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/time-series-data/open-plot-spreadsheet-data-in-R/><!--2.4 --> - Open Spreadsheet Data</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/time-series-data/missing-data-in-r-na/><!--2.5 --> - Clean Missing Data</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/time-series-data/plot-data-with-ggplot2-r/><!--2.6 --> - Plot Data with ggplot</a></li>
+          
+          
+
+        
+       </ul>
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   2.2 Time series data in r  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/time-series-data/date-class-in-r/><!--2.1 --> - Dates in R</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/time-series-data/subset-time-series-data-in-r/ class='active'> <!--2.2 -->- Subset Time Series Data</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/time-series-data/summarize-time-series-by-month-in-r/><!--2.3 --> - Summarize Time Series Data</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/time-series-data/plot-stream-discharge-timeseries-challenge-r/><!--2.4 --> - Homework example: Stream Discharge</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/time-series-data/aggregate-time-series-data-r/><!--2.5 --> - Bonus: Summarize & Filter Data</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/time-series-data/interactive-time-series-plots-in-r/><!--2.6 --> - Interactive Time Series Plots</a></li>
+          
+          
+
+        
+        
+        
+
+        
+       </ul>
+        
+
+        
+      </ul>
+
+      <!-- BEGIN Learn how to lessons -->
+       <ul>
+         
+         
+
+         
+         
+             <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i> Clean code & getting help with r </span></li>
+             
+             
+         
+         <ul>
+
+         
+
+       <!-- count lessons -->
+
+         
+
+         
+         
+
+         
+         
+
+         
+         
+
+
+           
+           <li><a href= https://www.earthdatascience.org/courses/earth-analytics/time-series-data/write-clean-code-with-r/><!--2.1.1 --> - Write Clean Code</a></li>
+           
+           
+         
+
+         
+         
+
+         
+         
+
+
+           
+           <li><a href= https://www.earthdatascience.org/courses/earth-analytics/time-series-data/ways-to-get-help-with-R/><!--2.1.2 --> - About R / Get Help</a></li>
+           
+           
+         
+
+         
+         
+
+         
+         
+
+         
+         
+
+         
+         
+
+         
+         
+
+         
+         
+
+         
+         
+
+         
+         
+
+         
+         
+
+         
+         
+        </ul>
+         
+       </ul>
+
+
+     </div>
+
+
+      <!-- END BEGIN Learn how to lessons -->
+
+      <!--  -->
+      
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 3 <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LIDAR RASTER DATA IN R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/ggmap-basemap/"> 3.   Refine R Markdown Reports with Images and Basemaps </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/lidar-intro/"> 3.1   Intro to Lidar Data </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/open-lidar-raster-r/"> 3.2   Lidar Raster Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 4 <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 SPATIAL DATA IN R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/intro-vector-data-r/"> 4.   Spatial Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/r-create-custom-legend-with-base-plot/"> 4.2   Custom Maps in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 5 <a href="https://www.earthdatascience.org/courses/earth-analytics/remote-sensing-uncertainty/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LIDAR DATA IN R - REMOTE SENSING UNCERTAINTY</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/remote-sensing-uncertainty/about-uncertainty-lidar/"> 5.   Uncertainty in Scientific Data & Metadata  </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 6 <a href="https://www.earthdatascience.org/courses/earth-analytics/automate-science-workflows/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FUNCTIONS & AUTOMATION</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/automate-science-workflows/write-efficient-code-for-science-r/"> 6.   Efficient Programming Using Functions </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 7 <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MULTISPECTRAL IMAGERY R - NAIP, LANDSAT, FIRE & REMOTE SENSING</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/introduction-multispectral-imagery-r/"> 7.   Fire / Spectral Remote Sensing Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/source-function-in-R/"> 7.2   Source Functions in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 8 <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 QUANTIFY FIRE IMPACTS - REMOTE SENSING</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/intro-spectral-data-r/"> 8.1   Fire / spectral remote sensing data - in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/add-variables-to-rmarkdown-report/"> 8.2   Refine Rmarkdown Reports </a>
+                                </li>
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 9 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-9/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 STUDY FIRE USING REMOTE SENSING DATA</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 10 <a href="https://www.earthdatascience.org/courses/earth-analytics/communicate-your-science/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MIDTERM REVIEW / PRESENTATION BEST PRACTICES</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 11 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-11/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MIDTERM PRESENTATIONS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 12 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-12/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FALL BREAK: NO CLASS!</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 13 <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 PROGRAMMATIC DATA ACCESS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-social-media-text-mining-r/"> 13.1   twitter APIs </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-programmatic-data-access-r/"> 13.2   APIs </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 14 <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-final-projects/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FINAL PROJECTS & COURSE FEEDBACK DISCUSSION</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 15 <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-final-week/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LAST CLASS: FINAL PROJECT PRESENTATIONS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+  </ul></li>
+ </ul>
+
+
+ <ul>
+   <li><span class="nav__sub-title"><i class="fa fa-folder-open" aria-hidden="true"></i> Overview</span>
+    <ul>
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/">
+           Course Home Page </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-syllabus/">
+           Course Syllabus </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/mid-term/">
+           Midterm Project </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/final-project/">
+           Final Project </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/data-sources/">
+           Data Source List </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/search-course-lessons/">
+           Search Course Lessons </a></li>
+         
+
+     
+   </ul>
+ </li>
+</ul>
+</nav>
+
+<h5><a href="https://www.earthdatascience.org/courses/earth-analytics/" ><i class="fa fa-home" aria-hidden="true"></i> earth-analytics Home</a></h5>
+
+    
+
+    
+
+  
+  </div>
+
+
+
+
+
+
+<!-- begin science / science themes side bar nav -->
+
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+
+    <meta itemprop="headline" content="Use Tidyverse Pipes to Subset Time Series Data in R">
+    <meta itemprop="description" content="Learn how to extract and plot data by a range of dates using pipes in R.">
+    <meta itemprop="datePublished" content="January 25, 2017">
+    <meta itemprop="dateModified" content="September 03, 2019">
+
+    <div class="page__inner-wrap">
+        <header>
+          
+
+          <!-- BEGIN: insert a welcome to the module block on pages that are part of a module set -->
+
+          <!-- END: insert welcome block -->
+
+          
+              
+
+            
+                <h1 class="page__title" itemprop="headline">
+                Lesson 2. 
+                 Use Tidyverse Pipes to Subset Time Series Data in R
+
+                
+                </h1>
+            
+
+          
+
+          
+            <div class="page__meta">
+              
+              
+              <a href="https://www.earthdatascience.org/authors/leah-wasser">Leah Wasser</a>
+              
+            </div>
+          
+
+            <br/>
+
+            
+
+              
+            
+
+            <!-- For tools pages add authors and tool title -->
+
+            
+        </header>
+
+
+
+      <section class="page__content" itemprop="text">
+
+        <!-- would like to include the TOC automatically but this does weird things-->
+        
+          
+            <aside class="sidebar__right">
+<nav class="toc">
+    <header><h4 class="nav__title"><i class="fa fa-file-text"></i> In This Lesson</h4></header>
+<ul class="toc__menu" id="markdown-toc">
+  <li><a href="#learning-objectives" id="markdown-toc-learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</a></li>
+  <li><a href="#what-you-need" id="markdown-toc-what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What You Need</a></li>
+  <li><a href="#important---data-organization" id="markdown-toc-important---data-organization">Important - Data Organization</a></li>
+  <li><a href="#get-started-with-time-series-data" id="markdown-toc-get-started-with-time-series-data">Get Started with Time Series Data</a></li>
+  <li><a href="#import-precipitation-time-series" id="markdown-toc-import-precipitation-time-series">Import Precipitation Time Series</a></li>
+  <li><a href="#optional-challenge" id="markdown-toc-optional-challenge"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge</a></li>
+  <li><a href="#optional-challenge-1" id="markdown-toc-optional-challenge-1"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge</a></li>
+  <li><a href="#subset-the-data" id="markdown-toc-subset-the-data">Subset the Data</a></li>
+  <li><a href="#optional-challenge-2" id="markdown-toc-optional-challenge-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge</a></li>
+</ul>
+
+  </nav>
+</aside>
+
+<p>In this lesson, you will learn how to import a larger dataset, and test your
+skills cleaning and plotting the data.</p>
+
+<div class="notice--success">
+
+  <h2 id="learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</h2>
+
+  <p>After completing this tutorial, you will be able to:</p>
+
+  <ul>
+    <li>Subset data using the dplyr <code class="language-plaintext highlighter-rouge">filter()</code> function.</li>
+    <li>Use <code class="language-plaintext highlighter-rouge">dplyr</code> pipes to manipulate data in <code class="language-plaintext highlighter-rouge">R</code>.</li>
+    <li>Describe what a pipe does and how it is used to manipulate data in <code class="language-plaintext highlighter-rouge">R</code></li>
+  </ul>
+
+  <h2 id="what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What You Need</h2>
+
+  <p>You need <code class="language-plaintext highlighter-rouge">R</code> and <code class="language-plaintext highlighter-rouge">RStudio</code> to complete this tutorial. Also we recommend that you
+have an <code class="language-plaintext highlighter-rouge">earth-analytics</code> directory set up on your computer with a <code class="language-plaintext highlighter-rouge">/data</code>
+directory within it.</p>
+
+  <ul>
+    <li><a href="/courses/earth-analytics/document-your-science/setup-r-rstudio/">How to set up R / RStudio</a></li>
+    <li><a href="/courses/earth-analytics/document-your-science/setup-working-directory/">Set up your working directory</a></li>
+    <li><a href="/courses/earth-analytics/document-your-science/intro-to-r-and-rstudio">Intro to the R &amp; RStudio Interface</a></li>
+  </ul>
+
+  <h3 id="r-libraries-to-install">R Libraries to Install:</h3>
+
+  <ul>
+    <li><strong>ggplot2:</strong> <code class="language-plaintext highlighter-rouge">install.packages("ggplot2")</code></li>
+    <li><strong>dplyr:</strong> <code class="language-plaintext highlighter-rouge">install.packages("dplyr")</code></li>
+    <li><strong>lubridate:</strong> <code class="language-plaintext highlighter-rouge">install.packages("lubridate")</code></li>
+  </ul>
+
+  <p><a href="https://ndownloader.figshare.com/files/7426738" data-proofer-ignore="" class="btn"><i class="fa fa-download" aria-hidden="true"></i> Download Week 2 Data</a></p>
+
+</div>
+
+<h2 id="important---data-organization">Important - Data Organization</h2>
+<p>Before you begin this lesson, be sure that you’ve downloaded the dataset above.
+You will need to UNZIP the zip file. When you do this, be sure that your directory
+looks like the image below: note that all of the data are within the week2
+directory. They are not nested within another directory. You may have to copy and
+paste your files to make this look right.</p>
+
+<figure>
+<a href="https://www.earthdatascience.org/images/courses/earth-analytics/co-flood-lessons/week-02-data.png">
+<img src="https://www.earthdatascience.org/images/courses/earth-analytics/co-flood-lessons/week-02-data.png" alt="week 2 file organization" />
+</a>
+<figcaption>Your `week_02` file directory should look like the one above. Note that
+the data directory is directly under the earth-analytics folder.</figcaption>
+</figure>
+
+<h2 id="get-started-with-time-series-data">Get Started with Time Series Data</h2>
+<p>To begin, load the <code class="language-plaintext highlighter-rouge">ggplot2</code> and <code class="language-plaintext highlighter-rouge">dplyr</code> libraries. Also, set your
+working directory. Finally, set <code class="language-plaintext highlighter-rouge">stringsAsFactors</code> to <code class="language-plaintext highlighter-rouge">FALSE</code> globally using
+<code class="language-plaintext highlighter-rouge">options(stringsAsFactors = FALSE)</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># set your working directory to the earth-analytics directory</span><span class="w">
+</span><span class="c1"># setwd("working-dir-path-here")</span><span class="w">
+
+</span><span class="c1"># load packages</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">lubridate</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># set strings as factors to false</span><span class="w">
+</span><span class="n">options</span><span class="p">(</span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="import-precipitation-time-series">Import Precipitation Time Series</h2>
+
+<p>You will use a precipitation dataset collected by the
+National Centers for Environmental Information (formerly
+National Climate Data Center) Cooperative Observer Network (COOP)
+station 050843 in Boulder, CO. The data cover the time span between 1 January
+2003 through 31 December 2013.</p>
+
+<p>To begin, use <code class="language-plaintext highlighter-rouge">read.csv()</code> to import the <code class="language-plaintext highlighter-rouge">.csv</code> file.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># download the data</span><span class="w">
+</span><span class="c1"># download.file(url = "https://ndownloader.figshare.com/files/7283285",</span><span class="w">
+</span><span class="c1">#              destfile = "data/week-02/805325-precip-dailysum_2003-2013.csv")</span><span class="w">
+
+</span><span class="c1"># import the data</span><span class="w">
+</span><span class="n">boulder_daily_precip</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/week-02/precipitation/805325-precip-dailysum-2003-2013.csv"</span><span class="p">,</span><span class="w">
+         </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+
+</span><span class="c1"># view first 6 lines of the data</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">boulder_daily_precip</span><span class="p">)</span><span class="w">
+</span><span class="c1">##     DATE DAILY_PRECIP     STATION    STATION_NAME ELEVATION LATITUDE</span><span class="w">
+</span><span class="c1">## 1 1/1/03         0.00 COOP:050843 BOULDER 2 CO US    1650.5 40.03389</span><span class="w">
+</span><span class="c1">## 2 1/5/03       999.99 COOP:050843 BOULDER 2 CO US    1650.5 40.03389</span><span class="w">
+</span><span class="c1">## 3 2/1/03         0.00 COOP:050843 BOULDER 2 CO US    1650.5 40.03389</span><span class="w">
+</span><span class="c1">## 4 2/2/03       999.99 COOP:050843 BOULDER 2 CO US    1650.5 40.03389</span><span class="w">
+</span><span class="c1">## 5 2/3/03         0.40 COOP:050843 BOULDER 2 CO US    1650.5 40.03389</span><span class="w">
+</span><span class="c1">## 6 2/5/03         0.20 COOP:050843 BOULDER 2 CO US    1650.5 40.03389</span><span class="w">
+</span><span class="c1">##   LONGITUDE YEAR JULIAN</span><span class="w">
+</span><span class="c1">## 1 -105.2811 2003      1</span><span class="w">
+</span><span class="c1">## 2 -105.2811 2003      5</span><span class="w">
+</span><span class="c1">## 3 -105.2811 2003     32</span><span class="w">
+</span><span class="c1">## 4 -105.2811 2003     33</span><span class="w">
+</span><span class="c1">## 5 -105.2811 2003     34</span><span class="w">
+</span><span class="c1">## 6 -105.2811 2003     36</span><span class="w">
+
+</span><span class="c1"># view structure of data</span><span class="w">
+</span><span class="n">str</span><span class="p">(</span><span class="n">boulder_daily_precip</span><span class="p">)</span><span class="w">
+</span><span class="c1">## 'data.frame':	792 obs. of  9 variables:</span><span class="w">
+</span><span class="c1">##  $ DATE        : chr  "1/1/03" "1/5/03" "2/1/03" "2/2/03" ...</span><span class="w">
+</span><span class="c1">##  $ DAILY_PRECIP: num  0e+00 1e+03 0e+00 1e+03 4e-01 ...</span><span class="w">
+</span><span class="c1">##  $ STATION     : chr  "COOP:050843" "COOP:050843" "COOP:050843" "COOP:050843" ...</span><span class="w">
+</span><span class="c1">##  $ STATION_NAME: chr  "BOULDER 2 CO US" "BOULDER 2 CO US" "BOULDER 2 CO US" "BOULDER 2 CO US" ...</span><span class="w">
+</span><span class="c1">##  $ ELEVATION   : num  1650 1650 1650 1650 1650 ...</span><span class="w">
+</span><span class="c1">##  $ LATITUDE    : num  40 40 40 40 40 ...</span><span class="w">
+</span><span class="c1">##  $ LONGITUDE   : num  -105 -105 -105 -105 -105 ...</span><span class="w">
+</span><span class="c1">##  $ YEAR        : int  2003 2003 2003 2003 2003 2003 2003 2003 2003 2003 ...</span><span class="w">
+</span><span class="c1">##  $ JULIAN      : int  1 5 32 33 34 36 37 38 41 49 ...</span><span class="w">
+
+</span><span class="c1"># are there any unusual / No data values?</span><span class="w">
+</span><span class="n">summary</span><span class="p">(</span><span class="n">boulder_daily_precip</span><span class="o">$</span><span class="n">DAILY_PRECIP</span><span class="p">)</span><span class="w">
+</span><span class="c1">##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span><span class="w">
+</span><span class="c1">##    0.000    0.100    0.100    5.297    0.300  999.990</span><span class="w">
+</span><span class="nf">max</span><span class="p">(</span><span class="n">boulder_daily_precip</span><span class="o">$</span><span class="n">DAILY_PRECIP</span><span class="p">)</span><span class="w">
+</span><span class="c1">## [1] 999.99</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="about-the-data">About the Data</h3>
+
+<p>Viewing the structure of these data, you can see that different types of data are included in
+this file:</p>
+
+<ul>
+  <li><strong>STATION</strong> and <strong>STATION_NAME</strong>: Identification of the COOP station.</li>
+  <li><strong>ELEVATION, LATITUDE</strong> and <strong>LONGITUDE</strong>: The spatial location of the station.</li>
+  <li><strong>DATE</strong>: The date when the data were collected in the format: YYYYMMDD. Notice that DATE is
+currently class <code class="language-plaintext highlighter-rouge">chr</code>, meaning the data is interpreted as a character class and
+not as a date.</li>
+  <li><strong>DAILY_PRECIP</strong>: The total precipitation in inches. Important: the metadata
+notes that the value 999.99 indicates missing data. Also important,
+hours with no precipitation are not recorded.</li>
+  <li><strong>YEAR</strong>: The year the data were collected.</li>
+  <li><strong>JULIAN</strong>: The JULIAN DAY the data were collected.</li>
+</ul>
+
+<p>Additional information about the data, known as metadata, is available in the
+<a href="https://ndownloader.figshare.com/files/7283453">PRECIP_HLY_documentation.pdf</a>.
+The metadata tell us that the noData value for these data is 999.99. IMPORTANT:
+You have modified these data a bit for ease of teaching and learning. Specifically,
+you’ve aggregated the data to represent daily sum values and added some noData
+values to ensure you learn how to clean them!</p>
+
+<p>You can download the original complete data subset with additional documentation
+<a href="https://figshare.com/articles/NEON_Remote_Sensing_Boulder_Flood_2013_Teaching_Data_Subset_Lee_Hill_Road/3146284">here. </a></p>
+
+<div class="notice--warning">
+
+  <h2 id="optional-challenge"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge</h2>
+
+  <p>Using everything you’ve learned in the previous lessons:</p>
+
+  <ul>
+    <li>Import the dataset: <code class="language-plaintext highlighter-rouge">data/week-02/precipitation/805325-precip-dailysum-2003-2013.csv</code>.</li>
+    <li>Clean the data by assigning noData values to <code class="language-plaintext highlighter-rouge">NA</code>.</li>
+    <li>Make sure the date column is a date class.</li>
+    <li>When you are done, plot it using <code class="language-plaintext highlighter-rouge">ggplot()</code>.
+      <ul>
+        <li>Be sure to include a TITLE, and label the X and Y axes.</li>
+        <li>Change the color of the plotted points.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <p>Some notes to help you along:</p>
+
+  <ul>
+    <li>Date: Be sure to take off the date format when you import the data.</li>
+    <li>NoData Values: You know that the no data value = 999.99. You can account for this
+when you read in the data. Remember how?</li>
+  </ul>
+
+  <p>Your final plot should look something like the plot below.</p>
+</div>
+
+<h3 id="import-data-and-reassign-na-values">Import Data and Reassign na Values</h3>
+
+<p>To begin, import the data. Be sure to use the <code class="language-plaintext highlighter-rouge">na.strings</code> argument to remove <code class="language-plaintext highlighter-rouge">NA</code> values.
+Also your data have a header (the first row represents column names) so set <code class="language-plaintext highlighter-rouge">header = TRUE</code></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># import data</span><span class="w">
+</span><span class="n">boulder_daily_precip</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/week-02/precipitation/805325-precip-dailysum-2003-2013.csv"</span><span class="p">,</span><span class="w">
+         </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+         </span><span class="n">na.strings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">999.99</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Next, take care of the date field. In this case you have month/day/year. You can
+use <code class="language-plaintext highlighter-rouge">?strptime</code> to figure out which letters you need to use in the format = argument
+to ensure your data elements (month, day and year) are understood by <code class="language-plaintext highlighter-rouge">R</code>.</p>
+
+<p>In this case you want to use</p>
+
+<ul>
+  <li>%m - for month</li>
+  <li>%d - for day</li>
+  <li>%y - for year</li>
+</ul>
+
+<p>Also take note of the format of your date. In this case, each date element is
+separated by a <code class="language-plaintext highlighter-rouge">/</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># format date field</span><span class="w">
+</span><span class="n">boulder_daily_precip</span><span class="o">$</span><span class="n">DATE</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.Date</span><span class="p">(</span><span class="n">boulder_daily_precip</span><span class="o">$</span><span class="n">DATE</span><span class="p">,</span><span class="w">
+                                     </span><span class="n">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"%m/%d/%y"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Finally, you can plot the data using <code class="language-plaintext highlighter-rouge">ggplot()</code>. Notice that when you plot, you first
+populate the <code class="language-plaintext highlighter-rouge">data</code> and <code class="language-plaintext highlighter-rouge">aes</code> (aesthetics).</p>
+
+<ul>
+  <li><strong>data =</strong> contain the data frame that you want to plot</li>
+  <li><strong>aes =</strong> contain the x and y variables that you want to plot</li>
+</ul>
+
+<p>Finally <code class="language-plaintext highlighter-rouge">geom_point()</code> represents the geometry that you want to plot. In this case
+you are creating a scatter plot (using points).</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">
+</span><span class="c1"># plot the data using ggplot2</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">boulder_daily_precip</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DAILY_PRECIP</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Precipitation - Boulder, Colorado"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/02-time-series-data/time-series-dates-r/2017-01-25-R02-subset-time-series-data-R/plot-precip-hourly-1.png" title="precip plot w fixed dates" alt="precip plot w fixed dates" width="90%" /></p>
+
+<h3 id="na-values-and-warnings">NA Values and Warnings</h3>
+
+<p>When you plot the data, you get a warning that says:</p>
+
+<p><code class="language-plaintext highlighter-rouge">## Warning: Removed 4 rows containing missing values (geom_point).</code></p>
+
+<p>You can get rid of this warning by removing NA or missing data values from your
+data. A warning is just <code class="language-plaintext highlighter-rouge">R</code>’s way of letting you know that something may be wrong.
+In this case, it can’t plot 4 data points because there are missing data values
+there.</p>
+
+<p>Let’s remove the missing data value rows using a <code class="language-plaintext highlighter-rouge">dplyr</code> pipe and the <code class="language-plaintext highlighter-rouge">na.omit()</code> function.
+You will learn about pipes in just a minute!</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">boulder_daily_precip</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boulder_daily_precip</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">na.omit</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now you can plot the data without a warning!</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">
+</span><span class="c1"># plot the data using ggplot2</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">boulder_daily_precip</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DAILY_PRECIP</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">geom_point</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"darkorchid4"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Precipitation - Boulder, Colorado"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/02-time-series-data/time-series-dates-r/2017-01-25-R02-subset-time-series-data-R/plot-precip-hourly2-1.png" title="precip plot w fixed dates and no na values" alt="precip plot w fixed dates and no na values" width="90%" /></p>
+
+<p>Don’t forget to add x and y axis labels to your plot!
+Use the <code class="language-plaintext highlighter-rouge">labs()</code> function to add a title, x and y label (and subtitle if you’d like) to your plot.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Hourly Precipitation - Boulder Station\n 2003-2013"</span><span class="p">,</span><span class="w">
+     </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Date"</span><span class="p">,</span><span class="w">
+     </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Precipitation (Inches)"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">boulder_daily_precip</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="n">DAILY_PRECIP</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">geom_point</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"darkorchid4"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Hourly Precipitation - Boulder Station\n 2003-2013"</span><span class="p">,</span><span class="w">
+           </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Date"</span><span class="p">,</span><span class="w">
+           </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Precipitation (Inches)"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/02-time-series-data/time-series-dates-r/2017-01-25-R02-subset-time-series-data-R/plot-with-title-1.png" title="plot with titles and labels" alt="plot with titles and labels" width="90%" /></p>
+
+<p>You can add a ggplot theme to adjust the look of your plot quickly too. Below
+you use <code class="language-plaintext highlighter-rouge">theme_bw()</code>. Below you also adjust the base font size to make the labels
+a bit larger <code class="language-plaintext highlighter-rouge">base_size = 11</code>.</p>
+
+<p class="notice--success"><i class="fa fa-star" aria-hidden="true"></i><strong>Data Tip:</strong> <a href="http://ggplot2.tidyverse.org/reference/ggtheme.html" target="_blank">Learn more about built in ggplot themes</a></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">boulder_daily_precip</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="n">DAILY_PRECIP</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">geom_point</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"darkorchid4"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Hourly Precipitation - Boulder Station\n 2003-2013"</span><span class="p">,</span><span class="w">
+           </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Date"</span><span class="p">,</span><span class="w">
+           </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Precipitation (Inches)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_bw</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">11</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/02-time-series-data/time-series-dates-r/2017-01-25-R02-subset-time-series-data-R/plot-with-title-and-theme-1.png" title="plot with titles and labels black and white" alt="plot with titles and labels black and white" width="90%" /></p>
+
+<div class="notice--warning">
+
+  <h2 id="optional-challenge-1"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge</h2>
+
+  <p>Take a close look at the plot:</p>
+
+  <ul>
+    <li>What does each point represent?</li>
+    <li>Use the <code class="language-plaintext highlighter-rouge">min()</code> and <code class="language-plaintext highlighter-rouge">max()</code> functions to determine the minimum and maximum precipitation values for the 10 year span?</li>
+  </ul>
+
+</div>
+
+<h3 id="introduction-to-the-pipe-">Introduction to the Pipe %&gt;%</h3>
+
+<p>Above you used pipes to manipulate your data. Specifically you removed <code class="language-plaintext highlighter-rouge">NA</code> values
+in a pipe with <code class="language-plaintext highlighter-rouge">na.omit()</code>.</p>
+
+<p>Pipes let you take the output of one function and send it directly to the next,
+which is useful when you need to do many things to the same data set. Pipes in <code class="language-plaintext highlighter-rouge">R</code>
+look like <code class="language-plaintext highlighter-rouge">%&gt;%</code> and are made available via the <code class="language-plaintext highlighter-rouge">magrittr</code> package, installed
+automatically with <code class="language-plaintext highlighter-rouge">dplyr</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">boulder_daily_precip</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boulder_daily_precip</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">na.omit</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Pipes are nice to use when coding because:</p>
+
+<ol>
+  <li>they remove intermediately created variables (keeping your environment cleaner / fewer variables are saved memory)</li>
+  <li>they combine multiple steps of processing into a clean set of steps that is easy to read once you become familiar with the pipes syntax</li>
+</ol>
+
+<p>You can do all of the same things that you did above with one pipe. Let’s see
+how:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># format date field without pipes</span><span class="w">
+</span><span class="n">boulder_daily_precip</span><span class="o">$</span><span class="n">DATE</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.Date</span><span class="p">(</span><span class="n">boulder_daily_precip</span><span class="o">$</span><span class="n">DATE</span><span class="p">,</span><span class="w">
+                                     </span><span class="n">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"%m/%d/%y"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>With pipes you can use the mutate function to either create a new column or
+modify the format or contents of an existing column.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">boulder_daily_precip</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boulder_daily_precip</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">DATE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as.Date</span><span class="p">(</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="n">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"%m/%d/%y"</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>You can then add the <code class="language-plaintext highlighter-rouge">na.omit()</code> function to the above code</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">boulder_daily_precip</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boulder_daily_precip</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">DATE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as.Date</span><span class="p">(</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="n">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"%m/%d/%y"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">na.omit</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Notice that each time you assign the pipe to a variable, you are overwriting
+that variable.</p>
+
+<p><code class="language-plaintext highlighter-rouge">boulder_daily_precip &lt;- boulder_daily_precip</code></p>
+
+<p>In this case you are just updating your current <code class="language-plaintext highlighter-rouge">boulder_daily_precip</code> variable.</p>
+
+<p>The process above avoids processing the data in separate steps, and potentially
+creating new variables each time. You can even send the output to ggplot().
+When you send output to ggplot() in a pipe, you don’t need the use the
+data argument (<code class="language-plaintext highlighter-rouge">data = boulder_daily_precip</code>) because you send the data throught
+the pipe. Like this:</p>
+
+<p>Note: that because you are creating a plot with the code below, you don’t need
+to assign the pipe to a variable. Thus you leave out the</p>
+
+<p><code class="language-plaintext highlighter-rouge">boulder_daily_precip &lt;-</code></p>
+
+<p>assignment.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">
+</span><span class="n">boulder_daily_precip</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">DATE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as.Date</span><span class="p">(</span><span class="n">boulder_daily_precip</span><span class="o">$</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="n">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"%m/%d/%y"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">na.omit</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="n">DAILY_PRECIP</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">geom_point</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"darkorchid4"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Hourly Precipitation - Boulder Station\n 2003-2013"</span><span class="p">,</span><span class="w">
+           </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"plotted using pipes"</span><span class="p">,</span><span class="w">
+           </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Date"</span><span class="p">,</span><span class="w">
+           </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Precipitation (Inches)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_bw</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/02-time-series-data/time-series-dates-r/2017-01-25-R02-subset-time-series-data-R/plot-with-pipe-1.png" title="data plotted with a pipe" alt="data plotted with a pipe" width="90%" /></p>
+
+<h2 id="subset-the-data">Subset the Data</h2>
+
+<p>You may want to only work with a subset of your time series data. Let’s create a subset of data for the time period around the flood between 15
+August to 15 October 2013. You use the <code class="language-plaintext highlighter-rouge">filter()</code> function in the <code class="language-plaintext highlighter-rouge">dplyr</code> package
+to do this and pipes!</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># subset 2 months around flood</span><span class="w">
+</span><span class="n">precip_boulder_AugOct</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boulder_daily_precip</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+                        </span><span class="n">filter</span><span class="p">(</span><span class="n">DATE</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">as.Date</span><span class="p">(</span><span class="s1">'2013-08-15'</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">DATE</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">as.Date</span><span class="p">(</span><span class="s1">'2013-10-15'</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>In the code above, you use the pipe to send the <code class="language-plaintext highlighter-rouge">boulder_daily_precip</code> data through
+a filter step. In that filter step, you filter out only the rows within the
+date range that you specified. Since <code class="language-plaintext highlighter-rouge">%&gt;%</code> takes the object on its left and passes
+it as the first argument to the function on its right, you don’t need to explicitly include it as an argument to the <code class="language-plaintext highlighter-rouge">filter()</code> function.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># check the first &amp; last dates</span><span class="w">
+</span><span class="nf">min</span><span class="p">(</span><span class="n">precip_boulder_AugOct</span><span class="o">$</span><span class="n">DATE</span><span class="p">)</span><span class="w">
+</span><span class="c1">## [1] "2013-08-21"</span><span class="w">
+</span><span class="nf">max</span><span class="p">(</span><span class="n">precip_boulder_AugOct</span><span class="o">$</span><span class="n">DATE</span><span class="p">)</span><span class="w">
+</span><span class="c1">## [1] "2013-10-11"</span><span class="w">
+
+</span><span class="c1"># create new plot</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">precip_boulder_AugOct</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">DATE</span><span class="p">,</span><span class="n">DAILY_PRECIP</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"identity"</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"darkorchid4"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">xlab</span><span class="p">(</span><span class="s2">"Date"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ylab</span><span class="p">(</span><span class="s2">"Precipitation (inches)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">"Daily Total Precipitation Aug - Oct 2013 for Boulder Creek"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_bw</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/02-time-series-data/time-series-dates-r/2017-01-25-R02-subset-time-series-data-R/check-subset-1.png" title="precip plot subset" alt="precip plot subset" width="90%" /></p>
+
+<div class="notice--warning">
+
+  <h2 id="optional-challenge-2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge</h2>
+
+  <p>Create a subset from the same dates in 2012 to compare to the 2013 plot.
+Use the <code class="language-plaintext highlighter-rouge">ylim()</code> argument to ensure the y axis range is the SAME as the previous
+plot - from 0 to 10”.</p>
+
+  <p>How different was the rainfall in 2012?</p>
+
+  <p>HINT: type <code class="language-plaintext highlighter-rouge">?lims</code> in the console to see how the <code class="language-plaintext highlighter-rouge">xlim</code> and <code class="language-plaintext highlighter-rouge">ylim</code> arguments work.</p>
+
+</div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/02-time-series-data/time-series-dates-r/2017-01-25-R02-subset-time-series-data-R/challenge-1.png" title="precip plot subset 2" alt="precip plot subset 2" width="90%" /></p>
+
+          
+
+        
+
+        <!-- if the page is a course lesson, add pagination -->
+
+        
+         <!-- This is clunky code that forces pagination across lesson sets -->
+<!-- NOTE: it won't include slideshows as written which makes sense -->
+<!-- add forced pagination -->
+<!-- first, get total lesson count -->
+
+<div class="previous--next">
+
+
+
+
+
+<!-- if it's page one - then no previous button -->
+<!-- how do i figure out the link? i have to loop through again? -->
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+       <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/summarize-time-series-by-month-in-r/" class="btn btn--info btn--large btn-success" style="float:right" >
+         Summarize Time Series Data
+         <i class="fa fa-4 fa-arrow-circle-right" aria-hidden="true"></i></a>
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+        <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/date-class-in-r/" class="btn btn--info btn--large btn-success">
+          <i class="fa fa-4 fa-arrow-circle-left fa-4" aria-hidden="true"></i>
+          Dates in R </a>
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags
+  
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/reproducible-science-and-programming/>Reproducible science and programming</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/reproducible-science-and-programming/RStudio/>RStudio</a> 
+    
+    
+  
+
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/time-series/>Time series</a>:
+  </span>
+  
+
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/data-exploration-and-analysis/>Data exploration and analysis</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/data-exploration-and-analysis/data-visualization/>data visualization</a> 
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2019-09-03">September 03, 2019</time></p>
+        
+        <!-- Add license information w/ DOI to the bottom -->
+        
+  
+  
+
+  
+     The Earth analytics course is subject to the
+     <a href="https://www.earthdatascience.org/license" target="_blank">CC BY-SA 4.0 License </a>.
+      Citation DOI: <a href="https://zenodo.org/badge/latestdoi/143348761" target="_blank"> https://zenodo.org/badge/latestdoi/143348761</a>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+      </footer>
+
+      
+
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://www.earthdatascience.org/courses/earth-analytics/time-series-data/subset-time-series-data-in-r/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.earthdatascience.org/courses/earth-analytics/time-series-data/subset-time-series-data-in-r/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https://www.earthdatascience.org/courses/earth-analytics/time-series-data/subset-time-series-data-in-r/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.earthdatascience.org/courses/earth-analytics/time-series-data/subset-time-series-data-in-r/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+<br><br>
+  <a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target="_blank">
+    <img src="https://www.earthdatascience.org/images/earth-data-analytics-professional-certificate-banner.png" alt="Get a professional Certificate in Earth Data Analytics at University of Colorado, Boulder" width="40%"></a>
+</section>
+
+
+       
+    </div>
+
+    
+      
+
+
+<div class="page__comments">
+  <h4 class="page__comments-title">Leave a Comment</h4>
+  
+    <section id="disqus_thread"></section>
+  
+</div>
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/earth-analytics-bootcamp/plot-data-python">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Plot Data With Matplotlib
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  1 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">
+
+     This Week
+
+  
+
+
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/summarize-climate-data-by-season/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Seasonal Summary Values from Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Learn how to calculate seasonal summary values for MACA 2 climate data using xarray and region mask in open source Python.
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/subset-netcdf4-climate-data-spatially-aoi/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Summary Values Using Spatial Areas of Interest (AOIs) including Shapefiles for Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  32 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Climate datasets stored in netcdf 4 format often cover the entire globe or an entire country. Learn how to subset climate data spatially and by time slices u...</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/use-netcdf-in-python-xarray/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">How to Open and Process NetCDF 4 Data Format in Open Source Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Historic and projected climate data are most often stored in netcdf 4 format. Learn how to open and process MACA version 2 climate data for the Continental U...</p>
+    </article>
+  </a>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+
+<!-- Adding analytics code -->
+
+        
+
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    <li>
+      <strong>&copy; 2025 Earth Lab -
+      <a href="https://www.earthdatascience.org/license"> All materials on this site
+        are subject to the CC BY-SA 4.0 License. </a>
+      </strong>
+    </li>
+  </ul>
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/earthlabcu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+    
+      <li><a href="http://github.com/earthlab"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://www.earthdatascience.org/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<!--
+<div class="page__footer-copyright">Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+-->
+
+      </footer>
+    </div>
+
+    <script src="https://www.earthdatascience.org/assets/js/main.min.js"></script>
+
+
+
+
+
+
+  
+  <script type="text/javascript">
+  	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  	var disqus_shortname = 'earthlabcu';
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function() {
+  		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  	})();
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function () {
+  		var s = document.createElement('script'); s.async = true;
+  		s.type = 'text/javascript';
+  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  	}());
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-84081999-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>
+

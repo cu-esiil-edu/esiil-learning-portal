@@ -1,0 +1,4227 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+
+<meta charset="utf-8">
+
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Get Started with Clean Coding in R | Earth Data Science - Earth Lab </title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Earth Data Science - Earth Lab">
+<meta property="og:title" content="Get Started with Clean Coding in R">
+
+
+  <link rel="canonical" href="https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/importance-of-clean-code/">
+  <meta property="og:url" content="https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/importance-of-clean-code/">
+
+
+
+  <meta content="Learn…" name="description">
+  <meta property="og:description" content="Learn…">
+
+
+<!-- twitter cards -->
+
+  <meta name="twitter:site" content="@earthlabcu">
+  <meta name="twitter:title" content="Get Started with Clean Coding in R">
+  <meta name="twitter:description" content="Learn…">
+  <meta name="twitter:url" content="https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/importance-of-clean-code/">
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://earthdatascience.org/images/earth_sm_twit.png">
+    <meta name="twitter:image:alt" content="The Earthlab Logo - image of a globe with courses, lessons and tutorials">
+
+    
+  
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2018-01-29T00:00:00-06:00">
+  
+    <link rel="next" href="https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/summarise-data-in-R-tidyverse/" title="Use tidyverse group_by and summarise to Manipulate Data in R">
+  
+  
+    <link rel="prev" href="https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/" title="Learn to Use tidyverse and Clean Code to Work With Data in R">
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Earth Analytics",
+      "url" : "https://www.earthdatascience.org",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://www.earthdatascience.org/feed.xml" type="application/atom+xml" rel="alternate" title="Earth Data Science - Earth Lab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="LfpevjsE0wlELv5KKOZv1T2RhRimGSiRckWv5ZC19GU" />
+<!-- don't use the old cataloged meta tags -->
+<meta name="googlebot" content="noodp">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+
+<!-- For all browsers
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">-->
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+
+    <script src="https://www.earthdatascience.org/assets/js/copy-code.js"></script>
+  </head>
+
+  <body>
+
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<!-- search bar begin  - turning off for now-->
+
+<div class="search">
+<form role="search" method="get" action="https://www.earthdatascience.org/search/">
+    <input id="q" name="q"
+           placeholder="Search earth data science site" type="text">
+</form>
+<!--<span class='cu-boulder'><a href="http://www.colorado.edu/earthlab" target="_blank">Earth Lab University of Colorado - Boulder Home </a></span> -->
+</div>
+
+
+<!-- search bar END -->
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://www.earthdatascience.org/"><img src="/images/earth-lab-logo.png" alt="Earth Lab - Earth Data Science" style="height:80%;width:85%"></a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tutorials/">Tutorials</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/courses/">Courses</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/workshops/">Workshops</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tools/">Tools</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/blog/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/about/">About</a></li>
+          
+
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+  <div class="page__hero--overlay" style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.earthdatascience.org/images/header-images/earth-data-analytics-professional-certificate-banner.jpg');">
+  <div class="wrapper">
+        <h1 class="page__title" itemprop="headline">
+          Earth Data Analytics Online Certificate
+        </h1>
+        <p><a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target = "_blank" class="btn btn--light-outline btn--large">Enroll now! Learn more.</a></p>
+  </div>
+</div>
+
+
+
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="breadcrumbs" role="menubar" aria-label="breadcrumbs">
+ <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+ <a href="https://www.earthdatascience.org"></a>
+ 
+ 
+ <!-- there is an offset of 1 so subtract 2 from the final crumb number-->
+ 
+   
+   
+     <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+       <a href="https://www.earthdatascience.org/" itemprop="item"><span itemprop="name">Home</span></a>
+       <meta itemprop="position" content="1" />
+     </li>
+     <span class="sep">/</span>
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/workshops/">Workshops </a>
+        <meta itemprop="position" content="2" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/">Clean coding tidyverse intro </a>
+        <meta itemprop="position" content="3" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        <li class="current">Get Started with Clean Coding in R</li>
+    
+  
+</ol>
+</nav>
+
+<!-- from min mistakes -->
+
+
+
+
+  
+
+
+<div id="main" role="main">
+  
+
+
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+    
+    
+
+
+    
+
+    
+
+    
+    <!--  If it's not attached to a class, just show the lessons and slides-->
+      
+
+<nav class="nav__list">
+  <ul>
+    <li><span class="nav__sub-title"><i class="fa fa-book" aria-hidden="true"></i>  Lessons</span>
+      <ul>
+        
+
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <li><a href= https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/>1. Tidyverse Workshop Setup</a></li>
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <li><a href= https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/importance-of-clean-code/ class='active'>2. Get Started with Clean Code</a></li>
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <li><a href= https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/summarise-data-in-R-tidyverse/>3. Summarize Data</a></li>
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <li><a href= https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/handle-missing-data-readr-r/>4. Missing Data</a></li>
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <li><a href= https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/automate-data-processing-with-loops-in-r/>5. Write Loops</a></li>
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            <li><a href= https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/tidyverse-clean-code-challenges-r/>6. Challenge Yourself</a></li>
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </li>
+  </ul>
+<!-- slide list will only render if there are slideshows associated with a lesson series -->
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+              </ul>
+            </li>
+          </ul>
+          
+        
+<!-- end slideshows  -->
+</nav>
+
+
+
+    
+
+  
+  </div>
+
+
+
+
+
+
+<!-- begin science / science themes side bar nav -->
+
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+
+    <meta itemprop="headline" content="Get Started with Clean Coding in R">
+    <meta itemprop="description" content="Learn…">
+    <meta itemprop="datePublished" content="January 29, 2018">
+    <meta itemprop="dateModified" content="September 03, 2019">
+
+    <div class="page__inner-wrap">
+        <header>
+          
+
+          <!-- BEGIN: insert a welcome to the module block on pages that are part of a module set -->
+
+          <!-- END: insert welcome block -->
+
+          
+              
+
+            
+                <h1 class="page__title" itemprop="headline">
+                Lesson 2. 
+                 Get Started with Clean Coding in R
+
+                 Clean coding tidyverse intro  
+                </h1>
+            
+
+          
+
+          
+            <div class="page__meta">
+              
+              
+              <a href="https://www.earthdatascience.org/authors/max-joseph">Max Joseph</a>, 
+              
+              
+              <a href="https://www.earthdatascience.org/authors/leah-wasser">Leah Wasser</a>
+              
+            </div>
+          
+
+            <br/>
+
+            
+
+              
+            
+
+            <!-- For tools pages add authors and tool title -->
+
+            
+        </header>
+
+
+
+      <section class="page__content" itemprop="text">
+
+        <!-- would like to include the TOC automatically but this does weird things-->
+        
+          
+            <aside class="sidebar__right">
+<nav class="toc">
+    <header><h4 class="nav__title"><i class="fa fa-file-text"></i> In this lesson</h4></header>
+<ul class="toc__menu" id="markdown-toc">
+  <li><a href="#learning-objectives" id="markdown-toc-learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning objectives</a></li>
+  <li><a href="#what-you-need" id="markdown-toc-what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What you need</a></li>
+  <li><a href="#what-is-clean-code" id="markdown-toc-what-is-clean-code">What is Clean Code?</a></li>
+  <li><a href="#about-the-data" id="markdown-toc-about-the-data">About The Data</a></li>
+  <li><a href="#activity-one" id="markdown-toc-activity-one"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Activity One</a></li>
+  <li><a href="#additional-resources" id="markdown-toc-additional-resources">Additional resources</a></li>
+</ul>
+
+  </nav>
+</aside>
+
+<!--  This is the top block with the learning objectives (LO) -->
+<div class="notice--success">
+
+  <h2 id="learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning objectives</h2>
+  <p>At the end of this activity, you will be able to:</p>
+
+  <ul>
+    <li>Identify issues that can be improved in your code in the areas of syntax, modularity, documentation and expressiveness.</li>
+    <li>Define syntax, documentation, modularity and expressiveness.</li>
+  </ul>
+
+  <h2 id="what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What you need</h2>
+
+  <ul>
+    <li>You need internet access to complete this activity</li>
+  </ul>
+
+</div>
+
+<p><a href="https://www.earthdatascience.org/courses/earth-analytics/automate-science-workflows/write-efficient-code-for-science-r/" data-proofer-ignore="" class="btn"><i class="fa fa-download" aria-hidden="true"></i> Overview of clean code </a></p>
+
+<h2 id="what-is-clean-code">What is Clean Code?</h2>
+
+<p>The theme of this workshop is clean code. When we say clean code, we are 
+referring to code that is written in a way that is easy to understand (for you, 
+your future self and your colleagues), efficient in it’s implementation and 
+well documented.</p>
+
+<p>In this workshop, we will explore several tricks and tips that you can use to
+write more efficient code. These include:</p>
+
+<ol>
+  <li>Writing pseudocode before executable code to organize your approach. 
+Pseudocode refers to writing out the steps and process that you will need to 
+implement in your code - in plain old english - BEFORE you code. We will 
+discuss pseudocode more in the next lesson.</li>
+  <li>Writing more expressive code by using meaningful variable names and 
+<code class="language-plaintext highlighter-rouge">tidyverse</code> functions and syntax in <code class="language-plaintext highlighter-rouge">R</code>.</li>
+  <li>Automating your code rather than using a “copy pasta” approach. Writing 
+pseudocode can help with identifying repetitive tasks.</li>
+</ol>
+
+<h3 id="core-principles-of-clean-code">Core Principles of Clean Code</h3>
+
+<p>In this workshop, you will learn how to write better, more efficient and easier
+to read, well-documented code. You can segment the concept of clean code into
+4 main components:</p>
+
+<ol>
+  <li><strong>Syntax:</strong> Syntax is the format or style that you use to write your code. 
+When a group of scientists use the same syntax, the code becomes more familiar 
+and thus easier to quicly scan, read and understnd. Different style guides have 
+been developed</li>
+  <li><strong>Modularity:</strong> Is your code more “script like” written from beginning to 
+end with repeated tasks? Or does it consist of sections and functions that 
+capture tasks that are repeated?</li>
+  <li><strong>Documentation:</strong> Is your code well documented? Documentation can range 
+from comments found within your code to thorough <code class="language-plaintext highlighter-rouge">readme</code> files that describe 
+your entire workflow.</li>
+  <li><strong>Expressiveness:</strong> Expressiveness refers to writing code that makes your 
+intention transparent. This includes using meaningful names for objects and 
+files, that indicate something about their contents and intended use.</li>
+</ol>
+
+<h3 id="dont-repeat-yourself--dry">Don’t Repeat Yourself  (DRY)</h3>
+
+<p>The DRY approach to programming refers to writing functions and automating 
+sections of code that are repeated. If you perform the same task multiple times 
+in your code, consider a function or a loop to make your workflow more 
+efficient.</p>
+
+<h2 id="about-the-data">About The Data</h2>
+
+<p>The goal of this workshop is as follows:</p>
+
+<p>You have been given access to some precipitation data for Colorado across 
+several locations This data is stored in the cloud and your colleague has started 
+to explore the data in <code class="language-plaintext highlighter-rouge">R</code>.</p>
+
+<p>Your colleague has given you two things:</p>
+
+<ol>
+  <li>A <code class="language-plaintext highlighter-rouge">.csv</code> file containing a list of URL’s for each <code class="language-plaintext highlighter-rouge">.csv</code> data file</li>
+  <li>Some thoughtfully composed code (see below) that they wrote to explore the 
+data and help you get started.</li>
+</ol>
+
+<p>Unfortunately, your colleague is trekking among the tallest peaks
+in the Himalaya. Thus, you are left to your own crafty devices to figure out
+how to work with these data.</p>
+
+<p>Your goal in this workshop is to create a plot of the data in <code class="language-plaintext highlighter-rouge">R</code>. 
+Something like this:</p>
+
+<p><img src="https://www.earthdatascience.org/images/workshops//clean-code-tidyverse-r/2018-01-29-clcode-02-why-clean-code-matters/example-plot-1.png" title="plot of chunk example-plot" alt="plot of chunk example-plot" width="90%" /></p>
+
+<p>Time to get started. Let’s begin by having a close look at the thoughtful
+code that your colleague left for you to work with.</p>
+
+<div class="notice--warning">
+
+  <h2 id="activity-one"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Activity One</h2>
+
+  <p>You are working with some time series data that captures precipitation
+for several study sites in Colorado. A colleague of yours provides you
+with the code below that they started to develop to work with the data.</p>
+
+  <p>Do the following:</p>
+
+  <ol>
+    <li>Break up into groups of 2-3.</li>
+    <li>Identify any issues that you find with that code.</li>
+    <li>Add the issues that you find in the code to the Google Doc provided
+for the workshop. In some cases, someone else may have already identified
+and issue that you did. Add a <strong>+1</strong> to any items that you agree with so
+issues are duplicated. Also feel free to edit / add to any issues you see
+in the document that you’d like to build upon.</li>
+  </ol>
+
+  <p>Be sure to identify the issues as they relate to one (or more) of the four 
+categories that we defined above</p>
+  <ul>
+    <li>Syntax,</li>
+    <li>Modularity</li>
+    <li>Documentation</li>
+    <li>Expressiveness</li>
+  </ul>
+
+  <p>You have about 15 minutes to complete this task! We will discuss what
+everyone finds as a group.</p>
+</div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># cause ggplot is the coolest</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#### Commence analysis</span><span class="w">
+
+</span><span class="n">myDATA</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://s3-us-west-2.amazonaws.com/earthlab-teaching/vchm/My_Data2003.csv"</span><span class="p">)</span><span class="w">
+</span><span class="c1">#uh oh -- why are things messed up?</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">myDATA</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># i really want to create a nice dataframe that summarizes rainfall by month in mm.</span><span class="w">
+</span><span class="c1"># so let's see how this goes.</span><span class="w">
+</span><span class="c1">#year</span><span class="w">
+
+</span><span class="c1"># First I need to make sure that the DATE column is a Date!!!</span><span class="w">
+</span><span class="n">myDATA</span><span class="o">$</span><span class="n">dateasdate</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.Date</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">DATE</span><span class="p">)</span><span class="w">
+</span><span class="n">str</span><span class="p">(</span><span class="n">myDATA</span><span class="p">)</span><span class="w"> </span><span class="c1"># check to make sure that the date column is a date - is it a date?</span><span class="w">
+
+</span><span class="c1"># Then I want to make sure that I have a column that is the month and another one that is year</span><span class="w">
+</span><span class="n">myDATA</span><span class="o">$</span><span class="n">Month</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lubridate</span><span class="o">::</span><span class="n">month</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">dateasdate</span><span class="p">)</span><span class="w">
+</span><span class="n">str</span><span class="p">(</span><span class="n">myDATA</span><span class="p">)</span><span class="w"> </span><span class="c1"># check to make sure that the date column is a date</span><span class="w">
+
+</span><span class="c1"># Then I want to have a YEAR column that is the YEAR</span><span class="w">
+</span><span class="n">myDATA</span><span class="o">$</span><span class="n">year</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lubridate</span><span class="o">::</span><span class="n">year</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">dateasdate</span><span class="p">)</span><span class="w">
+</span><span class="n">str</span><span class="p">(</span><span class="n">myDATA</span><span class="p">)</span><span class="w"> </span><span class="c1"># check to make sure that the date column is a date</span><span class="w">
+
+</span><span class="c1">#myDATA$DOY &lt;- as.numeric(strftime(myDATA$dateasdate, format = "%j"))</span><span class="w">
+</span><span class="c1">#</span><span class="w">
+</span><span class="c1"># library(stringr)</span><span class="w">
+</span><span class="c1"># a_year &lt;- myDATA %&gt;%</span><span class="w">
+</span><span class="c1">#    mutate(DATE = gsub("/", "-", DATE),</span><span class="w">
+</span><span class="c1">#           DATE = ) %&gt;%</span><span class="w">
+</span><span class="c1">#     mutate(DATE2 = as.POSIXct(DATE, format = "%d-%m-%y %H:%M"),</span><span class="w">
+</span><span class="c1">#            DATE3 = as.POSIXct(DATE, format = "%d-%m-%Y %H:%M"))</span><span class="w">
+
+</span><span class="c1"># a_year$DATE2 &lt;- gsub("(.*)-(..)$", "\\1-20\\2", a_year$DATE)</span><span class="w">
+
+</span><span class="c1"># fix the year with regex</span><span class="w">
+</span><span class="c1"># gsub("(.*)-(..)$", "\\1-20\\2", vec1)</span><span class="w">
+</span><span class="c1">#</span><span class="w">
+</span><span class="c1"># gsub("(.*)/(..)$", "\\1/19\\2", vec1)</span><span class="w">
+</span><span class="c1"># # the dates are all messed up. who made this data? seriously?</span><span class="w">
+</span><span class="c1"># myDATA$DATE</span><span class="w">
+</span><span class="c1"># i don't think this worked but who knows</span><span class="w">
+
+
+</span><span class="c1"># Finally, I want to save a CSV file has precip in mm</span><span class="w">
+</span><span class="n">d2003</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">myDATA</span><span class="p">[</span><span class="n">myDATA</span><span class="p">[[</span><span class="m">12</span><span class="p">]]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">2003</span><span class="p">]</span><span class="w">
+</span><span class="n">d2003</span><span class="o">$</span><span class="n">precip_MM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">25.4</span><span class="w">
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'data/outputs/precip_2003.csv'</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d2003</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="n">as_2003</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">a_year</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">precip_mm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HPCP</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">25.4</span><span class="p">,</span><span class="w">
+         </span><span class="n">month</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">month</span><span class="p">(</span><span class="n">DATE</span><span class="p">))</span><span class="w">
+
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">as_2003</span><span class="p">,</span><span class="s2">"data/outputs/precip_2003.csv"</span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">a_year</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"data/annual/precip-2003.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#year</span><span class="w">
+</span><span class="n">a_year</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boulder_precip</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="p">(</span><span class="n">DATE</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">2004</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">mutate</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">month</span><span class="p">(</span><span class="n">DATE</span><span class="p">))</span><span class="w">
+
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">a_year</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"data/annual/precip-2003.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="c1">#year</span><span class="w">
+</span><span class="n">a_year</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boulder_precip</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="p">(</span><span class="n">DATE</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">2005</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">mutate</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">month</span><span class="p">(</span><span class="n">DATE</span><span class="p">))</span><span class="w">
+
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">a_year</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"data/annual/precip-2003.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#year</span><span class="w">
+</span><span class="n">a_year</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boulder_precip</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="p">(</span><span class="n">DATE</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">2005</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">mutate</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">month</span><span class="p">(</span><span class="n">DATE</span><span class="p">))</span><span class="w">
+
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">a_year</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"data/annual/precip-2006.csv"</span><span class="p">)</span><span class="w">
+</span><span class="c1">#year</span><span class="w">
+</span><span class="n">a_year</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boulder_precip</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="p">(</span><span class="n">DATE</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">2003</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">mutate</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">month</span><span class="p">(</span><span class="n">DATE</span><span class="p">))</span><span class="w">
+
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">a_year</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"data/annual/precip-2007.csv"</span><span class="p">)</span><span class="w">
+</span><span class="c1">#year</span><span class="w">
+</span><span class="n">a_year</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boulder_precip</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="p">(</span><span class="n">DATE</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">2003</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">mutate</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">month</span><span class="p">(</span><span class="n">DATE</span><span class="p">))</span><span class="w">
+
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">a_year</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"data/annual/precip-2008.csv"</span><span class="p">)</span><span class="w">
+</span><span class="c1">#year</span><span class="w">
+</span><span class="c1"># I don't think that worked we will do it again but without error</span><span class="w">
+
+
+
+
+
+
+
+</span><span class="c1">#==============================================================================</span><span class="w">
+</span><span class="c1">#==============================================================================</span><span class="w">
+</span><span class="c1">#STRATEGY: going to calculate monthly averages of precipitation for each dataset</span><span class="w">
+</span><span class="c1"># (each year!) using R</span><span class="w">
+</span><span class="c1">#==============================================================================</span><span class="w">
+</span><span class="c1">#==============================================================================</span><span class="w">
+</span><span class="n">myDATA</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://s3-us-west-2.amazonaws.com/earthlab-teaching/vchm/My_Data2003.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">myFinalData</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">myDATA</span><span class="w">
+</span><span class="n">unique</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">)</span><span class="w">
+</span><span class="c1">#na values</span><span class="w">
+</span><span class="n">myDATA</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://s3-us-west-2.amazonaws.com/earthlab-teaching/vchm/My_Data2003.csv"</span><span class="p">,</span><span class="w">
+                   </span><span class="n">na.strings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"999.99"</span><span class="p">))</span><span class="w">
+</span><span class="n">myFinalData</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">myDATA</span><span class="w">
+</span><span class="n">unique</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">)</span><span class="w">
+</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">DATE2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as.POSIXct</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="n">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"%Y-%d-%m %H:%M"</span><span class="p">)</span><span class="w">
+</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">year</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">substr</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w">
+</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">substr</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="p">)</span><span class="w">
+</span><span class="n">myFinalData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myFinalData</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">year</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"2003"</span><span class="p">,]</span><span class="w">
+
+</span><span class="c1">#myFinalData$month &lt;- month(myFinalData$DATE)</span><span class="w">
+</span><span class="c1">#summary mean dataframe 2003</span><span class="w">
+</span><span class="c1"># this is easy to do.</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">jan_mean_2003</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"01"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+                           </span><span class="n">feb_mean_2003</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"02"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+                           </span><span class="n">march_mean_2003</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"03"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+                           </span><span class="n">apr_mean_2003</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"04"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+                           </span><span class="n">may_mean_2003</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"05"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+                           </span><span class="n">june_mean_2003</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"05"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+                           </span><span class="n">may_mean_2003</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"06"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+                           </span><span class="n">july_mean_2003</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"07"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+                           </span><span class="n">aug_mean_2003</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"08"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+                           </span><span class="n">sept_mean_2003</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"09"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+                           </span><span class="n">oct_mean_2003</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"09"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+                           </span><span class="n">nov_mean_2003</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"11"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+                           </span><span class="n">dec_mean_2003</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"12"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w">
+
+</span><span class="n">finalSUMMARYmean</span><span class="w">
+
+
+</span><span class="c1">### 2004 - easy enough</span><span class="w">
+</span><span class="c1">#i'd like a snack</span><span class="w">
+
+</span><span class="c1">#na values</span><span class="w">
+</span><span class="n">myDATA</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://s3-us-west-2.amazonaws.com/earthlab-teaching/vchm/My_Data2004.csv"</span><span class="p">,</span><span class="w">
+                   </span><span class="n">na.strings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"999.99"</span><span class="p">))</span><span class="w">
+</span><span class="n">unique</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">)</span><span class="w">
+</span><span class="n">myDATA</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://s3-us-west-2.amazonaws.com/earthlab-teaching/vchm/My_Data2004.csv"</span><span class="p">,</span><span class="w">
+                   </span><span class="n">na.strings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span><span class="w"> </span><span class="s2">"999.99"</span><span class="p">,</span><span class="w"> </span><span class="s2">"missing"</span><span class="p">,</span><span class="w"> </span><span class="s2">"n/a"</span><span class="p">))</span><span class="w">
+</span><span class="n">unique</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">)</span><span class="w">
+
+</span><span class="n">myDATA</span><span class="o">$</span><span class="n">DATE2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as.POSIXct</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="n">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"%Y-%d-%m %H:%M"</span><span class="p">)</span><span class="w">
+</span><span class="n">myDATA</span><span class="o">$</span><span class="n">year</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">substr</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w">
+</span><span class="n">myDATA</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">substr</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="p">)</span><span class="w">
+</span><span class="n">myDATA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myDATA</span><span class="p">[</span><span class="n">myDATA</span><span class="o">$</span><span class="n">year</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"2004"</span><span class="p">,]</span><span class="w">
+
+</span><span class="n">jan_mean_2003</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"01"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#myFinalData$month &lt;- month(myFinalData$DATE)</span><span class="w">
+</span><span class="c1">#summary mean dataframe 2003</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">jan_mean_2004</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"01"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">feb_mean_2004</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"02"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">march_mean_2004</span><span class="w"> </span><span class="o">&lt;-</span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"03"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">apr_mean_2004</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"04"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">may_mean_2004</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"05"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">june_mean_2004</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"05"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">may_mean_2004</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"06"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">july_mean_2004</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"07"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">aug_mean_2004</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"08"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">sept_mean_2004</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"09"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">oct_mean_2004</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"09"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">nov_mean_2004</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"11"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">dec_mean_2004</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"12"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="n">finalSUMMARYmean</span><span class="w">
+
+
+
+</span><span class="c1">#na values</span><span class="w">
+</span><span class="c1">#2005 - my fingers are tired. may start lifting finger weights to help with endurance.</span><span class="w">
+</span><span class="n">myDATA</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://s3-us-west-2.amazonaws.com/earthlab-teaching/vchm/My_Data2005.csv"</span><span class="p">,</span><span class="w">
+                   </span><span class="n">na.strings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"999.99"</span><span class="p">))</span><span class="w">
+</span><span class="n">unique</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">)</span><span class="w">
+</span><span class="n">myDATA</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://s3-us-west-2.amazonaws.com/earthlab-teaching/vchm/My_Data2005.csv"</span><span class="p">,</span><span class="w">
+                   </span><span class="n">na.strings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span><span class="w"> </span><span class="s2">"999.99"</span><span class="p">,</span><span class="w"> </span><span class="s2">"missing"</span><span class="p">,</span><span class="w"> </span><span class="s2">"n/a"</span><span class="p">))</span><span class="w">
+</span><span class="n">unique</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">)</span><span class="w">
+
+</span><span class="n">myDATA</span><span class="o">$</span><span class="n">DATE2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as.POSIXct</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="n">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"%Y-%m-%d %H:%M"</span><span class="p">)</span><span class="w">
+</span><span class="n">myDATA</span><span class="o">$</span><span class="n">year</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">substr</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w">
+</span><span class="n">myDATA</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">substr</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="p">)</span><span class="w">
+</span><span class="n">myDATA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myDATA</span><span class="p">[</span><span class="n">myDATA</span><span class="o">$</span><span class="n">year</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"2005"</span><span class="p">,]</span><span class="w">
+
+</span><span class="c1">#myFinalData$month &lt;- month(myFinalData$DATE)</span><span class="w">
+</span><span class="c1">#summary mean dataframe 2003</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">jan_mean_2005</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"01"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">feb_mean_2005</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"02"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">march_mean_2005</span><span class="w"> </span><span class="o">&lt;-</span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"03"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">apr_mean_2005</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"04"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">may_mean_2005</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"05"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">june_mean_2005</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"05"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">may_mean_2005</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"06"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">july_mean_2005</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"07"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">aug_mean_2005</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"08"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">sept_mean_2005</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"09"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">oct_mean_2005</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"09"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">nov_mean_2005</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"11"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">dec_mean_2005</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"12"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="n">finalSUMMARYmean</span><span class="c1">#mostly working I guess will fix later</span><span class="w">
+
+
+</span><span class="c1">#na values</span><span class="w">
+</span><span class="c1">#2006 - i need a nap and some cookies. preferably oreos altho vanilla wafers could be nice</span><span class="w">
+</span><span class="n">myDATA</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://s3-us-west-2.amazonaws.com/earthlab-teaching/vchm/My_Data2006.csv"</span><span class="p">,</span><span class="w">
+                   </span><span class="n">na.strings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"999.99"</span><span class="p">))</span><span class="w">
+</span><span class="n">unique</span><span class="p">(</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">HPCP</span><span class="p">)</span><span class="w">
+</span><span class="n">myDATA</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://s3-us-west-2.amazonaws.com/earthlab-teaching/vchm/My_Data2006.csv"</span><span class="p">,</span><span class="w">
+                   </span><span class="n">na.strings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span><span class="w"> </span><span class="s2">"999.99"</span><span class="p">,</span><span class="w"> </span><span class="s2">"missing"</span><span class="p">,</span><span class="w"> </span><span class="s2">"n/a"</span><span class="p">))</span><span class="w">
+</span><span class="n">unique</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">)</span><span class="w">
+
+</span><span class="n">myDATA</span><span class="o">$</span><span class="n">DATE2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as.POSIXct</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="n">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"%Y-%m-%d %H:%M"</span><span class="p">)</span><span class="w">
+</span><span class="n">myDATA</span><span class="o">$</span><span class="n">year</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">substr</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w">
+</span><span class="n">myDATA</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">substr</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="p">)</span><span class="w">
+</span><span class="n">myDATA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myDATA</span><span class="p">[</span><span class="n">myDATA</span><span class="o">$</span><span class="n">year</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"2006"</span><span class="p">,]</span><span class="w">
+
+</span><span class="c1">#myFinalData$month &lt;- month(myFinalData$DATE)</span><span class="w">
+</span><span class="c1">#summary mean dataframe 2003</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">jan_mean_2006</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"01"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">feb_mean_2006</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"02"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">march_mean_2006</span><span class="w"> </span><span class="o">&lt;-</span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"03"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">apr_mean_2006</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"04"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">may_mean_2006</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"05"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">june_mean_2006</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"05"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">may_mean_2006</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"06"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">july_mean_2006</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"07"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">aug_mean_2006</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"08"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">sept_mean_2006</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"09"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">oct_mean_2006</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"09"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">nov_mean_2006</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"11"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">finalSUMMARYmean</span><span class="o">$</span><span class="n">dec_mean_2006</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">myDATA</span><span class="o">$</span><span class="n">HPCP</span><span class="p">[</span><span class="n">myFinalData</span><span class="o">$</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"12"</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="n">finalSUMMARYmean</span><span class="c1"># Workikng better now!</span><span class="w">
+
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">a_year</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"finalSUMMARYmean.csv"</span><span class="p">)</span><span class="w">
+
+
+
+
+
+
+
+
+
+
+
+
+
+</span><span class="c1">#start my analysis</span><span class="w">
+</span><span class="c1"># =============================================================================</span><span class="w">
+</span><span class="c1"># FIGURES FOR THE VISUALIZATION OF PRECIPITATION IN BOULDER COUNTY FROM THE</span><span class="w">
+</span><span class="c1"># YEARS 2003 THROUGH 2010 - WE ARE GOING TO PLOT THE MONTHLY MEANS OVER TIME</span><span class="w">
+</span><span class="c1"># TO SEE WHETHER THERE ARE LONG TERM CHANGES IN PRECIPITATION ALL OF THE PLOTS</span><span class="w">
+</span><span class="c1"># SHOULD BE ON THE SAME PANEL - I ONLY WANT TO COLOR THE LINES TO INDICATE</span><span class="w">
+</span><span class="c1"># YEAR AND THE X AXIS IS MONTH AND THE Y AXIS IS AVERAGE WATER</span><span class="w">
+</span><span class="c1"># =============================================================================</span><span class="w">
+</span><span class="c1"># LAST MODIFIED ON NOVEMBER 9 2017 BY MAX JOSEPH</span><span class="w">
+</span><span class="c1"># PRETTY SURE THIS WORKS BUT NO GUARANTEES</span><span class="w">
+
+
+</span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/annual/precip-2003.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="w">
+
+</span><span class="n">mydata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/week_06/outputs/precip_mm/precip-2003.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">myData</span><span class="o">$</span><span class="n">newcolumn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mydata</span><span class="o">$</span><span class="n">precip</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="w">
+</span><span class="n">my.data</span><span class="w"> </span><span class="o">&lt;-</span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/week_06/outputs/precip_mm/precip-2004.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">my.data</span><span class="o">$</span><span class="n">newcolumn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mydata</span><span class="o">$</span><span class="n">precip</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="w">
+</span><span class="n">my.data</span><span class="o">&lt;-</span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/week_06/outputs/precip_mm/precip-2006.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">my.data</span><span class="o">$</span><span class="n">newcolumn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mydata</span><span class="o">$</span><span class="n">precip</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="w">
+</span><span class="n">my.data</span><span class="w"> </span><span class="o">&lt;-</span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/week_06/outputs/precip_mm/precip-2007.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">my.data</span><span class="o">$</span><span class="n">newcolumn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mydata</span><span class="o">$</span><span class="n">precip</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="w">
+</span><span class="n">my.data</span><span class="w"> </span><span class="o">&lt;-</span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/week_06/outputs/precip_mm/precip-20010.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">my.data</span><span class="o">$</span><span class="n">newcolumn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mydata</span><span class="o">$</span><span class="n">precip</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="w">
+</span><span class="n">lines</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span><span class="w">
+</span><span class="c1">#export stuff -  i should do this for all of my csv files</span><span class="w">
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">my.data</span><span class="w"> </span><span class="o">&lt;-</span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/week_06/outputs/precip_mm/precip-2008.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">my.data</span><span class="o">$</span><span class="n">newcolumn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mydata</span><span class="o">$</span><span class="n">month</span><span class="w">
+</span><span class="c1">#testing some stuff with pipes</span><span class="w">
+</span><span class="n">outputs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">my.data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">newcolumn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fredyymack"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">month</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">Precip_MM</span><span class="p">))</span><span class="w">
+
+</span><span class="n">plot</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span><span class="w">
+</span><span class="c1">#export stuff</span><span class="w">
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span><span class="w">
+
+</span><span class="n">my.data</span><span class="w"> </span><span class="o">&lt;-</span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/week_06/outputs/precip_mm/precip-2009.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">my.data</span><span class="o">$</span><span class="n">newcolumn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mydata</span><span class="o">$</span><span class="n">month</span><span class="w">
+</span><span class="c1">#testing some stuff with pipes</span><span class="w">
+</span><span class="n">outputs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">my.data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">newcolumn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fredyymack"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1">#i dont think i need this column do i?</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">month</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">Precip_MM</span><span class="p">))</span><span class="w">
+
+</span><span class="n">plot</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span><span class="w">
+</span><span class="c1">#export stuff</span><span class="w">
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span><span class="w">
+
+</span><span class="n">my.data</span><span class="w"> </span><span class="o">&lt;-</span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/week_06/outputs/precip_mm/precip-2006.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">my.data</span><span class="o">$</span><span class="n">newcolumn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mydata</span><span class="o">$</span><span class="n">month</span><span class="w">
+</span><span class="c1">#testing some stuff with pipes</span><span class="w">
+</span><span class="n">outputs2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">my.data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">newcolumn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fredyymack"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">month</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">Precip_MM</span><span class="p">))</span><span class="w">
+
+</span><span class="n">plot</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span><span class="w">
+</span><span class="c1">#export stuff</span><span class="w">
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span><span class="w">
+
+</span><span class="n">my.data</span><span class="w"> </span><span class="o">&lt;-</span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/week_06/outputs/precip_mm/precip-2009.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">my.data</span><span class="o">&lt;-</span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/week_06/outputs/precip_mm/precip-2012.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">my.data</span><span class="w"> </span><span class="o">&lt;-</span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"data/week_06/outputs/precip_mm/precip-2013.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#not sure why everything isn't plotting</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">my.data</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">my.data</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">my.data</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">my.data</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#testing some stuff with pipes</span><span class="w">
+</span><span class="n">my.data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">newcolumn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fredyymack"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">month</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">Precip_MM</span><span class="p">))</span><span class="w">
+
+
+</span><span class="c1">#testing some stuff with pipes</span><span class="w">
+</span><span class="n">outputs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">my.data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">newcolumn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"fredyymack"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">month</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarise</span><span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">Precip_MM</span><span class="p">))</span><span class="w">
+
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">month</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="n">precipmm</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">()</span><span class="w">
+
+</span><span class="c1">#need to do this to all of my data</span><span class="w">
+</span><span class="c1">#testing some stuff with pipes</span><span class="w">
+</span><span class="c1">#mydata &lt;- my.data %&gt;%</span><span class="w">
+</span><span class="c1">#  mutate(newcolumn = "fredyymack") %&gt;%</span><span class="w">
+</span><span class="c1">#  group_by(month) %&gt;%</span><span class="w">
+</span><span class="c1">#  summarise(mean(Precip_MM))</span><span class="w">
+
+
+
+</span><span class="c1">#export the data to a csv</span><span class="w">
+</span><span class="n">write.csv</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="notice--info">
+
+  <h2 id="additional-resources">Additional resources</h2>
+
+  <p>You may find the materials below useful as an overview of what we cover
+during this workshop:</p>
+
+  <ul>
+    <li><a href="https://www.earthdatascience.org/courses/earth-analytics/automate-science-workflows/write-efficient-code-for-science-r/">Earth Analytics Lesson: Don’t Repeat Yourself </a></li>
+    <li><a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/write-clean-code-with-r/">Earth Analytics Course Lesson: Write Clean Code with R</a></li>
+  </ul>
+
+</div>
+
+          
+
+        
+
+        <!-- if the page is a course lesson, add pagination -->
+
+        
+         <!-- This is clunky code that forces pagination across lesson sets -->
+<!-- NOTE: it won't include slideshows as written which makes sense -->
+<!-- add forced pagination -->
+<!-- first, get total lesson count -->
+
+<div class="previous--next">
+
+
+
+
+
+<!-- if it's page one - then no previous button -->
+<!-- how do i figure out the link? i have to loop through again? -->
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+
+      
+        
+
+        
+        
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+
+      
+        
+
+        
+        
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+
+      
+        
+
+        
+        
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+
+      
+        
+
+        
+        
+         <a href="https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/summarise-data-in-R-tidyverse/" class="btn btn--info btn--large btn-success" style="float:right" >
+           Summarize Data
+           <i class="fa fa-4 fa-arrow-circle-right" aria-hidden="true"></i></a>
+        
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+
+      
+        
+
+        
+        
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+
+      
+        
+          <a href="https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/" class="btn btn--info btn--large btn-success">
+            <i class="fa fa-4 fa-arrow-circle-left fa-4" aria-hidden="true"></i>
+            Tidyverse Workshop Setup </a>
+        
+
+        
+        
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags
+  
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/reproducible-science-and-programming/>Reproducible science and programming</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/reproducible-science-and-programming/literate-expressive-programming/>literate expressive programming</a> 
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2019-09-03">September 03, 2019</time></p>
+        
+        <!-- Add license information w/ DOI to the bottom -->
+        
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+     The  workshop is subject to the
+     <a href="https://www.earthdatascience.org/license" target="_blank">CC BY-SA 4.0 License </a>.
+      Citation DOI: <a href="https://zenodo.org/badge/latestdoi/186890373" target="_blank"> https://zenodo.org/badge/latestdoi/186890373</a>
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+      </footer>
+
+      
+
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/importance-of-clean-code/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/importance-of-clean-code/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/importance-of-clean-code/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.earthdatascience.org/workshops/clean-coding-tidyverse-intro/importance-of-clean-code/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+<br><br>
+  <a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target="_blank">
+    <img src="https://www.earthdatascience.org/images/earth-data-analytics-professional-certificate-banner.png" alt="Get a professional Certificate in Earth Data Analytics at University of Colorado, Boulder" width="40%"></a>
+</section>
+
+
+       
+    </div>
+
+    
+      
+
+
+<div class="page__comments">
+  <h4 class="page__comments-title">Leave a Comment</h4>
+  
+    <section id="disqus_thread"></section>
+  
+</div>
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/earth-analytics-bootcamp/plot-data-python">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Plot Data With Matplotlib
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  1 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">
+
+     This Week
+
+  
+
+
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/summarize-climate-data-by-season/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Seasonal Summary Values from Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Learn how to calculate seasonal summary values for MACA 2 climate data using xarray and region mask in open source Python.
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/subset-netcdf4-climate-data-spatially-aoi/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Summary Values Using Spatial Areas of Interest (AOIs) including Shapefiles for Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  32 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Climate datasets stored in netcdf 4 format often cover the entire globe or an entire country. Learn how to subset climate data spatially and by time slices u...</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/use-netcdf-in-python-xarray/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">How to Open and Process NetCDF 4 Data Format in Open Source Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Historic and projected climate data are most often stored in netcdf 4 format. Learn how to open and process MACA version 2 climate data for the Continental U...</p>
+    </article>
+  </a>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+
+<!-- Adding analytics code -->
+
+        
+
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    <li>
+      <strong>&copy; 2025 Earth Lab -
+      <a href="https://www.earthdatascience.org/license"> All materials on this site
+        are subject to the CC BY-SA 4.0 License. </a>
+      </strong>
+    </li>
+  </ul>
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/earthlabcu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+    
+      <li><a href="http://github.com/earthlab"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://www.earthdatascience.org/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<!--
+<div class="page__footer-copyright">Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+-->
+
+      </footer>
+    </div>
+
+    <script src="https://www.earthdatascience.org/assets/js/main.min.js"></script>
+
+
+
+
+
+
+  
+  <script type="text/javascript">
+  	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  	var disqus_shortname = 'earthlabcu';
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function() {
+  		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  	})();
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function () {
+  		var s = document.createElement('script'); s.async = true;
+  		s.type = 'text/javascript';
+  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  	}());
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-84081999-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>
+

@@ -1,0 +1,844 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+
+<meta charset="utf-8">
+
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Using Leaflet and Folium to make interactive maps in Python | Earth Data Science - Earth Lab </title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Earth Data Science - Earth Lab">
+<meta property="og:title" content="Using Leaflet and Folium to make interactive maps in Python">
+
+
+  <link rel="canonical" href="https://www.earthdatascience.org/tutorials/introduction-to-leaflet-animated-maps/">
+  <meta property="og:url" content="https://www.earthdatascience.org/tutorials/introduction-to-leaflet-animated-maps/">
+
+
+
+  <meta content="This tutorial shows how to make interactive maps in Python with folium." name="description">
+  <meta property="og:description" content="This tutorial shows how to make interactive maps in Python with folium.">
+
+
+<!-- twitter cards -->
+
+  <meta name="twitter:site" content="@earthlabcu">
+  <meta name="twitter:title" content="Using Leaflet and Folium to make interactive maps in Python">
+  <meta name="twitter:description" content="This tutorial shows how to make interactive maps in Python with folium.">
+  <meta name="twitter:url" content="https://www.earthdatascience.org/tutorials/introduction-to-leaflet-animated-maps/">
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://earthdatascience.org/images/earth_sm_twit.png">
+    <meta name="twitter:image:alt" content="The Earthlab Logo - image of a globe with courses, lessons and tutorials">
+
+    
+  
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2016-08-01T00:00:00-05:00">
+  
+    <link rel="next" href="https://www.earthdatascience.org/tutorials/convert-landsat-path-row-to-lat-lon/" title="Convert lat/lon coordinates to Landsat 8 path/row in Python">
+  
+  
+    <link rel="prev" href="https://www.earthdatascience.org/tutorials/visualize-digital-elevation-model-contours-matplotlib/" title="Visualizing elevation contours from raster digital elevation models in Python">
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Earth Analytics",
+      "url" : "https://www.earthdatascience.org",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://www.earthdatascience.org/feed.xml" type="application/atom+xml" rel="alternate" title="Earth Data Science - Earth Lab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="LfpevjsE0wlELv5KKOZv1T2RhRimGSiRckWv5ZC19GU" />
+<!-- don't use the old cataloged meta tags -->
+<meta name="googlebot" content="noodp">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+
+<!-- For all browsers
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">-->
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+
+    <script src="https://www.earthdatascience.org/assets/js/copy-code.js"></script>
+  </head>
+
+  <body>
+
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<!-- search bar begin  - turning off for now-->
+
+<div class="search">
+<form role="search" method="get" action="https://www.earthdatascience.org/search/">
+    <input id="q" name="q"
+           placeholder="Search earth data science site" type="text">
+</form>
+<!--<span class='cu-boulder'><a href="http://www.colorado.edu/earthlab" target="_blank">Earth Lab University of Colorado - Boulder Home </a></span> -->
+</div>
+
+
+<!-- search bar END -->
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://www.earthdatascience.org/"><img src="/images/earth-lab-logo.png" alt="Earth Lab - Earth Data Science" style="height:80%;width:85%"></a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tutorials/">Tutorials</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/courses/">Courses</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/workshops/">Workshops</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tools/">Tools</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/blog/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/about/">About</a></li>
+          
+
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+  <div class="page__hero--overlay" style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.earthdatascience.org/images/header-images/earth-data-analytics-professional-certificate-banner.jpg');">
+  <div class="wrapper">
+        <h1 class="page__title" itemprop="headline">
+          Earth Data Analytics Online Certificate
+        </h1>
+        <p><a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target = "_blank" class="btn btn--light-outline btn--large">Enroll now! Learn more.</a></p>
+  </div>
+</div>
+
+
+
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="breadcrumbs" role="menubar" aria-label="breadcrumbs">
+ <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+ <a href="https://www.earthdatascience.org"></a>
+ 
+ 
+ <!-- there is an offset of 1 so subtract 2 from the final crumb number-->
+ 
+   
+   
+     <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+       <a href="https://www.earthdatascience.org/" itemprop="item"><span itemprop="name">Home</span></a>
+       <meta itemprop="position" content="1" />
+     </li>
+     <span class="sep">/</span>
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/tutorials/">Tutorials </a>
+        <meta itemprop="position" content="2" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        <li class="current">Using Leaflet and Folium to make interactive maps in Python</li>
+    
+  
+</ol>
+</nav>
+
+<!-- from min mistakes -->
+
+
+
+
+  
+
+
+<div id="main" role="main">
+  
+
+
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+    
+    
+
+
+    
+
+    
+
+    
+
+  
+  </div>
+
+
+
+
+
+<div class="sidebar sticky">
+  <nav class="nav__list">
+    <ul>
+      <li><span class="nav__sub-title">Language</span>
+        <ul>
+          
+
+          
+          <!-- this code counts the number of posts associated with the member -->
+          
+            
+              <li><a href=https://www.earthdatascience.org/tutorials/python>python (12)</a></li>
+            
+          
+
+          
+          <!-- this code counts the number of posts associated with the member -->
+          
+            
+              <li><a href=https://www.earthdatascience.org/tutorials/r>r (2)</a></li>
+            
+          
+
+          
+          <!-- this code counts the number of posts associated with the member -->
+          
+            
+              <li><a href=https://www.earthdatascience.org/tutorials/javascript>javascript (2)</a></li>
+            
+          
+        </ul>
+      </li>
+    </ul>
+
+<!-- list tutorials by library -->
+
+
+<!-- end language side bar nav -->
+
+</nav>
+
+</div>
+
+
+<!-- begin science / science themes side bar nav -->
+
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+
+    <meta itemprop="headline" content="Using Leaflet and Folium to make interactive maps in Python">
+    <meta itemprop="description" content="This tutorial shows how to make interactive maps in Python with folium.">
+    <meta itemprop="datePublished" content="August 01, 2016">
+    <meta itemprop="dateModified" content="April 20, 2020">
+
+    <div class="page__inner-wrap">
+        <header>
+          
+
+          <!-- BEGIN: insert a welcome to the module block on pages that are part of a module set -->
+
+          <!-- END: insert welcome block -->
+
+          
+              
+
+            
+                <h1 class="page__title" itemprop="headline">
+                
+                 Using Leaflet and Folium to make interactive maps in Python
+
+                
+                </h1>
+            
+
+          
+
+          
+            <div class="page__meta">
+              
+              
+              <a href="https://www.earthdatascience.org/authors/matt-oakley">Matt Oakley</a>
+              
+            </div>
+          
+
+            <br/>
+
+            
+
+              
+            
+
+            <!-- For tools pages add authors and tool title -->
+
+            
+        </header>
+
+
+
+      <section class="page__content" itemprop="text">
+
+        <!-- would like to include the TOC automatically but this does weird things-->
+        
+          
+            <p>Interactive maps are useful for data exploration and communicating research. <a href="http://leafletjs.com/">Leaflet</a>, an open-source JavaScript library, facilitates the development of interactive maps, but is designed to be used via JavaScript. This tutorial provides a short demonstration of the <a href="https://python-visualization.github.io/folium/">folium</a> package, which provides an easy to use interface to Leaflet for Python users.</p>
+
+<p><em>Note: to see these maps execute these commands on your local machine</em></p>
+
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li>Create a map centered at an inputted location</li>
+  <li>Create points on the map</li>
+  <li>Try out some of folium’s other features</li>
+</ul>
+
+<h2 id="dependencies">Dependencies</h2>
+
+<ul>
+  <li>folium</li>
+  <li>pandas</li>
+</ul>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">folium</span>
+<span class="kn">from</span> <span class="nn">folium.plugins</span> <span class="kn">import</span> <span class="n">MarkerCluster</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+</code></pre></div></div>
+
+<h2 id="show-map-centered-at-a-point">Show Map Centered at a Point</h2>
+
+<p>The most fundamental part of creating an interactive map is to allow users to input a location and view that location on the map; imagine how difficult it’d be to scroll/zoom to each specific point you want to view! Let’s create a map and center it at a specific geographic point such as Boulder, Colorado.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#Define coordinates of where we want to center our map
+</span><span class="n">boulder_coords</span> <span class="o">=</span> <span class="p">[</span><span class="mf">40.015</span><span class="p">,</span> <span class="o">-</span><span class="mf">105.2705</span><span class="p">]</span>
+
+<span class="c1">#Create the map
+</span><span class="n">my_map</span> <span class="o">=</span> <span class="n">folium</span><span class="p">.</span><span class="n">Map</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="n">boulder_coords</span><span class="p">,</span> <span class="n">zoom_start</span> <span class="o">=</span> <span class="mi">13</span><span class="p">)</span>
+
+<span class="c1">#Display the map
+</span><span class="n">my_map</span>
+</code></pre></div></div>
+
+<div style="width:100%;" class="output execute_result"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><iframe src="data:text/html;charset=utf-8;base64,PCFET0NUWVBFIGh0bWw+CjxoZWFkPiAgICAKICAgIDxtZXRhIGh0dHAtZXF1aXY9ImNvbnRlbnQtdHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PVVURi04IiAvPgogICAgCiAgICAgICAgPHNjcmlwdD4KICAgICAgICAgICAgTF9OT19UT1VDSCA9IGZhbHNlOwogICAgICAgICAgICBMX0RJU0FCTEVfM0QgPSBmYWxzZTsKICAgICAgICA8L3NjcmlwdD4KICAgIAogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vbGVhZmxldEAxLjUuMS9kaXN0L2xlYWZsZXQuanMiPjwvc2NyaXB0PgogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vY29kZS5qcXVlcnkuY29tL2pxdWVyeS0xLjEyLjQubWluLmpzIj48L3NjcmlwdD4KICAgIDxzY3JpcHQgc3JjPSJodHRwczovL21heGNkbi5ib290c3RyYXBjZG4uY29tL2Jvb3RzdHJhcC8zLjIuMC9qcy9ib290c3RyYXAubWluLmpzIj48L3NjcmlwdD4KICAgIDxzY3JpcHQgc3JjPSJodHRwczovL2NkbmpzLmNsb3VkZmxhcmUuY29tL2FqYXgvbGlicy9MZWFmbGV0LmF3ZXNvbWUtbWFya2Vycy8yLjAuMi9sZWFmbGV0LmF3ZXNvbWUtbWFya2Vycy5qcyI+PC9zY3JpcHQ+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vbGVhZmxldEAxLjUuMS9kaXN0L2xlYWZsZXQuY3NzIi8+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vbWF4Y2RuLmJvb3RzdHJhcGNkbi5jb20vYm9vdHN0cmFwLzMuMi4wL2Nzcy9ib290c3RyYXAubWluLmNzcyIvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL21heGNkbi5ib290c3RyYXBjZG4uY29tL2Jvb3RzdHJhcC8zLjIuMC9jc3MvYm9vdHN0cmFwLXRoZW1lLm1pbi5jc3MiLz4KICAgIDxsaW5rIHJlbD0ic3R5bGVzaGVldCIgaHJlZj0iaHR0cHM6Ly9tYXhjZG4uYm9vdHN0cmFwY2RuLmNvbS9mb250LWF3ZXNvbWUvNC42LjMvY3NzL2ZvbnQtYXdlc29tZS5taW4uY3NzIi8+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vY2RuanMuY2xvdWRmbGFyZS5jb20vYWpheC9saWJzL0xlYWZsZXQuYXdlc29tZS1tYXJrZXJzLzIuMC4yL2xlYWZsZXQuYXdlc29tZS1tYXJrZXJzLmNzcyIvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL3Jhd2Nkbi5naXRoYWNrLmNvbS9weXRob24tdmlzdWFsaXphdGlvbi9mb2xpdW0vbWFzdGVyL2ZvbGl1bS90ZW1wbGF0ZXMvbGVhZmxldC5hd2Vzb21lLnJvdGF0ZS5jc3MiLz4KICAgIDxzdHlsZT5odG1sLCBib2R5IHt3aWR0aDogMTAwJTtoZWlnaHQ6IDEwMCU7bWFyZ2luOiAwO3BhZGRpbmc6IDA7fTwvc3R5bGU+CiAgICA8c3R5bGU+I21hcCB7cG9zaXRpb246YWJzb2x1dGU7dG9wOjA7Ym90dG9tOjA7cmlnaHQ6MDtsZWZ0OjA7fTwvc3R5bGU+CiAgICAKICAgICAgICAgICAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwKICAgICAgICAgICAgICAgIGluaXRpYWwtc2NhbGU9MS4wLCBtYXhpbXVtLXNjYWxlPTEuMCwgdXNlci1zY2FsYWJsZT1ubyIgLz4KICAgICAgICAgICAgPHN0eWxlPgogICAgICAgICAgICAgICAgI21hcF9lOTc3NDhiMjFiZmE0ZTM5YWM3NTA4ODFjYzQyZmVlMiB7CiAgICAgICAgICAgICAgICAgICAgcG9zaXRpb246IHJlbGF0aXZlOwogICAgICAgICAgICAgICAgICAgIHdpZHRoOiAxMDAuMCU7CiAgICAgICAgICAgICAgICAgICAgaGVpZ2h0OiAxMDAuMCU7CiAgICAgICAgICAgICAgICAgICAgbGVmdDogMC4wJTsKICAgICAgICAgICAgICAgICAgICB0b3A6IDAuMCU7CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIDwvc3R5bGU+CiAgICAgICAgCjwvaGVhZD4KPGJvZHk+ICAgIAogICAgCiAgICAgICAgICAgIDxkaXYgY2xhc3M9ImZvbGl1bS1tYXAiIGlkPSJtYXBfZTk3NzQ4YjIxYmZhNGUzOWFjNzUwODgxY2M0MmZlZTIiID48L2Rpdj4KICAgICAgICAKPC9ib2R5Pgo8c2NyaXB0PiAgICAKICAgIAogICAgICAgICAgICB2YXIgbWFwX2U5Nzc0OGIyMWJmYTRlMzlhYzc1MDg4MWNjNDJmZWUyID0gTC5tYXAoCiAgICAgICAgICAgICAgICAibWFwX2U5Nzc0OGIyMWJmYTRlMzlhYzc1MDg4MWNjNDJmZWUyIiwKICAgICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICAgICBjZW50ZXI6IFs0MC4wMTUsIC0xMDUuMjcwNV0sCiAgICAgICAgICAgICAgICAgICAgY3JzOiBMLkNSUy5FUFNHMzg1NywKICAgICAgICAgICAgICAgICAgICB6b29tOiAxMywKICAgICAgICAgICAgICAgICAgICB6b29tQ29udHJvbDogdHJ1ZSwKICAgICAgICAgICAgICAgICAgICBwcmVmZXJDYW52YXM6IGZhbHNlLAogICAgICAgICAgICAgICAgfQogICAgICAgICAgICApOwoKICAgICAgICAgICAgCgogICAgICAgIAogICAgCiAgICAgICAgICAgIHZhciB0aWxlX2xheWVyXzYzZjY2ZjkzYWQ5MjQ3ZjhiNWFiZmE0NDdkNDYwY2I5ID0gTC50aWxlTGF5ZXIoCiAgICAgICAgICAgICAgICAiaHR0cHM6Ly97c30udGlsZS5vcGVuc3RyZWV0bWFwLm9yZy97en0ve3h9L3t5fS5wbmciLAogICAgICAgICAgICAgICAgeyJhdHRyaWJ1dGlvbiI6ICJEYXRhIGJ5IFx1MDAyNmNvcHk7IFx1MDAzY2EgaHJlZj1cImh0dHA6Ly9vcGVuc3RyZWV0bWFwLm9yZ1wiXHUwMDNlT3BlblN0cmVldE1hcFx1MDAzYy9hXHUwMDNlLCB1bmRlciBcdTAwM2NhIGhyZWY9XCJodHRwOi8vd3d3Lm9wZW5zdHJlZXRtYXAub3JnL2NvcHlyaWdodFwiXHUwMDNlT0RiTFx1MDAzYy9hXHUwMDNlLiIsICJkZXRlY3RSZXRpbmEiOiBmYWxzZSwgIm1heE5hdGl2ZVpvb20iOiAxOCwgIm1heFpvb20iOiAxOCwgIm1pblpvb20iOiAwLCAibm9XcmFwIjogZmFsc2UsICJvcGFjaXR5IjogMSwgInN1YmRvbWFpbnMiOiAiYWJjIiwgInRtcyI6IGZhbHNlfQogICAgICAgICAgICApLmFkZFRvKG1hcF9lOTc3NDhiMjFiZmE0ZTM5YWM3NTA4ODFjYzQyZmVlMik7CiAgICAgICAgCjwvc2NyaXB0Pg==" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe></div></div>
+
+<h2 id="adding-markers-to-the-map">Adding Markers to the Map</h2>
+
+<p>Now that we’re able to display a map centeret at a point of our choosing, we can try adding some more content to the map via markers. Markers can be extremely useful for storing information about locations on the map such as cross streets, building information, etc. Using the same map, let’s add markers indicating where CU Boulder is as well as East Campus and the SEEC building.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#Define the coordinates we want our markers to be at
+</span><span class="n">CU_Boulder_coords</span> <span class="o">=</span> <span class="p">[</span><span class="mf">40.007153</span><span class="p">,</span> <span class="o">-</span><span class="mf">105.266930</span><span class="p">]</span>
+<span class="n">East_Campus_coords</span> <span class="o">=</span> <span class="p">[</span><span class="mf">40.013501</span><span class="p">,</span> <span class="o">-</span><span class="mf">105.251889</span><span class="p">]</span>
+<span class="n">SEEC_coords</span> <span class="o">=</span> <span class="p">[</span><span class="mf">40.009837</span><span class="p">,</span> <span class="o">-</span><span class="mf">105.241905</span><span class="p">]</span>
+
+<span class="c1">#Add markers to the map
+</span><span class="n">folium</span><span class="p">.</span><span class="n">Marker</span><span class="p">(</span><span class="n">CU_Boulder_coords</span><span class="p">,</span> <span class="n">popup</span> <span class="o">=</span> <span class="s">'CU Boulder'</span><span class="p">).</span><span class="n">add_to</span><span class="p">(</span><span class="n">my_map</span><span class="p">)</span>
+<span class="n">folium</span><span class="p">.</span><span class="n">Marker</span><span class="p">(</span><span class="n">East_Campus_coords</span><span class="p">,</span> <span class="n">popup</span> <span class="o">=</span> <span class="s">'East Campus'</span><span class="p">).</span><span class="n">add_to</span><span class="p">(</span><span class="n">my_map</span><span class="p">)</span>
+<span class="n">folium</span><span class="p">.</span><span class="n">Marker</span><span class="p">(</span><span class="n">SEEC_coords</span><span class="p">,</span> <span class="n">popup</span> <span class="o">=</span> <span class="s">'SEEC Building'</span><span class="p">).</span><span class="n">add_to</span><span class="p">(</span><span class="n">my_map</span><span class="p">)</span>
+
+<span class="c1">#Display the map
+</span><span class="n">my_map</span>
+</code></pre></div></div>
+
+<div style="width:100%;" class="output execute_result"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><iframe src="data:text/html;charset=utf-8;base64,PCFET0NUWVBFIGh0bWw+CjxoZWFkPiAgICAKICAgIDxtZXRhIGh0dHAtZXF1aXY9ImNvbnRlbnQtdHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PVVURi04IiAvPgogICAgCiAgICAgICAgPHNjcmlwdD4KICAgICAgICAgICAgTF9OT19UT1VDSCA9IGZhbHNlOwogICAgICAgICAgICBMX0RJU0FCTEVfM0QgPSBmYWxzZTsKICAgICAgICA8L3NjcmlwdD4KICAgIAogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vbGVhZmxldEAxLjUuMS9kaXN0L2xlYWZsZXQuanMiPjwvc2NyaXB0PgogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vY29kZS5qcXVlcnkuY29tL2pxdWVyeS0xLjEyLjQubWluLmpzIj48L3NjcmlwdD4KICAgIDxzY3JpcHQgc3JjPSJodHRwczovL21heGNkbi5ib290c3RyYXBjZG4uY29tL2Jvb3RzdHJhcC8zLjIuMC9qcy9ib290c3RyYXAubWluLmpzIj48L3NjcmlwdD4KICAgIDxzY3JpcHQgc3JjPSJodHRwczovL2NkbmpzLmNsb3VkZmxhcmUuY29tL2FqYXgvbGlicy9MZWFmbGV0LmF3ZXNvbWUtbWFya2Vycy8yLjAuMi9sZWFmbGV0LmF3ZXNvbWUtbWFya2Vycy5qcyI+PC9zY3JpcHQ+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vbGVhZmxldEAxLjUuMS9kaXN0L2xlYWZsZXQuY3NzIi8+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vbWF4Y2RuLmJvb3RzdHJhcGNkbi5jb20vYm9vdHN0cmFwLzMuMi4wL2Nzcy9ib290c3RyYXAubWluLmNzcyIvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL21heGNkbi5ib290c3RyYXBjZG4uY29tL2Jvb3RzdHJhcC8zLjIuMC9jc3MvYm9vdHN0cmFwLXRoZW1lLm1pbi5jc3MiLz4KICAgIDxsaW5rIHJlbD0ic3R5bGVzaGVldCIgaHJlZj0iaHR0cHM6Ly9tYXhjZG4uYm9vdHN0cmFwY2RuLmNvbS9mb250LWF3ZXNvbWUvNC42LjMvY3NzL2ZvbnQtYXdlc29tZS5taW4uY3NzIi8+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vY2RuanMuY2xvdWRmbGFyZS5jb20vYWpheC9saWJzL0xlYWZsZXQuYXdlc29tZS1tYXJrZXJzLzIuMC4yL2xlYWZsZXQuYXdlc29tZS1tYXJrZXJzLmNzcyIvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL3Jhd2Nkbi5naXRoYWNrLmNvbS9weXRob24tdmlzdWFsaXphdGlvbi9mb2xpdW0vbWFzdGVyL2ZvbGl1bS90ZW1wbGF0ZXMvbGVhZmxldC5hd2Vzb21lLnJvdGF0ZS5jc3MiLz4KICAgIDxzdHlsZT5odG1sLCBib2R5IHt3aWR0aDogMTAwJTtoZWlnaHQ6IDEwMCU7bWFyZ2luOiAwO3BhZGRpbmc6IDA7fTwvc3R5bGU+CiAgICA8c3R5bGU+I21hcCB7cG9zaXRpb246YWJzb2x1dGU7dG9wOjA7Ym90dG9tOjA7cmlnaHQ6MDtsZWZ0OjA7fTwvc3R5bGU+CiAgICAKICAgICAgICAgICAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwKICAgICAgICAgICAgICAgIGluaXRpYWwtc2NhbGU9MS4wLCBtYXhpbXVtLXNjYWxlPTEuMCwgdXNlci1zY2FsYWJsZT1ubyIgLz4KICAgICAgICAgICAgPHN0eWxlPgogICAgICAgICAgICAgICAgI21hcF9lOTc3NDhiMjFiZmE0ZTM5YWM3NTA4ODFjYzQyZmVlMiB7CiAgICAgICAgICAgICAgICAgICAgcG9zaXRpb246IHJlbGF0aXZlOwogICAgICAgICAgICAgICAgICAgIHdpZHRoOiAxMDAuMCU7CiAgICAgICAgICAgICAgICAgICAgaGVpZ2h0OiAxMDAuMCU7CiAgICAgICAgICAgICAgICAgICAgbGVmdDogMC4wJTsKICAgICAgICAgICAgICAgICAgICB0b3A6IDAuMCU7CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIDwvc3R5bGU+CiAgICAgICAgCjwvaGVhZD4KPGJvZHk+ICAgIAogICAgCiAgICAgICAgICAgIDxkaXYgY2xhc3M9ImZvbGl1bS1tYXAiIGlkPSJtYXBfZTk3NzQ4YjIxYmZhNGUzOWFjNzUwODgxY2M0MmZlZTIiID48L2Rpdj4KICAgICAgICAKPC9ib2R5Pgo8c2NyaXB0PiAgICAKICAgIAogICAgICAgICAgICB2YXIgbWFwX2U5Nzc0OGIyMWJmYTRlMzlhYzc1MDg4MWNjNDJmZWUyID0gTC5tYXAoCiAgICAgICAgICAgICAgICAibWFwX2U5Nzc0OGIyMWJmYTRlMzlhYzc1MDg4MWNjNDJmZWUyIiwKICAgICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICAgICBjZW50ZXI6IFs0MC4wMTUsIC0xMDUuMjcwNV0sCiAgICAgICAgICAgICAgICAgICAgY3JzOiBMLkNSUy5FUFNHMzg1NywKICAgICAgICAgICAgICAgICAgICB6b29tOiAxMywKICAgICAgICAgICAgICAgICAgICB6b29tQ29udHJvbDogdHJ1ZSwKICAgICAgICAgICAgICAgICAgICBwcmVmZXJDYW52YXM6IGZhbHNlLAogICAgICAgICAgICAgICAgfQogICAgICAgICAgICApOwoKICAgICAgICAgICAgCgogICAgICAgIAogICAgCiAgICAgICAgICAgIHZhciB0aWxlX2xheWVyXzYzZjY2ZjkzYWQ5MjQ3ZjhiNWFiZmE0NDdkNDYwY2I5ID0gTC50aWxlTGF5ZXIoCiAgICAgICAgICAgICAgICAiaHR0cHM6Ly97c30udGlsZS5vcGVuc3RyZWV0bWFwLm9yZy97en0ve3h9L3t5fS5wbmciLAogICAgICAgICAgICAgICAgeyJhdHRyaWJ1dGlvbiI6ICJEYXRhIGJ5IFx1MDAyNmNvcHk7IFx1MDAzY2EgaHJlZj1cImh0dHA6Ly9vcGVuc3RyZWV0bWFwLm9yZ1wiXHUwMDNlT3BlblN0cmVldE1hcFx1MDAzYy9hXHUwMDNlLCB1bmRlciBcdTAwM2NhIGhyZWY9XCJodHRwOi8vd3d3Lm9wZW5zdHJlZXRtYXAub3JnL2NvcHlyaWdodFwiXHUwMDNlT0RiTFx1MDAzYy9hXHUwMDNlLiIsICJkZXRlY3RSZXRpbmEiOiBmYWxzZSwgIm1heE5hdGl2ZVpvb20iOiAxOCwgIm1heFpvb20iOiAxOCwgIm1pblpvb20iOiAwLCAibm9XcmFwIjogZmFsc2UsICJvcGFjaXR5IjogMSwgInN1YmRvbWFpbnMiOiAiYWJjIiwgInRtcyI6IGZhbHNlfQogICAgICAgICAgICApLmFkZFRvKG1hcF9lOTc3NDhiMjFiZmE0ZTM5YWM3NTA4ODFjYzQyZmVlMik7CiAgICAgICAgCiAgICAKICAgICAgICAgICAgdmFyIG1hcmtlcl8yZjU5NThiNWNkNDQ0ODUwOGU2NTA5MjNmNjA1YjM3ZSA9IEwubWFya2VyKAogICAgICAgICAgICAgICAgWzQwLjAwNzE1MywgLTEwNS4yNjY5M10sCiAgICAgICAgICAgICAgICB7fQogICAgICAgICAgICApLmFkZFRvKG1hcF9lOTc3NDhiMjFiZmE0ZTM5YWM3NTA4ODFjYzQyZmVlMik7CiAgICAgICAgCiAgICAKICAgICAgICB2YXIgcG9wdXBfNjE1YzgyNGUxOTYzNGEzN2ExNTRhZmQ0NzNmN2NjNmIgPSBMLnBvcHVwKHsibWF4V2lkdGgiOiAiMTAwJSJ9KTsKCiAgICAgICAgCiAgICAgICAgICAgIHZhciBodG1sX2M3MDFhNzJlOTYzODRhN2U4NGNiNmVmNDU1ODQyYWQ0ID0gJChgPGRpdiBpZD0iaHRtbF9jNzAxYTcyZTk2Mzg0YTdlODRjYjZlZjQ1NTg0MmFkNCIgc3R5bGU9IndpZHRoOiAxMDAuMCU7IGhlaWdodDogMTAwLjAlOyI+Q1UgQm91bGRlcjwvZGl2PmApWzBdOwogICAgICAgICAgICBwb3B1cF82MTVjODI0ZTE5NjM0YTM3YTE1NGFmZDQ3M2Y3Y2M2Yi5zZXRDb250ZW50KGh0bWxfYzcwMWE3MmU5NjM4NGE3ZTg0Y2I2ZWY0NTU4NDJhZDQpOwogICAgICAgIAoKICAgICAgICBtYXJrZXJfMmY1OTU4YjVjZDQ0NDg1MDhlNjUwOTIzZjYwNWIzN2UuYmluZFBvcHVwKHBvcHVwXzYxNWM4MjRlMTk2MzRhMzdhMTU0YWZkNDczZjdjYzZiKQogICAgICAgIDsKCiAgICAgICAgCiAgICAKICAgIAogICAgICAgICAgICB2YXIgbWFya2VyXzJmZmVlYThkNDBkZDQ1MmM5NzkzNDFlNDgxOTk2YTk2ID0gTC5tYXJrZXIoCiAgICAgICAgICAgICAgICBbNDAuMDEzNTAxLCAtMTA1LjI1MTg4OV0sCiAgICAgICAgICAgICAgICB7fQogICAgICAgICAgICApLmFkZFRvKG1hcF9lOTc3NDhiMjFiZmE0ZTM5YWM3NTA4ODFjYzQyZmVlMik7CiAgICAgICAgCiAgICAKICAgICAgICB2YXIgcG9wdXBfNTAyNjZjZjYyYTE4NDM4ZGFiNzUzOWY0ZTgzYjJiZGQgPSBMLnBvcHVwKHsibWF4V2lkdGgiOiAiMTAwJSJ9KTsKCiAgICAgICAgCiAgICAgICAgICAgIHZhciBodG1sX2ZjOTA5NDVmYjc2MzQwMjliZmU5MWJiMjM5YTk4M2MyID0gJChgPGRpdiBpZD0iaHRtbF9mYzkwOTQ1ZmI3NjM0MDI5YmZlOTFiYjIzOWE5ODNjMiIgc3R5bGU9IndpZHRoOiAxMDAuMCU7IGhlaWdodDogMTAwLjAlOyI+RWFzdCBDYW1wdXM8L2Rpdj5gKVswXTsKICAgICAgICAgICAgcG9wdXBfNTAyNjZjZjYyYTE4NDM4ZGFiNzUzOWY0ZTgzYjJiZGQuc2V0Q29udGVudChodG1sX2ZjOTA5NDVmYjc2MzQwMjliZmU5MWJiMjM5YTk4M2MyKTsKICAgICAgICAKCiAgICAgICAgbWFya2VyXzJmZmVlYThkNDBkZDQ1MmM5NzkzNDFlNDgxOTk2YTk2LmJpbmRQb3B1cChwb3B1cF81MDI2NmNmNjJhMTg0MzhkYWI3NTM5ZjRlODNiMmJkZCkKICAgICAgICA7CgogICAgICAgIAogICAgCiAgICAKICAgICAgICAgICAgdmFyIG1hcmtlcl85NWVjNTNiZDU3ZjU0ODVhYWI0MWMxMjkzNGNlNjJlOCA9IEwubWFya2VyKAogICAgICAgICAgICAgICAgWzQwLjAwOTgzNywgLTEwNS4yNDE5MDVdLAogICAgICAgICAgICAgICAge30KICAgICAgICAgICAgKS5hZGRUbyhtYXBfZTk3NzQ4YjIxYmZhNGUzOWFjNzUwODgxY2M0MmZlZTIpOwogICAgICAgIAogICAgCiAgICAgICAgdmFyIHBvcHVwXzNjNWQ3NGRhNmQ0NzQ3ODVhYjQxMDhlMmZkMTcyMWYyID0gTC5wb3B1cCh7Im1heFdpZHRoIjogIjEwMCUifSk7CgogICAgICAgIAogICAgICAgICAgICB2YXIgaHRtbF9mMDMwOTExOGRmODE0MjAzYmJlYmY5MzRmMGVjYTExNCA9ICQoYDxkaXYgaWQ9Imh0bWxfZjAzMDkxMThkZjgxNDIwM2JiZWJmOTM0ZjBlY2ExMTQiIHN0eWxlPSJ3aWR0aDogMTAwLjAlOyBoZWlnaHQ6IDEwMC4wJTsiPlNFRUMgQnVpbGRpbmc8L2Rpdj5gKVswXTsKICAgICAgICAgICAgcG9wdXBfM2M1ZDc0ZGE2ZDQ3NDc4NWFiNDEwOGUyZmQxNzIxZjIuc2V0Q29udGVudChodG1sX2YwMzA5MTE4ZGY4MTQyMDNiYmViZjkzNGYwZWNhMTE0KTsKICAgICAgICAKCiAgICAgICAgbWFya2VyXzk1ZWM1M2JkNTdmNTQ4NWFhYjQxYzEyOTM0Y2U2MmU4LmJpbmRQb3B1cChwb3B1cF8zYzVkNzRkYTZkNDc0Nzg1YWI0MTA4ZTJmZDE3MjFmMikKICAgICAgICA7CgogICAgICAgIAogICAgCjwvc2NyaXB0Pg==" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe></div></div>
+
+<h2 id="other-features">Other Features</h2>
+
+<p>Leaflet (or folium for our purposes) has some other pretty great features that you may find useful. There are some great tutorials that can be found online with examples that should be easily adaptable to your code. Additionally, folium can work with pandas dataframes in order to overlay data onto the interactive map.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#Adding a tileset to our map
+</span><span class="n">map_with_tiles</span> <span class="o">=</span> <span class="n">folium</span><span class="p">.</span><span class="n">Map</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="n">boulder_coords</span><span class="p">,</span> <span class="n">tiles</span> <span class="o">=</span> <span class="s">'Stamen Toner'</span><span class="p">)</span>
+<span class="n">map_with_tiles</span>
+</code></pre></div></div>
+
+<div style="width:100%;" class="output execute_result"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><iframe src="data:text/html;charset=utf-8;base64,PCFET0NUWVBFIGh0bWw+CjxoZWFkPiAgICAKICAgIDxtZXRhIGh0dHAtZXF1aXY9ImNvbnRlbnQtdHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PVVURi04IiAvPgogICAgCiAgICAgICAgPHNjcmlwdD4KICAgICAgICAgICAgTF9OT19UT1VDSCA9IGZhbHNlOwogICAgICAgICAgICBMX0RJU0FCTEVfM0QgPSBmYWxzZTsKICAgICAgICA8L3NjcmlwdD4KICAgIAogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vbGVhZmxldEAxLjUuMS9kaXN0L2xlYWZsZXQuanMiPjwvc2NyaXB0PgogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vY29kZS5qcXVlcnkuY29tL2pxdWVyeS0xLjEyLjQubWluLmpzIj48L3NjcmlwdD4KICAgIDxzY3JpcHQgc3JjPSJodHRwczovL21heGNkbi5ib290c3RyYXBjZG4uY29tL2Jvb3RzdHJhcC8zLjIuMC9qcy9ib290c3RyYXAubWluLmpzIj48L3NjcmlwdD4KICAgIDxzY3JpcHQgc3JjPSJodHRwczovL2NkbmpzLmNsb3VkZmxhcmUuY29tL2FqYXgvbGlicy9MZWFmbGV0LmF3ZXNvbWUtbWFya2Vycy8yLjAuMi9sZWFmbGV0LmF3ZXNvbWUtbWFya2Vycy5qcyI+PC9zY3JpcHQ+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vbGVhZmxldEAxLjUuMS9kaXN0L2xlYWZsZXQuY3NzIi8+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vbWF4Y2RuLmJvb3RzdHJhcGNkbi5jb20vYm9vdHN0cmFwLzMuMi4wL2Nzcy9ib290c3RyYXAubWluLmNzcyIvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL21heGNkbi5ib290c3RyYXBjZG4uY29tL2Jvb3RzdHJhcC8zLjIuMC9jc3MvYm9vdHN0cmFwLXRoZW1lLm1pbi5jc3MiLz4KICAgIDxsaW5rIHJlbD0ic3R5bGVzaGVldCIgaHJlZj0iaHR0cHM6Ly9tYXhjZG4uYm9vdHN0cmFwY2RuLmNvbS9mb250LWF3ZXNvbWUvNC42LjMvY3NzL2ZvbnQtYXdlc29tZS5taW4uY3NzIi8+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vY2RuanMuY2xvdWRmbGFyZS5jb20vYWpheC9saWJzL0xlYWZsZXQuYXdlc29tZS1tYXJrZXJzLzIuMC4yL2xlYWZsZXQuYXdlc29tZS1tYXJrZXJzLmNzcyIvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL3Jhd2Nkbi5naXRoYWNrLmNvbS9weXRob24tdmlzdWFsaXphdGlvbi9mb2xpdW0vbWFzdGVyL2ZvbGl1bS90ZW1wbGF0ZXMvbGVhZmxldC5hd2Vzb21lLnJvdGF0ZS5jc3MiLz4KICAgIDxzdHlsZT5odG1sLCBib2R5IHt3aWR0aDogMTAwJTtoZWlnaHQ6IDEwMCU7bWFyZ2luOiAwO3BhZGRpbmc6IDA7fTwvc3R5bGU+CiAgICA8c3R5bGU+I21hcCB7cG9zaXRpb246YWJzb2x1dGU7dG9wOjA7Ym90dG9tOjA7cmlnaHQ6MDtsZWZ0OjA7fTwvc3R5bGU+CiAgICAKICAgICAgICAgICAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwKICAgICAgICAgICAgICAgIGluaXRpYWwtc2NhbGU9MS4wLCBtYXhpbXVtLXNjYWxlPTEuMCwgdXNlci1zY2FsYWJsZT1ubyIgLz4KICAgICAgICAgICAgPHN0eWxlPgogICAgICAgICAgICAgICAgI21hcF8yNDIwY2E5N2VjN2I0MDNmOTdhNDllZTVkMjZjYzc1ZiB7CiAgICAgICAgICAgICAgICAgICAgcG9zaXRpb246IHJlbGF0aXZlOwogICAgICAgICAgICAgICAgICAgIHdpZHRoOiAxMDAuMCU7CiAgICAgICAgICAgICAgICAgICAgaGVpZ2h0OiAxMDAuMCU7CiAgICAgICAgICAgICAgICAgICAgbGVmdDogMC4wJTsKICAgICAgICAgICAgICAgICAgICB0b3A6IDAuMCU7CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIDwvc3R5bGU+CiAgICAgICAgCjwvaGVhZD4KPGJvZHk+ICAgIAogICAgCiAgICAgICAgICAgIDxkaXYgY2xhc3M9ImZvbGl1bS1tYXAiIGlkPSJtYXBfMjQyMGNhOTdlYzdiNDAzZjk3YTQ5ZWU1ZDI2Y2M3NWYiID48L2Rpdj4KICAgICAgICAKPC9ib2R5Pgo8c2NyaXB0PiAgICAKICAgIAogICAgICAgICAgICB2YXIgbWFwXzI0MjBjYTk3ZWM3YjQwM2Y5N2E0OWVlNWQyNmNjNzVmID0gTC5tYXAoCiAgICAgICAgICAgICAgICAibWFwXzI0MjBjYTk3ZWM3YjQwM2Y5N2E0OWVlNWQyNmNjNzVmIiwKICAgICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICAgICBjZW50ZXI6IFs0MC4wMTUsIC0xMDUuMjcwNV0sCiAgICAgICAgICAgICAgICAgICAgY3JzOiBMLkNSUy5FUFNHMzg1NywKICAgICAgICAgICAgICAgICAgICB6b29tOiAxMCwKICAgICAgICAgICAgICAgICAgICB6b29tQ29udHJvbDogdHJ1ZSwKICAgICAgICAgICAgICAgICAgICBwcmVmZXJDYW52YXM6IGZhbHNlLAogICAgICAgICAgICAgICAgfQogICAgICAgICAgICApOwoKICAgICAgICAgICAgCgogICAgICAgIAogICAgCiAgICAgICAgICAgIHZhciB0aWxlX2xheWVyX2QwZDM5MWRiY2M5ZjQ0MTk5M2RmNmE5OWNhOGNlOWI5ID0gTC50aWxlTGF5ZXIoCiAgICAgICAgICAgICAgICAiaHR0cHM6Ly9zdGFtZW4tdGlsZXMte3N9LmEuc3NsLmZhc3RseS5uZXQvdG9uZXIve3p9L3t4fS97eX0ucG5nIiwKICAgICAgICAgICAgICAgIHsiYXR0cmlidXRpb24iOiAiTWFwIHRpbGVzIGJ5IFx1MDAzY2EgaHJlZj1cImh0dHA6Ly9zdGFtZW4uY29tXCJcdTAwM2VTdGFtZW4gRGVzaWduXHUwMDNjL2FcdTAwM2UsIHVuZGVyIFx1MDAzY2EgaHJlZj1cImh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMFwiXHUwMDNlQ0MgQlkgMy4wXHUwMDNjL2FcdTAwM2UuIERhdGEgYnkgXHUwMDI2Y29weTsgXHUwMDNjYSBocmVmPVwiaHR0cDovL29wZW5zdHJlZXRtYXAub3JnXCJcdTAwM2VPcGVuU3RyZWV0TWFwXHUwMDNjL2FcdTAwM2UsIHVuZGVyIFx1MDAzY2EgaHJlZj1cImh0dHA6Ly93d3cub3BlbnN0cmVldG1hcC5vcmcvY29weXJpZ2h0XCJcdTAwM2VPRGJMXHUwMDNjL2FcdTAwM2UuIiwgImRldGVjdFJldGluYSI6IGZhbHNlLCAibWF4TmF0aXZlWm9vbSI6IDE4LCAibWF4Wm9vbSI6IDE4LCAibWluWm9vbSI6IDAsICJub1dyYXAiOiBmYWxzZSwgIm9wYWNpdHkiOiAxLCAic3ViZG9tYWlucyI6ICJhYmMiLCAidG1zIjogZmFsc2V9CiAgICAgICAgICAgICkuYWRkVG8obWFwXzI0MjBjYTk3ZWM3YjQwM2Y5N2E0OWVlNWQyNmNjNzVmKTsKICAgICAgICAKPC9zY3JpcHQ+" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe></div></div>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#Using polygon markers with colors instead of default markers
+</span><span class="n">polygon_map</span> <span class="o">=</span> <span class="n">folium</span><span class="p">.</span><span class="n">Map</span><span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="n">boulder_coords</span><span class="p">,</span> <span class="n">zoom_start</span> <span class="o">=</span> <span class="mi">13</span><span class="p">)</span>
+
+<span class="n">CU_Boulder_coords</span> <span class="o">=</span> <span class="p">[</span><span class="mf">40.007153</span><span class="p">,</span> <span class="o">-</span><span class="mf">105.266930</span><span class="p">]</span>
+<span class="n">East_Campus_coords</span> <span class="o">=</span> <span class="p">[</span><span class="mf">40.013501</span><span class="p">,</span> <span class="o">-</span><span class="mf">105.251889</span><span class="p">]</span>
+<span class="n">SEEC_coords</span> <span class="o">=</span> <span class="p">[</span><span class="mf">40.009837</span><span class="p">,</span> <span class="o">-</span><span class="mf">105.241905</span><span class="p">]</span>
+
+<span class="c1">#Add markers to the map
+</span><span class="n">folium</span><span class="p">.</span><span class="n">RegularPolygonMarker</span><span class="p">(</span><span class="n">CU_Boulder_coords</span><span class="p">,</span> <span class="n">popup</span> <span class="o">=</span> <span class="s">'CU Boulder'</span><span class="p">,</span> <span class="n">fill_color</span> <span class="o">=</span> <span class="s">'#00ff40'</span><span class="p">,</span>
+                            <span class="n">number_of_sides</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="mi">10</span><span class="p">).</span><span class="n">add_to</span><span class="p">(</span><span class="n">polygon_map</span><span class="p">)</span>
+<span class="n">folium</span><span class="p">.</span><span class="n">RegularPolygonMarker</span><span class="p">(</span><span class="n">East_Campus_coords</span><span class="p">,</span> <span class="n">popup</span> <span class="o">=</span> <span class="s">'EastCampus'</span><span class="p">,</span> <span class="n">fill_color</span> <span class="o">=</span> <span class="s">'#bf00ff'</span><span class="p">,</span>
+                            <span class="n">number_of_sides</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="mi">10</span><span class="p">).</span><span class="n">add_to</span><span class="p">(</span><span class="n">polygon_map</span><span class="p">)</span>
+<span class="n">folium</span><span class="p">.</span><span class="n">RegularPolygonMarker</span><span class="p">(</span><span class="n">SEEC_coords</span><span class="p">,</span> <span class="n">popup</span> <span class="o">=</span> <span class="s">'SEEC Building'</span><span class="p">,</span> <span class="n">fill_color</span> <span class="o">=</span> <span class="s">'#ff0000'</span><span class="p">,</span>
+                           <span class="n">number_of_sides</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="mi">10</span><span class="p">).</span><span class="n">add_to</span><span class="p">(</span><span class="n">polygon_map</span><span class="p">)</span>
+
+<span class="c1">#Display the map
+</span><span class="n">polygon_map</span>
+</code></pre></div></div>
+
+<div style="width:100%;" class="output execute_result"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><iframe src="data:text/html;charset=utf-8;base64,PCFET0NUWVBFIGh0bWw+CjxoZWFkPiAgICAKICAgIDxtZXRhIGh0dHAtZXF1aXY9ImNvbnRlbnQtdHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PVVURi04IiAvPgogICAgCiAgICAgICAgPHNjcmlwdD4KICAgICAgICAgICAgTF9OT19UT1VDSCA9IGZhbHNlOwogICAgICAgICAgICBMX0RJU0FCTEVfM0QgPSBmYWxzZTsKICAgICAgICA8L3NjcmlwdD4KICAgIAogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vbGVhZmxldEAxLjUuMS9kaXN0L2xlYWZsZXQuanMiPjwvc2NyaXB0PgogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vY29kZS5qcXVlcnkuY29tL2pxdWVyeS0xLjEyLjQubWluLmpzIj48L3NjcmlwdD4KICAgIDxzY3JpcHQgc3JjPSJodHRwczovL21heGNkbi5ib290c3RyYXBjZG4uY29tL2Jvb3RzdHJhcC8zLjIuMC9qcy9ib290c3RyYXAubWluLmpzIj48L3NjcmlwdD4KICAgIDxzY3JpcHQgc3JjPSJodHRwczovL2NkbmpzLmNsb3VkZmxhcmUuY29tL2FqYXgvbGlicy9MZWFmbGV0LmF3ZXNvbWUtbWFya2Vycy8yLjAuMi9sZWFmbGV0LmF3ZXNvbWUtbWFya2Vycy5qcyI+PC9zY3JpcHQ+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vbGVhZmxldEAxLjUuMS9kaXN0L2xlYWZsZXQuY3NzIi8+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vbWF4Y2RuLmJvb3RzdHJhcGNkbi5jb20vYm9vdHN0cmFwLzMuMi4wL2Nzcy9ib290c3RyYXAubWluLmNzcyIvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL21heGNkbi5ib290c3RyYXBjZG4uY29tL2Jvb3RzdHJhcC8zLjIuMC9jc3MvYm9vdHN0cmFwLXRoZW1lLm1pbi5jc3MiLz4KICAgIDxsaW5rIHJlbD0ic3R5bGVzaGVldCIgaHJlZj0iaHR0cHM6Ly9tYXhjZG4uYm9vdHN0cmFwY2RuLmNvbS9mb250LWF3ZXNvbWUvNC42LjMvY3NzL2ZvbnQtYXdlc29tZS5taW4uY3NzIi8+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vY2RuanMuY2xvdWRmbGFyZS5jb20vYWpheC9saWJzL0xlYWZsZXQuYXdlc29tZS1tYXJrZXJzLzIuMC4yL2xlYWZsZXQuYXdlc29tZS1tYXJrZXJzLmNzcyIvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL3Jhd2Nkbi5naXRoYWNrLmNvbS9weXRob24tdmlzdWFsaXphdGlvbi9mb2xpdW0vbWFzdGVyL2ZvbGl1bS90ZW1wbGF0ZXMvbGVhZmxldC5hd2Vzb21lLnJvdGF0ZS5jc3MiLz4KICAgIDxzdHlsZT5odG1sLCBib2R5IHt3aWR0aDogMTAwJTtoZWlnaHQ6IDEwMCU7bWFyZ2luOiAwO3BhZGRpbmc6IDA7fTwvc3R5bGU+CiAgICA8c3R5bGU+I21hcCB7cG9zaXRpb246YWJzb2x1dGU7dG9wOjA7Ym90dG9tOjA7cmlnaHQ6MDtsZWZ0OjA7fTwvc3R5bGU+CiAgICAKICAgICAgICAgICAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwKICAgICAgICAgICAgICAgIGluaXRpYWwtc2NhbGU9MS4wLCBtYXhpbXVtLXNjYWxlPTEuMCwgdXNlci1zY2FsYWJsZT1ubyIgLz4KICAgICAgICAgICAgPHN0eWxlPgogICAgICAgICAgICAgICAgI21hcF9lZTQzYTAxNmUzZjY0NzIxOGNiNDVlZDU4MzdlOGFlMCB7CiAgICAgICAgICAgICAgICAgICAgcG9zaXRpb246IHJlbGF0aXZlOwogICAgICAgICAgICAgICAgICAgIHdpZHRoOiAxMDAuMCU7CiAgICAgICAgICAgICAgICAgICAgaGVpZ2h0OiAxMDAuMCU7CiAgICAgICAgICAgICAgICAgICAgbGVmdDogMC4wJTsKICAgICAgICAgICAgICAgICAgICB0b3A6IDAuMCU7CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIDwvc3R5bGU+CiAgICAgICAgCiAgICA8c2NyaXB0IHNyYz0iaHR0cHM6Ly9jZG5qcy5jbG91ZGZsYXJlLmNvbS9hamF4L2xpYnMvbGVhZmxldC1kdmYvMC4zLjAvbGVhZmxldC1kdmYubWFya2Vycy5taW4uanMiPjwvc2NyaXB0Pgo8L2hlYWQ+Cjxib2R5PiAgICAKICAgIAogICAgICAgICAgICA8ZGl2IGNsYXNzPSJmb2xpdW0tbWFwIiBpZD0ibWFwX2VlNDNhMDE2ZTNmNjQ3MjE4Y2I0NWVkNTgzN2U4YWUwIiA+PC9kaXY+CiAgICAgICAgCjwvYm9keT4KPHNjcmlwdD4gICAgCiAgICAKICAgICAgICAgICAgdmFyIG1hcF9lZTQzYTAxNmUzZjY0NzIxOGNiNDVlZDU4MzdlOGFlMCA9IEwubWFwKAogICAgICAgICAgICAgICAgIm1hcF9lZTQzYTAxNmUzZjY0NzIxOGNiNDVlZDU4MzdlOGFlMCIsCiAgICAgICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAgICAgY2VudGVyOiBbNDAuMDE1LCAtMTA1LjI3MDVdLAogICAgICAgICAgICAgICAgICAgIGNyczogTC5DUlMuRVBTRzM4NTcsCiAgICAgICAgICAgICAgICAgICAgem9vbTogMTMsCiAgICAgICAgICAgICAgICAgICAgem9vbUNvbnRyb2w6IHRydWUsCiAgICAgICAgICAgICAgICAgICAgcHJlZmVyQ2FudmFzOiBmYWxzZSwKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgKTsKCiAgICAgICAgICAgIAoKICAgICAgICAKICAgIAogICAgICAgICAgICB2YXIgdGlsZV9sYXllcl8yYTRiZmI3OTVhMTA0MGEzOWZkOGZiMTQ2NjQyZmE4YyA9IEwudGlsZUxheWVyKAogICAgICAgICAgICAgICAgImh0dHBzOi8ve3N9LnRpbGUub3BlbnN0cmVldG1hcC5vcmcve3p9L3t4fS97eX0ucG5nIiwKICAgICAgICAgICAgICAgIHsiYXR0cmlidXRpb24iOiAiRGF0YSBieSBcdTAwMjZjb3B5OyBcdTAwM2NhIGhyZWY9XCJodHRwOi8vb3BlbnN0cmVldG1hcC5vcmdcIlx1MDAzZU9wZW5TdHJlZXRNYXBcdTAwM2MvYVx1MDAzZSwgdW5kZXIgXHUwMDNjYSBocmVmPVwiaHR0cDovL3d3dy5vcGVuc3RyZWV0bWFwLm9yZy9jb3B5cmlnaHRcIlx1MDAzZU9EYkxcdTAwM2MvYVx1MDAzZS4iLCAiZGV0ZWN0UmV0aW5hIjogZmFsc2UsICJtYXhOYXRpdmVab29tIjogMTgsICJtYXhab29tIjogMTgsICJtaW5ab29tIjogMCwgIm5vV3JhcCI6IGZhbHNlLCAib3BhY2l0eSI6IDEsICJzdWJkb21haW5zIjogImFiYyIsICJ0bXMiOiBmYWxzZX0KICAgICAgICAgICAgKS5hZGRUbyhtYXBfZWU0M2EwMTZlM2Y2NDcyMThjYjQ1ZWQ1ODM3ZThhZTApOwogICAgICAgIAogICAgCiAgICAgICAgICAgIHZhciByZWd1bGFyX3BvbHlnb25fbWFya2VyX2E4YWUwZTgxOTk5MzRjMjVhNGYyNjg3ZTc4NDM2YWVkID0gbmV3IEwuUmVndWxhclBvbHlnb25NYXJrZXIoCiAgICAgICAgICAgICAgICBbNDAuMDA3MTUzLCAtMTA1LjI2NjkzXSwKICAgICAgICAgICAgICAgIHsiYnViYmxpbmdNb3VzZUV2ZW50cyI6IHRydWUsICJjb2xvciI6ICIjMzM4OGZmIiwgImRhc2hBcnJheSI6IG51bGwsICJkYXNoT2Zmc2V0IjogbnVsbCwgImZpbGwiOiB0cnVlLCAiZmlsbENvbG9yIjogIiMwMGZmNDAiLCAiZmlsbE9wYWNpdHkiOiAwLjIsICJmaWxsUnVsZSI6ICJldmVub2RkIiwgImxpbmVDYXAiOiAicm91bmQiLCAibGluZUpvaW4iOiAicm91bmQiLCAibnVtYmVyT2ZTaWRlcyI6IDMsICJvcGFjaXR5IjogMS4wLCAicmFkaXVzIjogMTAsICJyb3RhdGlvbiI6IDAsICJzdHJva2UiOiB0cnVlLCAid2VpZ2h0IjogM30KICAgICAgICAgICAgKS5hZGRUbyhtYXBfZWU0M2EwMTZlM2Y2NDcyMThjYjQ1ZWQ1ODM3ZThhZTApOwogICAgICAgIAogICAgCiAgICAgICAgdmFyIHBvcHVwX2MzYmYxMDJjYjRhMTQxNmI5NjA3NjQ0OTdmMzdjMGUxID0gTC5wb3B1cCh7Im1heFdpZHRoIjogIjEwMCUifSk7CgogICAgICAgIAogICAgICAgICAgICB2YXIgaHRtbF84MWQ5N2I2YjI2MTQ0NDdkOGQ0YzM3YjMwNzM2OTQxOCA9ICQoYDxkaXYgaWQ9Imh0bWxfODFkOTdiNmIyNjE0NDQ3ZDhkNGMzN2IzMDczNjk0MTgiIHN0eWxlPSJ3aWR0aDogMTAwLjAlOyBoZWlnaHQ6IDEwMC4wJTsiPkNVIEJvdWxkZXI8L2Rpdj5gKVswXTsKICAgICAgICAgICAgcG9wdXBfYzNiZjEwMmNiNGExNDE2Yjk2MDc2NDQ5N2YzN2MwZTEuc2V0Q29udGVudChodG1sXzgxZDk3YjZiMjYxNDQ0N2Q4ZDRjMzdiMzA3MzY5NDE4KTsKICAgICAgICAKCiAgICAgICAgcmVndWxhcl9wb2x5Z29uX21hcmtlcl9hOGFlMGU4MTk5OTM0YzI1YTRmMjY4N2U3ODQzNmFlZC5iaW5kUG9wdXAocG9wdXBfYzNiZjEwMmNiNGExNDE2Yjk2MDc2NDQ5N2YzN2MwZTEpCiAgICAgICAgOwoKICAgICAgICAKICAgIAogICAgCiAgICAgICAgICAgIHZhciByZWd1bGFyX3BvbHlnb25fbWFya2VyXzBlOTNhOTc4Yzg4ZjQ1YzA4ZTA3N2ZkZTFhMDczN2YxID0gbmV3IEwuUmVndWxhclBvbHlnb25NYXJrZXIoCiAgICAgICAgICAgICAgICBbNDAuMDEzNTAxLCAtMTA1LjI1MTg4OV0sCiAgICAgICAgICAgICAgICB7ImJ1YmJsaW5nTW91c2VFdmVudHMiOiB0cnVlLCAiY29sb3IiOiAiIzMzODhmZiIsICJkYXNoQXJyYXkiOiBudWxsLCAiZGFzaE9mZnNldCI6IG51bGwsICJmaWxsIjogdHJ1ZSwgImZpbGxDb2xvciI6ICIjYmYwMGZmIiwgImZpbGxPcGFjaXR5IjogMC4yLCAiZmlsbFJ1bGUiOiAiZXZlbm9kZCIsICJsaW5lQ2FwIjogInJvdW5kIiwgImxpbmVKb2luIjogInJvdW5kIiwgIm51bWJlck9mU2lkZXMiOiA1LCAib3BhY2l0eSI6IDEuMCwgInJhZGl1cyI6IDEwLCAicm90YXRpb24iOiAwLCAic3Ryb2tlIjogdHJ1ZSwgIndlaWdodCI6IDN9CiAgICAgICAgICAgICkuYWRkVG8obWFwX2VlNDNhMDE2ZTNmNjQ3MjE4Y2I0NWVkNTgzN2U4YWUwKTsKICAgICAgICAKICAgIAogICAgICAgIHZhciBwb3B1cF85Y2ZlMjljOWZjNTU0ODgwYWJjNWY1NGZmYTdiNjQ0NiA9IEwucG9wdXAoeyJtYXhXaWR0aCI6ICIxMDAlIn0pOwoKICAgICAgICAKICAgICAgICAgICAgdmFyIGh0bWxfZTQ0NmEyMmU0NDJhNDcwNWE3NTc1OTIzZDZjNzk4ZGMgPSAkKGA8ZGl2IGlkPSJodG1sX2U0NDZhMjJlNDQyYTQ3MDVhNzU3NTkyM2Q2Yzc5OGRjIiBzdHlsZT0id2lkdGg6IDEwMC4wJTsgaGVpZ2h0OiAxMDAuMCU7Ij5FYXN0Q2FtcHVzPC9kaXY+YClbMF07CiAgICAgICAgICAgIHBvcHVwXzljZmUyOWM5ZmM1NTQ4ODBhYmM1ZjU0ZmZhN2I2NDQ2LnNldENvbnRlbnQoaHRtbF9lNDQ2YTIyZTQ0MmE0NzA1YTc1NzU5MjNkNmM3OThkYyk7CiAgICAgICAgCgogICAgICAgIHJlZ3VsYXJfcG9seWdvbl9tYXJrZXJfMGU5M2E5NzhjODhmNDVjMDhlMDc3ZmRlMWEwNzM3ZjEuYmluZFBvcHVwKHBvcHVwXzljZmUyOWM5ZmM1NTQ4ODBhYmM1ZjU0ZmZhN2I2NDQ2KQogICAgICAgIDsKCiAgICAgICAgCiAgICAKICAgIAogICAgICAgICAgICB2YXIgcmVndWxhcl9wb2x5Z29uX21hcmtlcl82ZjI3ZWZjN2EzNDY0N2JhODZkZjY3Yzg4N2UyMjc2NyA9IG5ldyBMLlJlZ3VsYXJQb2x5Z29uTWFya2VyKAogICAgICAgICAgICAgICAgWzQwLjAwOTgzNywgLTEwNS4yNDE5MDVdLAogICAgICAgICAgICAgICAgeyJidWJibGluZ01vdXNlRXZlbnRzIjogdHJ1ZSwgImNvbG9yIjogIiMzMzg4ZmYiLCAiZGFzaEFycmF5IjogbnVsbCwgImRhc2hPZmZzZXQiOiBudWxsLCAiZmlsbCI6IHRydWUsICJmaWxsQ29sb3IiOiAiI2ZmMDAwMCIsICJmaWxsT3BhY2l0eSI6IDAuMiwgImZpbGxSdWxlIjogImV2ZW5vZGQiLCAibGluZUNhcCI6ICJyb3VuZCIsICJsaW5lSm9pbiI6ICJyb3VuZCIsICJudW1iZXJPZlNpZGVzIjogOCwgIm9wYWNpdHkiOiAxLjAsICJyYWRpdXMiOiAxMCwgInJvdGF0aW9uIjogMCwgInN0cm9rZSI6IHRydWUsICJ3ZWlnaHQiOiAzfQogICAgICAgICAgICApLmFkZFRvKG1hcF9lZTQzYTAxNmUzZjY0NzIxOGNiNDVlZDU4MzdlOGFlMCk7CiAgICAgICAgCiAgICAKICAgICAgICB2YXIgcG9wdXBfMDlmZmY4ZDBjOWQ2NDRhYjhiOGZlOWRkMjBmZTQwNGQgPSBMLnBvcHVwKHsibWF4V2lkdGgiOiAiMTAwJSJ9KTsKCiAgICAgICAgCiAgICAgICAgICAgIHZhciBodG1sXzM5MWI2YWJlN2FlYTQyN2NhNTZjNjQwNjFiOTIyMjIxID0gJChgPGRpdiBpZD0iaHRtbF8zOTFiNmFiZTdhZWE0MjdjYTU2YzY0MDYxYjkyMjIyMSIgc3R5bGU9IndpZHRoOiAxMDAuMCU7IGhlaWdodDogMTAwLjAlOyI+U0VFQyBCdWlsZGluZzwvZGl2PmApWzBdOwogICAgICAgICAgICBwb3B1cF8wOWZmZjhkMGM5ZDY0NGFiOGI4ZmU5ZGQyMGZlNDA0ZC5zZXRDb250ZW50KGh0bWxfMzkxYjZhYmU3YWVhNDI3Y2E1NmM2NDA2MWI5MjIyMjEpOwogICAgICAgIAoKICAgICAgICByZWd1bGFyX3BvbHlnb25fbWFya2VyXzZmMjdlZmM3YTM0NjQ3YmE4NmRmNjdjODg3ZTIyNzY3LmJpbmRQb3B1cChwb3B1cF8wOWZmZjhkMGM5ZDY0NGFiOGI4ZmU5ZGQyMGZlNDA0ZCkKICAgICAgICA7CgogICAgICAgIAogICAgCjwvc2NyaXB0Pg==" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe></div></div>
+
+
+          
+
+        
+
+        <!-- if the page is a course lesson, add pagination -->
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+
+
+
+
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-04-20">April 20, 2020</time></p>
+        
+        <!-- Add license information w/ DOI to the bottom -->
+        
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+      </footer>
+
+      
+
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://www.earthdatascience.org/tutorials/introduction-to-leaflet-animated-maps/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.earthdatascience.org/tutorials/introduction-to-leaflet-animated-maps/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https://www.earthdatascience.org/tutorials/introduction-to-leaflet-animated-maps/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.earthdatascience.org/tutorials/introduction-to-leaflet-animated-maps/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+<br><br>
+  <a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target="_blank">
+    <img src="https://www.earthdatascience.org/images/earth-data-analytics-professional-certificate-banner.png" alt="Get a professional Certificate in Earth Data Analytics at University of Colorado, Boulder" width="40%"></a>
+</section>
+
+
+       
+    </div>
+
+    
+      
+
+
+<div class="page__comments">
+  <h4 class="page__comments-title">Leave a Comment</h4>
+  
+    <section id="disqus_thread"></section>
+  
+</div>
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/earth-analytics-bootcamp/plot-data-python">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Plot Data With Matplotlib
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  1 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">
+
+     This Week
+
+  
+
+
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/summarize-climate-data-by-season/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Seasonal Summary Values from Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Learn how to calculate seasonal summary values for MACA 2 climate data using xarray and region mask in open source Python.
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/subset-netcdf4-climate-data-spatially-aoi/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Summary Values Using Spatial Areas of Interest (AOIs) including Shapefiles for Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  32 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Climate datasets stored in netcdf 4 format often cover the entire globe or an entire country. Learn how to subset climate data spatially and by time slices u...</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/use-netcdf-in-python-xarray/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">How to Open and Process NetCDF 4 Data Format in Open Source Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Historic and projected climate data are most often stored in netcdf 4 format. Learn how to open and process MACA version 2 climate data for the Continental U...</p>
+    </article>
+  </a>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+
+<!-- Adding analytics code -->
+
+        
+
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    <li>
+      <strong>&copy; 2025 Earth Lab -
+      <a href="https://www.earthdatascience.org/license"> All materials on this site
+        are subject to the CC BY-SA 4.0 License. </a>
+      </strong>
+    </li>
+  </ul>
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/earthlabcu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+    
+      <li><a href="http://github.com/earthlab"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://www.earthdatascience.org/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<!--
+<div class="page__footer-copyright">Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+-->
+
+      </footer>
+    </div>
+
+    <script src="https://www.earthdatascience.org/assets/js/main.min.js"></script>
+
+
+
+
+
+
+  
+  <script type="text/javascript">
+  	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  	var disqus_shortname = 'earthlabcu';
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function() {
+  		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  	})();
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function () {
+  		var s = document.createElement('script'); s.async = true;
+  		s.type = 'text/javascript';
+  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  	}());
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-84081999-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>
+

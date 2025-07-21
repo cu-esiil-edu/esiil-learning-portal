@@ -1,0 +1,3802 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+
+<meta charset="utf-8">
+
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Customize Your Plots Using Matplotlib | Earth Data Science - Earth Lab </title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Earth Data Science - Earth Lab">
+<meta property="og:title" content="Customize Your Plots Using Matplotlib">
+
+
+  <link rel="canonical" href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/introduction-to-matplotlib-plots/customize-plot-colors-labels-matplotlib/">
+  <meta property="og:url" content="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/introduction-to-matplotlib-plots/customize-plot-colors-labels-matplotlib/">
+
+
+
+  <meta content="Matplotlib is the most commonly used plotting library in Python. Learn how to customize the colors, symbols, and labels on your plots using matplotlib." name="description">
+  <meta property="og:description" content="Matplotlib is the most commonly used plotting library in Python. Learn how to customize the colors, symbols, and labels on your plots using matplotlib.">
+
+
+<!-- twitter cards -->
+
+  <meta name="twitter:site" content="@earthlabcu">
+  <meta name="twitter:title" content="Customize Your Plots Using Matplotlib">
+  <meta name="twitter:description" content="Matplotlib is the most commonly used plotting library in Python. Learn how to customize the colors, symbols, and labels on your plots using matplotlib.">
+  <meta name="twitter:url" content="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/introduction-to-matplotlib-plots/customize-plot-colors-labels-matplotlib/">
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://earthdatascience.org/images/earth_sm_twit.png">
+    <meta name="twitter:image:alt" content="The Earthlab Logo - image of a globe with courses, lessons and tutorials">
+
+    
+  
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2019-09-11T00:00:00-05:00">
+  
+    <link rel="next" href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/introduction-to-matplotlib-plots/plot-time-series-data-in-python/" title="Customize Matplotlibe Dates Ticks on the x-axis in Python">
+  
+  
+    <link rel="prev" href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/introduction-to-matplotlib-plots/" title="Introduction to Plotting in Python Using Matplotlib">
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Earth Analytics",
+      "url" : "https://www.earthdatascience.org",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://www.earthdatascience.org/feed.xml" type="application/atom+xml" rel="alternate" title="Earth Data Science - Earth Lab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="LfpevjsE0wlELv5KKOZv1T2RhRimGSiRckWv5ZC19GU" />
+<!-- don't use the old cataloged meta tags -->
+<meta name="googlebot" content="noodp">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+
+<!-- For all browsers
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">-->
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+
+    <script src="https://www.earthdatascience.org/assets/js/copy-code.js"></script>
+  </head>
+
+  <body>
+
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<!-- search bar begin  - turning off for now-->
+
+<div class="search">
+<form role="search" method="get" action="https://www.earthdatascience.org/search/">
+    <input id="q" name="q"
+           placeholder="Search earth data science site" type="text">
+</form>
+<!--<span class='cu-boulder'><a href="http://www.colorado.edu/earthlab" target="_blank">Earth Lab University of Colorado - Boulder Home </a></span> -->
+</div>
+
+
+<!-- search bar END -->
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://www.earthdatascience.org/"><img src="/images/earth-lab-logo.png" alt="Earth Lab - Earth Data Science" style="height:80%;width:85%"></a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tutorials/">Tutorials</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/courses/">Courses</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/workshops/">Workshops</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tools/">Tools</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/blog/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/about/">About</a></li>
+          
+
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+  <div class="page__hero--overlay" style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.earthdatascience.org/images/header-images/earth-data-analytics-professional-certificate-banner.jpg');">
+  <div class="wrapper">
+        <h1 class="page__title" itemprop="headline">
+          Earth Data Analytics Online Certificate
+        </h1>
+        <p><a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target = "_blank" class="btn btn--light-outline btn--large">Enroll now! Learn more.</a></p>
+  </div>
+</div>
+
+
+
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="breadcrumbs" role="menubar" aria-label="breadcrumbs">
+ <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+ <a href="https://www.earthdatascience.org"></a>
+ 
+ 
+ <!-- there is an offset of 1 so subtract 2 from the final crumb number-->
+ 
+   
+   
+     <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+       <a href="https://www.earthdatascience.org/" itemprop="item"><span itemprop="name">Home</span></a>
+       <meta itemprop="position" content="1" />
+     </li>
+     <span class="sep">/</span>
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/">Courses </a>
+        <meta itemprop="position" content="2" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/">Scientists guide to plotting data in python </a>
+        <meta itemprop="position" content="3" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/">Plot with matplotlib </a>
+        <meta itemprop="position" content="4" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/introduction-to-matplotlib-plots/">Introduction to matplotlib plots </a>
+        <meta itemprop="position" content="5" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        <li class="current">Customize Your Plots Using Matplotlib</li>
+    
+  
+</ol>
+</nav>
+
+<!-- from min mistakes -->
+
+
+
+
+  
+
+
+<div id="main" role="main">
+  
+
+
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+    
+    
+
+
+    
+
+    
+     <!--  Might be able to delete this This is the code that populates the side bar navigation if there is a class-->
+      
+
+
+
+
+
+
+
+<!-- make sure we're only grabbing pages for the course -->
+
+
+
+<!--<h3>Week 1 Lessons</h3>-->
+<!-- i don't think the code below is used as modules is defined lower down as well. -->
+
+<!-- This is how modules are sorted on the left hand side bar -->
+
+
+
+
+
+
+<h5><a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python-textbook/" ><i class="fa fa-home" aria-hidden="true"></i> Scientists guide to plotting data in python textbook</a></h5>
+
+<!-- Just get the pages from this course -->
+
+
+
+
+
+
+<nav class="nav__list">
+
+
+
+
+
+
+
+<ul>
+  <li><span class="nav__sub-title"><i class="fa fa-book" aria-hidden="true"></i> Units</span>
+   <ul>
+
+       
+
+        
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+                
+                    <li class='active-section'> <a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/"><i class="fa fa-folder-open" aria-hidden="true"></i>
+                     1. PLOTTING WITH MATPLOTLIB</a></li>
+
+            
+
+<div class='active-menu'>
+      <ul>
+        
+        <!-- Note that class-order allows you to sort modules by class order if there are more than 1 in a class -->
+        
+
+        
+
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   Chapter 1 Intro to plotting with matplotlib  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/introduction-to-matplotlib-plots/><!--1.1 --> - Intro to Matplotlib Plotting</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/introduction-to-matplotlib-plots/customize-plot-colors-labels-matplotlib/ class='active'> <!--1.2 -->- Customize Plots with Matplotlib</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/introduction-to-matplotlib-plots/plot-time-series-data-in-python/><!--1.3 --> - Custom Plot Date Tick Formats</a></li>
+          
+          
+
+        
+       </ul>
+        
+
+        
+      </ul>
+
+      <!-- BEGIN Learn how to lessons -->
+       <ul>
+         
+         
+       </ul>
+
+
+     </div>
+
+
+      <!-- END BEGIN Learn how to lessons -->
+
+      <!--  -->
+      
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 2 <a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 PLOTTING SPATIAL DATA</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-vector-plots/"> Chapter 3:   Custom Vector Plots in Python </a>
+                                </li>
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-raster-plots/"> Chapter 4:   Customize Raster Plots </a>
+                                </li>
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 3 <a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-activities/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 PYTHON PLOT ACTIVITIES</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-activities/plot-tabular-pandas-data-python/"> Chapter 5:   Practice Plotting </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+  </ul></li>
+ </ul>
+
+
+ <ul>
+   <li><span class="nav__sub-title"><i class="fa fa-folder-open" aria-hidden="true"></i> Overview</span>
+    <ul>
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/">
+           Scientist's Guide to Plotting Data in Python Home </a></li>
+         
+
+     
+   </ul>
+ </li>
+</ul>
+</nav>
+
+<h5><a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python-textbook/" ><i class="fa fa-home" aria-hidden="true"></i> scientists-guide-to-plotting-data-in-python-textbook Home</a></h5>
+
+    
+
+    
+
+  
+  </div>
+
+
+
+
+
+
+<!-- begin science / science themes side bar nav -->
+
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+
+    <meta itemprop="headline" content="Customize Your Plots Using Matplotlib">
+    <meta itemprop="description" content="Matplotlib is the most commonly used plotting library in Python. Learn how to customize the colors, symbols, and labels on your plots using matplotlib.">
+    <meta itemprop="datePublished" content="September 11, 2019">
+    <meta itemprop="dateModified" content="September 16, 2020">
+
+    <div class="page__inner-wrap">
+        <header>
+          
+
+          <!-- BEGIN: insert a welcome to the module block on pages that are part of a module set -->
+
+          <!-- END: insert welcome block -->
+
+          
+              
+
+            
+                <h1 class="page__title" itemprop="headline">
+                Lesson 2. 
+                 Customize Your Plots Using Matplotlib
+
+                
+                </h1>
+            
+
+          
+
+          
+            <div class="page__meta">
+              
+              
+              <a href="https://www.earthdatascience.org/authors/leah-wasser">Leah Wasser</a>, 
+              
+              
+              <a href="https://www.earthdatascience.org/authors/jenny-palomino">Jenny Palomino</a>
+              
+            </div>
+          
+
+            <br/>
+
+            
+
+              
+            
+
+            <!-- For tools pages add authors and tool title -->
+
+            
+        </header>
+
+
+
+      <section class="page__content" itemprop="text">
+
+        <!-- would like to include the TOC automatically but this does weird things-->
+        
+          
+            <aside class="sidebar__right">
+<nav class="toc">
+    <header><h4 class="nav__title"><i class="fa fa-file-text"></i> On This Page</h4></header>
+<ul class="toc__menu" id="markdown-toc">
+  <li><a href="#learning-objectives" id="markdown-toc-learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</a></li>
+  <li><a href="#plot-your-data-using-matplotlib" id="markdown-toc-plot-your-data-using-matplotlib">Plot Your Data Using Matplotlib</a></li>
+  <li><a href="#naming-conventions-for-matplotlib-plot-objects" id="markdown-toc-naming-conventions-for-matplotlib-plot-objects">Naming Conventions for Matplotlib Plot Objects</a></li>
+  <li><a href="#create-different-types-of-matplotlib-plots-scatter-and-bar-plots" id="markdown-toc-create-different-types-of-matplotlib-plots-scatter-and-bar-plots">Create Different Types of Matplotlib Plots: Scatter and Bar Plots</a></li>
+  <li><a href="#customize-plot-title-and-axes-labels" id="markdown-toc-customize-plot-title-and-axes-labels">Customize Plot Title and Axes Labels</a></li>
+  <li><a href="#custom-markers-in-line-and-scatter-plots" id="markdown-toc-custom-markers-in-line-and-scatter-plots">Custom Markers in Line and Scatter Plots</a></li>
+  <li><a href="#customize-plot-colors" id="markdown-toc-customize-plot-colors">Customize Plot Colors</a></li>
+  <li><a href="#add-data-to-multi-plot-figures" id="markdown-toc-add-data-to-multi-plot-figures">Add Data to Multi-plot Figures</a></li>
+  <li><a href="#add-titles-and-axes-labels-to-multi-plot-figures" id="markdown-toc-add-titles-and-axes-labels-to-multi-plot-figures">Add Titles and Axes Labels to Multi-plot Figures</a></li>
+  <li><a href="#save-a-matplotlib-figure-as-an-image-file" id="markdown-toc-save-a-matplotlib-figure-as-an-image-file">Save a Matplotlib Figure As An Image File</a></li>
+  <li><a href="#additional-resources" id="markdown-toc-additional-resources">Additional Resources</a></li>
+</ul>
+
+  </nav>
+</aside>
+
+<div class="notice--success">
+
+  <h2 id="learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</h2>
+
+  <ul>
+    <li>Add data to plots created with <strong>matplotlib</strong>.</li>
+    <li>Use <strong>matplotlib</strong> to create scatter, line and bar plots.</li>
+    <li>Customize the labels, colors and look of your <strong>matplotlib</strong> plot.</li>
+    <li>Save figure as an image file (e.g. .png format).</li>
+  </ul>
+
+</div>
+
+<p>Previously in this chapter, you learned how to create your <code class="language-plaintext highlighter-rouge">figure</code> and <code class="language-plaintext highlighter-rouge">axis</code> objects using the <code class="language-plaintext highlighter-rouge">subplots()</code> function from <strong>pyplot</strong> (which you imported using the alias <code class="language-plaintext highlighter-rouge">plt</code>):</p>
+
+<p><code class="language-plaintext highlighter-rouge">fig, ax = plt.subplots()</code></p>
+
+<p>Now you know how to create basic plots using <strong>matplotlib</strong>, you can begin adding data to the plots in your figure.</p>
+
+<p>Begin by importing the <code class="language-plaintext highlighter-rouge">matplotlib.pyplot</code> module with the alias <code class="language-plaintext highlighter-rouge">plt</code> and creating a few lists to plot the monthly average precipitation (inches) for <a href="https://www.esrl.noaa.gov/psd/boulder/Boulder.mm.precip.html">Boulder, Colorado provided by the U.S. National Oceanic and Atmospheric Administration (NOAA)</a>.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Import pyplot
+</span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+</code></pre></div></div>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Monthly average precipitation
+</span><span class="n">boulder_monthly_precip</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.70</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">1.85</span><span class="p">,</span> <span class="mf">2.93</span><span class="p">,</span> <span class="mf">3.05</span><span class="p">,</span> <span class="mf">2.02</span><span class="p">,</span> 
+                          <span class="mf">1.93</span><span class="p">,</span> <span class="mf">1.62</span><span class="p">,</span> <span class="mf">1.84</span><span class="p">,</span> <span class="mf">1.31</span><span class="p">,</span> <span class="mf">1.39</span><span class="p">,</span> <span class="mf">0.84</span><span class="p">]</span>
+
+<span class="c1"># Month names for plotting
+</span><span class="n">months</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Jan"</span><span class="p">,</span> <span class="s">"Feb"</span><span class="p">,</span> <span class="s">"Mar"</span><span class="p">,</span> <span class="s">"Apr"</span><span class="p">,</span> <span class="s">"May"</span><span class="p">,</span> <span class="s">"June"</span><span class="p">,</span> <span class="s">"July"</span><span class="p">,</span> 
+          <span class="s">"Aug"</span><span class="p">,</span> <span class="s">"Sept"</span><span class="p">,</span> <span class="s">"Oct"</span><span class="p">,</span> <span class="s">"Nov"</span><span class="p">,</span> <span class="s">"Dec"</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h2 id="plot-your-data-using-matplotlib">Plot Your Data Using Matplotlib</h2>
+
+<p>You can add data to your plot by calling the desired <code class="language-plaintext highlighter-rouge">ax</code> object, which is the axis element that you previously defined with:</p>
+
+<p><code class="language-plaintext highlighter-rouge">fig, ax = plt.subplots()</code></p>
+
+<p>You can call the <code class="language-plaintext highlighter-rouge">.plot</code> method of the <code class="language-plaintext highlighter-rouge">ax</code> object and specify the arguments for the x axis (horizontal axis) and the y axis (vertical axis) of the plot as follows:</p>
+
+<p><code class="language-plaintext highlighter-rouge">ax.plot(x_axis, y_axis)</code></p>
+
+<p>In this example, you are adding data from lists that you previously defined, with months along the x axis and boulder_monthly_precip along the y axis.</p>
+
+<p class="notice--success"><i class="fa fa-star"></i> <strong>Data Tip:</strong> Note that the data plotted along the x and y axes can also come from <strong>numpy</strong> arrays as well as rows or columns in a <strong>pandas</strong> dataframes.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+        <span class="n">boulder_monthly_precip</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext output execute_result highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[&lt;matplotlib.lines.Line2D at 0x7fac9a202df0&gt;]
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_6_1.png" alt="You can use ax.plot to add a line plot to your figure." />
+<figcaption>You can use ax.plot to add a line plot to your figure.</figcaption>
+
+</figure>
+
+<p>Note that the output displays the object type as well as the unique identifier (or the memory location) for the figure.</p>
+
+<p><code class="language-plaintext highlighter-rouge">&lt;matplotlib.lines.Line2D at 0x7f12063c7898&gt;</code></p>
+
+<p>You can hide this information from the output by adding <code class="language-plaintext highlighter-rouge">plt.show()</code> as the last line you call in your plot code.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+        <span class="n">boulder_monthly_precip</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_8_0.png" alt="You can add plt.show() as the last code line to hide the extra output that is generated about the unique identifier for the figure." />
+<figcaption>You can add plt.show() as the last code line to hide the extra output that is generated about the unique identifier for the figure.</figcaption>
+
+</figure>
+
+<h2 id="naming-conventions-for-matplotlib-plot-objects">Naming Conventions for Matplotlib Plot Objects</h2>
+
+<p>Note that the <code class="language-plaintext highlighter-rouge">ax</code> object that you created above can actually be called anything that you want; for example, you could decide you wanted to call it <code class="language-plaintext highlighter-rouge">bob</code>!</p>
+
+<p>However, it is not good practice to use random names for objects such as <code class="language-plaintext highlighter-rouge">bob</code>.</p>
+
+<p>The convention in the <strong>Python</strong> community is to use <code class="language-plaintext highlighter-rouge">ax</code> to name the <code class="language-plaintext highlighter-rouge">axis</code> object, but it is good to know that objects in <strong>Python</strong> do not have to be named something specific.</p>
+
+<p>You simply need to use the same name to call the object that you want, each time that you call it.</p>
+
+<p>For example, if you did name the <code class="language-plaintext highlighter-rouge">ax</code> object <code class="language-plaintext highlighter-rouge">bob</code> when you created it, then you would use the same name <code class="language-plaintext highlighter-rouge">bob</code> to call the object when you want to add data to it.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space with ax named bob
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">bob</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">bob</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+         <span class="n">boulder_monthly_precip</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_10_0.png" alt="While it is convention to use ax as the name of the axis object, you can actually call it whatever you want, even something like bob." />
+<figcaption>While it is convention to use ax as the name of the axis object, you can actually call it whatever you want, even something like bob.</figcaption>
+
+</figure>
+
+<h2 id="create-different-types-of-matplotlib-plots-scatter-and-bar-plots">Create Different Types of Matplotlib Plots: Scatter and Bar Plots</h2>
+
+<p>You may have noticed that by default, <code class="language-plaintext highlighter-rouge">ax.plot</code> creates the plot as a line plot (meaning that all of the values are connected by a continuous line across the plot).</p>
+
+<p>You can also use the <code class="language-plaintext highlighter-rouge">ax</code> object to create:</p>
+<ul>
+  <li>scatter plots (using <code class="language-plaintext highlighter-rouge">ax.scatter</code>): values are displayed as individual points that are not connected with a continuous line.</li>
+  <li>bar plots (using <code class="language-plaintext highlighter-rouge">ax.bar</code>): values are displayed as bars with height indicating the value at a specific point.</li>
+</ul>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Create scatter plot
+</span><span class="n">ax</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+           <span class="n">boulder_monthly_precip</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_12_0.png" alt="You can use ax.scatter to create a scatter plot." />
+<figcaption>You can use ax.scatter to create a scatter plot.</figcaption>
+
+</figure>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Create bar plot
+</span><span class="n">ax</span><span class="p">.</span><span class="n">bar</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+       <span class="n">boulder_monthly_precip</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_13_0.png" alt="You can use ax.bar to create a bar plot." />
+<figcaption>You can use ax.bar to create a bar plot.</figcaption>
+
+</figure>
+
+<h2 id="customize-plot-title-and-axes-labels">Customize Plot Title and Axes Labels</h2>
+
+<p>You can customize and add more information to your plot by adding a plot title and labels for the axes using the <code class="language-plaintext highlighter-rouge">title</code>, <code class="language-plaintext highlighter-rouge">xlabel</code>, <code class="language-plaintext highlighter-rouge">ylabel</code> arguments within the <code class="language-plaintext highlighter-rouge">ax.set()</code> method:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ax.set(title = "Plot title here",
+       xlabel = "X axis label here", 
+       ylabel = "Y axis label here")
+</code></pre></div></div>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+        <span class="n">boulder_monthly_precip</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Average Monthly Precipitation in Boulder, CO"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation (inches)"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_15_0.png" alt="You can customize your plot by adding titles and axes labels." />
+<figcaption>You can customize your plot by adding titles and axes labels.</figcaption>
+
+</figure>
+
+<h3 id="multi-line-titles-and-labels">Multi-line Titles and Labels</h3>
+
+<p>You can also create titles and axes labels with have multiple lines of text using the new line character <code class="language-plaintext highlighter-rouge">\n</code> between two words to identity the start of the new line.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+        <span class="n">boulder_monthly_precip</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Average Monthly Precipitation</span><span class="se">\n</span><span class="s">Boulder, CO"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation</span><span class="se">\n</span><span class="s">(inches)"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_17_0.png" alt="You can use the new line symbol 
+ between words to generate multi line titles and axes labels (e.g. Precipitation
+(inches))." />
+<figcaption>You can use the new line symbol 
+ between words to generate multi line titles and axes labels (e.g. Precipitation
+(inches)).</figcaption>
+
+</figure>
+
+<h3 id="rotate-labels">Rotate Labels</h3>
+
+<p>You can use <code class="language-plaintext highlighter-rouge">plt.setp</code> to set properties in your plot, such as customizing labels including the tick labels.</p>
+
+<p>In the example below, <code class="language-plaintext highlighter-rouge">ax.get_xticklabels()</code> grabs the tick labels from the x axis, and then the <code class="language-plaintext highlighter-rouge">rotation</code> argument specifies an angle of rotation (e.g. 45), so that the tick labels along the x axis are rotated 45 degrees.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+        <span class="n">boulder_monthly_precip</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Average Monthly Precipitation</span><span class="se">\n</span><span class="s">Boulder, CO"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation</span><span class="se">\n</span><span class="s">(inches)"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">setp</span><span class="p">(</span><span class="n">ax</span><span class="p">.</span><span class="n">get_xticklabels</span><span class="p">(),</span> <span class="n">rotation</span> <span class="o">=</span> <span class="mi">45</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_19_0.png" alt="You can use plt.setp(ax.get_xticklabels(), rotation 45) to rotate the tick marks along the x axis by 45 degrees." />
+<figcaption>You can use plt.setp(ax.get_xticklabels(), rotation 45) to rotate the tick marks along the x axis by 45 degrees.</figcaption>
+
+</figure>
+
+<h2 id="custom-markers-in-line-and-scatter-plots">Custom Markers in Line and Scatter Plots</h2>
+
+<p>You can change the point marker type in your line or scatter plot using the argument  <code class="language-plaintext highlighter-rouge">marker =</code> and setting it equal to the symbol that you want to use to identify the points in the plot.</p>
+
+<p>For example, <code class="language-plaintext highlighter-rouge">","</code> will display the point markers as a pixel or box, and “o” will display point markers as a circle.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Marker symbol</th>
+      <th>Marker description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>.</td>
+      <td>point</td>
+    </tr>
+    <tr>
+      <td>,</td>
+      <td>pixel</td>
+    </tr>
+    <tr>
+      <td>o</td>
+      <td>circle</td>
+    </tr>
+    <tr>
+      <td>v</td>
+      <td>triangle_down</td>
+    </tr>
+    <tr>
+      <td>^</td>
+      <td>triangle_up</td>
+    </tr>
+    <tr>
+      <td>&lt;</td>
+      <td>triangle_left</td>
+    </tr>
+    <tr>
+      <td>&gt;</td>
+      <td>triangle_right</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Visit the <a href="http://matplotlib.org/1.4.1/api/markers_api.html" target="_blank">Matplotlib documentation </a> for a list of marker types.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+        <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+        <span class="n">marker</span> <span class="o">=</span> <span class="s">','</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Average Monthly Precipitation</span><span class="se">\n</span><span class="s">Boulder, CO"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation</span><span class="se">\n</span><span class="s">(inches)"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_21_0.png" alt="You can customize the symbol on a scatter or line plot using a variety of characters such as a , which indicates that you want a square symbol at each data point in the plot." />
+<figcaption>You can customize the symbol on a scatter or line plot using a variety of characters such as a , which indicates that you want a square symbol at each data point in the plot.</figcaption>
+
+</figure>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+        <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+        <span class="n">marker</span> <span class="o">=</span> <span class="s">'o'</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Average Monthly Precipitation</span><span class="se">\n</span><span class="s">Boulder, CO"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation</span><span class="se">\n</span><span class="s">(inches)"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_22_0.png" alt="You can customize the symbol on a scatter or line plot using a variety of characters such as an o which indicates that you want a circular symbol at each data point in the plot." />
+<figcaption>You can customize the symbol on a scatter or line plot using a variety of characters such as an o which indicates that you want a circular symbol at each data point in the plot.</figcaption>
+
+</figure>
+
+<h2 id="customize-plot-colors">Customize Plot Colors</h2>
+
+<p>You can customize the color of your plot using the <code class="language-plaintext highlighter-rouge">color</code> argument and setting it equal to the color that you want to use for the plot.</p>
+
+<p>A list of some of the base color options available in <strong>matplotlib</strong> is below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    b: blue
+    g: green
+    r: red
+    c: cyan
+    m: magenta
+    y: yellow
+    k: black
+    w: white
+</code></pre></div></div>
+
+<p>For these base colors, you can set the <code class="language-plaintext highlighter-rouge">color</code> argument equal to the full name (e.g. <code class="language-plaintext highlighter-rouge">cyan</code>) or simply just the key letter as shown in the table above (e.g. <code class="language-plaintext highlighter-rouge">c</code>).</p>
+
+<p class="notice--success"><i class="fa fa-star"></i> <strong>Data Tip:</strong>
+For more colors, visit the <a href="https://matplotlib.org/gallery/color/named_colors.html#sphx-glr-gallery-color-named-colors-py" target="_blank">matplotlib documentation</a> on color.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+        <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+        <span class="n">marker</span> <span class="o">=</span> <span class="s">'o'</span><span class="p">,</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="s">'cyan'</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Average Monthly Precipitation</span><span class="se">\n</span><span class="s">Boulder, CO"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation</span><span class="se">\n</span><span class="s">(inches)"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_24_0.png" alt="You can customize the colors on a plot using the argument called color and provided a key word for a base color such as cyan." />
+<figcaption>You can customize the colors on a plot using the argument called color and provided a key word for a base color such as cyan.</figcaption>
+
+</figure>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+        <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+        <span class="n">marker</span> <span class="o">=</span> <span class="s">','</span><span class="p">,</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="s">'k'</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Average Monthly Precipitation</span><span class="se">\n</span><span class="s">Boulder, CO"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation</span><span class="se">\n</span><span class="s">(inches)"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_25_0.png" alt="You can customize the colors on a plot using the argument called color and provided a key word abbreviation for a base color such as k for black." />
+<figcaption>You can customize the colors on a plot using the argument called color and provided a key word abbreviation for a base color such as k for black.</figcaption>
+
+</figure>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax</span><span class="p">.</span><span class="n">bar</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+        <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="s">'darkblue'</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Average Monthly Precipitation</span><span class="se">\n</span><span class="s">Boulder, CO"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation</span><span class="se">\n</span><span class="s">(inches)"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_26_0.png" alt="You can customize the colors on a plot using the argument called color and provided a key word for a base color such as darkblue." />
+<figcaption>You can customize the colors on a plot using the argument called color and provided a key word for a base color such as darkblue.</figcaption>
+
+</figure>
+
+<h3 id="set-color-transparency">Set Color Transparency</h3>
+
+<p>You can also adjust the transparency of color using the <code class="language-plaintext highlighter-rouge">alpha = </code> argument, with values closer to 0.0 indicating a higher transparency.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax</span><span class="p">.</span><span class="n">bar</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+       <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+       <span class="n">color</span> <span class="o">=</span> <span class="s">'darkblue'</span><span class="p">,</span> 
+       <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Average Monthly Precipitation</span><span class="se">\n</span><span class="s">Boulder, CO"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation</span><span class="se">\n</span><span class="s">(inches)"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_28_0.png" alt="You can add and adjust an alpha value to add transparency to your plot data." />
+<figcaption>You can add and adjust an alpha value to add transparency to your plot data.</figcaption>
+
+</figure>
+
+<h3 id="customize-colors-for-bar-plots">Customize Colors For Bar Plots</h3>
+
+<p>You can customize your bar plot further by changing the outline color for each bar to be blue using the argument <code class="language-plaintext highlighter-rouge">edgecolor</code> and specifying a color from the <strong>matplotlib</strong> color options previously discussed.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax</span><span class="p">.</span><span class="n">bar</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+       <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+       <span class="n">color</span> <span class="o">=</span> <span class="s">'cyan'</span><span class="p">,</span>
+       <span class="n">edgecolor</span> <span class="o">=</span> <span class="s">'darkblue'</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Average Monthly Precipitation</span><span class="se">\n</span><span class="s">Boulder, CO"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation</span><span class="se">\n</span><span class="s">(inches)"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_30_0.png" alt="You can adjust the bar fill and edge colors of a bar plot using the arguments color and edgecolor." />
+<figcaption>You can adjust the bar fill and edge colors of a bar plot using the arguments color and edgecolor.</figcaption>
+
+</figure>
+
+<h3 id="customize-colors-for-scatter-plots">Customize Colors For Scatter Plots</h3>
+
+<p>When using scatter plots, you can also assign each point a color based upon its data value using the <code class="language-plaintext highlighter-rouge">c</code> and <code class="language-plaintext highlighter-rouge">cmap</code> arguments.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">c</code> argument allows you to specify the sequence of values that will be color-mapped (e.g. <code class="language-plaintext highlighter-rouge">boulder_monthly_precip</code>), while <code class="language-plaintext highlighter-rouge">cmap</code> allows you to specify the color map to use for the sequence.</p>
+
+<p>The example below uses the <code class="language-plaintext highlighter-rouge">YlGnBu</code> colormap, in which lower values are filled in with yellow to green shades, while higher values are filled in with increasingly darker shades of blue.</p>
+
+<p class="notice--success"><i class="fa fa-star"></i> <strong>Data Tip:</strong>
+To see a list of color map options, visit the <a href="https://matplotlib.org/3.1.1/gallery/color/colormap_reference.html" target="_blank">matplotlib documentation</a> on colormaps.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+        <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="s">'YlGnBu'</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Average Monthly Precipitation</span><span class="se">\n</span><span class="s">Boulder, CO"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation</span><span class="se">\n</span><span class="s">(inches)"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_32_0.png" alt="You can adjust the colors of the points in a scatter plot using color maps (cmap argument), which allows you to specify a range of colors that will be applied to the data points depending on their value." />
+<figcaption>You can adjust the colors of the points in a scatter plot using color maps (cmap argument), which allows you to specify a range of colors that will be applied to the data points depending on their value.</figcaption>
+
+</figure>
+
+<h2 id="add-data-to-multi-plot-figures">Add Data to Multi-plot Figures</h2>
+
+<p>Recall that <strong>matplotlib’s</strong> object oriented approach makes it easy to include more than one plot in a figure by creating additional <code class="language-plaintext highlighter-rouge">axis</code> objects:</p>
+
+<p><code class="language-plaintext highlighter-rouge">fig, (ax1, ax2) = plt.subplots(num_rows, num_columns)</code></p>
+
+<p>Once you have your <code class="language-plaintext highlighter-rouge">fig</code> and two <code class="language-plaintext highlighter-rouge">axis</code> objects defined, you can add data to each <code class="language-plaintext highlighter-rouge">axis</code> and define the plot with unique characteristics.</p>
+
+<p>In the example below, <code class="language-plaintext highlighter-rouge">ax1.bar</code> creates a customized bar plot in the first plot, and <code class="language-plaintext highlighter-rouge">ax2.scatter</code> creates a customized scatter in the second plot.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax1</span><span class="p">.</span><span class="n">bar</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+       <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+       <span class="n">color</span> <span class="o">=</span> <span class="s">'cyan'</span><span class="p">,</span> 
+       <span class="n">edgecolor</span> <span class="o">=</span> <span class="s">'darkblue'</span><span class="p">)</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax2</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+        <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="s">'YlGnBu'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_34_0.png" alt="Each ax object (e.g. ax1, ax2) is independent and can contain different data, plot colors, etc." />
+<figcaption>Each ax object (e.g. ax1, ax2) is independent and can contain different data, plot colors, etc.</figcaption>
+
+</figure>
+
+<h2 id="add-titles-and-axes-labels-to-multi-plot-figures">Add Titles and Axes Labels to Multi-plot Figures</h2>
+
+<p>You can continue to add to <code class="language-plaintext highlighter-rouge">ax1</code> and <code class="language-plaintext highlighter-rouge">ax2</code> such as adding the title and axes labels for each individual plot, just like you did before when the figure only had one plot.</p>
+
+<p>You can use <code class="language-plaintext highlighter-rouge">ax1.set()</code> to define these elements for the first plot (the bar plot), and <code class="language-plaintext highlighter-rouge">ax2.set()</code> to define them for the second plot (the scatter plot).</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax1</span><span class="p">.</span><span class="n">bar</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+       <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+       <span class="n">color</span> <span class="o">=</span> <span class="s">'cyan'</span><span class="p">,</span> 
+       <span class="n">edgecolor</span> <span class="o">=</span> <span class="s">'darkblue'</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax1</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Bar Plot of Average Monthly Precipitation"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation</span><span class="se">\n</span><span class="s">(inches)"</span><span class="p">);</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax2</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+        <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="s">'YlGnBu'</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax2</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Scatter Plot of Average Monthly Precipitation"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation</span><span class="se">\n</span><span class="s">(inches)"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_36_0.png" alt="Each ax object (e.g. ax1, ax2) is independent and can contain different titles, axes labels, etc." />
+<figcaption>Each ax object (e.g. ax1, ax2) is independent and can contain different titles, axes labels, etc.</figcaption>
+
+</figure>
+
+<p>Now that you have more than one plot (each with their own labels), you can also add an overall title (with a specified font size) for the entire figure using:</p>
+
+<p><code class="language-plaintext highlighter-rouge">fig.suptitle("Title text", fontsize = 16)</code></p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s">"Average Monthly Precipitation for Boulder, CO"</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">16</span><span class="p">)</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax1</span><span class="p">.</span><span class="n">bar</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+       <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+       <span class="n">color</span> <span class="o">=</span> <span class="s">'cyan'</span><span class="p">,</span> 
+       <span class="n">edgecolor</span> <span class="o">=</span> <span class="s">'darkblue'</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax1</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Bar Plot"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation</span><span class="se">\n</span><span class="s">(inches)"</span><span class="p">);</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax2</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+        <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="s">'YlGnBu'</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax2</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Scatter Plot"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation</span><span class="se">\n</span><span class="s">(inches)"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_38_0.png" alt="You can define an overall title for your figure using the fig.suptitle() method." />
+<figcaption>You can define an overall title for your figure using the fig.suptitle() method.</figcaption>
+
+</figure>
+
+<h2 id="save-a-matplotlib-figure-as-an-image-file">Save a Matplotlib Figure As An Image File</h2>
+
+<p>You can easily save a figure to an image file such as .png using:</p>
+
+<p><code class="language-plaintext highlighter-rouge">plt.savefig("path/name-of-file.png")</code></p>
+
+<p>which will save the latest figure rendered.</p>
+
+<p>If you do not specify a path for the file, the file will be created in your current working directory.</p>
+
+<p>Review the <a href="https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.savefig.html"><strong>Matplotlib</strong> documentation</a> to see a list of the additional file formats that be used to save figures.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define plot space
+</span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s">"Average Monthly Precipitation for Boulder, CO"</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">16</span><span class="p">)</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax1</span><span class="p">.</span><span class="n">bar</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+       <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+       <span class="n">color</span> <span class="o">=</span> <span class="s">'cyan'</span><span class="p">,</span> 
+       <span class="n">edgecolor</span> <span class="o">=</span> <span class="s">'darkblue'</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax1</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Bar Plot"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation</span><span class="se">\n</span><span class="s">(inches)"</span><span class="p">);</span>
+
+<span class="c1"># Define x and y axes
+</span><span class="n">ax2</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> 
+        <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">boulder_monthly_precip</span><span class="p">,</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="s">'YlGnBu'</span><span class="p">)</span>
+
+<span class="c1"># Set plot title and axes labels
+</span><span class="n">ax2</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Scatter Plot"</span><span class="p">,</span>
+       <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Month"</span><span class="p">,</span>
+       <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Precipitation</span><span class="se">\n</span><span class="s">(inches)"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">"average-monthly-precip-boulder-co.png"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/01-plot-with-matplotlib/intro-to-plotting-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib/2019-09-11-plot-with-matplotlib-02-customize-plots-matplotlib_40_0.png" alt="You can save a figure to an image file such as .png usingthe plt.savefig() method." />
+<figcaption>You can save a figure to an image file such as .png usingthe plt.savefig() method.</figcaption>
+
+</figure>
+
+<div class="notice--info">
+
+  <h2 id="additional-resources">Additional Resources</h2>
+
+  <ul>
+    <li>Additional information about <a href="http://joseph-long.com/writing/colorbars/">color bars</a></li>
+    <li>An <a href="https://realpython.com/blog/python/python-matplotlib-guide/">in-depth guide to matplotlib</a></li>
+  </ul>
+
+</div>
+
+          
+
+        
+
+        <!-- if the page is a course lesson, add pagination -->
+
+        
+         <!-- This is clunky code that forces pagination across lesson sets -->
+<!-- NOTE: it won't include slideshows as written which makes sense -->
+<!-- add forced pagination -->
+<!-- first, get total lesson count -->
+
+<div class="previous--next">
+
+
+
+
+
+<!-- if it's page one - then no previous button -->
+<!-- how do i figure out the link? i have to loop through again? -->
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+       <a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/introduction-to-matplotlib-plots/plot-time-series-data-in-python/" class="btn btn--info btn--large btn-success" style="float:right" >
+         Custom Plot Date Tick Formats
+         <i class="fa fa-4 fa-arrow-circle-right" aria-hidden="true"></i></a>
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+        <a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/introduction-to-matplotlib-plots/" class="btn btn--info btn--large btn-success">
+          <i class="fa fa-4 fa-arrow-circle-left fa-4" aria-hidden="true"></i>
+          Intro to Matplotlib Plotting </a>
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags
+  
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/reproducible-science-and-programming/>Reproducible science and programming</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/reproducible-science-and-programming/python/>python</a> 
+    
+    
+  
+
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/data-exploration-and-analysis/>Data exploration and analysis</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/data-exploration-and-analysis/data-visualization/>data visualization</a> 
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-09-16">September 16, 2020</time></p>
+        
+        <!-- Add license information w/ DOI to the bottom -->
+        
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+      </footer>
+
+      
+
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/introduction-to-matplotlib-plots/customize-plot-colors-labels-matplotlib/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/introduction-to-matplotlib-plots/customize-plot-colors-labels-matplotlib/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/introduction-to-matplotlib-plots/customize-plot-colors-labels-matplotlib/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/introduction-to-matplotlib-plots/customize-plot-colors-labels-matplotlib/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+<br><br>
+  <a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target="_blank">
+    <img src="https://www.earthdatascience.org/images/earth-data-analytics-professional-certificate-banner.png" alt="Get a professional Certificate in Earth Data Analytics at University of Colorado, Boulder" width="40%"></a>
+</section>
+
+
+       
+    </div>
+
+    
+      
+
+
+<div class="page__comments">
+  <h4 class="page__comments-title">Leave a Comment</h4>
+  
+    <section id="disqus_thread"></section>
+  
+</div>
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/earth-analytics-bootcamp/plot-data-python">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Plot Data With Matplotlib
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  1 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">
+
+     This Week
+
+  
+
+
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/summarize-climate-data-by-season/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Seasonal Summary Values from Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Learn how to calculate seasonal summary values for MACA 2 climate data using xarray and region mask in open source Python.
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/subset-netcdf4-climate-data-spatially-aoi/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Summary Values Using Spatial Areas of Interest (AOIs) including Shapefiles for Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  32 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Climate datasets stored in netcdf 4 format often cover the entire globe or an entire country. Learn how to subset climate data spatially and by time slices u...</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/use-netcdf-in-python-xarray/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">How to Open and Process NetCDF 4 Data Format in Open Source Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Historic and projected climate data are most often stored in netcdf 4 format. Learn how to open and process MACA version 2 climate data for the Continental U...</p>
+    </article>
+  </a>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+
+<!-- Adding analytics code -->
+
+        
+
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    <li>
+      <strong>&copy; 2025 Earth Lab -
+      <a href="https://www.earthdatascience.org/license"> All materials on this site
+        are subject to the CC BY-SA 4.0 License. </a>
+      </strong>
+    </li>
+  </ul>
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/earthlabcu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+    
+      <li><a href="http://github.com/earthlab"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://www.earthdatascience.org/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<!--
+<div class="page__footer-copyright">Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+-->
+
+      </footer>
+    </div>
+
+    <script src="https://www.earthdatascience.org/assets/js/main.min.js"></script>
+
+
+
+
+
+
+  
+  <script type="text/javascript">
+  	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  	var disqus_shortname = 'earthlabcu';
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function() {
+  		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  	})();
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function () {
+  		var s = document.createElement('script'); s.async = true;
+  		s.type = 'text/javascript';
+  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  	}());
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-84081999-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>
+

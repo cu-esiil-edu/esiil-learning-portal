@@ -1,0 +1,1260 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+
+<meta charset="utf-8">
+
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Introduction to Shapefiles and Vector Data in Open Source Python - Spatial Data | Earth Data Science - Earth Lab </title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Earth Data Science - Earth Lab">
+<meta property="og:title" content="Introduction to Shapefiles and Vector Data in Open Source Python - Spatial Data">
+
+
+  <link rel="canonical" href="https://www.earthdatascience.org/courses/earth-analytics-python/spatial-data-vector-shapefiles/">
+  <meta property="og:url" content="https://www.earthdatascience.org/courses/earth-analytics-python/spatial-data-vector-shapefiles/">
+
+
+
+  <meta content="     This Week  " name="description">
+  <meta property="og:description" content="     This Week  ">
+
+
+<!-- twitter cards -->
+
+  <meta name="twitter:site" content="@earthlabcu">
+  <meta name="twitter:title" content="Introduction to Shapefiles and Vector Data in Open Source Python - Spatial Data">
+  <meta name="twitter:description" content="     This Week  ">
+  <meta name="twitter:url" content="https://www.earthdatascience.org/courses/earth-analytics-python/spatial-data-vector-shapefiles/">
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://earthdatascience.org/images/earth_sm_twit.png">
+    <meta name="twitter:image:alt" content="The Earthlab Logo - image of a globe with courses, lessons and tutorials">
+
+    
+  
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2018-02-05T00:00:00-06:00">
+  
+    <link rel="next" href="https://www.earthdatascience.org/courses/earth-analytics-python/use-time-series-data-in-python/" title="Time Series Data in Python">
+  
+  
+    <link rel="prev" href="https://www.earthdatascience.org/courses/earth-analytics-python/lidar-raster-data/" title="Lidar Raster Data in Python">
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Earth Analytics",
+      "url" : "https://www.earthdatascience.org",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://www.earthdatascience.org/feed.xml" type="application/atom+xml" rel="alternate" title="Earth Data Science - Earth Lab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="LfpevjsE0wlELv5KKOZv1T2RhRimGSiRckWv5ZC19GU" />
+<!-- don't use the old cataloged meta tags -->
+<meta name="googlebot" content="noodp">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+
+<!-- For all browsers
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">-->
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+
+    <script src="https://www.earthdatascience.org/assets/js/copy-code.js"></script>
+  </head>
+
+  <body>
+
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<!-- search bar begin  - turning off for now-->
+
+<div class="search">
+<form role="search" method="get" action="https://www.earthdatascience.org/search/">
+    <input id="q" name="q"
+           placeholder="Search earth data science site" type="text">
+</form>
+<!--<span class='cu-boulder'><a href="http://www.colorado.edu/earthlab" target="_blank">Earth Lab University of Colorado - Boulder Home </a></span> -->
+</div>
+
+
+<!-- search bar END -->
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://www.earthdatascience.org/"><img src="/images/earth-lab-logo.png" alt="Earth Lab - Earth Data Science" style="height:80%;width:85%"></a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tutorials/">Tutorials</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/courses/">Courses</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/workshops/">Workshops</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tools/">Tools</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/blog/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/about/">About</a></li>
+          
+
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+  <div class="page__hero--overlay" style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.earthdatascience.org/images/header-images/earth-data-analytics-professional-certificate-banner.jpg');">
+  <div class="wrapper">
+        <h1 class="page__title" itemprop="headline">
+          Earth Data Analytics Online Certificate
+        </h1>
+        <p><a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target = "_blank" class="btn btn--light-outline btn--large">Enroll now! Learn more.</a></p>
+  </div>
+</div>
+
+
+
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="breadcrumbs" role="menubar" aria-label="breadcrumbs">
+ <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+ <a href="https://www.earthdatascience.org"></a>
+ 
+ 
+ <!-- there is an offset of 1 so subtract 2 from the final crumb number-->
+ 
+   
+   
+     <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+       <a href="https://www.earthdatascience.org/" itemprop="item"><span itemprop="name">Home</span></a>
+       <meta itemprop="position" content="1" />
+     </li>
+     <span class="sep">/</span>
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/">Courses </a>
+        <meta itemprop="position" content="2" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/earth-analytics-python/">Earth analytics python </a>
+        <meta itemprop="position" content="3" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        <li class="current">Introduction to Shapefiles and Vector Data in Open Source Python - Spatial Data</li>
+    
+  
+</ol>
+</nav>
+
+<!-- from min mistakes -->
+
+
+
+
+  
+
+
+<div id="main" role="main">
+  
+
+
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+    
+    
+
+
+    
+
+    
+     <!--  Might be able to delete this This is the code that populates the side bar navigation if there is a class-->
+      
+
+
+
+
+
+
+
+<!-- make sure we're only grabbing pages for the course -->
+
+
+
+<!--<h3>Week 3 Lessons</h3>-->
+<!-- i don't think the code below is used as modules is defined lower down as well. -->
+
+<!-- This is how modules are sorted on the left hand side bar -->
+
+
+
+
+
+
+<h5><a href="https://www.earthdatascience.org/courses/earth-analytics-python/" ><i class="fa fa-home" aria-hidden="true"></i> Earth analytics python</a></h5>
+
+<!-- Just get the pages from this course -->
+
+
+
+
+
+
+<nav class="nav__list">
+
+
+
+
+
+
+
+<ul>
+  <li><span class="nav__sub-title"><i class="fa fa-book" aria-hidden="true"></i> Units</span>
+   <ul>
+
+       
+
+        
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 1 <a href="https://www.earthdatascience.org/courses/earth-analytics-python/python-open-science-toolbox/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 EARTH ANALYTICS PYTHON COURSE - WEEK ONE</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics-python/python-open-science-toolbox/use-data-for-science/"> 1.1   Use Data For Science </a>
+                                </li>
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 2 <a href="https://www.earthdatascience.org/courses/earth-analytics-python/lidar-raster-data/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LIDAR RASTER DATA IN PYTHON</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+                
+                    <li>  <a href="https://www.earthdatascience.org/courses/earth-analytics-python/spatial-data-vector-shapefiles/" class='active'> SECTION 3<br><!--<i class="fa fa-folder-open" aria-hidden="true"></i> -->
+                          INTRODUCTION TO SHAPEFILES AND VECTOR DATA IN OPEN SOURCE PYTHON - SPATIAL DATA</a></li>
+                
+
+<div class='active-menu'>
+      <ul>
+        
+        <!-- Note that class-order allows you to sort modules by class order if there are more than 1 in a class -->
+        
+
+        
+
+        
+
+         <li>Week 3 readings and homework for the earth-analytics-python course. </li> 
+      </ul>
+
+      <!-- BEGIN Learn how to lessons -->
+       <ul>
+         
+         
+       </ul>
+
+
+     </div>
+
+
+      <!-- END BEGIN Learn how to lessons -->
+
+      <!--  -->
+      
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 4 <a href="https://www.earthdatascience.org/courses/earth-analytics-python/lidar-remote-sensing-uncertainty/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LIDAR REMOTE SENSING UNCERTAINTY - COMPARE GROUND TO LIDAR MEASUREMENTS OF TREE HEIGHT IN PYTHON</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/intro-to-earth-analytics/spatial-data-vector-shapefiles/python-customize-map-legends-geopandas/"> 4.   Spatial Data: Custom Plots in Python </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 5 <a href="https://www.earthdatascience.org/courses/earth-analytics-python/what-the-fork-who-did-this/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 WHAT THE FORK? TEST YOUR CODE TROUBLESHOOTING SKILLS IN PYTHON</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 6 <a href="https://www.earthdatascience.org/courses/earth-analytics-python/multispectral-remote-sensing-in-python/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MULTISPECTRAL IMAGERY PYTHON - NAIP, LANDSAT, FIRE & REMOTE SENSING</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 7 <a href="https://www.earthdatascience.org/courses/earth-analytics-python/create-efficient-data-workflows/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LEARN TO CREATE EFFICIENT DATA WORKFLOWS IN PYTHON</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 8 <a href="https://www.earthdatascience.org/courses/earth-analytics-python/create-efficient-data-workflows-2/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LEARN TO CREATE EFFICIENT DATA WORKFLOWS IN PYTHON</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 9 <a href="https://www.earthdatascience.org/courses/earth-analytics-python/multispectral-remote-sensing-modis/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 QUANTIFY THE IMPACTS OF A FIRE USING MODIS AND LANDSAT REMOTE SENSING DATA IN PYTHON</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 10 <a href="https://www.earthdatascience.org/courses/earth-analytics-python/hdf4-remote-sensing-modis/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 WORK WITH MODIS HDF4 DATA IN OPEN SOURCE PYTHON</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 11 <a href="https://www.earthdatascience.org/courses/earth-analytics-python/using-apis-natural-language-processing-twitter/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 PROGRAMMATIC DATA ACCESS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 12 <a href="https://www.earthdatascience.org/courses/earth-analytics-python/communicate-your-science/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MIDTERM REVIEW - SCIENCE COMMUNICATION</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 13 <a href="https://www.earthdatascience.org/courses/earth-analytics-python/contribute-to-open-source/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 YOU CAN CONTRIBUTE TO OPEN SOURCE SOFTWARE! HOW TO GET STARTED IN PYTHON</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics-python/contribute-to-open-source/intro-to-open-source-software-python/"> 13.1   Contribute To Open Source </a>
+                                </li>
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 14 <a href="https://www.earthdatascience.org/courses/earth-analytics-python/use-time-series-data-in-python/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 TIME SERIES DATA IN PYTHON</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+  </ul></li>
+ </ul>
+
+
+ <ul>
+   <li><span class="nav__sub-title"><i class="fa fa-folder-open" aria-hidden="true"></i> Overview</span>
+    <ul>
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics-python/">
+           Earth Analytics Home </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics-python/earth-analytics-syllabus/">
+           Course Syllabus </a></li>
+         
+
+     
+   </ul>
+ </li>
+</ul>
+</nav>
+
+<h5><a href="https://www.earthdatascience.org/courses/earth-analytics-python/" ><i class="fa fa-home" aria-hidden="true"></i> earth-analytics-python Home</a></h5>
+
+    
+
+    
+
+  
+  </div>
+
+
+
+
+
+
+<!-- begin science / science themes side bar nav -->
+
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+
+    <meta itemprop="headline" content="Introduction to Shapefiles and Vector Data in Open Source Python - Spatial Data">
+    <meta itemprop="description" content="     This Week  ">
+    <meta itemprop="datePublished" content="February 05, 2018">
+    <meta itemprop="dateModified" content="March 15, 2022">
+
+    <div class="page__inner-wrap">
+        <header>
+          
+
+          <!-- BEGIN: insert a welcome to the module block on pages that are part of a module set -->
+
+          <!-- END: insert welcome block -->
+
+          
+              
+
+            
+                <h1 class="page__title" itemprop="headline">
+                
+                 Introduction to Shapefiles and Vector Data in Open Source Python - Spatial Data
+
+                
+                </h1>
+            
+
+          
+
+          
+
+            <br/>
+
+            
+
+              
+            
+
+            <!-- For tools pages add authors and tool title -->
+
+            
+        </header>
+
+
+
+      <section class="page__content" itemprop="text">
+
+        <!-- would like to include the TOC automatically but this does weird things-->
+        
+          
+            <aside class="sidebar__right">
+<nav class="toc">
+    <header><h4 class="nav__title"><i class="fa fa-file-text"></i> This Week</h4></header>
+<ul class="toc__menu" id="markdown-toc">
+  <li><a href="#welcome-to-week-3" id="markdown-toc-welcome-to-week-3"><i class="fa fa-ship" aria-hidden="true"></i> Welcome to Week 3!</a></li>
+  <li><a href="#what-you-need" id="markdown-toc-what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What You Need</a></li>
+  <li><a href="#homework" id="markdown-toc-homework"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Homework</a></li>
+  <li><a href="#plot-1---roads-map-and-legend" id="markdown-toc-plot-1---roads-map-and-legend">Plot 1 - Roads Map and Legend</a></li>
+  <li><a href="#plot-2---roads-in-del-norte-modoc--siskiyou-counties-in-california" id="markdown-toc-plot-2---roads-in-del-norte-modoc--siskiyou-counties-in-california">Plot 2 - Roads in Del Norte, Modoc &amp; Siskiyou Counties in California</a></li>
+  <li><a href="#plot-3---census-data" id="markdown-toc-plot-3---census-data">Plot 3 - Census Data</a></li>
+</ul>
+
+  </nav>
+</aside>
+
+<div class="notice--info">
+
+  <h2 id="welcome-to-week-3"><i class="fa fa-ship" aria-hidden="true"></i> Welcome to Week 3!</h2>
+
+  <p>Welcome to week 3 of Earth Analytics! This week, you will dive deeper into working with spatial data in <code class="language-plaintext highlighter-rouge">Python</code>. You will learn how to handle data in different coordinate reference systems, how to create custom maps and legends and how to extract data from a raster file. You are on your way towards integrating many different
+types of data into your analysis which involves knowing how to deal with things
+like coordinate reference systems and varying data structures.</p>
+
+  <h2 id="what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What You Need</h2>
+
+  <p>You will need a computer with internet access to complete this lesson and the
+<code class="language-plaintext highlighter-rouge">spatial-vector-lidar</code> data subset created for the course. Note that the data download below is large (172MB)
+however it contains data that you will use for the next 2 weeks! 
+The best way to get the data is to use earthpy:</p>
+
+  <p><code class="language-plaintext highlighter-rouge">et.data.get_data("spatial-vector-lidar")</code></p>
+
+  <p>You can also download the data using the link below.</p>
+
+  <p><a href="https://ndownloader.figshare.com/files/12459464" data-proofer-ignore="" class="btn btn--success btn--x-large"><i class="fa fa-download" aria-hidden="true"></i> Download Spatial Lidar Teaching Data Subset data</a></p>
+
+  <p>or using the <code class="language-plaintext highlighter-rouge">earthpy</code> package: <code class="language-plaintext highlighter-rouge">et.data.get_data("spatial-vector-lidar")</code></p>
+
+</div>
+
+<h3 id="1-complete-the-assignment-below">1. Complete the Assignment Below</h3>
+
+<div class="notice--warning">
+
+  <h2 id="homework"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Homework</h2>
+
+  <h3 id="the-homework-assignment-for-this-week-can-be-found-on-github">The Homework Assignment for This Week Can Be Found on Github</h3>
+
+  <p><a href="https://github.com/earthlab-education/ea-python-2020-03-spatial-vector-template" target="_blank">Click here to view the GitHub Repo with the assignment template. </a></p>
+
+  <p>The lessons for this week have been moved to our <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/">Intermediate Earth Analytics Textbook. </a></p>
+
+  <p>Please read the following chapters to support completing this week’s assignment:</p>
+  <ul>
+    <li><a href="https://www.earthdatascience.org/courses/use-data-open-source-python/intro-vector-data-python/">Chapters 2-3 - Introduction to vector data- spatial data in open source python </a></li>
+  </ul>
+
+</div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Downloading from https://ndownloader.figshare.com/files/12459464
+Extracted output to /root/earth-analytics/data/spatial-vector-lidar/.
+</code></pre></div></div>
+
+<h2 id="plot-1---roads-map-and-legend">Plot 1 - Roads Map and Legend</h2>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/earth-analytics-python/03-spatial-data/2018-02-05-spatial-data-landing-page/2018-02-05-spatial-data-landing-page_10_0.png" alt="Map showing the SJER field site roads and plot locations clipped to the site boundary." />
+<figcaption>Map showing the SJER field site roads and plot locations clipped to the site boundary.</figcaption>
+
+</figure>
+
+<h2 id="plot-2---roads-in-del-norte-modoc--siskiyou-counties-in-california">Plot 2 - Roads in Del Norte, Modoc &amp; Siskiyou Counties in California</h2>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/earth-analytics-python/03-spatial-data/2018-02-05-spatial-data-landing-page/2018-02-05-spatial-data-landing-page_17_0.png" alt="Map showing the roads layer clipped to the three counties and colored according to which county the road is in." />
+<figcaption>Map showing the roads layer clipped to the three counties and colored according to which county the road is in.</figcaption>
+
+</figure>
+
+<h2 id="plot-3---census-data">Plot 3 - Census Data</h2>
+
+<p>You can use the code below to download and unzip the data from the Natural Earth website.
+Please note that the download function was written to take</p>
+
+<ol>
+  <li>a download path - this is the directory where you want to store your data</li>
+  <li>a url - this is the URL where the data are located. The URL below might look odd as it has two “http” strings in it but it is how the url’s are organized on natural earth and should work.</li>
+</ol>
+
+<p>The <code class="language-plaintext highlighter-rouge">download()</code> function will unzip your data for you and place it in the directory that you specify.</p>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Downloading from https://naturalearth.s3.amazonaws.com/10m_cultural/ne_10m_admin_0_countries.zip
+Extracted output to /root/earth-analytics/data/earthpy-downloads/ne_10m_admin_0_countries
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/earth-analytics-python/03-spatial-data/2018-02-05-spatial-data-landing-page/2018-02-05-spatial-data-landing-page_30_0.png" alt="Natural Earth Global Mean population rank and total estimated population" />
+<figcaption>Natural Earth Global Mean population rank and total estimated population</figcaption>
+
+</figure>
+
+
+          
+
+        
+
+        <!-- if the page is a course lesson, add pagination -->
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+
+
+
+
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-03-15">March 15, 2022</time></p>
+        
+        <!-- Add license information w/ DOI to the bottom -->
+        
+  
+     The Earth analytics python course is subject to the
+     <a href="https://www.earthdatascience.org/license" target="_blank">CC BY-SA 4.0 License </a>.
+      Citation DOI: <a href="https://zenodo.org/badge/latestdoi/161369201" target="_blank"> https://zenodo.org/badge/latestdoi/161369201</a>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+      </footer>
+
+      
+
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://www.earthdatascience.org/courses/earth-analytics-python/spatial-data-vector-shapefiles/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.earthdatascience.org/courses/earth-analytics-python/spatial-data-vector-shapefiles/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https://www.earthdatascience.org/courses/earth-analytics-python/spatial-data-vector-shapefiles/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.earthdatascience.org/courses/earth-analytics-python/spatial-data-vector-shapefiles/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+<br><br>
+  <a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target="_blank">
+    <img src="https://www.earthdatascience.org/images/earth-data-analytics-professional-certificate-banner.png" alt="Get a professional Certificate in Earth Data Analytics at University of Colorado, Boulder" width="40%"></a>
+</section>
+
+
+       
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/earth-analytics-bootcamp/plot-data-python">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Plot Data With Matplotlib
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  1 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">
+
+     This Week
+
+  
+
+
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/summarize-climate-data-by-season/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Seasonal Summary Values from Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Learn how to calculate seasonal summary values for MACA 2 climate data using xarray and region mask in open source Python.
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/subset-netcdf4-climate-data-spatially-aoi/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Summary Values Using Spatial Areas of Interest (AOIs) including Shapefiles for Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  32 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Climate datasets stored in netcdf 4 format often cover the entire globe or an entire country. Learn how to subset climate data spatially and by time slices u...</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/use-netcdf-in-python-xarray/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">How to Open and Process NetCDF 4 Data Format in Open Source Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Historic and projected climate data are most often stored in netcdf 4 format. Learn how to open and process MACA version 2 climate data for the Continental U...</p>
+    </article>
+  </a>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+
+<!-- Adding analytics code -->
+
+        
+
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    <li>
+      <strong>&copy; 2025 Earth Lab -
+      <a href="https://www.earthdatascience.org/license"> All materials on this site
+        are subject to the CC BY-SA 4.0 License. </a>
+      </strong>
+    </li>
+  </ul>
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/earthlabcu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+    
+      <li><a href="http://github.com/earthlab"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://www.earthdatascience.org/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<!--
+<div class="page__footer-copyright">Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+-->
+
+      </footer>
+    </div>
+
+    <script src="https://www.earthdatascience.org/assets/js/main.min.js"></script>
+
+
+
+
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-84081999-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>
+

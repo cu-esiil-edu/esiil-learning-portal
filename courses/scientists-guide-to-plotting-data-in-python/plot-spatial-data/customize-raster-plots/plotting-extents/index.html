@@ -1,0 +1,3645 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+
+<meta charset="utf-8">
+
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Overlay Raster and Vector Spatial Data in A Matplotlib Plot Using Extents in Python | Earth Data Science - Earth Lab </title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Earth Data Science - Earth Lab">
+<meta property="og:title" content="Overlay Raster and Vector Spatial Data in A Matplotlib Plot Using Extents in Python">
+
+
+  <link rel="canonical" href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-raster-plots/plotting-extents/">
+  <meta property="og:url" content="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-raster-plots/plotting-extents/">
+
+
+
+  <meta content="When plotting raster and vector data together, the extent of the plot needs to be defined for the data to overlay with each other correctly. Learn how to define plotting extents for Python Matplotlib Plots." name="description">
+  <meta property="og:description" content="When plotting raster and vector data together, the extent of the plot needs to be defined for the data to overlay with each other correctly. Learn how to define plotting extents for Python Matplotlib Plots.">
+
+
+<!-- twitter cards -->
+
+  <meta name="twitter:site" content="@earthlabcu">
+  <meta name="twitter:title" content="Overlay Raster and Vector Spatial Data in A Matplotlib Plot Using Extents in Python">
+  <meta name="twitter:description" content="When plotting raster and vector data together, the extent of the plot needs to be defined for the data to overlay with each other correctly. Learn how to define plotting extents for Python Matplotlib Plots.">
+  <meta name="twitter:url" content="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-raster-plots/plotting-extents/">
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://earthdatascience.org/images/earth_sm_twit.png">
+    <meta name="twitter:image:alt" content="The Earthlab Logo - image of a globe with courses, lessons and tutorials">
+
+    
+  
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2018-02-05T00:00:00-06:00">
+  
+    <link rel="next" href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-vector-plots/python-customize-map-legends-geopandas/" title="Customize Map Legends and Colors in Python using Matplotlib: GIS in Python">
+  
+  
+    <link rel="prev" href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-raster-plots/customize-matplotlib-raster-maps/" title="Customize Matplotlib Raster Maps in Python">
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Earth Analytics",
+      "url" : "https://www.earthdatascience.org",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://www.earthdatascience.org/feed.xml" type="application/atom+xml" rel="alternate" title="Earth Data Science - Earth Lab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="LfpevjsE0wlELv5KKOZv1T2RhRimGSiRckWv5ZC19GU" />
+<!-- don't use the old cataloged meta tags -->
+<meta name="googlebot" content="noodp">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+
+<!-- For all browsers
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">-->
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+
+    <script src="https://www.earthdatascience.org/assets/js/copy-code.js"></script>
+  </head>
+
+  <body>
+
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<!-- search bar begin  - turning off for now-->
+
+<div class="search">
+<form role="search" method="get" action="https://www.earthdatascience.org/search/">
+    <input id="q" name="q"
+           placeholder="Search earth data science site" type="text">
+</form>
+<!--<span class='cu-boulder'><a href="http://www.colorado.edu/earthlab" target="_blank">Earth Lab University of Colorado - Boulder Home </a></span> -->
+</div>
+
+
+<!-- search bar END -->
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://www.earthdatascience.org/"><img src="/images/earth-lab-logo.png" alt="Earth Lab - Earth Data Science" style="height:80%;width:85%"></a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tutorials/">Tutorials</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/courses/">Courses</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/workshops/">Workshops</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tools/">Tools</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/blog/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/about/">About</a></li>
+          
+
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+  <div class="page__hero--overlay" style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.earthdatascience.org/images/header-images/earth-data-analytics-professional-certificate-banner.jpg');">
+  <div class="wrapper">
+        <h1 class="page__title" itemprop="headline">
+          Earth Data Analytics Online Certificate
+        </h1>
+        <p><a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target = "_blank" class="btn btn--light-outline btn--large">Enroll now! Learn more.</a></p>
+  </div>
+</div>
+
+
+
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="breadcrumbs" role="menubar" aria-label="breadcrumbs">
+ <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+ <a href="https://www.earthdatascience.org"></a>
+ 
+ 
+ <!-- there is an offset of 1 so subtract 2 from the final crumb number-->
+ 
+   
+   
+     <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+       <a href="https://www.earthdatascience.org/" itemprop="item"><span itemprop="name">Home</span></a>
+       <meta itemprop="position" content="1" />
+     </li>
+     <span class="sep">/</span>
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/">Courses </a>
+        <meta itemprop="position" content="2" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/">Scientists guide to plotting data in python </a>
+        <meta itemprop="position" content="3" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/">Plot spatial data </a>
+        <meta itemprop="position" content="4" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-raster-plots/">Customize raster plots </a>
+        <meta itemprop="position" content="5" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        <li class="current">Overlay Raster and Vector Spatial Data in A Matplotlib Plot Using Extents in Python</li>
+    
+  
+</ol>
+</nav>
+
+<!-- from min mistakes -->
+
+
+
+
+  
+
+
+<div id="main" role="main">
+  
+
+
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+    
+    
+
+
+    
+
+    
+     <!--  Might be able to delete this This is the code that populates the side bar navigation if there is a class-->
+      
+
+
+
+
+
+
+
+<!-- make sure we're only grabbing pages for the course -->
+
+
+
+<!--<h3>Week 2 Lessons</h3>-->
+<!-- i don't think the code below is used as modules is defined lower down as well. -->
+
+<!-- This is how modules are sorted on the left hand side bar -->
+
+
+
+
+
+
+<h5><a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python-textbook/" ><i class="fa fa-home" aria-hidden="true"></i> Scientists guide to plotting data in python textbook</a></h5>
+
+<!-- Just get the pages from this course -->
+
+
+
+
+
+
+<nav class="nav__list">
+
+
+
+
+
+
+
+<ul>
+  <li><span class="nav__sub-title"><i class="fa fa-book" aria-hidden="true"></i> Units</span>
+   <ul>
+
+       
+
+        
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 1 <a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 PLOTTING WITH MATPLOTLIB</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-with-matplotlib/introduction-to-matplotlib-plots/"> Chapter 1:   Intro to Plotting with Matplotlib </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+                
+                    <li class='active-section'> <a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/"><i class="fa fa-folder-open" aria-hidden="true"></i>
+                     2. PLOTTING SPATIAL DATA</a></li>
+
+            
+
+<div class='active-menu'>
+      <ul>
+        
+        <!-- Note that class-order allows you to sort modules by class order if there are more than 1 in a class -->
+        
+
+        
+
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   Chapter 3 Custom vector plots in python  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-vector-plots/><!--2.1 --> - Customize Python Maps</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-vector-plots/python-customize-map-legends-geopandas/><!--2.2 --> - Customize Map Legends and Colors</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-vector-plots/python-change-spatial-extent-of-map-matplotlib-geopandas/><!--2.3 --> - Adjust Map Extent</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-vector-plots/interactive-leaflet-maps-in-python-folium/><!--2.4 --> - Interactive leaflet maps</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+
+        
+       </ul>
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   Chapter 4 Customize raster plots  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-raster-plots/><!--2.1 --> - Customize Raster Plots</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-raster-plots/overlay-raster-maps/><!--2.2 --> - Overlay Rasters</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-raster-plots/interactive-maps/><!--2.3 --> - Interactive Maps</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-raster-plots/customize-matplotlib-raster-maps/><!--2.4 --> - Custom Raster Maps</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-raster-plots/plotting-extents/ class='active'> <!--2.5 -->- Spatial Extents For Raster Plots</a></li>
+          
+          
+
+        
+       </ul>
+        
+
+        
+      </ul>
+
+      <!-- BEGIN Learn how to lessons -->
+       <ul>
+         
+         
+       </ul>
+
+
+     </div>
+
+
+      <!-- END BEGIN Learn how to lessons -->
+
+      <!--  -->
+      
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 3 <a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-activities/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 PYTHON PLOT ACTIVITIES</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-activities/plot-tabular-pandas-data-python/"> Chapter 5:   Practice Plotting </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+  </ul></li>
+ </ul>
+
+
+ <ul>
+   <li><span class="nav__sub-title"><i class="fa fa-folder-open" aria-hidden="true"></i> Overview</span>
+    <ul>
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/">
+           Scientist's Guide to Plotting Data in Python Home </a></li>
+         
+
+     
+   </ul>
+ </li>
+</ul>
+</nav>
+
+<h5><a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python-textbook/" ><i class="fa fa-home" aria-hidden="true"></i> scientists-guide-to-plotting-data-in-python-textbook Home</a></h5>
+
+    
+
+    
+
+  
+  </div>
+
+
+
+
+
+
+<!-- begin science / science themes side bar nav -->
+
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+
+    <meta itemprop="headline" content="Overlay Raster and Vector Spatial Data in A Matplotlib Plot Using Extents in Python">
+    <meta itemprop="description" content="When plotting raster and vector data together, the extent of the plot needs to be defined for the data to overlay with each other correctly. Learn how to define plotting extents for Python Matplotlib Plots.">
+    <meta itemprop="datePublished" content="February 05, 2018">
+    <meta itemprop="dateModified" content="January 21, 2022">
+
+    <div class="page__inner-wrap">
+        <header>
+          
+
+          <!-- BEGIN: insert a welcome to the module block on pages that are part of a module set -->
+
+          <!-- END: insert welcome block -->
+
+          
+              
+
+            
+                <h1 class="page__title" itemprop="headline">
+                Lesson 5. 
+                 Overlay Raster and Vector Spatial Data in A Matplotlib Plot Using Extents in Python
+
+                
+                </h1>
+            
+
+          
+
+          
+            <div class="page__meta">
+              
+              
+              <a href="https://www.earthdatascience.org/authors/leah-wasser">Leah Wasser</a>, 
+              
+              
+              <a href="https://www.earthdatascience.org/authors/nathan-korinek">Nathan Korinek</a>, 
+              
+              
+              <a href="https://www.earthdatascience.org/authors/jenny-palomino">Jenny Palomino</a>
+              
+            </div>
+          
+
+            <br/>
+
+            
+
+              
+            
+
+            <!-- For tools pages add authors and tool title -->
+
+            
+        </header>
+
+
+
+      <section class="page__content" itemprop="text">
+
+        <!-- would like to include the TOC automatically but this does weird things-->
+        
+          
+            <aside class="sidebar__right">
+<nav class="toc">
+    <header><h4 class="nav__title"><i class="fa fa-file-text"></i> On This Page</h4></header>
+<ul class="toc__menu" id="markdown-toc">
+  <li><a href="#learning-objectives" id="markdown-toc-learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</a></li>
+  <li><a href="#about-extents-for-matplotlib-plots" id="markdown-toc-about-extents-for-matplotlib-plots">About Extents for matplotlib Plots</a></li>
+  <li><a href="#get-plotting-extent-of-raster-data-file" id="markdown-toc-get-plotting-extent-of-raster-data-file">Get Plotting Extent of Raster Data File</a></li>
+  <li><a href="#get-plotting-extent-of-cropped-raster-layer" id="markdown-toc-get-plotting-extent-of-cropped-raster-layer">Get Plotting Extent of Cropped Raster Layer</a></li>
+  <li><a href="#plot-vector-and-raster-data-overlays-with-plotting-extent" id="markdown-toc-plot-vector-and-raster-data-overlays-with-plotting-extent">Plot Vector and Raster Data Overlays With Plotting Extent</a></li>
+  <li><a href="#importance-of-using-appropriate-plotting-extents" id="markdown-toc-importance-of-using-appropriate-plotting-extents">Importance of Using Appropriate Plotting Extents</a></li>
+</ul>
+
+  </nav>
+</aside>
+
+<div class="notice--success">
+
+  <h2 id="learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</h2>
+
+  <ul>
+    <li>Create a custom <code class="language-plaintext highlighter-rouge">plotting_extent</code> object using <strong>rasterio</strong>.</li>
+    <li>Use a <code class="language-plaintext highlighter-rouge">plotting_extent</code> object to plot spatial vector and raster data together using <strong>matplotlib</strong>.</li>
+  </ul>
+
+</div>
+
+<h2 id="about-extents-for-matplotlib-plots">About Extents for matplotlib Plots</h2>
+
+<p>You often want to create a map that includes a raster layer (for example a 
+satelite image) with vector data such as political boundaries or study area boundaries 
+overlayed on top of that raster layer.</p>
+
+<p>If you are reading in your raster data using <strong>rioxarray</strong>, your data will be 
+returned as a <code class="language-plaintext highlighter-rouge">DataArray</code> containing the raster data values and all spatial 
+information associated with the values.</p>
+
+<p>When you plot the <code class="language-plaintext highlighter-rouge">DataArray</code> with <strong>earthpy</strong>, you extract a <code class="language-plaintext highlighter-rouge">numpy array</code>
+from it with the <code class="language-plaintext highlighter-rouge">.values</code> attribute. This means the corner location of the raster 
+is unknown since the numpy array doesn’t contain any of the spatial information.
+Due to this, the plot will begin at the x,y location: <code class="language-plaintext highlighter-rouge">0,0</code>. If you 
+want to overlay a spatial vector layer on top of that raster, the data 
+will not line up correctly.</p>
+
+<p>In order to plot the raster and vector data together in the same plot, 
+you need to identify the spatial <strong>extent</strong> of the raster data file so that matplotlib
+can correctly place the raster data in geographic space.</p>
+
+<p>You can use the <strong>plotting_extent</strong> function from <strong>rasterio</strong> in combination with 
+the data you opened in <strong>rioxarray</strong> to create the spatial plotting extent
+for a raster layer, using the <code class="language-plaintext highlighter-rouge">DataArray</code> and the other metadata stored in the 
+<code class="language-plaintext highlighter-rouge">DataArray</code> object.</p>
+
+<p>To begin, load all of the required libraries. Notice that you are loading 
+the <strong>plotting_extent</strong> function from the <strong>plot</strong> module of the <strong>rasterio</strong> 
+package.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Import needed packages
+</span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="n">mpl</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="n">gpd</span>
+<span class="kn">import</span> <span class="nn">rioxarray</span> <span class="k">as</span> <span class="n">rxr</span>
+<span class="kn">from</span> <span class="nn">rasterio.plot</span> <span class="kn">import</span> <span class="n">plotting_extent</span>
+<span class="kn">import</span> <span class="nn">earthpy</span> <span class="k">as</span> <span class="n">et</span>
+<span class="kn">import</span> <span class="nn">earthpy.spatial</span> <span class="k">as</span> <span class="n">es</span>
+<span class="kn">import</span> <span class="nn">earthpy.plot</span> <span class="k">as</span> <span class="n">ep</span>
+
+<span class="c1"># Get data and set working directory
+</span><span class="n">et</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">get_data</span><span class="p">(</span><span class="s">'cold-springs-fire'</span><span class="p">)</span>
+<span class="n">os</span><span class="p">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">et</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">HOME</span><span class="p">,</span> <span class="s">'earth-analytics'</span><span class="p">,</span> <span class="s">'data'</span><span class="p">))</span>
+
+<span class="c1"># Set figure size and title size of plots
+</span><span class="n">mpl</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">'figure.figsize'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">mpl</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">'axes.titlesize'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span>
+</code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Downloading from https://ndownloader.figshare.com/files/10960109
+Extracted output to /root/earth-analytics/data/cold-springs-fire/.
+</code></pre></div></div>
+
+<h3 id="open-vector-data-for-plot">Open Vector Data for Plot</h3>
+
+<p>To begin, open up the Cold Springs fire boundary data. You will use this data 
+to both crop your raster data and as a visual overlay on your final plot.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Import fire boundary
+</span><span class="n">fire_boundary_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="s">"cold-springs-fire"</span><span class="p">,</span>
+                                  <span class="s">"vector_layers"</span><span class="p">,</span>
+                                  <span class="s">"fire-boundary-geomac"</span><span class="p">,</span>
+                                  <span class="s">"co_cold_springs_20160711_2200_dd83.shp"</span><span class="p">)</span>
+
+<span class="c1"># Open fire boundary data with geopandas
+</span><span class="n">fire_boundary</span> <span class="o">=</span> <span class="n">gpd</span><span class="p">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">fire_boundary_path</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="check-crs-of-vector-data">Check CRS of Vector Data</h3>
+
+<p>When cropping or overlaying data, it is important to make sure the Coordinate Reference System, or CRS, is the same for the two datasets.</p>
+
+<p>Recall that you can check the CRS of a GeoPandas GeoDataFrame with the <code class="language-plaintext highlighter-rouge">.crs</code> attribute, as shown below.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fire_boundary</span><span class="p">.</span><span class="n">crs</span>
+</code></pre></div></div>
+
+<div class="language-plaintext output execute_result highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Geographic 2D CRS: EPSG:4269&gt;
+Name: NAD83
+Axis Info [ellipsoidal]:
+- Lat[north]: Geodetic latitude (degree)
+- Lon[east]: Geodetic longitude (degree)
+Area of Use:
+- name: North America - onshore and offshore: Canada - Alberta; British Columbia; Manitoba; New Brunswick; Newfoundland and Labrador; Northwest Territories; Nova Scotia; Nunavut; Ontario; Prince Edward Island; Quebec; Saskatchewan; Yukon. Puerto Rico. United States (USA) - Alabama; Alaska; Arizona; Arkansas; California; Colorado; Connecticut; Delaware; Florida; Georgia; Hawaii; Idaho; Illinois; Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; Massachusetts; Michigan; Minnesota; Mississippi; Missouri; Montana; Nebraska; Nevada; New Hampshire; New Jersey; New Mexico; New York; North Carolina; North Dakota; Ohio; Oklahoma; Oregon; Pennsylvania; Rhode Island; South Carolina; South Dakota; Tennessee; Texas; Utah; Vermont; Virginia; Washington; West Virginia; Wisconsin; Wyoming. US Virgin Islands. British Virgin Islands.
+- bounds: (167.65, 14.92, -47.74, 86.46)
+Datum: North American Datum 1983
+- Ellipsoid: GRS 1980
+- Prime Meridian: Greenwich
+</code></pre></div></div>
+
+<h2 id="get-plotting-extent-of-raster-data-file">Get Plotting Extent of Raster Data File</h2>
+
+<p>If you open up raster data using the <code class="language-plaintext highlighter-rouge">.read()</code> method in rasterio, you can<br />
+create the <code class="language-plaintext highlighter-rouge">plotting_extent</code> object within the rasterio context manager
+using the <strong>rasterio</strong> <code class="language-plaintext highlighter-rouge">DatasetReader</code> object (or the <code class="language-plaintext highlighter-rouge">src</code> object).</p>
+
+<p>You can use the path to the data to get the crs the raster is in using 
+<code class="language-plaintext highlighter-rouge">es.crs_check</code>, an <strong>earthpy</strong> function designed to extract that data.
+You can use the <strong>DataArray</strong> to create a plotting extent object.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data</span> <span class="o">=</span> <span class="n">rxr</span><span class="p">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">masked</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">data_plotting_extent</span> <span class="o">=</span> <span class="n">plotting_extent</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">.</span><span class="n">rio</span><span class="p">.</span><span class="n">transform</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p>Notice how you get <em>only</em> the first band of the data and the <code class="language-plaintext highlighter-rouge">transform</code> of the data 
+to use in the <code class="language-plaintext highlighter-rouge">plotting_extent</code> function. These are the two necessary pieces of 
+information for the function to run.</p>
+
+<p>Below you open up National Agriculture Imagery Program (NAIP) imagery 
+data with <strong>rioxarray</strong> and get the plotting extent with the attributes noted
+above.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Define path to NAIP data
+</span><span class="n">naip_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="s">"cold-springs-fire"</span><span class="p">,</span>
+                         <span class="s">"naip"</span><span class="p">,</span>
+                         <span class="s">"m_3910505_nw_13_1_20150919"</span><span class="p">,</span>
+                         <span class="s">"crop"</span><span class="p">,</span>
+                         <span class="s">"m_3910505_nw_13_1_20150919_crop.tif"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Getting the crs of the raster data
+</span><span class="n">naip_crs</span> <span class="o">=</span> <span class="n">es</span><span class="p">.</span><span class="n">crs_check</span><span class="p">(</span><span class="n">naip_path</span><span class="p">)</span>
+
+<span class="c1"># Transforming the fire boundary to the NAIP data crs
+</span><span class="n">fire_bound_utmz13</span> <span class="o">=</span> <span class="n">fire_boundary</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">naip_crs</span><span class="p">)</span>
+
+<span class="c1"># Opening the NAIP data
+</span><span class="n">naip_data</span> <span class="o">=</span> <span class="n">rxr</span><span class="p">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">naip_path</span><span class="p">,</span> <span class="n">masked</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Creating the plot extent object
+</span><span class="n">naip_plot_extent</span> <span class="o">=</span> <span class="n">plotting_extent</span><span class="p">(</span><span class="n">naip_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                                   <span class="n">naip_data</span><span class="p">.</span><span class="n">rio</span><span class="p">.</span><span class="n">transform</span><span class="p">())</span>
+</code></pre></div></div>
+
+<h3 id="order-of-coordinates-for-plotting-extent">Order of Coordinates for Plotting Extent</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">plotting_extent</code> object is a re-ordering of the <code class="language-plaintext highlighter-rouge">.rio.bounds()</code> of the 
+<strong>rioxarray</strong> <code class="language-plaintext highlighter-rouge">DataArray</code> object and provides the correct object type 
+and order of coordinates for <strong>matplotlib</strong>.</p>
+
+<p>It defines the coordinates as a <code class="language-plaintext highlighter-rouge">tuple</code> in the appropriate order for <strong>matplotlib</strong> as:</p>
+
+<p><code class="language-plaintext highlighter-rouge">(leftmost coordinate, rightmost coordinate, bottom coordinate, top coordinate)</code></p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># See coordinates of plotting extent
+</span><span class="n">naip_plot_extent</span>
+</code></pre></div></div>
+
+<div class="language-plaintext output execute_result highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(457163.0, 461540.0, 4424640.0, 4426952.0)
+</code></pre></div></div>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># See object type
+</span><span class="nb">type</span><span class="p">(</span><span class="n">naip_plot_extent</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext output execute_result highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tuple
+</code></pre></div></div>
+
+<p>This order differs from the coordinates provided by <code class="language-plaintext highlighter-rouge">.rio.bounds()</code> of the 
+<code class="language-plaintext highlighter-rouge">DataArray</code> object, which provides the coordinates as a <code class="language-plaintext highlighter-rouge">BoundingBox</code> in 
+a slightly different order:</p>
+
+<p><code class="language-plaintext highlighter-rouge">(leftmost coordinate, bottom coordinate, rightmost coordinate, top coordinate)</code></p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># See bounds attribute
+</span><span class="n">naip_data</span><span class="p">.</span><span class="n">rio</span><span class="p">.</span><span class="n">bounds</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-plaintext output execute_result highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(457163.0, 4424640.0, 461540.0, 4426952.0)
+</code></pre></div></div>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># See object type
+</span><span class="nb">type</span><span class="p">(</span><span class="n">naip_data</span><span class="p">.</span><span class="n">rio</span><span class="p">.</span><span class="n">bounds</span><span class="p">())</span>
+</code></pre></div></div>
+
+<div class="language-plaintext output execute_result highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tuple
+</code></pre></div></div>
+
+<p>So while the <code class="language-plaintext highlighter-rouge">.rio.bounds()</code> attribute is useful for other purposes, it does not 
+provide the appropriate structure needed for <strong>matplotlib</strong>.</p>
+
+<p>Instead, you can always use <code class="language-plaintext highlighter-rouge">plotting_extent()</code> to create an object that you 
+can provide to <strong>matplotlib</strong> to plot the array of the raster data in the 
+appropriate geographic space of the plot.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Plot uncropped array
+</span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="n">ep</span><span class="p">.</span><span class="n">plot_rgb</span><span class="p">(</span><span class="n">naip_data</span><span class="p">.</span><span class="n">values</span><span class="p">,</span>
+            <span class="n">rgb</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="s">"Fire boundary overlayed on top of uncropped NAIP data"</span><span class="p">,</span>
+            <span class="n">extent</span><span class="o">=</span><span class="n">naip_plot_extent</span><span class="p">)</span>  <span class="c1"># Use plotting extent from DatasetReader object
+</span>
+<span class="n">fire_bound_utmz13</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/02-plot-spatial-data/raster-plots/2018-02-05-maps05-plotting-extents-matplotlib/2018-02-05-maps05-plotting-extents-matplotlib_18_0.png" alt="Map of the un cropped NAIP RGB imagery overlayed with the Cold Springs Fire vector layer." />
+<figcaption>Map of the un cropped NAIP RGB imagery overlayed with the Cold Springs Fire vector layer.</figcaption>
+
+</figure>
+
+<h2 id="get-plotting-extent-of-cropped-raster-layer">Get Plotting Extent of Cropped Raster Layer</h2>
+
+<p>If you crop your data, the process of getting the the <code class="language-plaintext highlighter-rouge">plotting_extent()</code> 
+is slightly different. The cropped layer does not have the same spatial 
+attributes of the original dataset. In this case, you will have to use the metadata 
+dictionary, returned from the crop function to create your plotting extent.</p>
+
+<p>For a cropped array, the <code class="language-plaintext highlighter-rouge">plotting_extent()</code> function needs an additional 
+parameter for the <code class="language-plaintext highlighter-rouge">affine</code> information, which can be accessed from the 
+<code class="language-plaintext highlighter-rouge">transform</code> key in the metadata dictionary.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Getting the crs of the raster data
+</span><span class="n">naip_crs</span> <span class="o">=</span> <span class="n">es</span><span class="p">.</span><span class="n">crs_check</span><span class="p">(</span><span class="n">naip_path</span><span class="p">)</span>
+
+<span class="c1"># Transforming the fire boundary to the NAIP data crs
+</span><span class="n">fire_bound_utmz13</span> <span class="o">=</span> <span class="n">fire_boundary</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">naip_crs</span><span class="p">)</span>
+
+<span class="c1"># Opening and clipping the NAIP data. The clip is applied before the data is opened, which 
+# makes this faster then opening the data and clipping it after!
+</span><span class="n">naip_data_clip</span> <span class="o">=</span> <span class="n">rxr</span><span class="p">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">naip_path</span><span class="p">,</span> 
+                                   <span class="n">masked</span><span class="o">=</span><span class="bp">True</span><span class="p">).</span><span class="n">rio</span><span class="p">.</span><span class="n">clip</span><span class="p">(</span><span class="n">fire_bound_utmz13</span><span class="p">.</span><span class="n">geometry</span><span class="p">)</span>
+
+<span class="c1"># Getting the new plotting extent
+</span><span class="n">naip_clip_plot_extent</span> <span class="o">=</span> <span class="n">plotting_extent</span><span class="p">(</span><span class="n">naip_data_clip</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">naip_data_clip</span><span class="p">.</span><span class="n">rio</span><span class="p">.</span><span class="n">transform</span><span class="p">())</span>
+</code></pre></div></div>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">naip_clip_plot_extent</span>
+</code></pre></div></div>
+
+<div class="language-plaintext output execute_result highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(457667.0, 461036.0, 4425146.0, 4426449.0)
+</code></pre></div></div>
+
+<h2 id="plot-vector-and-raster-data-overlays-with-plotting-extent">Plot Vector and Raster Data Overlays With Plotting Extent</h2>
+
+<p>Using the extent objects you created, you can now plot either uncropped or cropped arrays with the fire boundary using the <code class="language-plaintext highlighter-rouge">extent</code> parameter of plot functions that rely on <strong>matplotlib</strong>.</p>
+
+<p>For example, to plot an <code class="language-plaintext highlighter-rouge">RGB</code> image, you can use <code class="language-plaintext highlighter-rouge">plot_rgb()</code>from <strong>earthpy</strong> (which uses <strong>matplotlib</strong>) and use the <code class="language-plaintext highlighter-rouge">extent</code> parameter to provide the appropriate plotting extent.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Plot cropped data
+</span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="n">ep</span><span class="p">.</span><span class="n">plot_rgb</span><span class="p">(</span><span class="n">naip_data_clip</span><span class="p">,</span>
+            <span class="n">rgb</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="s">"Fire boundary overlayed on top of cropped NAIP data"</span><span class="p">,</span>
+            <span class="n">extent</span><span class="o">=</span><span class="n">naip_clip_plot_extent</span><span class="p">)</span>  <span class="c1"># Use plotting extent from cropped array
+</span>
+<span class="n">fire_bound_utmz13</span><span class="p">.</span><span class="n">boundary</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/02-plot-spatial-data/raster-plots/2018-02-05-maps05-plotting-extents-matplotlib/2018-02-05-maps05-plotting-extents-matplotlib_23_0.png" alt="Map of the cropped NAIP RGB imagery overlayed with the Cold Springs Fire vector layer." />
+<figcaption>Map of the cropped NAIP RGB imagery overlayed with the Cold Springs Fire vector layer.</figcaption>
+
+</figure>
+
+<h2 id="importance-of-using-appropriate-plotting-extents">Importance of Using Appropriate Plotting Extents</h2>
+
+<p>Below is an example of what happens if you do not define the plotting extent for a plot overlaying vector and raster data (array).</p>
+
+<p>First, notice that both datasets plot fine individually.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Plot of uncropped array
+</span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="n">ep</span><span class="p">.</span><span class="n">plot_rgb</span><span class="p">(</span><span class="n">naip_data</span><span class="p">.</span><span class="n">values</span><span class="p">,</span>
+            <span class="n">rgb</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/02-plot-spatial-data/raster-plots/2018-02-05-maps05-plotting-extents-matplotlib/2018-02-05-maps05-plotting-extents-matplotlib_25_0.png" alt="Map of the NAIP RGB imagery of the Cold Springs fire area without the fire overlayed." />
+<figcaption>Map of the NAIP RGB imagery of the Cold Springs fire area without the fire overlayed.</figcaption>
+
+</figure>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Plot of fire boundary
+</span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="n">fire_bound_utmz13</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/02-plot-spatial-data/raster-plots/2018-02-05-maps05-plotting-extents-matplotlib/2018-02-05-maps05-plotting-extents-matplotlib_26_0.png" alt="Map of the Cold Springs fire area without imagery underneath." />
+<figcaption>Map of the Cold Springs fire area without imagery underneath.</figcaption>
+
+</figure>
+
+<p>Now notice that the plot does not render appropriately when you try to overlay the vector and raster data.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Incorrect plot because plotting extent is not defined
+</span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">ep</span><span class="p">.</span><span class="n">plot_rgb</span><span class="p">(</span><span class="n">naip_data</span><span class="p">.</span><span class="n">values</span><span class="p">,</span>
+            <span class="n">rgb</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+           <span class="n">title</span><span class="o">=</span><span class="s">"Plot without a raster extent defined. Notice the data do not line up"</span><span class="p">)</span>
+
+<span class="n">fire_bound_utmz13</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/02-plot-spatial-data/raster-plots/2018-02-05-maps05-plotting-extents-matplotlib/2018-02-05-maps05-plotting-extents-matplotlib_28_0.png" alt="Map of the NAIP RGB imagery of the Cold Springs fire area with the fire overlayed without settting the plotting extent. No data is visible, it's just a long white box." />
+<figcaption>Map of the NAIP RGB imagery of the Cold Springs fire area with the fire overlayed without settting the plotting extent. No data is visible, it's just a long white box.</figcaption>
+
+</figure>
+
+<h3 id="use-the-appropriate-plotting-extent-for-your-data">Use the Appropriate Plotting Extent for Your Data</h3>
+
+<p>When you are plotting spatial data, it is important to consider which plotting
+extent you will need. You will need to create a unique plotting extent for each 
+dataset in your project that is is either</p>
+
+<ol>
+  <li>in a differennt CRS</li>
+  <li>a different resolution and/or</li>
+  <li>cropped differently</li>
+</ol>
+
+<p>Even if the area that the plot covers is similar, if you use the wrong extent 
+it can produce a plot that is skewed, stretched or in the incorrect geographic
+location</p>
+
+<p>To demonstrate this, try to plot MODIS data using the NAIP extent that’s 
+been cropped to the same area as the MODIS data, and see how the plot 
+comes out. As the two satellites use differnet CRS’s, the data should 
+be plotted in an illegible way.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Open up and crop the MODIS data like you did with the NAIP data
+</span>
+<span class="n">modis_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="s">'cold-springs-fire'</span><span class="p">,</span> 
+                          <span class="s">'modis'</span><span class="p">,</span> 
+                          <span class="s">'reflectance'</span><span class="p">,</span> 
+                          <span class="s">'07_july_2016'</span><span class="p">,</span>
+                          <span class="s">'crop'</span><span class="p">,</span> 
+                          <span class="s">'MOD09GA.A2016189.h09v05.006.2016191073856_sur_refl_b04_1.tif'</span><span class="p">)</span>
+
+<span class="c1"># Get crs of MODIS data
+</span><span class="n">modis_crs</span> <span class="o">=</span> <span class="n">es</span><span class="p">.</span><span class="n">crs_check</span><span class="p">(</span><span class="n">modis_path</span><span class="p">)</span>
+
+<span class="c1"># Change fire boundary crs to be the same as the MODIS data
+</span><span class="n">fire_bound_WGS84</span> <span class="o">=</span> <span class="n">fire_boundary</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">modis_crs</span><span class="p">)</span>
+
+<span class="c1"># Open and clip the MODIS data 
+</span><span class="n">modis_data_clip</span> <span class="o">=</span> <span class="n">rxr</span><span class="p">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">modis_path</span><span class="p">,</span> 
+                                    <span class="n">masked</span><span class="o">=</span><span class="bp">True</span><span class="p">).</span><span class="n">rio</span><span class="p">.</span><span class="n">clip</span><span class="p">(</span><span class="n">fire_bound_WGS84</span><span class="p">.</span><span class="n">geometry</span><span class="p">)</span>
+
+<span class="c1"># Get the MODIS data's plotting extent
+</span><span class="n">modis_clip_plot_extent</span> <span class="o">=</span> <span class="n">plotting_extent</span><span class="p">(</span><span class="n">modis_data_clip</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                                         <span class="n">modis_data_clip</span><span class="p">.</span><span class="n">rio</span><span class="p">.</span><span class="n">transform</span><span class="p">())</span>
+</code></pre></div></div>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Plot the MODIS data with the proper extent
+</span>
+<span class="c1"># Plot cropped data
+</span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="n">ep</span><span class="p">.</span><span class="n">plot_bands</span><span class="p">(</span><span class="n">modis_data_clip</span><span class="p">,</span>
+              <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+              <span class="n">extent</span><span class="o">=</span><span class="n">modis_clip_plot_extent</span><span class="p">,</span>
+              <span class="n">cbar</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">fire_bound_WGS84</span><span class="p">.</span><span class="n">boundary</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/02-plot-spatial-data/raster-plots/2018-02-05-maps05-plotting-extents-matplotlib/2018-02-05-maps05-plotting-extents-matplotlib_31_0.png" alt="Map of the cropped MODIS imagery overlayed with the Cold Springs Fire vector layer." />
+<figcaption>Map of the cropped MODIS imagery overlayed with the Cold Springs Fire vector layer.</figcaption>
+
+</figure>
+
+<p>That skinny line below the plot code below is your actual plot! The plotting 
+for NAIP data does not work for MODIS data as NAIP is:</p>
+
+<ol>
+  <li>in a different corrdinate reference system and</li>
+  <li>is at a different spatial resolution</li>
+</ol>
+
+<p>Thus, you must create a unique plotting extent object for your MODIS data.</p>
+
+<div class="language-python input highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Plotting MODIS with the NAIP extent
+</span>
+<span class="c1"># Plot cropped data
+</span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="n">ep</span><span class="p">.</span><span class="n">plot_bands</span><span class="p">(</span><span class="n">modis_data_clip</span><span class="p">,</span>
+              <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+              <span class="n">extent</span><span class="o">=</span><span class="n">naip_clip_plot_extent</span><span class="p">,</span>
+              <span class="n">cbar</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+              <span class="n">title</span><span class="o">=</span><span class="s">"Plot with the incorrect extent"</span><span class="p">)</span>
+
+<span class="n">fire_bound_WGS84</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+
+
+</code></pre></div></div>
+
+<figure class="output display_data">
+
+<img src="https://www.earthdatascience.org/images/courses/plot-data-in-python-textbook/02-plot-spatial-data/raster-plots/2018-02-05-maps05-plotting-extents-matplotlib/2018-02-05-maps05-plotting-extents-matplotlib_33_0.png" alt="Map of the cropped MODIS RGB imagery overlayed with the Cold Springs Fire vector layer. The NAIP extent is used instead of the MODIS extent, so no data is visible, only a long black line." />
+<figcaption>Map of the cropped MODIS RGB imagery overlayed with the Cold Springs Fire vector layer. The NAIP extent is used instead of the MODIS extent, so no data is visible, only a long black line.</figcaption>
+
+</figure>
+
+
+          
+
+        
+
+        <!-- if the page is a course lesson, add pagination -->
+
+        
+         <!-- This is clunky code that forces pagination across lesson sets -->
+<!-- NOTE: it won't include slideshows as written which makes sense -->
+<!-- add forced pagination -->
+<!-- first, get total lesson count -->
+
+<div class="previous--next">
+
+
+
+
+
+<!-- if it's page one - then no previous button -->
+<!-- how do i figure out the link? i have to loop through again? -->
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+        <a href="https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-raster-plots/customize-matplotlib-raster-maps/" class="btn btn--info btn--large btn-success">
+          <i class="fa fa-4 fa-arrow-circle-left fa-4" aria-hidden="true"></i>
+          Custom Raster Maps </a>
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags
+  
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/data-exploration-and-analysis/>Data exploration and analysis</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/data-exploration-and-analysis/data-visualization/>data visualization</a> 
+    
+    
+  
+
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/spatial-data-and-gis/>Spatial data and gis</a>:
+  </span>
+  
+
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/reproducible-science-and-programming/>Reproducible science and programming</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/reproducible-science-and-programming/jupyter-notebook/>jupyter notebook</a> 
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-21">January 21, 2022</time></p>
+        
+        <!-- Add license information w/ DOI to the bottom -->
+        
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+      </footer>
+
+      
+
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-raster-plots/plotting-extents/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-raster-plots/plotting-extents/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-raster-plots/plotting-extents/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.earthdatascience.org/courses/scientists-guide-to-plotting-data-in-python/plot-spatial-data/customize-raster-plots/plotting-extents/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+<br><br>
+  <a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target="_blank">
+    <img src="https://www.earthdatascience.org/images/earth-data-analytics-professional-certificate-banner.png" alt="Get a professional Certificate in Earth Data Analytics at University of Colorado, Boulder" width="40%"></a>
+</section>
+
+
+       
+    </div>
+
+    
+      
+
+
+<div class="page__comments">
+  <h4 class="page__comments-title">Leave a Comment</h4>
+  
+    <section id="disqus_thread"></section>
+  
+</div>
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/earth-analytics-bootcamp/plot-data-python">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Plot Data With Matplotlib
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  1 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">
+
+     This Week
+
+  
+
+
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/summarize-climate-data-by-season/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Seasonal Summary Values from Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Learn how to calculate seasonal summary values for MACA 2 climate data using xarray and region mask in open source Python.
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/subset-netcdf4-climate-data-spatially-aoi/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Summary Values Using Spatial Areas of Interest (AOIs) including Shapefiles for Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  32 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Climate datasets stored in netcdf 4 format often cover the entire globe or an entire country. Learn how to subset climate data spatially and by time slices u...</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/use-netcdf-in-python-xarray/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">How to Open and Process NetCDF 4 Data Format in Open Source Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Historic and projected climate data are most often stored in netcdf 4 format. Learn how to open and process MACA version 2 climate data for the Continental U...</p>
+    </article>
+  </a>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+
+<!-- Adding analytics code -->
+
+        
+
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    <li>
+      <strong>&copy; 2025 Earth Lab -
+      <a href="https://www.earthdatascience.org/license"> All materials on this site
+        are subject to the CC BY-SA 4.0 License. </a>
+      </strong>
+    </li>
+  </ul>
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/earthlabcu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+    
+      <li><a href="http://github.com/earthlab"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://www.earthdatascience.org/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<!--
+<div class="page__footer-copyright">Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+-->
+
+      </footer>
+    </div>
+
+    <script src="https://www.earthdatascience.org/assets/js/main.min.js"></script>
+
+
+
+
+
+
+  
+  <script type="text/javascript">
+  	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  	var disqus_shortname = 'earthlabcu';
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function() {
+  		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  	})();
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function () {
+  		var s = document.createElement('script'); s.async = true;
+  		s.type = 'text/javascript';
+  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  	}());
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-84081999-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>
+

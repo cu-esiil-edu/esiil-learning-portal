@@ -1,0 +1,4604 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+
+<meta charset="utf-8">
+
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Twitter Data in R Using Rtweet: Analyze and Download Twitter Data | Earth Data Science - Earth Lab </title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Earth Data Science - Earth Lab">
+<meta property="og:title" content="Twitter Data in R Using Rtweet: Analyze and Download Twitter Data">
+
+
+  <link rel="canonical" href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/use-twitter-api-r/">
+  <meta property="og:url" content="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/use-twitter-api-r/">
+
+
+
+  <meta content="You can use the Twitter RESTful API to access data about Twitter users and tweets. Learn how to use rtweet to download and analyze twitter social media data in R." name="description">
+  <meta property="og:description" content="You can use the Twitter RESTful API to access data about Twitter users and tweets. Learn how to use rtweet to download and analyze twitter social media data in R.">
+
+
+<!-- twitter cards -->
+
+  <meta name="twitter:site" content="@earthlabcu">
+  <meta name="twitter:title" content="Twitter Data in R Using Rtweet: Analyze and Download Twitter Data">
+  <meta name="twitter:description" content="You can use the Twitter RESTful API to access data about Twitter users and tweets. Learn how to use rtweet to download and analyze twitter social media data in R.">
+  <meta name="twitter:url" content="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/use-twitter-api-r/">
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://earthdatascience.org/images/earth_sm_twit.png">
+    <meta name="twitter:image:alt" content="The Earthlab Logo - image of a globe with courses, lessons and tutorials">
+
+    
+  
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2017-04-19T00:00:00-05:00">
+  
+    <link rel="next" href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/text-mining-twitter-data-intro-r/" title="Text Mining Twitter Data With TidyText in R">
+  
+  
+    <link rel="prev" href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-social-media-text-mining-r/" title="Work With Twitter Social Media Data in R - An Introduction">
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Earth Analytics",
+      "url" : "https://www.earthdatascience.org",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://www.earthdatascience.org/feed.xml" type="application/atom+xml" rel="alternate" title="Earth Data Science - Earth Lab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="LfpevjsE0wlELv5KKOZv1T2RhRimGSiRckWv5ZC19GU" />
+<!-- don't use the old cataloged meta tags -->
+<meta name="googlebot" content="noodp">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+
+<!-- For all browsers
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">-->
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+
+    <script src="https://www.earthdatascience.org/assets/js/copy-code.js"></script>
+  </head>
+
+  <body>
+
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<!-- search bar begin  - turning off for now-->
+
+<div class="search">
+<form role="search" method="get" action="https://www.earthdatascience.org/search/">
+    <input id="q" name="q"
+           placeholder="Search earth data science site" type="text">
+</form>
+<!--<span class='cu-boulder'><a href="http://www.colorado.edu/earthlab" target="_blank">Earth Lab University of Colorado - Boulder Home </a></span> -->
+</div>
+
+
+<!-- search bar END -->
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://www.earthdatascience.org/"><img src="/images/earth-lab-logo.png" alt="Earth Lab - Earth Data Science" style="height:80%;width:85%"></a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tutorials/">Tutorials</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/courses/">Courses</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/workshops/">Workshops</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tools/">Tools</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/blog/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/about/">About</a></li>
+          
+
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+  <div class="page__hero--overlay" style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.earthdatascience.org/images/header-images/earth-data-analytics-professional-certificate-banner.jpg');">
+  <div class="wrapper">
+        <h1 class="page__title" itemprop="headline">
+          Earth Data Analytics Online Certificate
+        </h1>
+        <p><a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target = "_blank" class="btn btn--light-outline btn--large">Enroll now! Learn more.</a></p>
+  </div>
+</div>
+
+
+
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="breadcrumbs" role="menubar" aria-label="breadcrumbs">
+ <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+ <a href="https://www.earthdatascience.org"></a>
+ 
+ 
+ <!-- there is an offset of 1 so subtract 2 from the final crumb number-->
+ 
+   
+   
+     <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+       <a href="https://www.earthdatascience.org/" itemprop="item"><span itemprop="name">Home</span></a>
+       <meta itemprop="position" content="1" />
+     </li>
+     <span class="sep">/</span>
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/">Courses </a>
+        <meta itemprop="position" content="2" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/earth-analytics/">Earth analytics </a>
+        <meta itemprop="position" content="3" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/">Get data using apis </a>
+        <meta itemprop="position" content="4" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        <li class="current">Twitter Data in R Using Rtweet: Analyze and Download Twitter Data</li>
+    
+  
+</ol>
+</nav>
+
+<!-- from min mistakes -->
+
+
+
+
+  
+
+
+<div id="main" role="main">
+  
+
+
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+    
+    
+
+
+    
+
+    
+     <!--  Might be able to delete this This is the code that populates the side bar navigation if there is a class-->
+      
+
+
+
+
+
+
+
+<!-- make sure we're only grabbing pages for the course -->
+
+
+
+<!--<h3>Week 13 Lessons</h3>-->
+<!-- i don't think the code below is used as modules is defined lower down as well. -->
+
+<!-- This is how modules are sorted on the left hand side bar -->
+
+
+
+
+
+
+<h5><a href="https://www.earthdatascience.org/courses/earth-analytics/" ><i class="fa fa-home" aria-hidden="true"></i> Earth analytics</a></h5>
+
+<!-- Just get the pages from this course -->
+
+
+
+
+
+
+<nav class="nav__list">
+
+
+
+
+
+
+
+<ul>
+  <li><span class="nav__sub-title"><i class="fa fa-book" aria-hidden="true"></i> Units</span>
+   <ul>
+
+       
+
+        
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 1 <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 DOCUMENT YOUR SCIENCE USING R MARKDOWN AND R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/google-earth-time-series/"> 1.1   Use data for science </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/setup-r-rstudio/"> 1.2   Set up R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/about-open-science-and-why-open-science-is-important/"> 1.3   R Markdown Intro </a>
+                                </li>
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 2 <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 INTRO TO R & WORK WITH TIME SERIES DATA</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/write-clean-code-with-r/"> 2.   Clean Code & Getting Help with R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/basic-r-syntax-scientific-programming/"> 2.1   Get to Know R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/date-class-in-r/"> 2.2   Time Series Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 3 <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LIDAR RASTER DATA IN R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/ggmap-basemap/"> 3.   Refine R Markdown Reports with Images and Basemaps </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/lidar-intro/"> 3.1   Intro to Lidar Data </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/open-lidar-raster-r/"> 3.2   Lidar Raster Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 4 <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 SPATIAL DATA IN R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/intro-vector-data-r/"> 4.   Spatial Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/r-create-custom-legend-with-base-plot/"> 4.2   Custom Maps in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 5 <a href="https://www.earthdatascience.org/courses/earth-analytics/remote-sensing-uncertainty/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LIDAR DATA IN R - REMOTE SENSING UNCERTAINTY</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/remote-sensing-uncertainty/about-uncertainty-lidar/"> 5.   Uncertainty in Scientific Data & Metadata  </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 6 <a href="https://www.earthdatascience.org/courses/earth-analytics/automate-science-workflows/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FUNCTIONS & AUTOMATION</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/automate-science-workflows/write-efficient-code-for-science-r/"> 6.   Efficient Programming Using Functions </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 7 <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MULTISPECTRAL IMAGERY R - NAIP, LANDSAT, FIRE & REMOTE SENSING</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/introduction-multispectral-imagery-r/"> 7.   Fire / Spectral Remote Sensing Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/source-function-in-R/"> 7.2   Source Functions in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 8 <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 QUANTIFY FIRE IMPACTS - REMOTE SENSING</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/intro-spectral-data-r/"> 8.1   Fire / spectral remote sensing data - in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/add-variables-to-rmarkdown-report/"> 8.2   Refine Rmarkdown Reports </a>
+                                </li>
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 9 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-9/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 STUDY FIRE USING REMOTE SENSING DATA</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 10 <a href="https://www.earthdatascience.org/courses/earth-analytics/communicate-your-science/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MIDTERM REVIEW / PRESENTATION BEST PRACTICES</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 11 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-11/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MIDTERM PRESENTATIONS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 12 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-12/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FALL BREAK: NO CLASS!</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+                
+                    <li class='active-section'> <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/"><i class="fa fa-folder-open" aria-hidden="true"></i>
+                     13. PROGRAMMATIC DATA ACCESS</a></li>
+
+            
+
+<div class='active-menu'>
+      <ul>
+        
+        <!-- Note that class-order allows you to sort modules by class order if there are more than 1 in a class -->
+        
+
+        
+
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   13.1 Twitter apis  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-social-media-text-mining-r/><!--13.1 --> - Twitter data for Science</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/use-twitter-api-r/ class='active'> <!--13.2 -->- Get Tweets - Twitter API</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/text-mining-twitter-data-intro-r/><!--13.3 --> - Twitter Data Text Mining</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/text-mine-colorado-flood-tweets-science-r/><!--13.4 --> - Text Mine CO Flood Tweets</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/map-tweet-locations-over-time-r/><!--13.5 --> - Map Tweet Locations</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/sentiment-analysis-of-twitter-data-r/><!--13.6 --> - Sentiment Analysis</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+
+        
+       </ul>
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   13.2 Apis  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-programmatic-data-access-r/><!--13.1 --> - API Intro</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/get-data-with-rcurl-r/><!--13.2 --> - Intro to RCurl</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/access-gapminder-data-rcurl-r/><!--13.3 --> - Get Data From Github</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-JSON/><!--13.4 --> - Into to JSON</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/API-data-access-r/><!--13.5 --> - Get JSON Data via RESTful API</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/namespaces-in-r/><!--13.6 --> - Namespaces in R</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/co-water-data-spatial-r/><!--13.7 --> - Geospatial Data From APIs</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/leaflet-r/><!--13.8 --> - Interactive Maps with Leaflet </a></li>
+          
+          
+
+        
+       </ul>
+        
+
+        
+      </ul>
+
+      <!-- BEGIN Learn how to lessons -->
+       <ul>
+         
+         
+       </ul>
+
+
+     </div>
+
+
+      <!-- END BEGIN Learn how to lessons -->
+
+      <!--  -->
+      
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 14 <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-final-projects/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FINAL PROJECTS & COURSE FEEDBACK DISCUSSION</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 15 <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-final-week/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LAST CLASS: FINAL PROJECT PRESENTATIONS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+  </ul></li>
+ </ul>
+
+
+ <ul>
+   <li><span class="nav__sub-title"><i class="fa fa-folder-open" aria-hidden="true"></i> Overview</span>
+    <ul>
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/">
+           Course Home Page </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-syllabus/">
+           Course Syllabus </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/mid-term/">
+           Midterm Project </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/final-project/">
+           Final Project </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/data-sources/">
+           Data Source List </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/search-course-lessons/">
+           Search Course Lessons </a></li>
+         
+
+     
+   </ul>
+ </li>
+</ul>
+</nav>
+
+<h5><a href="https://www.earthdatascience.org/courses/earth-analytics/" ><i class="fa fa-home" aria-hidden="true"></i> earth-analytics Home</a></h5>
+
+    
+
+    
+
+  
+  </div>
+
+
+
+
+
+
+<!-- begin science / science themes side bar nav -->
+
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+
+    <meta itemprop="headline" content="Twitter Data in R Using Rtweet: Analyze and Download Twitter Data">
+    <meta itemprop="description" content="You can use the Twitter RESTful API to access data about Twitter users and tweets. Learn how to use rtweet to download and analyze twitter social media data in R.">
+    <meta itemprop="datePublished" content="April 19, 2017">
+    <meta itemprop="dateModified" content="March 13, 2020">
+
+    <div class="page__inner-wrap">
+        <header>
+          
+
+          <!-- BEGIN: insert a welcome to the module block on pages that are part of a module set -->
+
+          <!-- END: insert welcome block -->
+
+          
+              
+
+            
+                <h1 class="page__title" itemprop="headline">
+                Lesson 2. 
+                 Twitter Data in R Using Rtweet: Analyze and Download Twitter Data
+
+                
+                </h1>
+            
+
+          
+
+          
+            <div class="page__meta">
+              
+              
+              <a href="https://www.earthdatascience.org/authors/leah-wasser">Leah Wasser</a>, 
+              
+              
+              <a href="https://www.earthdatascience.org/authors/carson-farmer">Carson Farmer</a>
+              
+            </div>
+          
+
+            <br/>
+
+            
+
+              
+            
+
+            <!-- For tools pages add authors and tool title -->
+
+            
+        </header>
+
+
+
+      <section class="page__content" itemprop="text">
+
+        <!-- would like to include the TOC automatically but this does weird things-->
+        
+          
+            <aside class="sidebar__right">
+<nav class="toc">
+    <header><h4 class="nav__title"><i class="fa fa-file-text"></i> In This Lesson</h4></header>
+<ul class="toc__menu" id="markdown-toc">
+  <li><a href="#learning-objectives" id="markdown-toc-learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</a></li>
+  <li><a href="#what-you-need" id="markdown-toc-what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What You Need</a></li>
+  <li><a href="#getting-started" id="markdown-toc-getting-started">Getting Started</a></li>
+  <li><a href="#set-up-twitter-app" id="markdown-toc-set-up-twitter-app">Set up Twitter App</a></li>
+  <li><a href="#twitter-in-r" id="markdown-toc-twitter-in-r">Twitter in R</a></li>
+  <li><a href="#retweets" id="markdown-toc-retweets">Retweets</a></li>
+  <li><a href="#optional-challenge" id="markdown-toc-optional-challenge"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge</a></li>
+  <li><a href="#data-munging--101" id="markdown-toc-data-munging--101">Data munging  101</a></li>
+  <li><a href="#additional-resources" id="markdown-toc-additional-resources">Additional Resources</a></li>
+</ul>
+
+  </nav>
+</aside>
+
+<div class="notice--success">
+
+  <h2 id="learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</h2>
+
+  <p>After completing this tutorial, you will be able to:</p>
+
+  <ul>
+    <li>Query the twitter RESTful API to access and import into <code class="language-plaintext highlighter-rouge">R</code> tweets that contain various text strings.</li>
+    <li>Generate a list of users who are tweeting about a particular topic.</li>
+  </ul>
+
+  <h2 id="what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What You Need</h2>
+
+  <p>You will need a computer with internet access to complete this lesson.</p>
+
+</div>
+
+<p>In this lesson you will explore analyzing social media data accessed from twitter,
+in R. You  will use the Twitter RESTful API to access data about both twitter users
+and what they are tweeting about</p>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<p>To get started you’ll need to do the following things:</p>
+
+<ol>
+  <li>Set up a twitter account if you don’t have one already.</li>
+  <li>Using your account, setup an application that you will use to access twitter from R</li>
+  <li>Download and install the <code class="language-plaintext highlighter-rouge">rtweet</code> and <code class="language-plaintext highlighter-rouge">tidytext</code> packages for R.</li>
+</ol>
+
+<p>Once you’ve done these things, you are ready to begin querying Twitter’s API to
+see what you can learn about tweets!</p>
+
+<h2 id="set-up-twitter-app">Set up Twitter App</h2>
+
+<p>Let’s start by setting up an application in twitter that you can use to access
+tweets. To setup your app, follow the documentation from <code class="language-plaintext highlighter-rouge">rtweet</code> here:</p>
+
+<p><a href="https://cran.r-project.org/web/packages/rtweet/vignettes/auth.html" target="_blank"><i class="fa fa-info-circle" aria-hidden="true"></i>
+ TUTORIAL: How to setup a twitter application using your twitter account</a></p>
+
+<p>NOTE: you will need to provide your cell phone number to twitter to verify your
+use of the API.</p>
+
+<figure>
+
+<img src="https://www.earthdatascience.org/images/courses/earth-analytics/week-12/boulder_twitter_map_visualizations.jpg" alt="image showing tweet activity across boulder and denver." />
+
+<figcaption>A heat map of the distribution of tweets across the Denver / Boulder region <a href="http://www.socialmatt.com/amazing-denver-twitter-visualization/" target="_blank">source: socialmatt.com</a></figcaption>
+</figure>
+
+<h2 id="twitter-in-r">Twitter in R</h2>
+
+<p>Once you have your twitter app setup, you are ready to dive into accessing tweets in <code class="language-plaintext highlighter-rouge">R</code>.</p>
+
+<p>You  will use the <code class="language-plaintext highlighter-rouge">rtweet</code> package to do this.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># load twitter library - the rtweet library is recommended now over twitteR</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">rtweet</span><span class="p">)</span><span class="w">
+</span><span class="c1"># plotting and pipes - tidyverse!</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="c1"># text mining library</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidytext</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The first thing that you need to setup in your code is your authentication. When
+you set up your app, it provides you with 3 unique identification elements:</p>
+
+<ol>
+  <li>appnam</li>
+  <li>key</li>
+  <li>secret</li>
+</ol>
+
+<p>These keys are located in your twitter app settings in the <code class="language-plaintext highlighter-rouge">Keys and Access
+Tokens</code> tab. You will need to copy those into your code as i did below replacing the filler
+text that I used in this lesson for the text that twitter gives you in your app.</p>
+
+<p>Next, you need to pass a suite of keys to the API.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># whatever name you assigned to your created app</span><span class="w">
+</span><span class="n">appname</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"your-app-name"</span><span class="w">
+
+</span><span class="c1">## api key (example below is not a real key)</span><span class="w">
+</span><span class="n">key</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"yourLongApiKeyHere"</span><span class="w">
+
+</span><span class="c1">## api secret (example below is not a real key)</span><span class="w">
+</span><span class="n">secret</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"yourSecretKeyHere"</span><span class="w">
+
+</span></code></pre></div></div>
+
+<p>Finally, you can create a token that authenticates access to tweets!
+Note that the authentication process below will open a window in your browser.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># create token named "twitter_token"</span><span class="w">
+</span><span class="n">twitter_token</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">create_token</span><span class="p">(</span><span class="w">
+  </span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">appname</span><span class="p">,</span><span class="w">
+  </span><span class="n">consumer_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w">
+  </span><span class="n">consumer_secret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">secret</span><span class="p">,</span><span class="w">
+  </span><span class="n">access_token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">access_token</span><span class="p">,</span><span class="w">
+  </span><span class="n">access_secret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">access_secret</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>If authentication is successful works, it should render the following message in
+a browser window:</p>
+
+<p><code class="language-plaintext highlighter-rouge">Authentication complete. Please close this page and return to R.</code></p>
+
+<h3 id="send-a-tweet">Send a Tweet</h3>
+
+<p>Note that your tweet needs to be 140 characters or less.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># post a tweet from R</span><span class="w">
+</span><span class="n">post_tweet</span><span class="p">(</span><span class="s2">"Look, i'm tweeting from R in my #rstats #earthanalytics class! @EarthLabCU"</span><span class="p">)</span><span class="w">
+</span><span class="c1">## your tweet has been posted!</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="search-twitter-for-tweets">Search Twitter for Tweets</h3>
+
+<p>Now you are ready to search twitter for recent tweets! Let’s start by finding all
+tweets that use the <code class="language-plaintext highlighter-rouge">#rstats</code> hashtag. Notice below you use the <code class="language-plaintext highlighter-rouge">rtweet::search_tweets()</code>
+function to search. <code class="language-plaintext highlighter-rouge">search_tweets()</code> requires the following arguments:</p>
+
+<ol>
+  <li><strong>q:</strong> the query word that you want to look for</li>
+  <li><strong>n:</strong> the number of tweets that you want returned. You can request up to a
+maximum of 18,000 tweets.</li>
+</ol>
+
+<p>To see what other arguments you can use with this function, use the <code class="language-plaintext highlighter-rouge">R</code> help:</p>
+
+<p><code class="language-plaintext highlighter-rouge">?search_tweets</code></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## search for 500 tweets using the #rstats hashtag</span><span class="w">
+</span><span class="n">rstats_tweets</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">search_tweets</span><span class="p">(</span><span class="n">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#rstats"</span><span class="p">,</span><span class="w">
+                               </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">500</span><span class="p">)</span><span class="w">
+</span><span class="c1"># view the first 3 rows of the dataframe</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">rstats_tweets</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w">
+</span><span class="c1">## # A tibble: 3 x 90</span><span class="w">
+</span><span class="c1">##   user_id status_id created_at          screen_name text  source</span><span class="w">
+</span><span class="c1">##   &lt;chr&gt;   &lt;chr&gt;     &lt;dttm&gt;              &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; </span><span class="w">
+</span><span class="c1">## 1 955709… 12386007… 2020-03-13 23:00:00 WebSecurit… "A B… Post …</span><span class="w">
+</span><span class="c1">## 2 856798… 12386006… 2020-03-13 22:59:45 calexandru… "A B… Twitt…</span><span class="w">
+</span><span class="c1">## 3 433559… 12386000… 2020-03-13 22:57:15 tangming20… "com… Twitt…</span><span class="w">
+</span><span class="c1">## # … with 84 more variables: display_text_width &lt;dbl&gt;, reply_to_status_id &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   reply_to_user_id &lt;chr&gt;, reply_to_screen_name &lt;chr&gt;, is_quote &lt;lgl&gt;,</span><span class="w">
+</span><span class="c1">## #   is_retweet &lt;lgl&gt;, favorite_count &lt;int&gt;, retweet_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   quote_count &lt;int&gt;, reply_count &lt;int&gt;, hashtags &lt;list&gt;, symbols &lt;list&gt;,</span><span class="w">
+</span><span class="c1">## #   urls_url &lt;list&gt;, urls_t.co &lt;list&gt;, urls_expanded_url &lt;list&gt;,</span><span class="w">
+</span><span class="c1">## #   media_url &lt;list&gt;, media_t.co &lt;list&gt;, media_expanded_url &lt;list&gt;,</span><span class="w">
+</span><span class="c1">## #   media_type &lt;list&gt;, ext_media_url &lt;list&gt;, ext_media_t.co &lt;list&gt;,</span><span class="w">
+</span><span class="c1">## #   ext_media_expanded_url &lt;list&gt;, ext_media_type &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   mentions_user_id &lt;list&gt;, mentions_screen_name &lt;list&gt;, lang &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_status_id &lt;chr&gt;, quoted_text &lt;chr&gt;, quoted_created_at &lt;dttm&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_source &lt;chr&gt;, quoted_favorite_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_retweet_count &lt;int&gt;, quoted_user_id &lt;chr&gt;, quoted_screen_name &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_name &lt;chr&gt;, quoted_followers_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_friends_count &lt;int&gt;, quoted_statuses_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_location &lt;chr&gt;, quoted_description &lt;chr&gt;, quoted_verified &lt;lgl&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_status_id &lt;chr&gt;, retweet_text &lt;chr&gt;, retweet_created_at &lt;dttm&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_source &lt;chr&gt;, retweet_favorite_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_retweet_count &lt;int&gt;, retweet_user_id &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_screen_name &lt;chr&gt;, retweet_name &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_followers_count &lt;int&gt;, retweet_friends_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_statuses_count &lt;int&gt;, retweet_location &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_description &lt;chr&gt;, retweet_verified &lt;lgl&gt;, place_url &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   place_name &lt;chr&gt;, place_full_name &lt;chr&gt;, place_type &lt;chr&gt;, country &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   country_code &lt;chr&gt;, geo_coords &lt;list&gt;, coords_coords &lt;list&gt;,</span><span class="w">
+</span><span class="c1">## #   bbox_coords &lt;list&gt;, status_url &lt;chr&gt;, name &lt;chr&gt;, location &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   description &lt;chr&gt;, url &lt;chr&gt;, protected &lt;lgl&gt;, followers_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   friends_count &lt;int&gt;, listed_count &lt;int&gt;, statuses_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   favourites_count &lt;int&gt;, account_created_at &lt;dttm&gt;, verified &lt;lgl&gt;,</span><span class="w">
+</span><span class="c1">## #   profile_url &lt;chr&gt;, profile_expanded_url &lt;chr&gt;, account_lang &lt;lgl&gt;,</span><span class="w">
+</span><span class="c1">## #   profile_banner_url &lt;chr&gt;, profile_background_url &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   profile_image_url &lt;chr&gt;</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="retweets">Retweets</h2>
+
+<p>A retweet is when you or someone else shares someone elses tweet so your / their
+followers can see it. It is similar to sharing in Facebook where you can add a
+quote or text above the retweet if you want or just share the post. Let’s use
+the same query that you used above but this time ignore all retweets by setting
+the <code class="language-plaintext highlighter-rouge">include_rts</code> argument to <code class="language-plaintext highlighter-rouge">FALSE</code>. You can get tweet / retweet stats from
+your dataframe, separately.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># find recent tweets with #rstats but ignore retweets</span><span class="w">
+</span><span class="n">rstats_tweets</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">search_tweets</span><span class="p">(</span><span class="s2">"#rstats"</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">500</span><span class="p">,</span><span class="w">
+                             </span><span class="n">include_rts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span><span class="c1"># view top 2 rows of data</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">rstats_tweets</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+</span><span class="c1">## # A tibble: 2 x 90</span><span class="w">
+</span><span class="c1">##   user_id status_id created_at          screen_name text  source</span><span class="w">
+</span><span class="c1">##   &lt;chr&gt;   &lt;chr&gt;     &lt;dttm&gt;              &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; </span><span class="w">
+</span><span class="c1">## 1 433559… 12386000… 2020-03-13 22:57:15 tangming20… comm… Twitt…</span><span class="w">
+</span><span class="c1">## 2 433559… 12384858… 2020-03-13 15:23:31 tangming20… use … Twitt…</span><span class="w">
+</span><span class="c1">## # … with 84 more variables: display_text_width &lt;dbl&gt;, reply_to_status_id &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   reply_to_user_id &lt;chr&gt;, reply_to_screen_name &lt;chr&gt;, is_quote &lt;lgl&gt;,</span><span class="w">
+</span><span class="c1">## #   is_retweet &lt;lgl&gt;, favorite_count &lt;int&gt;, retweet_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   quote_count &lt;int&gt;, reply_count &lt;int&gt;, hashtags &lt;list&gt;, symbols &lt;list&gt;,</span><span class="w">
+</span><span class="c1">## #   urls_url &lt;list&gt;, urls_t.co &lt;list&gt;, urls_expanded_url &lt;list&gt;,</span><span class="w">
+</span><span class="c1">## #   media_url &lt;list&gt;, media_t.co &lt;list&gt;, media_expanded_url &lt;list&gt;,</span><span class="w">
+</span><span class="c1">## #   media_type &lt;list&gt;, ext_media_url &lt;list&gt;, ext_media_t.co &lt;list&gt;,</span><span class="w">
+</span><span class="c1">## #   ext_media_expanded_url &lt;list&gt;, ext_media_type &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   mentions_user_id &lt;list&gt;, mentions_screen_name &lt;list&gt;, lang &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_status_id &lt;chr&gt;, quoted_text &lt;chr&gt;, quoted_created_at &lt;dttm&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_source &lt;chr&gt;, quoted_favorite_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_retweet_count &lt;int&gt;, quoted_user_id &lt;chr&gt;, quoted_screen_name &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_name &lt;chr&gt;, quoted_followers_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_friends_count &lt;int&gt;, quoted_statuses_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_location &lt;chr&gt;, quoted_description &lt;chr&gt;, quoted_verified &lt;lgl&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_status_id &lt;chr&gt;, retweet_text &lt;chr&gt;, retweet_created_at &lt;dttm&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_source &lt;chr&gt;, retweet_favorite_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_retweet_count &lt;int&gt;, retweet_user_id &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_screen_name &lt;chr&gt;, retweet_name &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_followers_count &lt;int&gt;, retweet_friends_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_statuses_count &lt;int&gt;, retweet_location &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_description &lt;chr&gt;, retweet_verified &lt;lgl&gt;, place_url &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   place_name &lt;chr&gt;, place_full_name &lt;chr&gt;, place_type &lt;chr&gt;, country &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   country_code &lt;chr&gt;, geo_coords &lt;list&gt;, coords_coords &lt;list&gt;,</span><span class="w">
+</span><span class="c1">## #   bbox_coords &lt;list&gt;, status_url &lt;chr&gt;, name &lt;chr&gt;, location &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   description &lt;chr&gt;, url &lt;chr&gt;, protected &lt;lgl&gt;, followers_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   friends_count &lt;int&gt;, listed_count &lt;int&gt;, statuses_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   favourites_count &lt;int&gt;, account_created_at &lt;dttm&gt;, verified &lt;lgl&gt;,</span><span class="w">
+</span><span class="c1">## #   profile_url &lt;chr&gt;, profile_expanded_url &lt;chr&gt;, account_lang &lt;lgl&gt;,</span><span class="w">
+</span><span class="c1">## #   profile_banner_url &lt;chr&gt;, profile_background_url &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   profile_image_url &lt;chr&gt;</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Next, let’s figure out who is tweeting about <code class="language-plaintext highlighter-rouge">R</code> using the <code class="language-plaintext highlighter-rouge">#rstats</code> hashtag.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># view column with screen names - top 6</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">rstats_tweets</span><span class="o">$</span><span class="n">screen_name</span><span class="p">)</span><span class="w">
+</span><span class="c1">## [1] "tangming2005"   "tangming2005"   "noah_greifer"   "yoniceedee"    </span><span class="w">
+</span><span class="c1">## [5] "yoniceedee"     "peterlovesdata"</span><span class="w">
+</span><span class="c1"># get a list of unique usernames</span><span class="w">
+</span><span class="n">unique</span><span class="p">(</span><span class="n">rstats_tweets</span><span class="o">$</span><span class="n">screen_name</span><span class="p">)</span><span class="w">
+</span><span class="c1">##   [1] "tangming2005"    "noah_greifer"    "yoniceedee"      "peterlovesdata" </span><span class="w">
+</span><span class="c1">##   [5] "tidyversetweets" "lauriejhopkins"  "denis_mongin"    "chig4_"         </span><span class="w">
+</span><span class="c1">##   [9] "Rbloggers"       "marcdotson"      "BenjaminWolfe"   "CRANberriesFeed"</span><span class="w">
+</span><span class="c1">##  [13] "albury_alex"     "AnnoDomaini"     "SaraDWms"        "asmae_toumi"    </span><span class="w">
+</span><span class="c1">##  [17] "icymi_r"         "gp_pulipaka"     "TuQmano"         "tdawry"         </span><span class="w">
+</span><span class="c1">##  [21] "curso_r"         "JosetAEtzel"     "markvdloo"       "thomasp85"      </span><span class="w">
+</span><span class="c1">##  [25] "mdsumner"        "jdblischak"      "rOpenSci"        "thmscwlls"      </span><span class="w">
+</span><span class="c1">##  [29] "xvaca"           "c_mues"          "nmorstanlee"     "PHExaminer"     </span><span class="w">
+</span><span class="c1">##  [33] "ophiryotam"      "Aaron_Horowitz"  "Jake_Lawlor1"    "PyData"         </span><span class="w">
+</span><span class="c1">##  [37] "Elliot_Meador"   "jp_gannon"       "AnthonyBouc974"  "drob"           </span><span class="w">
+</span><span class="c1">##  [41] "ericpgreen"      "library_pirate"  "sharon000"       "DerFredo"       </span><span class="w">
+</span><span class="c1">##  [45] "precariobecario" "michelnivard"    "rstatsdata"      "ChelseaParlett" </span><span class="w">
+</span><span class="c1">##  [49] "clinarmo"        "CedScherer"      "erum2020_conf"   "dp_moriarity"   </span><span class="w">
+</span><span class="c1">##  [53] "geokaramanis"    "grrrck"          "worldbankdata"   "JulienGorintin" </span><span class="w">
+</span><span class="c1">##  [57] "kdpsinghlab"     "MRHelmus"        "iamalexchisholm" "LizRoten"       </span><span class="w">
+</span><span class="c1">##  [61] "R4DScommunity"   "seandavis12"     "dgkeyes"         "VictimOfMaths"  </span><span class="w">
+</span><span class="c1">##  [65] "jmcastagnetto"   "stuwillmurray"   "UrsWilke"        "aschinchon"     </span><span class="w">
+</span><span class="c1">##  [69] "jp_hydro"        "jakekaupp"       "arianneyka"      "RobinWilhelmus" </span><span class="w">
+</span><span class="c1">##  [73] "RBarMUN"         "southmapr"       "patri_vaquero_"  "RobertFrey40"   </span><span class="w">
+</span><span class="c1">##  [77] "TKRspatial"      "dlmillimet"      "Adam_C_Garber"   "CorradoLanera"  </span><span class="w">
+</span><span class="c1">##  [81] "ChrisKla47"      "ucfagls"         "BuzzTechy"       "cameratraps1"   </span><span class="w">
+</span><span class="c1">##  [85] "RLangTip"        "OesUnr"          "marcelotournier" "eliasdabbas"    </span><span class="w">
+</span><span class="c1">##  [89] "EduardoGCCM"     "nubededatos"     "_joecha_"        "sckottie"       </span><span class="w">
+</span><span class="c1">##  [93] "jacklich10"      "appsilon"        "divadnojnarg"    "haro_ca_"       </span><span class="w">
+</span><span class="c1">##  [97] "davsjob"         "stephlabou"      "fasiolo1985"     "rzembo"         </span><span class="w">
+</span><span class="c1">## [101] "dokatox"         "Millymakandi"    "brodriguesco"    "kjhealy"        </span><span class="w">
+</span><span class="c1">## [105] "NewCoupon2"      "eddelbuettel"    "kdgorospe"       "heymatthenry"   </span><span class="w">
+</span><span class="c1">## [109] "EdKwedar"        "livingwithdata"  "milanwiedemann"  "allhoff_joachim"</span><span class="w">
+</span><span class="c1">## [113] "IBKRQuant"       "stevenvmiller"   "andrewheiss"     "gorkang"        </span><span class="w">
+</span><span class="c1">## [117] "climbertobby"    "markhw_"         "DLNarango"       "Trifenol"       </span><span class="w">
+</span><span class="c1">## [121] "Julian_H0ffmann" "ckauebraga"      "tylermorganwall" "MadhanAlisha"   </span><span class="w">
+</span><span class="c1">## [125] "gztstatistics"   "mercuriusio"     "mrbadmus10"      "CancuCS"        </span><span class="w">
+</span><span class="c1">## [129] "Primary_Immune"  "Scar_Data"       "GarmireGroup"    "gradientmetrics"</span><span class="w">
+</span><span class="c1">## [133] "AbyssalDive"     "NumFOCUS"        "dr_keithmcnulty" "SaridResearch"  </span><span class="w">
+</span><span class="c1">## [137] "headhunterchron" "noatamir"        "pgshky"          "rachelmalkani"  </span><span class="w">
+</span><span class="c1">## [141] "oranwutan"       "ChRauh"          "olyerickson"     "NalimR"         </span><span class="w">
+</span><span class="c1">## [145] "Physacourses"    "KkKestutis"      "jessenleon"      "heyitsmehugo"   </span><span class="w">
+</span><span class="c1">## [149] "JasonWilliamsNY" "mauro_lepore"    "abilash_cherian" "DrTokami"       </span><span class="w">
+</span><span class="c1">## [153] "LocalisJoe"      "noramvillanueva" "emvolpi"         "RLangPackage"   </span><span class="w">
+</span><span class="c1">## [157] "jimmyczech"      "milos_agathon"   "1littlecoder"    "kamromero"      </span><span class="w">
+</span><span class="c1">## [161] "R_Hisp"          "CraigHarper19"   "BiochemSoc"      "mixOmics_team"  </span><span class="w">
+</span><span class="c1">## [165] "lefkiospaik"     "richard_glennie" "MVaugoyeau"      "rweekly_live"   </span><span class="w">
+</span><span class="c1">## [169] "WitJakuczun"     "amc_corporation" "zx8754"          "lapply"         </span><span class="w">
+</span><span class="c1">## [173] "chrisderv"       "JeanneauAmelie"  "zoowalk"         "Marie_Etienne"  </span><span class="w">
+</span><span class="c1">## [177] "k_lauper"        "gregrs_uk"       "dmi3k"           "michael_chirico"</span><span class="w">
+</span><span class="c1">## [181] "erbiostat"       "strengejacke"    "roberto_boberto" "Guru_GyanKhoji" </span><span class="w">
+</span><span class="c1">## [185] "pjs_228"         "SOHotQuestions"  "Hung_TT_Nguyen"  "EmRstats"       </span><span class="w">
+</span><span class="c1">## [189] "_davecooley"     "edmundneil"      "Human_x"         "PatriceGodard"  </span><span class="w">
+</span><span class="c1">## [193] "datawookie"      "ClausWilke"      "kestert"         "SuperCroup"     </span><span class="w">
+</span><span class="c1">## [197] "cfcoverdale"     "MattCowgill"     "_jameslamb"      "lmhallett"      </span><span class="w">
+</span><span class="c1">## [201] "NickYarmey"      "stringfestdata"  "abmathewks"      "KirkDBorne"     </span><span class="w">
+</span><span class="c1">## [205] "AeRO_eResearch"  "daily_r_sheets"  "GrayAnalyst"     "CourseGift"     </span><span class="w">
+</span><span class="c1">## [209] "seanmhoban"      "weverkaj"        "kylefbutts"      "numeroteca"     </span><span class="w">
+</span><span class="c1">## [213] "darokun"         "infj_ingrid"     "RLadiesBrisbane" "gringene_bio"   </span><span class="w">
+</span><span class="c1">## [217] "KWittfogel"      "malco_barrett"   "la_Rusers"       "znmeb"          </span><span class="w">
+</span><span class="c1">## [221] "EvaMaeRey"       "jcrichardson617" "microbeEcology"  "myMLjournal"    </span><span class="w">
+</span><span class="c1">## [225] "kiernxn"         "udansk"          "richelletanner"  "heyhilaryizatt" </span><span class="w">
+</span><span class="c1">## [229] "_ColinFay"       "EarlGlynn"       "omarwagih"       "martinasladek"  </span><span class="w">
+</span><span class="c1">## [233] "MatthewSmith786" "Sumidu"          "YaNiPaper"       "LearnRinaDay"   </span><span class="w">
+</span><span class="c1">## [237] "felipeduque1986" "CodyArlie"       "ODR_Psy"         "adr"            </span><span class="w">
+</span><span class="c1">## [241] "arielbeccia"     "Tall_Viking"     "jamesconigrave"  "IgnaceLab"      </span><span class="w">
+</span><span class="c1">## [245] "kmpanthagani"    "PPetersonSC"     "PsiChiHonor"     "felipe_mattioni"</span><span class="w">
+</span><span class="c1">## [249] "SorenWilke"      "PipingHotData"   "patilindrajeets" "sussenglish"    </span><span class="w">
+</span><span class="c1">## [253] "nyhackr"         "LanderAnalytics" "rstatsnyc"       "MyKo101AB"      </span><span class="w">
+</span><span class="c1">## [257] "TazPoltorak"     "mueller89_r"     "committedtotape" "DataSciRookie"  </span><span class="w">
+</span><span class="c1">## [261] "marcus_volz"</span><span class="w">
+</span></code></pre></div></div>
+
+<p>You  can similarly use the <code class="language-plaintext highlighter-rouge">search_users()</code> function to just see what users are tweeting
+using a particular hashtag. This function returns just a data.frame of the users
+and information about their accounts.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># what users are tweeting with #rstats</span><span class="w">
+</span><span class="n">users</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">search_users</span><span class="p">(</span><span class="s2">"#rstats"</span><span class="p">,</span><span class="w">
+                      </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">500</span><span class="p">)</span><span class="w">
+</span><span class="c1"># just view the first 2 users - the data frame is large!</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">users</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+</span><span class="c1">## # A tibble: 2 x 90</span><span class="w">
+</span><span class="c1">##   user_id status_id created_at          screen_name text  source</span><span class="w">
+</span><span class="c1">##   &lt;chr&gt;   &lt;chr&gt;     &lt;dttm&gt;              &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; </span><span class="w">
+</span><span class="c1">## 1 961691… 12385084… 2020-03-13 16:53:30 FC_rstats   Stat… Twitt…</span><span class="w">
+</span><span class="c1">## 2 101181… 12385987… 2020-03-13 22:52:12 rstatstweet Toda… rstat…</span><span class="w">
+</span><span class="c1">## # … with 84 more variables: display_text_width &lt;dbl&gt;, reply_to_status_id &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   reply_to_user_id &lt;chr&gt;, reply_to_screen_name &lt;chr&gt;, is_quote &lt;lgl&gt;,</span><span class="w">
+</span><span class="c1">## #   is_retweet &lt;lgl&gt;, favorite_count &lt;int&gt;, retweet_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   quote_count &lt;int&gt;, reply_count &lt;int&gt;, hashtags &lt;list&gt;, symbols &lt;list&gt;,</span><span class="w">
+</span><span class="c1">## #   urls_url &lt;list&gt;, urls_t.co &lt;list&gt;, urls_expanded_url &lt;list&gt;,</span><span class="w">
+</span><span class="c1">## #   media_url &lt;list&gt;, media_t.co &lt;list&gt;, media_expanded_url &lt;list&gt;,</span><span class="w">
+</span><span class="c1">## #   media_type &lt;list&gt;, ext_media_url &lt;list&gt;, ext_media_t.co &lt;list&gt;,</span><span class="w">
+</span><span class="c1">## #   ext_media_expanded_url &lt;list&gt;, ext_media_type &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   mentions_user_id &lt;list&gt;, mentions_screen_name &lt;list&gt;, lang &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_status_id &lt;chr&gt;, quoted_text &lt;chr&gt;, quoted_created_at &lt;dttm&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_source &lt;chr&gt;, quoted_favorite_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_retweet_count &lt;int&gt;, quoted_user_id &lt;chr&gt;, quoted_screen_name &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_name &lt;chr&gt;, quoted_followers_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_friends_count &lt;int&gt;, quoted_statuses_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   quoted_location &lt;chr&gt;, quoted_description &lt;chr&gt;, quoted_verified &lt;lgl&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_status_id &lt;chr&gt;, retweet_text &lt;chr&gt;, retweet_created_at &lt;dttm&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_source &lt;chr&gt;, retweet_favorite_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_retweet_count &lt;int&gt;, retweet_user_id &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_screen_name &lt;chr&gt;, retweet_name &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_followers_count &lt;int&gt;, retweet_friends_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_statuses_count &lt;int&gt;, retweet_location &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   retweet_description &lt;chr&gt;, retweet_verified &lt;lgl&gt;, place_url &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   place_name &lt;chr&gt;, place_full_name &lt;chr&gt;, place_type &lt;chr&gt;, country &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   country_code &lt;chr&gt;, geo_coords &lt;list&gt;, coords_coords &lt;list&gt;,</span><span class="w">
+</span><span class="c1">## #   bbox_coords &lt;list&gt;, status_url &lt;chr&gt;, name &lt;chr&gt;, location &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   description &lt;chr&gt;, url &lt;chr&gt;, protected &lt;lgl&gt;, followers_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   friends_count &lt;int&gt;, listed_count &lt;int&gt;, statuses_count &lt;int&gt;,</span><span class="w">
+</span><span class="c1">## #   favourites_count &lt;int&gt;, account_created_at &lt;dttm&gt;, verified &lt;lgl&gt;,</span><span class="w">
+</span><span class="c1">## #   profile_url &lt;chr&gt;, profile_expanded_url &lt;chr&gt;, account_lang &lt;lgl&gt;,</span><span class="w">
+</span><span class="c1">## #   profile_banner_url &lt;chr&gt;, profile_background_url &lt;chr&gt;,</span><span class="w">
+</span><span class="c1">## #   profile_image_url &lt;chr&gt;</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Let’s learn a bit more about these people tweeting about <code class="language-plaintext highlighter-rouge">R</code>. First, where are
+they from?</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># how many locations are represented</span><span class="w">
+</span><span class="nf">length</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">users</span><span class="o">$</span><span class="n">location</span><span class="p">))</span><span class="w">
+</span><span class="c1">## [1] 299</span><span class="w">
+
+</span><span class="n">users</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">location</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_bar</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">coord_flip</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Count"</span><span class="p">,</span><span class="w">
+      </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Location"</span><span class="p">,</span><span class="w">
+      </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Twitter users - unique locations "</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/13-programmatic-data-access/in-class/2017-04-19-social-media-02-use-r-twitter-api/explore-users-1.png" title="plot of users tweeting about R" alt="plot of users tweeting about R" width="90%" /></p>
+
+<p>Let’s sort by count and just plot the top locations. To do this, you use top_n().
+Note that in this case you are grouping your data by user. Thus top_n() will return
+locations with atleast 15 users associated with it.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">users</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">count</span><span class="p">(</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reorder</span><span class="p">(</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">top_n</span><span class="p">(</span><span class="m">20</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Count"</span><span class="p">,</span><span class="w">
+      </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Location"</span><span class="p">,</span><span class="w">
+      </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Where Twitter users are from - unique locations "</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/13-programmatic-data-access/in-class/2017-04-19-social-media-02-use-r-twitter-api/users-tweeting-1.png" title="top 15 locations where people are tweeting" alt="top 15 locations where people are tweeting" width="90%" /></p>
+
+<p>It looks like you have some <code class="language-plaintext highlighter-rouge">NA</code> or no data values in your list. Let’s remove those
+with <code class="language-plaintext highlighter-rouge">na.omit()</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">users</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">count</span><span class="p">(</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reorder</span><span class="p">(</span><span class="n">location</span><span class="p">,</span><span class="n">n</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">na.omit</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">top_n</span><span class="p">(</span><span class="m">20</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_flip</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Location"</span><span class="p">,</span><span class="w">
+      </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Count"</span><span class="p">,</span><span class="w">
+      </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Twitter users - unique locations "</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/13-programmatic-data-access/in-class/2017-04-19-social-media-02-use-r-twitter-api/users-tweeting2-1.png" title="top 15 locations where people are tweeting - na removed" alt="top 15 locations where people are tweeting - na removed" width="90%" /></p>
+
+<p>Looking at your data, what do you notice that might improve this plot?
+There are 314 unique locations in your list. However, everyone didn’t specify their
+locations using the approach. For example some just identified their country:
+United States for example and others specified a city and state. You may want to
+do some cleaning of these data to be able to better plot this distribution - especially
+if you want to create a map of these data!</p>
+
+<h3 id="users-by-time-zone">Users by Time Zone</h3>
+
+<p>Let’s have a look at the time zone field next.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">users</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">na.omit</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">time_zone</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_bar</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">coord_flip</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Count"</span><span class="p">,</span><span class="w">
+      </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Time Zone"</span><span class="p">,</span><span class="w">
+      </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Twitter users - unique time zones "</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="notice--warning">
+
+  <h2 id="optional-challenge"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge</h2>
+
+  <p>Use the example above, plot users by time zone. List time zones that have at least
+20 users associated with them. What do you notice about the data?</p>
+</div>
+
+<p>The plots above aren’t perfect. What do you start to notice about working
+with these data? Can you simply download them and plot the data?</p>
+
+<h2 id="data-munging--101">Data munging  101</h2>
+
+<p>When you work with data from sources like NASA, USGS, etc. there are particular
+cleaning steps that you often need to do. For instance:</p>
+
+<ul>
+  <li>you may need to remove nodata values</li>
+  <li>you may need to scale the data</li>
+  <li>and others</li>
+</ul>
+
+<p>In the next lesson, you will dive deeper into the art of “text-mining” to extract
+information about a particular topic from twitter.</p>
+
+<div class="notice--info">
+
+  <h2 id="additional-resources">Additional Resources</h2>
+
+  <ul>
+    <li><a href="http://tidytextmining.com/" target="_blank">Tidy text mining online book</a></li>
+    <li><a href="https://rtweet.info/articles/intro.html" target="_blank">A great overview of the rtweet package by Mike Kearny</a></li>
+    <li><a href="https://francoismichonneau.net/2017/04/tidytext-origins-of-species/" target="_blank">A blog post on tidytext by Francois Michonneau</a></li>
+    <li><a href="https://blog.twitter.com/2008/what-does-rate-limit-exceeded-mean-updated" target="_blank">About the twitter API rate limit</a></li>
+  </ul>
+
+</div>
+
+          
+
+        
+
+        <!-- if the page is a course lesson, add pagination -->
+
+        
+         <!-- This is clunky code that forces pagination across lesson sets -->
+<!-- NOTE: it won't include slideshows as written which makes sense -->
+<!-- add forced pagination -->
+<!-- first, get total lesson count -->
+
+<div class="previous--next">
+
+
+
+
+
+<!-- if it's page one - then no previous button -->
+<!-- how do i figure out the link? i have to loop through again? -->
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+       <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/text-mining-twitter-data-intro-r/" class="btn btn--info btn--large btn-success" style="float:right" >
+         Twitter Data Text Mining
+         <i class="fa fa-4 fa-arrow-circle-right" aria-hidden="true"></i></a>
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+        <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-social-media-text-mining-r/" class="btn btn--info btn--large btn-success">
+          <i class="fa fa-4 fa-arrow-circle-left fa-4" aria-hidden="true"></i>
+          Twitter data for Science </a>
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags
+  
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/social-science/>Social science</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/social-science/social-media/>social media</a> 
+    
+    
+  
+
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/data-exploration-and-analysis/>Data exploration and analysis</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/data-exploration-and-analysis/text-mining/>text mining</a> 
+    
+    
+  
+
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/find-and-manage-data/>Find and manage data</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/find-and-manage-data/apis/>apis</a> 
+    
+    , 
+  
+    
+    <a href=https://www.earthdatascience.org/tags/find-and-manage-data/find-data/>find data</a> 
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-03-13">March 13, 2020</time></p>
+        
+        <!-- Add license information w/ DOI to the bottom -->
+        
+  
+  
+
+  
+     The Earth analytics course is subject to the
+     <a href="https://www.earthdatascience.org/license" target="_blank">CC BY-SA 4.0 License </a>.
+      Citation DOI: <a href="https://zenodo.org/badge/latestdoi/143348761" target="_blank"> https://zenodo.org/badge/latestdoi/143348761</a>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+      </footer>
+
+      
+
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/use-twitter-api-r/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/use-twitter-api-r/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/use-twitter-api-r/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/use-twitter-api-r/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+<br><br>
+  <a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target="_blank">
+    <img src="https://www.earthdatascience.org/images/earth-data-analytics-professional-certificate-banner.png" alt="Get a professional Certificate in Earth Data Analytics at University of Colorado, Boulder" width="40%"></a>
+</section>
+
+
+       
+    </div>
+
+    
+      
+
+
+<div class="page__comments">
+  <h4 class="page__comments-title">Leave a Comment</h4>
+  
+    <section id="disqus_thread"></section>
+  
+</div>
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/earth-analytics-bootcamp/plot-data-python">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Plot Data With Matplotlib
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  1 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">
+
+     This Week
+
+  
+
+
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/summarize-climate-data-by-season/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Seasonal Summary Values from Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Learn how to calculate seasonal summary values for MACA 2 climate data using xarray and region mask in open source Python.
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/subset-netcdf4-climate-data-spatially-aoi/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Summary Values Using Spatial Areas of Interest (AOIs) including Shapefiles for Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  32 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Climate datasets stored in netcdf 4 format often cover the entire globe or an entire country. Learn how to subset climate data spatially and by time slices u...</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/use-netcdf-in-python-xarray/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">How to Open and Process NetCDF 4 Data Format in Open Source Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Historic and projected climate data are most often stored in netcdf 4 format. Learn how to open and process MACA version 2 climate data for the Continental U...</p>
+    </article>
+  </a>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+
+<!-- Adding analytics code -->
+
+        
+
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    <li>
+      <strong>&copy; 2025 Earth Lab -
+      <a href="https://www.earthdatascience.org/license"> All materials on this site
+        are subject to the CC BY-SA 4.0 License. </a>
+      </strong>
+    </li>
+  </ul>
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/earthlabcu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+    
+      <li><a href="http://github.com/earthlab"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://www.earthdatascience.org/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<!--
+<div class="page__footer-copyright">Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+-->
+
+      </footer>
+    </div>
+
+    <script src="https://www.earthdatascience.org/assets/js/main.min.js"></script>
+
+
+
+
+
+
+  
+  <script type="text/javascript">
+  	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  	var disqus_shortname = 'earthlabcu';
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function() {
+  		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  	})();
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function () {
+  		var s = document.createElement('script'); s.async = true;
+  		s.type = 'text/javascript';
+  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  	}());
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-84081999-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>
+

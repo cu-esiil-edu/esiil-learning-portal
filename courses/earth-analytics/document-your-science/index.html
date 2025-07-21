@@ -1,0 +1,2397 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+
+<meta charset="utf-8">
+
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Document Your Science Using R Markdown and R | Earth Data Science - Earth Lab </title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Earth Data Science - Earth Lab">
+<meta property="og:title" content="Document Your Science Using R Markdown and R">
+
+
+  <link rel="canonical" href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/">
+  <meta property="og:url" content="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/">
+
+
+
+  <meta content="     This Week  " name="description">
+  <meta property="og:description" content="     This Week  ">
+
+
+<!-- twitter cards -->
+
+  <meta name="twitter:site" content="@earthlabcu">
+  <meta name="twitter:title" content="Document Your Science Using R Markdown and R">
+  <meta name="twitter:description" content="     This Week  ">
+  <meta name="twitter:url" content="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/">
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://earthdatascience.org/images/earth_sm_twit.png">
+    <meta name="twitter:image:alt" content="The Earthlab Logo - image of a globe with courses, lessons and tutorials">
+
+    
+  
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2017-01-01T00:00:00-06:00">
+  
+    <link rel="next" href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/" title="Intro to R &amp; Work with Time Series Data">
+  
+  
+    <link rel="prev" href="https://www.earthdatascience.org/courses/earth-analytics/mid-term/" title="Midterm Project - Earth Analytics Course - GEOG 4563 / 5563">
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Earth Analytics",
+      "url" : "https://www.earthdatascience.org",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://www.earthdatascience.org/feed.xml" type="application/atom+xml" rel="alternate" title="Earth Data Science - Earth Lab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="LfpevjsE0wlELv5KKOZv1T2RhRimGSiRckWv5ZC19GU" />
+<!-- don't use the old cataloged meta tags -->
+<meta name="googlebot" content="noodp">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+
+<!-- For all browsers
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">-->
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+
+    <script src="https://www.earthdatascience.org/assets/js/copy-code.js"></script>
+  </head>
+
+  <body>
+
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<!-- search bar begin  - turning off for now-->
+
+<div class="search">
+<form role="search" method="get" action="https://www.earthdatascience.org/search/">
+    <input id="q" name="q"
+           placeholder="Search earth data science site" type="text">
+</form>
+<!--<span class='cu-boulder'><a href="http://www.colorado.edu/earthlab" target="_blank">Earth Lab University of Colorado - Boulder Home </a></span> -->
+</div>
+
+
+<!-- search bar END -->
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://www.earthdatascience.org/"><img src="/images/earth-lab-logo.png" alt="Earth Lab - Earth Data Science" style="height:80%;width:85%"></a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tutorials/">Tutorials</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/courses/">Courses</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/workshops/">Workshops</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tools/">Tools</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/blog/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/about/">About</a></li>
+          
+
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+  <div class="page__hero--overlay" style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.earthdatascience.org/images/header-images/earth-data-analytics-professional-certificate-banner.jpg');">
+  <div class="wrapper">
+        <h1 class="page__title" itemprop="headline">
+          Earth Data Analytics Online Certificate
+        </h1>
+        <p><a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target = "_blank" class="btn btn--light-outline btn--large">Enroll now! Learn more.</a></p>
+  </div>
+</div>
+
+
+
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="breadcrumbs" role="menubar" aria-label="breadcrumbs">
+ <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+ <a href="https://www.earthdatascience.org"></a>
+ 
+ 
+ <!-- there is an offset of 1 so subtract 2 from the final crumb number-->
+ 
+   
+   
+     <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+       <a href="https://www.earthdatascience.org/" itemprop="item"><span itemprop="name">Home</span></a>
+       <meta itemprop="position" content="1" />
+     </li>
+     <span class="sep">/</span>
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/">Courses </a>
+        <meta itemprop="position" content="2" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/earth-analytics/">Earth analytics </a>
+        <meta itemprop="position" content="3" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        <li class="current">Document Your Science Using R Markdown and R</li>
+    
+  
+</ol>
+</nav>
+
+<!-- from min mistakes -->
+
+
+
+
+  
+
+
+<div id="main" role="main">
+  
+
+
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+    
+    
+
+
+    
+
+    
+     <!--  Might be able to delete this This is the code that populates the side bar navigation if there is a class-->
+      
+
+
+
+
+
+
+
+<!-- make sure we're only grabbing pages for the course -->
+
+
+
+<!--<h3>Week 1 Lessons</h3>-->
+<!-- i don't think the code below is used as modules is defined lower down as well. -->
+
+<!-- This is how modules are sorted on the left hand side bar -->
+
+
+
+
+
+
+<h5><a href="https://www.earthdatascience.org/courses/earth-analytics/" ><i class="fa fa-home" aria-hidden="true"></i> Earth analytics</a></h5>
+
+<!-- Just get the pages from this course -->
+
+
+
+
+
+
+<nav class="nav__list">
+
+
+
+
+
+
+
+<ul>
+  <li><span class="nav__sub-title"><i class="fa fa-book" aria-hidden="true"></i> Units</span>
+   <ul>
+
+       
+
+        
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+                
+                    <li>  <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/" class='active'> SECTION 1<br><!--<i class="fa fa-folder-open" aria-hidden="true"></i> -->
+                          DOCUMENT YOUR SCIENCE USING R MARKDOWN AND R</a></li>
+                
+
+<div class='active-menu'>
+      <ul>
+        
+        <!-- Note that class-order allows you to sort modules by class order if there are more than 1 in a class -->
+        
+
+        
+
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   1.1 Use data for science  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/document-your-science/google-earth-time-series/><!--1.1 --> - Google Earth Time Series</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/document-your-science/data-driven-reports/><!--1.2 --> - Data Driven Report</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/document-your-science/precip-discharge/><!--1.3 --> - Interactive Data Plots</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+       </ul>
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   1.2 Set up r  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/document-your-science/setup-r-rstudio/><!--1.1 --> - Set up RStudio</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/document-your-science/intro-to-r-and-rstudio/><!--1.2 --> - RStudio Intro</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/document-your-science/install-r-packages/><!--1.3 --> - Install packages</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/document-your-science/file-organization-101/><!--1.4 --> - File Organization Tips</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/document-your-science/setup-working-directory/><!--1.5 --> - Set up working directory</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+       </ul>
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   1.3 R markdown intro  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/document-your-science/about-open-science-and-why-open-science-is-important/><!--1.1 --> - Why open science</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/document-your-science/intro-to-the-rmarkdown-format-and-knitr/><!--1.2 --> - Create R Markdown File</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/document-your-science/intro-to-markdown/><!--1.3 --> - Intro to Markdown</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/document-your-science/rmarkdown-code-chunks-comments-knitr/><!--1.4 --> - Code chunks</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/document-your-science/knit-rmarkdown-document-to-pdf/><!--1.5 --> - Convert R Markdown to PDF or HTML</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/document-your-science/add-images-to-rmarkdown-report/><!--1.6 --> - Add images to R Markdown</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/document-your-science/add-citations-to-rmarkdown-report/><!--1.7 --> - Add Citations to R Markdown</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/document-your-science/rmarkdown-resources/><!--1.8 --> - R Markdown resources</a></li>
+          
+          
+
+        
+       </ul>
+        
+
+        
+      </ul>
+
+      <!-- BEGIN Learn how to lessons -->
+       <ul>
+         
+         
+       </ul>
+
+
+     </div>
+
+
+      <!-- END BEGIN Learn how to lessons -->
+
+      <!--  -->
+      
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 2 <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 INTRO TO R & WORK WITH TIME SERIES DATA</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/write-clean-code-with-r/"> 2.   Clean Code & Getting Help with R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/basic-r-syntax-scientific-programming/"> 2.1   Get to Know R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/date-class-in-r/"> 2.2   Time Series Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 3 <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LIDAR RASTER DATA IN R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/ggmap-basemap/"> 3.   Refine R Markdown Reports with Images and Basemaps </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/lidar-intro/"> 3.1   Intro to Lidar Data </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/open-lidar-raster-r/"> 3.2   Lidar Raster Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 4 <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 SPATIAL DATA IN R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/intro-vector-data-r/"> 4.   Spatial Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/r-create-custom-legend-with-base-plot/"> 4.2   Custom Maps in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 5 <a href="https://www.earthdatascience.org/courses/earth-analytics/remote-sensing-uncertainty/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LIDAR DATA IN R - REMOTE SENSING UNCERTAINTY</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/remote-sensing-uncertainty/about-uncertainty-lidar/"> 5.   Uncertainty in Scientific Data & Metadata  </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 6 <a href="https://www.earthdatascience.org/courses/earth-analytics/automate-science-workflows/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FUNCTIONS & AUTOMATION</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/automate-science-workflows/write-efficient-code-for-science-r/"> 6.   Efficient Programming Using Functions </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 7 <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MULTISPECTRAL IMAGERY R - NAIP, LANDSAT, FIRE & REMOTE SENSING</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/introduction-multispectral-imagery-r/"> 7.   Fire / Spectral Remote Sensing Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/source-function-in-R/"> 7.2   Source Functions in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 8 <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 QUANTIFY FIRE IMPACTS - REMOTE SENSING</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/intro-spectral-data-r/"> 8.1   Fire / spectral remote sensing data - in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/add-variables-to-rmarkdown-report/"> 8.2   Refine Rmarkdown Reports </a>
+                                </li>
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 9 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-9/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 STUDY FIRE USING REMOTE SENSING DATA</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 10 <a href="https://www.earthdatascience.org/courses/earth-analytics/communicate-your-science/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MIDTERM REVIEW / PRESENTATION BEST PRACTICES</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 11 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-11/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MIDTERM PRESENTATIONS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 12 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-12/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FALL BREAK: NO CLASS!</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 13 <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 PROGRAMMATIC DATA ACCESS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-social-media-text-mining-r/"> 13.1   twitter APIs </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-programmatic-data-access-r/"> 13.2   APIs </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 14 <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-final-projects/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FINAL PROJECTS & COURSE FEEDBACK DISCUSSION</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 15 <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-final-week/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LAST CLASS: FINAL PROJECT PRESENTATIONS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+  </ul></li>
+ </ul>
+
+
+ <ul>
+   <li><span class="nav__sub-title"><i class="fa fa-folder-open" aria-hidden="true"></i> Overview</span>
+    <ul>
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/">
+           Course Home Page </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-syllabus/">
+           Course Syllabus </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/mid-term/">
+           Midterm Project </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/final-project/">
+           Final Project </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/data-sources/">
+           Data Source List </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/search-course-lessons/">
+           Search Course Lessons </a></li>
+         
+
+     
+   </ul>
+ </li>
+</ul>
+</nav>
+
+<h5><a href="https://www.earthdatascience.org/courses/earth-analytics/" ><i class="fa fa-home" aria-hidden="true"></i> earth-analytics Home</a></h5>
+
+    
+
+    
+
+  
+  </div>
+
+
+
+
+
+
+<!-- begin science / science themes side bar nav -->
+
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+
+    <meta itemprop="headline" content="Document Your Science Using R Markdown and R">
+    <meta itemprop="description" content="     This Week  ">
+    <meta itemprop="datePublished" content="January 01, 2017">
+    <meta itemprop="dateModified" content="January 08, 2020">
+
+    <div class="page__inner-wrap">
+        <header>
+          
+
+          <!-- BEGIN: insert a welcome to the module block on pages that are part of a module set -->
+
+          <!-- END: insert welcome block -->
+
+          
+              
+
+            
+                <h1 class="page__title" itemprop="headline">
+                
+                 Document Your Science Using R Markdown and R
+
+                
+                </h1>
+            
+
+          
+
+          
+
+            <br/>
+
+            
+
+              
+            
+
+            <!-- For tools pages add authors and tool title -->
+
+            
+        </header>
+
+
+
+      <section class="page__content" itemprop="text">
+
+        <!-- would like to include the TOC automatically but this does weird things-->
+        
+          
+            <aside class="sidebar__right">
+<nav class="toc">
+    <header><h4 class="nav__title"><i class="fa fa-file-text"></i> This Week</h4></header>
+<ul class="toc__menu" id="markdown-toc">
+  <li><a href="#welcome-to-week-one" id="markdown-toc-welcome-to-week-one"><i class="fa fa-ship" aria-hidden="true"></i> Welcome to Week One!</a></li>
+  <li><a href="#-homework-week-1" id="markdown-toc--homework-week-1"><i class="fa fa-pencil"></i> Homework Week 1</a></li>
+  <li><a href="#due-friday-8-september-2017-by-8pm-mountain-time" id="markdown-toc-due-friday-8-september-2017-by-8pm-mountain-time">Due: <strong>Friday 8 September 2017 by 8PM Mountain Time</strong></a></li>
+  <li><a href="#homework-submission-create-a-report-using-knitr--rmarkdown" id="markdown-toc-homework-submission-create-a-report-using-knitr--rmarkdown"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Homework Submission: Create A Report Using Knitr &amp; RMarkdown</a></li>
+  <li><a href="#create-r-markdown-file" id="markdown-toc-create-r-markdown-file">1. Create R Markdown file</a></li>
+  <li><a href="#write-up-the-following" id="markdown-toc-write-up-the-following">2. Write Up the Following</a></li>
+  <li><a href="#add-code-to-your-document" id="markdown-toc-add-code-to-your-document">3. Add Code to Your Document</a></li>
+  <li><a href="#class-participation---flood-diagram-activity" id="markdown-toc-class-participation---flood-diagram-activity">Class Participation - Flood Diagram Activity</a></li>
+  <li><a href="#grade-rubric" id="markdown-toc-grade-rubric">Grade Rubric</a></li>
+</ul>
+
+  </nav>
+</aside>
+
+<div class="notice--info">
+
+  <h2 id="welcome-to-week-one"><i class="fa fa-ship" aria-hidden="true"></i> Welcome to Week One!</h2>
+
+  <p>Welcome to week 1 of Earth Analytics! In week 1 you will explore data
+related to the 2013 Colorado Floods. In your homework, you will get
+<code class="language-plaintext highlighter-rouge">R</code> and <code class="language-plaintext highlighter-rouge">RStudio</code> set up on your laptop and learn how to create an <code class="language-plaintext highlighter-rouge">R Markdown</code>
+document and convert it to a pdf using <code class="language-plaintext highlighter-rouge">knitr</code>. Finally you will create a short
+report after reading articles on the 2013 Colorado Floods.</p>
+
+  <p><a class="btn btn-info btn--x-large" href="https://www.earthdatascience.org/slide-shows/4-earth-analytics-course-intro/" target="_blank"> <i class="fa fa-youtube-play" aria-hidden="true"></i> View course overview slideshow
+</a></p>
+
+</div>
+
+<h2 id="-homework-week-1"><i class="fa fa-pencil"></i> Homework Week 1</h2>
+
+<h2 id="due-friday-8-september-2017-by-8pm-mountain-time">Due: <strong>Friday 8 September 2017 by 8PM Mountain Time</strong></h2>
+
+<h3 id="1-readings">1. Readings</h3>
+
+<h3 id="open-science-readings">Open Science Readings</h3>
+<p>Read the open science related articles below.</p>
+
+<ol>
+  <li><a href="https://phys.org/news/2016-08-science-movement.html" target="_blank">The value of open science</a></li>
+  <li><a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-015-0850-7" target="_blank">Five selfish reasons to work reproducibly - Florian Markowetz</a></li>
+  <li><a href="http://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1002303" target="_blank"> Computing Workflows for Biologists: A Roadmap</a></li>
+</ol>
+
+<p><a class="btn btn-info" href="https://www.earthdatascience.org/slide-shows/share-publish-archive/" target="_blank"> <i class="fa fa-youtube-play" aria-hidden="true"></i>
+View Slideshow: Share, Publish &amp; Archive Code &amp; Data</a></p>
+
+<h3 id="flood-readings">Flood Readings</h3>
+<p>Read the following articles and listen to the 7 minute interview with
+Suzanne Anderson (faculty here at CU Boulder).</p>
+
+<ol>
+  <li>
+    <p><a href="http://journals.ametsoc.org/doi/full/10.1175/BAMS-D-13-00241.1" target="_blank">Gochis, D. et al. (2014): The great Colorado flood of September 2013. Bull. Amer. Meteor. Soc. 96, 1461-1487, doi:10.1175/BAMS-D-13-00241.1.</a></p>
+  </li>
+  <li>
+    <p><a href="ftp://rock.geosociety.org/pub/GSAToday/gt1410.pdf" target="_blank">Coe, J.A. et al (2014): New insights into debris-flow hazards from an extraordinary event in the Colorado Front Range. GSA Today 24 (10), 4-10, doi: 10.1130/GSATG214A.1.</a></p>
+  </li>
+  <li>
+    <p><a href="http://geology.gsapubs.org/content/early/2015/03/27/G36507.1" target="_blank">Anderson, S.W., Anderson, S.P., &amp; Anderson, R.S. (2015). Exhumation by debris flows in the 2013 Colorado Front Range storm. Geology 43 (5), 391-394, doi:10.1130/G36507.1. </a></p>
+  </li>
+  <li>
+    <p>Read the short article and <strong>listen to the 7 minute interview with Suzanne Anderson</strong>: To listen - click on the “<i class="fa fa-volume-up" aria-hidden="true"></i>
+Listen” icon on the page
+<a href="https://www.cpr.org/show-segment/study-2013-front-range-floods-caused-a-thousand-years-worth-of-erosion/" target="_blank">Study: 2013 Front Range floods caused a thousand year’s worth of erosion</a></p>
+  </li>
+</ol>
+
+<h3 id="2-watch-flood-video">2. Watch Flood Video</h3>
+<p>Watch this video to learn more about the 2013 Colorado floods and some
+of the data that can be used to better understand the drivers and impacts of those
+floods.</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/IHIckvWhwoo" frameborder="0" allowfullscreen=""></iframe>
+
+<h4 id="before-and-after-google-earth-fly-through">Before and After Google Earth Fly Through</h4>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/bUcWERTM-OA?rel=0&amp;loop=1" frameborder="0" allowfullscreen=""></iframe>
+
+<h3 id="3-review-lessons">3. Review Lessons</h3>
+<p>After you’ve read the readings and watched the videos, complete the homework
+assignment below. Review the <strong>Set Up R</strong> lessons. (see links
+on the left hand side of this page).
+Following the lessons, setup <code class="language-plaintext highlighter-rouge">R</code>, <code class="language-plaintext highlighter-rouge">RStudio</code> and a
+<code class="language-plaintext highlighter-rouge">working directory</code> that will contain the data you will use for the entire course.
+IMPORTANT: if you working directory is not setup right - you won’t be able to
+follow along in class. Also you won’t be able to test your code when you submit assignments
+to give you partial credit!</p>
+
+<p>Once everything is setup, review the second set of lessons (R Markdown intro) which walk you
+through creating R Markdown documents and knitting them to <code class="language-plaintext highlighter-rouge">.html</code> format. If you
+already know <code class="language-plaintext highlighter-rouge">rmarkdown</code>, be sure to review the lessons anyway - particularly
+the ones about file organization and why you use this workflow in science.</p>
+
+<p class="notice--success"><i class="fa fa-star" aria-hidden="true"></i> <strong>Important:</strong> Review
+ALL of the lessons and have your computer setup BEFORE class begins next week.
+You will be behind if these things are not setup / complete before week 2.</p>
+
+<h3 id="4-complete-assignment-below">4. Complete Assignment Below</h3>
+
+<p>After you have reviewed the lessons above, complete the assignment below.
+Submit your <code class="language-plaintext highlighter-rouge">.html</code> document and <code class="language-plaintext highlighter-rouge">R Markdown</code> document to the D2L course drop box
+by <strong>Friday 8 September 2017 by 8PM Mountain Time.</strong></p>
+
+<!-- start homework activity -->
+
+<div class="notice--warning">
+
+  <h2 id="homework-submission-create-a-report-using-knitr--rmarkdown"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Homework Submission: Create A Report Using Knitr &amp; RMarkdown</h2>
+
+  <h2 id="create-r-markdown-file">1. Create R Markdown file</h2>
+  <ul>
+    <li>Create a new rmarkdown <code class="language-plaintext highlighter-rouge">.Rmd</code> file in <code class="language-plaintext highlighter-rouge">Rstudio</code>. Name the file:
+<code class="language-plaintext highlighter-rouge">yourLastName-firstInitial-week01.Rmd</code> example: <code class="language-plaintext highlighter-rouge">wasser-l-week01.Rmd</code>
+      <ul>
+        <li>Save your <code class="language-plaintext highlighter-rouge">.Rmd</code> file in the ``\earth-analytics` working directory that you created for this class using the lessons. IMPORTANT: do not save the <code class="language-plaintext highlighter-rouge">.Rmd</code> file in the <code class="language-plaintext highlighter-rouge">\data</code> directory. Your code won’t run!</li>
+        <li>Add an <code class="language-plaintext highlighter-rouge">author:</code> line to the <code class="language-plaintext highlighter-rouge">YAML</code> header at the top of your <code class="language-plaintext highlighter-rouge">.Rmd</code> document.</li>
+        <li>Make sure the YAML has a <code class="language-plaintext highlighter-rouge">date:</code> element.</li>
+        <li>Add a <code class="language-plaintext highlighter-rouge">title:</code> that represents the contents of your report. Example: <code class="language-plaintext highlighter-rouge">2013 Colorado floods - earth analytics fall 2017</code></li>
+      </ul>
+    </li>
+  </ul>
+
+  <h2 id="write-up-the-following">2. Write Up the Following</h2>
+
+  <p>At the top of the <code class="language-plaintext highlighter-rouge">R Markdown</code> document (BELOW THE YAML HEADER), writeup the following (Use the readings and video assigned above to answer these questions):</p>
+
+  <ol>
+    <li>Write a 1 page overview of the events that lead to the flooding that occurred in 2013. In this writeup, be sure to explain how the floods impacts people in Colorado. NOTE: this text will be used in the final report that you create about the 2013 floods so the better this text is now, the less you will have to do later! Read the articles and craft this write up carefully. Be sure to cite at least 3 of the articles above (or others that you find) in your write up.</li>
+    <li>At the bottom of your report, write 1-2 paragraphs that describe:
+      <ul>
+        <li>What open science is and why it is important</li>
+        <li>How approaches including using <code class="language-plaintext highlighter-rouge">R Markdown</code> can be helpful to both you and your colleagues that you work with on a project and to following open science principles in general.</li>
+      </ul>
+    </li>
+  </ol>
+
+  <h2 id="add-code-to-your-document">3. Add Code to Your Document</h2>
+
+  <ul>
+    <li>Create a new CODE CHUNK.</li>
+    <li>Copy and paste the code BELOW into the code chunk that you just created.</li>
+    <li>Below the code chunk in your <code class="language-plaintext highlighter-rouge">R Markdown</code> document, add some TEXT that describes what the plot that you created
+shows - interpret what you see in the data.</li>
+  </ul>
+
+  <p>BONUS: If you know <code class="language-plaintext highlighter-rouge">R</code>, clean up the plot by adding labels and a title. Or better
+yet, use <code class="language-plaintext highlighter-rouge">ggplot2</code>!</p>
+
+</div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">
+</span><span class="c1"># load the ggplot2 library for plotting</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># download data from figshare</span><span class="w">
+</span><span class="c1"># note that you are downloading the data into your data directory</span><span class="w">
+</span><span class="n">download.file</span><span class="p">(</span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"https://ndownloader.figshare.com/files/7010681"</span><span class="p">,</span><span class="w">
+              </span><span class="n">destfile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"data/boulder-precip.csv"</span><span class="p">,</span><span class="w">
+              </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"libcurl"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># if the code above doesn't allow you to download the data, remove the method =</span><span class="w">
+</span><span class="c1"># "libcurl" argument! Also note that you may get a warning that you are not able to</span><span class="w">
+</span><span class="c1"># download the data twice. That is ok!</span><span class="w">
+
+</span><span class="c1"># import data</span><span class="w">
+</span><span class="n">boulder_precip</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">"data/boulder-precip.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># view first few rows of the data</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">boulder_precip</span><span class="p">)</span><span class="w">
+</span><span class="c1">##     X       DATE PRECIP</span><span class="w">
+</span><span class="c1">## 1 756 2013-08-21    0.1</span><span class="w">
+</span><span class="c1">## 2 757 2013-08-26    0.1</span><span class="w">
+</span><span class="c1">## 3 758 2013-08-27    0.1</span><span class="w">
+</span><span class="c1">## 4 759 2013-09-01    0.0</span><span class="w">
+</span><span class="c1">## 5 760 2013-09-09    0.1</span><span class="w">
+</span><span class="c1">## 6 761 2013-09-10    1.0</span><span class="w">
+
+</span><span class="c1"># when you download the data you create a `data.frame`</span><span class="w">
+</span><span class="c1"># view each column of the data frame using it's name (or header)</span><span class="w">
+</span><span class="n">boulder_precip</span><span class="o">$</span><span class="n">DATE</span><span class="w">
+</span><span class="c1">##  [1] "2013-08-21" "2013-08-26" "2013-08-27" "2013-09-01" "2013-09-09"</span><span class="w">
+</span><span class="c1">##  [6] "2013-09-10" "2013-09-11" "2013-09-12" "2013-09-13" "2013-09-15"</span><span class="w">
+</span><span class="c1">## [11] "2013-09-16" "2013-09-22" "2013-09-23" "2013-09-27" "2013-09-28"</span><span class="w">
+</span><span class="c1">## [16] "2013-10-01" "2013-10-04" "2013-10-11"</span><span class="w">
+
+</span><span class="c1"># view the precip column</span><span class="w">
+</span><span class="n">boulder_precip</span><span class="o">$</span><span class="n">PRECIP</span><span class="w">
+</span><span class="c1">##  [1] 0.1 0.1 0.1 0.0 0.1 1.0 2.3 9.8 1.9 1.4 0.4 0.1 0.3 0.3 0.1 0.0 0.9</span><span class="w">
+</span><span class="c1">## [18] 0.1</span><span class="w">
+
+</span><span class="c1"># qplot stands for quick plot. It is a function in the ggplot2 library.</span><span class="w">
+</span><span class="c1"># Let's use it to plot our data</span><span class="w">
+</span><span class="n">qplot</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">boulder_precip</span><span class="o">$</span><span class="n">DATE</span><span class="p">,</span><span class="w">
+      </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">boulder_precip</span><span class="o">$</span><span class="n">PRECIP</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/01-document-your-science/2017-01-01-week-01-document-your-science/student-example-code-1.png" title="Plot of precip over time that a student should see as output after running code." alt="Plot of precip over time that a student should see as output after running code." width="90%" /></p>
+
+<p>If your code ran properly, the plot output should look like the image above.</p>
+
+<figure>
+<a href="/images/courses/earth-analytics/document-your-science/setup-r-rstudio/r-markdown-wk-1.png">
+<img src="/images/courses/earth-analytics/document-your-science/setup-r-rstudio/r-markdown-wk-1.png" alt="R Markdown example image." />
+</a>
+<figcaption>
+Your `R Markdown` file should look something like the one above (with your own text
+added to it). Note that the image above is CROPPED at the bottom. Your `R Markdown`
+file will have more code in it.
+</figcaption>
+</figure>
+
+<h3 id="troubleshooting-missing-plot">Troubleshooting: Missing Plot</h3>
+
+<p>If the code above did not produce a plot, please check the following:</p>
+
+<h4 id="check-your-working-directory">Check Your Working Directory</h4>
+
+<p>If the path to your file is not correct, then the data won’t load into <code class="language-plaintext highlighter-rouge">R</code>.
+If the data don’t load into <code class="language-plaintext highlighter-rouge">R</code>, then you can’t work with it or plot it.</p>
+
+<p>To figure out your current working directory use the command: <code class="language-plaintext highlighter-rouge">getwd()</code>
+Next, go to your finder or file explorer on your computer. Navigate to the path
+that <code class="language-plaintext highlighter-rouge">R</code> gives you when you type <code class="language-plaintext highlighter-rouge">getwd()</code> in the console. It will look something
+like the path example: <code class="language-plaintext highlighter-rouge">/Users/your-username/documents/earth-analytics</code></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># check your working directory</span><span class="w">
+</span><span class="n">getwd</span><span class="p">()</span><span class="w">
+
+</span><span class="c1">## [1] "/Users/lewa8222/documents/earth-analytics"</span><span class="w">
+</span></code></pre></div></div>
+
+<p>In the example above, note that my USER directory is called <code class="language-plaintext highlighter-rouge">lewa8222</code>. Yours
+is called something different. Is there a <code class="language-plaintext highlighter-rouge">data</code> directory within the earth-analytics
+directory?</p>
+
+<figure>
+<a href="/images/courses/earth-analytics/document-your-science/setup-r-rstudio/data-dir-wk-1.png">
+<img src="/images/courses/earth-analytics/document-your-science/setup-r-rstudio/data-dir-wk-1.png" alt="data directory example image." />
+</a>
+<figcaption>
+Your working directory should contain a `/data` directory. If it does not, then
+the above code won't run as it downloads the data to your /data directory!
+</figcaption>
+</figure>
+
+<p>If not, review the <a href="/courses/earth-analytics/document-your-science/setup-working-directory/">working directory lesson</a>
+to ensure your working directory is SETUP properly on your computer and in <code class="language-plaintext highlighter-rouge">RStudio</code>.</p>
+
+<h2 id="class-participation---flood-diagram-activity">Class Participation - Flood Diagram Activity</h2>
+
+<p>While attendance is not explicitly tracked, participation in this course counts
+towards your grade. This week, please be sure that your name is associated with
+one of the diagrams posted in the <a href="https://piazza.com/class/j6e3f29h57k694?cid=10" target="_blank">piazza forum</a>. In class you worked in groups so it is ok if multiple
+people are associated with one diagram. Just be sure your name is there so you
+get credit and if it isn’t - please edit your post and add your names above
+the image!
+<!-- end homework activity --></p>
+
+<div class="notice--info">
+
+  <h2 id="grade-rubric">Grade Rubric</h2>
+
+  <p>Your assignment will be graded using the rubric below.
+Remember as always - NO LATE ASSIGNMENTS will be accepted. Please do not ask.
+Submit what you  have done - as is - ON TIME!</p>
+
+  <h3 id="r-markdown-report-syntax--code-20">R Markdown Report Syntax &amp; Code (20%)</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: left">Full credit</th>
+        <th style="text-align: left"> </th>
+        <th style="text-align: left">No credit</th>
+        <th> </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: left">HTML and RMD submitted</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left"> </td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">YAML contains title, author and date</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left"> </td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">File is named with last name-first initial week 1</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left"> </td>
+        <td> </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td style="text-align: left">Grammar and spelling is excellent - no misspellings</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left"> </td>
+        <td> </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <h3 id="r-markdown-report-code-runs-20">R Markdown Report Code Runs (20%)</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: left">Full credit</th>
+        <th style="text-align: left"> </th>
+        <th style="text-align: left">No credit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: left">Code chunk contains code and runs (a correct plot is produced)</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left"> </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td style="text-align: left">Code chunk is formatted correctly</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left"> </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <h3 id="r-markdown-report-writeup-60">R Markdown Report Writeup (60%)</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: left">Full credit</th>
+        <th style="text-align: left"> </th>
+        <th style="text-align: left">No credit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: left">1 page overview of the flood is thoughtful, accurately describes the flood events and location and clearly references readings</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left"> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">Flood report identifies the drivers and impacts of the flood</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left"> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">Flood report discusses the elements that triggered the 2013 colorado floods</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left"> </td>
+      </tr>
+      <tr>
+        <td style="text-align: left">Open science writeup references readings</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left"> </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td style="text-align: left">Open science writeup defines open science correctly and documents its importance following the readings</td>
+        <td style="text-align: left"> </td>
+        <td style="text-align: left"> </td>
+      </tr>
+    </tfoot>
+  </table>
+
+</div>
+
+          
+
+        
+
+        <!-- if the page is a course lesson, add pagination -->
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+
+
+
+
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-01-08">January 08, 2020</time></p>
+        
+        <!-- Add license information w/ DOI to the bottom -->
+        
+  
+  
+
+  
+     The Earth analytics course is subject to the
+     <a href="https://www.earthdatascience.org/license" target="_blank">CC BY-SA 4.0 License </a>.
+      Citation DOI: <a href="https://zenodo.org/badge/latestdoi/143348761" target="_blank"> https://zenodo.org/badge/latestdoi/143348761</a>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+      </footer>
+
+      
+
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://www.earthdatascience.org/courses/earth-analytics/document-your-science/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.earthdatascience.org/courses/earth-analytics/document-your-science/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https://www.earthdatascience.org/courses/earth-analytics/document-your-science/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.earthdatascience.org/courses/earth-analytics/document-your-science/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+<br><br>
+  <a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target="_blank">
+    <img src="https://www.earthdatascience.org/images/earth-data-analytics-professional-certificate-banner.png" alt="Get a professional Certificate in Earth Data Analytics at University of Colorado, Boulder" width="40%"></a>
+</section>
+
+
+       
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/earth-analytics-bootcamp/plot-data-python">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Plot Data With Matplotlib
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  1 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">
+
+     This Week
+
+  
+
+
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/summarize-climate-data-by-season/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Seasonal Summary Values from Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Learn how to calculate seasonal summary values for MACA 2 climate data using xarray and region mask in open source Python.
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/subset-netcdf4-climate-data-spatially-aoi/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Summary Values Using Spatial Areas of Interest (AOIs) including Shapefiles for Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  32 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Climate datasets stored in netcdf 4 format often cover the entire globe or an entire country. Learn how to subset climate data spatially and by time slices u...</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/use-netcdf-in-python-xarray/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">How to Open and Process NetCDF 4 Data Format in Open Source Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Historic and projected climate data are most often stored in netcdf 4 format. Learn how to open and process MACA version 2 climate data for the Continental U...</p>
+    </article>
+  </a>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+
+<!-- Adding analytics code -->
+
+        
+
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    <li>
+      <strong>&copy; 2025 Earth Lab -
+      <a href="https://www.earthdatascience.org/license"> All materials on this site
+        are subject to the CC BY-SA 4.0 License. </a>
+      </strong>
+    </li>
+  </ul>
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/earthlabcu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+    
+      <li><a href="http://github.com/earthlab"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://www.earthdatascience.org/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<!--
+<div class="page__footer-copyright">Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+-->
+
+      </footer>
+    </div>
+
+    <script src="https://www.earthdatascience.org/assets/js/main.min.js"></script>
+
+
+
+
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-84081999-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>
+

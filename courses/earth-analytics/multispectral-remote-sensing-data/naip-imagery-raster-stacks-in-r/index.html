@@ -1,0 +1,4631 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+
+<meta charset="utf-8">
+
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>How to Open and Work with NAIP Multispectral Imagery in R | Earth Data Science - Earth Lab </title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Earth Data Science - Earth Lab">
+<meta property="og:title" content="How to Open and Work with NAIP Multispectral Imagery in R">
+
+
+  <link rel="canonical" href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/naip-imagery-raster-stacks-in-r/">
+  <meta property="og:url" content="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/naip-imagery-raster-stacks-in-r/">
+
+
+
+  <meta content="In this lesson you learn how to open up a multi-band raster layer or image stored in .tiff format in R. You are introduced to the stack() function in R which can be used to import more than one band into a stack object in R. You also review using plotRGB to plot a multi-band image using RGB, color-infrared to other band combinations." name="description">
+  <meta property="og:description" content="In this lesson you learn how to open up a multi-band raster layer or image stored in .tiff format in R. You are introduced to the stack() function in R which can be used to import more than one band into a stack object in R. You also review using plotRGB to plot a multi-band image using RGB, color-infrared to other band combinations.">
+
+
+<!-- twitter cards -->
+
+  <meta name="twitter:site" content="@earthlabcu">
+  <meta name="twitter:title" content="How to Open and Work with NAIP Multispectral Imagery in R">
+  <meta name="twitter:description" content="In this lesson you learn how to open up a multi-band raster layer or image stored in .tiff format in R. You are introduced to the stack() function in R which can be used to import more than one band into a stack object in R. You also review using plotRGB to plot a multi-band image using RGB, color-infrared to other band combinations.">
+  <meta name="twitter:url" content="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/naip-imagery-raster-stacks-in-r/">
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://earthdatascience.org/images/earth_sm_twit.png">
+    <meta name="twitter:image:alt" content="The Earthlab Logo - image of a globe with courses, lessons and tutorials">
+
+    
+  
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2017-02-22T00:00:00-06:00">
+  
+    <link rel="next" href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/addititive-color-models-how-multispectral-imagery-is-drawn-on-computers/" title="How Multispectral Imagery is Drawn on Computers - Additive Color Models">
+  
+  
+    <link rel="prev" href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/introduction-multispectral-imagery-r/" title="Introduction to Spatial and Spectral Resolution: Multispectral Imagery">
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Earth Analytics",
+      "url" : "https://www.earthdatascience.org",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://www.earthdatascience.org/feed.xml" type="application/atom+xml" rel="alternate" title="Earth Data Science - Earth Lab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="LfpevjsE0wlELv5KKOZv1T2RhRimGSiRckWv5ZC19GU" />
+<!-- don't use the old cataloged meta tags -->
+<meta name="googlebot" content="noodp">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+
+<!-- For all browsers
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">-->
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+
+    <script src="https://www.earthdatascience.org/assets/js/copy-code.js"></script>
+  </head>
+
+  <body>
+
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<!-- search bar begin  - turning off for now-->
+
+<div class="search">
+<form role="search" method="get" action="https://www.earthdatascience.org/search/">
+    <input id="q" name="q"
+           placeholder="Search earth data science site" type="text">
+</form>
+<!--<span class='cu-boulder'><a href="http://www.colorado.edu/earthlab" target="_blank">Earth Lab University of Colorado - Boulder Home </a></span> -->
+</div>
+
+
+<!-- search bar END -->
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://www.earthdatascience.org/"><img src="/images/earth-lab-logo.png" alt="Earth Lab - Earth Data Science" style="height:80%;width:85%"></a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tutorials/">Tutorials</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/courses/">Courses</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/workshops/">Workshops</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tools/">Tools</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/blog/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/about/">About</a></li>
+          
+
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+  <div class="page__hero--overlay" style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.earthdatascience.org/images/header-images/earth-data-analytics-professional-certificate-banner.jpg');">
+  <div class="wrapper">
+        <h1 class="page__title" itemprop="headline">
+          Earth Data Analytics Online Certificate
+        </h1>
+        <p><a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target = "_blank" class="btn btn--light-outline btn--large">Enroll now! Learn more.</a></p>
+  </div>
+</div>
+
+
+
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="breadcrumbs" role="menubar" aria-label="breadcrumbs">
+ <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+ <a href="https://www.earthdatascience.org"></a>
+ 
+ 
+ <!-- there is an offset of 1 so subtract 2 from the final crumb number-->
+ 
+   
+   
+     <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+       <a href="https://www.earthdatascience.org/" itemprop="item"><span itemprop="name">Home</span></a>
+       <meta itemprop="position" content="1" />
+     </li>
+     <span class="sep">/</span>
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/">Courses </a>
+        <meta itemprop="position" content="2" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/earth-analytics/">Earth analytics </a>
+        <meta itemprop="position" content="3" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/">Multispectral remote sensing data </a>
+        <meta itemprop="position" content="4" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        <li class="current">How to Open and Work with NAIP Multispectral Imagery in R</li>
+    
+  
+</ol>
+</nav>
+
+<!-- from min mistakes -->
+
+
+
+
+  
+
+
+<div id="main" role="main">
+  
+
+
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+    
+    
+
+
+    
+
+    
+     <!--  Might be able to delete this This is the code that populates the side bar navigation if there is a class-->
+      
+
+
+
+
+
+
+
+<!-- make sure we're only grabbing pages for the course -->
+
+
+
+<!--<h3>Week 7 Lessons</h3>-->
+<!-- i don't think the code below is used as modules is defined lower down as well. -->
+
+<!-- This is how modules are sorted on the left hand side bar -->
+
+
+
+
+
+
+<h5><a href="https://www.earthdatascience.org/courses/earth-analytics/" ><i class="fa fa-home" aria-hidden="true"></i> Earth analytics</a></h5>
+
+<!-- Just get the pages from this course -->
+
+
+
+
+
+
+<nav class="nav__list">
+
+
+
+
+
+
+
+<ul>
+  <li><span class="nav__sub-title"><i class="fa fa-book" aria-hidden="true"></i> Units</span>
+   <ul>
+
+       
+
+        
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 1 <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 DOCUMENT YOUR SCIENCE USING R MARKDOWN AND R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/google-earth-time-series/"> 1.1   Use data for science </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/setup-r-rstudio/"> 1.2   Set up R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/document-your-science/about-open-science-and-why-open-science-is-important/"> 1.3   R Markdown Intro </a>
+                                </li>
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 2 <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 INTRO TO R & WORK WITH TIME SERIES DATA</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/write-clean-code-with-r/"> 2.   Clean Code & Getting Help with R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/basic-r-syntax-scientific-programming/"> 2.1   Get to Know R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/time-series-data/date-class-in-r/"> 2.2   Time Series Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 3 <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LIDAR RASTER DATA IN R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/ggmap-basemap/"> 3.   Refine R Markdown Reports with Images and Basemaps </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/lidar-intro/"> 3.1   Intro to Lidar Data </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/lidar-raster-data-r/open-lidar-raster-r/"> 3.2   Lidar Raster Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 4 <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 SPATIAL DATA IN R</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/intro-vector-data-r/"> 4.   Spatial Data in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/spatial-data-r/r-create-custom-legend-with-base-plot/"> 4.2   Custom Maps in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 5 <a href="https://www.earthdatascience.org/courses/earth-analytics/remote-sensing-uncertainty/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LIDAR DATA IN R - REMOTE SENSING UNCERTAINTY</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/remote-sensing-uncertainty/about-uncertainty-lidar/"> 5.   Uncertainty in Scientific Data & Metadata  </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 6 <a href="https://www.earthdatascience.org/courses/earth-analytics/automate-science-workflows/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FUNCTIONS & AUTOMATION</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/automate-science-workflows/write-efficient-code-for-science-r/"> 6.   Efficient Programming Using Functions </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+                
+                    <li class='active-section'> <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/"><i class="fa fa-folder-open" aria-hidden="true"></i>
+                     7. MULTISPECTRAL IMAGERY R - NAIP, LANDSAT, FIRE & REMOTE SENSING</a></li>
+
+            
+
+<div class='active-menu'>
+      <ul>
+        
+        <!-- Note that class-order allows you to sort modules by class order if there are more than 1 in a class -->
+        
+
+        
+
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   7. Fire / spectral remote sensing data in r  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/introduction-multispectral-imagery-r/><!--7.1 --> - Intro Multispectral Data</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/naip-imagery-raster-stacks-in-r/ class='active'> <!--7.2 -->- Open NAIP Imagery in R</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/addititive-color-models-how-multispectral-imagery-is-drawn-on-computers/><!--7.3 --> - Additive Color Models</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/vegetation-indices-NDVI-in-R/><!--7.4 --> - Calculate NDVI NAIP</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/process-rasters-faster-in-R/><!--7.5 --> - Faster Raster Calculations</a></li>
+          
+          
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/landsat-data-in-r-geotiff/><!--7.6 --> - Landsat tifs in R</a></li>
+          
+          
+
+        
+       </ul>
+        
+
+        
+        
+        <!-- If it's a textbook with a chapter number write "chapter", else assume it is a week -->
+
+          <li><span class="nav__sub-title grey"><i class="fa fa-caret-down" aria-hidden="true"></i>   7.2 Source functions in r  </span></li>
+        <ul>
+
+      
+      <!-- count lessons -->
+
+        
+        
+        
+
+        
+        
+        
+          
+          <li><a href= https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/source-function-in-R/><!--7.1 --> - Source Functions R</a></li>
+          
+          
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+       </ul>
+        
+
+        
+      </ul>
+
+      <!-- BEGIN Learn how to lessons -->
+       <ul>
+         
+         
+       </ul>
+
+
+     </div>
+
+
+      <!-- END BEGIN Learn how to lessons -->
+
+      <!--  -->
+      
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 8 <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 QUANTIFY FIRE IMPACTS - REMOTE SENSING</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/intro-spectral-data-r/"> 8.1   Fire / spectral remote sensing data - in R </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-modis/add-variables-to-rmarkdown-report/"> 8.2   Refine Rmarkdown Reports </a>
+                                </li>
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 9 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-9/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 STUDY FIRE USING REMOTE SENSING DATA</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 10 <a href="https://www.earthdatascience.org/courses/earth-analytics/communicate-your-science/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MIDTERM REVIEW / PRESENTATION BEST PRACTICES</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 11 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-11/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 MIDTERM PRESENTATIONS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 12 <a href="https://www.earthdatascience.org/courses/earth-analytics/week-12/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FALL BREAK: NO CLASS!</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 13 <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 PROGRAMMATIC DATA ACCESS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-social-media-text-mining-r/"> 13.1   twitter APIs </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>
+                                    <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-programmatic-data-access-r/"> 13.2   APIs </a>
+                                </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 14 <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-final-projects/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 FINAL PROJECTS & COURSE FEEDBACK DISCUSSION</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+
+            <!-- Only list the week if it's not the week for the current landing page -->
+            
+                <li> <b>SECTION 15 <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-final-week/"> <!--<i class="fa fa-folder-o" aria-hidden="true"></i>-->
+                 LAST CLASS: FINAL PROJECT PRESENTATIONS</a></b>
+                </li>
+
+                    <!-- list the chapters for each section  updating this to show a chapter number if it's a textbook-->
+                    
+                     <ul>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+
+
+            
+
+            <!-- This is for the activate section in the nav which is grey -->
+
+            
+
+    
+  </ul></li>
+ </ul>
+
+
+ <ul>
+   <li><span class="nav__sub-title"><i class="fa fa-folder-open" aria-hidden="true"></i> Overview</span>
+    <ul>
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/">
+           Course Home Page </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/earth-analytics-syllabus/">
+           Course Syllabus </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/mid-term/">
+           Midterm Project </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/final-project/">
+           Final Project </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/data-sources/">
+           Data Source List </a></li>
+         
+
+     
+          
+         <li> <a href="https://www.earthdatascience.org/courses/earth-analytics/search-course-lessons/">
+           Search Course Lessons </a></li>
+         
+
+     
+   </ul>
+ </li>
+</ul>
+</nav>
+
+<h5><a href="https://www.earthdatascience.org/courses/earth-analytics/" ><i class="fa fa-home" aria-hidden="true"></i> earth-analytics Home</a></h5>
+
+    
+
+    
+
+  
+  </div>
+
+
+
+
+
+
+<!-- begin science / science themes side bar nav -->
+
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+
+    <meta itemprop="headline" content="How to Open and Work with NAIP Multispectral Imagery in R">
+    <meta itemprop="description" content="In this lesson you learn how to open up a multi-band raster layer or image stored in .tiff format in R. You are introduced to the stack() function in R which can be used to import more than one band into a stack object in R. You also review using plotRGB to plot a multi-band image using RGB, color-infrared to other band combinations.">
+    <meta itemprop="datePublished" content="February 22, 2017">
+    <meta itemprop="dateModified" content="September 03, 2019">
+
+    <div class="page__inner-wrap">
+        <header>
+          
+
+          <!-- BEGIN: insert a welcome to the module block on pages that are part of a module set -->
+
+          <!-- END: insert welcome block -->
+
+          
+              
+
+            
+                <h1 class="page__title" itemprop="headline">
+                Lesson 2. 
+                 How to Open and Work with NAIP Multispectral Imagery in R
+
+                
+                </h1>
+            
+
+          
+
+          
+            <div class="page__meta">
+              
+              
+              <a href="https://www.earthdatascience.org/authors/leah-wasser">Leah Wasser</a>
+              
+            </div>
+          
+
+            <br/>
+
+            
+
+              
+            
+
+            <!-- For tools pages add authors and tool title -->
+
+            
+        </header>
+
+
+
+      <section class="page__content" itemprop="text">
+
+        <!-- would like to include the TOC automatically but this does weird things-->
+        
+          
+            <aside class="sidebar__right">
+<nav class="toc">
+    <header><h4 class="nav__title"><i class="fa fa-file-text"></i> In This Lesson</h4></header>
+<ul class="toc__menu" id="markdown-toc">
+  <li><a href="#learning-objectives" id="markdown-toc-learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</a></li>
+  <li><a href="#what-you-need" id="markdown-toc-what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What You Need</a></li>
+  <li><a href="#multispectral-imagery-in-r" id="markdown-toc-multispectral-imagery-in-r">Multispectral Imagery in R</a></li>
+  <li><a href="#what-is-multispectral-imagery" id="markdown-toc-what-is-multispectral-imagery">What is Multispectral Imagery?</a></li>
+  <li><a href="#cir-image" id="markdown-toc-cir-image">CIR Image</a></li>
+  <li><a href="#other-types-of-multi-band-raster-data" id="markdown-toc-other-types-of-multi-band-raster-data">Other Types of Multi-Band Raster Data</a></li>
+  <li><a href="#about-naip-multispectral-imagery" id="markdown-toc-about-naip-multispectral-imagery">About NAIP Multispectral Imagery</a></li>
+  <li><a href="#open-naip-multispectral-imagery-in-r" id="markdown-toc-open-naip-multispectral-imagery-in-r">Open NAIP Multispectral Imagery in R</a></li>
+  <li><a href="#raster-stacks-in-r" id="markdown-toc-raster-stacks-in-r">Raster Stacks in R</a></li>
+  <li><a href="#optional-challenge-making-sense-of-single-band-images" id="markdown-toc-optional-challenge-making-sense-of-single-band-images"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge: Making Sense of Single Band Images</a></li>
+  <li><a href="#rgb-data" id="markdown-toc-rgb-data">RGB Data</a></li>
+  <li><a href="#apply-a-stretch-to-normalize-the-colors-in-the-image" id="markdown-toc-apply-a-stretch-to-normalize-the-colors-in-the-image">Apply a Stretch to Normalize the Colors in the Image</a></li>
+  <li><a href="#more-on-rasterstacks-vs-rasterbricks-in-r" id="markdown-toc-more-on-rasterstacks-vs-rasterbricks-in-r">More on RasterStacks vs RasterBricks in R</a></li>
+  <li><a href="#optional-challenge" id="markdown-toc-optional-challenge"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge</a></li>
+  <li><a href="#optional-challenge-what-methods-can-be-used-on-an-r-object" id="markdown-toc-optional-challenge-what-methods-can-be-used-on-an-r-object"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge: What Methods Can Be Used on an R Object?</a></li>
+</ul>
+
+  </nav>
+</aside>
+
+<div class="notice--success">
+
+  <h2 id="learning-objectives"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Learning Objectives</h2>
+
+  <p>After completing this tutorial, you will be able to:</p>
+
+  <ul>
+    <li>Open an RGB image with 3-4 bands in <code class="language-plaintext highlighter-rouge">R</code> using <code class="language-plaintext highlighter-rouge">plotRGB()</code>.</li>
+    <li>Export an RGB image as a Geotiff using <code class="language-plaintext highlighter-rouge">writeRaster()</code>.</li>
+    <li>Identify the number of bands stored in a multi-band raster in <code class="language-plaintext highlighter-rouge">R</code>.</li>
+    <li>Plot various band composite in <code class="language-plaintext highlighter-rouge">R</code> including True Color (RGB), and Color Infrared (CIR).</li>
+  </ul>
+
+  <h2 id="what-you-need"><i class="fa fa-check-square-o fa-2" aria-hidden="true"></i> What You Need</h2>
+
+  <p>You will need a computer with internet access to complete this lesson and the
+data for week 7 of the course.</p>
+
+  <p><a href="https://ndownloader.figshare.com/files/7677208" data-proofer-ignore="" class="btn"><i class="fa fa-download" aria-hidden="true"></i> Download Week 7 - 9 Data (~500 MB)</a></p>
+
+</div>
+
+<h2 id="multispectral-imagery-in-r">Multispectral Imagery in R</h2>
+
+<h3 id="introduction-to-multi-band-raster-data">Introduction to Multi-Band Raster Data</h3>
+
+<p>In the previous weeks, you have worked with raster data derived from lidar remote sensing
+instruments. These rasters consisted of one layer or band and contained information
+height values derived from lidar data. In this lesson, you will
+learn how to work with rasters containing multispectral imagery data stored within
+multiple bands (or layers) in <code class="language-plaintext highlighter-rouge">R</code>.</p>
+
+<p>Previously, you used the <code class="language-plaintext highlighter-rouge">raster()</code> function to open raster data in <code class="language-plaintext highlighter-rouge">R</code>. To work
+with multi-band rasters in <code class="language-plaintext highlighter-rouge">R</code>, you need to change how you import and plot
+your data in several ways.</p>
+
+<ul>
+  <li>To import multi-band raster data you will use the <code class="language-plaintext highlighter-rouge">stack()</code> function.</li>
+  <li>If your multi-band data are imagery that you wish to composite, you can use
+<code class="language-plaintext highlighter-rouge">plotRGB()</code>, instead of <code class="language-plaintext highlighter-rouge">plot()</code>, to plot a 3 band raster image.</li>
+</ul>
+
+<figure>
+    <a href="https://www.earthdatascience.org/images/courses/earth-analytics/raster-data/single-vs-multi-band-raster-data.png">
+    <img src="https://www.earthdatascience.org/images/courses/earth-analytics/raster-data/single-vs-multi-band-raster-data.png" alt="A raster can contain one or more bands. You can use the
+    raster function to import one single band from a single OR multi-band
+    raster." />
+    </a>
+    <figcaption>A raster can contain one or more bands. You can use the
+    raster function to import one single band from a single OR multi-band
+    raster. Source: Colin Williams, NEON.</figcaption>
+</figure>
+
+<h2 id="what-is-multispectral-imagery">What is Multispectral Imagery?</h2>
+
+<p>One type of multispectral imagery that is familiar to many of us is a color
+image. A color image consists of three bands: red, green, and blue. Each
+band represents light reflected from the red, green or blue portions of the
+electromagnetic spectrum. The pixel brightness for each band, when composited
+creates the colors that you see in an image. These colors are the ones your eyes
+can see within the visible portion of the electromagnetic spectrum.</p>
+
+<figure>
+    <a href="https://www.earthdatascience.org/images/courses/earth-analytics/raster-data/RGB-bands-raster-stack.jpg">
+    <img src="https://www.earthdatascience.org/images/courses/earth-analytics/raster-data/RGB-bands-raster-stack.jpg" alt="A color image consists of 3 bands - red, green and blue. When
+    rendered together in a GIS, or even a tool like Photoshop or any other
+    image software, the 3 bands create a color image." /></a>
+    <figcaption>A color image consists of 3 bands - red, green and blue. When
+    rendered together in a GIS, or even a tool like Photoshop or any other
+    image software, the 3 bands create a color image.
+	Source: Colin Williams, NEON.
+    </figcaption>
+</figure>
+
+<p>You can plot each band of a multi-band image individually using a grayscale
+color gradient. Remember from the videos that you watched in class that the
+LIGHTER colors represent a stronger reflection
+in that band. DARKER colors represent a weaker reflection.</p>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral02-naip-multispectral-imagery-R/one-band-RGB-image-1.png" title="Single band image." alt="Single band image." width="90%" /></p>
+
+<h4 id="each-band-plotted-separately">Each Band Plotted Separately</h4>
+
+<p>Note there are four bands below. You are looking at the blue, green, red and near
+infrared bands of a NAIP image. What do you notice about the relative darkness /
+lightness of each image? Is one image brighter than the other?</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># use stack function to read in all bands of a color image</span><span class="w">
+</span><span class="n">rgb_image_3bands</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">stack</span><span class="p">(</span><span class="s2">"data/week-07/naip/m_3910505_nw_13_1_20130926/crop/m_3910505_nw_13_1_20130926_crop.tif"</span><span class="p">)</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">rgb_image_3bands</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"red_band"</span><span class="p">,</span><span class="w"> </span><span class="s2">"green_band"</span><span class="p">,</span><span class="w"> </span><span class="s2">"blue_band"</span><span class="p">,</span><span class="w"> </span><span class="s2">"near_infrared_band"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">plot</span><span class="p">(</span><span class="n">rgb_image_3bands</span><span class="p">,</span><span class="w">
+     </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gray</span><span class="p">(</span><span class="m">0</span><span class="o">:</span><span class="m">100</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">100</span><span class="p">),</span><span class="w">
+   </span><span class="n">box</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">axes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral02-naip-multispectral-imagery-R/plot-3-bands-1.png" title="All bands plotted separately." alt="All bands plotted separately." width="90%" /></p>
+
+<p>You can plot the red, green and blue bands together to create an RGB image. This
+is what you would see with your eyes if you were in the airplane looking down at the Earth.</p>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral02-naip-multispectral-imagery-R/plot-rgb-image-1.png" title="Three band RGB image plot." alt="Three band RGB image plot." width="90%" /></p>
+
+<h2 id="cir-image">CIR Image</h2>
+
+<p>If the image has a 4th Near Infrared (NIR) band, you can create a Color Infrared
+(CIR, sometimes called false color) image. In a CIR image, the NIR band is
+plotted on the “red” band, the red band is plotted using green and the green band
+is plotted using blue. Thus vegetation, which reflects strongly in the NIR part
+of the spectrum, is colored “red.”</p>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral02-naip-multispectral-imagery-R/plot-cir-image-1.png" title="Three band CIR image plot." alt="Three band CIR image plot." width="90%" /></p>
+
+<h2 id="other-types-of-multi-band-raster-data">Other Types of Multi-Band Raster Data</h2>
+
+<p>Above you learned about multi-band raster data in the context of multispectral imagery.
+However, multi-band raster data might also contain:</p>
+
+<ol>
+  <li><strong>Time series data:</strong> the same variable, over the same area, over time.</li>
+  <li><strong>Multi or hyperspectral imagery:</strong> image rasters that have 4 or more
+(multi-spectral) or more than 10-15 (hyperspectral) bands.</li>
+</ol>
+
+<h2 id="about-naip-multispectral-imagery">About NAIP Multispectral Imagery</h2>
+
+<p>The multispectral imagery that you are using is collected by the National Agricultural Imagery
+Program (NAIP).</p>
+
+<blockquote>
+  <p>The National Agriculture Imagery Program (NAIP) acquires aerial imagery during the agricultural growing seasons in the continental U.S. A primary goal of the NAIP program is to make digital ortho photography available to governmental agencies and the public within a year of acquisition.</p>
+</blockquote>
+
+<blockquote>
+  <p>NAIP is administered by the USDA’s Farm Service Agency (FSA) through the Aerial Photography Field Office in Salt Lake City. This “leaf-on” imagery is used as a base layer for GIS programs in FSA’s County Service Centers, and is used to maintain the Common Land Unit (CLU) boundaries. – USDA NAIP Program</p>
+</blockquote>
+
+<p><a href="https://www.fsa.usda.gov/programs-and-services/aerial-photography/imagery-programs/naip-imagery/" target="_blank">Read more about NAIP</a></p>
+
+<p>NAIP is a great source of high resolution imagery across the United States.
+NAIP imagery is often collected with just a red, green and blue band. However,
+some flights include a near infrared band which is very useful for quantifying
+vegetation cover and health.</p>
+
+<p>NAIP data access: For this lesson the <a href="https://earthexplorer.usgs.gov/" target="_blank">USGS Earth Explorer site was used to download NAIP imagery. </a></p>
+
+<h2 id="open-naip-multispectral-imagery-in-r">Open NAIP Multispectral Imagery in R</h2>
+
+<p>Next, let’s explore some multispectral imagery in <code class="language-plaintext highlighter-rouge">R</code>. This imagery covers the site
+of a fire called the <a href="https://inciweb.nwcg.gov/incident/4848/" target="_blank">Cold Springs</a>
+fire that occurred in Colorado near Nederland. You will learn more about this fire over
+the upcoming weeks.</p>
+
+<p>To work with multi-band raster data you use the <code class="language-plaintext highlighter-rouge">raster</code> and <code class="language-plaintext highlighter-rouge">rgdal</code>
+packages. You’ll use the <code class="language-plaintext highlighter-rouge">rgeos</code> package to crop the data.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># load spatial packages</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">raster</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">rgdal</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">rgeos</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Next, open up the NAIP imagery for the Cold Springs fire study area in
+Colorado.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Read in multi-band raster with raster function.</span><span class="w">
+</span><span class="c1"># the first band will be read in automatically</span><span class="w">
+</span><span class="c1"># csf = cold springs fire!</span><span class="w">
+</span><span class="n">naip_csf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">raster</span><span class="p">(</span><span class="s2">"data/week-07/naip/m_3910505_nw_13_1_20130926/crop/m_3910505_nw_13_1_20130926_crop.tif"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Plot band 1</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">naip_csf</span><span class="p">,</span><span class="w">
+     </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gray</span><span class="p">(</span><span class="m">0</span><span class="o">:</span><span class="m">100</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">100</span><span class="p">),</span><span class="w">
+     </span><span class="n">axes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">box</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+     </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NAIP RGB Imagery - Band 1-Red\nCold Springs Fire Scar"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral02-naip-multispectral-imagery-R/naip-band-1-csf-1.png" title="NAIP imagery single band plot." alt="NAIP imagery single band plot." width="90%" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">
+</span><span class="c1"># view data dimensions, CRS, resolution, attributes, and band info</span><span class="w">
+</span><span class="n">naip_csf</span><span class="w">
+</span><span class="c1">## class      : RasterLayer </span><span class="w">
+</span><span class="c1">## band       : 1  (of  4  bands)</span><span class="w">
+</span><span class="c1">## dimensions : 2312, 4377, 10119624  (nrow, ncol, ncell)</span><span class="w">
+</span><span class="c1">## resolution : 1, 1  (x, y)</span><span class="w">
+</span><span class="c1">## extent     : 457163, 461540, 4424640, 4426952  (xmin, xmax, ymin, ymax)</span><span class="w">
+</span><span class="c1">## crs        : +proj=utm +zone=13 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs </span><span class="w">
+</span><span class="c1">## source     : /root/earth-analytics/data/week-07/naip/m_3910505_nw_13_1_20130926/crop/m_3910505_nw_13_1_20130926_crop.tif </span><span class="w">
+</span><span class="c1">## names      : m_3910505_nw_13_1_20130926_crop </span><span class="w">
+</span><span class="c1">## values     : 0, 255  (min, max)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Notice that when you look at the attributes of RGB_Band1, you see:</p>
+
+<p><code class="language-plaintext highlighter-rouge">band: 1  (of  4  bands)</code></p>
+
+<p>This is <code class="language-plaintext highlighter-rouge">R</code> telling us that this particular raster object has more bands
+(4 in total). You only imported the first band.</p>
+
+<p class="notice--success"><i class="fa fa-star"></i> <strong>Data Tip:</strong> The number of bands associated with a
+raster object can also be determined using the <code class="language-plaintext highlighter-rouge">nbands</code> slot. Syntax is
+<code class="language-plaintext highlighter-rouge">ObjectName@file@nbands</code>, or specifically for your file: <code class="language-plaintext highlighter-rouge">RGB_band1@file@nbands</code>.</p>
+
+<h3 id="image-raster-data-values">Image Raster Data Values</h3>
+<p>Next, examine the raster min and max values. What is the value range?</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># view min value</span><span class="w">
+</span><span class="n">minValue</span><span class="p">(</span><span class="n">naip_csf</span><span class="p">)</span><span class="w">
+</span><span class="c1">## [1] 0</span><span class="w">
+
+</span><span class="c1"># view max value</span><span class="w">
+</span><span class="n">maxValue</span><span class="p">(</span><span class="n">naip_csf</span><span class="p">)</span><span class="w">
+</span><span class="c1">## [1] 255</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This raster contains values between 0 and 255. These values represent degrees of
+brightness associated with the image band. In the case of a RGB image (red, green
+and blue), band 1 is the red band. When you plot the red band, larger numbers
+(towards 255) represent pixels with more red in them (a strong red reflection).
+Smaller numbers (towards 0) represent pixels with less red in them (less red was
+reflected). To plot an RGB image, you mix red + green + blue values, using the
+ratio of each. The ratio of each color is determined by how much light was recorded
+(the reflectance value) in each band. This mixture creates one single color than
+in turn makes up the full color image - similar to the color image your camera
+phone creates.</p>
+
+<h3 id="import-a-specific-band">Import a Specific Band</h3>
+<p>You use the <code class="language-plaintext highlighter-rouge">raster()</code> function to import specific bands in your raster object
+by specifying which band you want with <code class="language-plaintext highlighter-rouge">band=N</code> (N represents the band number you
+want to work with). To import the green band, you would use <code class="language-plaintext highlighter-rouge">band = 2</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Can specify which band you want to read in</span><span class="w">
+</span><span class="n">rgb_band2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">raster</span><span class="p">(</span><span class="s2">"data/week-07/naip/m_3910505_nw_13_1_20130926/crop/m_3910505_nw_13_1_20130926_crop.tif"</span><span class="p">,</span><span class="w">
+             </span><span class="n">band</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># plot band 2</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">rgb_band2</span><span class="p">,</span><span class="w">
+     </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gray</span><span class="p">(</span><span class="m">0</span><span class="o">:</span><span class="m">100</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">100</span><span class="p">),</span><span class="w">
+     </span><span class="n">axes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+     </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"RGB Imagery - Band 2 - Green\nCold Springs Fire Scar"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral02-naip-multispectral-imagery-R/naip-band-2-plot-1.png" title="NAIP imagery band 2 plot." alt="NAIP imagery band 2 plot." width="90%" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">
+</span><span class="c1"># view attributes of band 2</span><span class="w">
+</span><span class="n">rgb_band2</span><span class="w">
+</span><span class="c1">## class      : RasterLayer </span><span class="w">
+</span><span class="c1">## band       : 2  (of  4  bands)</span><span class="w">
+</span><span class="c1">## dimensions : 2312, 4377, 10119624  (nrow, ncol, ncell)</span><span class="w">
+</span><span class="c1">## resolution : 1, 1  (x, y)</span><span class="w">
+</span><span class="c1">## extent     : 457163, 461540, 4424640, 4426952  (xmin, xmax, ymin, ymax)</span><span class="w">
+</span><span class="c1">## crs        : +proj=utm +zone=13 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs </span><span class="w">
+</span><span class="c1">## source     : /root/earth-analytics/data/week-07/naip/m_3910505_nw_13_1_20130926/crop/m_3910505_nw_13_1_20130926_crop.tif </span><span class="w">
+</span><span class="c1">## names      : m_3910505_nw_13_1_20130926_crop </span><span class="w">
+</span><span class="c1">## values     : 0, 255  (min, max)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Notice that band 2 is the second of 3 bands <code class="language-plaintext highlighter-rouge">band: 2  (of  4  bands)</code>.</p>
+
+<h2 id="raster-stacks-in-r">Raster Stacks in R</h2>
+
+<p>Above you opened and explored just one single band.Next, you will import all four
+image bands (red, green, blue and near-infrared) as an <code class="language-plaintext highlighter-rouge">R</code> <code class="language-plaintext highlighter-rouge">RasterStack</code> object.
+You will then plot a 3-band composite, or full color image.</p>
+
+<p>To bring in all bands of a multi-band raster, use the<code class="language-plaintext highlighter-rouge">stack()</code> function.
+IMPORTANT: All rasters in a raster stack must have the same <em>extent</em>,
+<em>CRS</em> and <em>resolution</em>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Use stack function to read in all bands</span><span class="w">
+</span><span class="n">naip_csf_st</span><span class="w"> </span><span class="o">&lt;-</span><span class="w">
+  </span><span class="n">stack</span><span class="p">(</span><span class="s2">"data/week-07/naip/m_3910505_nw_13_1_20130926/crop/m_3910505_nw_13_1_20130926_crop.tif"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># view attributes of stack object</span><span class="w">
+</span><span class="n">naip_csf_st</span><span class="w">
+</span><span class="c1">## class      : RasterStack </span><span class="w">
+</span><span class="c1">## dimensions : 2312, 4377, 10119624, 4  (nrow, ncol, ncell, nlayers)</span><span class="w">
+</span><span class="c1">## resolution : 1, 1  (x, y)</span><span class="w">
+</span><span class="c1">## extent     : 457163, 461540, 4424640, 4426952  (xmin, xmax, ymin, ymax)</span><span class="w">
+</span><span class="c1">## crs        : +proj=utm +zone=13 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs </span><span class="w">
+</span><span class="c1">## names      : m_3910505_nw_13_1_20130926_crop.1, m_3910505_nw_13_1_20130926_crop.2, m_3910505_nw_13_1_20130926_crop.3, m_3910505_nw_13_1_20130926_crop.4 </span><span class="w">
+</span><span class="c1">## min values :                                 0,                                 0,                                 0,                                 0 </span><span class="w">
+</span><span class="c1">## max values :                               255,                               255,                               255,                               255</span><span class="w">
+
+</span><span class="n">inMemory</span><span class="p">(</span><span class="n">naip_csf_st</span><span class="p">)</span><span class="w">
+</span><span class="c1">## [1] FALSE</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The stack is a good start to working with all the bands. However, if you want to
+plot and process the data, a rasterbrick is faster. Next, convert the stack to a brick.</p>
+
+<p>A rasterbrick in <code class="language-plaintext highlighter-rouge">R</code>, saves all of the bands in the same place making it faster when
+you process the data.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># convert data to raster brick</span><span class="w">
+</span><span class="n">naip_csf_br</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">brick</span><span class="p">(</span><span class="n">naip_csf_st</span><span class="p">)</span><span class="w">
+</span><span class="n">inMemory</span><span class="p">(</span><span class="n">naip_csf_br</span><span class="p">)</span><span class="w">
+</span><span class="c1">## [1] FALSE</span><span class="w">
+</span></code></pre></div></div>
+
+<p>You can view the attributes of each band the stack using <code class="language-plaintext highlighter-rouge">naip_csf_br@layers</code>.
+Or if you have hundreds of bands, you can specify which band you’d like to view
+attributes for using an index value: <code class="language-plaintext highlighter-rouge">naip_csf_br[[1]]</code>. You can also use the
+<code class="language-plaintext highlighter-rouge">plot()</code> and <code class="language-plaintext highlighter-rouge">hist()</code> functions on the <code class="language-plaintext highlighter-rouge">RasterStack</code> to plot and view the
+distribution of raster band values.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># view raster attributes</span><span class="w">
+</span><span class="n">naip_csf_br</span><span class="w">
+</span><span class="c1">## class      : RasterBrick </span><span class="w">
+</span><span class="c1">## dimensions : 2312, 4377, 10119624, 4  (nrow, ncol, ncell, nlayers)</span><span class="w">
+</span><span class="c1">## resolution : 1, 1  (x, y)</span><span class="w">
+</span><span class="c1">## extent     : 457163, 461540, 4424640, 4426952  (xmin, xmax, ymin, ymax)</span><span class="w">
+</span><span class="c1">## crs        : +proj=utm +zone=13 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs </span><span class="w">
+</span><span class="c1">## source     : /tmp/RtmpzcDiNN/raster/r_tmp_2019-09-03_191435_109_75703.grd </span><span class="w">
+</span><span class="c1">## names      : m_3910505_nw_13_1_20130926_crop.1, m_3910505_nw_13_1_20130926_crop.2, m_3910505_nw_13_1_20130926_crop.3, m_3910505_nw_13_1_20130926_crop.4 </span><span class="w">
+</span><span class="c1">## min values :                                 0,                                 0,                                 0,                                 0 </span><span class="w">
+</span><span class="c1">## max values :                               255,                               255,                               255,                               255</span><span class="w">
+</span></code></pre></div></div>
+
+<p>View attributes of one band.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># view attributes for one band</span><span class="w">
+</span><span class="n">naip_csf_br</span><span class="p">[[</span><span class="m">1</span><span class="p">]]</span><span class="w">
+</span><span class="c1">## class      : RasterLayer </span><span class="w">
+</span><span class="c1">## band       : 1  (of  4  bands)</span><span class="w">
+</span><span class="c1">## dimensions : 2312, 4377, 10119624  (nrow, ncol, ncell)</span><span class="w">
+</span><span class="c1">## resolution : 1, 1  (x, y)</span><span class="w">
+</span><span class="c1">## extent     : 457163, 461540, 4424640, 4426952  (xmin, xmax, ymin, ymax)</span><span class="w">
+</span><span class="c1">## crs        : +proj=utm +zone=13 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs </span><span class="w">
+</span><span class="c1">## source     : /tmp/RtmpzcDiNN/raster/r_tmp_2019-09-03_191435_109_75703.grd </span><span class="w">
+</span><span class="c1">## names      : m_3910505_nw_13_1_20130926_crop.1 </span><span class="w">
+</span><span class="c1">## values     : 0, 255  (min, max)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>You can view a histogram of each band in your stack. This is useful to better
+understand the distribution of reflectance values for each band.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># view histogram for each band</span><span class="w">
+</span><span class="n">hist</span><span class="p">(</span><span class="n">naip_csf_br</span><span class="p">,</span><span class="w">
+     </span><span class="n">maxpixels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ncell</span><span class="p">(</span><span class="n">naip_csf_br</span><span class="p">),</span><span class="w">
+     </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"purple"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral02-naip-multispectral-imagery-R/naip-hist-all-layers-1.png" title="Histogram of each NAIP band for a total of 4 bands." alt="Histogram of each NAIP band for a total of 4 bands." width="90%" /></p>
+
+<p>Plot each band individually.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># plot 4 bands separately</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">naip_csf_br</span><span class="p">,</span><span class="w">
+     </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gray</span><span class="p">(</span><span class="m">0</span><span class="o">:</span><span class="m">100</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">100</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral02-naip-multispectral-imagery-R/naip-plot-all-layers-1.png" title="Plot each NAIP band for a total of 4 bands." alt="Plot each NAIP band for a total of 4 bands." width="90%" /></p>
+
+<p>You can plot just one band too.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># plot band 2</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">naip_csf_br</span><span class="p">[[</span><span class="m">2</span><span class="p">]],</span><span class="w">
+     </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NAIP Band 2\n Coldsprings Fire Site"</span><span class="p">,</span><span class="w">
+     </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gray</span><span class="p">(</span><span class="m">0</span><span class="o">:</span><span class="m">100</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">100</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral02-naip-multispectral-imagery-R/naip-plot-individual-bands-1.png" title="Plot individual NAIP band - band 2." alt="Plot individual NAIP band - band 2." width="90%" /></p>
+
+<div class="notice--warning">
+
+  <h2 id="optional-challenge-making-sense-of-single-band-images"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge: Making Sense of Single Band Images</h2>
+  <p>Use the <code class="language-plaintext highlighter-rouge">plot()</code> command to compare grayscale plots of band 1 (red), band 2
+(green) and band 4 (near infrared). Is the forested area
+darker or lighter in band 2 (the green band) compared to band 1 (the red band)?</p>
+</div>
+
+<h2 id="rgb-data">RGB Data</h2>
+
+<p>Previously you’ve explored the single bands in your <code class="language-plaintext highlighter-rouge">rasterstack</code>. Next, you’ll plot an RGB image.</p>
+
+<h3 id="use-plotrgb-to-create-a-composite-3-band-image">Use <code class="language-plaintext highlighter-rouge">plotRGB()</code> to Create a Composite 3 Band Image</h3>
+<p>To render a 3 band, color image in <code class="language-plaintext highlighter-rouge">R</code>, you use <code class="language-plaintext highlighter-rouge">plotRGB()</code>.</p>
+
+<p>This function allows us to:</p>
+
+<ol>
+  <li>Identify what bands you want to render in the red, green and blue regions. The
+<code class="language-plaintext highlighter-rouge">plotRGB()</code> function defaults to a 1 = red, 2 = green, and 3 = blue band order.
+However, you can define what bands you’d like to plot manually. Manual definition of
+bands is useful if you have, for example a near-infrared band and want to create
+a color infrared image.</li>
+  <li>Adjust the <code class="language-plaintext highlighter-rouge">stretch</code> of the image to increase or decrease contrast.</li>
+</ol>
+
+<p>Let’s plot your 3-band image.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Create an RGB image from the raster stack</span><span class="w">
+</span><span class="n">plotRGB</span><span class="p">(</span><span class="n">naip_csf_br</span><span class="p">,</span><span class="w">
+        </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w">
+        </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"RGB image \nColdsprings fire scar"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral02-naip-multispectral-imagery-R/naip-plot-rgb-image-csf-1.png" title="RGB image of NAIP imagery." alt="RGB image of NAIP imagery." width="90%" /></p>
+
+<p>To add a title to your plot, adjust the parameters as follows:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">col.axis = "white"</code>: set the axes to render in white. if you turn off the axes then the plot title will also be turned off.</li>
+  <li><code class="language-plaintext highlighter-rouge">col.lab = "white"</code>: turn plot tick mark labels to white.</li>
+  <li><code class="language-plaintext highlighter-rouge">tck = 0</code>: turn off plot “ticks.”</li>
+</ul>
+
+<p>Finally after the plot code if you set <code class="language-plaintext highlighter-rouge">box(col = "white")</code> it removes the line
+that is drawn alongside of your plot.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># adjust the plot parameters to render the axes using white</span><span class="w">
+</span><span class="c1"># this is a way to "trick" R</span><span class="w">
+</span><span class="n">par</span><span class="p">(</span><span class="n">col.axis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">col.lab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">tck</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
+</span><span class="n">plotRGB</span><span class="p">(</span><span class="n">naip_csf_br</span><span class="p">,</span><span class="w">
+        </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w">
+        </span><span class="n">axes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+        </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NAIP RGB image \nColdsprings fire scar"</span><span class="p">)</span><span class="w">
+</span><span class="n">box</span><span class="p">(</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">)</span><span class="w"> </span><span class="c1"># turn all of the lines to white</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral02-naip-multispectral-imagery-R/plot-rgb-image-title-1.png" title="RGB image of NAIP imagery with title." alt="RGB image of NAIP imagery with title." width="90%" /></p>
+
+<h2 id="apply-a-stretch-to-normalize-the-colors-in-the-image">Apply a Stretch to Normalize the Colors in the Image</h2>
+
+<p>The image above looks pretty good. You can explore whether applying a stretch to
+the image might improve clarity and contrast using <code class="language-plaintext highlighter-rouge">stretch="lin"</code> or
+<code class="language-plaintext highlighter-rouge">stretch = "hist"</code>.</p>
+
+<figure>
+    <a href="https://www.earthdatascience.org/images/courses/earth-analytics/raster-data/raster-image-stretch-dark.jpg">
+    <img src="https://www.earthdatascience.org/images/courses/earth-analytics/raster-data/raster-image-stretch-dark.jpg" alt="When the range of pixel brightness values is closer to 0, a
+    darker image is rendered by default. You can stretch the values to extend to
+    the full 0-255 range of potential values to increase the visual contrast of
+    the image." />
+    </a>
+    <figcaption>When the range of pixel brightness values is closer to 0, a
+    darker image is rendered by default. You can stretch the values to extend to
+    the full 0-255 range of potential values to increase the visual contrast of
+    the image.
+    </figcaption>
+</figure>
+
+<figure>
+    <a href="https://www.earthdatascience.org/images/courses/earth-analytics/raster-data/raster-image-stretch-light.jpg">
+    <img src="https://www.earthdatascience.org/images/courses/earth-analytics/raster-data/raster-image-stretch-light.jpg" alt="When the range of pixel brightness values is closer to 255, a
+    lighter image is rendered by default. You can stretch the values to extend to
+    the full 0-255 range of potential values to increase the visual contrast of
+    the image." />
+    </a>
+    <figcaption>When the range of pixel brightness values is closer to 255, a
+    lighter image is rendered by default. You can stretch the values to extend to
+    the full 0-255 range of potential values to increase the visual contrast of
+    the image.
+    </figcaption>
+</figure>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># what does stretch do?</span><span class="w">
+</span><span class="n">par</span><span class="p">(</span><span class="n">col.axis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">col.lab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">tck</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
+</span><span class="n">plotRGB</span><span class="p">(</span><span class="n">naip_csf_br</span><span class="p">,</span><span class="w">
+        </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w">
+        </span><span class="n">axes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+        </span><span class="n">stretch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lin"</span><span class="p">,</span><span class="w">
+        </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NAIP RGB plot with linear stretch\nColdsprings fire scar"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral02-naip-multispectral-imagery-R/rgb-image-stretch-1.png" title="RGB with linear stretch applied." alt="RGB with linear stretch applied." width="90%" /></p>
+
+<p>What does the image look like using a different stretch? Any better? Worse?</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">par</span><span class="p">(</span><span class="n">col.axis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">col.lab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">tck</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
+</span><span class="n">plotRGB</span><span class="p">(</span><span class="n">naip_csf_br</span><span class="p">,</span><span class="w">
+        </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w">
+        </span><span class="n">axes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+        </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">800</span><span class="p">,</span><span class="w">
+        </span><span class="n">stretch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"hist"</span><span class="p">,</span><span class="w">
+        </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NAIP RGB plot with hist stretch\nColdsprings fire scar"</span><span class="p">)</span><span class="w">
+</span><span class="n">box</span><span class="p">(</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">)</span><span class="w"> </span><span class="c1"># turn all of the lines to white</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral02-naip-multispectral-imagery-R/plot-rgb-hist-stretch-1.png" title="RGB with histogram stretch applied." alt="RGB with histogram stretch applied." width="90%" /></p>
+
+<p>In this case, the stretch doesn’t enhance the contrast of your image significantly
+given the distribution of reflectance (or brightness) values is distributed well
+between 0 and 255. You are lucky! Your NAIP imagery has been processed well and
+thus you don’t need to worry about image stretch.</p>
+
+<h2 id="more-on-rasterstacks-vs-rasterbricks-in-r">More on RasterStacks vs RasterBricks in R</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">R</code> <code class="language-plaintext highlighter-rouge">RasterStack</code> and <code class="language-plaintext highlighter-rouge">RasterBrick</code> object types can both store multiple bands.
+However, how they store each band is different. The bands in a <code class="language-plaintext highlighter-rouge">RasterStack</code> are
+stored as links to raster data that is located somewhere on your computer. A
+<code class="language-plaintext highlighter-rouge">RasterBrick</code> contains all of the objects stored within the actual <code class="language-plaintext highlighter-rouge">R</code> object.
+In most cases, you can work with a <code class="language-plaintext highlighter-rouge">RasterBrick</code> in the same way you might work
+with a <code class="language-plaintext highlighter-rouge">RasterStack</code>. However a <code class="language-plaintext highlighter-rouge">RasterBrick</code> is often more efficient and faster
+to process - which is important when working with larger files.</p>
+
+<ul>
+  <li><a href="https://www.rdocumentation.org/packages/raster/versions/2.5-8/topics/brick" target="_blank">
+More on Raster Bricks</a></li>
+</ul>
+
+<p>You can turn a <code class="language-plaintext highlighter-rouge">RasterStack</code> into a <code class="language-plaintext highlighter-rouge">RasterBrick</code> in <code class="language-plaintext highlighter-rouge">R</code> by using
+<code class="language-plaintext highlighter-rouge">brick(StackName)</code>. Let’s use the <code class="language-plaintext highlighter-rouge">object.size()</code> function to compare <code class="language-plaintext highlighter-rouge">stack</code>
+and <code class="language-plaintext highlighter-rouge">brick</code> <code class="language-plaintext highlighter-rouge">R</code> objects.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># view size of the RGB_stack object that contains your 3 band image</span><span class="w">
+</span><span class="n">object.size</span><span class="p">(</span><span class="n">naip_csf_st</span><span class="p">)</span><span class="w">
+</span><span class="c1">## 56888 bytes</span><span class="w">
+
+</span><span class="c1"># convert stack to a brick</span><span class="w">
+</span><span class="n">naip_brick_csf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">brick</span><span class="p">(</span><span class="n">naip_csf_st</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># view size of the brick</span><span class="w">
+</span><span class="n">object.size</span><span class="p">(</span><span class="n">naip_brick_csf</span><span class="p">)</span><span class="w">
+</span><span class="c1">## 161927968 bytes</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Notice that in the <code class="language-plaintext highlighter-rouge">RasterBrick</code>, all of the bands are stored within the actual
+object. Thus, the <code class="language-plaintext highlighter-rouge">RasterBrick</code> object size is much larger than the
+<code class="language-plaintext highlighter-rouge">RasterStack</code> object.</p>
+
+<p>You use <code class="language-plaintext highlighter-rouge">plotRGB</code> to block a <code class="language-plaintext highlighter-rouge">RasterBrick</code> too.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">par</span><span class="p">(</span><span class="n">col.axis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">col.lab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">tck</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
+</span><span class="c1"># plot brick</span><span class="w">
+</span><span class="n">plotRGB</span><span class="p">(</span><span class="n">naip_brick_csf</span><span class="p">,</span><span class="w">
+  </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NAIP plot from a rasterbrick"</span><span class="p">,</span><span class="w">
+  </span><span class="n">axes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">box</span><span class="p">(</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">)</span><span class="w"> </span><span class="c1"># turn all of the lines to white</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral02-naip-multispectral-imagery-R/plot-brick-1.png" title="Plot of raster brick" alt="Plot of raster brick" width="90%" /></p>
+
+<div class="notice--warning">
+
+  <h2 id="optional-challenge"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge</h2>
+  <p>The NAIP image that you’ve been working with so far is pre-fire.
+Import the <code class="language-plaintext highlighter-rouge">naip/m_3910505_nw_13_1_20150919/crop/m_3910505_nw_13_1_20150919_crop.tif</code>
+into R and plot a:</p>
+
+  <ol>
+    <li>RGB image.</li>
+    <li>CIR image.</li>
+  </ol>
+
+  <p>Then answer the following questions:</p>
+
+  <ul>
+    <li>How many bands does the raster have?</li>
+    <li>What CRS is the raster in?</li>
+    <li>What is the resolution of the data?</li>
+  </ul>
+
+</div>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral02-naip-multispectral-imagery-R/challenge-plot-naip-rgb-1.png" title="Challenge RGB plot of 2015 data." alt="Challenge RGB plot of 2015 data." width="90%" /></p>
+
+<p><img src="https://www.earthdatascience.org/images/courses/earth-analytics-r/07-multispectral-remote-sensing/class-lessons/2017-02-22-spectral02-naip-multispectral-imagery-R/challenge-plot-naip-cir-1.png" title="Challenge CIR plot of 2015 data." alt="Challenge CIR plot of 2015 data." width="90%" /></p>
+
+<div class="notice--warning">
+
+  <h2 id="optional-challenge-what-methods-can-be-used-on-an-r-object"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Optional Challenge: What Methods Can Be Used on an R Object?</h2>
+  <p>You can view various methods available to call on an <code class="language-plaintext highlighter-rouge">R</code> object with
+<code class="language-plaintext highlighter-rouge">methods(class=class(objectNameHere))</code>. Use this to figure out:</p>
+
+  <ol>
+    <li>What methods can be used to call on the <code class="language-plaintext highlighter-rouge">naip_csf_st</code> object?</li>
+    <li>What methods are available for a single band within <code class="language-plaintext highlighter-rouge">naip_csf_st</code>?</li>
+    <li>Why do you think there is a difference?</li>
+  </ol>
+
+</div>
+
+
+          
+
+        
+
+        <!-- if the page is a course lesson, add pagination -->
+
+        
+         <!-- This is clunky code that forces pagination across lesson sets -->
+<!-- NOTE: it won't include slideshows as written which makes sense -->
+<!-- add forced pagination -->
+<!-- first, get total lesson count -->
+
+<div class="previous--next">
+
+
+
+
+
+<!-- if it's page one - then no previous button -->
+<!-- how do i figure out the link? i have to loop through again? -->
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+       <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/addititive-color-models-how-multispectral-imagery-is-drawn-on-computers/" class="btn btn--info btn--large btn-success" style="float:right" >
+         Additive Color Models
+         <i class="fa fa-4 fa-arrow-circle-right" aria-hidden="true"></i></a>
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+
+    
+      
+        <a href="https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/introduction-multispectral-imagery-r/" class="btn btn--info btn--large btn-success">
+          <i class="fa fa-4 fa-arrow-circle-left fa-4" aria-hidden="true"></i>
+          Intro Multispectral Data </a>
+      
+
+      
+      
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+    
+  
+  <!-- ELSE if it's a module -->
+  
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+
+  <!-- ELSE if it's a module -->
+  
+      
+    
+
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags
+  
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/remote-sensing/>Remote sensing</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/remote-sensing/naip/>naip</a> 
+    
+    , 
+  
+    
+    <a href=https://www.earthdatascience.org/tags/remote-sensing/multispectral-remote-sensing/>multispectral remote sensing</a> 
+    
+    
+  
+
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/reproducible-science-and-programming/>Reproducible science and programming</a>:
+  </span>
+  
+
+  <span class="a-main-tag">
+  <i class="fa fa-fw fa-tag" aria-hidden="true"></i><a href=https://www.earthdatascience.org/tags/spatial-data-and-gis/>Spatial data and gis</a>:
+  </span>
+  
+    
+    <a href=https://www.earthdatascience.org/tags/spatial-data-and-gis/raster-data/>raster data</a> 
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2019-09-03">September 03, 2019</time></p>
+        
+        <!-- Add license information w/ DOI to the bottom -->
+        
+  
+  
+
+  
+     The Earth analytics course is subject to the
+     <a href="https://www.earthdatascience.org/license" target="_blank">CC BY-SA 4.0 License </a>.
+      Citation DOI: <a href="https://zenodo.org/badge/latestdoi/143348761" target="_blank"> https://zenodo.org/badge/latestdoi/143348761</a>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+      </footer>
+
+      
+
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/naip-imagery-raster-stacks-in-r/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/naip-imagery-raster-stacks-in-r/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/naip-imagery-raster-stacks-in-r/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.earthdatascience.org/courses/earth-analytics/multispectral-remote-sensing-data/naip-imagery-raster-stacks-in-r/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+<br><br>
+  <a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target="_blank">
+    <img src="https://www.earthdatascience.org/images/earth-data-analytics-professional-certificate-banner.png" alt="Get a professional Certificate in Earth Data Analytics at University of Colorado, Boulder" width="40%"></a>
+</section>
+
+
+       
+    </div>
+
+    
+      
+
+
+<div class="page__comments">
+  <h4 class="page__comments-title">Leave a Comment</h4>
+  
+    <section id="disqus_thread"></section>
+  
+</div>
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/earth-analytics-bootcamp/plot-data-python">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Plot Data With Matplotlib
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  1 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">
+
+     This Week
+
+  
+
+
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/summarize-climate-data-by-season/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Seasonal Summary Values from Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Learn how to calculate seasonal summary values for MACA 2 climate data using xarray and region mask in open source Python.
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/subset-netcdf4-climate-data-spatially-aoi/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Summary Values Using Spatial Areas of Interest (AOIs) including Shapefiles for Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  32 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Climate datasets stored in netcdf 4 format often cover the entire globe or an entire country. Learn how to subset climate data spatially and by time slices u...</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/use-netcdf-in-python-xarray/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">How to Open and Process NetCDF 4 Data Format in Open Source Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Historic and projected climate data are most often stored in netcdf 4 format. Learn how to open and process MACA version 2 climate data for the Continental U...</p>
+    </article>
+  </a>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+
+<!-- Adding analytics code -->
+
+        
+
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    <li>
+      <strong>&copy; 2025 Earth Lab -
+      <a href="https://www.earthdatascience.org/license"> All materials on this site
+        are subject to the CC BY-SA 4.0 License. </a>
+      </strong>
+    </li>
+  </ul>
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/earthlabcu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+    
+      <li><a href="http://github.com/earthlab"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://www.earthdatascience.org/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<!--
+<div class="page__footer-copyright">Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+-->
+
+      </footer>
+    </div>
+
+    <script src="https://www.earthdatascience.org/assets/js/main.min.js"></script>
+
+
+
+
+
+
+  
+  <script type="text/javascript">
+  	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  	var disqus_shortname = 'earthlabcu';
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function() {
+  		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  	})();
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function () {
+  		var s = document.createElement('script'); s.async = true;
+  		s.type = 'text/javascript';
+  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  	}());
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-84081999-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>
+

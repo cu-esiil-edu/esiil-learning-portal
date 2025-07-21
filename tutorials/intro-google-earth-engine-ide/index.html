@@ -1,0 +1,878 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+
+<meta charset="utf-8">
+
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Introduction to the Google Earth Engine code editor | Earth Data Science - Earth Lab </title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Earth Data Science - Earth Lab">
+<meta property="og:title" content="Introduction to the Google Earth Engine code editor">
+
+
+  <link rel="canonical" href="https://www.earthdatascience.org/tutorials/intro-google-earth-engine-ide/">
+  <meta property="og:url" content="https://www.earthdatascience.org/tutorials/intro-google-earth-engine-ide/">
+
+
+
+  <meta content="This tutorial introduces the code editor in Google Earth Engine and shows how to use LandSat imagery using the JavaScript API." name="description">
+  <meta property="og:description" content="This tutorial introduces the code editor in Google Earth Engine and shows how to use LandSat imagery using the JavaScript API.">
+
+
+<!-- twitter cards -->
+
+  <meta name="twitter:site" content="@earthlabcu">
+  <meta name="twitter:title" content="Introduction to the Google Earth Engine code editor">
+  <meta name="twitter:description" content="This tutorial introduces the code editor in Google Earth Engine and shows how to use LandSat imagery using the JavaScript API.">
+  <meta name="twitter:url" content="https://www.earthdatascience.org/tutorials/intro-google-earth-engine-ide/">
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://earthdatascience.org/images/earth_sm_twit.png">
+    <meta name="twitter:image:alt" content="The Earthlab Logo - image of a globe with courses, lessons and tutorials">
+
+    
+  
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2016-09-01T00:00:00-05:00">
+  
+    <link rel="next" href="https://www.earthdatascience.org/tutorials/intro-google-earth-engine-python-api/" title="Introduction to the Google Earth Engine Python API">
+  
+  
+    <link rel="prev" href="https://www.earthdatascience.org/tutorials/convert-modis-tile-to-lat-lon/" title="Get Modis sinusoidal tile grid positions from latitude and longitude coordinates in Python">
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Earth Analytics",
+      "url" : "https://www.earthdatascience.org",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://www.earthdatascience.org/feed.xml" type="application/atom+xml" rel="alternate" title="Earth Data Science - Earth Lab Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="LfpevjsE0wlELv5KKOZv1T2RhRimGSiRckWv5ZC19GU" />
+<!-- don't use the old cataloged meta tags -->
+<meta name="googlebot" content="noodp">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+
+<!-- For all browsers
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">-->
+<link rel="stylesheet" href="https://www.earthdatascience.org/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+
+    <script src="https://www.earthdatascience.org/assets/js/copy-code.js"></script>
+  </head>
+
+  <body>
+
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<!-- search bar begin  - turning off for now-->
+
+<div class="search">
+<form role="search" method="get" action="https://www.earthdatascience.org/search/">
+    <input id="q" name="q"
+           placeholder="Search earth data science site" type="text">
+</form>
+<!--<span class='cu-boulder'><a href="http://www.colorado.edu/earthlab" target="_blank">Earth Lab University of Colorado - Boulder Home </a></span> -->
+</div>
+
+
+<!-- search bar END -->
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://www.earthdatascience.org/"><img src="/images/earth-lab-logo.png" alt="Earth Lab - Earth Data Science" style="height:80%;width:85%"></a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tutorials/">Tutorials</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/courses/">Courses</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/workshops/">Workshops</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/tools/">Tools</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/blog/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://www.earthdatascience.org/about/">About</a></li>
+          
+
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+  <div class="page__hero--overlay" style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.earthdatascience.org/images/header-images/earth-data-analytics-professional-certificate-banner.jpg');">
+  <div class="wrapper">
+        <h1 class="page__title" itemprop="headline">
+          Earth Data Analytics Online Certificate
+        </h1>
+        <p><a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target = "_blank" class="btn btn--light-outline btn--large">Enroll now! Learn more.</a></p>
+  </div>
+</div>
+
+
+
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="breadcrumbs" role="menubar" aria-label="breadcrumbs">
+ <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+ <a href="https://www.earthdatascience.org"></a>
+ 
+ 
+ <!-- there is an offset of 1 so subtract 2 from the final crumb number-->
+ 
+   
+   
+     <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+       <a href="https://www.earthdatascience.org/" itemprop="item"><span itemprop="name">Home</span></a>
+       <meta itemprop="position" content="1" />
+     </li>
+     <span class="sep">/</span>
+   
+    
+        
+        <li><a href="https://www.earthdatascience.org/tutorials/">Tutorials </a>
+        <meta itemprop="position" content="2" />
+        <span class="sep">/</span></li>
+    
+  
+   
+    
+        <li class="current">Introduction to the Google Earth Engine code editor</li>
+    
+  
+</ol>
+</nav>
+
+<!-- from min mistakes -->
+
+
+
+
+  
+
+
+<div id="main" role="main">
+  
+
+
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+    
+    
+
+
+    
+
+    
+
+    
+
+  
+  </div>
+
+
+
+
+
+<div class="sidebar sticky">
+  <nav class="nav__list">
+    <ul>
+      <li><span class="nav__sub-title">Language</span>
+        <ul>
+          
+
+          
+          <!-- this code counts the number of posts associated with the member -->
+          
+            
+              <li><a href=https://www.earthdatascience.org/tutorials/python>python (12)</a></li>
+            
+          
+
+          
+          <!-- this code counts the number of posts associated with the member -->
+          
+            
+              <li><a href=https://www.earthdatascience.org/tutorials/r>r (2)</a></li>
+            
+          
+
+          
+          <!-- this code counts the number of posts associated with the member -->
+          
+            
+              <li><a href=https://www.earthdatascience.org/tutorials/javascript>javascript (2)</a></li>
+            
+          
+        </ul>
+      </li>
+    </ul>
+
+<!-- list tutorials by library -->
+
+
+<!-- end language side bar nav -->
+
+</nav>
+
+</div>
+
+
+<!-- begin science / science themes side bar nav -->
+
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+
+    <meta itemprop="headline" content="Introduction to the Google Earth Engine code editor">
+    <meta itemprop="description" content="This tutorial introduces the code editor in Google Earth Engine and shows how to use LandSat imagery using the JavaScript API.">
+    <meta itemprop="datePublished" content="September 01, 2016">
+    <meta itemprop="dateModified" content="April 20, 2020">
+
+    <div class="page__inner-wrap">
+        <header>
+          
+
+          <!-- BEGIN: insert a welcome to the module block on pages that are part of a module set -->
+
+          <!-- END: insert welcome block -->
+
+          
+              
+
+            
+                <h1 class="page__title" itemprop="headline">
+                
+                 Introduction to the Google Earth Engine code editor
+
+                
+                </h1>
+            
+
+          
+
+          
+            <div class="page__meta">
+              
+              
+              <a href="https://www.earthdatascience.org/authors/matt-oakley">Matt Oakley</a>
+              
+            </div>
+          
+
+            <br/>
+
+            
+
+              
+            
+
+            <!-- For tools pages add authors and tool title -->
+
+            
+        </header>
+
+
+
+      <section class="page__content" itemprop="text">
+
+        <!-- would like to include the TOC automatically but this does weird things-->
+        
+          
+            <p>Google Earth Engine is a geospatial processing platform which allows for the visualization and analysis of data on a planetary scale. 
+Since this application is cloud-based, this allows for much faster processing speeds compared to running such an application on your local machine. 
+Additionally, by using Google Earth Engine, you’ll have access to Google’s Data Catalog/Archive which hosts over 40 years of historical and current data in Landsat (4, 5, 7, and 8) and Moderate Resolution Imaging Spectro-Radiometer (MODIS) formats. 
+You can upload your own raster/vector data which can be kept private or made publicly available. 
+This tutorial introduces the JavaScript API for Google Earth Engine.</p>
+
+<h2 id="accessing-google-earth-engine">Accessing Google Earth Engine</h2>
+
+<p>While Google Earth Engine is free to use, you still need to register your Google account in order to gain access to the service. 
+Head to the <a href="https://signup.earthengine.google.com">Google Earth Engine Signup Page</a> and provide the necessary credentials. 
+You will receive an email with links to the web-based IDE, documentation, etc. 
+Please note that it may take ~24 hours to receive this confirmation email.</p>
+
+<h2 id="google-earth-engine-code-editor-ide">Google Earth Engine Code Editor (IDE)</h2>
+
+<p>Earth Engine can be used straight from your web browser via the Earth Engine Code Editor. 
+This allows for much quicker data processing and the ability to immediately visualize your data. 
+Once you’ve received the confirmation email, open up the <a href="https://code.earthengine.google.com/">Code Editor</a> in your browser.</p>
+
+<h3 id="features">Features</h3>
+
+<p>The Code Editor is split up into 4 different modules: Manager, Code Editor, Console, and Map.</p>
+
+<p><strong>Manager</strong></p>
+
+<p>The Manager (top-left) can be thought of as an elementary file system for Earth Engine. 
+The Manager is split up into 3 different sub-modules:</p>
+
+<ul>
+  <li>Scripts (where your scripts are stored in addition to examples provided by Google)</li>
+  <li>Docs (documentation for Earth Engine)</li>
+  <li>Assets (where you can upload local files to Earth Engine).</li>
+</ul>
+
+<p><strong>Code Editor</strong></p>
+
+<p>The Code Editor (top-center) is where you can write and execute scripts written in JavaScript. 
+This editor will format your code, underline code with problems, autocomplete, and offer completion hints for Earth Engine functions. 
+Buttons to run/reset/save your scripts are found above the code editor itself.</p>
+
+<p><strong>Console</strong></p>
+
+<p>The Console (top-right) is split up into 3 different sub-modules: Inspector, Console, and Tasks. 
+The Inspector allows you to interactively query the map via clicking aspects on the Map. 
+The Console is where any text from print() statements in your scripts will be printed - typically to get metadata from files being used in your script. 
+The Tasks sub-module is used to view jobs/tasks that you’ve submitted which are going to take a large amount of time to complete.</p>
+
+<p><strong>Map</strong></p>
+
+<p>The Map (bottom) is where any visual output from your script will be present and viewable on top of a 15-meter base map image of Earth.</p>
+
+<h3 id="introduction-to-javascript">Introduction to JavaScript</h3>
+
+<p>Scripts written in the code editor on the web-based IDE must be written in JavaScript. 
+JavaScript is a fairly straight-forward programming language to use/learn. 
+JavaScript datatypes consist of Strings, Numbers, Booleans, Arrays, and Objects. 
+All of the basic operators are supported such as + (add/concatenation), = (assignment), === (equality), ! (negation), !== (not equal), etc. 
+Essentially everything in Javascript such as a variable or function is an <em>object</em> due to the fact that JavaScript is an object-oriented programming language. 
+A simple ‘Hello World!’ program written in JavaScript is below. 
+More documentation on the basics of JavaScript can be found <a href="https://developer.mozilla.org/en-US/Learn/Getting_started_with_the_web/JavaScript_basics">here</a>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/* The below script will print 'Hello World!' to the console */
+var string_to_print = 'Hello World!'
+string_to_print
+</code></pre></div></div>
+
+<p>Additionally, Earth Engine has specialized data structures such as <em>Image</em> and <em>Feature</em> which correspond to raster and vector data, respectively. 
+Features on the map are composed of a <em>Geometry</em>. 
+A stack of images is an <em>ImageCollection</em> and a collection of features is a <em>FeatureCollection</em>. 
+Other fundamental JavaScript data structures such as dictionaries, lists, arrays, number, string, etc. are also available.</p>
+
+<h3 id="using-landsat-imagery-in-earth-engine">Using Landsat imagery in Earth Engine</h3>
+
+<p>Now it’s time to start creating and running scripts on Earth Engine. 
+Copy and paste the below line into the Code Editor and press ‘Run’.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>print(ee.Image('LANDSAT/LC8_L1T/LC80440342014077LGN00'));
+</code></pre></div></div>
+
+<p>Earth Engine gives you access to an enormous amount of data hosted by Google. 
+The above line is utilizing the LC80440342014077LGN00 Landsat file from Google’s archive. 
+You’ll see metadata for this file such as the type, id, band names, extents, etc. printed to the Console. 
+After running the above line and inspecting the metadata for the file, copy and paste the below line and press ‘Run’.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/* Load an image and store it in a variable called 'image' */
+var image = ee.Image('LANDSAT/LC8_L1T/LC80440342014077LGN00');
+
+/* Center the map on the image and set the zoom level to 9*/
+Map.centerObject(image, 9);
+
+/* Display the image */
+Map.addLayer(image);
+</code></pre></div></div>
+
+<p>After running the above script, the Map should now be zoomed in to the coast of Central California with a dark, Landsat image overlaid on top of the default map. 
+This is the core functionality of Google Earth Engine: acquire data, load it in, and display/visualize it onto the Map.</p>
+
+<p>As another example, copy and paste the code below into the Code Editor and press ‘Run’.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/* Load the image from the archive */
+var image = ee.Image('LANDSAT/LC8_L1T/LC80440342014077LGN00');
+
+/* Define visualization parameters in an object literal */
+var vizParams = {bands: ['B5', 'B4', 'B3'], min: 5000, max: 15000, gamma: 1.3};
+
+/* Center the map on the image and display */
+Map.centerObject(image, 9);
+Map.addLayer(image, vizParams, 'Landsat 8 false color');
+</code></pre></div></div>
+
+<p>This script will visualize the same data but now only use bands named ‘B5’, ‘B4’, and ‘B3’ with additional parameters such as min, max, and gamma extents.</p>
+
+<p>Add the below code segment to the editor and press ‘Run’ again.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var counties = ee.FeatureCollection('ft:1S4EB6319wWW2sWQDPhDvmSBIVrD3iEmCLYB7nMM');
+Map.addLayer(counties, {}, 'counties');
+</code></pre></div></div>
+
+<p>Now all of the counties in the US should be visualized on the Map.</p>
+
+<h3 id="next-steps">Next steps</h3>
+
+<p>While the above section conveyed some of the core aspects of Google Earth Engine, the example provided is about as simple as it gets. 
+If you’re interested in diving deeper into Google Earth Engine, you can read the <a href="https://developers.google.com/earth-engine/getstarted">Earth Engine Documentation</a> which explains and provides examples for mechanisms such as filtering, sorting, band math, mapping, reducing, masking, etc.</p>
+
+<p>A complete listing of all data that you have access to via Google’s Data Catalog can be found <a href="https://code.earthengine.google.com/datasets">here</a>.</p>
+
+          
+
+        
+
+        <!-- if the page is a course lesson, add pagination -->
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+
+
+
+
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-04-20">April 20, 2020</time></p>
+        
+        <!-- Add license information w/ DOI to the bottom -->
+        
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+      </footer>
+
+      
+
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://www.earthdatascience.org/tutorials/intro-google-earth-engine-ide/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.earthdatascience.org/tutorials/intro-google-earth-engine-ide/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https://www.earthdatascience.org/tutorials/intro-google-earth-engine-ide/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.earthdatascience.org/tutorials/intro-google-earth-engine-ide/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+<br><br>
+  <a href="https://earthlab.colorado.edu/earth-data-analytics-professional-graduate-certificate?utm_source=earthdatascience&utm_medium=website&utm_campaign=certificate-2022&utm_id=certificate-2022" target="_blank">
+    <img src="https://www.earthdatascience.org/images/earth-data-analytics-professional-certificate-banner.png" alt="Get a professional Certificate in Earth Data Analytics at University of Colorado, Boulder" width="40%"></a>
+</section>
+
+
+       
+    </div>
+
+    
+      
+
+
+<div class="page__comments">
+  <h4 class="page__comments-title">Leave a Comment</h4>
+  
+    <section id="disqus_thread"></section>
+  
+</div>
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/earth-analytics-bootcamp/plot-data-python">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Plot Data With Matplotlib
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  1 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">
+
+     This Week
+
+  
+
+
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/summarize-climate-data-by-season/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Seasonal Summary Values from Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Learn how to calculate seasonal summary values for MACA 2 climate data using xarray and region mask in open source Python.
+</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/subset-netcdf4-climate-data-spatially-aoi/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Calculate Summary Values Using Spatial Areas of Interest (AOIs) including Shapefiles for Climate Data Variables Stored in NetCDF 4 Format: Work With MACA v2 Climate Data in Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  32 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Climate datasets stored in netcdf 4 format often cover the entire globe or an entire country. Learn how to subset climate data spatially and by time slices u...</p>
+    </article>
+  </a>
+</div>
+
+        
+          
+
+
+
+
+<div class="grid__item">
+  
+    <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/hierarchical-data-formats-hdf/use-netcdf-in-python-xarray/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">How to Open and Process NetCDF 4 Data Format in Open Source Python
+</h2>
+
+
+     
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+      
+      <p class="archive__item-excerpt" itemprop="description">Historic and projected climate data are most often stored in netcdf 4 format. Learn how to open and process MACA version 2 climate data for the Continental U...</p>
+    </article>
+  </a>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+
+<!-- Adding analytics code -->
+
+        
+
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    <li>
+      <strong>&copy; 2025 Earth Lab -
+      <a href="https://www.earthdatascience.org/license"> All materials on this site
+        are subject to the CC BY-SA 4.0 License. </a>
+      </strong>
+    </li>
+  </ul>
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/earthlabcu"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+    
+      <li><a href="http://github.com/earthlab"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://www.earthdatascience.org/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<!--
+<div class="page__footer-copyright">Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+-->
+
+      </footer>
+    </div>
+
+    <script src="https://www.earthdatascience.org/assets/js/main.min.js"></script>
+
+
+
+
+
+
+  
+  <script type="text/javascript">
+  	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  	var disqus_shortname = 'earthlabcu';
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function() {
+  		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  	})();
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function () {
+  		var s = document.createElement('script'); s.async = true;
+  		s.type = 'text/javascript';
+  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  	}());
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-84081999-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>
+
