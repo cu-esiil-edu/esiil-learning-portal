@@ -75,7 +75,9 @@ One of the most common challenges for new programmers is making sure that your r
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-ncei_url = f'https://figshare.com/ndownloader/files/{figshare_id}'
+ncei_url = (
+    'https://figshare.com/ndownloader/files'
+    f'/{figshare_id}')
 ncei_url
 ```
 :::
@@ -101,7 +103,7 @@ The `pandas` library you imported can download data from the internet directly i
 #download
 climate_df = pd.read_csv(
     my_url,
-    index_col='something')
+    #index_col='something')
 climate_df
 ```
 
@@ -155,13 +157,5 @@ climate_df
 # Clean up the DataFrame
 climate_df = climate_df[[f'{data_type}']]
 climate_df
-```
-:::
-
-::: {.content-visible when-format="ipynb"}
-Great work! You finished the data cleaning section of this coding challenge. You can go on to the next notebook -- but first, make sure to store the climate `DataFrame` you made so that you can use it in the next notebooks. We'll do this using the [ipython `store` **cell magic**](https://ipython.readthedocs.io/en/stable/config/extensions/storemagic.html). [Cell magic commands](https://ipython.readthedocs.io/en/stable/interactive/magics.html) aren't part of your regular code; they're there to help you with coding in Jupyter Notebooks. You can tell it's a magic command because it starts with `%`:
-
-```{python}
-%store climate_df
 ```
 :::

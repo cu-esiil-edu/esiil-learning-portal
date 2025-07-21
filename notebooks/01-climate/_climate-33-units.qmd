@@ -21,7 +21,7 @@ dataframe_units = dataframe.rename(columns={
     'TOBS': 'TOBS_UNIT',
 })
 
-dataframe
+dataframe_units
 ```
 
 ::: {.content-visible when-format="html"}
@@ -40,9 +40,7 @@ climate_u_df
 
 The code below attempts to convert the data to Celcius, using Python mathematical **operators**, like `+`, `-`, `*`, and `/`. Mathematical operators in Python work just like a calculator, and that includes using parentheses to designat the **order of operations**. The equation for converting Fahrenheit temperature to Celcius is:
 
-$$
-T_C = (T_F - 32) * \frac{5}{9}
-$$
+$$ T_C = (T_F - 32) * \frac{5}{9} $$
 
 This code is not well documented and doesn't follow [PEP-8 guidelines](https://peps.python.org/pep-0008/#other-recommendations), which has caused the author to miss an **important error**!
 
@@ -62,7 +60,9 @@ dataframe_units
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-climate_u_df['temp_c'] = (climate_u_df['temp_f'] - 32) * 5 / 9
+climate_u_df['temp_c'] = (
+    (climate_u_df['temp_f'] - 32) 
+    * 5/9)
 
 climate_u_df
 ```
@@ -70,12 +70,26 @@ climate_u_df
 
 ::: {.callout-extra}
 Using the code below as a framework, write and apply a **function** that converts to Celcius. You should also rewrite this function name to be more expressive.
-  
-```python
+:::
+
+```{python}
+#| template: student
+# Convert units with a function
 def convert(temperature):
     """Convert temperature to Celcius"""
     return temperature # Put your equation in here
 
-dataframe['TEMP_C'] = dataframe['TEMP_F'].apply(convert)
+dataframe['TEMP_C'] = (
+    dataframe['TEMP_F'].apply(convert))
 ```
-:::
+
+```{python}
+#| template: answer
+def convert_f_to_c(temperature_f):
+    """Convert temperature to Celcius"""
+    return (temperature_f - 32) * 5/9
+
+dataframe['TEMP_C'] = (
+    dataframe['TEMP_F'].apply(convert))
+```
+

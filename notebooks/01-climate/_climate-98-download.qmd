@@ -67,7 +67,7 @@ The cell below contains the URL you will use to download climate data. There are
 ```{python}
 #| template: student
 stuff23 = ('https://www.ncei.noaa.gov/access/services/da'
-'ta/v1?dataset=daily-summaries&dataTypes=DATATYPE&stations=STATION&startDate=YYYY-MM-DD&YYYY-MM-DD')
+'ta/v1?dataset=daily-summaries&dataTypes=DATATYPE&stations=STATION&startDate=YYYY-MM-DD&endDate=YYYY-MM-DD')
 stuff23
 ```
 
@@ -117,12 +117,18 @@ climate_df.head()
 ```{python}
 #| template: answer
 # Download the climate data
-climate_df = pd.read_csv(
-    ncei_path,
-    index_col='DATE',
-    parse_dates=True,
-    na_values=['NaN']
-)
+# Retry a few times in case the server is down
+for i in range(10):
+    try:
+        climate_df = pd.read_csv(
+            ncei_path,
+            index_col='DATE',
+            parse_dates=True,
+            na_values=['NaN'])
+        break
+    except:
+        continue
+        
 
 # Check that the download worked
 climate_df.head()
