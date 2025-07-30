@@ -135,8 +135,9 @@ climate_df.head()
 
 ::: {.callout-task}
 
-  1. Replace `filename` with the 
-  2. Run the code to download and check your data
+  1. Replace `filename` with the name of the file you want to save your data in. Your data file should end up in the same folder  
+  2. (optional) You can also construct a **reproducible file path** using the `pathlib` or `os` libraries and use that, or use `earthpy` to make a data directory based on your system settings.
+  3. Run the code to save your data
   
 :::
 
@@ -153,10 +154,10 @@ climate_df.to_csv('filename')
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-# Save the climate data using earthpy
+# Save the climate data to a project data folder
 import earthpy
 project = earthpy.Project(dirname=project_dirname)
-climate_df.to_csv(project.project_dir / ncei_filename)
+climate_df.to_csv(project.project_dir / output_filename)
 ```
 :::
 

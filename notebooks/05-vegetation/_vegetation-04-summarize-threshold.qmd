@@ -20,7 +20,9 @@ You will apply an NDVI threshold and determine how many pixels have healthy vege
 # Create a composite of NDVI values for each year
 composite_da = (
     ndvi_da
+    # For each year...
     .groupby('date.year')
+    # Take the mean across all the dates
     .mean(dim=['date'])
 )
 ```

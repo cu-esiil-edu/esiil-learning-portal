@@ -1,0 +1,168 @@
+# STEP 1: Study area
+
+You can use any boundary for your study. In the example, we used the "American Indian Tribal Subdivisions" available from the US Census.
+
+::: {.callout-info .column-margin title="Nothing about us without us"}
+We realize not everyone is cool with the term "American Indian", especially when used by people who aren't Tribal members. At the same time, others feel that it is important to reclaim "Indian", and more importantly that's the term a lot of Tribal people use every day. In this case, we're stuck because of how this dataset is named in the Census boundary datasets...however, when sharing your work or publishing your own data, it's important to include local communities in the area you are studying, about language choices but also *throughout* your project.
+:::
+
+We'll be downloading the boundaries using a web browser. The data source, [data.gov](https://catalog.data.gov/), has placed restrictions on programmatic downloads (downloads using code). There are a number of ways to attempt to get around these restrictions, such as pretending to be a web browser by setting the **User Agent** parameter, but in this case we've found it's just not worth the time and effort. Follow the steps below to download the data and put it somewhere that your Python code can find it.
+
+## STEP 1A: Open up the data catalog
+
+Click this link: [https://catalog.data.gov](https://catalog.data.gov/). You can also open your web browser and type it in if you prefer.
+
+![Open up the data.gov catalog.](/img/earth-analytics/download/aitsn/01-catalog.png)
+
+## STEP 1B: Search
+
+Search for the data you want. To get the American Indian Tribal Subdivisions census data, we recommend the search term "American Indian Tribal Subdivisions 2020". These census files are updated regularly at the time of the census, so we want to make sure we have the most recent version. The last census was in 2020.
+
+![**Search** for "American Indian Tribal Subdivisions 2020"](/img/earth-analytics/download/aitsn/02-search.png)
+
+## STEP 1C: Open the dataset page
+
+Find the "TIGER/Line Shapefile, 2020, Nation, U.S., American Indian Tribal Subdivisions" dataset in the search results, and click on the title to go to the dataset page.
+
+![Select the "TIGER/Line Shapefile, 2020, Nation, U.S., American Indian Tribal Subdivisions" dataset.](/img/earth-analytics/download/aitsn/03-select.png)
+
+![You should now be on the dataset page.](/img/earth-analytics/download/aitsn/04-dataset.png)
+## STEP 1D: Download
+
+Next, scroll down to the available files to download. Click on the `Download` button for the `.zip` file -- this will be the easiest one to open in Python.
+
+![Scroll down and click on the `.zip` file `Download` button.](/img/earth-analytics/download/aitsn/05-download.png)
+
+## STEP 1E: Move your file
+
+We now need to locate the file you downloaded and put it somewhere where Python can find it. Ideally, you should put the downloaded `.zip` file in your project directory. Most web browsers will pop up with some kind of button to open up your File Explorer (Windows) or Finder (Mac) in the location of your downloaded files. You can also check in your user home directory for a `Downloads` folder. If none of that works, try opening up your File Explorer/Finder and searching for the file
+
+![Open up the downloaded file in your Finder/File Explorer](/img/earth-analytics/download/aitsn/06-open-folder.png)
+![You should now see the file in your File Explorer/Finder](/img/earth-analytics/download/aitsn/07-view.png)
+
+If you are working on GitHub Codespaces, you will need to upload your file before relocating it:
+
+  1. Go to the `Explorer` tab in your Codespace
+  2. Right-click on the `data` folder
+  3. Click `Upload`
+  4. Select the `.zip` file you just downloaded.
+
+![If you are using GitHub Codespaces, upload the file.](/img/earth-analytics/download/aitsn/08-upload.png)
+
+If you are working in GitHub Codespaces, you can skip ahead to unzipping the file! If not, you'll need to relocate your file on your computer. One way to do that is with **bash**.
+
+::: {.callout-task}
+
+The code cell below is using a language called **bash**, which can be used to move files around your computer. To do that, we're using the `cp` command, which stands for **copy**. In bash, you indicate that you want to retrieve a variable with the `$` character. Since we're in a Jupyter notebook, we can also access Python variables this way!
+
+  1. Check that the path to your file, `~/Downloads/tl_2020_us_aitsn.zip` is accurate, and change it if it isn't
+  2. Run the cell to move your file.
+
+:::
+
+```{python}
+!cp ~/Downloads/tl_2020_us_aitsn.zip -d "$project.project_dir"
+```
+
+::: {.content-hidden}
+```{python}
+# Download without unzipping to imitate manual download
+project.data._download(
+    'https://figshare.com/ndownloader/files/54896600', 
+    'tl_2020_us_aitsn.zip', 'file', False, False)
+```
+:::
+
+Now, let's check that the file got moved.
+
+```{python}
+!ls "$project.project_dir"
+```
+
+You can optionally unzip the file. `geopandas` will be able to read this particular shapefile from a `.zip` archive, but some other files may need to be unzipped. We'll first define the path in Python, and then use bash to unzip. You can also unzip with the `Python` `zipfile` library, but it is more complicated than we need right now.
+
+```{python}
+filename = "tl_2020_us_aitsn"
+zip_path = project.project_dir / f"{filename}.zip"
+unzip_dir = project.project_dir / filename
+```
+
+The following command unzips a zip archive to the specified directory (`-d`). Any files that already exist are skipped without prompting (`-n`)
+```{python}
+!unzip -n "$zip_path" -d "$unzip_dir"
+```
+
+You can also delete the zip file, now that it is extracted. This will help keep your data directory tidy:
+
+```{python}
+!rm "$zip_path"
+```
+
+## STEP 1F: Open boundary in Python
+
+::: {.callout-task}
+
+  1. Replace `"directory-name"` with the actual name of the file you downloaded (or the folder you unzipped to) and put in your project directory.
+  2. Modify the code below to use **descriptive variable names**. Feel free to refer back to previous challenges for similar code!
+  3. Add a line of code to open up the data path. What library and function do you need to open this type of data?
+  4. Add some code to check your data, either by viewing it or making a quick plot. Does it look like what you expected?
+
+:::
+
+```{python}
+#| template: student
+# Define boundary path
+path = project.project_dir / "directory-name"
+
+# Open the site boundary
+
+
+# Check that the data were downloaded correctly
+
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Define boundary path
+aitsn_path = project.project_dir / "tl_2020_us_aitsn"
+
+# Open the site boundary
+aitsn_gdf = gpd.read_file(aitsn_path)
+
+# Check that the data were downloaded correctly
+aitsn_gdf.NAME
+```
+:::
+
+
+Let's go ahead and select the Gila River subdivisions, and make a site map.
+
+::: {.callout-task}
+
+  1. Replace `identifier` with the value you found from exploring the interactive map. Make sure that you are using the correct **data type**!
+  2. Change the plot to have a web tile basemap, and look the way you want it to.
+
+:::
+
+```{python}
+#| template: student
+# Select and merge the subdivisions you want
+
+# Plot the results with web tile images
+
+```
+
+```{python}
+#| template: answer
+# Select and merge the subdivisions you want
+boundary_gdf = aitsn_gdf.loc[aitsn_gdf.AIANNHCE=='1310'].dissolve()
+# Plot the results with web tile images
+boundary_gdf.hvplot(
+    geo=True, tiles='EsriImagery',
+    fill_color=None, line_color='black',
+    title=site_name,
+    frame_width=500)
+```
+
+

@@ -1,0 +1,199 @@
+# STEP 2: AppEEARS API
+
+## Exploring the AppEEARS API for NASA Earthdata access
+
+Before you get started with the data download today, you will need a free [NASA Earthdata account](https://urs.earthdata.nasa.gov/home) if you don't have one already!
+
+Over the next four cells, you will download MODIS NDVI data for the study period. MODIS is a multispectral instrument that measures Red and NIR data (and so can be used for NDVI). There are two MODIS sensors on two different platforms: satellites Terra and Aqua.
+
+::: {.callout-read}
+[Learn more about MODIS datasets and the science they support](https://modis.gsfc.nasa.gov/)
+:::
+
+Since we're asking for a special download that only covers our study area, we can't just find a link to the data - we have to negotiate with the data server. We're doing this using the [APPEEARS](https://appeears.earthdatacloud.nasa.gov/api/) API (Application Programming Interface). The API makes it possible for you to request data using code. You can use code from the `earthpy` library to handle the API request.
+
+::: {.callout-task}
+Often when we want to do something more complex in coding we find an example and modify it. This download code is already almost a working example. Your task will be:
+
+  1. Replace the start and end dates in the task parameters. Download data from July, when greenery is at its peak in the Northern Hemisphere.
+  2. Replace the year range. You should get 3 years before and after the event so you can see the change!
+  3. Replace `gdf` with the name of **your** site geodataframe.
+  4. **Enter your NASA Earthdata username and password when prompted.** The prompts can be a little hard to see -- look at the top of your screen!
+:::
+
+::: {.callout-respond}
+What would the product and layer name be if you were trying to download Landsat Surface Temperature Analysis Ready Data (ARD) instead of MODIS NDVI?
+:::
+
+::: {.callout-important}
+It can take some time for Appeears to process your request - anything from a few minutes to a few hours depending on how busy they are. You can check your progress by:
+
+  1. Going to the [Appeears webpage](https://appeears.earthdatacloud.nasa.gov/)
+  2. Clicking the `Explore` tab
+  3. Logging in with your Earthdata account
+
+:::
+
+```{python}
+#| template: student
+# Initialize AppeearsDownloader for MODIS NDVI data
+ndvi_downloader = eaapp.AppeearsDownloader(
+    download_key=download_key,
+    product='MOD13Q1.061',
+    layer='_250m_16_days_NDVI',
+    start_date='01-01',
+    end_date='01-31',
+    recurring=True,
+    year_range=[, ],
+    polygon=gdf
+)
+# Download the prepared download -- this can take some time!
+ndvi_downloader.download_files(cache=True)
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Initialize AppeearsDownloader for MODIS NDVI data
+ndvi_downloader = eaapp.AppeearsDownloader(
+    download_key=download_key,
+    product='MOD13Q1.061',
+    layer='_250m_16_days_NDVI',
+    start_date='06-01',
+    end_date='09-01',
+    recurring=True,
+    year_range=[start_year, end_year],
+    polygon=boundary_gdf
+)
+# Download the prepared download -- this can take some time!
+ndvi_downloader.download_files(cache=True)
+```
+:::
+
+## Putting it together: Working with multi-file raster datasets in Python
+
+Now you need to load all the downloaded files into Python. You may have noticed that the `earthpy.appears module gives us all the downloaded file names...but only some of those are the NDVI files we want while others are quality files that tell us about the confidence in the dataset. For now, the files we want all have "NDVI" in the name.
+
+Let's start by getting all the NDVI file names. You will also need to extract the date from the filename. Check out [the lesson on getting information from filenames in the textbook](https://www.earthdatascience.org/courses/intro-to-earth-data-science/write-efficient-python-code/loops/data-workflows-with-loops/). We're using a slightly different method here (the `.rglob()` or **recursive** glob method, which searchs all the directories nested inside the path), but the principle is the same.
+
+::: {.callout-caution title="GOTCHA ALERT!"}
+`glob` doesn't necessarily find files in the order you would expect. Make sure to **sort** your file names like it says in the textbook.
+:::
+
+```{python}
+#| template: student
+# Get a sorted list of NDVI tif file paths
+ndvi_paths = sorted(list(project.project_dir.rglob('ndvi-pattern')))
+
+# Display the first and last three files paths to check the pattern
+ndvi_paths[:3], ndvi_paths[-3:]
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Get a sorted list of NDVI tif file paths
+ndvi_paths = sorted(list(project.project_dir.rglob('*NDVI*.tif')))
+
+# Display the first and last three files paths to check the pattern
+ndvi_paths[:3], ndvi_paths[-3:]
+```
+:::
+
+### Repeating tasks in Python
+
+Now you should have a few dozen files! For each file, you need to:
+
+  - Load the file in using the `rioxarray` library
+  - Get the date from the file name
+  - Add the date as a dimension coordinate
+  - Give your data variable a name
+
+You don't want to write out the code for each file! That's a recipe for **copy pasta** and errors. Luckily, Python has tools for doing similar tasks repeatedly. In this case, you'll use one called a `for` loop.
+
+There's some code below that uses a `for` loop in what is called an **accumulation pattern** to process each file. That means that you will save the results of your processing to a list each time you process the files, and then merge all the arrays in the list.
+
+::: {.callout-task}
+
+  - Look at the file names. How many characters from the end is the date? `doy_start` and `doy_end` are used to extract the day of the year (doy) from the file name. You will need to count characters from the end and change the values to get the right part of the file name. HINT: the index -1 in Python means the last value, -2 second-to-last, and so on.
+  - Replace any required variable names with your chosen variable names
+
+:::
+
+```{python}
+#| template: student
+doy_start = -1
+doy_end = -1
+
+# Loop through each NDVI image
+ndvi_das = []
+for ndvi_path in ndvi_paths:
+    # Get date from file name
+
+    # Open dataset
+
+    # Add date dimension and clean up metadata
+    da = da.assign_coords({'date': date})
+    da = da.expand_dims({'date': 1})
+    da.name = 'NDVI'
+
+    # Prepare for concatenation
+```
+
+::: {.content-visible when-format="html"}
+
+```{python}
+#| template: answer
+doy_start = -25
+doy_end = -19
+
+# Loop through each NDVI image
+ndvi_das = []
+for ndvi_path in ndvi_paths:
+    # Get date from file name
+    doy = ndvi_path.name[doy_start:doy_end]
+    date = pd.to_datetime(doy, format='%Y%j')
+
+    # Open dataset
+    da = rxr.open_rasterio(ndvi_path, mask_and_scale=True).squeeze()
+
+    # Add date dimension and clean up metadata
+    da = da.assign_coords({'date': date})
+    da = da.expand_dims({'date': 1})
+    da.name = 'NDVI'
+
+    # Prepare for concatenation
+    ndvi_das.append(da)
+
+len(ndvi_das)
+```
+:::
+
+::: {.callout-task}
+Next, stack your arrays by date into a time series:
+
+  1. Modify the code to match your prior workflow steps and to use descriptive variable names
+  2. Replace `coordinate_name` with the actual name of the coordinate you want to build up.
+:::
+
+```{python}
+#| template: student
+# Combine NDVI images from all dates
+da = xr.combine_by_coords(list_of_data_arrays, coords=['coordinate_name'])
+da
+```
+
+::: {.content-visible when-format="html"}
+```{python}
+#| template: answer
+# Combine NDVI images from all dates
+ndvi_da = xr.combine_by_coords(ndvi_das, coords=['date'])
+ndvi_da
+```
+:::
+
+::: {.content-hidden}
+```{python}
+project.data.prepare_for_upload()
+```
+:::
