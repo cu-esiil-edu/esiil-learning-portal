@@ -103,7 +103,7 @@ You can also take a look at your data using `bash`, either in your terminal or h
 
 ```{python}
 %%bash
-ls $project.project_dir
+ls $(project.project_dir)
 ```
 
 The `pandas` library you imported can download data from the internet directly into a type of Python **object** called a `DataFrame`. In the code cell below, you can see an attempt to do just this. But there are some problems...
@@ -126,7 +126,7 @@ The `pandas` library you imported can download data from the internet directly i
 #| template: student
 #download
 climate_df = pd.read_csv(
-    my_url,
+    project.project_dir / 'filename.csv',
     #index_col='something')
 climate_df
 ```
@@ -136,7 +136,7 @@ climate_df
 #| template: answer
 # Download the climate data
 climate_df = pd.read_csv(
-    ncei_url,
+    project.project_dir / ncei_filename,
     index_col='DATE',
     parse_dates=True,
     na_values=['NaN'])
