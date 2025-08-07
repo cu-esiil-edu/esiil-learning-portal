@@ -6,24 +6,6 @@ authors:
 bibliography:
 - ../../site_sources.bib
 code-annotations: below
-code-block-templates:
-  answer:
-    class: answer-code
-    code-fold: true
-    code-summary: See our solution!
-    echo: true
-    eval: true
-    highlight: true
-  student:
-    class: student-code
-    echo: true
-    eval: false
-    highlight: true
-  test:
-    class: test-code
-    echo: true
-    eval: true
-    highlight: true
 date: 2024-07-24
 editor: visual
 image: /img/earth-analytics/phenocam/phenocam.png
@@ -35,27 +17,6 @@ jupyter:
 nocite: |
   @richardson_phenocam_2023, @richardson_tracking_2019,
   @hufkens_integrated_2018
-params:
-  01-climate:
-    end_date: 2023-09-30
-    location: Boulder, CO
-    output_filename: climate-foundations-data.csv
-    start_date: 1893-10-01
-    station_id: USC00050848
-  css:
-    01-climate:
-      end_date: 2023-09-30
-      location: Chicago, IL
-      output_filename: climate-chicago-data.csv
-      start_date: 1950-10-01
-      station_id: USW00094846
-  stars:
-    01-climate:
-      end_date: 2023-09-30
-      location: Rapid City, SD
-      output_filename: climate-stars-data.csv
-      start_date: 1949-10-01
-      station_id: USC00396947
 title: Explore PhenoCam Data
 toc-title: Table of contents
 ---
@@ -713,12 +674,12 @@ gif <- list.files(path = dir, pattern = "*.jpg", full.names = T) %>%
   
   image_join() %>% 
   
-  # # Add text to each image -  you can change the size, location, color below
-  # image_annotate(paste(site_name,"Jan-Dec", year),
-  #                location = "+900+30",
-  #                size = 35,
-  #                font = "DejaVu-Sans",
-  #                color = "black") %>%
+  # Add text to each image -  you can change the size, location, color below
+  image_annotate(paste(site_name,"Jan-Dec", year),
+                 location = "+900+30",
+                 size = 35,
+                 font = "DejaVu-Sans",
+                 color = "black") %>%
   
   # Frames per second (higher number = faster, lower number = slower)
   image_animate(fps=0.5) %>%

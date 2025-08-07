@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.7.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-f27ce4e7362ebaa9cf482d55f280051c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -186,7 +186,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
         <li>
     <a class="dropdown-item" href="../../pages/00-overviews/04b-events/mefa/index.html">
- <span class="dropdown-text">MEFA</span></a>
+ <span class="dropdown-text">MEFA 2024</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/04b-events/esa25/index.html">
+ <span class="dropdown-text">ESA 2025</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../pages/00-overviews/04b-events/css/index.html">
@@ -427,7 +431,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Before we get started, let’s define some parameters for the workflow. We’ll use these throughout to customize the workflow for this species:</p>
-<div id="6a635a9f" class="cell" data-tags="[&quot;parameters&quot;]" data-execution_count="1">
+<div id="941a207c" class="cell" data-tags="[&quot;parameters&quot;]" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">id</span> <span class="op">=</span> <span class="st">'stars'</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>project_dirname <span class="op">=</span> <span class="st">'tasiyagnunpa-migration-2023'</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>species_name <span class="op">=</span> <span class="st">'Tasiyagnunpa'</span></span>
@@ -469,7 +473,7 @@ Contribute to open data
 <section id="set-up-your-code-to-prepare-for-download" class="level3">
 <h3 class="anchored" data-anchor-id="set-up-your-code-to-prepare-for-download">Set up your code to prepare for download</h3>
 <p>We will be getting data from a source called <a href="https://www.gbif.org/">GBIF (Global Biodiversity Information Facility)</a>. We need a package called <code>pygbif</code> to access the data, which may not be included in your environment. Install it by running the cell below:</p>
-<div id="6f3b0e77" class="cell" data-execution_count="2">
+<div id="1776473e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>bash</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pip install pygbif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -490,7 +494,7 @@ Try It: Import packages
 </ol>
 </div>
 </div>
-<div id="d5e2bf69" class="cell student-code" data-highlight="true" data-execution_count="3">
+<div id="1fee8b1f" class="cell student-code" data-highlight="true" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> getpass <span class="im">import</span> getpass</span>
@@ -499,7 +503,7 @@ Try It: Import packages
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pygbif.occurrences <span class="im">as</span> occ</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pygbif.species <span class="im">as</span> species</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="75b3e597" class="cell answer-code" data-highlight="true=" data-execution_count="4">
+<div id="e335f504" class="cell answer-code" data-highlight="true=" data-execution_count="4">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -560,7 +564,7 @@ File structure
 <p>These days, a lot of people find your file by searching for them or selecting from a <code>Bookmarks</code> or <code>Recents</code> list. Even if you don’t use it, your computer also keeps files in a <strong>tree</strong> structure of folders. Put another way, you can organize and find files by travelling along a unique <strong>path</strong>, e.g.&nbsp;<code>My Drive</code> &gt; <code>Documents</code> &gt; <code>My awesome project</code> &gt; <code>A project file</code> where each subsequent folder is <strong>inside</strong> the previous one. This is convenient because all the files for a project can be in the same place, and both people and computers can rapidly locate files they want, provided they remember the path.</p>
 <p>You may notice that when Python prints out a file path like this, the folder names are <strong>separated</strong> by a <code>/</code> or <code>\</code> (depending on your operating system). This character is called the <strong>file separator</strong>, and it tells you that the next piece of the path is <strong>inside</strong> the previous one.</p>
 </div>
-</div></div><div id="2270a718" class="cell student-code" data-highlight="true" data-execution_count="5">
+</div></div><div id="185cb316" class="cell student-code" data-highlight="true" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data directory</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> earthpy.Project(</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    project_dirname<span class="op">=</span><span class="st">'your-project-directory-name-here'</span>)</span>
@@ -570,7 +574,7 @@ File structure
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the project directory</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>project.project_dir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="1bac4a70" class="cell answer-code" data-highlight="true" data-execution_count="6">
+<div id="5d8fe7a9" class="cell answer-code" data-highlight="true" data-execution_count="6">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data directory</span></span>
@@ -581,11 +585,6 @@ File structure
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the project directory</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>project.project_dir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-**Final Configuration Loaded:**
-{}</code></pre>
-</div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>PosixPath('/home/runner/.local/share/earth-analytics/tasiyagnunpa-migration-2023')</code></pre>
 </div>
@@ -636,27 +635,27 @@ Tip
 <p>If you accidentally enter your credentials wrong, you can set <code>reset=True</code> instead of <code>reset=False</code>.</p>
 </div>
 </div>
-<div id="98006819" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">####--------------------------####</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#### DO NOT MODIFY THIS CODE! ####</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">####--------------------------####</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This code ASKS for your credentials and saves it for the rest of the session.</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># NEVER put your credentials into your code!!!!</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># GBIF needs a username, password, and email -- all need to match the account</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>reset <span class="op">=</span> <span class="va">False</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Request and store username</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="kw">not</span> (<span class="st">'GBIF_USER'</span>  <span class="kw">in</span> os.environ)) <span class="kw">or</span> reset:</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    os.environ[<span class="st">'GBIF_USER'</span>] <span class="op">=</span> <span class="bu">input</span>(<span class="st">'GBIF username:'</span>)</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Securely request and store password</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="kw">not</span> (<span class="st">'GBIF_PWD'</span>  <span class="kw">in</span> os.environ)) <span class="kw">or</span> reset:</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    os.environ[<span class="st">'GBIF_PWD'</span>] <span class="op">=</span> getpass(<span class="st">'GBIF password:'</span>)</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Request and store account email address</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="kw">not</span> (<span class="st">'GBIF_EMAIL'</span>  <span class="kw">in</span> os.environ)) <span class="kw">or</span> reset:</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    os.environ[<span class="st">'GBIF_EMAIL'</span>] <span class="op">=</span> <span class="bu">input</span>(<span class="st">'GBIF email:'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f815deb0" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">####--------------------------####</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#### DO NOT MODIFY THIS CODE! ####</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">####--------------------------####</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This code ASKS for your credentials and saves it for the rest of the session.</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># NEVER put your credentials into your code!!!!</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># GBIF needs a username, password, and email -- all need to match the account</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>reset <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Request and store username</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="kw">not</span> (<span class="st">'GBIF_USER'</span>  <span class="kw">in</span> os.environ)) <span class="kw">or</span> reset:</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    os.environ[<span class="st">'GBIF_USER'</span>] <span class="op">=</span> <span class="bu">input</span>(<span class="st">'GBIF username:'</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Securely request and store password</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="kw">not</span> (<span class="st">'GBIF_PWD'</span>  <span class="kw">in</span> os.environ)) <span class="kw">or</span> reset:</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    os.environ[<span class="st">'GBIF_PWD'</span>] <span class="op">=</span> getpass(<span class="st">'GBIF password:'</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Request and store account email address</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="kw">not</span> (<span class="st">'GBIF_EMAIL'</span>  <span class="kw">in</span> os.environ)) <span class="kw">or</span> reset:</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    os.environ[<span class="st">'GBIF_EMAIL'</span>] <span class="op">=</span> <span class="bu">input</span>(<span class="st">'GBIF email:'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="get-the-species-key" class="level3">
@@ -677,36 +676,36 @@ Try It
 </ol>
 </div>
 </div>
-<div id="01bd3edc" class="cell student-code" data-highlight="true" data-execution_count="8">
+<div id="18271680" class="cell student-code" data-highlight="true" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Query species</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>species_info <span class="op">=</span> species.name_lookup(species_name, rank<span class="op">=</span><span class="st">'SPECIES'</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the first result</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>first_result <span class="op">=</span> species_info[<span class="st">'results'</span>][<span class="dv">0</span>]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the species key (speciesKey)</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>species_key <span class="op">=</span> first_result[<span class="st">'speciesKey'</span>]</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the result</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>first_result[<span class="st">'species'</span>], species_key</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="1734a3fd" class="cell answer-code" data-highlight="true" data-execution_count="9">
+<details class="code-fold">
+<summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Query species</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>species_info <span class="op">=</span> species.name_lookup(species_name, rank<span class="op">=</span><span class="st">'SPECIES'</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>species_info <span class="op">=</span> species.name_lookup(<span class="st">"Sturnella neglecta Audubon, 1844"</span>, rank<span class="op">=</span><span class="st">'SPECIES'</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the first result</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>first_result <span class="op">=</span> species_info[<span class="st">'results'</span>][<span class="dv">0</span>]</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the species key (speciesKey)</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>species_key <span class="op">=</span> first_result[<span class="st">'speciesKey'</span>]</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>taxon_key <span class="op">=</span> first_result[<span class="st">'speciesKey'</span>]</span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the result</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>first_result[<span class="st">'species'</span>], species_key</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="5bfe92de" class="cell answer-code" data-highlight="true" data-execution_count="9">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Query species</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>species_info <span class="op">=</span> species.name_lookup(<span class="st">"Sturnella neglecta Audubon, 1844"</span>, rank<span class="op">=</span><span class="st">'SPECIES'</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the first result</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>first_result <span class="op">=</span> species_info[<span class="st">'results'</span>][<span class="dv">0</span>]</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the species key (speciesKey)</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>taxon_key <span class="op">=</span> first_result[<span class="st">'speciesKey'</span>]</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the result</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>first_result[<span class="st">'species'</span>], taxon_key</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>first_result[<span class="st">'species'</span>], taxon_key</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>('Sturnella neglecta', 176639932)</code></pre>
+<pre><code>('Sturnella neglecta', 159147257)</code></pre>
 </div>
 </div>
 </section>
@@ -734,75 +733,75 @@ Try It: Submit a request to GBIF
 </ol>
 </div>
 </div>
-<div id="01d6459e" class="cell student-code" data-highlight="true" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only download once</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> glob(<span class="bu">str</span>(project.project_dir <span class="op">/</span> csv_file_pattern)):</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Submit query to GBIF</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    gbif_query <span class="op">=</span> occ.download([</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"speciesKey = "</span>,</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"year = "</span>,</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"hasCoordinate = "</span>,</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    ])</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Only download once</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="st">'GBIF_DOWNLOAD_KEY'</span> <span class="kw">in</span> os.environ:</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        os.environ[<span class="st">'GBIF_DOWNLOAD_KEY'</span>] <span class="op">=</span> gbif_query[<span class="dv">0</span>]</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Wait for the download to build</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        wait <span class="op">=</span> occ.download_meta(download_key)[<span class="st">'status'</span>]</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="kw">not</span> wait<span class="op">==</span><span class="st">'SUCCEEDED'</span>:</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>            wait <span class="op">=</span> occ.download_meta(download_key)[<span class="st">'status'</span>]</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>            time.sleep(<span class="dv">5</span>)</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Download GBIF data</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    download_info <span class="op">=</span> occ.download_get(</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>        os.environ[<span class="st">'GBIF_DOWNLOAD_KEY'</span>], </span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        path<span class="op">=</span>project.project_dir)</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Unzip GBIF data</span></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> zipfile.ZipFile(download_info[<span class="st">'path'</span>]) <span class="im">as</span> download_zip:</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>        download_zip.extractall(path<span class="op">=</span>project.project_dir)</span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the extracted .csv file path (take the first result)</span></span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>original_gbif_path <span class="op">=</span> glob(<span class="bu">str</span>(project.project_dir <span class="op">/</span> csv_file_pattern))[<span class="dv">0</span>]</span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>original_gbif_path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c3ef86bc" class="cell student-code" data-highlight="true" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only download once</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> glob(<span class="bu">str</span>(project.project_dir <span class="op">/</span> csv_file_pattern)):</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Submit query to GBIF</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    gbif_query <span class="op">=</span> occ.download([</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"speciesKey = "</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"year = "</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"hasCoordinate = "</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    ])</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Only download once</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="st">'GBIF_DOWNLOAD_KEY'</span> <span class="kw">in</span> os.environ:</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        os.environ[<span class="st">'GBIF_DOWNLOAD_KEY'</span>] <span class="op">=</span> gbif_query[<span class="dv">0</span>]</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Wait for the download to build</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        wait <span class="op">=</span> occ.download_meta(download_key)[<span class="st">'status'</span>]</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="kw">not</span> wait<span class="op">==</span><span class="st">'SUCCEEDED'</span>:</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>            wait <span class="op">=</span> occ.download_meta(download_key)[<span class="st">'status'</span>]</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>            time.sleep(<span class="dv">5</span>)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Download GBIF data</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    download_info <span class="op">=</span> occ.download_get(</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>        os.environ[<span class="st">'GBIF_DOWNLOAD_KEY'</span>], </span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        path<span class="op">=</span>project.project_dir)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Unzip GBIF data</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> zipfile.ZipFile(download_info[<span class="st">'path'</span>]) <span class="im">as</span> download_zip:</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>        download_zip.extractall(path<span class="op">=</span>project.project_dir)</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the extracted .csv file path (take the first result)</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>original_gbif_path <span class="op">=</span> glob(<span class="bu">str</span>(project.project_dir <span class="op">/</span> csv_file_pattern))[<span class="dv">0</span>]</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>original_gbif_path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="162384b2" class="cell answer-code" data-highlight="true" data-execution_count="11">
+<div id="46395f31" class="cell answer-code" data-highlight="true" data-execution_count="11">
 <details class="code-fold">
 <summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only download once</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> glob(<span class="bu">str</span>(project.project_dir <span class="op">/</span> <span class="st">'*.csv'</span>)):</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Only submit one request</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="st">'GBIF_DOWNLOAD_KEY'</span> <span class="kw">in</span> os.environ:</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Submit query to GBIF</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        gbif_query <span class="op">=</span> occ.download([</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f"speciesKey = </span><span class="sc">{</span>species_key<span class="sc">}</span><span class="ss">"</span>,</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"hasCoordinate = TRUE"</span>,</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"year = </span><span class="sc">{year}</span><span class="st">"</span>,</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        ])</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        os.environ[<span class="st">'GBIF_DOWNLOAD_KEY'</span>] <span class="op">=</span> gbif_query[<span class="dv">0</span>]</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Wait for the download to build</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    download_key <span class="op">=</span> os.environ[<span class="st">'GBIF_DOWNLOAD_KEY'</span>]</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    wait <span class="op">=</span> occ.download_meta(download_key)[<span class="st">'status'</span>]</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="kw">not</span> wait<span class="op">==</span><span class="st">'SUCCEEDED'</span>:</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>        wait <span class="op">=</span> occ.download_meta(download_key)[<span class="st">'status'</span>]</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">5</span>)</span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Download GBIF data</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    download_info <span class="op">=</span> occ.download_get(</span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>        os.environ[<span class="st">'GBIF_DOWNLOAD_KEY'</span>], </span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>        path<span class="op">=</span>project.project_dir)</span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Unzip GBIF data</span></span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> zipfile.ZipFile(download_info[<span class="st">'path'</span>]) <span class="im">as</span> download_zip:</span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>        download_zip.extractall(path<span class="op">=</span>project.project_dir)</span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Clean up the .zip file</span></span>
-<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    shutil.rmtree(download_info[<span class="st">'path'</span>])</span>
-<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the extracted .csv file path (take the first result)</span></span>
-<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>original_gbif_path <span class="op">=</span> glob(<span class="bu">str</span>(project.project_dir <span class="op">/</span> <span class="st">'*.csv'</span>))[<span class="dv">0</span>]</span>
-<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>original_gbif_path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only download once</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> glob(<span class="bu">str</span>(project.project_dir <span class="op">/</span> <span class="st">'*.csv'</span>)):</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Only submit one request</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="st">'GBIF_DOWNLOAD_KEY'</span> <span class="kw">in</span> os.environ:</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Submit query to GBIF</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        gbif_query <span class="op">=</span> occ.download([</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f"speciesKey = </span><span class="sc">{</span>species_key<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"hasCoordinate = TRUE"</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"year = </span><span class="sc">{year}</span><span class="st">"</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        ])</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        os.environ[<span class="st">'GBIF_DOWNLOAD_KEY'</span>] <span class="op">=</span> gbif_query[<span class="dv">0</span>]</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Wait for the download to build</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    download_key <span class="op">=</span> os.environ[<span class="st">'GBIF_DOWNLOAD_KEY'</span>]</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    wait <span class="op">=</span> occ.download_meta(download_key)[<span class="st">'status'</span>]</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="kw">not</span> wait<span class="op">==</span><span class="st">'SUCCEEDED'</span>:</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        wait <span class="op">=</span> occ.download_meta(download_key)[<span class="st">'status'</span>]</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">5</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Download GBIF data</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    download_info <span class="op">=</span> occ.download_get(</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        os.environ[<span class="st">'GBIF_DOWNLOAD_KEY'</span>], </span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        path<span class="op">=</span>project.project_dir)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Unzip GBIF data</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> zipfile.ZipFile(download_info[<span class="st">'path'</span>]) <span class="im">as</span> download_zip:</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>        download_zip.extractall(path<span class="op">=</span>project.project_dir)</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Clean up the .zip file</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    shutil.rmtree(download_info[<span class="st">'path'</span>])</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the extracted .csv file path (take the first result)</span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>original_gbif_path <span class="op">=</span> glob(<span class="bu">str</span>(project.project_dir <span class="op">/</span> <span class="st">'*.csv'</span>))[<span class="dv">0</span>]</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>original_gbif_path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>'/home/runner/.local/share/earth-analytics/tasiyagnunpa-migration-2023/gbif_tasiyagnunpa.csv'</code></pre>
@@ -826,19 +825,19 @@ Try It
 </ol>
 </div>
 </div>
-<div id="d74a76a1" class="cell student-code" data-highlight="true" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Give the download a descriptive name</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>gbif_path <span class="op">=</span> project.project_dir <span class="op">/</span> <span class="st">'your-gbif-filename-here'</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>shutil.move(original_gbif_path, gbif_path)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>shutil.rmtree(download_info[<span class="st">'path'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3ebf44f0" class="cell student-code" data-highlight="true" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Give the download a descriptive name</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>gbif_path <span class="op">=</span> project.project_dir <span class="op">/</span> <span class="st">'your-gbif-filename-here'</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>shutil.move(original_gbif_path, gbif_path)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>shutil.rmtree(download_info[<span class="st">'path'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="123650a1" class="cell answer-code" data-highlight="true" data-execution_count="13">
+<div id="68716691" class="cell answer-code" data-highlight="true" data-execution_count="13">
 <details class="code-fold">
 <summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Give the download a descriptive name</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>gbif_path <span class="op">=</span> project.project_dir <span class="op">/</span> gbif_filename</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>shutil.move(original_gbif_path, gbif_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Give the download a descriptive name</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>gbif_path <span class="op">=</span> project.project_dir <span class="op">/</span> gbif_filename</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>shutil.move(original_gbif_path, gbif_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>PosixPath('/home/runner/.local/share/earth-analytics/tasiyagnunpa-migration-2023/gbif_tasiyagnunpa.csv')</code></pre>
@@ -865,33 +864,33 @@ Try It: Load GBIF data
 </div>
 </div>
 <p>You can use the following code to look at the beginning of your file:</p>
-<div id="12b31909" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>head <span class="op">-</span>n <span class="dv">2</span> $gbif_path </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f6253c41" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>head <span class="op">-</span>n <span class="dv">2</span> $gbif_path </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>gbifID  datasetKey  occurrenceID    kingdom phylum  class   order   family  genus   species infraspecificEpithet    taxonRank   scientificName  verbatimScientificName  verbatimScientificNameAuthorship    countryCode locality    stateProvince   occurrenceStatus    individualCount publishingOrgKey    decimalLatitude decimalLongitude    coordinateUncertaintyInMeters   coordinatePrecision elevation   elevationAccuracy   depth   depthAccuracy   eventDate   day month   year    taxonKey    speciesKey  basisOfRecord   institutionCode collectionCode  catalogNumber   recordNumber    identifiedBy    dateIdentified  license rightsHolder    recordedBy  typeStatus  establishmentMeans  lastInterpreted mediaType   issue
 4501319588  2f54cb88-4167-499a-81fb-0a2d02465212    http://arctos.database.museum/guid/DMNS:Bird:57539?seid=6172480 Animalia    Chordata    Aves    Passeriformes   Icteridae   Sturnella   Sturnella neglecta      SPECIES Sturnella neglecta Audubon, 1844    Sturnella neglecta      US  Fort Collins, 6888 East County Road 56  Colorado    PRESENT     a2ef6dd1-8886-48c9-8025-c62bac973cc7    40.657779   -104.94913  80.0        1609.0  0.0         2023-05-30  30  5   2023    9596413 9596413 PRESERVED_SPECIMEN  DMNS    Bird    DMNS:Bird:57539     Greenwood Wildlife Rehabilitation Center    2023-05-30T00:00:00 CC_BY_NC_4_0        Collector(s): Greenwood Wildlife Rehabilitation Center          2025-02-06T17:47:06.161Z        COORDINATE_ROUNDED;CONTINENT_DERIVED_FROM_COORDINATES;INSTITUTION_MATCH_FUZZY;COLLECTION_MATCH_FUZZY</code></pre>
 </div>
 </div>
-<div id="4ba2bfb3" class="cell student-code" data-highlight="true" data-execution_count="15">
+<div id="c84ec001" class="cell student-code" data-highlight="true" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the GBIF data</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>gbif_df <span class="op">=</span> pd.read_csv(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    gbif_path, </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    delimiter<span class="op">=</span><span class="st">''</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="st">''</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    usecols<span class="op">=</span>[]</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>gbif_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="c0335376" class="cell answer-code" data-highlight="true" data-execution_count="16">
+<details class="code-fold">
+<summary>See our solution!</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the GBIF data</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>gbif_df <span class="op">=</span> pd.read_csv(</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    gbif_path, </span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    delimiter<span class="op">=</span><span class="st">''</span>,</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="st">''</span>,</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    usecols<span class="op">=</span>[]</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>gbif_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="a1dd2c79" class="cell answer-code" data-highlight="true" data-execution_count="16">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the GBIF data</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>gbif_df <span class="op">=</span> pd.read_csv(</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    gbif_path, </span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    delimiter<span class="op">=</span><span class="st">'</span><span class="ch">\t</span><span class="st">'</span>,</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="st">'gbifID'</span>,</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    usecols<span class="op">=</span>[<span class="st">'gbifID'</span>, <span class="st">'decimalLatitude'</span>, <span class="st">'decimalLongitude'</span>, <span class="st">'month'</span>])</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>gbif_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    delimiter<span class="op">=</span><span class="st">'</span><span class="ch">\t</span><span class="st">'</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="st">'gbifID'</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    usecols<span class="op">=</span>[<span class="st">'gbifID'</span>, <span class="st">'decimalLatitude'</span>, <span class="st">'decimalLongitude'</span>, <span class="st">'month'</span>])</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>gbif_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div>
