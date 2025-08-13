@@ -1,0 +1,145 @@
+---
+title: Launch GitHub Codespaces with a Custom R Environment
+subtitle: devcontainer Configuration for R
+description: |
+  Use the `devcontainer` configuration option in GitHub Codespaces to launch a custom R  and package installation.
+author:
+  - Elsa Culler
+  - Erick Verleye
+  - Alison Post
+code-annotations: below
+---
+
+Installing software correctly is one of the hardest things about coding, but learners need to do it before they can get started on the fun stuff of coding. GitHub Codespaces is a freemium cloud-based programming platform. We like it for workshops and short courses because:
+
+  * Learners don't need expensive equipment
+  * We can launch a custom container so they can get started coding quickly and easily
+  * It links seamlessly with GitHub, avoiding having to set up authentication or clone repositories
+  
+Of course, there are lots of options out there for coding in the cloud, but we find the Codespaces is a good balance of affordability and functionality with nice student benefits as of this writing.
+
+# R on Codespaces
+
+To use R on GitHub Codespaces, you will need to configure the Codespace using the [Development Containers specification](https://containers.dev). This is done with a file in your repository called either `.devcontainer.json` or `.devcontainer/devcontainer.json`. 
+
+It is possible to work with the RStudio IDE (integrated development environment) in GitHub Codespaces, but we usually work with the built-in VSCode (Visual Studio Code). There are a [couple of extra steps to opening up RStudio](https://github.com/revodavid/devcontainers-rstudio), and so we prefer to keep it simple for workshops.
+
+# devcontainer Files
+
+`devcontainer` files specify how you would like your Codespace configured. Here is an example of a `devcontainer.json` file that launches an R image developed by the `rocker` project with some features needed for smoothlyworking in VSCode rather than RStudio:
+
+
+```python
+{
+    "name": "RStudio Environment",
+    "image": "rocker/rstudio:latest", # <1>
+    "extensions": [
+        "REditorSupport.r", # <2>
+        "quarto.quarto" # <3>
+    ]
+}
+```
+1. Start with the latest rocker RStudio image
+2. Add R autocomplete and checks
+3. Add quarto support
+
+# Applying a Custom R environment
+
+To run a GitHub Codespace with R, you will need to create a `.devcontainer.json` file and add your configuration.
+
+## STEP 1: Create a `.devcontainer.json` file
+
+![Click the plus button.](/img/get-started/r-codespaces/01-add-file.png)
+
+![Select the `New File` option.](/img/get-started/r-codespaces/02-new-file.png)
+
+![Name the file `.devcontainer.json`](/img/get-started/r-codespaces/03-name-devcontainer.png)
+
+## STEP 2: Configure container
+
+![Paste the configuration from above into the `.devcontainer.json` file and make any additions or changes that you want.](/img/get-started/r-codespaces/04-configure.png)
+
+![Commit the `.devcontainer.json` file.](/img/get-started/r-codespaces/05-commit.png)
+
+![Add a descriptive message for the commit and confirm.](/img/get-started/r-codespaces/06-message.png)
+
+
+# Launching a Codespace for R
+
+![Click the green/blue `Code` button and make sure the `Codespaces` tab is selected.](/img/get-started/r-codespaces/11-code.png)
+
+![Click `Create codespace on main` to launch the Codespace.](/img/get-started/r-codespaces/12-launch.png)
+
+Now you should see your Codespace.
+
+::: {.callout-warning}
+Your Codespace may take a few minutes to build -- be patient! Do not try to start up a second Codespace while the first is still building!
+:::
+
+![Your Codespace.](/img/get-started/r-codespaces/13-codespace.png)
+# Reorganize your screen
+
+By default, the output from your R Code will appear on the bottom panel and plots will appear in tabs next to your code. You may wish to reorganize your screen, for example by putting the output and the code side-by-side. This will also make your plots show up in a different panel from your code.
+
+## STEP 1: Open the example Quarto notebook
+
+![Open the example.qmd file.](/img/get-started/r-codespaces/21-open-qmd.png)
+
+## STEP 2: Collapse the left panel
+
+This will give you more room to see what's going on.
+
+![Collapse the left panel by clicking the active icon (Explorer by default).](/img/get-started/r-codespaces/22-collapse-left-panel.png)
+
+## STEP 3: Run some code
+
+It doesn't matter what you run -- this will open up an R Interactive window where your code outputs will appear in the future.
+
+![Run some code to open an R Interactive window](/img/get-started/r-codespaces/23-run-code.png)
+
+## STEP 4: Move terminal to editor
+
+The terminal is where you will see your R output. To view it side-by-side, we recommend moving it out of the bottom panel and into the editor.
+
+![Click on the `R Interactive` menu and select `View Terminal In Editor` to make it into a tab rather than a panel.](/img/get-started/r-codespaces/24-terminal-in-editor.png)
+![Your `R Interactive` should now be a tab instead of a panel.](/img/get-started/r-codespaces/24-terminal-in-editor.png)
+
+## STEP 5: Split screen
+
+![Drag the `R Interactive` tab to the right until the right half of the screen is highlighted. ](/img/get-started/r-codespaces/26-drag-right.png)
+
+![In the final layout, you should see your code on the left and the terminal on the right.](/img/get-started/r-codespaces/27-final-layout.png)
+
+![When you run your code, you will see outputs in the terminal.](/img/get-started/r-codespaces/28-view-output.png)
+
+![Plots will appear in a separate tab on the right.](/img/get-started/r-codespaces/29-view-plot.png)
+
+# Additional configuration options
+
+You can add on to your `.devcontainer.json` file with any number of extension, settings, and other parameters. There are a couple that we suggest for working with R:
+
+```python
+{
+    "name": "RStudio Environment",
+    "image": "earthlabcu/mefa_2024:latest",
+    "settings": {
+        "r.plot.devArgs": { # <1>
+              "width": 1200,
+              "height": 500
+            },
+        "workbench.editorAssociations": { # <2>
+              "*.qmd": "quarto.visualEditor"
+            }
+    },
+    "extensions": [
+        "REditorSupport.r",
+        "quarto.quarto"
+    ]
+}
+```
+1. Set the default plot size
+2. Use the quarto visual editor by default
+
+::: {.callout-read}
+You can find more information about Development Container specifications at the [documentation website](https://containers.dev)
+:::
