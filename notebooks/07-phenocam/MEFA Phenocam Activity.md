@@ -381,7 +381,7 @@ First, we'll download canopy greenness (GCC = green chromatic
 coordinate) timeseries data for your chosen site. The GCC data are
 already condensed down to 1-day and 3-day data products (type = '3day'
 or '1day'). See
-[(@richardson_tracking_2019)](https://www.nature.com/articles/sdata201828)
+[(@richardson_tracking_2018)](https://www.nature.com/articles/sdata201828)
 for more information about PhenoCam data processing.
 
 ::: cell
