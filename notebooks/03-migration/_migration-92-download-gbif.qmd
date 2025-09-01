@@ -31,10 +31,7 @@ In the imports cell, we've included some packages that you will need. Add import
 :::
 
 ```{python}
-#| echo: true
-#| eval: false
-#| class: student-code
-#| highlight: true
+#| template: student
 import time
 import zipfile
 from getpass import getpass
@@ -100,10 +97,7 @@ You may notice that when Python prints out a file path like this, the folder nam
 :::
 
 ```{python}
-#| echo: true
-#| eval: false
-#| class: student-code
-#| highlight: true
+#| template: student
 # Create data directory
 project = earthpy.Project(
     dirname='your-project-directory-name-here')
@@ -116,12 +110,7 @@ project.project_dir
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: true
-#| eval: true
-#| code-fold: true
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: true
+#| template: answer
 # Create data directory
 project = earthpy.Project(dirname=project_dirname)
 # Download sample data
@@ -187,10 +176,7 @@ if (not ('GBIF_EMAIL'  in os.environ)) or reset:
 :::
 
 ```{python}
-#| echo: true
-#| eval: false
-#| class: student-code
-#| highlight: true
+#| template: student
 # Query species
 species_info = species.name_lookup(
     species_lookup, rank='SPECIES')
@@ -207,12 +193,7 @@ first_result['species'], species_key
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: true
-#| eval: true
-#| code-fold: true
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: true
+#| template: answer
 # Query species
 species_info = species.name_lookup(species_lookup, rank='SPECIES')
 
@@ -242,10 +223,7 @@ first_result['species'], taxon_key
 :::
 
 ```{python}
-#| echo: true
-#| eval: false
-#| class: student-code
-#| highlight: true
+#| template: student
 # Only download once
 if not any(project.project_dir.rglob(csv_file_pattern)):
     # Only submit one request
@@ -288,12 +266,7 @@ original_gbif_path
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: true
-#| eval: true
-#| code-fold: true
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: true
+#| template: answer
 # Only download once
 if not any(project.project_dir.rglob('*.csv')):
     # Only submit one request
@@ -345,10 +318,7 @@ You might notice that the GBIF data filename isn't very **descriptive**...at thi
 :::
 
 ```{python}
-#| echo: true
-#| eval: false
-#| class: student-code
-#| highlight: true
+#| template: student
 # Give the download a descriptive name
 gbif_path = project.project_dir / 'your-gbif-filename'
 # Move file to descriptive path
@@ -357,12 +327,7 @@ shutil.move(original_gbif_path, gbif_path)
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: true
-#| eval: true
-#| code-fold: true
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: true
+#| template: answer
 # Give the download a descriptive name
 gbif_path = project.project_dir / gbif_filename
 # Move file to descriptive path
@@ -377,10 +342,7 @@ Just like you did when wrangling your data from the data subset, you'll need to 
 :::
 
 ```{python}
-#| echo: true
-#| eval: false
-#| class: student-code
-#| highlight: true
+#| template: student
 # Load the GBIF data
 
 # Convert to GeoDataFrame
@@ -391,12 +353,7 @@ gbif_gdf.total_bounds
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| echo: true
-#| eval: true
-#| code-fold: true
-#| code-summary: See our solution!
-#| class: answer-code
-#| highlight: true
+#| template: answer
 # Load the GBIF data
 gbif_df = pd.read_csv(
     gbif_path, 
