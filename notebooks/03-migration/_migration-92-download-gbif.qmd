@@ -1,4 +1,4 @@
-## Access locations and times of Veery encounters
+## Access locations and times of {{< meta params.species_name >}} encounters
 
 For this challenge, you will use a database called the [Global Biodiversity Information Facility (GBIF)](https://www.gbif.org/). GBIF is compiled from species observation data all over the world, and includes everything from museum specimens to photos taken by citizen scientists in their backyards.
 
@@ -31,7 +31,10 @@ In the imports cell, we've included some packages that you will need. Add import
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 import time
 import zipfile
 from getpass import getpass
@@ -39,6 +42,7 @@ from glob import glob
 
 import pygbif.occurrences as occ
 import pygbif.species as species
+import requests
 ```
 
 ::: {.content-visible when-format="html"}
@@ -49,6 +53,7 @@ import pygbif.species as species
 #| code-summary: See our solution!
 #| class: answer-code
 #| highlight: true=
+import json
 import os
 import pathlib
 import shutil
@@ -56,11 +61,14 @@ import time
 import zipfile
 from getpass import getpass
 from glob import glob
+from io import BytesIO # Stream from web service
 
 import earthpy
+import geopandas as gpd
 import pandas as pd
 import pygbif.occurrences as occ
 import pygbif.species as species
+import requests # Access the web
 ```
 :::
 
@@ -92,10 +100,13 @@ You may notice that when Python prints out a file path like this, the folder nam
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 # Create data directory
 project = earthpy.Project(
-    project_dirname='your-project-directory-name-here')
+    dirname='your-project-directory-name-here')
 # Download sample data
 project.get_data()
 
@@ -105,7 +116,12 @@ project.project_dir
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 # Create data directory
 project = earthpy.Project(dirname=project_dirname)
 # Download sample data
@@ -140,10 +156,12 @@ If you accidentally enter your credentials wrong, you can set `reset=True` inste
 ####--------------------------####
 #### DO NOT MODIFY THIS CODE! ####
 ####--------------------------####
-# This code ASKS for your credentials and saves it for the rest of the session.
+# This code ASKS for your credentials 
+# and saves it for the rest of the session.
 # NEVER put your credentials into your code!!!!
 
-# GBIF needs a username, password, and email -- all need to match the account
+# GBIF needs a username, password, and email 
+# All 3 need to match the account
 reset = False
 
 # Request and store username
@@ -169,9 +187,13 @@ if (not ('GBIF_EMAIL'  in os.environ)) or reset:
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 # Query species
-species_info = species.name_lookup(species_name, rank='SPECIES')
+species_info = species.name_lookup(
+    species_lookup, rank='SPECIES')
 
 # Get the first result
 first_result = species_info['results'][0]
@@ -185,9 +207,14 @@ first_result['species'], species_key
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 # Query species
-species_info = species.name_lookup("Sturnella neglecta Audubon, 1844", rank='SPECIES')
+species_info = species.name_lookup(species_lookup, rank='SPECIES')
 
 # Get the first result
 first_result = species_info['results'][0]
@@ -204,86 +231,105 @@ first_result['species'], taxon_key
 
 ::: {.callout-task title="Submit a request to GBIF"}
 
-1. Replace `csv_file_pattern` with a string that will match **any** `.csv` file when used in the `glob` function. HINT: the character `*` represents any number of any values except the file separator (e.g. `/`)
+1. Replace `csv_file_pattern` with a string that will match **any** `.csv` file when used in the `.rglob()` method. HINT: the character `*` represents any number of any values except the file separator (e.g. `/` on UNIX systems)
 2. Add parameters to the GBIF download function, `occ.download()` to limit your query to:
 
-    - observations of {{< meta params.species_name>}}
-    - from 2023
+    - observations of {{< meta params.species_name >}}
+    - from {{< meta params.year >}}
     - with spatial coordinates.
 
-3. Then, run the download. **This can take a few minutes**.
+3. Then, run the download. **This can take a few minutes**. You can check your downloads by logging on to the [GBIF website](https://www.gbif.org/user/download).
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 # Only download once
-if not glob(str(project.project_dir / csv_file_pattern)):
-    # Submit query to GBIF
-    gbif_query = occ.download([
-        "speciesKey = ",
-        "year = ",
-        "hasCoordinate = ",
-    ])
-    # Only download once
+if not any(project.project_dir.rglob(csv_file_pattern)):
+    # Only submit one request
     if not 'GBIF_DOWNLOAD_KEY' in os.environ:
-        os.environ['GBIF_DOWNLOAD_KEY'] = gbif_query[0]
+        # Submit query to GBIF
+        gbif_query = occ.download([
+            f"speciesKey = ",
+            "hasCoordinate = ",
+            "year = ",
+        ])
+        # Take first result
+        os.environ['GBIF_DOWNLOAD_KEY'] = next(
+            gbif_query)
 
-        # Wait for the download to build
-        wait = occ.download_meta(download_key)['status']
-        while not wait=='SUCCEEDED':
-            wait = occ.download_meta(download_key)['status']
-            time.sleep(5)
+    # Wait for the download to build
+    dld_key = os.environ['GBIF_DOWNLOAD_KEY']
+    wait = occ.download_meta(dld_key)['status']
+    while not wait=='SUCCEEDED':
+        wait = occ.download_meta(dld_key)['status']
+        time.sleep(5)
 
     # Download GBIF data
-    download_info = occ.download_get(
+    dld_info = occ.download_get(
         os.environ['GBIF_DOWNLOAD_KEY'], 
         path=project.project_dir)
+    dld_path = dld_info['path']
 
     # Unzip GBIF data
-    with zipfile.ZipFile(download_info['path']) as download_zip:
-        download_zip.extractall(path=project.project_dir)
+    with zipfile.ZipFile(dld_path) as dld_zip:
+        dld_zip.extractall(path=project.project_dir)
+        
+    # Clean up the .zip file
+    os.remove(dld_path)
 
-# Find the extracted .csv file path (take the first result)
-original_gbif_path = glob(str(project.project_dir / csv_file_pattern))[0]
+# Find the extracted .csv file path (first result)
+original_gbif_path = next(
+    project.project_dir.rglob('*.csv'))
 original_gbif_path
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 # Only download once
-if not glob(str(project.project_dir / '*.csv')):
+if not any(project.project_dir.rglob('*.csv')):
     # Only submit one request
     if not 'GBIF_DOWNLOAD_KEY' in os.environ:
         # Submit query to GBIF
         gbif_query = occ.download([
             f"speciesKey = {species_key}",
             "hasCoordinate = TRUE",
-            "year = {year}",
+            f"year = {year}",
         ])
+        # Take first result
         os.environ['GBIF_DOWNLOAD_KEY'] = gbif_query[0]
 
     # Wait for the download to build
-    download_key = os.environ['GBIF_DOWNLOAD_KEY']
-    wait = occ.download_meta(download_key)['status']
+    dld_key = os.environ['GBIF_DOWNLOAD_KEY']
+    wait = occ.download_meta(dld_key)['status']
     while not wait=='SUCCEEDED':
-        wait = occ.download_meta(download_key)['status']
+        wait = occ.download_meta(dld_key)['status']
         time.sleep(5)
 
     # Download GBIF data
-    download_info = occ.download_get(
+    dld_info = occ.download_get(
         os.environ['GBIF_DOWNLOAD_KEY'], 
         path=project.project_dir)
+    dld_path = dld_info['path']
 
     # Unzip GBIF data
-    with zipfile.ZipFile(download_info['path']) as download_zip:
-        download_zip.extractall(path=project.project_dir)
+    with zipfile.ZipFile(dld_path) as dld_zip:
+        dld_zip.extractall(path=project.project_dir)
         
     # Clean up the .zip file
-    shutil.rmtree(download_info['path'])
+    os.remove(dld_path)
 
-# Find the extracted .csv file path (take the first result)
-original_gbif_path = glob(str(project.project_dir / '*.csv'))[0]
+# Find the extracted .csv file path (first result)
+original_gbif_path = next(
+    project.project_dir.rglob('*.csv'))
 original_gbif_path
 ```
 :::
@@ -292,26 +338,34 @@ You might notice that the GBIF data filename isn't very **descriptive**...at thi
 
 ::: {.callout-task}
 
-  1. Replace 'your-gbif-filename-here' with a **descriptive** name.
+  1. Replace 'your-gbif-filename' with a **descriptive** name.
   2. Run the cell
   3. Check your data folder. Is it organized the way you want?
   
 :::
 
 ```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 # Give the download a descriptive name
-gbif_path = project.project_dir / 'your-gbif-filename-here'
+gbif_path = project.project_dir / 'your-gbif-filename'
+# Move file to descriptive path
 shutil.move(original_gbif_path, gbif_path)
-# Clean up
-shutil.rmtree(download_info['path'])
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 # Give the download a descriptive name
 gbif_path = project.project_dir / gbif_filename
+# Move file to descriptive path
 shutil.move(original_gbif_path, gbif_path)
 ```
 :::
@@ -319,39 +373,53 @@ shutil.move(original_gbif_path, gbif_path)
 ### Load the GBIF data into Python
 
 ::: {.callout-task title="Load GBIF data"}
-
-1.  Look at the beginning of the file you downloaded using the code below. What do you think the **delimiter** is?
-2.  Run the following code cell. What happens?
-3.  Uncomment and modify the parameters of `pd.read_csv()` below until your data loads successfully and you have only the columns you want.
+Just like you did when wrangling your data from the data subset, you'll need to load your GBIF data and convert it to a GeoDataFrame.
 :::
 
-You can use the following code to look at the beginning of your file:
-
 ```{python}
-!head -n 2 $gbif_path 
-```
-
-```{python}
-#| template: student
+#| echo: true
+#| eval: false
+#| class: student-code
+#| highlight: true
 # Load the GBIF data
-gbif_df = pd.read_csv(
-    gbif_path, 
-    delimiter='',
-    index_col='',
-    usecols=[]
-)
-gbif_df.head()
+
+# Convert to GeoDataFrame
+
+# Check results
+gbif_gdf.total_bounds
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| echo: true
+#| eval: true
+#| code-fold: true
+#| code-summary: See our solution!
+#| class: answer-code
+#| highlight: true
 # Load the GBIF data
 gbif_df = pd.read_csv(
     gbif_path, 
     delimiter='\t',
     index_col='gbifID',
-    usecols=['gbifID', 'decimalLatitude', 'decimalLongitude', 'month'])
-gbif_df.head()
+    usecols=[
+        'gbifID', 
+        'decimalLatitude', 'decimalLongitude', 
+        'month'])
+        
+# Convert to GeoDataFrame
+gbif_gdf = (
+    gpd.GeoDataFrame(
+        gbif_df, 
+        geometry=gpd.points_from_xy(
+            gbif_df.decimalLongitude, 
+            gbif_df.decimalLatitude), 
+        crs="EPSG:4326")
+    # Select the desired columns
+    [['month', 'geometry']]
+)
+
+# Check results
+gbif_gdf.head()
 ```
 :::

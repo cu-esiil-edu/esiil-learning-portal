@@ -1,6 +1,6 @@
 ---
 title: Migration Data Download
-subtitle: Get Tasiagnunpa occurrence data from the Global Biodiversity Information Facility (GBIF)
+subtitle: Get species occurrence data from the Global Biodiversity Information Facility (GBIF)
 learning-goals:
 jupyter:
   kernelspec:
@@ -8,28 +8,36 @@ jupyter:
     language: python
     display_name: Learning Portal
 params:
-  id: stars
-  project_dirname: tasiyagnunpa-migration-2023
-  species_name: Tasiyagnunpa
-  species_lookup: sturnella neglecta
-  sample_filename: migration-stars-data
-  gbif_filename: "gbif_tasiyagnunpa.csv"
-  plot_filename: tasiyagnunpa_migration
-  plot_height: 500
+  id: eda
+  project_title: Veery Migration 2024
+  species_name: Veery
+  species_lookup: catharus fuscescens
+  species_key: 2490804
+  year: 2024
+  project_dirname: "veery-migration-2024"
+  gbif_filename: "gbif_veery.csv"
+  ecoregions_dir: "wwf_ecoregions"
+  plot_filename: veery_migration
+  plot_height: 700
 ---
 
 Before we get started, let's define some parameters for the workflow. We'll use these throughout to customize the workflow for this species:
 
 ```{python}
 #| tags: [parameters]
-id = 'stars'
-project_dirname = 'tasiyagnunpa-migration-2023'
-species_name = 'Tasiyagnunpa'
-species_lookup = 'sturnella neglecta'
-sample_filename = 'migration-stars-data'
-gbif_filename = 'gbif_tasiyagnunpa.csv'
-plot_filename = 'tasiyagnunpa_migration'
-plot_height = 500
+id = 'eda'
+project_title = 'Veery Migration 2024'
+species_name = 'Veery'
+species_lookup = 'catharus fuscescens'
+species_key = 2490804
+year = 2024
+project_dirname = 'veery-migration'
+gbif_filename = 'gbif_veery.csv'
+ecoregions_dir = 'wwf_ecoregions'
+plot_filename = 'veery_migration'
+plot_height = 700
 ```
 
 {{< include _migration-92-download-gbif.qmd >}}
+
+{{< include _migration-93-download-wwf.qmd >}}

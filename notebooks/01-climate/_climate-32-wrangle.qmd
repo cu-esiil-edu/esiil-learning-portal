@@ -1,4 +1,4 @@
-# STEP 2: Wrangle your data
+# Wrangle your data
 
 ## Python **packages** let you use code written by experts around the world
 
@@ -45,19 +45,9 @@ import pandas as pd
 ```
 :::
 
-## Download the practice data
+## STEP 1: Download the practice data
 
 Next, lets download some climate data from {{< meta params.location >}} to practice with. 
-
-  1. It is surrounded by quotes -- that means Python will interpret it as a `character string`, or text, rather than which makes sense for a URL.
-  2. The URL is too long to display as one line on most screens. We've put parentheses around it so that we can easily split it into multiple lines by writing two strings -- one on each line.
-  3. We replaced the figshare identifier for this dataset with `'FIGSHARE_ID_HERE'`. You'll have to replace that with the real identifier, {{< meta params.figshare_id>}}
-
-However, we still have a problem - we can't get the URL back later on because it isn't saved in a **variable**. In other words, we need to give the url a **name** so that we can request in from Python later (sadly, Python has no 'hey what was that thingy I typed yesterday?' function).
-
-::: {.callout-read title="Names/variables in Python"}
-One of the most common challenges for new programmers is making sure that your results are stored so you can use them again. In Python, this is called **naming**, or saving a **variable**.  Learn more in this [hands-on activity on using variables](https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/get-started-using-python/variables/) from our learning portal.
-:::
 
 ::: {.callout-task title="Save the URL for later"}
 
@@ -97,44 +87,47 @@ project.project_dir
 
 If you are on GitHub Codespaces, you should be able to see your data in your `Explorer` tab.
 
-![You can find the Explorer tab on the left hand side of the screen. Your data should be in the `data` folder mounted there.]()
+![You can find the Explorer tab on the left hand side of the screen. Your data should be in the `data` folder mounted there.](/img/notebooks/climate/codespaces-data.png)
 
-You can also take a look at your data using `bash`, either in your terminal or here in your Jupyter notebook:
+You can also take a look at your data using the `bash` programming language, either in your terminal or here in your Jupyter notebook (the `!` indicates to use the current bash process, and the `{}` indicates to use a Python variable):
 
 ```{python}
-%%bash
-ls $(project.project_dir)
+!ls "{project.project_dir}"
 ```
+
+## STEP 2: Import data to Python
 
 The `pandas` library you imported can download data from the internet directly into a type of Python **object** called a `DataFrame`. In the code cell below, you can see an attempt to do just this. But there are some problems...
 
 ::: {.callout-task title="Fix some code!"}
 
-  1. Leave a space between the `#` and text in the comment, capitalize it, and try to make it more informative
-  2. Make any changes needed to get this code to run. HINT: The `my_url` variable doesn't exist - you need to replace it with the variable name **you** chose.
-  3. Modify the `.read_csv()` function call to include the following parameters:
+  1. Make any changes needed to get this code to run. HINT: The `filename.csv` isn't correct - you need to replace it with the name of the file you downloaded! See if you can find where the data downloaded to.
+  2. The `pd.read_csv()` function isn't formatting the data 100% correctly. Modify the code to include the following additional parameters, making sure to put a comma (`,`) in-between each parameter:
 
       + `index_col='DATE'` -- this sets the `DATE` column as the index. Needed for subsetting and resampling later on
       + `parse_dates=True` -- this lets `python` know that you are working with time-series data, and values in the indexed column are **date time objects**
       + `na_values=['NaN']` -- this lets `python` know how to handle missing values
 
-  4. Clean up the code by using **expressive variable names**, **expressive column names**, **PEP-8 compliant code**, and **descriptive comments**
+  3. We can't get the data back later on because it isn't saved in a **variable**. In other words, we need to give the url a **name** so that we can request in from Python later (sadly, Python has no 'hey what was that thingy I typed yesterday?' function). Make sure to use an **expressive variable name** so you remember what it is later on!
 
+:::
+
+::: {.callout-read .column-margin title="Names/variables in Python" }
+One of the most common challenges for new programmers is making sure that your results are stored so you can use them again. In Python, this is called **naming**, or saving a **variable**.  Learn more in this [hands-on activity on using variables](https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/get-started-using-python/variables/) from our learning portal.
 :::
 
 ```{python}
 #| template: student
-#download
-climate_df = pd.read_csv(
-    project.project_dir / 'filename.csv',
-    #index_col='something')
-climate_df
+# Load climate data from NCEI
+pd.read_csv(
+    project.project_dir / 'filename.csv'
+)
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-# Download the climate data
+# Load climate data from NCEI
 climate_df = pd.read_csv(
     project.project_dir / ncei_filename,
     index_col='DATE',
@@ -150,28 +143,24 @@ Check out the `type()` function below - you can use it to check that your data i
 
 ```{python}
 #| template: student
-# Check that the data was imported into a pandas DataFrame
+# Check that data was imported into a pandas DataFrame
 type(climate_df)
 ```
 
-## Clean up your `DataFrame`
+## STEP 3: Clean up your `DataFrame`
 
 ::: {.callout-task title="Get rid of unwanted columns"}
 You can use **double brackets** (`[[` and `]]`) to select only the columns that you want from your `DataFrame`:
 
   1. Change `some_column_name` to the Temperature column name.
-  2. Give the `DataFrame` a more descriptive name.
-  3. Add a properly formatted comment to describe what this code is doing.
+  2. Put quotes around your column name so Python interprets it as text and not a variable name.
+  2. Clean up the code by using **descriptive comments**.
 
-:::
-
-::: {.callout-warning}
-Column names are text values, not variable names, so you need to put them in quotes!
 :::
 
 ```{python}
 #| template: student
-climate_df = climate_df[['some_column_name']]
+climate_df = climate_df[[some_column_name]]
 climate_df
 ```
 

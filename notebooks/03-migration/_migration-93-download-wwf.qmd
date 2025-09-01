@@ -1,0 +1,49 @@
+## Ecoregions data
+
+In this coding challenge, we use the World Wildlife Fund (WWF) ecoregions data to normalize and display migration patterns. There are many ways to accomplish a similar goal, depending on your scientific question, but we like this one because we expect species occurrence to be similar across an ecoregion at any give time.
+
+You have a couple options for data access. You can download the ecoregions through your web browser at [the World Wildlife Fund](https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world). Then, you can place it in your data directory
+
+::: {.callout-info}
+Remember that if you are using `earthpy` to manage your files, you can find your data directory using `project.project_dir`
+:::
+
+However, this download is relatively large. If you are working on a computer with limited storage, you might want to download the data from an ArcGIS Feature Service using the bounds of the GBIF data to avoid extra downloads. This is a type of API (Application Program Interface) for downloading subsets of vector data. When you use the API, you can choose to only download the ecoregions where you actually have occurrence data.
+
+```{python}
+# FeatureServer URL
+eco_url = (
+    "https://services5.arcgis.com/0AFsQflykfA9lXZn"
+    "/ArcGIS/rest/services"
+    "/WWF_Terrestrial_Ecoregions_Of_The_World_official_teow"
+    "/FeatureServer/0/query")
+
+# Convert geometry to ArcGIS-compatible JSON
+gbif_polygon = gbif_gdf.union_all().convex_hull
+gbif_geojson = gbif_polygon.__geo_interface__
+arcgis_geom = json.dumps(dict(
+    rings=gbif_geojson["coordinates"],
+    spatialReference={"wkid": 4326}
+))
+eco_params = {
+    "f": "geojson",
+    "where": "1=1",
+    "outFields": "area_km2",
+    "returnGeometry": "true",
+    # Return polygons containing any point
+    "spatialRel": "esriSpatialRelIntersects",  
+    "geometryType": "esriGeometryPolygon",
+    # Override web Mercator server default
+    "inSR": "4326",
+    "outSR": "4326",
+    # Must format geometry
+    "geometry": arcgis_geom
+}
+
+eco_resp = requests.get(eco_url, params=eco_params)
+eco_resp.raise_for_status()
+
+eco_gdf = gpd.read_file(BytesIO(eco_resp.content))
+
+eco_gdf.head()
+```

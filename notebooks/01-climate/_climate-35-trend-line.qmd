@@ -68,7 +68,7 @@ We know that some computers, networks, and countries block LLM (large language m
 ann_climate_df = ann_climate_df.loc['1989':'2024']
 
 # Drop no data values
-observations = ann_climate_df.TOBS.dropna()
+observations = ann_climate_df.temp_f.dropna()
 
 # Define the dependent variable and independent variable(s)
 features = observations.index.year.values.reshape(-1, 1)
@@ -127,7 +127,7 @@ plt.show()
 #| template: answer
 ax = sns.regplot(
     x=ann_climate_df.index.year, 
-    y=ann_climate_df.TOBS,
+    y=ann_climate_df.temp_f,
     color='red',
     line_kws={'color': 'black'})
 ax.set(

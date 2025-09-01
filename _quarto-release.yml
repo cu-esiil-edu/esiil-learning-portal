@@ -1,12 +1,13 @@
 project:
-  type: book
   output-dir: _release
   pre-render:
     - scripts/compress_templates.py
+    - scripts/install_kernelspec.sh
+    - scripts/sync_parameters.py
     - scripts/expand_templates.py
     - scripts/generate_lesson_segments.py
   post-render:
-    -scripts/compress_templates.py
+    - scripts/compress_templates.py
   render:
     - notebooks/02-flood/flood-stars.qmd
     - notebooks/02-flood/flood-download-stars.qmd
@@ -28,29 +29,11 @@ project:
 execute:
   cache: true
   freeze: false
-
-book:
-  title: "ESIIL Learning Portal"
-  author: "ESIIL Education"
-  date: today
-  chapters:
-    - index.qmd
-    # Stars
-    - notebooks/02-flood/flood-stars.qmd
-    - notebooks/02-flood/flood-download-stars.qmd
-    - notebooks/03-migration/migration-stars.qmd
-    - notebooks/03-migration/migration-download-stars.qmd
-    - notebooks/05-vegetation/vegetation-stars.qmd
-    - notebooks/05-vegetation/vegetation-download-stars.qmd
-    # Shortcourse
-    - notebooks/01-climate/climate-shortcourse.qmd
-    - notebooks/01-climate/climate-download-shortcourse.qmd
-    - notebooks/05-vegetation/vegetation-shortcourse.qmd
-    - notebooks/05-vegetation/vegetation-download-shortcourse.qmd
-
+  dpi: 300
 
 format:
   pdf:
-    toc: true
-    number-sections: true
     self-contained: true
+    documentclass: report
+    fig-format: png
+    df-print: default

@@ -66,10 +66,22 @@ for top_file in qmd_files:
         segment_name = segment_file.stem.lstrip("_")
         output_path = segment_output_dir / f"{segment_name}.qmd"
 
+        # Get content
         content_lines = segment_file.read_text(encoding="utf-8").splitlines()
+        
+        # Identify header lines
         header_index = next((
             j for j, line in enumerate(content_lines) 
             if line.strip().startswith("##")), 0)
+            
+        # Check if segment is an overview, first, or last
+        is_overview = ('0-' in segment_name)
+        if is_overview:
+            overview_i = i
+        else:
+            overview_i = -1
+        is_first = i==(overview_i + 1)
+        is_last = i==(len(included_files) - 1)
             
         # Fix paths for includes
         content_lines = [
@@ -80,12 +92,15 @@ for top_file in qmd_files:
         post_header = content_lines[header_index:]
 
         middle = []
-        if i != 0:
+        if not (is_overview or is_first):
             middle.append("")
             middle.append(start_boilerplate)
             middle.append("")
 
-        end = ["", end_boilerplate, ""]
+        if is_last or is_overview:
+            end = [""]
+        else:
+            end = ["", end_boilerplate, ""]
 
         final_content = "\n".join(
              yaml_lines + pre_header + middle + post_header + end
