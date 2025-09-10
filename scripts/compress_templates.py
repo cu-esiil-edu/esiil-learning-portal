@@ -16,9 +16,11 @@ def parse_metadata_block(block):
 
 def compress_block(block):
     kv, original = parse_metadata_block(block)
-    for template, settings in TEMPLATES.items():
+    for template_name, settings in TEMPLATES.items():
         if kv == settings:
-            return "#| template: " + template + "\n"
+            if template_name=='hidden-answer':
+                template_name = 'answer'
+            return "#| template: " + template_name + "\n"
     return block
 
 def process_file(path):
@@ -44,7 +46,7 @@ def main():
     project_root = Path.cwd()
     files = [f for f in project_root.rglob("*.qmd") if is_visible_qmd(f)]
 
-    print(f"Restoring files: {len(files)} .qmd files found (excluding hidden/ignored)")
+    print(f"Restoring files: {len(files)} .qmd files found")
 
     for file in files:
         process_file(file)

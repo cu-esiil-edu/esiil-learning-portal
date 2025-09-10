@@ -6,6 +6,8 @@ learning-goals:
   - Parse date information so that it is represented as a datetime type
   - Use operators to convert to different units
   - "Resample time-series data to different frequencies"
+hide-solutions: 
+  portal: true
 params:
   id: eda
   ncei_filename: "ncei-climate-boulder.csv"
@@ -62,7 +64,9 @@ jupyter:
 ::::
 :::
 
-Before we get started, let's define some parameters. You can use these if you want to change how the workflow runs from the top:
+::: {.content-visible when-profile="release"}
+:::: {.callout-tip}
+We've used some pre-defined values in the solutions for this notebook. This is a nice way of keeping track of values that you might want to change in the future that plugs in with some tools for running notebooks with multiple parameter values such as `papermill`. However, you don't need to do anything with them here.
 
 ```{python}
 #| tags: [parameters]
@@ -75,6 +79,8 @@ start_date = '1893-10-01'
 end_date = '2023-09-30'
 data_type = 'TOBS'
 ```
+::::
+:::
 
 {{< include _climate-32-wrangle.qmd >}}
 

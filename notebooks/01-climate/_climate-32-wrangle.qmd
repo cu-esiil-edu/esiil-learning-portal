@@ -4,16 +4,17 @@
 
 Because Python is open source, lots of different people and organizations can contribute (including you!). Many contributions are in the form of **packages** which do not come with a standard Python download.
 
-::: {.callout-read title="Packages need to be installed and imported."}
+::: {.callout-read .column-margin title="Packages need to be installed and imported."}
 Learn more about using Python packages. How do you find and use packages? What is the difference between installing and importing packages? When do you need to do each one? [This article on Python packages](https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/use-python-packages/) will walk you through the basics.
 :::
 
-In the cell below, someone was trying to import the **pandas package**, which helps us to work with [**tabular data** such as comma-separated value or csv files](https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-text-files/). But something's wrong!
+In the cell below, someone was trying to import the **`pandas` package**, which helps us to work with **tabular data** such as comma-separated value or csv files (e.g. data with rows and columns like a spreadsheet). But something's wrong!
 
 ::: {.callout-task title="Import packages"}
 
-  1. Correct the typo below to properly import the pandas package under its **alias** pd.
-  2. Run the cell to import the libraries you'll need for this workflow.
+  1. Correct the typo below to properly import the `pandas` package under its **alias** pd.
+  2. Add a descriptive comment next to the pandas package explaining what it does. You can add comments using the `#` symbol, just like we did for you with the `earthpy` package.
+  3. Run the cell to import the libraries you'll need for this workflow.
 
 :::
 
@@ -25,16 +26,25 @@ We've created a coding **environment** for you to use that already has all the s
 ::::
 :::
 
+::: {.content-visible when-format="ipynb"}
 ```{python}
 #| template: student
 # Import libraries
-import earthpy
-import holoviews as hv
-import hvplot.pandas
+import earthpy # Manage local data
+import pandsa as pd
+```
+:::
+
+::: {.content-visible unless-profile="student"}
+```{python}
+#| template: student
+# Import libraries
+import earthpy # Manage local data
+import holoviews as hv # Save interactive plots
+import hvplot.pandas # Make interactive plots
 import pandsa as pd
 ```
 
-::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
 # Import libraries
@@ -47,7 +57,11 @@ import pandas as pd
 
 ## STEP 1: Download the practice data
 
-Next, lets download some climate data from {{< meta params.location >}} to practice with. 
+Next, lets download some climate data from {{< meta params.location >}} to practice with. The data will come in comma-separate value, or CSV format.
+
+::: {.callout-read .column-margin title="Tabular data"}
+Learn more about tabular data and CSV files in the [this article on text files in Earth Data Science](https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-text-files/).
+:::
 
 ::: {.callout-task title="Save the URL for later"}
 

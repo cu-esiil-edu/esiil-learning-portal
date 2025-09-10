@@ -1,6 +1,6 @@
-# STEP 4: Plot your results
+# Plot your results
 
-## Plot the temperature column vs time to explore the data
+## STEP 1: Plot the temperature column vs time to explore the data
 
 Plotting in Python is easy, but not quite this easy:
 
@@ -73,7 +73,7 @@ There are many other things you can do to customize your plot. Take a look at th
 Not sure how to do any of these? Try searching the internet, or asking an AI!
 :::
 
-## Clean up time series plots by resampling
+## STEP 2: Clean up time series plots by resampling
 
 You may notice that your plot looks a little "fuzzy". This happens when Python is trying to plot a value for every date, but the resolution of the image is too low to actually do that. You can address this issue by **resampling** the data, or summarizing it over a time period of your choice. In this case, we will resample annually, giving us one data point per year.
 
@@ -81,20 +81,24 @@ You may notice that your plot looks a little "fuzzy". This happens when Python i
 
   1. Set the frequency of your final data by replacing `DT_OFFSET`with a **Datetime Offset Code**. Check out the table in the [pandas datetime documentation](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects) to find the one you want (we recommend the start of the year).
   2. Choose how to summarize each year of data by replacing `agg_method_here` with a method that will calculate the **average annual value**. Check out the [pandas resampling documentation](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#basics) for a list of common built-in options.
+  3. Add descriptive comments to the code so the next person reading it knows what it is doing.
 :::
 
 ```{python}
 #| template: student
-ann_climate_df = climate_u_df.resample('DT_OFFSET').agg_method_here()
+ann_climate_df = (
+    climate_u_df
+    .resample('DT_OFFSET')
+    .agg_method_here()
+)
 ann_climate_df
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
+# Take the annual mean of the temperature data
 ann_climate_df = climate_u_df.resample('YS').mean()
-# Store for later
-%store ann_climate_df
 ann_climate_df
 ```
 :::
@@ -102,6 +106,59 @@ ann_climate_df
 ::: {.callout-task title="Plot Annual Data"}
 
   1. Try plotting your new DataFrame in the cell below. Can you see what is going on more clearly now? Don't forget to adjust your labels!
+  2. If you write your code on one line, it will most likely be to long to read without scrolling. Make sure you are following [PEP-8 style guidelines](https://peps.python.org/pep-0008/)  by keeping your lines less than 80 characters long. If you are working in GitHub Codespaces, we have set you up with a vertical guide that is between 79 and 80 characters -- make sure your code doesn't go past it!
+  3. PEP-8 also suggests aligning any function parameters that are too long. See some examples below for what to do and what not to do.
+  
+:::
+
+::: {.callout-info .column-margin title="PEP-8 tips!"}
+Following the [PEP-8 style guide](https://peps.python.org/pep-0008/)  is important because it makes your code easy for you and other collaborators to read. When you are splitting function calls across multiple lines, your code should look like this:
+
+```python
+my_dataframe.plot(
+    y='column_name',
+    title=f'My Fantastic Plot',
+    xlabel='The x Axis',
+    ylabel='The y Axis'
+)
+```
+
+or maybe this:
+```python
+my_dataframe.plot(y='column_name',
+                  title=f'My Fantastic Plot',
+                  xlabel='The x Axis',
+                  ylabel='The y Axis')
+```
+:::
+
+::: {.callout-warning .column-margin}
+Try to avoid these [PEP-8](https://peps.python.org/pep-0008/) violations:
+
+```python
+my_dataframe.plot(y='column_name', title=f'My Fantastic Plot', xlabel='The x Axis', ylabel='The y Axis')
+```
+
+or
+
+```python
+my_dataframe.plot(
+    y='column_name',
+      title=f'My Fantastic Plot',
+   xlabel='The x Axis',
+   ylabel='The y Axis'
+)
+```
+
+or
+
+```python
+my_dataframe.plot(y='column_name',
+    title=f'My Fantastic Plot',
+    xlabel='The x Axis',
+    ylabel='The y Axis'
+)
+```
 :::
 
 ```{python}
@@ -126,23 +183,12 @@ ann_climate_df.plot(
 :::: {.callout-respond title="Interpret your plot"}
 
   1. Create a new Markdown cell below this one.
+  2. Using a **bulleted list** in Markdown, write down 2 things you notice about the data. What **physical phenomena** or **data anomaly** could be causing each one?
 
-  2. In the new cell, answer the following questions using a **bulleted list** in Markdown -- what are 2 things you notice about this data? What physical phenomena or data anomaly could be causing each one?
-
-::::: {.content-visible when-profile="graded"}
-Rubric:
-
-| Task | Max Points | Points | Comments |
-|------|------------|--------|----------|
-| Create Markdown cell             | 1 |  |  |
-| Use a bulleted list              | 2 |  |  |
-| Thoughtful response to question  | 4 |  |  |
-| Easily readable                  | 1 |  |  |
-:::::
 ::::
 :::
 
-## Check specific values with an interactive plot
+## STEP 3: Check specific values with an interactive plot
 
 You can use the `.hvplot()` method with similar arguments to create an interactive plot. 
 
@@ -150,6 +196,7 @@ You can use the `.hvplot()` method with similar arguments to create an interacti
 
   1. Copy your plotting code into the cell below.
   2. Replace `.plot` in your code with `.hvplot`
+  3. Check that your code follows [PEP-8 guidelines](https://peps.python.org/pep-0008/).
 
  Now, you should be able to hover over data points and see their values!
 :::
@@ -162,7 +209,7 @@ You can use the `.hvplot()` method with similar arguments to create an interacti
 ::: {.content-visible when-format="html"}
 ```{python}
 #| template: answer
-# Plot the annual data using .hvplot
+# Plot the annual data interactively
 ann_climate_plot = ann_climate_df.hvplot(
     y='temp_c',
     title=f'Annual Average Temperature in {location}',
@@ -174,7 +221,7 @@ ann_climate_plot
 :::
 
 ::: {.cell .markdown}
-:::: {.callout-task title="Explore the data"}
+:::: {.callout-respond title="Explore the data"}
 
   1. Create a new Markdown cell below this one.
   2. Hover over the lowest point on your plot. What is the overall maximum annual average temperature?
@@ -187,7 +234,7 @@ ann_climate_plot
 
 You will need to save your analyses and plots to tell others about what you find.
 
-::: {.callout-task title="Save Your Plot"}
+::: {.callout-extra title="Save Your Plot"}
 
 Just like with any other type of object in Python, if you want to reuse your work, you need to give it a name.
 
@@ -200,7 +247,7 @@ Once you run the code, you should see your saved plot in your files -- go ahead 
 :::
 
 ::: {.callout-warning}
-If you are working in GitHub Codespaces, right-click on your file and download it to view it.
+If you are working in GitHub Codespaces, right-click on your file and download it to view it after saving.
 :::
 
 ```{python}
