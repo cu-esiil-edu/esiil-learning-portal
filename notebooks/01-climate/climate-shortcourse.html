@@ -438,16 +438,16 @@ window.Quarto = {
   <li><a href="#step-2-import-data-to-python" id="toc-step-2-import-data-to-python" class="nav-link" data-scroll-target="#step-2-import-data-to-python">STEP 2: Import data to Python</a></li>
   <li><a href="#step-3-clean-up-your-dataframe" id="toc-step-3-clean-up-your-dataframe" class="nav-link" data-scroll-target="#step-3-clean-up-your-dataframe">STEP 3: Clean up your <code>DataFrame</code></a></li>
   </ul></li>
-  <li><a href="#step-3-convert-units" id="toc-step-3-convert-units" class="nav-link" data-scroll-target="#step-3-convert-units">STEP 3: Convert units</a>
+  <li><a href="#convert-units" id="toc-convert-units" class="nav-link" data-scroll-target="#convert-units">Convert units</a>
   <ul class="collapse">
   <li><a href="#use-labels-to-keep-track-of-units-for-you-and-your-collaborators" id="toc-use-labels-to-keep-track-of-units-for-you-and-your-collaborators" class="nav-link" data-scroll-target="#use-labels-to-keep-track-of-units-for-you-and-your-collaborators">Use labels to keep track of units for you and your collaborators</a></li>
   <li><a href="#for-scientific-applications-it-is-often-useful-to-have-values-in-metric-units" id="toc-for-scientific-applications-it-is-often-useful-to-have-values-in-metric-units" class="nav-link" data-scroll-target="#for-scientific-applications-it-is-often-useful-to-have-values-in-metric-units">For scientific applications, it is often useful to have values in metric units</a></li>
   </ul></li>
-  <li><a href="#step-4-plot-your-results" id="toc-step-4-plot-your-results" class="nav-link" data-scroll-target="#step-4-plot-your-results">STEP 4: Plot your results</a>
+  <li><a href="#plot-your-results" id="toc-plot-your-results" class="nav-link" data-scroll-target="#plot-your-results">Plot your results</a>
   <ul class="collapse">
-  <li><a href="#plot-the-temperature-column-vs-time-to-explore-the-data" id="toc-plot-the-temperature-column-vs-time-to-explore-the-data" class="nav-link" data-scroll-target="#plot-the-temperature-column-vs-time-to-explore-the-data">Plot the temperature column vs time to explore the data</a></li>
-  <li><a href="#clean-up-time-series-plots-by-resampling" id="toc-clean-up-time-series-plots-by-resampling" class="nav-link" data-scroll-target="#clean-up-time-series-plots-by-resampling">Clean up time series plots by resampling</a></li>
-  <li><a href="#check-specific-values-with-an-interactive-plot" id="toc-check-specific-values-with-an-interactive-plot" class="nav-link" data-scroll-target="#check-specific-values-with-an-interactive-plot">Check specific values with an interactive plot</a></li>
+  <li><a href="#step-1-plot-the-temperature-column-vs-time-to-explore-the-data" id="toc-step-1-plot-the-temperature-column-vs-time-to-explore-the-data" class="nav-link" data-scroll-target="#step-1-plot-the-temperature-column-vs-time-to-explore-the-data">STEP 1: Plot the temperature column vs time to explore the data</a></li>
+  <li><a href="#step-2-clean-up-time-series-plots-by-resampling" id="toc-step-2-clean-up-time-series-plots-by-resampling" class="nav-link" data-scroll-target="#step-2-clean-up-time-series-plots-by-resampling">STEP 2: Clean up time series plots by resampling</a></li>
+  <li><a href="#step-3-check-specific-values-with-an-interactive-plot" id="toc-step-3-check-specific-values-with-an-interactive-plot" class="nav-link" data-scroll-target="#step-3-check-specific-values-with-an-interactive-plot">STEP 3: Check specific values with an interactive plot</a></li>
   <li><a href="#bonus-save-your-work" id="toc-bonus-save-your-work" class="nav-link" data-scroll-target="#bonus-save-your-work">BONUS: Save your work</a></li>
   </ul></li>
   </ul>
@@ -522,7 +522,6 @@ Tip
 <p>Don’t worry if you can’t solve every bug right away. We’ll get there! If you are working on one bug for more than about 10 minutes, it’s time to ask for help.</p>
 </div>
 </div>
-<p>At the end, you’ll <strong>repeat the workflow</strong> for a location and measurement of your choosing.</p>
 <p>Alright! Let’s clean up this code.</p>
 <div class="callout callout-style-default callout-video callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -543,7 +542,7 @@ Check out our demo video!
 </div>
 </div>
 <p>Before we get started, let’s define some parameters. You can use these if you want to change how the workflow runs from the top:</p>
-<div id="1baf45b2" class="cell" data-tags="[&quot;parameters&quot;]" data-execution_count="1">
+<div id="f3ccc932" class="cell" data-tags="[&quot;parameters&quot;]" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">id</span> <span class="op">=</span> <span class="st">'shortcourse'</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>ncei_filename <span class="op">=</span> <span class="st">'ncei-climate-karachi.csv'</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>project_name <span class="op">=</span> <span class="st">'Karachi Climate'</span></span>
@@ -573,7 +572,7 @@ Read More: Packages need to be installed and imported.
 <p>Learn more about using Python packages. How do you find and use packages? What is the difference between installing and importing packages? When do you need to do each one? <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/use-python-packages/">This article on Python packages</a> will walk you through the basics.</p>
 </div>
 </div>
-<p>In the cell below, someone was trying to import the <strong>pandas package</strong>, which helps us to work with <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-text-files/"><strong>tabular data</strong> such as comma-separated value or csv files</a>. But something’s wrong!</p>
+<p>In the cell below, someone was trying to import the <strong><code>pandas</code> package</strong>, which helps us to work with <strong>tabular data</strong> such as comma-separated value or csv files (e.g.&nbsp;data with rows and columns like a spreadsheet). But something’s wrong!</p>
 <div class="callout callout-style-default callout-task callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -585,27 +584,20 @@ Try It: Import packages
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>Correct the typo below to properly import the pandas package under its <strong>alias</strong> pd.</li>
+<li>Correct the typo below to properly import the <code>pandas</code> package under its <strong>alias</strong> pd.</li>
+<li>Add a descriptive comment next to the pandas package explaining what it does. You can add comments using the <code>#</code> symbol, just like we did for you with the <code>earthpy</code> package.</li>
 <li>Run the cell to import the libraries you’ll need for this workflow.</li>
 </ol>
 </div>
 </div>
-<div id="53b118d5" class="cell student-code" data-highlight="true" data-execution_count="2">
+<div id="d96f2769" class="cell student-code" data-highlight="true" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import libraries</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> earthpy</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> holoviews <span class="im">as</span> hv</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hvplot.pandas</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> earthpy <span class="co"># Manage local data</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> holoviews <span class="im">as</span> hv <span class="co"># Save interactive plots</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hvplot.pandas <span class="co"># Make interactive plots</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandsa <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b59068ce" class="cell answer-code" data-highlight="true" data-execution_count="3">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import libraries</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> earthpy</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> holoviews <span class="im">as</span> hv</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hvplot.pandas</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div id="7ce1532b" class="cell answer-code" data-highlight="true" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <script type="esms-options">{"shimMode": true}</script><style>*[data-root-id],
 *[data-root-id] > * {
@@ -1134,11 +1126,11 @@ if (window.Jupyter !== undefined) {
 </div>
 <div class="cell-output cell-output-display">
 <div id="p1004">
-  <div id="d9b0896b-612e-4fd1-8439-dedfa132d612" data-root-id="p1004" style="display: contents;"></div>
+  <div id="f2437158-12a6-437b-bfa3-76d21038acfd" data-root-id="p1004" style="display: contents;"></div>
 </div>
 <script type="application/javascript">(function(root) {
-  var docs_json = {"f5e05494-029c-4ad7-8395-22385917bad8":{"version":"3.7.3","title":"Bokeh Application","roots":[{"type":"object","name":"panel.models.browser.BrowserInfo","id":"p1004"},{"type":"object","name":"panel.models.comm_manager.CommManager","id":"p1005","attributes":{"plot_id":"p1004","comm_id":"f537e8553c9a4b95803989431579a007","client_comm_id":"b50b0e783f0d42f4a01683ccb89ec094"}}],"defs":[{"type":"model","name":"ReactiveHTML1"},{"type":"model","name":"FlexBox1","properties":[{"name":"align_content","kind":"Any","default":"flex-start"},{"name":"align_items","kind":"Any","default":"flex-start"},{"name":"flex_direction","kind":"Any","default":"row"},{"name":"flex_wrap","kind":"Any","default":"wrap"},{"name":"gap","kind":"Any","default":""},{"name":"justify_content","kind":"Any","default":"flex-start"}]},{"type":"model","name":"FloatPanel1","properties":[{"name":"config","kind":"Any","default":{"type":"map"}},{"name":"contained","kind":"Any","default":true},{"name":"position","kind":"Any","default":"right-top"},{"name":"offsetx","kind":"Any","default":null},{"name":"offsety","kind":"Any","default":null},{"name":"theme","kind":"Any","default":"primary"},{"name":"status","kind":"Any","default":"normalized"}]},{"type":"model","name":"GridStack1","properties":[{"name":"ncols","kind":"Any","default":null},{"name":"nrows","kind":"Any","default":null},{"name":"allow_resize","kind":"Any","default":true},{"name":"allow_drag","kind":"Any","default":true},{"name":"state","kind":"Any","default":[]}]},{"type":"model","name":"drag1","properties":[{"name":"slider_width","kind":"Any","default":5},{"name":"slider_color","kind":"Any","default":"black"},{"name":"value","kind":"Any","default":50}]},{"type":"model","name":"click1","properties":[{"name":"terminal_output","kind":"Any","default":""},{"name":"debug_name","kind":"Any","default":""},{"name":"clears","kind":"Any","default":0}]},{"type":"model","name":"ReactiveESM1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"JSComponent1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"ReactComponent1","properties":[{"name":"use_shadow_dom","kind":"Any","default":true},{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"AnyWidgetComponent1","properties":[{"name":"use_shadow_dom","kind":"Any","default":true},{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"FastWrapper1","properties":[{"name":"object","kind":"Any","default":null},{"name":"style","kind":"Any","default":null}]},{"type":"model","name":"NotificationArea1","properties":[{"name":"js_events","kind":"Any","default":{"type":"map"}},{"name":"max_notifications","kind":"Any","default":5},{"name":"notifications","kind":"Any","default":[]},{"name":"position","kind":"Any","default":"bottom-right"},{"name":"_clear","kind":"Any","default":0},{"name":"types","kind":"Any","default":[{"type":"map","entries":[["type","warning"],["background","#ffc107"],["icon",{"type":"map","entries":[["className","fas fa-exclamation-triangle"],["tagName","i"],["color","white"]]}]]},{"type":"map","entries":[["type","info"],["background","#007bff"],["icon",{"type":"map","entries":[["className","fas fa-info-circle"],["tagName","i"],["color","white"]]}]]}]}]},{"type":"model","name":"Notification","properties":[{"name":"background","kind":"Any","default":null},{"name":"duration","kind":"Any","default":3000},{"name":"icon","kind":"Any","default":null},{"name":"message","kind":"Any","default":""},{"name":"notification_type","kind":"Any","default":null},{"name":"_rendered","kind":"Any","default":false},{"name":"_destroyed","kind":"Any","default":false}]},{"type":"model","name":"TemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"BootstrapTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"TemplateEditor1","properties":[{"name":"layout","kind":"Any","default":[]}]},{"type":"model","name":"MaterialTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"request_value1","properties":[{"name":"fill","kind":"Any","default":"none"},{"name":"_synced","kind":"Any","default":null},{"name":"_request_sync","kind":"Any","default":0}]}]}};
-  var render_items = [{"docid":"f5e05494-029c-4ad7-8395-22385917bad8","roots":{"p1004":"d9b0896b-612e-4fd1-8439-dedfa132d612"},"root_ids":["p1004"]}];
+  var docs_json = {"11f2bf74-2105-4e3b-bfad-833812753a0d":{"version":"3.7.3","title":"Bokeh Application","roots":[{"type":"object","name":"panel.models.browser.BrowserInfo","id":"p1004"},{"type":"object","name":"panel.models.comm_manager.CommManager","id":"p1005","attributes":{"plot_id":"p1004","comm_id":"615d31aa56924e92a631801b09a5a2ff","client_comm_id":"12a69d28152a438c80f637cdf8995375"}}],"defs":[{"type":"model","name":"ReactiveHTML1"},{"type":"model","name":"FlexBox1","properties":[{"name":"align_content","kind":"Any","default":"flex-start"},{"name":"align_items","kind":"Any","default":"flex-start"},{"name":"flex_direction","kind":"Any","default":"row"},{"name":"flex_wrap","kind":"Any","default":"wrap"},{"name":"gap","kind":"Any","default":""},{"name":"justify_content","kind":"Any","default":"flex-start"}]},{"type":"model","name":"FloatPanel1","properties":[{"name":"config","kind":"Any","default":{"type":"map"}},{"name":"contained","kind":"Any","default":true},{"name":"position","kind":"Any","default":"right-top"},{"name":"offsetx","kind":"Any","default":null},{"name":"offsety","kind":"Any","default":null},{"name":"theme","kind":"Any","default":"primary"},{"name":"status","kind":"Any","default":"normalized"}]},{"type":"model","name":"GridStack1","properties":[{"name":"ncols","kind":"Any","default":null},{"name":"nrows","kind":"Any","default":null},{"name":"allow_resize","kind":"Any","default":true},{"name":"allow_drag","kind":"Any","default":true},{"name":"state","kind":"Any","default":[]}]},{"type":"model","name":"drag1","properties":[{"name":"slider_width","kind":"Any","default":5},{"name":"slider_color","kind":"Any","default":"black"},{"name":"value","kind":"Any","default":50}]},{"type":"model","name":"click1","properties":[{"name":"terminal_output","kind":"Any","default":""},{"name":"debug_name","kind":"Any","default":""},{"name":"clears","kind":"Any","default":0}]},{"type":"model","name":"ReactiveESM1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"JSComponent1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"ReactComponent1","properties":[{"name":"use_shadow_dom","kind":"Any","default":true},{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"AnyWidgetComponent1","properties":[{"name":"use_shadow_dom","kind":"Any","default":true},{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"FastWrapper1","properties":[{"name":"object","kind":"Any","default":null},{"name":"style","kind":"Any","default":null}]},{"type":"model","name":"NotificationArea1","properties":[{"name":"js_events","kind":"Any","default":{"type":"map"}},{"name":"max_notifications","kind":"Any","default":5},{"name":"notifications","kind":"Any","default":[]},{"name":"position","kind":"Any","default":"bottom-right"},{"name":"_clear","kind":"Any","default":0},{"name":"types","kind":"Any","default":[{"type":"map","entries":[["type","warning"],["background","#ffc107"],["icon",{"type":"map","entries":[["className","fas fa-exclamation-triangle"],["tagName","i"],["color","white"]]}]]},{"type":"map","entries":[["type","info"],["background","#007bff"],["icon",{"type":"map","entries":[["className","fas fa-info-circle"],["tagName","i"],["color","white"]]}]]}]}]},{"type":"model","name":"Notification","properties":[{"name":"background","kind":"Any","default":null},{"name":"duration","kind":"Any","default":3000},{"name":"icon","kind":"Any","default":null},{"name":"message","kind":"Any","default":""},{"name":"notification_type","kind":"Any","default":null},{"name":"_rendered","kind":"Any","default":false},{"name":"_destroyed","kind":"Any","default":false}]},{"type":"model","name":"TemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"BootstrapTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"TemplateEditor1","properties":[{"name":"layout","kind":"Any","default":[]}]},{"type":"model","name":"MaterialTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"request_value1","properties":[{"name":"fill","kind":"Any","default":"none"},{"name":"_synced","kind":"Any","default":null},{"name":"_request_sync","kind":"Any","default":0}]}]}};
+  var render_items = [{"docid":"11f2bf74-2105-4e3b-bfad-833812753a0d","roots":{"p1004":"f2437158-12a6-437b-bfa3-76d21038acfd"},"root_ids":["p1004"]}];
   var docs = Object.values(docs_json)
   if (!docs) {
     return
@@ -1208,7 +1200,20 @@ if (window.Jupyter !== undefined) {
 </section>
 <section id="step-1-download-the-practice-data" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-download-the-practice-data">STEP 1: Download the practice data</h2>
-<p>Next, lets download some climate data from Karachi, Pakistan to practice with.</p>
+<p>Next, lets download some climate data from Karachi, Pakistan to practice with. The data will come in comma-separate value, or CSV format.</p>
+<div class="callout callout-style-default callout-read callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Read More: Tabular data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Learn more about tabular data and CSV files in the <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/file-formats/use-text-files/">this article on text files in Earth Data Science</a>.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-task callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1226,30 +1231,19 @@ Try It: Save the URL for later
 </ol>
 </div>
 </div>
-<div id="23a5485f" class="cell student-code" data-highlight="true" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up project folders</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> earthpy.Project(</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Project Name Here'</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    dirname<span class="op">=</span><span class="st">'data-folder-name-here'</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Download data</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>project.get_data()</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Check where the data ended up</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>project.project_dir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3b2b4af5" class="cell student-code" data-highlight="true" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up project folders</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> earthpy.Project(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Project Name Here'</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    dirname<span class="op">=</span><span class="st">'data-folder-name-here'</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Download data</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>project.get_data()</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Check where the data ended up</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>project.project_dir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="c977ee0c" class="cell answer-code" data-highlight="true" data-execution_count="5">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up project folders</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> earthpy.Project(project_name)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Download data</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>project.get_data()</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check where the data ended up</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>project.project_dir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div id="85171011" class="cell answer-code" data-highlight="true" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>Downloading from https://ndownloader.figshare.com/files/55245161</code></pre>
 </div>
@@ -1265,8 +1259,8 @@ Try It: Save the URL for later
 </figure>
 </div>
 <p>You can also take a look at your data using the <code>bash</code> programming language, either in your terminal or here in your Jupyter notebook (the <code>!</code> indicates to use the current bash process, and the <code>{}</code> indicates to use a Python variable):</p>
-<div id="f84a9aa8" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls <span class="st">"</span><span class="sc">{project.project_dir}</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f4b422c6" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls <span class="st">"</span><span class="sc">{project.project_dir}</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ncei-climate-karachi.csv</code></pre>
 </div>
@@ -1310,23 +1304,13 @@ Read More: Names/variables in Python
 <p>One of the most common challenges for new programmers is making sure that your results are stored so you can use them again. In Python, this is called <strong>naming</strong>, or saving a <strong>variable</strong>. Learn more in this <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/get-started-using-python/variables/">hands-on activity on using variables</a> from our learning portal.</p>
 </div>
 </div>
-<div id="6e1dbd58" class="cell student-code" data-highlight="true" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load climate data from NCEI</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>pd.read_csv(</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    project.project_dir <span class="op">/</span> <span class="st">'filename.csv'</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cd612b75" class="cell student-code" data-highlight="true" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load climate data from NCEI</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pd.read_csv(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    project.project_dir <span class="op">/</span> <span class="st">'filename.csv'</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="fad4c468" class="cell answer-code" data-highlight="true" data-execution_count="8">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load climate data from NCEI</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>climate_df <span class="op">=</span> pd.read_csv(</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    project.project_dir <span class="op">/</span> ncei_filename,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="st">'DATE'</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    parse_dates<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    na_values<span class="op">=</span>[<span class="st">'NaN'</span>])</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>climate_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div id="9b0da99e" class="cell answer-code" data-highlight="true" data-execution_count="9">
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
@@ -1420,9 +1404,9 @@ Tip
 <p>Check out the <code>type()</code> function below - you can use it to check that your data is now in <code>DataFrame</code> type object.</p>
 </div>
 </div>
-<div id="a4caaa90" class="cell student-code" data-highlight="true" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that data was imported into a pandas DataFrame</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(climate_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1b9a74f9" class="cell student-code" data-highlight="true" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that data was imported into a pandas DataFrame</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(climate_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="step-3-clean-up-your-dataframe" class="level2">
@@ -1445,17 +1429,11 @@ Try It: Get rid of unwanted columns
 </ol>
 </div>
 </div>
-<div id="b36ce845" class="cell student-code" data-highlight="true" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>climate_df <span class="op">=</span> climate_df[[some_column_name]]</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>climate_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="2549051f" class="cell student-code" data-highlight="true" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>climate_df <span class="op">=</span> climate_df[[some_column_name]]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>climate_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="c2c54a8e" class="cell answer-code" data-highlight="true" data-execution_count="11">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up the DataFrame</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>climate_df <span class="op">=</span> climate_df[[<span class="ss">f'</span><span class="sc">{</span>data_type<span class="sc">}</span><span class="ss">'</span>]]</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>climate_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div id="bac03fbd" class="cell answer-code" data-highlight="true" data-execution_count="12">
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
@@ -1525,8 +1503,8 @@ Try It: Get rid of unwanted columns
 </div>
 </section>
 </section>
-<section id="step-3-convert-units" class="level1">
-<h1>STEP 3: Convert units</h1>
+<section id="convert-units" class="level1">
+<h1>Convert units</h1>
 <p>It’s important to keep track of the units of all your data. You don’t want to be like the <a href="https://www.latimes.com/archives/la-xpm-1999-oct-01-mn-17288-story.html">NASA team who crashed a probe into Mars because different teams used different units</a>)!</p>
 <section id="use-labels-to-keep-track-of-units-for-you-and-your-collaborators" class="level2">
 <h2 class="anchored" data-anchor-id="use-labels-to-keep-track-of-units-for-you-and-your-collaborators">Use labels to keep track of units for you and your collaborators</h2>
@@ -1544,26 +1522,19 @@ Try It: Add units to your column name
 <p>A big part of writing <strong>expressive</strong> code is descriptive labels. Let’s rename the columns of your dataframe to include units. Complete the following steps:</p>
 <ol type="1">
 <li>Replace <code>dataframe</code> with the name of <strong>your</strong> <code>DataFrame</code>, and <code>dataframe_units</code> with an expressive new name.</li>
-<li>Check out the <a href="https://www.ncei.noaa.gov/data/global-historical-climatology-network-daily/doc/GHCND_documentation.pdf">documentation for GCHNd data</a>. We downloaded data with “standard” units; find out what that means for both temperature and precipitation.</li>
-<li>Replace <code>'TOBS'</code> with the temperature column name in your data, and <code>'TOBS_UNIT'</code> with a column name that includes the correct unit.</li>
+<li>Check out the <a href="https://www.ncei.noaa.gov/data/global-historical-climatology-network-daily/doc/GHCND_documentation.pdf">documentation for GCHNd data</a>. We downloaded data with “standard” units; find out what that means for temperature.</li>
+<li>Replace <code>'temperature-column-name'</code> with the temperature column name in your data, and <code>'temp_unit'</code> with a column name that includes the correct unit. For example, you could make a column called <code>'temperature_k'</code> to note that your temperatures are in degrees Kelvin.</li>
 </ol>
 </div>
 </div>
-<div id="65dd4660" class="cell student-code" data-highlight="true" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dataframe_units <span class="op">=</span> dataframe.rename(columns<span class="op">=</span>{</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TOBS'</span>: <span class="st">'TOBS_UNIT'</span>,</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>dataframe_units</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ad060a23" class="cell student-code" data-highlight="true" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dataframe_units <span class="op">=</span> dataframe.rename(columns<span class="op">=</span>{</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'temperature-column-name'</span>: <span class="st">'temp_unit'</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>dataframe_units</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="2d59d748" class="cell answer-code" data-highlight="true" data-execution_count="13">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>climate_u_df <span class="op">=</span> climate_df.rename(columns<span class="op">=</span>{</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f'</span><span class="sc">{</span>data_type<span class="sc">}</span><span class="ss">'</span>: <span class="st">'temp_f'</span>,</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>climate_u_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div id="c5f24ee1" class="cell answer-code" data-highlight="true" data-execution_count="14">
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
@@ -1655,19 +1626,12 @@ Try It: Convert units
 </ol>
 </div>
 </div>
-<div id="bab31622" class="cell student-code" data-highlight="true" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dataframe_units[<span class="st">'new_temperature'</span>]<span class="op">=</span> dataframe_units[<span class="st">'old_temperature'</span>]<span class="op">-</span><span class="dv">32</span><span class="op">*</span><span class="dv">5</span><span class="op">/</span><span class="dv">9</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>dataframe_units</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="0b8b8bd7" class="cell student-code" data-highlight="true" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dataframe_units[<span class="st">'new_temperature'</span>] <span class="op">=</span> (</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    dataframe_units[<span class="st">'old_temperature'</span>]<span class="op">-</span><span class="dv">32</span><span class="op">*</span><span class="dv">5</span><span class="op">/</span><span class="dv">9</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>dataframe_units</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="3ecf1846" class="cell answer-code" data-highlight="true" data-execution_count="15">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>climate_u_df[<span class="st">'temp_c'</span>] <span class="op">=</span> (</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    (climate_u_df[<span class="st">'temp_f'</span>] <span class="op">-</span> <span class="dv">32</span>) </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span> <span class="dv">5</span><span class="op">/</span><span class="dv">9</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>climate_u_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div id="563a1421" class="cell answer-code" data-highlight="true" data-execution_count="16">
 <div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
@@ -1758,42 +1722,31 @@ Looking for an Extra Challenge?
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Using the code below as a framework, write and apply a <strong>function</strong> that converts to Celcius. You should also rewrite this function name to be more expressive.</p>
+<p>Using the code below as a framework, write and apply a <strong>function</strong> that converts to Celcius. You should also rewrite this function name and parameter names to be more expressive.</p>
 </div>
 </div>
-<div id="81313b5c" class="cell student-code" data-highlight="true" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert units with a function</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert(temperature):</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Convert temperature to Celcius"""</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> temperature <span class="co"># Put your equation in here</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>dataframe[<span class="st">'TEMP_C'</span>] <span class="op">=</span> (</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    dataframe[<span class="st">'TEMP_F'</span>].<span class="bu">apply</span>(convert))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="793d876d" class="cell answer-code" data-highlight="true" data-execution_count="17">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_f_to_c(temperature_f):</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Convert temperature to Celcius"""</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (temperature_f <span class="op">-</span> <span class="dv">32</span>) <span class="op">*</span> <span class="dv">5</span><span class="op">/</span><span class="dv">9</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>climate_u_df[<span class="st">'temp_c'</span>] <span class="op">=</span> (</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    climate_u_df[<span class="st">'temp_f'</span>].<span class="bu">apply</span>(convert_f_to_c))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div id="a8677fe4" class="cell student-code" data-highlight="true" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert units with a function</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert(temperature):</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Convert Fahrenheit temperature to Celcius"""</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> temperature <span class="co"># Put your equation in here</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>dataframe[<span class="st">'TEMP_C'</span>] <span class="op">=</span> (</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    dataframe[<span class="st">'TEMP_F'</span>].<span class="bu">apply</span>(convert))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="step-4-plot-your-results" class="level1 page-columns page-full">
-<h1>STEP 4: Plot your results</h1>
-<section id="plot-the-temperature-column-vs-time-to-explore-the-data" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="plot-the-temperature-column-vs-time-to-explore-the-data">Plot the temperature column vs time to explore the data</h2>
+<section id="plot-your-results" class="level1 page-columns page-full">
+<h1>Plot your results</h1>
+<section id="step-1-plot-the-temperature-column-vs-time-to-explore-the-data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="step-1-plot-the-temperature-column-vs-time-to-explore-the-data">STEP 1: Plot the temperature column vs time to explore the data</h2>
 <p>Plotting in Python is easy, but not quite this easy:</p>
-<div id="88cab6fc" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>climate_u_df.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="844323bb" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>climate_u_df.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="climate-shortcourse_files/figure-html/cell-19-output-1.png" width="575" height="402" class="figure-img"></p>
+<p><img src="climate-shortcourse_files/figure-html/cell-20-output-1.png" width="575" height="402" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1855,28 +1808,19 @@ Tip
 <div class="callout-body-container callout-body">
 <p>Labels have to be a <em>type</em> in Python called a <strong>string</strong>. You can make a string by putting quotes around your label, just like the column names in the sample code (eg <code>y='temperature'</code>).</p>
 </div>
-</div></div><div id="2f02bd97" class="cell student-code" data-highlight="true" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data using .plot</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>climate_u_df.plot(</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'the_temperature_column'</span>,</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Title Goes Here'</span>,</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Horizontal Axis Label Goes Here'</span>,</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    ylabel<span class="op">=</span><span class="st">'Vertical Axis Label Goes Here'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div><div id="a20c58a0" class="cell student-code" data-highlight="true" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data using .plot</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>climate_u_df.plot(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'the_temperature_column'</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Title Goes Here'</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Horizontal Axis Label Goes Here'</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    ylabel<span class="op">=</span><span class="st">'Vertical Axis Label Goes Here'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="26c1841a" class="cell answer-code" data-highlight="true" data-execution_count="20">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data using .plot</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>climate_u_df.plot(</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'temp_c'</span>,</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="ss">f'Daily Temperature in </span><span class="sc">{</span>location<span class="sc">}</span><span class="ss">'</span>,</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Date'</span>,</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    ylabel<span class="op">=</span><span class="st">'Temperature ($^</span><span class="er">\</span><span class="st">circ$C)'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div id="ecac583f" class="cell answer-code" data-highlight="true" data-execution_count="21">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="climate-shortcourse_files/figure-html/cell-21-output-1.png" width="587" height="422" class="figure-img"></p>
+<p><img src="climate-shortcourse_files/figure-html/cell-22-output-1.png" width="587" height="422" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1904,8 +1848,8 @@ Looking for an Extra Challenge?
 </div>
 </div>
 </section>
-<section id="clean-up-time-series-plots-by-resampling" class="level2">
-<h2 class="anchored" data-anchor-id="clean-up-time-series-plots-by-resampling">Clean up time series plots by resampling</h2>
+<section id="step-2-clean-up-time-series-plots-by-resampling" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="step-2-clean-up-time-series-plots-by-resampling">STEP 2: Clean up time series plots by resampling</h2>
 <p>You may notice that your plot looks a little “fuzzy”. This happens when Python is trying to plot a value for every date, but the resolution of the image is too low to actually do that. You can address this issue by <strong>resampling</strong> the data, or summarizing it over a time period of your choice. In this case, we will resample annually, giving us one data point per year.</p>
 <div class="callout callout-style-default callout-task callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1920,24 +1864,19 @@ Try It: Resample
 <ol type="1">
 <li>Set the frequency of your final data by replacing <code>DT_OFFSET</code>with a <strong>Datetime Offset Code</strong>. Check out the table in the <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects">pandas datetime documentation</a> to find the one you want (we recommend the start of the year).</li>
 <li>Choose how to summarize each year of data by replacing <code>agg_method_here</code> with a method that will calculate the <strong>average annual value</strong>. Check out the <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#basics">pandas resampling documentation</a> for a list of common built-in options.</li>
+<li>Add descriptive comments to the code so the next person reading it knows what it is doing.</li>
 </ol>
 </div>
 </div>
-<div id="194f8872" class="cell student-code" data-highlight="true" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ann_climate_df <span class="op">=</span> climate_u_df.resample(<span class="st">'DT_OFFSET'</span>).agg_method_here()</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>ann_climate_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="2c13b5df" class="cell student-code" data-highlight="true" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ann_climate_df <span class="op">=</span> (</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    climate_u_df</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    .resample(<span class="st">'DT_OFFSET'</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    .agg_method_here()</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>ann_climate_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="43741fa5" class="cell answer-code" data-highlight="true" data-execution_count="22">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ann_climate_df <span class="op">=</span> climate_u_df.resample(<span class="st">'YS'</span>).mean()</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Store for later</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>store ann_climate_df</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>ann_climate_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Stored 'ann_climate_df' (DataFrame)</code></pre>
-</div>
+<div id="f0f20c3d" class="cell answer-code" data-highlight="true" data-execution_count="23">
 <div class="cell-output cell-output-display" data-execution_count="12">
 <div>
 
@@ -2030,27 +1969,60 @@ Try It: Plot Annual Data
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li>Try plotting your new DataFrame in the cell below. Can you see what is going on more clearly now? Don’t forget to adjust your labels!</li>
+<li>If you write your code on one line, it will most likely be to long to read without scrolling. Make sure you are following <a href="https://peps.python.org/pep-0008/">PEP-8 style guidelines</a> by keeping your lines less than 80 characters long. If you are working in GitHub Codespaces, we have set you up with a vertical guide that is between 79 and 80 characters – make sure your code doesn’t go past it!</li>
+<li>PEP-8 also suggests aligning any function parameters that are too long. See some examples below for what to do and what not to do.</li>
 </ol>
 </div>
 </div>
-<div id="c0c37b3d" class="cell student-code" data-highlight="true" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the annual data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<div class="no-row-height column-margin column-container"><div class="callout-info" title="PEP-8 tips!">
+<p>Following the <a href="https://peps.python.org/pep-0008/">PEP-8 style guide</a> is important because it makes your code easy for you and other collaborators to read. When you are splitting function calls across multiple lines, your code should look like this:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>my_dataframe.plot(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'column_name'</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="ss">f'My Fantastic Plot'</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'The x Axis'</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    ylabel<span class="op">=</span><span class="st">'The y Axis'</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>or maybe this:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>my_dataframe.plot(y<span class="op">=</span><span class="st">'column_name'</span>,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                  title<span class="op">=</span><span class="ss">f'My Fantastic Plot'</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                  xlabel<span class="op">=</span><span class="st">'The x Axis'</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                  ylabel<span class="op">=</span><span class="st">'The y Axis'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div id="4a292751" class="cell answer-code" data-highlight="true" data-execution_count="24">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the annual data using .plot</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>ann_climate_df.plot(</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'temp_c'</span>,</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="ss">f'Annual Average Temperature in </span><span class="sc">{</span>location<span class="sc">}</span><span class="ss">'</span>,</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Year'</span>,</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    ylabel<span class="op">=</span><span class="st">'Temperature ($^</span><span class="er">\</span><span class="st">circ$C)'</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Try to avoid these <a href="https://peps.python.org/pep-0008/">PEP-8</a> violations:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>my_dataframe.plot(y<span class="op">=</span><span class="st">'column_name'</span>, title<span class="op">=</span><span class="ss">f'My Fantastic Plot'</span>, xlabel<span class="op">=</span><span class="st">'The x Axis'</span>, ylabel<span class="op">=</span><span class="st">'The y Axis'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>or</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>my_dataframe.plot(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'column_name'</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>      title<span class="op">=</span><span class="ss">f'My Fantastic Plot'</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>   xlabel<span class="op">=</span><span class="st">'The x Axis'</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>   ylabel<span class="op">=</span><span class="st">'The y Axis'</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>or</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>my_dataframe.plot(y<span class="op">=</span><span class="st">'column_name'</span>,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="ss">f'My Fantastic Plot'</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'The x Axis'</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    ylabel<span class="op">=</span><span class="st">'The y Axis'</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div></div>
+<div id="7c1868ec" class="cell student-code" data-highlight="true" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the annual data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="a3391aaf" class="cell answer-code" data-highlight="true" data-execution_count="25">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="climate-shortcourse_files/figure-html/cell-25-output-1.png" width="587" height="449" class="figure-img"></p>
+<p><img src="climate-shortcourse_files/figure-html/cell-26-output-1.png" width="587" height="449" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2067,15 +2039,15 @@ Reflect and Respond: Interpret your plot
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>Create a new Markdown cell below this one.</p></li>
-<li><p>In the new cell, answer the following questions using a <strong>bulleted list</strong> in Markdown – what are 2 things you notice about this data? What physical phenomena or data anomaly could be causing each one?</p></li>
+<li>Create a new Markdown cell below this one.</li>
+<li>Using a <strong>bulleted list</strong> in Markdown, write down 2 things you notice about the data. What <strong>physical phenomena</strong> or <strong>data anomaly</strong> could be causing each one?</li>
 </ol>
 </div>
 </div>
 </div>
 </section>
-<section id="check-specific-values-with-an-interactive-plot" class="level2">
-<h2 class="anchored" data-anchor-id="check-specific-values-with-an-interactive-plot">Check specific values with an interactive plot</h2>
+<section id="step-3-check-specific-values-with-an-interactive-plot" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-check-specific-values-with-an-interactive-plot">STEP 3: Check specific values with an interactive plot</h2>
 <p>You can use the <code>.hvplot()</code> method with similar arguments to create an interactive plot.</p>
 <div class="callout callout-style-default callout-task callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2090,35 +2062,25 @@ Try It: Interactive Plot
 <ol type="1">
 <li>Copy your plotting code into the cell below.</li>
 <li>Replace <code>.plot</code> in your code with <code>.hvplot</code></li>
+<li>Check that your code follows <a href="https://peps.python.org/pep-0008/">PEP-8 guidelines</a>.</li>
 </ol>
 <p>Now, you should be able to hover over data points and see their values!</p>
 </div>
 </div>
-<div id="767a62ed" class="cell student-code" data-highlight="true" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the annual data interactively</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1f2b4af3" class="cell student-code" data-highlight="true" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the annual data interactively</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="8834b979" class="cell answer-code" data-highlight="true" data-execution_count="26">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the annual data using .hvplot</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>ann_climate_plot <span class="op">=</span> ann_climate_df.hvplot(</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'temp_c'</span>,</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="ss">f'Annual Average Temperature in </span><span class="sc">{</span>location<span class="sc">}</span><span class="ss">'</span>,</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Year'</span>,</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    ylabel<span class="op">=</span><span class="st">'Temperature (deg. C)'</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>ann_climate_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div id="10fb5850" class="cell answer-code" data-highlight="true" data-execution_count="27">
 <div class="cell-output cell-output-display">
 
 </div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div id="p1006">
-  <div id="fad4b323-ab28-4cf0-b3a2-fb2382d9d3ea" data-root-id="p1006" style="display: contents;"></div>
+  <div id="ddcf200c-bf60-4af3-b866-1328d7bf5377" data-root-id="p1006" style="display: contents;"></div>
 </div>
 <script type="application/javascript">(function(root) {
-  var docs_json = {"ec0077d8-a05c-4d94-98d9-d2abe9dc4184":{"version":"3.7.3","title":"Bokeh Application","roots":[{"type":"object","name":"Row","id":"p1006","attributes":{"name":"Row00919","tags":["embedded"],"stylesheets":["\n:host(.pn-loading):before, .pn-loading:before {\n  background-color: #c3c3c3;\n  mask-size: auto calc(min(50%, 400px));\n  -webkit-mask-size: auto calc(min(50%, 400px));\n}",{"type":"object","name":"ImportedStyleSheet","id":"p1009","attributes":{"url":"https://cdn.holoviz.org/panel/1.7.5/dist/css/loading.css"}},{"type":"object","name":"ImportedStyleSheet","id":"p1081","attributes":{"url":"https://cdn.holoviz.org/panel/1.7.5/dist/css/listpanel.css"}},{"type":"object","name":"ImportedStyleSheet","id":"p1007","attributes":{"url":"https://cdn.holoviz.org/panel/1.7.5/dist/bundled/theme/default.css"}},{"type":"object","name":"ImportedStyleSheet","id":"p1008","attributes":{"url":"https://cdn.holoviz.org/panel/1.7.5/dist/bundled/theme/native.css"}}],"min_width":700,"margin":0,"sizing_mode":"stretch_width","align":"start","children":[{"type":"object","name":"Spacer","id":"p1010","attributes":{"name":"HSpacer00926","stylesheets":["\n:host(.pn-loading):before, .pn-loading:before {\n  background-color: #c3c3c3;\n  mask-size: auto calc(min(50%, 400px));\n  -webkit-mask-size: auto calc(min(50%, 400px));\n}",{"id":"p1009"},{"id":"p1007"},{"id":"p1008"}],"min_width":0,"margin":0,"sizing_mode":"stretch_width","align":"start"}},{"type":"object","name":"Figure","id":"p1018","attributes":{"width":700,"height":300,"margin":[5,10],"sizing_mode":"fixed","align":"start","x_range":{"type":"object","name":"Range1d","id":"p1011","attributes":{"tags":[[["DATE",null]],[]],"start":-883612800000.0,"end":1704067200000.0,"reset_start":-883612800000.0,"reset_end":1704067200000.0}},"y_range":{"type":"object","name":"Range1d","id":"p1012","attributes":{"tags":[[["temp_c",null]],{"type":"map","entries":[["invert_yaxis",false],["autorange",false]]}],"start":16.823021885521886,"end":29.391203703703702,"reset_start":16.823021885521886,"reset_end":29.391203703703702}},"x_scale":{"type":"object","name":"LinearScale","id":"p1028"},"y_scale":{"type":"object","name":"LinearScale","id":"p1029"},"title":{"type":"object","name":"Title","id":"p1021","attributes":{"text":"Annual Average Temperature in Karachi, Pakistan","text_color":"black","text_font_size":"12pt"}},"renderers":[{"type":"object","name":"GlyphRenderer","id":"p1074","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1065","attributes":{"selected":{"type":"object","name":"Selection","id":"p1066","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1067"},"data":{"type":"map","entries":[["DATE",{"type":"ndarray","array":{"type":"bytes","data":"AACAqm23acIAAACFd8xowgAAgF+B4WfCAACAbub1ZsIAAABJ8ApmwgAAgCP6H2XCAAAA/gM1ZMIAAAANaUljwgAAgOdyXmLCAAAAwnxzYcIAAICchohgwgAAAFfXOV/CAAAADOtjXcIAAADB/o1bwgAAAHYSuFnCAAAAlNzgV8IAAABJ8ApWwgAAAP4DNVTCAAAAsxdfUsIAAADR4YdQwgAAAAzrY03CAAAAdhK4ScIAAADgOQxGwgAAABzOXULCAAAADOtjPcIAAADgOQw2wgAAAGgRaS3CAAAAsMReHcIAAAAAAAAAAAAAALDEXh1CAAAAsMReLUIAAADgOQw2QgAAAAzrYz1CAAAAHM5dQkIAAACypglGQgAAAHYSuElCAAAADOtjTUIAAADR4YdQQgAAABzOXVJCAAAA/gM1VEIAAABJ8ApWQgAAAJTc4FdCAAAA38i2WUIAAADB/o1bQgAAAAzrY11CAAAAV9c5X0IAAADR4YdgQgAAAMJ8c2FCAACA53JeYkIAAAANaUljQgAAgDJfNGRCAACAI/ofZUIAAABJ8ApmQgAAgG7m9WZCAAAAlNzgZ0IAAACFd8xoQgAAgKptt2lCAAAA0GOiakIAAID1WY1rQgAAgOb0eGxCAAAADOtjbUIAAIAx4U5uQgAAAFfXOW9CAAAAJLkScEIAAMA2NIhwQgAAgEmv/XBCAABAXCpzcUIAAMDU9+hxQgAAgOdyXnJCAABA+u3TckIAAAANaUlzQgAAgIU2v3NCAABAmLE0dEIAAACrLKp0QgAAwL2nH3VCAABANnWVdUIAAABJ8Ap2QgAAwFtrgHZCAACAbub1dkIAAADns2t3QgAAwPku4XdCAACADKpWeEIAAEAfJcx4Qg=="},"shape":[83],"dtype":"float64","order":"little"}],["temp_c",{"type":"ndarray","array":{"type":"bytes","data":"vBhUhFuqN0C1TtY6Wes5QKzfL/RzyjlA/hb1W9RvOUCT2kpqK4k4QAAAAAAAAPh/AAAAAAAA+H8AAAAAAAD4fwAAAAAAAPh/AAAAAAAA+H/tJbSX0N4xQB3HcRzHcTpAAAAAAAAA+H8AAAAAAAD4fwAAAAAAAPh/ExCdr+7xOUDV/lL7S+05QAAAAAAAAPh/AAAAAAAA+H+G6Gv3BDM6QI/jOI7j+DlAAAAAAAAA+H8AAAAAAAD4fwAAAAAAAPh/AAAAAAAA+H8AAAAAAAD4fwAAAAAAAPh/AAAAAAAA+H8AAAAAAAD4fwAAAAAAAPh/AAAAAAAA+H/7Vg4DM+c6QNHwQsMLDTtAM7bf0StjO0CKGXT49Co6QBAEQRAEQTpAwrXcwrXcOUDFJUOwjjY6QLuZwc1zDTpAVwrU+pUqOkB1ZU+AmA86QGRSvEAmBTpAgzJyTe+UOUB85cwt+w06QFVVVVVV1TlAOC1+jYLTOUDusPLm3445QNYKWCtgLTpA1g7R1gOeOkChntsnRy46QJLxcT4B/zlAcuWg5uHdOkAeA3gM4DE6QD2V8VTGUzpAMNPCTAszOkAeSWBaFUE6QLlVvkHTKDtAXKITwiU6O0CWnxBn5ec7QBcTX0x8MTtALa6xuMbiOkBqf6n9pfY6QKVVNyTZJTtA9VvUb1G/OkAZMWLEiBE7QDDTwkwLMztAth8MboSUOkALr/AKrzA7QMIuCLsg7DpAI0aMGDFiOkAiq/1gcCM6QAAAAAAAAPh/VKhQoUKFOkD6gOUDlg87QJ8e9Rm3+jpALlu2bNmyOkBd8nLJyyU7QNMzS88sPTtAjESpsYdZO0Cu9XJdvpA7QOa6fCGHXTtAEKO1JoZwO0DGikflBlg8QA=="},"shape":[83],"dtype":"float64","order":"little"}]]}}},"view":{"type":"object","name":"CDSView","id":"p1075","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1076"}}},"glyph":{"type":"object","name":"Line","id":"p1071","attributes":{"tags":["apply_ranges"],"x":{"type":"field","field":"DATE"},"y":{"type":"field","field":"temp_c"},"line_color":"#30a2da","line_width":2}},"selection_glyph":{"type":"object","name":"Line","id":"p1077","attributes":{"tags":["apply_ranges"],"x":{"type":"field","field":"DATE"},"y":{"type":"field","field":"temp_c"},"line_color":"#30a2da","line_width":2}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1072","attributes":{"tags":["apply_ranges"],"x":{"type":"field","field":"DATE"},"y":{"type":"field","field":"temp_c"},"line_color":"#30a2da","line_alpha":0.1,"line_width":2}},"muted_glyph":{"type":"object","name":"Line","id":"p1073","attributes":{"tags":["apply_ranges"],"x":{"type":"field","field":"DATE"},"y":{"type":"field","field":"temp_c"},"line_color":"#30a2da","line_alpha":0.2,"line_width":2}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p1027","attributes":{"tools":[{"type":"object","name":"WheelZoomTool","id":"p1016","attributes":{"tags":["hv_created"],"renderers":"auto","zoom_together":"none"}},{"type":"object","name":"HoverTool","id":"p1017","attributes":{"tags":["hv_created"],"renderers":[{"id":"p1074"}],"tooltips":[["DATE","@{DATE}{%F %T}"],["temp_c","@{temp_c}"]],"formatters":{"type":"map","entries":[["@{DATE}","datetime"]]}}},{"type":"object","name":"SaveTool","id":"p1054"},{"type":"object","name":"PanTool","id":"p1055"},{"type":"object","name":"BoxZoomTool","id":"p1056","attributes":{"dimensions":"both","overlay":{"type":"object","name":"BoxAnnotation","id":"p1057","attributes":{"syncable":false,"line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5,"level":"overlay","visible":false,"left":{"type":"number","value":"nan"},"right":{"type":"number","value":"nan"},"top":{"type":"number","value":"nan"},"bottom":{"type":"number","value":"nan"},"left_units":"canvas","right_units":"canvas","top_units":"canvas","bottom_units":"canvas","handles":{"type":"object","name":"BoxInteractionHandles","id":"p1063","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1062","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}}}},{"type":"object","name":"ResetTool","id":"p1064"}],"active_drag":{"id":"p1055"},"active_scroll":{"id":"p1016"}}},"left":[{"type":"object","name":"LinearAxis","id":"p1049","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1050","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1051"},"axis_label":"Temperature (deg. C)","major_label_policy":{"type":"object","name":"AllLabels","id":"p1052"}}}],"below":[{"type":"object","name":"DatetimeAxis","id":"p1030","attributes":{"ticker":{"type":"object","name":"DatetimeTicker","id":"p1031","attributes":{"num_minor_ticks":5,"tickers":[{"type":"object","name":"AdaptiveTicker","id":"p1032","attributes":{"num_minor_ticks":0,"mantissas":[1,2,5],"max_interval":500.0}},{"type":"object","name":"AdaptiveTicker","id":"p1033","attributes":{"num_minor_ticks":0,"base":60,"mantissas":[1,2,5,10,15,20,30],"min_interval":1000.0,"max_interval":1800000.0}},{"type":"object","name":"AdaptiveTicker","id":"p1034","attributes":{"num_minor_ticks":0,"base":24,"mantissas":[1,2,4,6,8,12],"min_interval":3600000.0,"max_interval":43200000.0}},{"type":"object","name":"DaysTicker","id":"p1035","attributes":{"days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]}},{"type":"object","name":"DaysTicker","id":"p1036","attributes":{"days":[1,4,7,10,13,16,19,22,25,28]}},{"type":"object","name":"DaysTicker","id":"p1037","attributes":{"days":[1,8,15,22]}},{"type":"object","name":"DaysTicker","id":"p1038","attributes":{"days":[1,15]}},{"type":"object","name":"MonthsTicker","id":"p1039","attributes":{"months":[0,1,2,3,4,5,6,7,8,9,10,11]}},{"type":"object","name":"MonthsTicker","id":"p1040","attributes":{"months":[0,2,4,6,8,10]}},{"type":"object","name":"MonthsTicker","id":"p1041","attributes":{"months":[0,4,8]}},{"type":"object","name":"MonthsTicker","id":"p1042","attributes":{"months":[0,6]}},{"type":"object","name":"YearsTicker","id":"p1043"}]}},"formatter":{"type":"object","name":"DatetimeTickFormatter","id":"p1046","attributes":{"seconds":"%T","minsec":"%T","minutes":"%H:%M","hours":"%H:%M","days":"%b %d","months":"%b %Y","strip_leading_zeros":["microseconds","milliseconds","seconds"],"boundary_scaling":false,"context":{"type":"object","name":"DatetimeTickFormatter","id":"p1045","attributes":{"microseconds":"%T","milliseconds":"%T","seconds":"%b %d, %Y","minsec":"%b %d, %Y","minutes":"%b %d, %Y","hourmin":"%b %d, %Y","hours":"%b %d, %Y","days":"%Y","months":"","years":"","boundary_scaling":false,"hide_repeats":true,"context":{"type":"object","name":"DatetimeTickFormatter","id":"p1044","attributes":{"microseconds":"%b %d, %Y","milliseconds":"%b %d, %Y","seconds":"","minsec":"","minutes":"","hourmin":"","hours":"","days":"","months":"","years":"","boundary_scaling":false,"hide_repeats":true}},"context_which":"all"}},"context_which":"all"}},"axis_label":"Year","major_label_policy":{"type":"object","name":"AllLabels","id":"p1047"}}}],"center":[{"type":"object","name":"Grid","id":"p1048","attributes":{"axis":{"id":"p1030"},"grid_line_color":null}},{"type":"object","name":"Grid","id":"p1053","attributes":{"dimension":1,"axis":{"id":"p1049"},"grid_line_color":null}}],"min_border_top":10,"min_border_bottom":10,"min_border_left":10,"min_border_right":10,"output_backend":"webgl"}},{"type":"object","name":"Spacer","id":"p1079","attributes":{"name":"HSpacer00927","stylesheets":["\n:host(.pn-loading):before, .pn-loading:before {\n  background-color: #c3c3c3;\n  mask-size: auto calc(min(50%, 400px));\n  -webkit-mask-size: auto calc(min(50%, 400px));\n}",{"id":"p1009"},{"id":"p1007"},{"id":"p1008"}],"min_width":0,"margin":0,"sizing_mode":"stretch_width","align":"start"}}]}}],"defs":[{"type":"model","name":"ReactiveHTML1"},{"type":"model","name":"FlexBox1","properties":[{"name":"align_content","kind":"Any","default":"flex-start"},{"name":"align_items","kind":"Any","default":"flex-start"},{"name":"flex_direction","kind":"Any","default":"row"},{"name":"flex_wrap","kind":"Any","default":"wrap"},{"name":"gap","kind":"Any","default":""},{"name":"justify_content","kind":"Any","default":"flex-start"}]},{"type":"model","name":"FloatPanel1","properties":[{"name":"config","kind":"Any","default":{"type":"map"}},{"name":"contained","kind":"Any","default":true},{"name":"position","kind":"Any","default":"right-top"},{"name":"offsetx","kind":"Any","default":null},{"name":"offsety","kind":"Any","default":null},{"name":"theme","kind":"Any","default":"primary"},{"name":"status","kind":"Any","default":"normalized"}]},{"type":"model","name":"GridStack1","properties":[{"name":"ncols","kind":"Any","default":null},{"name":"nrows","kind":"Any","default":null},{"name":"allow_resize","kind":"Any","default":true},{"name":"allow_drag","kind":"Any","default":true},{"name":"state","kind":"Any","default":[]}]},{"type":"model","name":"drag1","properties":[{"name":"slider_width","kind":"Any","default":5},{"name":"slider_color","kind":"Any","default":"black"},{"name":"value","kind":"Any","default":50}]},{"type":"model","name":"click1","properties":[{"name":"terminal_output","kind":"Any","default":""},{"name":"debug_name","kind":"Any","default":""},{"name":"clears","kind":"Any","default":0}]},{"type":"model","name":"ReactiveESM1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"JSComponent1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"ReactComponent1","properties":[{"name":"use_shadow_dom","kind":"Any","default":true},{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"AnyWidgetComponent1","properties":[{"name":"use_shadow_dom","kind":"Any","default":true},{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"FastWrapper1","properties":[{"name":"object","kind":"Any","default":null},{"name":"style","kind":"Any","default":null}]},{"type":"model","name":"NotificationArea1","properties":[{"name":"js_events","kind":"Any","default":{"type":"map"}},{"name":"max_notifications","kind":"Any","default":5},{"name":"notifications","kind":"Any","default":[]},{"name":"position","kind":"Any","default":"bottom-right"},{"name":"_clear","kind":"Any","default":0},{"name":"types","kind":"Any","default":[{"type":"map","entries":[["type","warning"],["background","#ffc107"],["icon",{"type":"map","entries":[["className","fas fa-exclamation-triangle"],["tagName","i"],["color","white"]]}]]},{"type":"map","entries":[["type","info"],["background","#007bff"],["icon",{"type":"map","entries":[["className","fas fa-info-circle"],["tagName","i"],["color","white"]]}]]}]}]},{"type":"model","name":"Notification","properties":[{"name":"background","kind":"Any","default":null},{"name":"duration","kind":"Any","default":3000},{"name":"icon","kind":"Any","default":null},{"name":"message","kind":"Any","default":""},{"name":"notification_type","kind":"Any","default":null},{"name":"_rendered","kind":"Any","default":false},{"name":"_destroyed","kind":"Any","default":false}]},{"type":"model","name":"TemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"BootstrapTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"TemplateEditor1","properties":[{"name":"layout","kind":"Any","default":[]}]},{"type":"model","name":"MaterialTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"request_value1","properties":[{"name":"fill","kind":"Any","default":"none"},{"name":"_synced","kind":"Any","default":null},{"name":"_request_sync","kind":"Any","default":0}]}]}};
-  var render_items = [{"docid":"ec0077d8-a05c-4d94-98d9-d2abe9dc4184","roots":{"p1006":"fad4b323-ab28-4cf0-b3a2-fb2382d9d3ea"},"root_ids":["p1006"]}];
+  var docs_json = {"00d1147c-999f-40b9-b0bc-cf27164a8a94":{"version":"3.7.3","title":"Bokeh Application","roots":[{"type":"object","name":"Row","id":"p1006","attributes":{"name":"Row00919","tags":["embedded"],"stylesheets":["\n:host(.pn-loading):before, .pn-loading:before {\n  background-color: #c3c3c3;\n  mask-size: auto calc(min(50%, 400px));\n  -webkit-mask-size: auto calc(min(50%, 400px));\n}",{"type":"object","name":"ImportedStyleSheet","id":"p1009","attributes":{"url":"https://cdn.holoviz.org/panel/1.7.5/dist/css/loading.css"}},{"type":"object","name":"ImportedStyleSheet","id":"p1081","attributes":{"url":"https://cdn.holoviz.org/panel/1.7.5/dist/css/listpanel.css"}},{"type":"object","name":"ImportedStyleSheet","id":"p1007","attributes":{"url":"https://cdn.holoviz.org/panel/1.7.5/dist/bundled/theme/default.css"}},{"type":"object","name":"ImportedStyleSheet","id":"p1008","attributes":{"url":"https://cdn.holoviz.org/panel/1.7.5/dist/bundled/theme/native.css"}}],"min_width":700,"margin":0,"sizing_mode":"stretch_width","align":"start","children":[{"type":"object","name":"Spacer","id":"p1010","attributes":{"name":"HSpacer00926","stylesheets":["\n:host(.pn-loading):before, .pn-loading:before {\n  background-color: #c3c3c3;\n  mask-size: auto calc(min(50%, 400px));\n  -webkit-mask-size: auto calc(min(50%, 400px));\n}",{"id":"p1009"},{"id":"p1007"},{"id":"p1008"}],"min_width":0,"margin":0,"sizing_mode":"stretch_width","align":"start"}},{"type":"object","name":"Figure","id":"p1018","attributes":{"width":700,"height":300,"margin":[5,10],"sizing_mode":"fixed","align":"start","x_range":{"type":"object","name":"Range1d","id":"p1011","attributes":{"tags":[[["DATE",null]],[]],"start":-883612800000.0,"end":1704067200000.0,"reset_start":-883612800000.0,"reset_end":1704067200000.0}},"y_range":{"type":"object","name":"Range1d","id":"p1012","attributes":{"tags":[[["temp_c",null]],{"type":"map","entries":[["invert_yaxis",false],["autorange",false]]}],"start":16.823021885521886,"end":29.391203703703702,"reset_start":16.823021885521886,"reset_end":29.391203703703702}},"x_scale":{"type":"object","name":"LinearScale","id":"p1028"},"y_scale":{"type":"object","name":"LinearScale","id":"p1029"},"title":{"type":"object","name":"Title","id":"p1021","attributes":{"text":"Annual Average Temperature in Karachi, Pakistan","text_color":"black","text_font_size":"12pt"}},"renderers":[{"type":"object","name":"GlyphRenderer","id":"p1074","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1065","attributes":{"selected":{"type":"object","name":"Selection","id":"p1066","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1067"},"data":{"type":"map","entries":[["DATE",{"type":"ndarray","array":{"type":"bytes","data":"AACAqm23acIAAACFd8xowgAAgF+B4WfCAACAbub1ZsIAAABJ8ApmwgAAgCP6H2XCAAAA/gM1ZMIAAAANaUljwgAAgOdyXmLCAAAAwnxzYcIAAICchohgwgAAAFfXOV/CAAAADOtjXcIAAADB/o1bwgAAAHYSuFnCAAAAlNzgV8IAAABJ8ApWwgAAAP4DNVTCAAAAsxdfUsIAAADR4YdQwgAAAAzrY03CAAAAdhK4ScIAAADgOQxGwgAAABzOXULCAAAADOtjPcIAAADgOQw2wgAAAGgRaS3CAAAAsMReHcIAAAAAAAAAAAAAALDEXh1CAAAAsMReLUIAAADgOQw2QgAAAAzrYz1CAAAAHM5dQkIAAACypglGQgAAAHYSuElCAAAADOtjTUIAAADR4YdQQgAAABzOXVJCAAAA/gM1VEIAAABJ8ApWQgAAAJTc4FdCAAAA38i2WUIAAADB/o1bQgAAAAzrY11CAAAAV9c5X0IAAADR4YdgQgAAAMJ8c2FCAACA53JeYkIAAAANaUljQgAAgDJfNGRCAACAI/ofZUIAAABJ8ApmQgAAgG7m9WZCAAAAlNzgZ0IAAACFd8xoQgAAgKptt2lCAAAA0GOiakIAAID1WY1rQgAAgOb0eGxCAAAADOtjbUIAAIAx4U5uQgAAAFfXOW9CAAAAJLkScEIAAMA2NIhwQgAAgEmv/XBCAABAXCpzcUIAAMDU9+hxQgAAgOdyXnJCAABA+u3TckIAAAANaUlzQgAAgIU2v3NCAABAmLE0dEIAAACrLKp0QgAAwL2nH3VCAABANnWVdUIAAABJ8Ap2QgAAwFtrgHZCAACAbub1dkIAAADns2t3QgAAwPku4XdCAACADKpWeEIAAEAfJcx4Qg=="},"shape":[83],"dtype":"float64","order":"little"}],["temp_c",{"type":"ndarray","array":{"type":"bytes","data":"vBhUhFuqN0C1TtY6Wes5QKzfL/RzyjlA/hb1W9RvOUCT2kpqK4k4QAAAAAAAAPh/AAAAAAAA+H8AAAAAAAD4fwAAAAAAAPh/AAAAAAAA+H/tJbSX0N4xQB3HcRzHcTpAAAAAAAAA+H8AAAAAAAD4fwAAAAAAAPh/ExCdr+7xOUDV/lL7S+05QAAAAAAAAPh/AAAAAAAA+H+G6Gv3BDM6QI/jOI7j+DlAAAAAAAAA+H8AAAAAAAD4fwAAAAAAAPh/AAAAAAAA+H8AAAAAAAD4fwAAAAAAAPh/AAAAAAAA+H8AAAAAAAD4fwAAAAAAAPh/AAAAAAAA+H/7Vg4DM+c6QNHwQsMLDTtAM7bf0StjO0CKGXT49Co6QBAEQRAEQTpAwrXcwrXcOUDFJUOwjjY6QLuZwc1zDTpAVwrU+pUqOkB1ZU+AmA86QGRSvEAmBTpAgzJyTe+UOUB85cwt+w06QFVVVVVV1TlAOC1+jYLTOUDusPLm3445QNYKWCtgLTpA1g7R1gOeOkChntsnRy46QJLxcT4B/zlAcuWg5uHdOkAeA3gM4DE6QD2V8VTGUzpAMNPCTAszOkAeSWBaFUE6QLlVvkHTKDtAXKITwiU6O0CWnxBn5ec7QBcTX0x8MTtALa6xuMbiOkBqf6n9pfY6QKVVNyTZJTtA9VvUb1G/OkAZMWLEiBE7QDDTwkwLMztAth8MboSUOkALr/AKrzA7QMIuCLsg7DpAI0aMGDFiOkAiq/1gcCM6QAAAAAAAAPh/VKhQoUKFOkD6gOUDlg87QJ8e9Rm3+jpALlu2bNmyOkBd8nLJyyU7QNMzS88sPTtAjESpsYdZO0Cu9XJdvpA7QOa6fCGHXTtAEKO1JoZwO0DGikflBlg8QA=="},"shape":[83],"dtype":"float64","order":"little"}]]}}},"view":{"type":"object","name":"CDSView","id":"p1075","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1076"}}},"glyph":{"type":"object","name":"Line","id":"p1071","attributes":{"tags":["apply_ranges"],"x":{"type":"field","field":"DATE"},"y":{"type":"field","field":"temp_c"},"line_color":"#30a2da","line_width":2}},"selection_glyph":{"type":"object","name":"Line","id":"p1077","attributes":{"tags":["apply_ranges"],"x":{"type":"field","field":"DATE"},"y":{"type":"field","field":"temp_c"},"line_color":"#30a2da","line_width":2}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1072","attributes":{"tags":["apply_ranges"],"x":{"type":"field","field":"DATE"},"y":{"type":"field","field":"temp_c"},"line_color":"#30a2da","line_alpha":0.1,"line_width":2}},"muted_glyph":{"type":"object","name":"Line","id":"p1073","attributes":{"tags":["apply_ranges"],"x":{"type":"field","field":"DATE"},"y":{"type":"field","field":"temp_c"},"line_color":"#30a2da","line_alpha":0.2,"line_width":2}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p1027","attributes":{"tools":[{"type":"object","name":"WheelZoomTool","id":"p1016","attributes":{"tags":["hv_created"],"renderers":"auto","zoom_together":"none"}},{"type":"object","name":"HoverTool","id":"p1017","attributes":{"tags":["hv_created"],"renderers":[{"id":"p1074"}],"tooltips":[["DATE","@{DATE}{%F %T}"],["temp_c","@{temp_c}"]],"formatters":{"type":"map","entries":[["@{DATE}","datetime"]]}}},{"type":"object","name":"SaveTool","id":"p1054"},{"type":"object","name":"PanTool","id":"p1055"},{"type":"object","name":"BoxZoomTool","id":"p1056","attributes":{"dimensions":"both","overlay":{"type":"object","name":"BoxAnnotation","id":"p1057","attributes":{"syncable":false,"line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5,"level":"overlay","visible":false,"left":{"type":"number","value":"nan"},"right":{"type":"number","value":"nan"},"top":{"type":"number","value":"nan"},"bottom":{"type":"number","value":"nan"},"left_units":"canvas","right_units":"canvas","top_units":"canvas","bottom_units":"canvas","handles":{"type":"object","name":"BoxInteractionHandles","id":"p1063","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1062","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}}}},{"type":"object","name":"ResetTool","id":"p1064"}],"active_drag":{"id":"p1055"},"active_scroll":{"id":"p1016"}}},"left":[{"type":"object","name":"LinearAxis","id":"p1049","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1050","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1051"},"axis_label":"Temperature (deg. C)","major_label_policy":{"type":"object","name":"AllLabels","id":"p1052"}}}],"below":[{"type":"object","name":"DatetimeAxis","id":"p1030","attributes":{"ticker":{"type":"object","name":"DatetimeTicker","id":"p1031","attributes":{"num_minor_ticks":5,"tickers":[{"type":"object","name":"AdaptiveTicker","id":"p1032","attributes":{"num_minor_ticks":0,"mantissas":[1,2,5],"max_interval":500.0}},{"type":"object","name":"AdaptiveTicker","id":"p1033","attributes":{"num_minor_ticks":0,"base":60,"mantissas":[1,2,5,10,15,20,30],"min_interval":1000.0,"max_interval":1800000.0}},{"type":"object","name":"AdaptiveTicker","id":"p1034","attributes":{"num_minor_ticks":0,"base":24,"mantissas":[1,2,4,6,8,12],"min_interval":3600000.0,"max_interval":43200000.0}},{"type":"object","name":"DaysTicker","id":"p1035","attributes":{"days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]}},{"type":"object","name":"DaysTicker","id":"p1036","attributes":{"days":[1,4,7,10,13,16,19,22,25,28]}},{"type":"object","name":"DaysTicker","id":"p1037","attributes":{"days":[1,8,15,22]}},{"type":"object","name":"DaysTicker","id":"p1038","attributes":{"days":[1,15]}},{"type":"object","name":"MonthsTicker","id":"p1039","attributes":{"months":[0,1,2,3,4,5,6,7,8,9,10,11]}},{"type":"object","name":"MonthsTicker","id":"p1040","attributes":{"months":[0,2,4,6,8,10]}},{"type":"object","name":"MonthsTicker","id":"p1041","attributes":{"months":[0,4,8]}},{"type":"object","name":"MonthsTicker","id":"p1042","attributes":{"months":[0,6]}},{"type":"object","name":"YearsTicker","id":"p1043"}]}},"formatter":{"type":"object","name":"DatetimeTickFormatter","id":"p1046","attributes":{"seconds":"%T","minsec":"%T","minutes":"%H:%M","hours":"%H:%M","days":"%b %d","months":"%b %Y","strip_leading_zeros":["microseconds","milliseconds","seconds"],"boundary_scaling":false,"context":{"type":"object","name":"DatetimeTickFormatter","id":"p1045","attributes":{"microseconds":"%T","milliseconds":"%T","seconds":"%b %d, %Y","minsec":"%b %d, %Y","minutes":"%b %d, %Y","hourmin":"%b %d, %Y","hours":"%b %d, %Y","days":"%Y","months":"","years":"","boundary_scaling":false,"hide_repeats":true,"context":{"type":"object","name":"DatetimeTickFormatter","id":"p1044","attributes":{"microseconds":"%b %d, %Y","milliseconds":"%b %d, %Y","seconds":"","minsec":"","minutes":"","hourmin":"","hours":"","days":"","months":"","years":"","boundary_scaling":false,"hide_repeats":true}},"context_which":"all"}},"context_which":"all"}},"axis_label":"Year","major_label_policy":{"type":"object","name":"AllLabels","id":"p1047"}}}],"center":[{"type":"object","name":"Grid","id":"p1048","attributes":{"axis":{"id":"p1030"},"grid_line_color":null}},{"type":"object","name":"Grid","id":"p1053","attributes":{"dimension":1,"axis":{"id":"p1049"},"grid_line_color":null}}],"min_border_top":10,"min_border_bottom":10,"min_border_left":10,"min_border_right":10,"output_backend":"webgl"}},{"type":"object","name":"Spacer","id":"p1079","attributes":{"name":"HSpacer00927","stylesheets":["\n:host(.pn-loading):before, .pn-loading:before {\n  background-color: #c3c3c3;\n  mask-size: auto calc(min(50%, 400px));\n  -webkit-mask-size: auto calc(min(50%, 400px));\n}",{"id":"p1009"},{"id":"p1007"},{"id":"p1008"}],"min_width":0,"margin":0,"sizing_mode":"stretch_width","align":"start"}}]}}],"defs":[{"type":"model","name":"ReactiveHTML1"},{"type":"model","name":"FlexBox1","properties":[{"name":"align_content","kind":"Any","default":"flex-start"},{"name":"align_items","kind":"Any","default":"flex-start"},{"name":"flex_direction","kind":"Any","default":"row"},{"name":"flex_wrap","kind":"Any","default":"wrap"},{"name":"gap","kind":"Any","default":""},{"name":"justify_content","kind":"Any","default":"flex-start"}]},{"type":"model","name":"FloatPanel1","properties":[{"name":"config","kind":"Any","default":{"type":"map"}},{"name":"contained","kind":"Any","default":true},{"name":"position","kind":"Any","default":"right-top"},{"name":"offsetx","kind":"Any","default":null},{"name":"offsety","kind":"Any","default":null},{"name":"theme","kind":"Any","default":"primary"},{"name":"status","kind":"Any","default":"normalized"}]},{"type":"model","name":"GridStack1","properties":[{"name":"ncols","kind":"Any","default":null},{"name":"nrows","kind":"Any","default":null},{"name":"allow_resize","kind":"Any","default":true},{"name":"allow_drag","kind":"Any","default":true},{"name":"state","kind":"Any","default":[]}]},{"type":"model","name":"drag1","properties":[{"name":"slider_width","kind":"Any","default":5},{"name":"slider_color","kind":"Any","default":"black"},{"name":"value","kind":"Any","default":50}]},{"type":"model","name":"click1","properties":[{"name":"terminal_output","kind":"Any","default":""},{"name":"debug_name","kind":"Any","default":""},{"name":"clears","kind":"Any","default":0}]},{"type":"model","name":"ReactiveESM1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"JSComponent1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"ReactComponent1","properties":[{"name":"use_shadow_dom","kind":"Any","default":true},{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"AnyWidgetComponent1","properties":[{"name":"use_shadow_dom","kind":"Any","default":true},{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"FastWrapper1","properties":[{"name":"object","kind":"Any","default":null},{"name":"style","kind":"Any","default":null}]},{"type":"model","name":"NotificationArea1","properties":[{"name":"js_events","kind":"Any","default":{"type":"map"}},{"name":"max_notifications","kind":"Any","default":5},{"name":"notifications","kind":"Any","default":[]},{"name":"position","kind":"Any","default":"bottom-right"},{"name":"_clear","kind":"Any","default":0},{"name":"types","kind":"Any","default":[{"type":"map","entries":[["type","warning"],["background","#ffc107"],["icon",{"type":"map","entries":[["className","fas fa-exclamation-triangle"],["tagName","i"],["color","white"]]}]]},{"type":"map","entries":[["type","info"],["background","#007bff"],["icon",{"type":"map","entries":[["className","fas fa-info-circle"],["tagName","i"],["color","white"]]}]]}]}]},{"type":"model","name":"Notification","properties":[{"name":"background","kind":"Any","default":null},{"name":"duration","kind":"Any","default":3000},{"name":"icon","kind":"Any","default":null},{"name":"message","kind":"Any","default":""},{"name":"notification_type","kind":"Any","default":null},{"name":"_rendered","kind":"Any","default":false},{"name":"_destroyed","kind":"Any","default":false}]},{"type":"model","name":"TemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"BootstrapTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"TemplateEditor1","properties":[{"name":"layout","kind":"Any","default":[]}]},{"type":"model","name":"MaterialTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"request_value1","properties":[{"name":"fill","kind":"Any","default":"none"},{"name":"_synced","kind":"Any","default":null},{"name":"_request_sync","kind":"Any","default":0}]}]}};
+  var render_items = [{"docid":"00d1147c-999f-40b9-b0bc-cf27164a8a94","roots":{"p1006":"ddcf200c-bf60-4af3-b866-1328d7bf5377"},"root_ids":["p1006"]}];
   var docs = Object.values(docs_json)
   if (!docs) {
     return
@@ -2186,13 +2148,13 @@ Try It: Interactive Plot
 </div>
 </div>
 <div class="cell markdown">
-<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout callout-style-default callout-respond callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Try It: Explore the data
+Reflect and Respond: Explore the data
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -2207,13 +2169,13 @@ Try It: Explore the data
 <section id="bonus-save-your-work" class="level2">
 <h2 class="anchored" data-anchor-id="bonus-save-your-work">BONUS: Save your work</h2>
 <p>You will need to save your analyses and plots to tell others about what you find.</p>
-<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout callout-style-default callout-extra callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Try It: Save Your Plot
+Looking for an Extra Challenge?: Save Your Plot
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -2236,17 +2198,11 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you are working in GitHub Codespaces, right-click on your file and download it to view it.</p>
+<p>If you are working in GitHub Codespaces, right-click on your file and download it to view it after saving.</p>
 </div>
 </div>
-<div id="79652cc5" class="cell student-code" data-highlight="true" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>hv.save(my_plot, <span class="st">'my_plot.html'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="7bf24816" class="cell answer-code" data-highlight="true" data-execution_count="28">
-<details class="code-fold">
-<summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>hv.save(ann_climate_plot, <span class="st">'annual_climate.html'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div id="eff0c4c3" class="cell student-code" data-highlight="true" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>hv.save(my_plot, <span class="st">'my_plot.html'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

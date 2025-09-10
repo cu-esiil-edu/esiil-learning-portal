@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-09-04">
+<meta name="dcterms.date" content="2025-09-10">
 
 <title>Time-series Data</title>
 <style>
@@ -31,6 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
+<link href="../../../../../notebooks/01-climate/climate-eda.html" rel="next">
+<link href="../../../../../notebooks/14-osm-map/map-eda.html" rel="prev">
 <script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
@@ -73,7 +75,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../../../../../styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-sidebar floating nav-fixed slimcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -188,10 +190,131 @@ ul.task-list li input[type="checkbox"] {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../../pages/00-overviews/04a-courses/eda/01-fundamentals/02-time-series.html">UNIT 2: Climate</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../pages/00-overviews/04a-courses/eda/01-fundamentals/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fundamentals of Earth Data Analytics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../../../pages/00-overviews/04a-courses/eda/01-fundamentals/01-portfolio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">UNIT 1: Portfolio</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Create Your Portfolio</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://earthdatascience.org/pages/03-git-github/01-intro-version-control/01-intro-version-control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">READING: Version Control</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://earthdatascience.org/pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">READING: Markdown</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../pages/03-git-github/03-github-portfolio/portfolio-eda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Build your Environmental Data Science portfolio</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">First Map Challenge</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://earthdatascience.org/pages/02-file-formats-eds/05-spatial-data-formats-eds/03-vector-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">READING: Vector Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../notebooks/14-osm-map/map-eda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Add a map to your website</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://earthdatascience.org/pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ACTIVITY: Branching</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../../../pages/00-overviews/04a-courses/eda/01-fundamentals/02-time-series.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">UNIT 2: Climate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://earthdatascience.org/pages/01-reproducible-science-tools/open-reproducible-science/01-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">READING: Open, Reproducible Science</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://earthdatascience.org/pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">READING: Tabular Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../../notebooks/01-climate/climate-eda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Climate Coding Challenge</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
         
@@ -224,7 +347,7 @@ ul.task-list li input[type="checkbox"] {
                             <div>
                             <div class="quarto-title-meta-heading">Published</div>
                             <div class="quarto-title-meta-contents">
-                              <p class="date">September 4, 2025</p>
+                              <p class="date">September 10, 2025</p>
                             </div>
                           </div>
                           
@@ -646,6 +769,18 @@ ul.task-list li input[type="checkbox"] {
     }
   });
   </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../../../notebooks/14-osm-map/map-eda.html" class="pagination-link" aria-label="Add a map to your website">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Add a map to your website</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../../../../notebooks/01-climate/climate-eda.html" class="pagination-link" aria-label="Climate Coding Challenge">
+        <span class="nav-page-text">Climate Coding Challenge</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
