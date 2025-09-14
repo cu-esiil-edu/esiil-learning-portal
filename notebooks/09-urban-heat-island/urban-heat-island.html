@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Nate Quarderer">
 <meta name="author" content="Elsa Culler">
-<meta name="dcterms.date" content="2025-09-10">
+<meta name="dcterms.date" content="2025-09-14">
 <meta name="keywords" content="Open Science, Urban Heat Island, Place-based Learning">
 <meta name="description" content="In this hands-on Earth Data Science activity, we’ll look at temperature data from two locations in the Chicago area and compare them.">
 
@@ -83,7 +83,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -94,14 +94,19 @@ div.csl-indent {
 <link href="../../pages/01-reproducible-science-tools/open-reproducible-science/01-overview.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-514e886b990c1bda1114661601344f56.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-15eab345316c8c7cdecadfb5ed083b97.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-15eab345316c8c7cdecadfb5ed083b97.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-15eab345316c8c7cdecadfb5ed083b97.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": true,
@@ -129,7 +134,7 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
@@ -145,7 +150,8 @@ div.csl-indent {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../img/ESIIL_portal_dark.png" alt="" class="navbar-logo">
+    <img src="../../img/ESIIL_portal_dark.png" alt="ESIIL Environmental Data Analytics Learning Portal" class="navbar-logo light-content">
+    <img src="../../img/ESIIL_portal_dark.png" alt="ESIIL Environmental Data Analytics Learning Portal" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -269,7 +275,8 @@ div.csl-indent {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="../../pages/00-overviews/01-get-started/r/index.html" class="sidebar-logo-link">
-      <img src="../../img/R-logo.png" alt="Get Started with R" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="../../img/R-logo.png" alt="Get Started with R" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../../img/R-logo.png" alt="Get Started with R" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
       </a>
       </div>
     <div class="sidebar-menu-container"> 
@@ -475,7 +482,7 @@ div.csl-indent {
                             <div>
                             <div class="quarto-title-meta-heading">Published</div>
                             <div class="quarto-title-meta-contents">
-                              <p class="date">September 10, 2025</p>
+                              <p class="date">September 14, 2025</p>
                             </div>
                           </div>
                           
@@ -517,7 +524,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Conversation Starter
+<span class="screen-reader-only">Discuss</span>Conversation Starter
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -537,7 +544,7 @@ Conversation Starter
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Conversation Starter
+<span class="screen-reader-only">Discuss</span>Conversation Starter
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -591,7 +598,7 @@ Conversation Starter
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Read More: Air Temperature vs. Surface Temperature
+<span class="screen-reader-only">Read</span>Read More: Air Temperature vs. Surface Temperature
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -626,7 +633,7 @@ Read More: Air Temperature vs. Surface Temperature
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Read More: What is a Heat Island?
+<span class="screen-reader-only">Read</span>Read More: What is a Heat Island?
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -696,7 +703,7 @@ Tip
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Read More: Packages need to be installed and imported.
+<span class="screen-reader-only">Read</span>Read More: Packages need to be installed and imported.
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -710,7 +717,7 @@ Read More: Packages need to be installed and imported.
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Try It: Import a package
+<span class="screen-reader-only">Task</span>Try It: Import a package
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -720,15 +727,15 @@ Try It: Import a package
 </ol>
 </div>
 </div>
-<div id="513625c5" class="cell student-code" data-highlight="true" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import libraries</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandsa <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1c17c4d5" class="cell student-code" data-highlight="true" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandsa <span class="im">as</span> pd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="85252d58" class="cell answer-code" data-highlight="true" data-execution_count="2">
+<div id="17c2a759" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="2">
 <details class="code-fold">
 <summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use tabular data</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use tabular data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -752,7 +759,7 @@ Try It: Import a package
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What’s an API?
+<span class="screen-reader-only">Tip</span>What’s an API?
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -764,7 +771,7 @@ What’s an API?
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Read More
+<span class="screen-reader-only">Read</span>Read More
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -783,7 +790,7 @@ Read More
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Try It: Build your API URL
+<span class="screen-reader-only">Task</span>Try It: Build your API URL
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -800,14 +807,14 @@ Try It: Build your API URL
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What if the API is down?
+<span class="screen-reader-only">Important</span>What if the API is down?
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Getting data from APIs relies on internet services you don’t have control over. If you are getting a response something like <code>503: Service Unavailable</code>, it may be that the API is down temperarily! If that happens during the workshop, we’ll have you use some data we’ve already downloaded and placed in the folder with this code – with any luck we won’t need it.</p>
 </div>
-</div></div><div id="edf1a6bf" class="cell student-code" data-highlight="true" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a URL API call for the O'Hare climate station</span></span>
+</div></div><div id="913cd9e7" class="cell student-code" data-highlight="true" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a URL API call for the O'Hare climate station</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ohare_url <span class="op">=</span> (</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://www.ncei.noaa.gov/access/services/data/v1?'</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dataset=daily-summaries'</span></span>
@@ -818,12 +825,12 @@ What if the API is down?
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;units=standard'</span>)</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the URL</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>ohare_url</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>ohare_url</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="388cad56" class="cell answer-code" data-highlight="true" data-execution_count="4">
+<div id="54dacf65" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="4">
 <details class="code-fold">
 <summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a URL API call for the O'Hare climate station</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a URL API call for the O'Hare climate station</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ohare_url <span class="op">=</span> (</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://www.ncei.noaa.gov/access/services/data/v1?'</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dataset=daily-summaries'</span></span>
@@ -834,7 +841,7 @@ What if the API is down?
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;units=standard'</span>)</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the URL</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>ohare_url</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>ohare_url</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>'https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&amp;dataTypes=TMAX&amp;stations=USW00094846&amp;startDate=2024-06-01&amp;endDate=2024-06-30&amp;units=standard'</code></pre>
@@ -846,7 +853,7 @@ What if the API is down?
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Try It: Load maximum temperature data for O'Hare
+<span class="screen-reader-only">Task</span>Try It: Load maximum temperature data for O'Hare
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -857,8 +864,8 @@ Try It: Load maximum temperature data for O'Hare
 </ol>
 </div>
 </div>
-<div id="63377bcc" class="cell student-code" data-highlight="true" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open data using pandas</span></span>
+<div id="ef6c9548" class="cell student-code" data-highlight="true" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open data using pandas</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ohare_df <span class="op">=</span> pd.read_csv(</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    url_or_path,</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#parse_dates=True,</span></span>
@@ -869,12 +876,12 @@ Try It: Load maximum temperature data for O'Hare
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>ohare_df.TMAX.plot()</span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the first 5 lines of data</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>ohare_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>ohare_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="4ef35eb9" class="cell answer-code" data-highlight="true" data-execution_count="6">
+<div id="a781d9b4" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="6">
 <details class="code-fold">
 <summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open data using pandas</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open data using pandas</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ohare_df <span class="op">=</span> pd.read_csv(</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    ohare_url,</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Comment above and uncomment below if NCEI isn't working</span></span>
@@ -887,13 +894,13 @@ Try It: Load maximum temperature data for O'Hare
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>ohare_df.TMAX.plot()</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the data types</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>ohare_df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>ohare_df.describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -902,35 +909,35 @@ Try It: Load maximum temperature data for O'Hare
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">count</td>
+<th data-quarto-table-cell-role="th">count</th>
 <td>30.000000</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">mean</td>
+<th data-quarto-table-cell-role="th">mean</th>
 <td>83.566667</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">std</td>
+<th data-quarto-table-cell-role="th">std</th>
 <td>8.122694</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">min</td>
+<th data-quarto-table-cell-role="th">min</th>
 <td>68.000000</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">25%</td>
+<th data-quarto-table-cell-role="th">25%</th>
 <td>78.000000</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">50%</td>
+<th data-quarto-table-cell-role="th">50%</th>
 <td>85.000000</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">75%</td>
+<th data-quarto-table-cell-role="th">75%</th>
 <td>90.250000</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">max</td>
+<th data-quarto-table-cell-role="th">max</th>
 <td>97.000000</td>
 </tr>
 </tbody>
@@ -956,7 +963,7 @@ Try It: Load maximum temperature data for O'Hare
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Try It: Load data, part 2
+<span class="screen-reader-only">Task</span>Try It: Load data, part 2
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -969,7 +976,7 @@ Try It: Load data, part 2
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Make sure to give your new variables different names!
+<span class="screen-reader-only">Important</span>Make sure to give your new variables different names!
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -978,13 +985,13 @@ Make sure to give your new variables different names!
 </div>
 </div>
 </div>
-<div id="91d15d1b" class="cell student-code" data-highlight="true" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an API call for the Northerly climate station</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b5f69fa2" class="cell student-code" data-highlight="true" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an API call for the Northerly climate station</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="06d77f38" class="cell answer-code" data-highlight="true" data-execution_count="8">
+<div id="2ba40a5f" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="8">
 <details class="code-fold">
 <summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an API call for the Northerly climate station</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an API call for the Northerly climate station</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>northerly_url <span class="op">=</span> (</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://www.ncei.noaa.gov/access/services/data/v1?'</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dataset=daily-summaries'</span></span>
@@ -995,23 +1002,23 @@ Make sure to give your new variables different names!
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&amp;units=standard'</span>)</span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the url</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>northerly_url</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>northerly_url</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>'https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&amp;dataTypes=TMAX&amp;stations=USC00111550&amp;startDate=2024-06-01&amp;endDate=2024-06-30&amp;units=standard'</code></pre>
 </div>
 </div>
-<div id="7606e835" class="cell student-code" data-highlight="true" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open data</span></span>
+<div id="413b9cfe" class="cell student-code" data-highlight="true" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open data</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the first 5 lines of data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the first 5 lines of data</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="5baf5d61" class="cell answer-code" data-highlight="true" data-execution_count="10">
+<div id="680cc7d2" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="10">
 <details class="code-fold">
 <summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open data</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open data</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>northerly_df <span class="op">=</span> pd.read_csv(</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    northerly_url,</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Comment above and uncomment below in the event that NCEI isn't working</span></span>
@@ -1024,13 +1031,13 @@ Make sure to give your new variables different names!
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>northerly_df.TMAX.plot()</span>
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the first 5 lines of data</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>northerly_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>northerly_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1045,27 +1052,27 @@ Make sure to give your new variables different names!
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-01</td>
+<th data-quarto-table-cell-role="th">2024-06-01</th>
 <td>USC00111550</td>
 <td>67</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-02</td>
+<th data-quarto-table-cell-role="th">2024-06-02</th>
 <td>USC00111550</td>
 <td>67</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-03</td>
+<th data-quarto-table-cell-role="th">2024-06-03</th>
 <td>USC00111550</td>
 <td>85</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-04</td>
+<th data-quarto-table-cell-role="th">2024-06-04</th>
 <td>USC00111550</td>
 <td>77</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-05</td>
+<th data-quarto-table-cell-role="th">2024-06-05</th>
 <td>USC00111550</td>
 <td>79</td>
 </tr>
@@ -1095,7 +1102,7 @@ Make sure to give your new variables different names!
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Try It
+<span class="screen-reader-only">Task</span>Try It
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1111,7 +1118,7 @@ Try It
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What’s with those double square brackets? (<code>[[]]</code>)
+<span class="screen-reader-only">Tip</span>What’s with those double square brackets? (<code>[[]]</code>)
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1120,22 +1127,22 @@ What’s with those double square brackets? (<code>[[]]</code>)
 </div>
 </div>
 </div>
-<div id="518cc81e" class="cell student-code" data-highlight="true" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select only the TMAX column of the O'Hare data</span></span>
+<div id="33a2d089" class="cell student-code" data-highlight="true" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select only the TMAX column of the O'Hare data</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>tmax_df <span class="op">=</span> df[[<span class="st">'column_name'</span>]]</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>tmax_df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>tmax_df.describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="4cfd88cb" class="cell student-code" data-highlight="true" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select only the TMAX column of the Northerly data</span></span>
+<div id="f7263b75" class="cell student-code" data-highlight="true" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select only the TMAX column of the Northerly data</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>tmax_df <span class="op">=</span> df[[<span class="st">'column_name'</span>]]</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>tmax_df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>tmax_df.describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="46ea7d8e" class="cell answer-code" data-highlight="true" data-execution_count="13">
+<div id="9c9bd4dc" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="13">
 <details class="code-fold">
 <summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ohare_tmax_df <span class="op">=</span> ohare_df[[<span class="st">'TMAX'</span>]]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ohare_tmax_df <span class="op">=</span> ohare_df[[<span class="st">'TMAX'</span>]]</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>northerly_tmax_df <span class="op">=</span> northerly_df[[<span class="st">'TMAX'</span>]]</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ohare_tmax_df.describe(), northerly_tmax_df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ohare_tmax_df.describe(), northerly_tmax_df.describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>(            TMAX
@@ -1168,7 +1175,7 @@ What’s with those double square brackets? (<code>[[]]</code>)
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What’s a <strong>join</strong>?
+<span class="screen-reader-only">Tip</span>What’s a <strong>join</strong>?
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1181,7 +1188,7 @@ What’s a <strong>join</strong>?
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Try It: Join two `DataFrame`s
+<span class="screen-reader-only">Task</span>Try It: Join two `DataFrame`s
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1193,8 +1200,8 @@ Try It: Join two `DataFrame`s
 </ol>
 </div>
 </div>
-<div id="93385d6b" class="cell student-code" data-highlight="true" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Join the data</span></span>
+<div id="c2749f48" class="cell student-code" data-highlight="true" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Join the data</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>tmax_df <span class="op">=</span> (</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    left_df</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    .join(</span>
@@ -1202,12 +1209,12 @@ Try It: Join two `DataFrame`s
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>        lsuffix<span class="op">=</span><span class="st">'_ohare'</span>, </span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        rsuffix<span class="op">=</span><span class="st">'_northerly'</span>)</span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>tmax_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>tmax_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="fe4d8d48" class="cell answer-code" data-highlight="true" data-execution_count="15">
+<div id="9e0c7bfd" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="15">
 <details class="code-fold">
 <summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Join the data</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Join the data</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>tmax_df <span class="op">=</span> (</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    ohare_tmax_df</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    .join(</span>
@@ -1215,13 +1222,13 @@ Try It: Join two `DataFrame`s
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        lsuffix<span class="op">=</span><span class="st">'_ohare'</span>, </span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        rsuffix<span class="op">=</span><span class="st">'_northerly'</span>)</span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>tmax_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>tmax_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1236,27 +1243,27 @@ Try It: Join two `DataFrame`s
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-01</td>
+<th data-quarto-table-cell-role="th">2024-06-01</th>
 <td>68</td>
 <td>67</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-02</td>
+<th data-quarto-table-cell-role="th">2024-06-02</th>
 <td>77</td>
 <td>67</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-03</td>
+<th data-quarto-table-cell-role="th">2024-06-03</th>
 <td>86</td>
 <td>85</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-04</td>
+<th data-quarto-table-cell-role="th">2024-06-04</th>
 <td>85</td>
 <td>77</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-05</td>
+<th data-quarto-table-cell-role="th">2024-06-05</th>
 <td>79</td>
 <td>79</td>
 </tr>
@@ -1271,8 +1278,8 @@ Try It: Join two `DataFrame`s
 <section id="step-4-plot" class="level2">
 <h2 class="anchored" data-anchor-id="step-4-plot">STEP 4: Plot</h2>
 <p>Let’s try plotting the joined <code>DataFrame</code>, just like we plotted the data previously:</p>
-<div id="a0c86378" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tmax_df.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="be6f03ad" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tmax_df.plot()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1307,7 +1314,7 @@ Tip
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Try It: Rename `DataFrame` columns
+<span class="screen-reader-only">Task</span>Try It: Rename `DataFrame` columns
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1320,29 +1327,29 @@ Try It: Rename `DataFrame` columns
 </ol>
 </div>
 </div>
-<div id="e3ce71d7" class="cell student-code" data-highlight="true" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
+<div id="8c6c58ce" class="cell student-code" data-highlight="true" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>tmax_plot_df <span class="op">=</span> tmax_df.rename(</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>{</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">'previous_column_name'</span>: <span class="st">"New Column Name"</span></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="a68357e3" class="cell answer-code" data-highlight="true" data-execution_count="20">
+<div id="0039d45f" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="20">
 <details class="code-fold">
 <summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>tmax_plot_df <span class="op">=</span> tmax_df.rename(columns<span class="op">=</span>{</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TMAX_ohare'</span>: <span class="st">"O'Hare Airport"</span>, </span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TMAX_northerly'</span>: <span class="st">'Northerly Island'</span>})</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1357,27 +1364,27 @@ Try It: Rename `DataFrame` columns
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-01</td>
+<th data-quarto-table-cell-role="th">2024-06-01</th>
 <td>68</td>
 <td>67</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-02</td>
+<th data-quarto-table-cell-role="th">2024-06-02</th>
 <td>77</td>
 <td>67</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-03</td>
+<th data-quarto-table-cell-role="th">2024-06-03</th>
 <td>86</td>
 <td>85</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">2024-06-04</td>
+<th data-quarto-table-cell-role="th">2024-06-04</th>
 <td>85</td>
 <td>77</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2024-06-05</td>
+<th data-quarto-table-cell-role="th">2024-06-05</th>
 <td>79</td>
 <td>79</td>
 </tr>
@@ -1397,7 +1404,7 @@ Try It: Rename `DataFrame` columns
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Try It
+<span class="screen-reader-only">Task</span>Try It
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1413,7 +1420,7 @@ Try It
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What does <code>#</code> do in Python?
+<span class="screen-reader-only">Note</span>What does <code>#</code> do in Python?
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1422,25 +1429,25 @@ What does <code>#</code> do in Python?
 </div>
 </div>
 </div>
-<div id="732b538f" class="cell student-code" data-highlight="true" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.plot(</span>
+<div id="0b1e8fa8" class="cell student-code" data-highlight="true" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.plot(</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#figsize=(8, 5),</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#marker='o', linestyle='-',</span></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Date'</span>, ylabel<span class="op">=</span><span class="st">'Temperature ($^</span><span class="er">\</span><span class="st">circ$F)'</span>,</span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'TITLE HERE'</span>,</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#colormap='Set1'</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="9b7df31b" class="cell answer-code" data-highlight="true" data-execution_count="22">
+<div id="e76b13c3" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="22">
 <details class="code-fold">
 <summary>See our solution!</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.plot(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tmax_plot_df.plot(</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>),</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    marker<span class="op">=</span><span class="st">'o'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>,</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Date'</span>, ylabel<span class="op">=</span><span class="st">'Temperature ($^</span><span class="er">\</span><span class="st">circ$F)'</span>,</span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Daily Maximum Temperatures - Chicago, IL - June 2024'</span>,</span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    colormap<span class="op">=</span><span class="st">'Set1'</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -1456,7 +1463,7 @@ What does <code>#</code> do in Python?
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Conversation Starter: What do you notice about the data?
+<span class="screen-reader-only">Discuss</span>Conversation Starter: What do you notice about the data?
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1540,13 +1547,14 @@ Younger, S. (2024). <em><span>NASA</span> <span>Finds</span> <span>Summer</span>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
