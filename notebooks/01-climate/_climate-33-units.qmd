@@ -24,7 +24,7 @@ dataframe_units = dataframe.rename(columns={
 dataframe_units
 ```
 
-::: {.content-visible when-format="html"}
+::: {.content-visible unless-format="ipynb"}
 ```{python}
 #| template: answer
 climate_u_df = climate_df.rename(columns={
@@ -36,11 +36,13 @@ climate_u_df
 
 ## For scientific applications, it is often useful to have values in metric units
 
+In this case, we want to convert data from degrees Fahrenheit to degrees Celcius. The equation for converting Fahrenheit temperature to Celcius is:
+
+$$T_C = (T_F - 32) * \frac{5}{9}$$
+
 ::: {.callout-task title="Convert units"}
 
-The code below attempts to convert the data to Celcius, using Python mathematical **operators**, like `+`, `-`, `*`, and `/`. Mathematical operators in Python work just like a calculator, and that includes using parentheses to designat the **order of operations**. The equation for converting Fahrenheit temperature to Celcius is:
-
-$$ T_C = (T_F - 32) * \frac{5}{9} $$
+The code below attempts to convert the data to Celcius, using Python mathematical **operators**, like `+`, `-`, `*`, and `/`. Mathematical operators in Python work just like a calculator, and that includes using parentheses to designate the **order of operations**.
 
 This code is not well documented and doesn't follow [PEP-8 guidelines](https://peps.python.org/pep-0008/#other-recommendations), which has caused the author to miss an **important error**!
 
@@ -54,12 +56,11 @@ Complete the following steps:
 
 ```{python}
 #| template: student
-dataframe_units['new_temperature'] = (
-    dataframe_units['old_temperature']-32*5/9)
+dataframe_units['new_temperature'] = (dataframe_units['old_temperature']-32*5/9)
 dataframe_units
 ```
 
-::: {.content-visible when-format="html"}
+::: {.content-visible unless-format="ipynb"}
 ```{python}
 #| template: answer
 climate_u_df['temp_c'] = (
@@ -84,8 +85,10 @@ dataframe['TEMP_C'] = (
     dataframe['TEMP_F'].apply(convert))
 ```
 
+::: {.content-visible unless-format="ipynb"}
 ```{python}
 #| template: answer
+# Convert units with a function
 def convert_f_to_c(temperature_f):
     """Convert Fahrenheit temperature to Celcius"""
     return (temperature_f - 32) * 5/9
@@ -93,4 +96,4 @@ def convert_f_to_c(temperature_f):
 climate_u_df['temp_c'] = (
     climate_u_df['temp_f'].apply(convert_f_to_c))
 ```
-
+:::

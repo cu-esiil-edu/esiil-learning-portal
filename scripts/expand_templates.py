@@ -16,6 +16,7 @@ TEMPLATES = {
         "eval": "true",
         "code-fold": "true",
         "code-summary": "See our solution!",
+        "code-block-title": "SOLUTION",
         "class": "answer-code",
         "highlight": "true"
     },
