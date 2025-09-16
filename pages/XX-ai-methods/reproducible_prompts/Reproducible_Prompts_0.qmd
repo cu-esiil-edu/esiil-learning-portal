@@ -1,0 +1,77 @@
+---
+title: Installation
+jupyter: python3
+---
+
+
+We will be working with Ollama, which will allow us to install a number of large language models (LLMs) locally.
+
+
+Ollama has a few installation options:
+
+1. Windows
+    * [Installer](https://ollama.com/download/OllamaSetup.exe)
+2. Mac
+    * [Installer](https://ollama.com/download/Ollama-darwin.zip)
+3. Linux
+    * `curl -fsSL https://ollama.com/install.sh | sh`
+4. Conda environment
+    * `conda install --yes conda-forge::ollama`
+
+We will also want to install python packages to help interface with our LLM
+models. There are two options we will explore the Jupyter Notebooks AI extension
+and ollama langchain package. We will also be using the `pydantic` and `pandas`
+packages a little later.
+
+```{bash}
+pip install jupyter-ai langchain-ollama pydantic pandas
+```
+
+::: {.callout-tip}
+[Langchain](https://www.langchain.com/) is a software platform that offers a
+standardized way to interface with LLM models. It is particularly useful when
+you want to integrate them into your code or applications.
+:::
+
+
+## Loading the ai extension
+It is important to now restart the you jupyter kernel. Then run the following
+command to load the jupyter_ai_magicks extensions which are part of the 
+jupyter-ai package.
+
+```{python}
+%load_ext jupyter_ai_magics
+```
+
+We can see the LLM options that we could interface with by using the `%ai list`
+command.
+
+```{python}
+%ai list
+```
+
+## Installing our LLM models
+Ollama is a framework that allows for the installation of many LLM models
+locally. We need to choose a starting model and then install it. A popular
+option is the llama model. While not open source it has fairly permissive
+[terms](https://www.llama.com/llama3/license/) of use.
+
+::: {.callout-note}
+We will be running a console command here. We will be using the integrated
+jupyter magic command `!` which will send our code to the system shell. Make 
+sure the ollama server is running, or this will give an error.
+
+:::
+
+```{python}
+# Meta's Llama 3.2 goes small with 1B and 3B models. 3B is default
+# Licensed under the llama Community Licence Agreement 
+!ollama pull llama3.2
+```
+
+We can check that the model was successfully installed with the
+`ollama list` command.
+
+```{python}
+!ollama list
+```
