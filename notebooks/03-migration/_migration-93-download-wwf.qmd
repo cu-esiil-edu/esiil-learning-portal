@@ -10,27 +10,129 @@ Remember that if you are using `earthpy` to manage your files, you can find your
 
 However, this download is relatively large. If you are working on a computer with limited storage, you might want to download the data from an ArcGIS Feature Service using the bounds of the GBIF data to avoid extra downloads. This is a type of API (Application Program Interface) for downloading subsets of vector data. When you use the API, you can choose to only download the ecoregions where you actually have occurrence data.
 
+### STEP 1: Convert the geometry for API compatability
+
+::: {.callout-task}
+Check out the 
+:::
+
 ```{python}
-# FeatureServer URL
+#| template: student
+# Merge the GBIF observations into a single geometry
+gbif_single_geo = gbif_gdf.method_here().envelope
+gbif_single_geo.plot()
+```
+
+
+```{python}
+#| template: answer
+# Merge the GBIF observations into a single geometry
+gbif_union = gbif_gdf.geometry.union_all().envelope
+gbif_union
+```
+
+::: {.callout-task}
+Run the code below, which converts your Polygon to a special type of GeoJSON needed for compatibility with the ArcGIS Feature Service. Check out and explore this data structure. How would you extract the geographic coordinates?
+:::
+
+```{python}
+#| template: student
+# Convert geometry to geoJSON
+gbif_geojson = gbif_union.__geo_interface__
+
+gbif_geojson
+```
+
+```{python}
+#| template: answer
+# Convert geometry to geoJSON
+gbif_geojson = gbif_union.__geo_interface__
+
+gbif_geojson
+```
+
+::: {.callout-respond}
+What type of Python object is this geoJSON? How will you get the geographic coordinates only?
+:::
+
+::: {.callout-task}
+
+
+  1. Replace `feature-key` with the coordinate key you noted above.
+  2. Replace CRS with the CRS of your GBIF download. It should be formatted as a 4-digit number, e.g. if the CRS is EPSG:1234, you should put `1234` into Python.
+  
+:::
+```{python}
+#| template: student
+# Construct ArcGIS-compatible JSON
+arcgis_geom = json.dumps(dict(
+    rings=gbif_geojson["coordinate-key"],
+    spatialReference={"wkid": CRS}
+))
+```
+
+```{python}
+#| template: answer
+# Construct ArcGIS-compatible JSON
+arcgis_geom = json.dumps(dict(
+    rings=gbif_geojson["coordinates"],
+    spatialReference={"wkid": 4326}
+))
+```
+
+### STEP 2: Download data from the ArcGIS FeatureService
+
+
+```{python}
+#| template: student
+# Prepare API request
 eco_url = (
     "https://services5.arcgis.com/0AFsQflykfA9lXZn"
     "/ArcGIS/rest/services"
     "/WWF_Terrestrial_Ecoregions_Of_The_World_official_teow"
     "/FeatureServer/0/query")
-
-# Convert geometry to ArcGIS-compatible JSON
-gbif_polygon = gbif_gdf.union_all().convex_hull
-gbif_geojson = gbif_polygon.__geo_interface__
-arcgis_geom = json.dumps(dict(
-    rings=gbif_geojson["coordinates"],
-    spatialReference={"wkid": 4326}
-))
 eco_params = {
     "f": "geojson",
     "where": "1=1",
     "outFields": "area_km2",
     "returnGeometry": "true",
-    # Return polygons containing any point
+    # Return polygons containing any GBIF observation
+    "spatialRel": "esriSpatialRelIntersects",  
+    "geometryType": "esriGeometryPolygon",
+    # Override web Mercator server default
+    "inSR": "CRS",
+    "outSR": "CRS",
+    # Must format geometry
+    "geometry": arcgis_geom
+}
+
+# Submit API request
+eco_resp = requests.get(
+    eco_url, params=eco_params,
+    headers={"Accept-Encoding": "identity"})
+eco_resp.raise_for_status()
+
+# Load binary data to DataFrame
+eco_gdf = gpd.read_file(BytesIO(eco_resp.content))
+
+# Check the download
+
+```
+
+```{python}
+#| template: answer
+# Prepare API request
+eco_url = (
+    "https://services5.arcgis.com/0AFsQflykfA9lXZn"
+    "/ArcGIS/rest/services"
+    "/WWF_Terrestrial_Ecoregions_Of_The_World_official_teow"
+    "/FeatureServer/0/query")
+eco_params = {
+    "f": "geojson",
+    "where": "1=1",
+    "outFields": "eco_code,area_km2",
+    "returnGeometry": "true",
+    # Return polygons containing any GBIF observation
     "spatialRel": "esriSpatialRelIntersects",  
     "geometryType": "esriGeometryPolygon",
     # Override web Mercator server default
@@ -40,10 +142,53 @@ eco_params = {
     "geometry": arcgis_geom
 }
 
+# Submit API request
 eco_resp = requests.get(eco_url, params=eco_params)
 eco_resp.raise_for_status()
 
+# Load binary data to DataFrame
 eco_gdf = gpd.read_file(BytesIO(eco_resp.content))
 
+# Check the download
 eco_gdf.head()
+```
+
+
+::: {.callout-task}
+Now, make a quick plot of your download to make sure that it worked correctly.
+:::
+
+```{python}
+#| template: student
+# Plot the ecoregion data
+```
+
+```{python}
+#| template: answer
+# Plot the ecoregion data
+eco_gdf.plot()
+```
+
+### STEP 3 (Optional): Save your data
+
+::: {.callout-task}
+
+  1. Create a new directory in your data directory for the ecoregions data.
+  2. Define a path to a Shapefile where you will save the ecoregions data.
+  2. Save the ecoregions to the file.
+
+:::
+
+```{python}
+#| template: student
+# Save the ecoregion data
+```
+
+```{python}
+#| template: answer
+# Save the ecoregion data
+eco_dir = project.project_dir / 'ecoregions'
+eco_dir.mkdir(exist_ok=True)
+eco_path = eco_dir / 'ecoregions.shp'
+eco_gdf.to_file(eco_path)
 ```

@@ -11,7 +11,7 @@ Before your get started, go to the [GBIF occurrences search page](https://www.gb
 You can get your own observations added to GBIF using [iNaturalist](https://www.inaturalist.org/)!
 :::
 
-### Set up your code to prepare for download
+### STEP 0: Set up your code to prepare for download
 
 We will be getting data from a source called [GBIF (Global Biodiversity Information Facility)](https://www.gbif.org/). We need a package called `pygbif` to access the data, which may not be included in your environment. Install it by running the cell below:
 
@@ -69,9 +69,6 @@ import requests # Access the web
 ```
 :::
 
-
-### Create a directory for your data
-
 For this challenge, you will need to download some data to the computer you're working on. We suggest using the `earthpy` library we develop to manage your downloads, since it encapsulates many best practices as far as:
 
   1. Where to store your data
@@ -101,8 +98,6 @@ You may notice that when Python prints out a file path like this, the folder nam
 # Create data directory
 project = earthpy.Project(
     dirname='your-project-directory-name-here')
-# Download sample data
-project.get_data()
 
 # Display the project directory
 project.project_dir
@@ -113,15 +108,13 @@ project.project_dir
 #| template: answer
 # Create data directory
 project = earthpy.Project(dirname=project_dirname)
-# Download sample data
-project.get_data()
 
 # Display the project directory
 project.project_dir
 ```
 :::
 
-### Register and log in to GBIF
+### STEP 1: Register and log in to GBIF
 
 You will need a [GBIF account](https://www.gbif.org/) to complete this challenge. You can use your GitHub account to authenticate with GBIF. Then, run the following code to enter your credentials for the rest of your session.
 
@@ -166,49 +159,39 @@ if (not ('GBIF_EMAIL'  in os.environ)) or reset:
     os.environ['GBIF_EMAIL'] = input('GBIF email:')
 ```
 
-### Get the species key
+### STEP 2: Get the taxon key from GBIF
 
-::: {.callout-task}
+One of the tricky parts about getting occurrence data from GBIF is that species often have multiple names in different contexts. Luckily, GBIF also provides a Name Backbone service that will translate scientific and colloquial names into unique identifiers. GBIF calls these identifiers **taxon keys**.
 
-1. Replace the `species_name` with the name of the species you want to look up
-2. Run the code to get the species key
+:::{.callout-task}
 
+
+  1. Put the species name, {{< meta params.scientific_name >}}, into the correct location in the code below.
+  2. Examine the object you get back from the species query. What part of it do you think might be the taxon key?
+  3. Extract and save the taxon key
+  
 :::
 
 ```{python}
 #| template: student
-# Query species
-species_info = species.name_lookup(
-    species_lookup, rank='SPECIES')
-
-# Get the first result
-first_result = species_info['results'][0]
-
-# Get the species key (speciesKey)
-species_key = first_result['speciesKey']
-
-# Check the result
-first_result['species'], species_key
+backbone = species.name_backbone(name=)
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
-# Query species
-species_info = species.name_lookup(species_lookup, rank='SPECIES')
+#| tempalte: answer
+from pygbif import species, occurrences
 
-# Get the first result
-first_result = species_info['results'][0]
+backbone = species.name_backbone(name=f"{scientific_name}")
+taxon_key = backbone["usageKey"]
 
-# Get the species key (speciesKey)
-taxon_key = first_result['speciesKey']
-
-# Check the result
-first_result['species'], taxon_key
+taxon_key
 ```
 :::
 
-### Download data from GBIF
+### STEP 3: Download data from GBIF
+
+Downloading GBIF data is a multi-step process. However, we've provided you with a chunk of code that handles the API communications and caches the download. You'll still need to customize your search.
 
 ::: {.callout-task title="Submit a request to GBIF"}
 
@@ -220,23 +203,23 @@ first_result['species'], taxon_key
     - with spatial coordinates.
 
 3. Then, run the download. **This can take a few minutes**. You can check your downloads by logging on to the [GBIF website](https://www.gbif.org/user/download).
+
 :::
 
 ```{python}
 #| template: student
 # Only download once
-if not any(project.project_dir.rglob(csv_file_pattern)):
+if not any(project.project_dir.rglob('csv_file_pattern')):
     # Only submit one request
     if not 'GBIF_DOWNLOAD_KEY' in os.environ:
         # Submit query to GBIF
         gbif_query = occ.download([
-            f"speciesKey = ",
-            "hasCoordinate = ",
-            "year = ",
+            f'taxonKey = ',
+            'hasCoordinate = ',
+            f'year = ',
         ])
         # Take first result
-        os.environ['GBIF_DOWNLOAD_KEY'] = next(
-            gbif_query)
+        os.environ['GBIF_DOWNLOAD_KEY'] = gbif_query[0]
 
     # Wait for the download to build
     dld_key = os.environ['GBIF_DOWNLOAD_KEY']
@@ -260,7 +243,7 @@ if not any(project.project_dir.rglob(csv_file_pattern)):
 
 # Find the extracted .csv file path (first result)
 original_gbif_path = next(
-    project.project_dir.rglob('*.csv'))
+    project.project_dir.rglob('csv_file_pattern'))
 original_gbif_path
 ```
 
@@ -273,9 +256,9 @@ if not any(project.project_dir.rglob('*.csv')):
     if not 'GBIF_DOWNLOAD_KEY' in os.environ:
         # Submit query to GBIF
         gbif_query = occ.download([
-            f"speciesKey = {species_key}",
-            "hasCoordinate = TRUE",
-            f"year = {year}",
+            f'taxonKey = {taxon_key}',
+            'hasCoordinate = TRUE',
+            f'year = {year}',
         ])
         # Take first result
         os.environ['GBIF_DOWNLOAD_KEY'] = gbif_query[0]
@@ -335,7 +318,7 @@ shutil.move(original_gbif_path, gbif_path)
 ```
 :::
 
-### Load the GBIF data into Python
+### STEP 4: Load the GBIF data into Python
 
 ::: {.callout-task title="Load GBIF data"}
 Just like you did when wrangling your data from the data subset, you'll need to load your GBIF data and convert it to a GeoDataFrame.

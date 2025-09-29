@@ -66,8 +66,7 @@ gdf.hvplot(geo=True, crs=ccrs.Mercator())
 ```{python}
 #| template: answer
 # Simplify the geometry to speed up processing
-ecoregions_gdf.geometry = ecoregions_gdf.simplify(
-    .05, preserve_topology=False)
+ecoregions_gdf.geometry = ecoregions_gdf.simplify(.05)
 
 # Change the CRS to Mercator for mapping
 ecoregions_gdf = ecoregions_gdf.to_crs(ccrs.Mercator())
@@ -120,7 +119,9 @@ migration_plot.save('migration.html', embed=True)
 ```{python}
 #| template: answer
 # Join the occurrences with the plotting GeoDataFrame
-occurrence_gdf = ecoregions_gdf.join(occurrence_df)
+occurrence_gdf = ecoregions_gdf.merge(
+    occurrence_df.reset_index(), 
+    on='eco_code')
 
 # Get the plot bounds so they don't change with the slider
 xmin, ymin, xmax, ymax = occurrence_gdf.total_bounds

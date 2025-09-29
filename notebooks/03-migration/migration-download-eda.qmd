@@ -1,43 +1,43 @@
 ---
 title: Migration Data Download
-subtitle: Get species occurrence data from the Global Biodiversity Information Facility (GBIF)
+subtitle: Get occurrence data from the Global Biodiversity Information Facility (GBIF)
 learning-goals:
+params:
+  id: stars
+  project_dirname: veery-migration-2023
+  species_name: Veery Thrush
+  scientific_name: catharus fuscescens
+  year: 2023
+  gbif_filename: "gbif_veery.csv"
+  plot_filename: veery_migration
+  plot_height: 800
 jupyter:
   kernelspec:
     name: learning-portal
     language: python
     display_name: Learning Portal
-params:
-  id: eda
-  project_title: Veery Migration 2024
-  species_name: Veery
-  species_lookup: catharus fuscescens
-  species_key: 2490804
-  year: 2024
-  project_dirname: "veery-migration-2024"
-  gbif_filename: "gbif_veery.csv"
-  ecoregions_dir: "wwf_ecoregions"
-  plot_filename: veery_migration
-  plot_height: 700
 ---
 
 Before we get started, let's define some parameters for the workflow. We'll use these throughout to customize the workflow for this species:
 
 ```{python}
 #| tags: [parameters]
-id = 'eda'
-project_title = 'Veery Migration 2024'
-species_name = 'Veery'
-species_lookup = 'catharus fuscescens'
-species_key = 2490804
-year = 2024
-project_dirname = 'veery-migration'
+id = 'stars'
+project_dirname = 'veery-migration-2023'
+species_name = 'Veery Thrush'
+scientific_name = 'catharus fuscescens'
+year = 2023
 gbif_filename = 'gbif_veery.csv'
-ecoregions_dir = 'wwf_ecoregions'
 plot_filename = 'veery_migration'
-plot_height = 700
+plot_height = 800
 ```
 
 {{< include _migration-92-download-gbif.qmd >}}
 
 {{< include _migration-93-download-wwf.qmd >}}
+
+::: {.content-hidden}
+```{python}
+project.data.prepare_for_upload()
+```
+:::

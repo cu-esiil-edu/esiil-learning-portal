@@ -102,18 +102,14 @@ The ecoregion data will be available as a **shapefile**. Learn more about shapef
 Download and save ecoregion boundaries from the EPA:
 
 1.  Replace `a_path` with the path your created for your ecoregions file.
-2.  (optional) Consider renaming and selecting columns to make your `GeoDataFrame` easier to work with. Many of the same methods you learned for `pandas` `DataFrame`s are the same for `GeoDataFrame`s! NOTE: Make sure to keep the `'SHAPE_AREA'` column around -- we will need that later!
-3.  Make a quick plot with `.plot()` to make sure the download worked.
-4.  Run the cell to load the data into Python
+2.  Make a quick plot with `.plot()` to make sure the download worked.
+
 :::
 
 ```{python}
 #| template: student
 # Open up the ecoregions boundaries
 gdf = gpd.read_file(a_path)
-
-# Name the index so it will match the other data later on
-gdf.index.name = 'ecoregion'
 
 # Plot the ecoregions quickly to check download
 ```
@@ -124,14 +120,7 @@ gdf.index.name = 'ecoregion'
 # Open up the ecoregions boundaries
 ecoregions_gdf = (
     gpd.read_file(project.project_dir / ecoregions_dir)
-    .rename(columns={
-        'ECO_NAME': 'name',
-        'SHAPE_AREA': 'area'})
-    [['name', 'area', 'geometry']]
 )
-
-# We'll name the index so it will match the other data
-ecoregions_gdf.index.name = 'ecoregion'
 
 # Plot the ecoregions quickly to check download
 ecoregions_gdf.plot(edgecolor='black', color='skyblue')

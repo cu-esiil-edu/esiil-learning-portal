@@ -25,11 +25,7 @@ Check out the [`geopandas` documentation on spatial joins](https://geopandas.org
 :::
 
 ::: {.callout-task title="Perform a spatial join"}
-
-1.  Identify the correct values for the `how=` and `predicate=` parameters of the spatial join.
-2.  Select only the columns you will need for your plot.
-3.  Run the code.
-
+Identify the correct values for the `how=` and `predicate=` parameters of the spatial join.
 :::
 
 ```{python}
@@ -43,8 +39,6 @@ gbif_ecoregion_gdf = (
         gbif_gdf,
         how='', 
         predicate='')
-    # Select the required columns
-    
 )
 gbif_ecoregion_gdf
 ```
@@ -61,8 +55,6 @@ gbif_ecoregion_gdf = (
         gbif_gdf,
         how='inner', 
         predicate='contains')
-    # Select the required columns
-    [['month', 'name']]
 )
 gbif_ecoregion_gdf
 ```
@@ -82,6 +74,8 @@ gbif_ecoregion_gdf
 #| template: student
 occurrence_df = (
     gbif_ecoregion_gdf
+    # Select only necessary columns
+    [[]]
     # For each ecoregion, for each month...
     .groupby(columns_to_group_by)
     # ...count the number of occurrences
@@ -108,19 +102,21 @@ mean_occurrences_by_month = (
 #| template: answer
 occurrence_df = (
     gbif_ecoregion_gdf
+    # Select only necessary columns
+    [['eco_code', 'month', 'gbifID']]
     # For each ecoregion, for each month...
-    .groupby(['ecoregion', 'month'])
+    .groupby(['eco_code', 'month'])
     # ...count the number of occurrences
-    .agg(occurrences=('name', 'count'))
+    .count()
 )
 
 # Get rid of rare observation noise (possible misidentification?)
-occurrence_df = occurrence_df[occurrence_df.occurrences>1]
+occurrence_df = occurrence_df[occurrence_df.gbifID>3]
 
 # Take the mean by ecoregion
 mean_occurrences_by_ecoregion = (
     occurrence_df
-    .groupby(['ecoregion'])
+    .groupby(['eco_code'])
     .mean()
 )
 # Take the mean by month
@@ -154,6 +150,7 @@ occurrence_df
 #| template: answer
 occurrence_df['norm_occurrences'] = (
     occurrence_df
+    [['gbifID']]
     / mean_occurrences_by_ecoregion
     / mean_occurrences_by_month
 )

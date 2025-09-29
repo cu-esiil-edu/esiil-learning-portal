@@ -2,20 +2,20 @@
 title: Migration Data Download
 subtitle: Get Tasiagnunpa occurrence data from the Global Biodiversity Information Facility (GBIF)
 learning-goals:
+params:
+  id: stars
+  project_dirname: tasiyagnunpa-migration-2023
+  species_name: Tasiyagnunpa
+  scientific_name: sturnella neglecta
+  year: 2023
+  gbif_filename: "gbif_tasiyagnunpa.csv"
+  plot_filename: tasiyagnunpa_migration
+  plot_height: 500
 jupyter:
   kernelspec:
     name: learning-portal
     language: python
     display_name: Learning Portal
-params:
-  id: stars
-  project_dirname: tasiyagnunpa-migration-2023
-  species_name: Tasiyagnunpa
-  species_lookup: sturnella neglecta
-  sample_filename: migration-stars-data
-  gbif_filename: "gbif_tasiyagnunpa.csv"
-  plot_filename: tasiyagnunpa_migration
-  plot_height: 500
 ---
 
 Before we get started, let's define some parameters for the workflow. We'll use these throughout to customize the workflow for this species:
@@ -25,11 +25,19 @@ Before we get started, let's define some parameters for the workflow. We'll use 
 id = 'stars'
 project_dirname = 'tasiyagnunpa-migration-2023'
 species_name = 'Tasiyagnunpa'
-species_lookup = 'sturnella neglecta'
-sample_filename = 'migration-stars-data'
+scientific_name = 'sturnella neglecta'
+year = 2023
 gbif_filename = 'gbif_tasiyagnunpa.csv'
 plot_filename = 'tasiyagnunpa_migration'
 plot_height = 500
 ```
 
 {{< include _migration-92-download-gbif.qmd >}}
+
+{{< include _migration-93-download-wwf.qmd >}}
+
+::: {.content-hidden}
+```{python}
+project.data.prepare_for_upload()
+```
+:::
