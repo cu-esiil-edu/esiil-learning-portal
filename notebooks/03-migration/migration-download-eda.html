@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Migration Data Download</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../notebooks/03-migration/migration-eda.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-410c9797681697bbebb82a95065eb717.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-410c9797681697bbebb82a95065eb717.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-410c9797681697bbebb82a95065eb717.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": true,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": true,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed slimcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../img/ESIIL_portal_dark.png" alt="ESIIL Environmental Data Analytics Learning Portal" class="navbar-logo light-content">
+    <img src="../../img/ESIIL_portal_dark.png" alt="ESIIL Environmental Data Analytics Learning Portal" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-trying-to-run-some-codebrstrongget-startedstrong" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Trying to run some code?<br><strong>Get Started</strong></span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-trying-to-run-some-codebrstrongget-startedstrong">    
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/01-get-started/python/index.html">
+ <span class="dropdown-text">Get started with Python for Environmental Data Science</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/01-get-started/r/index.html">
+ <span class="dropdown-text">Get Started with R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/01-get-started/gee/index.html">
+ <span class="dropdown-text">Get started with Google Earth Engine</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/01-get-started/docker/index.html">
+ <span class="dropdown-text">Build Your Own Environment with Docker</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guided-learningbrstrongtextbooksstrong" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Guided learning<br><strong>Textbooks</strong></span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-guided-learningbrstrongtextbooksstrong">    
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/02-textbooks/intro/index.html">
+ <span class="dropdown-text">Introduction to Earth and Environmental Data Science</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/02-textbooks/ignite/index.html">
+ <span class="dropdown-text">IGNITE Data Analytics for early-career researchers</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-attending-abrstrongclass-or-eventstrong" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Attending a<br><strong>Class or Event</strong>?</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-attending-abrstrongclass-or-eventstrong">    
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/04a-courses/eda/01-fundamentals/index.html">
+ <span class="dropdown-text">GEOG 5463/4463: Fundamentals of Earth Data Analytics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/04a-courses/stars/index.html">
+ <span class="dropdown-text">ESIIL Stars</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/04a-courses/shortcourse/01-collaboration/index.html">
+ <span class="dropdown-text">SHORT COURSE 1: Cloud Computing, Collaboration, and Communication</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/04b-events/hyrsense/index.html">
+ <span class="dropdown-text">HYR-SENSE</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/04b-events/mefa/index.html">
+ <span class="dropdown-text">MEFA 2024</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/04b-events/esa25/index.html">
+ <span class="dropdown-text">ESA 2025</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/04b-events/css/index.html">
+ <span class="dropdown-text">Chicago Symposium Series</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-we-want-yourbrstrongcontributionsstrong" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">We want your<br><strong>Contributions</strong></span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-we-want-yourbrstrongcontributionsstrong">    
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/05-contribute/submit.html">
+ <span class="dropdown-text">Submit a module</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/05-contribute/support.html">
+ <span class="dropdown-text">Support the Learning Portal</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="http://earthdatascience.org/classic/"> 
+<span class="menu-text">Classic<br>earthdatascience.org</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/00-overviews/04a-courses/eda/01-fundamentals/03-vector.html">UNIT 3: Migration</a></li><li class="breadcrumb-item"><a href="../../notebooks/03-migration/migration-download-eda.html">Migration Data Download</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/00-overviews/04a-courses/eda/01-fundamentals/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fundamentals of Earth Data Analytics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/00-overviews/04a-courses/eda/01-fundamentals/01-portfolio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">UNIT 1: Portfolio</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Create Your Portfolio</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://earthdatascience.org/pages/03-git-github/01-intro-version-control/01-intro-version-control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">READING: Version Control</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://earthdatascience.org/pages/02-file-formats-eds/04-text-file-formats-eds/02-markdown.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">READING: Markdown</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/03-git-github/03-github-portfolio/portfolio-eda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Build your Environmental Data Science portfolio</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">First Map Challenge</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://earthdatascience.org/pages/02-file-formats-eds/05-spatial-data-formats-eds/03-vector-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">READING: Vector Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/14-osm-map/map-eda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Add a map to your website</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://earthdatascience.org/pages/03-git-github/02-github-collaboration/07-pr-activity-branch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ACTIVITY: Branching</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/00-overviews/04a-courses/eda/01-fundamentals/02-time-series.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">UNIT 2: Climate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://earthdatascience.org/pages/01-reproducible-science-tools/open-reproducible-science/01-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">READING: Open, Reproducible Science</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://earthdatascience.org/pages/02-file-formats-eds/04-text-file-formats-eds/03-tabular-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">READING: Tabular Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/01-climate/climate-eda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Climate Coding Challenge</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://classroom.github.com/a/8s1IEY6Q" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Try it on GitHub!</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/00-overviews/04a-courses/eda/01-fundamentals/03-vector.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">UNIT 3: Migration</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://earthdatascience.org/pages/02-file-formats-eds/05-spatial-data-formats-eds/03-vector-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">READING: Vector Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/03-migration/migration-eda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapping migration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/03-migration/migration-download-eda.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Migration Data Download</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#access-locations-and-times-of-encounters" id="toc-access-locations-and-times-of-encounters" class="nav-link active" data-scroll-target="#access-locations-and-times-of-encounters">Access locations and times of Veery Thrush encounters</a>
+  <ul class="collapse">
+  <li><a href="#step-0-set-up-your-code-to-prepare-for-download" id="toc-step-0-set-up-your-code-to-prepare-for-download" class="nav-link" data-scroll-target="#step-0-set-up-your-code-to-prepare-for-download">STEP 0: Set up your code to prepare for download</a></li>
+  <li><a href="#step-1-register-and-log-in-to-gbif" id="toc-step-1-register-and-log-in-to-gbif" class="nav-link" data-scroll-target="#step-1-register-and-log-in-to-gbif">STEP 1: Register and log in to GBIF</a></li>
+  <li><a href="#step-2-get-the-taxon-key-from-gbif" id="toc-step-2-get-the-taxon-key-from-gbif" class="nav-link" data-scroll-target="#step-2-get-the-taxon-key-from-gbif">STEP 2: Get the taxon key from GBIF</a></li>
+  <li><a href="#step-3-download-data-from-gbif" id="toc-step-3-download-data-from-gbif" class="nav-link" data-scroll-target="#step-3-download-data-from-gbif">STEP 3: Download data from GBIF</a></li>
+  <li><a href="#step-4-load-the-gbif-data-into-python" id="toc-step-4-load-the-gbif-data-into-python" class="nav-link" data-scroll-target="#step-4-load-the-gbif-data-into-python">STEP 4: Load the GBIF data into Python</a></li>
+  </ul></li>
+  <li><a href="#ecoregions-data" id="toc-ecoregions-data" class="nav-link" data-scroll-target="#ecoregions-data">Ecoregions data</a>
+  <ul class="collapse">
+  <li><a href="#step-1-convert-the-geometry-for-api-compatability" id="toc-step-1-convert-the-geometry-for-api-compatability" class="nav-link" data-scroll-target="#step-1-convert-the-geometry-for-api-compatability">STEP 1: Convert the geometry for API compatability</a></li>
+  <li><a href="#step-2-download-data-from-the-arcgis-featureservice" id="toc-step-2-download-data-from-the-arcgis-featureservice" class="nav-link" data-scroll-target="#step-2-download-data-from-the-arcgis-featureservice">STEP 2: Download data from the ArcGIS FeatureService</a></li>
+  <li><a href="#step-3-optional-save-your-data" id="toc-step-3-optional-save-your-data" class="nav-link" data-scroll-target="#step-3-optional-save-your-data">STEP 3 (Optional): Save your data</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<!-- Modified from https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/html/templates/banner/title-block.html -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/00-overviews/04a-courses/eda/01-fundamentals/03-vector.html">UNIT 3: Migration</a></li><li class="breadcrumb-item"><a href="../../notebooks/03-migration/migration-download-eda.html">Migration Data Download</a></li></ol></nav>
+    <div class="esiil-title-goals page-columns page-full">
+        <div class="quarto-title column-body">
+                        <h1 class="title">
+                Migration Data Download
+            </h1>
+                                    <p class="subtitle lead">
+                Get occurrence data from the Global Biodiversity Information Facility (GBIF)
+            </p>
+                                
+                    </div>
+    
+        
+    <div class="no-row-height column-margin column-container"><div class="">
+                        
+                        <div class="quarto-title-meta">
+
+                            
+                          
+                            
+                          </div>
+                          
+        </div></div></div>
+</header>
+
+
+<p>Before we get started, let’s define some parameters for the workflow. We’ll use these throughout to customize the workflow for this species:</p>
+<div id="656f967b" class="cell" data-tags="[&quot;parameters&quot;]" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">id</span> <span class="op">=</span> <span class="st">'stars'</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>project_dirname <span class="op">=</span> <span class="st">'veery-migration-2023'</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>species_name <span class="op">=</span> <span class="st">'Veery Thrush'</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>scientific_name <span class="op">=</span> <span class="st">'catharus fuscescens'</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>year <span class="op">=</span> <span class="dv">2023</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>gbif_filename <span class="op">=</span> <span class="st">'gbif_veery.csv'</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>plot_filename <span class="op">=</span> <span class="st">'veery_migration'</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>plot_height <span class="op">=</span> <span class="dv">800</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="access-locations-and-times-of-encounters" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="access-locations-and-times-of-encounters">Access locations and times of Veery Thrush encounters</h2>
+<p>For this challenge, you will use a database called the <a href="https://www.gbif.org/">Global Biodiversity Information Facility (GBIF)</a>. GBIF is compiled from species observation data all over the world, and includes everything from museum specimens to photos taken by citizen scientists in their backyards.</p>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Task</span>Try It: Explore GBIF
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Before your get started, go to the <a href="https://www.gbif.org/occurrence/search">GBIF occurrences search page</a> and explore the data.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Contribute to open data">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Contribute to open data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can get your own observations added to GBIF using <a href="https://www.inaturalist.org/">iNaturalist</a>!</p>
+</div>
+</div>
+<section id="step-0-set-up-your-code-to-prepare-for-download" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="step-0-set-up-your-code-to-prepare-for-download">STEP 0: Set up your code to prepare for download</h3>
+<p>We will be getting data from a source called <a href="https://www.gbif.org/">GBIF (Global Biodiversity Information Facility)</a>. We need a package called <code>pygbif</code> to access the data, which may not be included in your environment. Install it by running the cell below:</p>
+<div id="d0f7604a" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>bash</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pip install pygbif</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Task</span>Try It: Import packages
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the imports cell, we’ve included some packages that you will need. Add imports for packages that will help you:</p>
+<ol type="1">
+<li>Work with reproducible file paths</li>
+<li>Work with tabular data</li>
+</ol>
+</div>
+</div>
+<div id="75e4e73f" class="cell student-code" data-highlight="true" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> getpass <span class="im">import</span> getpass</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> glob <span class="im">import</span> glob</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pygbif.occurrences <span class="im">as</span> occ</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pygbif.species <span class="im">as</span> species</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="644c6ca3" class="cell answer-code" data-highlight="true=" data-execution_count="4">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pathlib</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shutil</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> getpass <span class="im">import</span> getpass</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> glob <span class="im">import</span> glob</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> BytesIO <span class="co"># Stream from web service</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> earthpy</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pygbif.occurrences <span class="im">as</span> occ</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pygbif.species <span class="im">as</span> species</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests <span class="co"># Access the web</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>For this challenge, you will need to download some data to the computer you’re working on. We suggest using the <code>earthpy</code> library we develop to manage your downloads, since it encapsulates many best practices as far as:</p>
+<ol type="1">
+<li>Where to store your data</li>
+<li>Dealing with archived data like .zip files</li>
+<li>Avoiding version control problems</li>
+<li>Making sure your code works cross-platform</li>
+<li>Avoiding duplicate downloads</li>
+</ol>
+<p>If you’re working on one of our assignments through GitHub Classroom, it also lets us build in some handy defaults so that you can see your data files while you work.</p>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Task</span>Try It: Create a project folder
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The code below will help you get started with making a project directory</p>
+<ol type="1">
+<li>Replace <code>'your-project-directory-name-here'</code> with a <strong>descriptive</strong> name</li>
+<li>Run the cell</li>
+<li>The code should have printed out the path to your data files. Check that your data directory exists and has data in it using the terminal or your Finder/File Explorer.</li>
+</ol>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="callout callout-style-default callout-tip callout-titled" title="File structure">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>File structure
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>These days, a lot of people find your file by searching for them or selecting from a <code>Bookmarks</code> or <code>Recents</code> list. Even if you don’t use it, your computer also keeps files in a <strong>tree</strong> structure of folders. Put another way, you can organize and find files by travelling along a unique <strong>path</strong>, e.g.&nbsp;<code>My Drive</code> &gt; <code>Documents</code> &gt; <code>My awesome project</code> &gt; <code>A project file</code> where each subsequent folder is <strong>inside</strong> the previous one. This is convenient because all the files for a project can be in the same place, and both people and computers can rapidly locate files they want, provided they remember the path.</p>
+<p>You may notice that when Python prints out a file path like this, the folder names are <strong>separated</strong> by a <code>/</code> or <code>\</code> (depending on your operating system). This character is called the <strong>file separator</strong>, and it tells you that the next piece of the path is <strong>inside</strong> the previous one.</p>
+</div>
+</div></div><div id="a905d27b" class="cell student-code" data-highlight="true" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data directory</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> earthpy.Project(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    dirname<span class="op">=</span><span class="st">'your-project-directory-name-here'</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the project directory</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>project.project_dir</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="415454c6" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="6">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data directory</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> earthpy.Project(dirname<span class="op">=</span>project_dirname)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the project directory</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>project.project_dir</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>PosixPath('/home/runner/.local/share/earth-analytics/veery-migration-2023')</code></pre>
+</div>
+</div>
+</section>
+<section id="step-1-register-and-log-in-to-gbif" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="step-1-register-and-log-in-to-gbif">STEP 1: Register and log in to GBIF</h3>
+<p>You will need a <a href="https://www.gbif.org/">GBIF account</a> to complete this challenge. You can use your GitHub account to authenticate with GBIF. Then, run the following code to enter your credentials for the rest of your session.</p>
+<div class="callout-error">
+<p>This code is <strong>interactive</strong>, meaning that it will <strong>ask you for a response</strong>! The prompt can sometimes be hard to see if you are using VSCode – it appears at the <strong>top</strong> of your editor window.</p>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you need to save credentials across multiple sessions, you can consider loading them in from a file like a <code>.env</code>…but make sure to add it to .gitignore so you don’t commit your credentials to your repository!</p>
+</div>
+</div></div><div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Your email address <strong>must</strong> match the email you used to sign up for GBIF!</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you accidentally enter your credentials wrong, you can set <code>reset=True</code> instead of <code>reset=False</code>.</p>
+</div>
+</div>
+<div id="41f24732" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">####--------------------------####</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#### DO NOT MODIFY THIS CODE! ####</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">####--------------------------####</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This code ASKS for your credentials </span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># and saves it for the rest of the session.</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># NEVER put your credentials into your code!!!!</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># GBIF needs a username, password, and email </span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># All 3 need to match the account</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>reset <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Request and store username</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="kw">not</span> (<span class="st">'GBIF_USER'</span>  <span class="kw">in</span> os.environ)) <span class="kw">or</span> reset:</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    os.environ[<span class="st">'GBIF_USER'</span>] <span class="op">=</span> <span class="bu">input</span>(<span class="st">'GBIF username:'</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Securely request and store password</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="kw">not</span> (<span class="st">'GBIF_PWD'</span>  <span class="kw">in</span> os.environ)) <span class="kw">or</span> reset:</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    os.environ[<span class="st">'GBIF_PWD'</span>] <span class="op">=</span> getpass(<span class="st">'GBIF password:'</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Request and store account email address</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="kw">not</span> (<span class="st">'GBIF_EMAIL'</span>  <span class="kw">in</span> os.environ)) <span class="kw">or</span> reset:</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    os.environ[<span class="st">'GBIF_EMAIL'</span>] <span class="op">=</span> <span class="bu">input</span>(<span class="st">'GBIF email:'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="step-2-get-the-taxon-key-from-gbif" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-get-the-taxon-key-from-gbif">STEP 2: Get the taxon key from GBIF</h3>
+<p>One of the tricky parts about getting occurrence data from GBIF is that species often have multiple names in different contexts. Luckily, GBIF also provides a Name Backbone service that will translate scientific and colloquial names into unique identifiers. GBIF calls these identifiers <strong>taxon keys</strong>.</p>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Task</span>Try It
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Put the species name, catharus fuscescens, into the correct location in the code below.</li>
+<li>Examine the object you get back from the species query. What part of it do you think might be the taxon key?</li>
+<li>Extract and save the taxon key</li>
+</ol>
+</div>
+</div>
+<div id="37044d3c" class="cell student-code" data-highlight="true" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>backbone <span class="op">=</span> species.name_backbone(name<span class="op">=</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="95ca9666" class="cell" data-tempalte="answer" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pygbif <span class="im">import</span> species, occurrences</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>backbone <span class="op">=</span> species.name_backbone(name<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>scientific_name<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>taxon_key <span class="op">=</span> backbone[<span class="st">"usageKey"</span>]</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>taxon_key</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>2490804</code></pre>
+</div>
+</div>
+</section>
+<section id="step-3-download-data-from-gbif" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-download-data-from-gbif">STEP 3: Download data from GBIF</h3>
+<p>Downloading GBIF data is a multi-step process. However, we’ve provided you with a chunk of code that handles the API communications and caches the download. You’ll still need to customize your search.</p>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Task</span>Try It: Submit a request to GBIF
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>Replace <code>csv_file_pattern</code> with a string that will match <strong>any</strong> <code>.csv</code> file when used in the <code>.rglob()</code> method. HINT: the character <code>*</code> represents any number of any values except the file separator (e.g.&nbsp;<code>/</code> on UNIX systems)</p></li>
+<li><p>Add parameters to the GBIF download function, <code>occ.download()</code> to limit your query to:</p>
+<ul>
+<li>observations of Veery Thrush</li>
+<li>from 2023</li>
+<li>with spatial coordinates.</li>
+</ul></li>
+<li><p>Then, run the download. <strong>This can take a few minutes</strong>. You can check your downloads by logging on to the <a href="https://www.gbif.org/user/download">GBIF website</a>.</p></li>
+</ol>
+</div>
+</div>
+<div id="11052bf7" class="cell student-code" data-highlight="true" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only download once</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> <span class="bu">any</span>(project.project_dir.rglob(<span class="st">'csv_file_pattern'</span>)):</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Only submit one request</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="st">'GBIF_DOWNLOAD_KEY'</span> <span class="kw">in</span> os.environ:</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Submit query to GBIF</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        gbif_query <span class="op">=</span> occ.download([</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f'taxonKey = '</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">'hasCoordinate = '</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f'year = '</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        ])</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Take first result</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        os.environ[<span class="st">'GBIF_DOWNLOAD_KEY'</span>] <span class="op">=</span> gbif_query[<span class="dv">0</span>]</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Wait for the download to build</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    dld_key <span class="op">=</span> os.environ[<span class="st">'GBIF_DOWNLOAD_KEY'</span>]</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    wait <span class="op">=</span> occ.download_meta(dld_key)[<span class="st">'status'</span>]</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="kw">not</span> wait<span class="op">==</span><span class="st">'SUCCEEDED'</span>:</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>        wait <span class="op">=</span> occ.download_meta(dld_key)[<span class="st">'status'</span>]</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">5</span>)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Download GBIF data</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    dld_info <span class="op">=</span> occ.download_get(</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        os.environ[<span class="st">'GBIF_DOWNLOAD_KEY'</span>], </span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>        path<span class="op">=</span>project.project_dir)</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    dld_path <span class="op">=</span> dld_info[<span class="st">'path'</span>]</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Unzip GBIF data</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> zipfile.ZipFile(dld_path) <span class="im">as</span> dld_zip:</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>        dld_zip.extractall(path<span class="op">=</span>project.project_dir)</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Clean up the .zip file</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    os.remove(dld_path)</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the extracted .csv file path (first result)</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>original_gbif_path <span class="op">=</span> <span class="bu">next</span>(</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    project.project_dir.rglob(<span class="st">'csv_file_pattern'</span>))</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>original_gbif_path</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="9163617f" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="11">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only download once</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> <span class="bu">any</span>(project.project_dir.rglob(<span class="st">'*.csv'</span>)):</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Only submit one request</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="st">'GBIF_DOWNLOAD_KEY'</span> <span class="kw">in</span> os.environ:</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Submit query to GBIF</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        gbif_query <span class="op">=</span> occ.download([</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f'taxonKey = </span><span class="sc">{</span>taxon_key<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">'hasCoordinate = TRUE'</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f'year = </span><span class="sc">{</span>year<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        ])</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Take first result</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        os.environ[<span class="st">'GBIF_DOWNLOAD_KEY'</span>] <span class="op">=</span> gbif_query[<span class="dv">0</span>]</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Wait for the download to build</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    dld_key <span class="op">=</span> os.environ[<span class="st">'GBIF_DOWNLOAD_KEY'</span>]</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    wait <span class="op">=</span> occ.download_meta(dld_key)[<span class="st">'status'</span>]</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="kw">not</span> wait<span class="op">==</span><span class="st">'SUCCEEDED'</span>:</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        wait <span class="op">=</span> occ.download_meta(dld_key)[<span class="st">'status'</span>]</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">5</span>)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Download GBIF data</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    dld_info <span class="op">=</span> occ.download_get(</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        os.environ[<span class="st">'GBIF_DOWNLOAD_KEY'</span>], </span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        path<span class="op">=</span>project.project_dir)</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    dld_path <span class="op">=</span> dld_info[<span class="st">'path'</span>]</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Unzip GBIF data</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> zipfile.ZipFile(dld_path) <span class="im">as</span> dld_zip:</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>        dld_zip.extractall(path<span class="op">=</span>project.project_dir)</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Clean up the .zip file</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    os.remove(dld_path)</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the extracted .csv file path (first result)</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>original_gbif_path <span class="op">=</span> <span class="bu">next</span>(</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    project.project_dir.rglob(<span class="st">'*.csv'</span>))</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>original_gbif_path</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>PosixPath('/home/runner/.local/share/earth-analytics/veery-migration-2023/gbif_veery.csv')</code></pre>
+</div>
+</div>
+<p>You might notice that the GBIF data filename isn’t very <strong>descriptive</strong>…at this point, you may want to clean up your data directory so that you know what the file is later on!</p>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Task</span>Try It
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Replace ‘your-gbif-filename’ with a <strong>descriptive</strong> name.</li>
+<li>Run the cell</li>
+<li>Check your data folder. Is it organized the way you want?</li>
+</ol>
+</div>
+</div>
+<div id="6b9c3deb" class="cell student-code" data-highlight="true" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Give the download a descriptive name</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>gbif_path <span class="op">=</span> project.project_dir <span class="op">/</span> <span class="st">'your-gbif-filename'</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Move file to descriptive path</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>shutil.move(original_gbif_path, gbif_path)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="c631219d" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="13">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Give the download a descriptive name</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>gbif_path <span class="op">=</span> project.project_dir <span class="op">/</span> gbif_filename</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Move file to descriptive path</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>shutil.move(original_gbif_path, gbif_path)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>PosixPath('/home/runner/.local/share/earth-analytics/veery-migration-2023/gbif_veery.csv')</code></pre>
+</div>
+</div>
+</section>
+<section id="step-4-load-the-gbif-data-into-python" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-load-the-gbif-data-into-python">STEP 4: Load the GBIF data into Python</h3>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Task</span>Try It: Load GBIF data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Just like you did when wrangling your data from the data subset, you’ll need to load your GBIF data and convert it to a GeoDataFrame.</p>
+</div>
+</div>
+<div id="9700ff79" class="cell student-code" data-highlight="true" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the GBIF data</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to GeoDataFrame</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Check results</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>gbif_gdf.total_bounds</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="893bfe26" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="15">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the GBIF data</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>gbif_df <span class="op">=</span> pd.read_csv(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    gbif_path, </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    delimiter<span class="op">=</span><span class="st">'</span><span class="ch">\t</span><span class="st">'</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="st">'gbifID'</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    usecols<span class="op">=</span>[</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'gbifID'</span>, </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'decimalLatitude'</span>, <span class="st">'decimalLongitude'</span>, </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'month'</span>])</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to GeoDataFrame</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>gbif_gdf <span class="op">=</span> (</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    gpd.GeoDataFrame(</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>        gbif_df, </span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>        geometry<span class="op">=</span>gpd.points_from_xy(</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>            gbif_df.decimalLongitude, </span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>            gbif_df.decimalLatitude), </span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>        crs<span class="op">=</span><span class="st">"EPSG:4326"</span>)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Select the desired columns</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    [[<span class="st">'month'</span>, <span class="st">'geometry'</span>]]</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Check results</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>gbif_gdf.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">month</th>
+<th data-quarto-table-cell-role="th">geometry</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">gbifID</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4158712344</th>
+<td>5</td>
+<td>POINT (-82.5092 41.9137)</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">4923515059</th>
+<td>5</td>
+<td>POINT (-87.61172 41.85281)</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4923522410</th>
+<td>9</td>
+<td>POINT (-87.61172 41.85281)</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">4923520798</th>
+<td>5</td>
+<td>POINT (-87.61172 41.85281)</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4923520314</th>
+<td>9</td>
+<td>POINT (-87.63013 41.88036)</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="ecoregions-data" class="level2">
+<h2 class="anchored" data-anchor-id="ecoregions-data">Ecoregions data</h2>
+<p>In this coding challenge, we use the World Wildlife Fund (WWF) ecoregions data to normalize and display migration patterns. There are many ways to accomplish a similar goal, depending on your scientific question, but we like this one because we expect species occurrence to be similar across an ecoregion at any give time.</p>
+<p>You have a couple options for data access. You can download the ecoregions through your web browser at <a href="https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world">the World Wildlife Fund</a>. Then, you can place it in your data directory</p>
+<div class="callout-info">
+<p>Remember that if you are using <code>earthpy</code> to manage your files, you can find your data directory using <code>project.project_dir</code></p>
+</div>
+<p>However, this download is relatively large. If you are working on a computer with limited storage, you might want to download the data from an ArcGIS Feature Service using the bounds of the GBIF data to avoid extra downloads. This is a type of API (Application Program Interface) for downloading subsets of vector data. When you use the API, you can choose to only download the ecoregions where you actually have occurrence data.</p>
+<section id="step-1-convert-the-geometry-for-api-compatability" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-convert-the-geometry-for-api-compatability">STEP 1: Convert the geometry for API compatability</h3>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Task</span>Try It
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Check out the</p>
+</div>
+</div>
+<div id="059507dc" class="cell student-code" data-highlight="true" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge the GBIF observations into a single geometry</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>gbif_single_geo <span class="op">=</span> gbif_gdf.method_here().envelope</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>gbif_single_geo.plot()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="29d76627" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="17">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge the GBIF observations into a single geometry</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>gbif_union <span class="op">=</span> gbif_gdf.geometry.union_all().envelope</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>gbif_union</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div>
+<figure class="figure">
+<p><img src="migration-download-eda_files/figure-html/cell-18-output-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Task</span>Try It
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Run the code below, which converts your Polygon to a special type of GeoJSON needed for compatibility with the ArcGIS Feature Service. Check out and explore this data structure. How would you extract the geographic coordinates?</p>
+</div>
+</div>
+<div id="527137c8" class="cell student-code" data-highlight="true" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert geometry to geoJSON</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>gbif_geojson <span class="op">=</span> gbif_union.__geo_interface__</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>gbif_geojson</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="565187a5" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="19">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert geometry to geoJSON</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>gbif_geojson <span class="op">=</span> gbif_union.__geo_interface__</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>gbif_geojson</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>{'type': 'Polygon',
+ 'coordinates': (((-129.34932, -25.36442),
+   (-1.117409, -25.36442),
+   (-1.117409, 60.404932),
+   (-129.34932, 60.404932),
+   (-129.34932, -25.36442)),)}</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-respond callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Respond</span>Reflect and Respond
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What type of Python object is this geoJSON? How will you get the geographic coordinates only?</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Task</span>Try It
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Replace <code>feature-key</code> with the coordinate key you noted above.</li>
+<li>Replace CRS with the CRS of your GBIF download. It should be formatted as a 4-digit number, e.g.&nbsp;if the CRS is EPSG:1234, you should put <code>1234</code> into Python.</li>
+</ol>
+</div>
+</div>
+<div id="47f29647" class="cell student-code" data-highlight="true" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct ArcGIS-compatible JSON</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>arcgis_geom <span class="op">=</span> json.dumps(<span class="bu">dict</span>(</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    rings<span class="op">=</span>gbif_geojson[<span class="st">"coordinate-key"</span>],</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    spatialReference<span class="op">=</span>{<span class="st">"wkid"</span>: CRS}</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="50095b89" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="21">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct ArcGIS-compatible JSON</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>arcgis_geom <span class="op">=</span> json.dumps(<span class="bu">dict</span>(</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    rings<span class="op">=</span>gbif_geojson[<span class="st">"coordinates"</span>],</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    spatialReference<span class="op">=</span>{<span class="st">"wkid"</span>: <span class="dv">4326</span>}</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="step-2-download-data-from-the-arcgis-featureservice" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-download-data-from-the-arcgis-featureservice">STEP 2: Download data from the ArcGIS FeatureService</h3>
+<div id="20a171d8" class="cell student-code" data-highlight="true" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare API request</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>eco_url <span class="op">=</span> (</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://services5.arcgis.com/0AFsQflykfA9lXZn"</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/ArcGIS/rest/services"</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/WWF_Terrestrial_Ecoregions_Of_The_World_official_teow"</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/FeatureServer/0/query"</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>eco_params <span class="op">=</span> {</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"f"</span>: <span class="st">"geojson"</span>,</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"where"</span>: <span class="st">"1=1"</span>,</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"outFields"</span>: <span class="st">"area_km2"</span>,</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"returnGeometry"</span>: <span class="st">"true"</span>,</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return polygons containing any GBIF observation</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"spatialRel"</span>: <span class="st">"esriSpatialRelIntersects"</span>,  </span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"geometryType"</span>: <span class="st">"esriGeometryPolygon"</span>,</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Override web Mercator server default</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"inSR"</span>: <span class="st">"CRS"</span>,</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"outSR"</span>: <span class="st">"CRS"</span>,</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Must format geometry</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"geometry"</span>: arcgis_geom</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Submit API request</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>eco_resp <span class="op">=</span> requests.get(</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>    eco_url, params<span class="op">=</span>eco_params,</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>    headers<span class="op">=</span>{<span class="st">"Accept-Encoding"</span>: <span class="st">"identity"</span>})</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>eco_resp.raise_for_status()</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Load binary data to DataFrame</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>eco_gdf <span class="op">=</span> gpd.read_file(BytesIO(eco_resp.content))</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the download</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="f231c5b1" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="23">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare API request</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>eco_url <span class="op">=</span> (</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://services5.arcgis.com/0AFsQflykfA9lXZn"</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/ArcGIS/rest/services"</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/WWF_Terrestrial_Ecoregions_Of_The_World_official_teow"</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/FeatureServer/0/query"</span>)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>eco_params <span class="op">=</span> {</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"f"</span>: <span class="st">"geojson"</span>,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"where"</span>: <span class="st">"1=1"</span>,</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"outFields"</span>: <span class="st">"eco_code,area_km2"</span>,</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"returnGeometry"</span>: <span class="st">"true"</span>,</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return polygons containing any GBIF observation</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"spatialRel"</span>: <span class="st">"esriSpatialRelIntersects"</span>,  </span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"geometryType"</span>: <span class="st">"esriGeometryPolygon"</span>,</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Override web Mercator server default</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"inSR"</span>: <span class="st">"4326"</span>,</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"outSR"</span>: <span class="st">"4326"</span>,</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Must format geometry</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"geometry"</span>: arcgis_geom</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Submit API request</span></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>eco_resp <span class="op">=</span> requests.get(</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>    eco_url, params<span class="op">=</span>eco_params,</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>    headers<span class="op">=</span>{<span class="st">"Accept-Encoding"</span>: <span class="st">"identity"</span>})</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>eco_resp.raise_for_status()</span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Load binary data to DataFrame</span></span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>eco_gdf <span class="op">=</span> gpd.read_file(BytesIO(eco_resp.content))</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the download</span></span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>eco_gdf.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>ERROR 1: PROJ: proj_create_from_database: Open of /usr/share/miniconda/envs/learning-portal/share/proj failed</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">eco_code</th>
+<th data-quarto-table-cell-role="th">area_km2</th>
+<th data-quarto-table-cell-role="th">geometry</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>NT0702</td>
+<td>125589</td>
+<td>POLYGON ((-67.98364 -13.79293, -67.98972 -13.7...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>NT0128</td>
+<td>114506</td>
+<td>POLYGON ((-72.72287 -3.54497, -72.724 -3.5443,...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>NT0169</td>
+<td>50675</td>
+<td>POLYGON ((-65.90067 6.64234, -65.90344 6.64368...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>NT0124</td>
+<td>145963</td>
+<td>POLYGON ((-66.18742 6.44344, -66.19053 6.44392...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>NT1401</td>
+<td>40894</td>
+<td>POLYGON ((-45.68811 -1.26541, -45.69585 -1.263...</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Task</span>Try It
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Now, make a quick plot of your download to make sure that it worked correctly.</p>
+</div>
+</div>
+<div id="0a0e0f61" class="cell student-code" data-highlight="true" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the ecoregion data</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="3fee747e" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="25">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the ecoregion data</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>eco_gdf.plot()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="migration-download-eda_files/figure-html/cell-26-output-1.png" width="546" height="411" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="step-3-optional-save-your-data" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-optional-save-your-data">STEP 3 (Optional): Save your data</h3>
+<div class="callout callout-style-default callout-task callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Task</span>Try It
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Create a new directory in your data directory for the ecoregions data.</li>
+<li>Define a path to a Shapefile where you will save the ecoregions data.</li>
+<li>Save the ecoregions to the file.</li>
+</ol>
+</div>
+</div>
+<div id="65a9b28d" class="cell student-code" data-highlight="true" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the ecoregion data</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="24e42869" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="27">
+<details class="code-fold">
+<summary>See our solution!</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the ecoregion data</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>eco_dir <span class="op">=</span> project.project_dir <span class="op">/</span> <span class="st">'ecoregions'</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>eco_dir.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>eco_path <span class="op">=</span> eco_dir <span class="op">/</span> <span class="st">'ecoregions.shp'</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>eco_gdf.to_file(eco_path)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO:Created 2,000 records</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("^(?!((http:|https:)\/\/|/))");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../notebooks/03-migration/migration-eda.html" class="pagination-link" aria-label="Mapping migration">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Mapping migration</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://esiil.org/">
+<p>About ESIIL</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="https://earthlab.colorado.edu/">
+<p>About Earth Lab</p>
+</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
