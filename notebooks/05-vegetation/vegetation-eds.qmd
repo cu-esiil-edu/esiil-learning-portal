@@ -1,0 +1,70 @@
+---
+title: Water Rights Restored to the Gila River
+subtitle: The impacts of irrigation on vegetation health in the Gila River Valley
+author:
+  - Elsa Culler
+  - Nate Quarderer
+date: last-modified
+image: /img/earth-analytics/water-rights/lesson-water-rights.png
+image-alt: "Dry river with dead plants turns into a stream with living plants"
+description: |
+  In 2004, the Akimel O'otham and Tohono O'odham tribes won a water rights settlement in the US Supreme Court. Using satellite imagery, we can see the effects of irrigation water on the local vegetation.
+learning-goals:
+- Open raster or image data using code
+- Combine raster data and vector data to crop images to an area of interest
+- Summarize raster values with stastics
+- Analyze a time-series of raster images
+params:
+  id: stars
+  site_name: Gila River Indian Community
+  project_name: Gila River Vegetation
+  boundary_dir: 'tl_2020_us_aitsn'
+  event: water rights case
+  start_year: '2001'
+  end_year: '2022'
+  event_year: '2012'
+jupyter:
+  kernelspec:
+    name: learning-portal
+    language: python
+    display_name: Learning Portal
+---
+
+## Reclaiming Water Rights on the Gila River
+
+The Gila River Reservation south of Phoenix, AZ is the ancestral home of the [Akimel O'otham and Tohono O'odham tribes](https://www.gilariver.org/index.php). The Gila River area was known for its agriculture, with miles of canals providing irrigation. However, in the 1800s, European colonizers upstream installed dams which cut off water supply. This resulted in the collapse of Gila River agriculture, along with sky-rocketing rates of diabetes and heart disease in the community as they were force to subsist only on US government surplus rations.
+
+In 2004, the Gila River community won back much of its water rights in court. The settlement granted senior water rights nearly matching pre-colonial water use. Work has begun to rebuild the agriculture in the Gila River Reservation. According to the Akimel O'otham and Tohono O'odham tribes, "It will take years to complete but in the end the community members will once again hear the sweet music of rushing water."
+
+{{< include _ndvi-overview.qmd >}}
+
+# STEP 0: Set up
+
+First, you can use the following parameters to change things about the workflow:
+
+```{python}
+#| tags: [parameters]
+id = 'stars'
+site_name = 'Gila River Indian Community'
+project_name = 'Gila River Vegetation'
+boundary_dir = 'tl_2020_us_aitsn'
+event = 'water rights case'
+start_year = '2001'
+end_year = '2022'
+event_year = '2012'
+```
+
+{{< include _vegetation-00-setup.qmd >}}
+
+
+::: {.callout-info}
+If the water rights case took place in 2004, why are we listing the event year as {{< meta params.event_year>}}? It takes time for practices to adjust. You can experiment with different years to see if it affects the results.
+:::
+
+{{< include _vegetation-01-site-map-aitsn.qmd >}}
+
+{{< include _vegetation-02-wrangle.qmd >}}
+
+{{< include _vegetation-03-plot.qmd >}}
+
+{{< include _vegetation-04-summarize-area.qmd >}}

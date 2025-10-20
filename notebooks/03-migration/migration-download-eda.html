@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../pages/00-overviews/04a-courses/eda/01-fundamentals/04-raster.html" rel="next">
 <link href="../../notebooks/03-migration/migration-eda.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -78,9 +79,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-410c9797681697bbebb82a95065eb717.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-410c9797681697bbebb82a95065eb717.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-410c9797681697bbebb82a95065eb717.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-fc07af6a3de9d8e917d179395399c8d0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-fc07af6a3de9d8e917d179395399c8d0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-fc07af6a3de9d8e917d179395399c8d0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": true,
@@ -386,6 +387,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Migration Data Download</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://classroom.github.com/a/z0shv3Bz" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Try it on GitHub!</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/00-overviews/04a-courses/eda/01-fundamentals/04-raster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">UNIT 4: Vegetation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://earthdatascience.org/pages/02-file-formats-eds/05-spatial-file-formats-eds/02-raster-data.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">READING: Geospatial Raster Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://classroom.github.com/a/uwWXI6qc" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Try it on GitHub!</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -446,7 +476,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Before we get started, let’s define some parameters for the workflow. We’ll use these throughout to customize the workflow for this species:</p>
-<div id="3fd9cc57" class="cell" data-tags="[&quot;parameters&quot;]" data-execution_count="1">
+<div id="6348e42e" class="cell" data-tags="[&quot;parameters&quot;]" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">id</span> <span class="op">=</span> <span class="st">'stars'</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>project_dirname <span class="op">=</span> <span class="st">'veery-migration-2023'</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>species_name <span class="op">=</span> <span class="st">'Veery Thrush'</span></span>
@@ -488,7 +518,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-0-set-up-your-code-to-prepare-for-download" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="step-0-set-up-your-code-to-prepare-for-download">STEP 0: Set up your code to prepare for download</h3>
 <p>We will be getting data from a source called <a href="https://www.gbif.org/">GBIF (Global Biodiversity Information Facility)</a>. We need a package called <code>pygbif</code> to access the data, which may not be included in your environment. Install it by running the cell below:</p>
-<div id="176b399e" class="cell" data-execution_count="2">
+<div id="6d9c1e80" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>bash</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pip install pygbif</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -509,7 +539,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 </div>
 </div>
-<div id="67b28aa2" class="cell student-code" data-highlight="true" data-execution_count="3">
+<div id="fb6d6e32" class="cell student-code" data-highlight="true" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> getpass <span class="im">import</span> getpass</span>
@@ -519,7 +549,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pygbif.species <span class="im">as</span> species</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="e327b6be" class="cell answer-code" data-highlight="true=" data-execution_count="4">
+<div id="495d7123" class="cell answer-code" data-highlight="true=" data-execution_count="4">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
@@ -581,7 +611,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>These days, a lot of people find your file by searching for them or selecting from a <code>Bookmarks</code> or <code>Recents</code> list. Even if you don’t use it, your computer also keeps files in a <strong>tree</strong> structure of folders. Put another way, you can organize and find files by travelling along a unique <strong>path</strong>, e.g.&nbsp;<code>My Drive</code> &gt; <code>Documents</code> &gt; <code>My awesome project</code> &gt; <code>A project file</code> where each subsequent folder is <strong>inside</strong> the previous one. This is convenient because all the files for a project can be in the same place, and both people and computers can rapidly locate files they want, provided they remember the path.</p>
 <p>You may notice that when Python prints out a file path like this, the folder names are <strong>separated</strong> by a <code>/</code> or <code>\</code> (depending on your operating system). This character is called the <strong>file separator</strong>, and it tells you that the next piece of the path is <strong>inside</strong> the previous one.</p>
 </div>
-</div></div><div id="b0df3234" class="cell student-code" data-highlight="true" data-execution_count="5">
+</div></div><div id="b38369bc" class="cell student-code" data-highlight="true" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data directory</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> earthpy.Project(</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    dirname<span class="op">=</span><span class="st">'your-project-directory-name-here'</span>)</span>
@@ -589,7 +619,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the project directory</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>project.project_dir</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="83438e28" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="6">
+<div id="bb3d16bc" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="6">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data directory</span></span>
@@ -648,7 +678,7 @@ Tip
 <p>If you accidentally enter your credentials wrong, you can set <code>reset=True</code> instead of <code>reset=False</code>.</p>
 </div>
 </div>
-<div id="f6e9fbc4" class="cell" data-execution_count="7">
+<div id="8eb3cabe" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">####--------------------------####</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#### DO NOT MODIFY THIS CODE! ####</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">####--------------------------####</span></span>
@@ -693,10 +723,10 @@ Tip
 </ol>
 </div>
 </div>
-<div id="65b33dc4" class="cell student-code" data-highlight="true" data-execution_count="8">
+<div id="227d1a10" class="cell student-code" data-highlight="true" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>backbone <span class="op">=</span> species.name_backbone(name<span class="op">=</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="70c88d45" class="cell" data-tempalte="answer" data-execution_count="9">
+<div id="98dd9e73" class="cell" data-tempalte="answer" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pygbif <span class="im">import</span> species, occurrences</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>backbone <span class="op">=</span> species.name_backbone(name<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>scientific_name<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -733,7 +763,7 @@ Tip
 </ol>
 </div>
 </div>
-<div id="3d9066ed" class="cell student-code" data-highlight="true" data-execution_count="10">
+<div id="bf49e490" class="cell student-code" data-highlight="true" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only download once</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> <span class="bu">any</span>(project.project_dir.rglob(<span class="st">'csv_file_pattern'</span>)):</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Only submit one request</span></span>
@@ -772,7 +802,7 @@ Tip
 <span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    project.project_dir.rglob(<span class="st">'csv_file_pattern'</span>))</span>
 <span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>original_gbif_path</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="6b90c776" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="11">
+<div id="c7c22c96" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="11">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only download once</span></span>
@@ -835,13 +865,13 @@ Tip
 </ol>
 </div>
 </div>
-<div id="d877c511" class="cell student-code" data-highlight="true" data-execution_count="12">
+<div id="d6bfe274" class="cell student-code" data-highlight="true" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Give the download a descriptive name</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>gbif_path <span class="op">=</span> project.project_dir <span class="op">/</span> <span class="st">'your-gbif-filename'</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Move file to descriptive path</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>shutil.move(original_gbif_path, gbif_path)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="36140e39" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="13">
+<div id="550c5715" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="13">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Give the download a descriptive name</span></span>
@@ -869,7 +899,7 @@ Tip
 <p>Just like you did when wrangling your data from the data subset, you’ll need to load your GBIF data and convert it to a GeoDataFrame.</p>
 </div>
 </div>
-<div id="3cdabcd6" class="cell student-code" data-highlight="true" data-execution_count="14">
+<div id="743729ff" class="cell student-code" data-highlight="true" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the GBIF data</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to GeoDataFrame</span></span>
@@ -877,7 +907,7 @@ Tip
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Check results</span></span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>gbif_gdf.total_bounds</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="abade744" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="15">
+<div id="8c12a06a" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="15">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the GBIF data</span></span>
@@ -979,12 +1009,12 @@ Tip
 <p>Check out the</p>
 </div>
 </div>
-<div id="dc69776c" class="cell student-code" data-highlight="true" data-execution_count="16">
+<div id="f3bb41d9" class="cell student-code" data-highlight="true" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge the GBIF observations into a single geometry</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>gbif_single_geo <span class="op">=</span> gbif_gdf.method_here().envelope</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>gbif_single_geo.plot()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cbffceb4" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="17">
+<div id="5a6799a1" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="17">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge the GBIF observations into a single geometry</span></span>
@@ -1012,13 +1042,13 @@ Tip
 <p>Run the code below, which converts your Polygon to a special type of GeoJSON needed for compatibility with the ArcGIS Feature Service. Check out and explore this data structure. How would you extract the geographic coordinates?</p>
 </div>
 </div>
-<div id="ef6fdeec" class="cell student-code" data-highlight="true" data-execution_count="18">
+<div id="caccd31a" class="cell student-code" data-highlight="true" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert geometry to geoJSON</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>gbif_geojson <span class="op">=</span> gbif_union.__geo_interface__</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>gbif_geojson</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="34037328" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="19">
+<div id="1e87427c" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="19">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert geometry to geoJSON</span></span>
@@ -1064,14 +1094,14 @@ Tip
 </ol>
 </div>
 </div>
-<div id="6eb449fe" class="cell student-code" data-highlight="true" data-execution_count="20">
+<div id="cba7a150" class="cell student-code" data-highlight="true" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct ArcGIS-compatible JSON</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>arcgis_geom <span class="op">=</span> json.dumps(<span class="bu">dict</span>(</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    rings<span class="op">=</span>gbif_geojson[<span class="st">"coordinate-key"</span>],</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    spatialReference<span class="op">=</span>{<span class="st">"wkid"</span>: CRS}</span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="d569b63f" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="21">
+<div id="a6bc7148" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="21">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct ArcGIS-compatible JSON</span></span>
@@ -1084,7 +1114,7 @@ Tip
 </section>
 <section id="step-2-download-data-from-the-arcgis-featureservice" class="level3">
 <h3 class="anchored" data-anchor-id="step-2-download-data-from-the-arcgis-featureservice">STEP 2: Download data from the ArcGIS FeatureService</h3>
-<div id="bb1a29e6" class="cell student-code" data-highlight="true" data-execution_count="22">
+<div id="0b2c6fb5" class="cell student-code" data-highlight="true" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare API request</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>eco_url <span class="op">=</span> (</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://services5.arcgis.com/0AFsQflykfA9lXZn"</span></span>
@@ -1118,7 +1148,7 @@ Tip
 <span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the download</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="051350c1" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="23">
+<div id="f40e8fc6" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="23">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare API request</span></span>
@@ -1220,10 +1250,10 @@ Tip
 <p>Now, make a quick plot of your download to make sure that it worked correctly.</p>
 </div>
 </div>
-<div id="284dd2ad" class="cell student-code" data-highlight="true" data-execution_count="24">
+<div id="6a985133" class="cell student-code" data-highlight="true" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the ecoregion data</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="7f2267a0" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="25">
+<div id="d1651d5a" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="25">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the ecoregion data</span></span>
@@ -1257,10 +1287,10 @@ Tip
 </ol>
 </div>
 </div>
-<div id="7e5581c7" class="cell student-code" data-highlight="true" data-execution_count="26">
+<div id="ed096ba9" class="cell student-code" data-highlight="true" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the ecoregion data</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="6df91574" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="27">
+<div id="c624ab7e" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="27">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the ecoregion data</span></span>
@@ -1270,7 +1300,7 @@ Tip
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>eco_gdf.to_file(eco_path)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>INFO:Created 1,910 records</code></pre>
+<pre><code>INFO:Created 1,999 records</code></pre>
 </div>
 </div>
 
@@ -1693,6 +1723,9 @@ Tip
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../pages/00-overviews/04a-courses/eda/01-fundamentals/04-raster.html" class="pagination-link" aria-label="UNIT 4: Vegetation">
+        <span class="nav-page-text">UNIT 4: Vegetation</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
