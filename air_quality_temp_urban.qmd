@@ -1,0 +1,244 @@
+---
+title: "Harmonizing Open Datasets: Daily Temperature and Ozone Analysis"
+author: 
+  - "Min Gon Chung"
+date: 2025-03-21
+format:
+  html:
+    code-fold: true
+execute:
+  echo: true
+---
+
+# Import packages for file handling, HTTP requests, spatial data, data manipulation, date operations, netCDF, and plotting.
+import os                     # File operations
+import requests               # HTTP requests
+import zipfile                # Unzipping files
+import io                     # In-memory streams
+import geopandas as gpd       # Spatial vector data processing
+import pandas as pd           # Data manipulation
+from io import StringIO       # Convert strings to file-like objects
+import datetime               # Date operations
+import calendar               # Determine month lengths
+import xarray as xr           # netCDF dataset handling
+import matplotlib.pyplot as plt  # Plotting
+import tempfile
+import urllib.parse
+
+# Global parameters (used for both ozone and temperature data)
+year = 2018
+month = 7
+
+# Define the URL of the urban shapefile (zip file) from the US Census
+url_shp = "https://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_ua10_500k.zip"
+
+# Download the shapefile zip file from the online source
+response = requests.get(url_shp)  # Get content from the URL
+zip_file = zipfile.ZipFile(io.BytesIO(response.content))  # Create a zipfile object
+zip_file.extractall("urban_shp")  # Extract files to the 'urban_shp' folder
+
+# List shapefile(s) in the extracted directory (files ending with .shp)
+shp_files = [f for f in os.listdir("urban_shp") if f.endswith(".shp")]
+print("Available shapefile(s):", shp_files)
+
+# Read the first shapefile into a GeoDataFrame
+gdf = gpd.read_file(os.path.join("urban_shp", shp_files[0]))
+print("Original CRS:", gdf.crs)
+
+# If the shapefile is not in WGS84 (EPSG:4326), reproject it
+if gdf.crs != "EPSG:4326":
+    gdf = gdf.to_crs("EPSG:4326")
+    print("Reprojected to WGS84 (EPSG:4326).")
+
+# Display available columns to inspect attributes
+print("Columns in the shapefile:", gdf.columns.tolist())
+
+# Select a specific urban area by name (e.g., "Denver--Aurora, CO")
+city = gdf[gdf["NAME10"].str.contains("Denver--Aurora, CO", case=False, na=False)]
+print("Selected urban area (Denver):", city)
+
+# Extract the bounding box of Denver using total_bounds ([minx, miny, maxx, maxy])
+if not city.empty:
+    minx, miny, maxx, maxy = city.total_bounds
+    # Define bounding box with keys: north, west, east, south
+    bbox = {"north": maxy, "west": minx, "east": maxx, "south": miny}
+    print("Bounding box for City:", bbox)
+else:
+    print("Polygon not found in the dataset.")
+
+# Define a function to standardize a daily ozone DataFrame
+def standardize_df(df):
+    std_cols = ["Valid_date", "AQSID", "Parameter_Name", "Value", "Latitude", "Longitude", "AQI", "AQI_Category"]
+    if df.shape[1] == 13:
+        df.columns = ["Valid_date", "AQSID", "Site_Name", "Parameter_Name", "Reporting_Units",
+                      "Value", "Averaging_Period", "Data_Source", "AQI", "AQI_Category",
+                      "Latitude", "Longitude", "Full_AQSID"]
+        return df[std_cols]
+    elif df.shape[1] == 8:
+        df.columns = ["Valid_date", "AQSID", "Site_Name", "Parameter_Name", "Reporting_Units", "Value", "AQI", "AQI_Category"]
+        df["Latitude"] = pd.NA
+        df["Longitude"] = pd.NA
+        return df[std_cols]
+    else:
+        return None
+
+# Create a list of dates for the given month and year
+dates = [datetime.date(year, month, d) for d in range(1, calendar.monthrange(year, month)[1]+1)]
+
+# Initialize a list to store standardized daily ozone DataFrames
+aq_list = []
+
+# Loop through each date and download the corresponding daily ozone data
+for d in dates:
+    date_str = d.strftime("%Y%m%d")
+    url_aq = f"https://s3-us-west-1.amazonaws.com/files.airnowtech.org/airnow/{year}/{date_str}/daily_data.dat"
+    try:
+        r = requests.get(url_aq)
+        if r.status_code == 200:
+            df = pd.read_csv(StringIO(r.text), sep="|", header=None)
+            std_df = standardize_df(df)
+            if std_df is not None:
+                aq_list.append(std_df)
+                print(f"Downloaded {d}")
+    except Exception as e:
+        print(f"Error on {d}: {e}")
+
+# Combine all daily data into a single DataFrame
+aq_df = pd.concat(aq_list, ignore_index=True)
+
+# Filter for "OZONE-8HR" records (or adjust as needed)
+aq_df = aq_df[aq_df["Parameter_Name"] == "OZONE-8HR"]
+
+# Convert the date column to datetime format
+aq_df["Valid_date"] = pd.to_datetime(aq_df["Valid_date"], format="%m/%d/%y")
+
+# Define column names for monitoring station data as provided.
+col_names = ["AQSID", "parametername", "sitecode", "sitename", "status", "agencyid",
+             "agencyname", "EPAregion", "latitude", "longitude", "elevation", "GMToffset",
+             "countrycode", "MSAcode", "MSAname", "statecode", "statename", "countycode", "countyname"]
+
+# Initialize a list to store daily monitoring station DataFrames.
+monitor_list = []
+
+# Loop through each date to download monitoring station location data.
+for d in dates:
+    date_str = d.strftime("%Y%m%d")  # Format the date as yyyymmdd.
+    url_mon = f"https://s3-us-west-1.amazonaws.com/files.airnowtech.org/airnow/{year}/{date_str}/monitoring_site_locations.dat"
+    try:
+        r = requests.get(url_mon)
+        if r.status_code == 200:
+            # Read the file without a header.
+            df_mon = pd.read_csv(StringIO(r.text), sep="|", header=None)
+            # Select only the columns for AQSID (column 0), latitude (column 8), and longitude (column 9)
+            df_mon = df_mon[[0, 8, 9]]
+            # Rename these columns.
+            df_mon.columns = ["AQSID", "latitude", "longitude"]
+            monitor_list.append(df_mon)
+            print(f"Downloaded monitoring locations for {d}")
+    except Exception as e:
+        print(f"Error on {d} (monitoring): {e}")
+
+# Combine all daily monitoring station data.
+monitor_df = pd.concat(monitor_list, ignore_index=True)
+
+# Remove duplicate AQSID rows, keeping the first occurrence.
+monitor_df = monitor_df.drop_duplicates(subset=["AQSID"], keep="first")
+print("Processed monitoring station locations:")
+print(monitor_df.head())
+
+
+# Merge the monitoring data with AQ data on AQSID.
+aq_df = pd.merge(aq_df, monitor_df, on="AQSID", how="left", suffixes=("", "_mon"))
+
+# Fill missing Latitude/Longitude in aq_df using monitoring data.
+aq_df["Latitude"] = aq_df["Latitude"].fillna(aq_df["latitude"])
+aq_df["Longitude"] = aq_df["Longitude"].fillna(aq_df["longitude"])
+
+# Drop extra columns.
+aq_df = aq_df.drop(columns=["latitude", "longitude"])
+print("Merged AQ data with monitoring locations.")
+
+
+# If latitude/longitude are available, subset by the urban bounding box
+aq_df = aq_df[(aq_df["Latitude"].astype(float) >= bbox["south"]) &
+                  (aq_df["Latitude"].astype(float) <= bbox["north"]) &
+                  (aq_df["Longitude"].astype(float) >= bbox["west"]) &
+                  (aq_df["Longitude"].astype(float) <= bbox["east"])]
+                  
+daily_aq = aq_df.groupby("Valid_date")["Value"].mean().reset_index().rename(columns={"Value": "Avg_AQ"})
+print(daily_aq.head())
+
+# Determine the last day of the month.
+last_day = calendar.monthrange(year, month)[1]
+
+# # Define time range (ensure these are in the correct format)
+time_start = "2018-07-01T12:00:00Z"
+time_end = "2018-07-31T12:00:00Z"
+
+# Use "tmin" as the climate variable; change to "tmax" if needed
+climate_var = "tmax"
+
+# Prepare query parameters. 
+# Note: Leading spaces are added to "west" and "south" to mimic the working URL exactly.
+params = {
+    "var": climate_var,             # Set variable to "tmax"
+    "north": bbox["north"],
+    "west": f" {bbox['west']}",      # Leading space included
+    "east": bbox["east"],
+    "south": f" {bbox['south']}",    # Leading space included
+    "horizStride": 1,
+    "time_start": time_start,
+    "time_end": time_end,
+    "timeStride": 1,
+    "accept": "netcdf"
+}
+
+# URL-encode the query parameters.
+query_str = urllib.parse.urlencode(params)
+
+# Construct the final URL using the new API path (2129)
+daymet_url = (
+    f"https://thredds.daac.ornl.gov/thredds/ncss/ornldaac/2129/"
+    f"daymet_v4_daily_na_{climate_var}_{year}.nc?{query_str}"
+)
+
+print(daymet_url)
+
+# Download the file using requests
+response = requests.get(daymet_url)
+print(len(response.content))
+
+# Write the content to a temporary file (Windows: use delete=False)
+with tempfile.NamedTemporaryFile(suffix=".nc", delete=False) as tmp:
+    tmp.write(response.content)
+    tmp.flush()
+    temp_filename = tmp.name
+
+# Open the dataset with xarray, explicitly specifying the netcdf4 engine
+ds = xr.open_dataset(temp_filename, engine="netcdf4")
+print(ds)
+
+# Compute the daily average of the climate variable over the spatial domain.
+daily_climate = ds[climate_var].to_dataframe().reset_index().assign(time=lambda df: df["time"].dt.floor("D")).groupby("time", as_index=False)[climate_var].mean()
+print(daily_climate)
+
+# Convert the time coordinate to datetime and rename columns.
+daily_climate["time"] = pd.to_datetime(daily_climate["time"])
+daily_climate = daily_climate.rename(columns={climate_var: "Avg_Climate", "time": "Valid_date"})
+print(daily_climate)
+
+# Merge the daily AQ and climate data on the Valid_date column.
+combined = pd.merge(daily_aq, daily_climate, on="Valid_date", how="inner")
+print(combined)
+
+# Create a dual-axis plot for daily AQ and climate data.
+fig, ax1 = plt.subplots(figsize=(10,6))
+ax1.plot(combined["Valid_date"], combined["Avg_AQ"], "o-", color="blue", label="Avg AQ")
+ax1.set_ylabel("Avg AQ (PPB)", color="blue")
+ax2 = ax1.twinx()
+ax2.plot(combined["Valid_date"], combined["Avg_Climate"], "s-", color="red", label="Avg Climate")
+ax2.set_ylabel("Avg Climate (°C)", color="red")
+plt.title("Daily Average Air Quality & Climate")
+plt.tight_layout()
+plt.show()
+
