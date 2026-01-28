@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,9 +74,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-410c9797681697bbebb82a95065eb717.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -210,6 +210,10 @@ window.Quarto = {
         <li>
     <a class="dropdown-item" href="../../pages/00-overviews/04a-courses/eda/01-fundamentals/index.html">
  <span class="dropdown-text">GEOG 5463/4463: Fundamentals of Earth Data Analytics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/04a-courses/eda/02-topics/index.html">
+ <span class="dropdown-text">GEOG 5563/4563: Topics in Earth Analytics</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../pages/00-overviews/04a-courses/stars/index.html">
@@ -653,14 +657,14 @@ Tip
 </ol>
 </div>
 </div>
-<div id="352d1455" class="cell student-code" data-highlight="true" data-execution_count="3">
+<div id="2ca2d7a3" class="cell student-code" data-highlight="true" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import libraries</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> earthpy <span class="co"># Manage local data</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> holoviews <span class="im">as</span> hv <span class="co"># Save interactive plots</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hvplot.pandas <span class="co"># Make interactive plots</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandsa <span class="im">as</span> pd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="4ff5d115" class="cell answer-code" data-highlight="true" data-execution_count="4">
+<div id="7b7f9345" class="cell answer-code" data-highlight="true" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <script type="esms-options">{"shimMode": true}</script><style>*[data-root-id],
 *[data-root-id] > * {
@@ -687,9 +691,11 @@ Tip
   }
 
   const force = true;
-  const py_version = '3.8.0'.replace('rc', '-rc.').replace('.dev', '-dev.');
+  const version = '3.8.1'.replace('rc', '-rc.').replace('.dev', '-dev.');
   const reloading = false;
   const Bokeh = root.Bokeh;
+  const BK_RE = /^https:\/\/cdn\.bokeh\.org\/bokeh\/(release|dev)\/bokeh-/;
+  const PN_RE = /^https:\/\/cdn\.holoviz\.org\/panel\/[^/]+\/dist\/panel/i;
 
   // Set a timeout for this load but only if we are not already initializing
   if (typeof (root._bokeh_timeout) === "undefined" || (force || !root._bokeh_is_initializing)) {
@@ -709,7 +715,7 @@ Tip
     console.debug("Bokeh: all callbacks have finished");
   }
 
-  function load_libs(css_urls, js_urls, js_modules, js_exports, callback) {
+  function load_libs(css_urls, js_urls, js_modules, js_exports, Bokeh, callback) {
     if (css_urls == null) css_urls = [];
     if (js_urls == null) js_urls = [];
     if (js_modules == null) js_modules = [];
@@ -783,7 +789,10 @@ Tip
     for (let i = 0; i < js_urls.length; i++) {
       const url = js_urls[i];
       const escaped = encodeURI(url)
-      if (skip.indexOf(escaped) !== -1 || existing_scripts.indexOf(escaped) !== -1) {
+      const shouldSkip = skip.includes(escaped) || existing_scripts.includes(escaped)
+      const isBokehOrPanel = BK_RE.test(escaped) || PN_RE.test(escaped)
+      const missingOrBroken = Bokeh == null || Bokeh.Panel == null || (Bokeh.version != version && !Bokeh.versions?.has(version)) || Bokeh.versions?.get(version)?.Panel == null;
+      if (shouldSkip && !(isBokehOrPanel && missingOrBroken)) {
         if (!window.requirejs) {
           on_load();
         }
@@ -847,7 +856,7 @@ Tip
     document.body.appendChild(element);
   }
 
-  const js_urls = ["https://cdn.holoviz.org/panel/1.8.2/dist/bundled/reactiveesm/es-module-shims@^1.10.0/dist/es-module-shims.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-3.8.0.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.8.0.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.8.0.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.8.0.min.js", "https://cdn.holoviz.org/panel/1.8.2/dist/panel.min.js"];
+  const js_urls = ["https://cdn.holoviz.org/panel/1.8.5/dist/bundled/reactiveesm/es-module-shims@^1.10.0/dist/es-module-shims.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-3.8.1.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.8.1.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.8.1.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.8.1.min.js", "https://cdn.holoviz.org/panel/1.8.5/dist/panel.min.js"];
   const js_modules = [];
   const js_exports = {};
   const css_urls = [];
@@ -868,24 +877,13 @@ function(Bokeh) {} // ensure no trailing comma for IE
           }
         }
       }
-      // Cache old bokeh versions
-      if (Bokeh != undefined && !reloading) {
-        var NewBokeh = root.Bokeh;
-        if (Bokeh.versions === undefined) {
-          Bokeh.versions = new Map();
-        }
-        if (NewBokeh.version !== Bokeh.version) {
-          Bokeh.versions.set(NewBokeh.version, NewBokeh)
-        }
-        root.Bokeh = Bokeh;
-      }
     } else if (Date.now() < root._bokeh_timeout) {
       setTimeout(run_inline_js, 100);
     } else if (!root._bokeh_failed_load) {
       console.log("Bokeh: BokehJS failed to load within specified timeout.");
       root._bokeh_failed_load = true;
     }
-    root._bokeh_is_initializing = false
+    root._bokeh_is_initializing = false;
   }
 
   function load_or_wait() {
@@ -902,24 +900,35 @@ function(Bokeh) {} // ensure no trailing comma for IE
       root._bokeh_timeout = Date.now() + 5000;
       root._bokeh_is_initializing = false;
       root._bokeh_onload_callbacks = undefined;
-      root._bokeh_is_loading = 0
+      root._bokeh_is_loading = 0;
       console.log("Bokeh: BokehJS was loaded multiple times but one version failed to initialize.");
       load_or_wait();
     } else if (root._bokeh_is_initializing || (typeof root._bokeh_is_initializing === "undefined" && root._bokeh_onload_callbacks !== undefined)) {
       setTimeout(load_or_wait, 100);
     } else {
-      root._bokeh_is_initializing = true
-      root._bokeh_onload_callbacks = []
-      const bokeh_loaded = root.Bokeh != null && (root.Bokeh.version === py_version || (root.Bokeh.versions !== undefined && root.Bokeh.versions.has(py_version)));
+      root._bokeh_is_initializing = true;
+      root._bokeh_onload_callbacks = [];
+      const bokeh_loaded = Bokeh != null && ((Bokeh.version === version && Bokeh.Panel) || (Bokeh.versions?.has(version) && Bokeh.versions.get(version)?.Panel));
       if (!reloading && !bokeh_loaded) {
         if (root.Bokeh) {
           root.Bokeh = undefined;
         }
         console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
       }
-      load_libs(css_urls, js_urls, js_modules, js_exports, function() {
+      load_libs(css_urls, js_urls, js_modules, js_exports, Bokeh, function() {
         console.debug("Bokeh: BokehJS plotting callback run at", now());
         run_inline_js();
+        if (Bokeh != undefined && !reloading) {
+          const NewBokeh = root.Bokeh;
+          if (Bokeh.versions === undefined) {
+            Bokeh.versions = new Map();
+          }
+          if (NewBokeh.version !== Bokeh.version) {
+            Bokeh[NewBokeh.version] = NewBokeh;
+            Bokeh.versions.set(NewBokeh.version, NewBokeh);
+          }
+          root.Bokeh = Bokeh;
+        }
       });
     }
   }
@@ -1189,16 +1198,16 @@ if (window.Jupyter !== undefined) {
 </div>
 <div class="cell-output cell-output-display">
 <div id="p1011">
-  <div id="bd393d02-c8a0-4c3c-b6ba-707c8a093f9e" data-root-id="p1011" style="display: contents;"></div>
+  <div id="be40853e-d7c5-4519-a4dd-0339518134d6" data-root-id="p1011" style="display: contents;"></div>
 </div>
 <script type="application/javascript">(function(root) {
-  var docs_json = {"9b907d2b-7374-41e0-adfd-2b4dc91f9e09":{"version":"3.8.0","title":"Bokeh Application","config":{"type":"object","name":"DocumentConfig","id":"p1009","attributes":{"notifications":{"type":"object","name":"Notifications","id":"p1010"}}},"roots":[{"type":"object","name":"panel.models.browser.BrowserInfo","id":"p1011"},{"type":"object","name":"panel.models.comm_manager.CommManager","id":"p1012","attributes":{"plot_id":"p1011","comm_id":"2ff5d84ba8874820b15a3e1a0f579975","client_comm_id":"28e3b6ebfc55469686e8debfe5e377a0"}}],"defs":[{"type":"model","name":"ReactiveHTML1"},{"type":"model","name":"FlexBox1","properties":[{"name":"align_content","kind":"Any","default":"flex-start"},{"name":"align_items","kind":"Any","default":"flex-start"},{"name":"flex_direction","kind":"Any","default":"row"},{"name":"flex_wrap","kind":"Any","default":"wrap"},{"name":"gap","kind":"Any","default":""},{"name":"justify_content","kind":"Any","default":"flex-start"}]},{"type":"model","name":"FloatPanel1","properties":[{"name":"config","kind":"Any","default":{"type":"map"}},{"name":"contained","kind":"Any","default":true},{"name":"position","kind":"Any","default":"right-top"},{"name":"offsetx","kind":"Any","default":null},{"name":"offsety","kind":"Any","default":null},{"name":"theme","kind":"Any","default":"primary"},{"name":"status","kind":"Any","default":"normalized"}]},{"type":"model","name":"GridStack1","properties":[{"name":"ncols","kind":"Any","default":null},{"name":"nrows","kind":"Any","default":null},{"name":"allow_resize","kind":"Any","default":true},{"name":"allow_drag","kind":"Any","default":true},{"name":"state","kind":"Any","default":[]}]},{"type":"model","name":"drag1","properties":[{"name":"slider_width","kind":"Any","default":5},{"name":"slider_color","kind":"Any","default":"black"},{"name":"start","kind":"Any","default":0},{"name":"end","kind":"Any","default":100},{"name":"value","kind":"Any","default":50}]},{"type":"model","name":"click1","properties":[{"name":"terminal_output","kind":"Any","default":""},{"name":"debug_name","kind":"Any","default":""},{"name":"clears","kind":"Any","default":0}]},{"type":"model","name":"ReactiveESM1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"JSComponent1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"ReactComponent1","properties":[{"name":"use_shadow_dom","kind":"Any","default":true},{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"AnyWidgetComponent1","properties":[{"name":"use_shadow_dom","kind":"Any","default":true},{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"FastWrapper1","properties":[{"name":"object","kind":"Any","default":null},{"name":"style","kind":"Any","default":null}]},{"type":"model","name":"NotificationArea1","properties":[{"name":"js_events","kind":"Any","default":{"type":"map"}},{"name":"max_notifications","kind":"Any","default":5},{"name":"notifications","kind":"Any","default":[]},{"name":"position","kind":"Any","default":"bottom-right"},{"name":"_clear","kind":"Any","default":0},{"name":"types","kind":"Any","default":[{"type":"map","entries":[["type","warning"],["background","#ffc107"],["icon",{"type":"map","entries":[["className","fas fa-exclamation-triangle"],["tagName","i"],["color","white"]]}]]},{"type":"map","entries":[["type","info"],["background","#007bff"],["icon",{"type":"map","entries":[["className","fas fa-info-circle"],["tagName","i"],["color","white"]]}]]}]}]},{"type":"model","name":"Notification","properties":[{"name":"background","kind":"Any","default":null},{"name":"duration","kind":"Any","default":3000},{"name":"icon","kind":"Any","default":null},{"name":"message","kind":"Any","default":""},{"name":"notification_type","kind":"Any","default":null},{"name":"_rendered","kind":"Any","default":false},{"name":"_destroyed","kind":"Any","default":false}]},{"type":"model","name":"TemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"BootstrapTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"TemplateEditor1","properties":[{"name":"layout","kind":"Any","default":[]}]},{"type":"model","name":"MaterialTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"request_value1","properties":[{"name":"fill","kind":"Any","default":"none"},{"name":"_synced","kind":"Any","default":null},{"name":"_request_sync","kind":"Any","default":0}]}]}};
-  var render_items = [{"docid":"9b907d2b-7374-41e0-adfd-2b4dc91f9e09","roots":{"p1011":"bd393d02-c8a0-4c3c-b6ba-707c8a093f9e"},"root_ids":["p1011"]}];
+  var docs_json = {"8978940a-a18c-46d0-8106-22ccc83bdc4f":{"version":"3.8.1","title":"Bokeh Application","config":{"type":"object","name":"DocumentConfig","id":"p1009","attributes":{"notifications":{"type":"object","name":"Notifications","id":"p1010"}}},"roots":[{"type":"object","name":"panel.models.browser.BrowserInfo","id":"p1011"},{"type":"object","name":"panel.models.comm_manager.CommManager","id":"p1012","attributes":{"plot_id":"p1011","comm_id":"060a720f6c2d4ea5ba172e56b64960eb","client_comm_id":"3b2aa63f3ea74086a0ba439b1c3e39f2"}}],"defs":[{"type":"model","name":"ReactiveHTML1"},{"type":"model","name":"FlexBox1","properties":[{"name":"align_content","kind":"Any","default":"flex-start"},{"name":"align_items","kind":"Any","default":"flex-start"},{"name":"flex_direction","kind":"Any","default":"row"},{"name":"flex_wrap","kind":"Any","default":"wrap"},{"name":"gap","kind":"Any","default":""},{"name":"justify_content","kind":"Any","default":"flex-start"}]},{"type":"model","name":"FloatPanel1","properties":[{"name":"config","kind":"Any","default":{"type":"map"}},{"name":"contained","kind":"Any","default":true},{"name":"position","kind":"Any","default":"right-top"},{"name":"offsetx","kind":"Any","default":null},{"name":"offsety","kind":"Any","default":null},{"name":"theme","kind":"Any","default":"primary"},{"name":"status","kind":"Any","default":"normalized"}]},{"type":"model","name":"GridStack1","properties":[{"name":"ncols","kind":"Any","default":null},{"name":"nrows","kind":"Any","default":null},{"name":"allow_resize","kind":"Any","default":true},{"name":"allow_drag","kind":"Any","default":true},{"name":"state","kind":"Any","default":[]}]},{"type":"model","name":"drag1","properties":[{"name":"slider_width","kind":"Any","default":5},{"name":"slider_color","kind":"Any","default":"black"},{"name":"start","kind":"Any","default":0},{"name":"end","kind":"Any","default":100},{"name":"value","kind":"Any","default":50}]},{"type":"model","name":"click1","properties":[{"name":"terminal_output","kind":"Any","default":""},{"name":"debug_name","kind":"Any","default":""},{"name":"clears","kind":"Any","default":0}]},{"type":"model","name":"ReactiveESM1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"JSComponent1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"ReactComponent1","properties":[{"name":"use_shadow_dom","kind":"Any","default":true},{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"AnyWidgetComponent1","properties":[{"name":"use_shadow_dom","kind":"Any","default":true},{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"FastWrapper1","properties":[{"name":"object","kind":"Any","default":null},{"name":"style","kind":"Any","default":null}]},{"type":"model","name":"NotificationArea1","properties":[{"name":"js_events","kind":"Any","default":{"type":"map"}},{"name":"max_notifications","kind":"Any","default":5},{"name":"notifications","kind":"Any","default":[]},{"name":"position","kind":"Any","default":"bottom-right"},{"name":"_clear","kind":"Any","default":0},{"name":"types","kind":"Any","default":[{"type":"map","entries":[["type","warning"],["background","#ffc107"],["icon",{"type":"map","entries":[["className","fas fa-exclamation-triangle"],["tagName","i"],["color","white"]]}]]},{"type":"map","entries":[["type","info"],["background","#007bff"],["icon",{"type":"map","entries":[["className","fas fa-info-circle"],["tagName","i"],["color","white"]]}]]}]}]},{"type":"model","name":"Notification","properties":[{"name":"background","kind":"Any","default":null},{"name":"duration","kind":"Any","default":3000},{"name":"icon","kind":"Any","default":null},{"name":"message","kind":"Any","default":""},{"name":"notification_type","kind":"Any","default":null},{"name":"_rendered","kind":"Any","default":false},{"name":"_destroyed","kind":"Any","default":false}]},{"type":"model","name":"TemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"BootstrapTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"TemplateEditor1","properties":[{"name":"layout","kind":"Any","default":[]}]},{"type":"model","name":"MaterialTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"request_value1","properties":[{"name":"fill","kind":"Any","default":"none"},{"name":"_synced","kind":"Any","default":null},{"name":"_request_sync","kind":"Any","default":0}]}]}};
+  var render_items = [{"docid":"8978940a-a18c-46d0-8106-22ccc83bdc4f","roots":{"p1011":"be40853e-d7c5-4519-a4dd-0339518134d6"},"root_ids":["p1011"]}];
   var docs = Object.values(docs_json)
   if (!docs) {
     return
   }
-  const py_version = docs[0].version.replace('rc', '-rc.').replace('.dev', '-dev.')
+  const version = docs[0].version.replace('rc', '-rc.').replace('.dev', '-dev.')
   async function embed_document(root) {
     var Bokeh = get_bokeh(root)
     await Bokeh.embed.embed_items_notebook(docs_json, render_items);
@@ -1220,12 +1229,12 @@ if (window.Jupyter !== undefined) {
   function get_bokeh(root) {
     if (root.Bokeh === undefined) {
       return null
-    } else if (root.Bokeh.version !== py_version) {
-      if (root.Bokeh.versions === undefined || !root.Bokeh.versions.has(py_version)) {
+    } else if (root.Bokeh.version !== version) {
+      if (root.Bokeh.versions === undefined || !root.Bokeh.versions.has(version)) {
     return null
       }
-      return root.Bokeh.versions.get(py_version);
-    } else if (root.Bokeh.version === py_version) {
+      return root.Bokeh.versions.get(version);
+    } else if (root.Bokeh.version === version) {
       return root.Bokeh
     }
     return null
@@ -1294,7 +1303,7 @@ if (window.Jupyter !== undefined) {
 </ol>
 </div>
 </div>
-<div id="e6424359" class="cell student-code" data-highlight="true" data-execution_count="5">
+<div id="03377676" class="cell student-code" data-highlight="true" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up project folders</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> earthpy.Project(</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Project Name Here'</span>,</span>
@@ -1306,7 +1315,7 @@ if (window.Jupyter !== undefined) {
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Check where the data ended up</span></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>project.project_dir</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="c7a82058" class="cell answer-code" data-highlight="true" data-execution_count="6">
+<div id="d7f5153d" class="cell answer-code" data-highlight="true" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>Downloading from https://ndownloader.figshare.com/files/57172901</code></pre>
 </div>
@@ -1322,7 +1331,7 @@ if (window.Jupyter !== undefined) {
 </figure>
 </div>
 <p>You can also take a look at your data using the <code>bash</code> programming language, either in your terminal or here in your Jupyter notebook (the <code>!</code> indicates to use the current bash process, and the <code>{}</code> indicates to use a Python variable):</p>
-<div id="d943f546" class="cell" data-execution_count="7">
+<div id="235e534b" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls <span class="st">"</span><span class="sc">{project.project_dir}</span><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ncei-climate-boulder.csv</code></pre>
@@ -1367,13 +1376,13 @@ if (window.Jupyter !== undefined) {
 <p>One of the most common challenges for new programmers is making sure that your results are stored so you can use them again. In Python, this is called <strong>naming</strong>, or saving a <strong>variable</strong>. Learn more in this <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/get-started-using-python/variables/">hands-on activity on using variables</a> from our learning portal.</p>
 </div>
 </div>
-<div id="be7ffcfd" class="cell student-code" data-highlight="true" data-execution_count="8">
+<div id="dc618fab" class="cell student-code" data-highlight="true" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load climate data from NCEI</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pd.read_csv(</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    project.project_dir <span class="op">/</span> <span class="st">'filename.csv'</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="1acb8eb3" class="cell answer-code" data-highlight="true" data-execution_count="9">
+<div id="c54ff63a" class="cell answer-code" data-highlight="true" data-execution_count="9">
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
@@ -1467,7 +1476,7 @@ Tip
 <p>Check out the <code>type()</code> function below - you can use it to check that your data is now in <code>DataFrame</code> type object.</p>
 </div>
 </div>
-<div id="3f1141f8" class="cell student-code" data-highlight="true" data-execution_count="10">
+<div id="f2d9f1bf" class="cell student-code" data-highlight="true" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that data was imported into a pandas DataFrame</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(climate_df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1492,11 +1501,11 @@ Tip
 </ol>
 </div>
 </div>
-<div id="bf26908b" class="cell student-code" data-highlight="true" data-execution_count="11">
+<div id="88f839a9" class="cell student-code" data-highlight="true" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>climate_df <span class="op">=</span> climate_df[[some_column_name]]</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>climate_df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="15de26f3" class="cell answer-code" data-highlight="true" data-execution_count="12">
+<div id="c17ef58d" class="cell answer-code" data-highlight="true" data-execution_count="12">
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
@@ -1590,14 +1599,14 @@ Tip
 </ol>
 </div>
 </div>
-<div id="b118f66a" class="cell student-code" data-highlight="true" data-execution_count="13">
+<div id="64583b89" class="cell student-code" data-highlight="true" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dataframe_units <span class="op">=</span> dataframe.rename(columns<span class="op">=</span>{</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'temperature-column-name'</span>: <span class="st">'temp_unit'</span>,</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>dataframe_units</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="7405b6c3" class="cell answer-code" data-highlight="true" data-execution_count="14">
+<div id="5eb6343c" class="cell answer-code" data-highlight="true" data-execution_count="14">
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
@@ -1690,11 +1699,11 @@ Tip
 </ol>
 </div>
 </div>
-<div id="18581c4d" class="cell student-code" data-highlight="true" data-execution_count="15">
+<div id="8dad90c0" class="cell student-code" data-highlight="true" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dataframe_units[<span class="st">'new_temperature'</span>] <span class="op">=</span> (dataframe_units[<span class="st">'old_temperature'</span>]<span class="op">-</span><span class="dv">32</span><span class="op">*</span><span class="dv">5</span><span class="op">/</span><span class="dv">9</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>dataframe_units</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="23b38e14" class="cell answer-code" data-highlight="true" data-execution_count="16">
+<div id="903e6c76" class="cell answer-code" data-highlight="true" data-execution_count="16">
 <div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
@@ -1788,7 +1797,7 @@ Tip
 <p>Using the code below as a framework, write and apply a <strong>function</strong> that converts to Celcius. You should also rewrite this function name and parameter names to be more expressive.</p>
 </div>
 </div>
-<div id="2766b669" class="cell student-code" data-highlight="true" data-execution_count="17">
+<div id="89c55174" class="cell student-code" data-highlight="true" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert units with a function</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert(temperature):</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Convert Fahrenheit temperature to Celcius"""</span></span>
@@ -1804,7 +1813,7 @@ Tip
 <section id="step-1-plot-the-temperature-column-vs-time-to-explore-the-data" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="step-1-plot-the-temperature-column-vs-time-to-explore-the-data">STEP 1: Plot the temperature column vs time to explore the data</h2>
 <p>Plotting in Python is easy, but not quite this easy:</p>
-<div id="3c9850c9" class="cell" data-execution_count="19">
+<div id="00d946b1" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>climate_u_df.plot()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -1871,7 +1880,7 @@ Tip
 <div class="callout-body-container callout-body">
 <p>Labels have to be a <em>type</em> in Python called a <strong>string</strong>. You can make a string by putting quotes around your label, just like the column names in the sample code (eg <code>y='temperature'</code>).</p>
 </div>
-</div></div><div id="ef75076d" class="cell student-code" data-highlight="true" data-execution_count="20">
+</div></div><div id="3a2ab14a" class="cell student-code" data-highlight="true" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data using .plot</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>climate_u_df.plot(</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'the_temperature_column'</span>,</span>
@@ -1879,7 +1888,7 @@ Tip
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">'Horizontal Axis Label Goes Here'</span>,</span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    ylabel<span class="op">=</span><span class="st">'Vertical Axis Label Goes Here'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="371b787d" class="cell answer-code" data-highlight="true" data-execution_count="21">
+<div id="8aebea25" class="cell answer-code" data-highlight="true" data-execution_count="21">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1931,7 +1940,7 @@ Tip
 </ol>
 </div>
 </div>
-<div id="dc1d436f" class="cell student-code" data-highlight="true" data-execution_count="22">
+<div id="2feaca33" class="cell student-code" data-highlight="true" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ann_climate_df <span class="op">=</span> (</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    climate_u_df</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    .resample(<span class="st">'DT_OFFSET'</span>)</span>
@@ -1939,7 +1948,7 @@ Tip
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>ann_climate_df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="1708192e" class="cell answer-code" data-highlight="true" data-execution_count="23">
+<div id="db612115" class="cell answer-code" data-highlight="true" data-execution_count="23">
 <div class="cell-output cell-output-display" data-execution_count="12">
 <div>
 
@@ -2088,10 +2097,10 @@ Warning
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
-<div id="7234b74b" class="cell student-code" data-highlight="true" data-execution_count="24">
+<div id="944886ac" class="cell student-code" data-highlight="true" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the annual data</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="dd471c1d" class="cell answer-code" data-highlight="true" data-execution_count="25">
+<div id="498edb75" class="cell answer-code" data-highlight="true" data-execution_count="25">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -2140,25 +2149,25 @@ Warning
 <p>Now, you should be able to hover over data points and see their values!</p>
 </div>
 </div>
-<div id="0bbdecdb" class="cell student-code" data-highlight="true" data-execution_count="26">
+<div id="a38916b7" class="cell student-code" data-highlight="true" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the annual data interactively</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="91791e4a" class="cell answer-code" data-highlight="true" data-execution_count="27">
+<div id="32c8e32e" class="cell answer-code" data-highlight="true" data-execution_count="27">
 <div class="cell-output cell-output-display">
 
 </div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div id="p1015">
-  <div id="b1daccde-5f2c-433f-b3ad-c87843161932" data-root-id="p1015" style="display: contents;"></div>
+  <div id="ea6a87cb-ff54-4c38-81a0-48669e9dc7d4" data-root-id="p1015" style="display: contents;"></div>
 </div>
 <script type="application/javascript">(function(root) {
-  var docs_json = {"49820bc2-4423-4eb9-b36e-38e309fab9a0":{"version":"3.8.0","title":"Bokeh Application","config":{"type":"object","name":"DocumentConfig","id":"p1013","attributes":{"notifications":{"type":"object","name":"Notifications","id":"p1014"}}},"roots":[{"type":"object","name":"Row","id":"p1015","attributes":{"name":"Row00919","tags":["embedded"],"stylesheets":["\n:host(.pn-loading):before, .pn-loading:before {\n  background-color: #c3c3c3;\n  mask-size: auto calc(min(50%, 300px));\n  -webkit-mask-size: auto calc(min(50%, 300px));\n}",{"type":"object","name":"ImportedStyleSheet","id":"p1018","attributes":{"url":"https://cdn.holoviz.org/panel/1.8.2/dist/css/loading.css"}},{"type":"object","name":"ImportedStyleSheet","id":"p1090","attributes":{"url":"https://cdn.holoviz.org/panel/1.8.2/dist/css/listpanel.css"}},{"type":"object","name":"ImportedStyleSheet","id":"p1016","attributes":{"url":"https://cdn.holoviz.org/panel/1.8.2/dist/bundled/theme/default.css"}},{"type":"object","name":"ImportedStyleSheet","id":"p1017","attributes":{"url":"https://cdn.holoviz.org/panel/1.8.2/dist/bundled/theme/native.css"}}],"min_width":700,"margin":0,"sizing_mode":"stretch_width","align":"start","children":[{"type":"object","name":"Spacer","id":"p1019","attributes":{"name":"HSpacer00926","stylesheets":["\n:host(.pn-loading):before, .pn-loading:before {\n  background-color: #c3c3c3;\n  mask-size: auto calc(min(50%, 300px));\n  -webkit-mask-size: auto calc(min(50%, 300px));\n}",{"id":"p1018"},{"id":"p1016"},{"id":"p1017"}],"min_width":0,"margin":0,"sizing_mode":"stretch_width","align":"start"}},{"type":"object","name":"Figure","id":"p1027","attributes":{"width":700,"height":300,"margin":[5,10],"sizing_mode":"fixed","align":"start","x_range":{"type":"object","name":"Range1d","id":"p1020","attributes":{"tags":[[["DATE",null]],[]],"start":-2429827200000.0,"end":1672531200000.0,"reset_start":-2429827200000.0,"reset_end":1672531200000.0}},"y_range":{"type":"object","name":"Range1d","id":"p1021","attributes":{"tags":[[["temp_c",null]],{"type":"map","entries":[["invert_yaxis",false],["autorange",false]]}],"start":2.026315789473684,"end":22.482456140350877,"reset_start":2.026315789473684,"reset_end":22.482456140350877}},"x_scale":{"type":"object","name":"LinearScale","id":"p1037"},"y_scale":{"type":"object","name":"LinearScale","id":"p1038"},"title":{"type":"object","name":"Title","id":"p1030","attributes":{"text":"Annual Average Temperature in Boulder, CO","text_color":"black","text_font_size":"12pt"}},"renderers":[{"type":"object","name":"GlyphRenderer","id":"p1083","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1074","attributes":{"selected":{"type":"object","name":"Selection","id":"p1075","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1076"},"data":{"type":"map","entries":[["DATE",{"type":"ndarray","array":{"type":"bytes","data":"H4sIAAEAAAAC/zWTT0jTYRjHX9gpXYd2qUNllBCJBtYcKgS/noP0OyxFQhlrzppN19zWtjbNpv08aLuMLoodOoREwfpjJVhR0q/hwYP0VxAhaDvkhDAqslBI6qvffpcPz/f9Pe/7fZ73eZW6+bl4fzCnlHa6Ig7m33fXgoY+8ceAnpnNgXlLaRo0+pxOcN/3a7bN+M2tiSv/aL44VA+q7IOZAeSNHW0Ezb3+xX7o1i8+UFuLfE0hb+lnL6jCBy2g5r6XuQz9RPUu0KyZGu+DPr1cCRrZ0JNL0Md+HAfVUM9cL3RrtgU01w4XeqAXJ4OgNl/7KwndHTRApX8rATVHYjSBvAPrZaC6W5m9CP36IztoDDlexpEXe66D2vrKhxj0YqwNNOd/L0eRl0vFo+zTBegOexpU5c9soLE/VR8Bqwsnw6w/xLq7Eb/ayATBt77x86wvwLq6EHsHC51geGnVT/9++j6HeMNS0wFuD+g++jtLX2cQ3xhOtyNuXajz8nwPz3WDSdtTFzjyMd/K/Vu47ylwcqe3GXxXuNrEfCfzdDBfZ20Ad7/2CNePUXeAXTsCVeDDmbY94P8PsWyxSvi/MF+4H/j49rYG4Xlcdwr98L9moV+hf2E94KfZKZewXuZ7hP3gPu3Cfgn7J+wn4iNee4ew39zfL7wPntMpvC/h/QnvE/GqKxMU3jfPDwnngT4iwnkRzo9wnmTrPUaF80Z/MeE80mdcOK/C+RXOM/Km75QlhPNO/0nhe2Ad4OZ7Eb4f4XuSvxaUOV0YBAAA"},"shape":[131],"dtype":"float64","order":"little"}],["temp_c",{"type":"ndarray","array":{"type":"bytes","data":"H4sIAAEAAAAC/52Te0xTdxTHUZkMUVjQKSAKK23vvb97W9ThhhXK18iASZyAVtxImc84CSQ8Bo5gwYGKiE8cIjARWQiPguCAQdwKuDqcMIHwUBk0KioFirDJINAp3e2y7L/9s5NPcv45ycn5nHMsLMwxk2LxP3PSjXuKbm8Kh9IuKL76kILDiT08Ygy+Sp90aacQM3/turgIEeoMzdPB7SIY1I2jajmFF6LanM4CEaiteR6HugR4HXUqWPtIgO7K2T0X1tFQPBw6/qyMRr42wla9QQDly9i7bSIG/SWqX0tUYnRy3jV//EJDdvap59mnNPLS96/OSiTomPTqmDxC0DgeX5WkE2PE5ouKM0EELTL7V2N8fcRvJbeuLhRh70x4zd5ABj1pjuUO21hc0xybts9j8H1DJg8L6yvJc4uFDCzHlulHdDSeDfj0n5CwCBvZEhnex8G1PcXT9ITAytbZM/qxFBP65HF9sjvqh9I/aG1mcNwqPcpnUIRY5zsxznc88F/+NpbEyUriHOHX2txdmbgS+2LO/LR++UqsqWvqmQtZAZumuSp5oSN6yv1zHupdoLw4b3Opxg2qrfb+7wj5uRe2KxLCWOxIHhqND16N/Grr/OoMCjP3D2+35j20aC5y8ccI8v5sawlzkEJ8MJaH4HFq+QbtZxwiues3GlpoTI32qkOrCAS5ZpEUInLVQSveI1A1v5zXZkXj+fOsnMBwAqdtB7yyfyeIoG/bTgwyuHwyg4eB4v0QXUA8C9OlpancZb5+wSW7XXKC+6Gq3lAVgVjZJVKGkH/7mLKnIqOaCWzeJjtKg1jcnrXT+3wtwXe6Bwmf9rOQyM8Xzg6xqE1rt5VtlKLcvVVZYORAJaasOv2xACeHdx1x3cTBPI1Yz6KIitZ2Cln4v9D8GFBNIUt508dYLoTLvuncxiti9LntP3fem+Dvc6qgcSBn/FwjYdBASb/1tSDYLPH76EGaFBqP9TX5Jhqm6DntrB0D46rq1iGDEFk634SlfUsgd5IotmxnsKg4aFFxJwOToWnO0ETDfJ3uOQTLFgev8b1FkHDwMA+Le13vBnZwLCzNOnazyCgUpma9yWGtP3lr+A0CylgwnFTEQjpaX/qoiMO17KM753/C4m6loP7UAEGdVrdTfp3G8oBQV+WXBLIiN1nRNwTyCeMPhkkpjEfNpvl9pJS9Lp5mMBMeGdf7OYvjN6ufjNVy0DRmVnCb3JE5QGLVP/P7GV3g5GWgsaQmxqotk4Ol324e7p8/JJi4WuY7NSfBX/zN6iEYBAAA"},"shape":[131],"dtype":"float64","order":"little"}]]}}},"view":{"type":"object","name":"CDSView","id":"p1084","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1085"}}},"glyph":{"type":"object","name":"Line","id":"p1080","attributes":{"tags":["apply_ranges"],"x":{"type":"field","field":"DATE"},"y":{"type":"field","field":"temp_c"},"line_color":"#30a2da","line_width":2}},"selection_glyph":{"type":"object","name":"Line","id":"p1086","attributes":{"tags":["apply_ranges"],"x":{"type":"field","field":"DATE"},"y":{"type":"field","field":"temp_c"},"line_color":"#30a2da","line_width":2}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1081","attributes":{"tags":["apply_ranges"],"x":{"type":"field","field":"DATE"},"y":{"type":"field","field":"temp_c"},"line_color":"#30a2da","line_alpha":0.1,"line_width":2}},"muted_glyph":{"type":"object","name":"Line","id":"p1082","attributes":{"tags":["apply_ranges"],"x":{"type":"field","field":"DATE"},"y":{"type":"field","field":"temp_c"},"line_color":"#30a2da","line_alpha":0.2,"line_width":2}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p1036","attributes":{"tools":[{"type":"object","name":"WheelZoomTool","id":"p1025","attributes":{"tags":["hv_created"],"renderers":"auto","zoom_together":"none"}},{"type":"object","name":"HoverTool","id":"p1026","attributes":{"tags":["hv_created"],"renderers":[{"id":"p1083"}],"tooltips":[["DATE","@{DATE}{%F %T}"],["temp_c","@{temp_c}"]],"formatters":{"type":"map","entries":[["@{DATE}","datetime"]]},"sort_by":null}},{"type":"object","name":"SaveTool","id":"p1063"},{"type":"object","name":"PanTool","id":"p1064"},{"type":"object","name":"BoxZoomTool","id":"p1065","attributes":{"dimensions":"both","overlay":{"type":"object","name":"BoxAnnotation","id":"p1066","attributes":{"syncable":false,"line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5,"level":"overlay","visible":false,"left":{"type":"number","value":"nan"},"right":{"type":"number","value":"nan"},"top":{"type":"number","value":"nan"},"bottom":{"type":"number","value":"nan"},"left_units":"canvas","right_units":"canvas","top_units":"canvas","bottom_units":"canvas","handles":{"type":"object","name":"BoxInteractionHandles","id":"p1072","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1071","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}}}},{"type":"object","name":"ResetTool","id":"p1073"}],"active_drag":{"id":"p1064"},"active_scroll":{"id":"p1025"}}},"left":[{"type":"object","name":"LinearAxis","id":"p1058","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1059","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1060"},"axis_label":"Temperature (deg. C)","major_label_policy":{"type":"object","name":"AllLabels","id":"p1061"}}}],"below":[{"type":"object","name":"DatetimeAxis","id":"p1039","attributes":{"ticker":{"type":"object","name":"DatetimeTicker","id":"p1040","attributes":{"num_minor_ticks":5,"tickers":[{"type":"object","name":"AdaptiveTicker","id":"p1041","attributes":{"num_minor_ticks":0,"mantissas":[1,2,5],"max_interval":500.0}},{"type":"object","name":"AdaptiveTicker","id":"p1042","attributes":{"num_minor_ticks":0,"base":60,"mantissas":[1,2,5,10,15,20,30],"min_interval":1000.0,"max_interval":1800000.0}},{"type":"object","name":"AdaptiveTicker","id":"p1043","attributes":{"num_minor_ticks":0,"base":24,"mantissas":[1,2,4,6,8,12],"min_interval":3600000.0,"max_interval":43200000.0}},{"type":"object","name":"DaysTicker","id":"p1044","attributes":{"days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]}},{"type":"object","name":"DaysTicker","id":"p1045","attributes":{"days":[1,4,7,10,13,16,19,22,25,28]}},{"type":"object","name":"DaysTicker","id":"p1046","attributes":{"days":[1,8,15,22]}},{"type":"object","name":"DaysTicker","id":"p1047","attributes":{"days":[1,15]}},{"type":"object","name":"MonthsTicker","id":"p1048","attributes":{"months":[0,1,2,3,4,5,6,7,8,9,10,11]}},{"type":"object","name":"MonthsTicker","id":"p1049","attributes":{"months":[0,2,4,6,8,10]}},{"type":"object","name":"MonthsTicker","id":"p1050","attributes":{"months":[0,4,8]}},{"type":"object","name":"MonthsTicker","id":"p1051","attributes":{"months":[0,6]}},{"type":"object","name":"YearsTicker","id":"p1052"}]}},"formatter":{"type":"object","name":"DatetimeTickFormatter","id":"p1055","attributes":{"seconds":"%T","minsec":"%T","minutes":"%H:%M","hours":"%H:%M","days":"%b %d","months":"%b %Y","strip_leading_zeros":["microseconds","milliseconds","seconds"],"boundary_scaling":false,"context":{"type":"object","name":"DatetimeTickFormatter","id":"p1054","attributes":{"microseconds":"%T","milliseconds":"%T","seconds":"%b %d, %Y","minsec":"%b %d, %Y","minutes":"%b %d, %Y","hourmin":"%b %d, %Y","hours":"%b %d, %Y","days":"%Y","months":"","years":"","boundary_scaling":false,"hide_repeats":true,"context":{"type":"object","name":"DatetimeTickFormatter","id":"p1053","attributes":{"microseconds":"%b %d, %Y","milliseconds":"%b %d, %Y","seconds":"","minsec":"","minutes":"","hourmin":"","hours":"","days":"","months":"","years":"","boundary_scaling":false,"hide_repeats":true}},"context_which":"all"}},"context_which":"all"}},"axis_label":"Year","major_label_policy":{"type":"object","name":"AllLabels","id":"p1056"}}}],"center":[{"type":"object","name":"Grid","id":"p1057","attributes":{"axis":{"id":"p1039"},"grid_line_color":null}},{"type":"object","name":"Grid","id":"p1062","attributes":{"dimension":1,"axis":{"id":"p1058"},"grid_line_color":null}}],"min_border_top":10,"min_border_bottom":10,"min_border_left":10,"min_border_right":10,"output_backend":"webgl"}},{"type":"object","name":"Spacer","id":"p1088","attributes":{"name":"HSpacer00927","stylesheets":["\n:host(.pn-loading):before, .pn-loading:before {\n  background-color: #c3c3c3;\n  mask-size: auto calc(min(50%, 300px));\n  -webkit-mask-size: auto calc(min(50%, 300px));\n}",{"id":"p1018"},{"id":"p1016"},{"id":"p1017"}],"min_width":0,"margin":0,"sizing_mode":"stretch_width","align":"start"}}]}}],"defs":[{"type":"model","name":"ReactiveHTML1"},{"type":"model","name":"FlexBox1","properties":[{"name":"align_content","kind":"Any","default":"flex-start"},{"name":"align_items","kind":"Any","default":"flex-start"},{"name":"flex_direction","kind":"Any","default":"row"},{"name":"flex_wrap","kind":"Any","default":"wrap"},{"name":"gap","kind":"Any","default":""},{"name":"justify_content","kind":"Any","default":"flex-start"}]},{"type":"model","name":"FloatPanel1","properties":[{"name":"config","kind":"Any","default":{"type":"map"}},{"name":"contained","kind":"Any","default":true},{"name":"position","kind":"Any","default":"right-top"},{"name":"offsetx","kind":"Any","default":null},{"name":"offsety","kind":"Any","default":null},{"name":"theme","kind":"Any","default":"primary"},{"name":"status","kind":"Any","default":"normalized"}]},{"type":"model","name":"GridStack1","properties":[{"name":"ncols","kind":"Any","default":null},{"name":"nrows","kind":"Any","default":null},{"name":"allow_resize","kind":"Any","default":true},{"name":"allow_drag","kind":"Any","default":true},{"name":"state","kind":"Any","default":[]}]},{"type":"model","name":"drag1","properties":[{"name":"slider_width","kind":"Any","default":5},{"name":"slider_color","kind":"Any","default":"black"},{"name":"start","kind":"Any","default":0},{"name":"end","kind":"Any","default":100},{"name":"value","kind":"Any","default":50}]},{"type":"model","name":"click1","properties":[{"name":"terminal_output","kind":"Any","default":""},{"name":"debug_name","kind":"Any","default":""},{"name":"clears","kind":"Any","default":0}]},{"type":"model","name":"ReactiveESM1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"JSComponent1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"ReactComponent1","properties":[{"name":"use_shadow_dom","kind":"Any","default":true},{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"AnyWidgetComponent1","properties":[{"name":"use_shadow_dom","kind":"Any","default":true},{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"FastWrapper1","properties":[{"name":"object","kind":"Any","default":null},{"name":"style","kind":"Any","default":null}]},{"type":"model","name":"NotificationArea1","properties":[{"name":"js_events","kind":"Any","default":{"type":"map"}},{"name":"max_notifications","kind":"Any","default":5},{"name":"notifications","kind":"Any","default":[]},{"name":"position","kind":"Any","default":"bottom-right"},{"name":"_clear","kind":"Any","default":0},{"name":"types","kind":"Any","default":[{"type":"map","entries":[["type","warning"],["background","#ffc107"],["icon",{"type":"map","entries":[["className","fas fa-exclamation-triangle"],["tagName","i"],["color","white"]]}]]},{"type":"map","entries":[["type","info"],["background","#007bff"],["icon",{"type":"map","entries":[["className","fas fa-info-circle"],["tagName","i"],["color","white"]]}]]}]}]},{"type":"model","name":"Notification","properties":[{"name":"background","kind":"Any","default":null},{"name":"duration","kind":"Any","default":3000},{"name":"icon","kind":"Any","default":null},{"name":"message","kind":"Any","default":""},{"name":"notification_type","kind":"Any","default":null},{"name":"_rendered","kind":"Any","default":false},{"name":"_destroyed","kind":"Any","default":false}]},{"type":"model","name":"TemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"BootstrapTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"TemplateEditor1","properties":[{"name":"layout","kind":"Any","default":[]}]},{"type":"model","name":"MaterialTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"request_value1","properties":[{"name":"fill","kind":"Any","default":"none"},{"name":"_synced","kind":"Any","default":null},{"name":"_request_sync","kind":"Any","default":0}]}]}};
-  var render_items = [{"docid":"49820bc2-4423-4eb9-b36e-38e309fab9a0","roots":{"p1015":"b1daccde-5f2c-433f-b3ad-c87843161932"},"root_ids":["p1015"]}];
+  var docs_json = {"1537bca5-47f2-411a-a59f-e4837ff3aad4":{"version":"3.8.1","title":"Bokeh Application","config":{"type":"object","name":"DocumentConfig","id":"p1013","attributes":{"notifications":{"type":"object","name":"Notifications","id":"p1014"}}},"roots":[{"type":"object","name":"Row","id":"p1015","attributes":{"name":"Row00919","tags":["embedded"],"stylesheets":["\n:host(.pn-loading):before, .pn-loading:before {\n  background-color: #c3c3c3;\n  mask-size: auto calc(min(50%, 300px));\n  -webkit-mask-size: auto calc(min(50%, 300px));\n}",{"type":"object","name":"ImportedStyleSheet","id":"p1018","attributes":{"url":"https://cdn.holoviz.org/panel/1.8.5/dist/css/loading.css"}},{"type":"object","name":"ImportedStyleSheet","id":"p1090","attributes":{"url":"https://cdn.holoviz.org/panel/1.8.5/dist/css/listpanel.css"}},{"type":"object","name":"ImportedStyleSheet","id":"p1016","attributes":{"url":"https://cdn.holoviz.org/panel/1.8.5/dist/bundled/theme/default.css"}},{"type":"object","name":"ImportedStyleSheet","id":"p1017","attributes":{"url":"https://cdn.holoviz.org/panel/1.8.5/dist/bundled/theme/native.css"}}],"min_width":700,"margin":0,"sizing_mode":"stretch_width","align":"start","children":[{"type":"object","name":"Spacer","id":"p1019","attributes":{"name":"HSpacer00926","stylesheets":["\n:host(.pn-loading):before, .pn-loading:before {\n  background-color: #c3c3c3;\n  mask-size: auto calc(min(50%, 300px));\n  -webkit-mask-size: auto calc(min(50%, 300px));\n}",{"id":"p1018"},{"id":"p1016"},{"id":"p1017"}],"min_width":0,"margin":0,"sizing_mode":"stretch_width","align":"start"}},{"type":"object","name":"Figure","id":"p1027","attributes":{"width":700,"height":300,"margin":[5,10],"sizing_mode":"fixed","align":"start","x_range":{"type":"object","name":"Range1d","id":"p1020","attributes":{"tags":[[["DATE",null]],[]],"start":-2429827200000.0,"end":1672531200000.0,"reset_start":-2429827200000.0,"reset_end":1672531200000.0}},"y_range":{"type":"object","name":"Range1d","id":"p1021","attributes":{"tags":[[["temp_c",null]],{"type":"map","entries":[["invert_yaxis",false],["autorange",false]]}],"start":2.026315789473684,"end":22.482456140350877,"reset_start":2.026315789473684,"reset_end":22.482456140350877}},"x_scale":{"type":"object","name":"LinearScale","id":"p1037"},"y_scale":{"type":"object","name":"LinearScale","id":"p1038"},"title":{"type":"object","name":"Title","id":"p1030","attributes":{"text":"Annual Average Temperature in Boulder, CO","text_color":"black","text_font_size":"12pt"}},"renderers":[{"type":"object","name":"GlyphRenderer","id":"p1083","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1074","attributes":{"selected":{"type":"object","name":"Selection","id":"p1075","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1076"},"data":{"type":"map","entries":[["DATE",{"type":"ndarray","array":{"type":"bytes","data":"H4sIAAEAAAAC/zWTT0jTYRjHX9gpXYd2qUNllBCJBtYcKgS/noP0OyxFQhlrzppN19zWtjbNpv08aLuMLoodOoREwfpjJVhR0q/hwYP0VxAhaDvkhDAqslBI6qvffpcPz/f9Pe/7fZ73eZW6+bl4fzCnlHa6Ig7m33fXgoY+8ceAnpnNgXlLaRo0+pxOcN/3a7bN+M2tiSv/aL44VA+q7IOZAeSNHW0Ezb3+xX7o1i8+UFuLfE0hb+lnL6jCBy2g5r6XuQz9RPUu0KyZGu+DPr1cCRrZ0JNL0Md+HAfVUM9cL3RrtgU01w4XeqAXJ4OgNl/7KwndHTRApX8rATVHYjSBvAPrZaC6W5m9CP36IztoDDlexpEXe66D2vrKhxj0YqwNNOd/L0eRl0vFo+zTBegOexpU5c9soLE/VR8Bqwsnw6w/xLq7Eb/ayATBt77x86wvwLq6EHsHC51geGnVT/9++j6HeMNS0wFuD+g++jtLX2cQ3xhOtyNuXajz8nwPz3WDSdtTFzjyMd/K/Vu47ylwcqe3GXxXuNrEfCfzdDBfZ20Ad7/2CNePUXeAXTsCVeDDmbY94P8PsWyxSvi/MF+4H/j49rYG4Xlcdwr98L9moV+hf2E94KfZKZewXuZ7hP3gPu3Cfgn7J+wn4iNee4ew39zfL7wPntMpvC/h/QnvE/GqKxMU3jfPDwnngT4iwnkRzo9wnmTrPUaF80Z/MeE80mdcOK/C+RXOM/Km75QlhPNO/0nhe2Ad4OZ7Eb4f4XuSvxaUOV0YBAAA"},"shape":[131],"dtype":"float64","order":"little"}],["temp_c",{"type":"ndarray","array":{"type":"bytes","data":"H4sIAAEAAAAC/52Te0xTdxTHUZkMUVjQKSAKK23vvb97W9ThhhXK18iASZyAVtxImc84CSQ8Bo5gwYGKiE8cIjARWQiPguCAQdwKuDqcMIHwUBk0KioFirDJINAp3e2y7L/9s5NPcv45ycn5nHMsLMwxk2LxP3PSjXuKbm8Kh9IuKL76kILDiT08Ygy+Sp90aacQM3/turgIEeoMzdPB7SIY1I2jajmFF6LanM4CEaiteR6HugR4HXUqWPtIgO7K2T0X1tFQPBw6/qyMRr42wla9QQDly9i7bSIG/SWqX0tUYnRy3jV//EJDdvap59mnNPLS96/OSiTomPTqmDxC0DgeX5WkE2PE5ouKM0EELTL7V2N8fcRvJbeuLhRh70x4zd5ABj1pjuUO21hc0xybts9j8H1DJg8L6yvJc4uFDCzHlulHdDSeDfj0n5CwCBvZEhnex8G1PcXT9ITAytbZM/qxFBP65HF9sjvqh9I/aG1mcNwqPcpnUIRY5zsxznc88F/+NpbEyUriHOHX2txdmbgS+2LO/LR++UqsqWvqmQtZAZumuSp5oSN6yv1zHupdoLw4b3Opxg2qrfb+7wj5uRe2KxLCWOxIHhqND16N/Grr/OoMCjP3D2+35j20aC5y8ccI8v5sawlzkEJ8MJaH4HFq+QbtZxwiues3GlpoTI32qkOrCAS5ZpEUInLVQSveI1A1v5zXZkXj+fOsnMBwAqdtB7yyfyeIoG/bTgwyuHwyg4eB4v0QXUA8C9OlpancZb5+wSW7XXKC+6Gq3lAVgVjZJVKGkH/7mLKnIqOaCWzeJjtKg1jcnrXT+3wtwXe6Bwmf9rOQyM8Xzg6xqE1rt5VtlKLcvVVZYORAJaasOv2xACeHdx1x3cTBPI1Yz6KIitZ2Cln4v9D8GFBNIUt508dYLoTLvuncxiti9LntP3fem+Dvc6qgcSBn/FwjYdBASb/1tSDYLPH76EGaFBqP9TX5Jhqm6DntrB0D46rq1iGDEFk634SlfUsgd5IotmxnsKg4aFFxJwOToWnO0ETDfJ3uOQTLFgev8b1FkHDwMA+Le13vBnZwLCzNOnazyCgUpma9yWGtP3lr+A0CylgwnFTEQjpaX/qoiMO17KM753/C4m6loP7UAEGdVrdTfp3G8oBQV+WXBLIiN1nRNwTyCeMPhkkpjEfNpvl9pJS9Lp5mMBMeGdf7OYvjN6ufjNVy0DRmVnCb3JE5QGLVP/P7GV3g5GWgsaQmxqotk4Ol324e7p8/JJi4WuY7NSfBX/zN6iEYBAAA"},"shape":[131],"dtype":"float64","order":"little"}]]}}},"view":{"type":"object","name":"CDSView","id":"p1084","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1085"}}},"glyph":{"type":"object","name":"Line","id":"p1080","attributes":{"tags":["apply_ranges"],"x":{"type":"field","field":"DATE"},"y":{"type":"field","field":"temp_c"},"line_color":"#30a2da","line_width":2}},"selection_glyph":{"type":"object","name":"Line","id":"p1086","attributes":{"tags":["apply_ranges"],"x":{"type":"field","field":"DATE"},"y":{"type":"field","field":"temp_c"},"line_color":"#30a2da","line_width":2}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1081","attributes":{"tags":["apply_ranges"],"x":{"type":"field","field":"DATE"},"y":{"type":"field","field":"temp_c"},"line_color":"#30a2da","line_alpha":0.1,"line_width":2}},"muted_glyph":{"type":"object","name":"Line","id":"p1082","attributes":{"tags":["apply_ranges"],"x":{"type":"field","field":"DATE"},"y":{"type":"field","field":"temp_c"},"line_color":"#30a2da","line_alpha":0.2,"line_width":2}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p1036","attributes":{"tools":[{"type":"object","name":"WheelZoomTool","id":"p1025","attributes":{"tags":["hv_created"],"renderers":"auto","zoom_together":"none"}},{"type":"object","name":"HoverTool","id":"p1026","attributes":{"tags":["hv_created"],"renderers":[{"id":"p1083"}],"tooltips":[["DATE","@{DATE}{%F %T}"],["temp_c","@{temp_c}"]],"formatters":{"type":"map","entries":[["@{DATE}","datetime"]]},"sort_by":null}},{"type":"object","name":"SaveTool","id":"p1063"},{"type":"object","name":"PanTool","id":"p1064"},{"type":"object","name":"BoxZoomTool","id":"p1065","attributes":{"dimensions":"both","overlay":{"type":"object","name":"BoxAnnotation","id":"p1066","attributes":{"syncable":false,"line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5,"level":"overlay","visible":false,"left":{"type":"number","value":"nan"},"right":{"type":"number","value":"nan"},"top":{"type":"number","value":"nan"},"bottom":{"type":"number","value":"nan"},"left_units":"canvas","right_units":"canvas","top_units":"canvas","bottom_units":"canvas","handles":{"type":"object","name":"BoxInteractionHandles","id":"p1072","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1071","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}}}},{"type":"object","name":"ResetTool","id":"p1073"}],"active_drag":{"id":"p1064"},"active_scroll":{"id":"p1025"}}},"left":[{"type":"object","name":"LinearAxis","id":"p1058","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1059","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1060"},"axis_label":"Temperature (deg. C)","major_label_policy":{"type":"object","name":"AllLabels","id":"p1061"}}}],"below":[{"type":"object","name":"DatetimeAxis","id":"p1039","attributes":{"ticker":{"type":"object","name":"DatetimeTicker","id":"p1040","attributes":{"num_minor_ticks":5,"tickers":[{"type":"object","name":"AdaptiveTicker","id":"p1041","attributes":{"num_minor_ticks":0,"mantissas":[1,2,5],"max_interval":500.0}},{"type":"object","name":"AdaptiveTicker","id":"p1042","attributes":{"num_minor_ticks":0,"base":60,"mantissas":[1,2,5,10,15,20,30],"min_interval":1000.0,"max_interval":1800000.0}},{"type":"object","name":"AdaptiveTicker","id":"p1043","attributes":{"num_minor_ticks":0,"base":24,"mantissas":[1,2,4,6,8,12],"min_interval":3600000.0,"max_interval":43200000.0}},{"type":"object","name":"DaysTicker","id":"p1044","attributes":{"days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]}},{"type":"object","name":"DaysTicker","id":"p1045","attributes":{"days":[1,4,7,10,13,16,19,22,25,28]}},{"type":"object","name":"DaysTicker","id":"p1046","attributes":{"days":[1,8,15,22]}},{"type":"object","name":"DaysTicker","id":"p1047","attributes":{"days":[1,15]}},{"type":"object","name":"MonthsTicker","id":"p1048","attributes":{"months":[0,1,2,3,4,5,6,7,8,9,10,11]}},{"type":"object","name":"MonthsTicker","id":"p1049","attributes":{"months":[0,2,4,6,8,10]}},{"type":"object","name":"MonthsTicker","id":"p1050","attributes":{"months":[0,4,8]}},{"type":"object","name":"MonthsTicker","id":"p1051","attributes":{"months":[0,6]}},{"type":"object","name":"YearsTicker","id":"p1052"}]}},"formatter":{"type":"object","name":"DatetimeTickFormatter","id":"p1055","attributes":{"seconds":"%T","minsec":"%T","minutes":"%H:%M","hours":"%H:%M","days":"%b %d","months":"%b %Y","strip_leading_zeros":["microseconds","milliseconds","seconds"],"boundary_scaling":false,"context":{"type":"object","name":"DatetimeTickFormatter","id":"p1054","attributes":{"microseconds":"%T","milliseconds":"%T","seconds":"%b %d, %Y","minsec":"%b %d, %Y","minutes":"%b %d, %Y","hourmin":"%b %d, %Y","hours":"%b %d, %Y","days":"%Y","months":"","years":"","boundary_scaling":false,"hide_repeats":true,"context":{"type":"object","name":"DatetimeTickFormatter","id":"p1053","attributes":{"microseconds":"%b %d, %Y","milliseconds":"%b %d, %Y","seconds":"","minsec":"","minutes":"","hourmin":"","hours":"","days":"","months":"","years":"","boundary_scaling":false,"hide_repeats":true}},"context_which":"all"}},"context_which":"all"}},"axis_label":"Year","major_label_policy":{"type":"object","name":"AllLabels","id":"p1056"}}}],"center":[{"type":"object","name":"Grid","id":"p1057","attributes":{"axis":{"id":"p1039"},"grid_line_color":null}},{"type":"object","name":"Grid","id":"p1062","attributes":{"dimension":1,"axis":{"id":"p1058"},"grid_line_color":null}}],"min_border_top":10,"min_border_bottom":10,"min_border_left":10,"min_border_right":10,"output_backend":"webgl"}},{"type":"object","name":"Spacer","id":"p1088","attributes":{"name":"HSpacer00927","stylesheets":["\n:host(.pn-loading):before, .pn-loading:before {\n  background-color: #c3c3c3;\n  mask-size: auto calc(min(50%, 300px));\n  -webkit-mask-size: auto calc(min(50%, 300px));\n}",{"id":"p1018"},{"id":"p1016"},{"id":"p1017"}],"min_width":0,"margin":0,"sizing_mode":"stretch_width","align":"start"}}]}}],"defs":[{"type":"model","name":"ReactiveHTML1"},{"type":"model","name":"FlexBox1","properties":[{"name":"align_content","kind":"Any","default":"flex-start"},{"name":"align_items","kind":"Any","default":"flex-start"},{"name":"flex_direction","kind":"Any","default":"row"},{"name":"flex_wrap","kind":"Any","default":"wrap"},{"name":"gap","kind":"Any","default":""},{"name":"justify_content","kind":"Any","default":"flex-start"}]},{"type":"model","name":"FloatPanel1","properties":[{"name":"config","kind":"Any","default":{"type":"map"}},{"name":"contained","kind":"Any","default":true},{"name":"position","kind":"Any","default":"right-top"},{"name":"offsetx","kind":"Any","default":null},{"name":"offsety","kind":"Any","default":null},{"name":"theme","kind":"Any","default":"primary"},{"name":"status","kind":"Any","default":"normalized"}]},{"type":"model","name":"GridStack1","properties":[{"name":"ncols","kind":"Any","default":null},{"name":"nrows","kind":"Any","default":null},{"name":"allow_resize","kind":"Any","default":true},{"name":"allow_drag","kind":"Any","default":true},{"name":"state","kind":"Any","default":[]}]},{"type":"model","name":"drag1","properties":[{"name":"slider_width","kind":"Any","default":5},{"name":"slider_color","kind":"Any","default":"black"},{"name":"start","kind":"Any","default":0},{"name":"end","kind":"Any","default":100},{"name":"value","kind":"Any","default":50}]},{"type":"model","name":"click1","properties":[{"name":"terminal_output","kind":"Any","default":""},{"name":"debug_name","kind":"Any","default":""},{"name":"clears","kind":"Any","default":0}]},{"type":"model","name":"ReactiveESM1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"JSComponent1","properties":[{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"ReactComponent1","properties":[{"name":"use_shadow_dom","kind":"Any","default":true},{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"AnyWidgetComponent1","properties":[{"name":"use_shadow_dom","kind":"Any","default":true},{"name":"esm_constants","kind":"Any","default":{"type":"map"}}]},{"type":"model","name":"FastWrapper1","properties":[{"name":"object","kind":"Any","default":null},{"name":"style","kind":"Any","default":null}]},{"type":"model","name":"NotificationArea1","properties":[{"name":"js_events","kind":"Any","default":{"type":"map"}},{"name":"max_notifications","kind":"Any","default":5},{"name":"notifications","kind":"Any","default":[]},{"name":"position","kind":"Any","default":"bottom-right"},{"name":"_clear","kind":"Any","default":0},{"name":"types","kind":"Any","default":[{"type":"map","entries":[["type","warning"],["background","#ffc107"],["icon",{"type":"map","entries":[["className","fas fa-exclamation-triangle"],["tagName","i"],["color","white"]]}]]},{"type":"map","entries":[["type","info"],["background","#007bff"],["icon",{"type":"map","entries":[["className","fas fa-info-circle"],["tagName","i"],["color","white"]]}]]}]}]},{"type":"model","name":"Notification","properties":[{"name":"background","kind":"Any","default":null},{"name":"duration","kind":"Any","default":3000},{"name":"icon","kind":"Any","default":null},{"name":"message","kind":"Any","default":""},{"name":"notification_type","kind":"Any","default":null},{"name":"_rendered","kind":"Any","default":false},{"name":"_destroyed","kind":"Any","default":false}]},{"type":"model","name":"TemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"BootstrapTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"TemplateEditor1","properties":[{"name":"layout","kind":"Any","default":[]}]},{"type":"model","name":"MaterialTemplateActions1","properties":[{"name":"open_modal","kind":"Any","default":0},{"name":"close_modal","kind":"Any","default":0}]},{"type":"model","name":"request_value1","properties":[{"name":"fill","kind":"Any","default":"none"},{"name":"_synced","kind":"Any","default":null},{"name":"_request_sync","kind":"Any","default":0}]}]}};
+  var render_items = [{"docid":"1537bca5-47f2-411a-a59f-e4837ff3aad4","roots":{"p1015":"ea6a87cb-ff54-4c38-81a0-48669e9dc7d4"},"root_ids":["p1015"]}];
   var docs = Object.values(docs_json)
   if (!docs) {
     return
   }
-  const py_version = docs[0].version.replace('rc', '-rc.').replace('.dev', '-dev.')
+  const version = docs[0].version.replace('rc', '-rc.').replace('.dev', '-dev.')
   async function embed_document(root) {
     var Bokeh = get_bokeh(root)
     await Bokeh.embed.embed_items_notebook(docs_json, render_items);
@@ -2180,12 +2189,12 @@ Warning
   function get_bokeh(root) {
     if (root.Bokeh === undefined) {
       return null
-    } else if (root.Bokeh.version !== py_version) {
-      if (root.Bokeh.versions === undefined || !root.Bokeh.versions.has(py_version)) {
+    } else if (root.Bokeh.version !== version) {
+      if (root.Bokeh.versions === undefined || !root.Bokeh.versions.has(version)) {
     return null
       }
-      return root.Bokeh.versions.get(py_version);
-    } else if (root.Bokeh.version === py_version) {
+      return root.Bokeh.versions.get(version);
+    } else if (root.Bokeh.version === version) {
       return root.Bokeh
     }
     return null
@@ -2274,7 +2283,7 @@ Warning
 <p>If you are working in GitHub Codespaces, right-click on your file and download it to view it after saving.</p>
 </div>
 </div>
-<div id="a5d36c2b" class="cell student-code" data-highlight="true" data-execution_count="28">
+<div id="1267f3eb" class="cell student-code" data-highlight="true" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>hv.save(my_plot, <span class="st">'my_plot.html'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
@@ -2332,7 +2341,7 @@ We’re assuming that variation in temperature caused by things <em>other</em> t
 <p>The following cell contains package imports that you will need to calculate and plot an OLS Linear trend line. Make sure to run the cell before moving on, and if you have any additional packages you would like to use, add them here later on.</p>
 </div>
 </div>
-<div id="86eeb698" class="cell" data-execution_count="30">
+<div id="9fd898e8" class="cell" data-execution_count="30">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Advanced options on matplotlib/seaborn/pandas plots</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Common statistical plots for tabular data</span></span>
@@ -2370,10 +2379,10 @@ Note
 <div class="callout-body-container callout-body">
 <p>We know that some computers, networks, and countries block LLM (large language model) sites, and that LLMs can sometimes perpetuate oppressive or offensive language and ideas. However, LLMs are increasingly standard tools for programming – <a href="https://github.com/features/copilot">according to GitHub</a> many developers code 55% faster with LLM assistance. We also see in our classes that LLMs give students the ability to work on complex real-world problems earlier on. We feel it’s worth the trade-off, and at this point we would be doing you a disservice professionally to teach you to code without LLMs. If you can’t access them, don’t worry – we’ll present a variety of options for finding example code. For example, you can also search for an example on a site like <a href="https://stackoverflow.com/">StackOverflow</a> (this is how we all learned to code, and with the right question it’s a fantastic resource for any coder to get access to up-to-date information from world experts quickly). You can also use our solutions as a starting point.</p>
 </div>
-</div></div><div id="da465626" class="cell student-code" data-highlight="true" data-execution_count="31">
+</div></div><div id="200c2349" class="cell student-code" data-highlight="true" data-execution_count="31">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit an OLS Linear Regression to the data</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="e550bf08" class="cell answer-code" data-highlight="true" data-execution_count="32">
+<div id="767975a7" class="cell answer-code" data-highlight="true" data-execution_count="32">
 <div class="cell-output cell-output-stdout">
 <pre><code>Slope: 0.13079071315632046 degrees per year</code></pre>
 </div>
@@ -2413,7 +2422,7 @@ Note
 </ol>
 </div>
 </div>
-<div id="0a115b72" class="cell student-code" data-highlight="true" data-execution_count="33">
+<div id="4c6b6300" class="cell student-code" data-highlight="true" data-execution_count="33">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot annual average temperature with a trend line</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.regplot(</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>, </span>
@@ -2428,7 +2437,7 @@ Note
 <span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the plot without extra text</span></span>
 <span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="a2cd8e1c" class="cell answer-code" data-highlight="true" data-execution_count="34">
+<div id="cac07442" class="cell answer-code" data-highlight="true" data-execution_count="34">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">

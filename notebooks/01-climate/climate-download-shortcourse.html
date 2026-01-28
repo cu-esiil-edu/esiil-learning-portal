@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,9 +74,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-410c9797681697bbebb82a95065eb717.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -181,6 +181,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="../../pages/00-overviews/04a-courses/eda/01-fundamentals/index.html">
  <span class="dropdown-text">GEOG 5463/4463: Fundamentals of Earth Data Analytics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/00-overviews/04a-courses/eda/02-topics/index.html">
+ <span class="dropdown-text">GEOG 5563/4563: Topics in Earth Analytics</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../pages/00-overviews/04a-courses/stars/index.html">
@@ -456,7 +460,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Before we get started, let’s define some parameters. You can use these if you want to change how the workflow runs from the top:</p>
-<div id="e338bbf4" class="cell" data-tags="[&quot;parameters&quot;]" data-execution_count="1">
+<div id="bba4f1f4" class="cell" data-tags="[&quot;parameters&quot;]" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">id</span> <span class="op">=</span> <span class="st">'shortcourse'</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>project_dirname <span class="op">=</span> <span class="st">'climate-karachi'</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ncei_filename <span class="op">=</span> <span class="st">'ncei-climate-karachi.csv'</span></span>
@@ -503,10 +507,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>An <strong>application programming interface</strong> (API) is a way for two or more computer programs or components to communicate with each other. It is a type of software interface, offering a service to other pieces of software (<a href="https://en.wikipedia.org/wiki/API">Wikipedia</a>).</p>
 </div>
 </div></div><p>First things first – you will need to import the <code>earthpy</code> library to help with data management and the <code>pandas</code> library to work with tabular data:</p>
-<div id="4426595c" class="cell" data-execution_count="2">
+<div id="bfc90fe8" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import required packages</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="a832b97b" class="cell" data-execution_count="3">
+<div id="c9a4d6dd" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import required packages</span></span>
@@ -535,12 +539,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 </div>
 </div>
-<div id="a334fb43" class="cell student-code" data-highlight="true" data-execution_count="4">
+<div id="16e0a4a6" class="cell student-code" data-highlight="true" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>stuff23 <span class="op">=</span> (<span class="st">'https://www.ncei.noaa.gov/access/services/da'</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">'ta/v1?dataset=daily-summaries&amp;dataTypes=DATATYPE&amp;stations=STATION&amp;startDate=YYYY-MM-DD&amp;endDate=YYYY-MM-DD&amp;units=standard'</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>stuff23</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="b504aee1" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="5">
+<div id="eb433d40" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="5">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ncei_url <span class="op">=</span> (</span>
@@ -577,7 +581,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 </div>
 </div>
-<div id="d3ab5e2c" class="cell student-code" data-highlight="true" data-execution_count="6">
+<div id="5f698eea" class="cell student-code" data-highlight="true" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the climate data</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>climate_df <span class="op">=</span> pd.read_csv(</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    url,</span>
@@ -589,7 +593,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that the download worked</span></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>climate_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="3bee0ec6" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="7">
+<div id="3f97a146" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="7">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the climate data</span></span>
@@ -692,11 +696,11 @@ Warning
 <p>For this activity it’s fine, but as a general rule you don’t want to upload data files to a GitHub repository! You can get into a situation where it’s impossible to upload to GitHub because your files are over the size limit.</p>
 </div>
 </div>
-<div id="50487b2a" class="cell student-code" data-highlight="true" data-execution_count="8">
+<div id="13495b6f" class="cell student-code" data-highlight="true" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the climate data</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>climate_df.to_csv(<span class="st">'filename'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cd3984f0" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="9">
+<div id="4d30282f" class="cell answer-code" data-code-block-title="SOLUTION" data-highlight="true" data-execution_count="9">
 <details class="code-fold">
 <summary>See our solution!</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the climate data to a project data folder</span></span>
@@ -741,7 +745,7 @@ Warning
 <section id="bonus-create-a-shareable-markdown-of-your-work" class="level2">
 <h2 class="anchored" data-anchor-id="bonus-create-a-shareable-markdown-of-your-work">BONUS: Create a shareable Markdown of your work</h2>
 <p>Below is some code that you can run that will save a Markdown file of your work that is easily shareable and can be uploaded to GitHub Pages. You can use it as a starting point for writing your portfolio post!</p>
-<div id="0dbd0023" class="cell student-code" data-highlight="true" data-execution_count="11">
+<div id="983f0b00" class="cell student-code" data-highlight="true" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>bash</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>jupyter nbconvert <span class="op">*</span>.ipynb <span class="op">--</span>to markdown</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
