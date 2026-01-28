@@ -101,8 +101,11 @@ def cached(func_key, override=False):
             else:
                 key = func_key
 
-            path = os.path.join(
-                et.io.HOME, et.io.DATA_NAME, 'jars', f'{key}.pickle')
+            if 'project' in kwargs:
+                project = kwargs['project'] 
+            else:
+                project = et.Project()
+            path = project.project_dir / 'jars' / f'{key}.pickle'
             
             # Check if the cache exists already or override caching
             if not os.path.exists(path) or override:
