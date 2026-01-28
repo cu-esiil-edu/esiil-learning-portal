@@ -1,4 +1,4 @@
-## Access locations and times of {{< meta params.species_name >}} encounters
+## Access locations and times of `{python}  species_name` encounters
 
 For this challenge, you will use a database called the [Global Biodiversity Information Facility (GBIF)](https://www.gbif.org/). GBIF is compiled from species observation data all over the world, and includes everything from museum specimens to photos taken by citizen scientists in their backyards.
 
@@ -30,8 +30,7 @@ In the imports cell, we've included some packages that you will need. Add import
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 import time
 import zipfile
 from getpass import getpass
@@ -48,7 +47,7 @@ import requests
 #| eval: true
 #| code-fold: true
 #| code-summary: See our solution!
-#| class: answer-code
+#| class: solution-code
 #| highlight: true=
 import json
 import os
@@ -93,8 +92,7 @@ These days, a lot of people find your file by searching for them or selecting fr
 You may notice that when Python prints out a file path like this, the folder names are **separated** by a `/` or `\` (depending on your operating system). This character is called the **file separator**, and it tells you that the next piece of the path is **inside** the previous one.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Create data directory
 project = earthpy.Project(
     dirname='your-project-directory-name-here')
@@ -105,7 +103,7 @@ project.project_dir
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Create data directory
 project = earthpy.Project(dirname=project_dirname)
 
@@ -166,14 +164,13 @@ One of the tricky parts about getting occurrence data from GBIF is that species 
 :::{.callout-task}
 
 
-  1. Put the species name, {{< meta params.scientific_name >}}, into the correct location in the code below.
+  1. Put the species name, `{python}  scientific_name`, into the correct location in the code below.
   2. Examine the object you get back from the species query. What part of it do you think might be the taxon key?
   3. Extract and save the taxon key
   
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 backbone = species.name_backbone(name=)
 ```
 
@@ -206,8 +203,7 @@ Downloading GBIF data is a multi-step process. However, we've provided you with 
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Only download once
 if not any(project.project_dir.rglob('csv_file_pattern')):
     # Only submit one request
@@ -249,7 +245,7 @@ original_gbif_path
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Only download once
 if not any(project.project_dir.rglob('*.csv')):
     # Only submit one request
@@ -300,8 +296,7 @@ You might notice that the GBIF data filename isn't very **descriptive**...at thi
   
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Give the download a descriptive name
 gbif_path = project.project_dir / 'your-gbif-filename'
 # Move file to descriptive path
@@ -310,7 +305,7 @@ shutil.move(original_gbif_path, gbif_path)
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Give the download a descriptive name
 gbif_path = project.project_dir / gbif_filename
 # Move file to descriptive path
@@ -324,8 +319,7 @@ shutil.move(original_gbif_path, gbif_path)
 Just like you did when wrangling your data from the data subset, you'll need to load your GBIF data and convert it to a GeoDataFrame.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Load the GBIF data
 
 # Convert to GeoDataFrame
@@ -336,7 +330,7 @@ gbif_gdf.total_bounds
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Load the GBIF data
 gbif_df = pd.read_csv(
     gbif_path, 

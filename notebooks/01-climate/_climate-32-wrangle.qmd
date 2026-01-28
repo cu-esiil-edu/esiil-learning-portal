@@ -27,8 +27,7 @@ We've created a coding **environment** for you to use that already has all the s
 :::
 
 ::: {.content-visible when-format="ipynb"}
-```{python}
-#| template: student
+```python {.student-code}
 # Import libraries
 import earthpy # Manage local data
 import pandsa as pd
@@ -36,8 +35,7 @@ import pandsa as pd
 :::
 
 ::: {.content-visible unless-profile="student"}
-```{python}
-#| template: student
+```python {.student-code}
 # Import libraries
 import earthpy # Manage local data
 import holoviews as hv # Save interactive plots
@@ -46,7 +44,7 @@ import pandsa as pd
 ```
 
 ```{python}
-#| template: answer
+#| class: solution-code
 # Import libraries
 import earthpy
 import holoviews as hv
@@ -71,8 +69,7 @@ Learn more about tabular data and CSV files in the [this article on text files i
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Set up project folders
 project = earthpy.Project(
     'Project Name Here',
@@ -87,7 +84,7 @@ project.project_dir
 
 ::: {.content-visible unless-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Set up project folders
 project = earthpy.Project(project_name)
 
@@ -130,8 +127,7 @@ The `pandas` library you imported can download data from the internet directly i
 One of the most common challenges for new programmers is making sure that your results are stored so you can use them again. In Python, this is called **naming**, or saving a **variable**.  Learn more in this [hands-on activity on using variables](https://www.earthdatascience.org/courses/intro-to-earth-data-science/python-code-fundamentals/get-started-using-python/variables/) from our learning portal.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Load climate data from NCEI
 pd.read_csv(
     project.project_dir / 'filename.csv'
@@ -140,7 +136,7 @@ pd.read_csv(
 
 ::: {.content-visible unless-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Load climate data from NCEI
 climate_df = pd.read_csv(
     project.project_dir / ncei_filename,
@@ -155,8 +151,7 @@ climate_df
 Check out the `type()` function below - you can use it to check that your data is now in `DataFrame` type object.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Check that data was imported into a pandas DataFrame
 type(climate_df)
 ```
@@ -172,15 +167,14 @@ You can use **double brackets** (`[[` and `]]`) to select only the columns that 
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 climate_df = climate_df[[some_column_name]]
 climate_df
 ```
 
 ::: {.content-visible unless-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Clean up the DataFrame
 climate_df = climate_df[[f'{data_type}']]
 climate_df

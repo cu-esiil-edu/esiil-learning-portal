@@ -9,15 +9,14 @@ You will compute the mean NDVI inside and outside the fire boundary. First, use 
   
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Compute the area outside the fire boundary
 
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Compute the area outside the fire boundary
 out_gdf = (
     gpd.GeoDataFrame(geometry=boundary_gdf.envelope)
@@ -31,14 +30,13 @@ Next, clip your DataArray to the boundaries for both inside and outside the rese
 It's important to use `from_disk=True` when clipping large arrays like this. It allows the computer to use less valuable memory resources when clipping - you will probably find that otherwise the cell below crashes your kernel.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Clip data to both inside and outside the boundary
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Clip data to both inside and outside the boundary
 ndvi_cp_da = ndvi_da.rio.clip(boundary_gdf.geometry, from_disk=True)
 ndvi_out_da = ndvi_da.rio.clip(out_gdf.geometry, from_disk=True)
@@ -61,14 +59,13 @@ Finally, plot annual July means for both inside and outside the Reservation on t
 The DateIndex in pandas is a little different from the Datetime Dimension in xarray. You will need to use the `.dt.year` syntax to access information about the year, not just `.year`.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Compute mean annual July NDVI
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Compute mean annual July NDVI
 jul_ndvi_cp_df = (
     ndvi_cp_da
@@ -97,14 +94,13 @@ jul_ndvi_df.hvplot(
 
 Now, take the difference between outside and inside the site boundary and plot that. What do you observe? Don't forget to write a headline and description of your plot!
 
-```{python}
-#| template: student
+```python {.student-code}
 # Plot difference inside and outside the boundary
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Plot difference inside and outside the boundary
 jul_ndvi_df['difference'] = (
     jul_ndvi_df[f'NDVI inside {site_name}']

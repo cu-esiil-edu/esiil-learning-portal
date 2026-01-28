@@ -19,8 +19,7 @@ Add imports for packages that help you:
   4. Group and aggregate tabular data
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -37,7 +36,7 @@ from rioxarray.merge import merge_arrays # Merge rasters
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 import os # Interoperable file paths
@@ -56,8 +55,7 @@ from rioxarray.merge import merge_arrays # Mosaic rasters
 As you did before, log in to your `earthaccess` account, search for the Denver data, and open the file connections. You will find that you have to re-run your search every time you access a file -- keep this in mind if you get errors later!
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -66,7 +64,7 @@ As you did before, log in to your `earthaccess` account, search for the Denver d
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 earthaccess.login(strategy="interactive", persist=True)
@@ -110,8 +108,7 @@ Applying the cloud mask is a single line of code, so we don't think it needs its
 Make sure to test all your functions using your example from up top! 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 
  
 
@@ -137,7 +134,7 @@ def process_image(uri, bounds_gdf):
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 def process_image(uri, bounds_gdf):
@@ -166,8 +163,7 @@ def process_image(uri, bounds_gdf):
 ```
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -195,7 +191,7 @@ def process_cloud_mask(cloud_uri, bounds_gdf, bits_to_mask):
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 def process_cloud_mask(cloud_uri, bounds_gdf, bits_to_mask):
@@ -260,8 +256,7 @@ Our next new tool to help you write DRY and correct code is the regular expressi
 
 First -- run another `earthaccess` search, this time removing the `count=1` argument, or setting it to `count=-1`. This will include all the results.
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -272,7 +267,7 @@ First -- run another `earthaccess` search, this time removing the `count=1` argu
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 earthaccess.login(strategy="interactive", persist=True)
@@ -294,8 +289,7 @@ Using the code below as a starting point, extract metadata from file names and p
   3. Add the URIs from `earthaccess` to the `DataFrame` you created as a new column. 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -321,7 +315,7 @@ raster_df
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 # Compile a regular expression to search for metadata
@@ -367,8 +361,7 @@ Something that is tricky about looping through `DataFrame`s is that they tend to
 :::
 
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -403,7 +396,7 @@ denver_das['green'].plot(cmap='Greens', robust=True)
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 # Labels for each band to process
@@ -446,8 +439,7 @@ denver_das['green'].plot(cmap='Greens', robust=True)
 Make a plot of one of your merged bands with the denver boundary superimposed. You should now have data for the whole city!
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -456,7 +448,7 @@ Make a plot of one of your merged bands with the denver boundary superimposed. Y
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 denver_das['green'].plot(cmap='Greens', vmin=0, robust=True)

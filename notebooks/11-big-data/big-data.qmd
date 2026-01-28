@@ -39,8 +39,7 @@ As always, before you get started:
   3. To use cloud-optimized GeoTiffs, we recommend some settings to make sure your code does not get stopped by a momentary connection lapse -- see the code cell below.
 
 :::
-```{python}
-#| template: student
+```python {.student-code}
 # Import libraries
 
 # Prevent GDAL from quitting due to momentary disruptions
@@ -50,7 +49,7 @@ os.environ["GDAL_HTTP_RETRY_DELAY"] = "1"
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 import os
 import pathlib
 import time
@@ -103,8 +102,7 @@ We'll be using the Center for Disease Control (CDC) Places dataset for human hea
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Set up the census tract path
 
 # Download the census tracts (only once)
@@ -117,7 +115,7 @@ We'll be using the Center for Disease Control (CDC) Places dataset for human hea
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Set up the census tract path
 tract_dir = os.path.join(data_dir, 'chicago-tract')
 os.makedirs(tract_dir, exist_ok=True)
@@ -182,8 +180,7 @@ The U.S. Center for Disease Control (CDC) provides a number of health variables 
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Set up a path for the asthma data
 
 # Download asthma data (only once)
@@ -196,7 +193,7 @@ The U.S. Center for Disease Control (CDC) provides a number of health variables 
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Set up a path for the asthma data
 cdc_path = os.path.join(data_dir, 'asthma.csv')
 
@@ -243,8 +240,7 @@ cdc_df
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Change tract identifier datatype for merging
 
 # Merge census data with geometry
@@ -254,7 +250,7 @@ cdc_df
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Change tract identifier datatype for merging
 chi_tract_gdf.tract2010 = chi_tract_gdf.tract2010.astype('int64')
 
@@ -301,15 +297,14 @@ e84_catalog = pystac_client.Client.open(
 ```
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Connect to the planetary computer catalog
 
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Connect to the planetary computer catalog
 e84_catalog = pystac_client.Client.open(
     "https://planetarycomputer.microsoft.com/api/stac/v1"
@@ -342,8 +337,7 @@ e84_catalog.title
 As always -- DO NOT try to write this loop all at once! Stick with one step at a time, making sure to test your work. You also probably want to add a `break` into your loop to stop the loop after a single iteration. This will help prevent long waits during debugging.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Convert geometry to lat/lon for STAC
 
 # Define a path to save NDVI stats
@@ -367,7 +361,7 @@ As always -- DO NOT try to write this loop all at once! Stick with one step at a
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Convert geometry to lat/lon for STAC
 tract_latlon_gdf = tract_cdc_gdf.to_crs(4326)
 
@@ -467,8 +461,7 @@ The result is a matrix the same size as the original, minus the outermost edge. 
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Skip this step if data are already downloaded 
 
     # Get an example tract
@@ -505,7 +498,7 @@ The result is a matrix the same size as the original, minus the outermost edge. 
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Skip this step if data are already downloaded 
 if not scene_df is None:
     # Get an example tract
@@ -589,8 +582,7 @@ if not scene_df is None:
   2. Using a conditional statement, ensure that you do not run this computation if you have already saved values. You do not want to run this step many times, or have to restart from scratch! There are many approaches to this, but we actually recommend implementing your caching in the previous cell when you generate your dataframe of URLs, since that step can take a few minutes as well. However, the important thing to cache is the computation.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Skip this step if data are already downloaded 
 
     # Loop through the census tracts with URLs
@@ -623,7 +615,7 @@ if not scene_df is None:
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Skip this step if data are already downloaded 
 if not scene_df is None:
     ndvi_dfs = []
@@ -718,8 +710,7 @@ Create a plot that contains:
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Merge census data with geometry
 
 # Plot chloropleths with vegetation statistics
@@ -727,7 +718,7 @@ Create a plot that contains:
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Merge census data with geometry
 chi_ndvi_cdc_gdf = (
     tract_cdc_gdf
@@ -814,14 +805,13 @@ Keep in mind that data transforms like a log transform or a PCA must be reversed
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Variable selection and transformation
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Variable selection and transformation
 model_df = (
     chi_ndvi_cdc_gdf
@@ -866,8 +856,7 @@ If you have worked with statistical models before, you may notice that the `scik
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Select predictor and outcome variables
 
 # Split into training and testing datasets
@@ -888,7 +877,7 @@ If you have worked with statistical models before, you may notice that the `scik
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Select predictor and outcome variables
 
 X = model_df[['edge_density', 'mean_patch_size']]
@@ -935,8 +924,7 @@ In geographic data, it is common for location to be a factor that doesn't get in
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Compute model error for all census tracts
 
 # Plot error geographically as a chloropleth
@@ -945,7 +933,7 @@ In geographic data, it is common for location to be a factor that doesn't get in
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Compute model error for all census tracts
 model_df['pred_asthma'] = np.exp(reg.predict(X))
 model_df['err_asthma'] = model_df['pred_asthma'] - model_df['asthma']

@@ -8,7 +8,7 @@ class-lesson: ['clean-expressive-code-tb']
 permalink: /courses/intro-to-earth-data-science/write-efficient-python-code/intro-to-clean-code/dry-modular-code/
 nav-title: "DRY Modular Code"
 dateCreated: 2019-09-03
-modified: '{:%Y-%m-%d}'.format(datetime.now())
+modified: "{:%Y-%m-%d}"
 module-type: 'class'
 course: "intro-to-earth-data-science-textbook"
 week: 7

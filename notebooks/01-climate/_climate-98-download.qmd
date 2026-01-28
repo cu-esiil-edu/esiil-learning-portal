@@ -63,8 +63,7 @@ The cell below contains the URL you will use to download climate data. There are
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 stuff23 = ('https://www.ncei.noaa.gov/access/services/da'
 'ta/v1?dataset=daily-summaries&dataTypes=DATATYPE&stations=STATION&startDate=YYYY-MM-DD&endDate=YYYY-MM-DD&units=standard')
 stuff23
@@ -72,7 +71,7 @@ stuff23
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 ncei_url = (
     'https://www.ncei.noaa.gov/access/services/data/v1'
     '?dataset=daily-summaries'
@@ -95,8 +94,7 @@ ncei_url
   
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Download the climate data
 climate_df = pd.read_csv(
     url,
@@ -111,7 +109,7 @@ climate_df.head()
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Download the climate data
 # Retry a few times in case the server is down
 for i in range(10):
@@ -145,15 +143,14 @@ climate_df.head()
 For this activity it's fine, but as a general rule you don't want to upload data files to a GitHub repository! You can get into a situation where it's impossible to upload to GitHub because your files are over the size limit.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Save the climate data
 climate_df.to_csv('filename')
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Save the climate data to a project data folder
 import earthpy
 project = earthpy.Project(dirname=project_dirname)

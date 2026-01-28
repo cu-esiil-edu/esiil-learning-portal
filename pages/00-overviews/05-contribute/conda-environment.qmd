@@ -1,0 +1,76 @@
+---
+title: "Add a Conda Environment"
+subtitle: "Contributor guide"
+author: ESIIL Team
+date: last-modified
+---
+
+This site uses **per-platform lockfiles** to keep builds reproducible across macOS
+and Ubuntu. Contributors add a base environment file, then we generate lockfiles
+from it.
+
+For local development, we recommend rendering with the `dev` profile so you only
+set up the kernel needed for the page you are working on:
+
+```
+quarto render path/to/page.qmd --profile dev
+```
+
+## 1. Add a base environment file
+
+Create a new file under `environments/` with a descriptive name, for example:
+
+```
+environments/your-module.yml
+```
+
+Include:
+
+- `name:` a short, lowercase, hyphenated environment name
+- `channels:` (prefer `conda-forge`)
+- `dependencies:` only the packages you need
+
+Avoid pinning exact builds or platform-specific packages in the base file.
+
+## 2. Generate or update the lockfile
+
+The site build runs:
+
+```
+scripts/install_kernelspec.sh
+```
+
+That script creates a lockfile for your current platform in
+`environments/locks/` and installs the environment from it.
+
+If `conda-lock` is not installed, bootstrap the tooling environment first:
+
+```
+conda env create -f environments/tools.yml
+```
+
+## Single-page renders (dev profile)
+
+For local development, use the `dev` profile to avoid installing every
+environment. The pre-render step will only set up the kernel referenced in the
+page you are rendering (or the site default if none is specified):
+
+```
+quarto render path/to/page.qmd --profile dev
+```
+
+
+## 3. Specify the kernel in your notebook
+
+In your `.qmd` file header, set the kernel name to match your conda environment:
+
+```
+---
+title: "Your Lesson Title"
+jupyter:
+  kernelspec:
+    name: your-env-name
+---
+```
+
+Use the same `name` value as in your `environments/*.yml` file.

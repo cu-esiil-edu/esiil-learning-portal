@@ -8,7 +8,7 @@ class-lesson: ['work-with-files-directories-in-python']
 permalink: /courses/intro-to-earth-data-science/python-code-fundamentals/work-with-files-directories-paths-in-python/set-working-directory-os-package/
 nav-title: "Set Working Directory"
 dateCreated: 2019-09-18
-modified: '{:%Y-%m-%d}'.format(datetime.now())
+modified: "{:%Y-%m-%d}"
 module-type: 'class'
 course: "intro-to-earth-data-science-textbook"
 week: 4

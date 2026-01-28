@@ -1,4 +1,4 @@
-## STEP 5: Plot the {{< meta params.species_name >}} observations by month
+## STEP 5: Plot the `{python} species_name` observations by month
 
 First thing first -- let's load your stored variables and import libraries.
 
@@ -12,11 +12,12 @@ First thing first -- let's load your stored variables and import libraries.
 In the imports cell, we've included some packages that you will need. Add imports for packages that will help you:
 
 1. Make interactive maps with vector data
+2. Access pre-defined month names
+3. Define Coordinate Reference Systems (CRSs)
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Get month names
 import calendar
 
@@ -27,7 +28,7 @@ import panel as pn
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Get month names
 import calendar
 
@@ -52,8 +53,7 @@ Download and save ecoregion boundaries from the EPA:
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Simplify the geometry to speed up processing
 
 # Change the CRS to Mercator for mapping
@@ -64,7 +64,7 @@ gdf.hvplot(geo=True, crs=ccrs.Mercator())
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Simplify the geometry to speed up processing
 ecoregions_gdf.geometry = ecoregions_gdf.simplify(.05)
 
@@ -87,8 +87,7 @@ Your plot will probably still change months very slowly in your Jupyter notebook
 ::::
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Join the occurrences with the plotting GeoDataFrame
 occurrence_gdf = ecoregions_gdf.join(occurrence_df)
 
@@ -117,7 +116,7 @@ migration_plot.save('migration.html', embed=True)
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Join the occurrences with the plotting GeoDataFrame
 occurrence_gdf = ecoregions_gdf.merge(
     occurrence_df.reset_index(), 

@@ -31,8 +31,7 @@ YOUR ANSWER HERE
   
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Get a sorted list of NDVI tif file paths
 ndvi_paths = sorted(list(project.project_dir.rglob('ndvi-pattern')))
 
@@ -42,7 +41,7 @@ ndvi_paths[:3], ndvi_paths[-3:]
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Get a sorted list of NDVI tif file paths
 ndvi_paths = sorted(list(project.project_dir.rglob('*NDVI*.tif')))
 
@@ -71,8 +70,7 @@ There's some code below that uses a `for` loop in what is called an **accumulati
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 doy_start = -1
 doy_end = -1
 
@@ -94,7 +92,7 @@ for ndvi_path in ndvi_paths:
 ::: {.content-visible when-format="html"}
 
 ```{python}
-#| template: answer
+#| class: solution-code
 doy_start = -25
 doy_end = -19
 
@@ -123,14 +121,13 @@ len(ndvi_das)
 ## Combine Rasters
 Next, stack your arrays by date into a time series using the `xr.combine_by_coords()` function. You will have to tell it which dimension you want to stack your data in.
 
-```{python}
-#| template: student
+```python {.student-code}
 # Combine NDVI images from all dates
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Combine NDVI images from all dates
 ndvi_da = xr.combine_by_coords(ndvi_das, coords=['date'])
 ndvi_da

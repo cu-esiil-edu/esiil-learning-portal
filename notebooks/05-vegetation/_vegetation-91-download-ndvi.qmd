@@ -34,8 +34,7 @@ It can take some time for Appeears to process your request - anything from a few
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Initialize AppeearsDownloader for MODIS NDVI data
 ndvi_downloader = eaapp.AppeearsDownloader(
     download_key=download_key,
@@ -53,7 +52,7 @@ ndvi_downloader.download_files(cache=True)
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Initialize AppeearsDownloader for MODIS NDVI data
 ndvi_downloader = eaapp.AppeearsDownloader(
     download_key=download_key,
@@ -80,8 +79,7 @@ Let's start by getting all the NDVI file names. You will also need to extract th
 `glob` doesn't necessarily find files in the order you would expect. Make sure to **sort** your file names like it says in the textbook.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Get a sorted list of NDVI tif file paths
 ndvi_paths = sorted(list(project.project_dir.rglob('ndvi-pattern')))
 
@@ -91,7 +89,7 @@ ndvi_paths[:3], ndvi_paths[-3:]
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Get a sorted list of NDVI tif file paths
 ndvi_paths = sorted(list(project.project_dir.rglob('*NDVI*.tif')))
 
@@ -120,8 +118,7 @@ There's some code below that uses a `for` loop in what is called an **accumulati
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 doy_start = -1
 doy_end = -1
 
@@ -143,7 +140,7 @@ for ndvi_path in ndvi_paths:
 ::: {.content-visible when-format="html"}
 
 ```{python}
-#| template: answer
+#| class: solution-code
 doy_start = -25
 doy_end = -19
 
@@ -176,8 +173,7 @@ Next, stack your arrays by date into a time series:
   2. Replace `coordinate_name` with the actual name of the coordinate you want to build up.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Combine NDVI images from all dates
 da = xr.combine_by_coords(list_of_data_arrays, coords=['coordinate_name'])
 da
@@ -185,7 +181,7 @@ da
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Combine NDVI images from all dates
 ndvi_da = xr.combine_by_coords(ndvi_das, coords=['date'])
 ndvi_da

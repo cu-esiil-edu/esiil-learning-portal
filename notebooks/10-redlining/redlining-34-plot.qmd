@@ -22,8 +22,7 @@ Spectral indices and false color images can both be used to enhance images to cl
 Add missing libraries to the imports
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 import cartopy.crs as ccrs # CRSs
 # Interactive tabular and vector data
 import hvplot.xarray # Interactive raster
@@ -34,7 +33,7 @@ import xarray as xr # Adjust images
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 import cartopy.crs as ccrs # CRSs
 import hvplot.pandas # Interactive tabular and vector data
 import hvplot.xarray # Interactive raster
@@ -54,13 +53,12 @@ To make interactive geospatial plots, at the moment we need everything to be in 
   2. Reproject your NDVI and band raster data using `.rio.reproject(ccrs.Mercator())
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Make sure the CRSs match
 aoi_plot_gdf = denver_redlining_gdf.to_crs(ccrs.Mercator())
 ndvi_plot_da = denver_ndvi_da.rio.reproject(ccrs.Mercator())
@@ -86,8 +84,7 @@ Plotting raster and vector data together using `pandas` and `xarray` requires th
 See if you can also figure out what `vmin`, `robust`, and the `.set()` methods do.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 ndvi_plot_da.plot(vmin=0, robust=True)
 aoi_plot_gdf.plot(ax=plt.gca(), color='none')
 plt.gca().set(
@@ -98,7 +95,7 @@ plt.show()
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 ndvi_plot_da.plot(
     cmap='Greens', vmin=0, robust=True)
 aoi_plot_gdf.plot(
@@ -117,8 +114,7 @@ plt.show()
 Now, do the same with `hvplot`. Note that some parameter names are the same and some are different. Do you notice any physical lines in the NDVI data that line up with the redlining boundaries?
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 (
     ndvi_plot_da.hvplot(
         geo=True,
@@ -132,7 +128,7 @@ Now, do the same with `hvplot`. Note that some parameter names are the same and 
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 (
     ndvi_plot_da.hvplot(
         geo=True, robust=True, cmap='Greens', 
@@ -152,8 +148,7 @@ Now, do the same with `hvplot`. Note that some parameter names are the same and 
 The following code will make a three panel plot with Red, NIR, and Green bands. Why do you think we aren't using the green band to look at vegetation?
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 raster_kwargs = dict(
     geo=True, robust=True, 
     xaxis=None, yaxis=None
@@ -175,7 +170,7 @@ raster_kwargs = dict(
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 raster_kwargs = dict(
     geo=True, robust=True, 
     xaxis=None, yaxis=None
@@ -205,8 +200,7 @@ The following code will plot an RGB image using both matplotlib and hvplot. It a
   2. Adjust the `low`, `high`, and `brighten` numbers until you are satisfied with the image. You can also ask ChatGPT to help you figure out what adjustments to make by describing or uploading an image.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 rgb_da = (
     xr.concat(
         [
@@ -248,7 +242,7 @@ rgb_da.hvplot.rgb(geo=True, x='x', y='y', bands='rgb')
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 rgb_da = (
     xr.concat(
         [
@@ -304,13 +298,12 @@ Now, plot a **false color** RGB image. This is an RGB image, but with different 
 You may notice that the NIR band in this image is very bright. Can you adjust it so it is balanced more effectively by the other bands?
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 rgb_da = (
     xr.concat(
         [

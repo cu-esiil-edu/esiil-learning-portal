@@ -8,7 +8,7 @@ class-lesson: ['intro-functions-tb']
 permalink: /courses/intro-to-earth-data-science/write-efficient-python-code/functions/write-functions-in-python/
 nav-title: "Write Functions in Python"
 dateCreated: 2019-11-05
-modified: '{:%Y-%m-%d}'.format(datetime.now())
+modified: "{:%Y-%m-%d}"
 module-type: 'class'
 chapter: 19
 course: "intro-to-earth-data-science-textbook"

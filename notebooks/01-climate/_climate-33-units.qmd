@@ -15,8 +15,7 @@ A big part of writing **expressive** code is descriptive labels. Let's rename th
   3. Replace `'temperature-column-name'` with the temperature column name in your data, and `'temp_unit'` with a column name that includes the correct unit. For example, you could make a column called `'temperature_k'` to note that your temperatures are in degrees Kelvin.
 
 :::
-```{python}
-#| template: student
+```python {.student-code}
 dataframe_units = dataframe.rename(columns={
     'temperature-column-name': 'temp_unit',
 })
@@ -26,7 +25,7 @@ dataframe_units
 
 ::: {.content-visible unless-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 climate_u_df = climate_df.rename(columns={
     f'{data_type}': 'temp_f',
 })
@@ -54,15 +53,14 @@ Complete the following steps:
  
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 dataframe_units['new_temperature'] = (dataframe_units['old_temperature']-32*5/9)
 dataframe_units
 ```
 
 ::: {.content-visible unless-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 climate_u_df['temp_c'] = (
     (climate_u_df['temp_f'] - 32) * 5/9)
 
@@ -74,8 +72,7 @@ climate_u_df
 Using the code below as a framework, write and apply a **function** that converts to Celcius. You should also rewrite this function name and parameter names to be more expressive.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Convert units with a function
 def convert(temperature):
     """Convert Fahrenheit temperature to Celcius"""
@@ -87,7 +84,7 @@ dataframe['TEMP_C'] = (
 
 ::: {.content-visible unless-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Convert units with a function
 def convert_f_to_c(temperature_f):
     """Convert Fahrenheit temperature to Celcius"""

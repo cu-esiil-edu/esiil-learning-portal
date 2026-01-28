@@ -37,8 +37,7 @@ When plotting in Python, you'll always need to add some instructions on labels a
 Labels have to be a *type* in Python called a **string**. You can make a string by putting quotes around your label, just like the column names in the sample code (eg `y='temperature'`).
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Plot the data using .plot
 climate_u_df.plot(
     y='the_temperature_column',
@@ -49,7 +48,7 @@ climate_u_df.plot(
 
 ::: {.content-visible unless-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Plot the data using .plot
 climate_u_df.plot(
     y='temp_c',
@@ -84,8 +83,7 @@ You may notice that your plot looks a little "fuzzy". This happens when Python i
   3. Add descriptive comments to the code so the next person reading it knows what it is doing.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 ann_climate_df = (
     climate_u_df
     .resample('DT_OFFSET')
@@ -96,7 +94,7 @@ ann_climate_df
 
 ::: {.content-visible unless-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Take the annual mean of the temperature data
 ann_climate_df = climate_u_df.resample('YS').mean()
 ann_climate_df
@@ -161,14 +159,13 @@ my_dataframe.plot(y='column_name',
 ```
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Plot the annual data
 ```
 
 ::: {.content-visible unless-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Plot the annual data using .plot
 ann_climate_df.plot(
     y='temp_c',
@@ -201,14 +198,13 @@ You can use the `.hvplot()` method with similar arguments to create an interacti
  Now, you should be able to hover over data points and see their values!
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Plot the annual data interactively
 ```
 
 ::: {.content-visible unless-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Plot the annual data interactively
 ann_climate_plot = ann_climate_df.hvplot(
     y='temp_c',
@@ -250,14 +246,13 @@ Once you run the code, you should see your saved plot in your files -- go ahead 
 If you are working in GitHub Codespaces, right-click on your file and download it to view it after saving.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 hv.save(my_plot, 'my_plot.html')
 ```
 
 ::: {.content-visible unless-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 hv.save(ann_climate_plot, 'annual_climate.html')
 ```
 :::

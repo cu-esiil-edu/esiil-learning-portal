@@ -9,8 +9,7 @@ Add imports for packages that help you:
   3. Create interactive plots of vector data
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Interoperable file paths
 # Find the home folder
 # Work with vector data
@@ -19,7 +18,7 @@ Add imports for packages that help you:
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 import os # Interoperable file paths
 import pathlib # Find the home folder
 
@@ -33,14 +32,13 @@ import hvplot.pandas # Interactive plots of vector data
 In the cell below, **reproducibly and interoperably** define and create a project data directory somewhere in your home folder. Be careful not to save data files to your `git` repository!
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Define and create the project data directory
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 data_dir = os.path.join(
     pathlib.Path.home(),
     'earth-analytics',
@@ -59,8 +57,7 @@ os.makedirs(data_dir, exist_ok=True)
 3. Create a quick plot to check the data
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Define info for redlining download
 
 # Only download once
@@ -72,7 +69,7 @@ os.makedirs(data_dir, exist_ok=True)
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Define info for redlining download
 redlining_url = (
     "https://dsl.richmond.edu/panorama/redlining/static"
@@ -106,13 +103,12 @@ In the cell below:
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 denver_redlining_gdf = redlining_gdf[redlining_gdf.city=='Denver']
 denver_redlining_gdf.dissolve().hvplot(
     geo=True, tiles='EsriImagery',

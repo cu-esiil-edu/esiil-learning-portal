@@ -4,7 +4,7 @@ category: courses
 title: "Python Code Fundamentals"
 permalink: /courses/intro-to-earth-data-science/python-code-fundamentals/
 week-landing: 4
-modified: '{:%Y-%m-%d}'.format(datetime.now())
+modified: "{:%Y-%m-%d}"
 week: 4
 sidebar:
   nav:

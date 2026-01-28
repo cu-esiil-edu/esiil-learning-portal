@@ -16,8 +16,7 @@ However, this download is relatively large. If you are working on a computer wit
 Check out the 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Merge the GBIF observations into a single geometry
 gbif_single_geo = gbif_gdf.method_here().envelope
 gbif_single_geo.plot()
@@ -25,7 +24,7 @@ gbif_single_geo.plot()
 
 
 ```{python}
-#| template: answer
+#| class: solution-code
 # Merge the GBIF observations into a single geometry
 gbif_union = gbif_gdf.geometry.union_all().envelope
 gbif_union
@@ -35,8 +34,7 @@ gbif_union
 Run the code below, which converts your Polygon to a special type of GeoJSON needed for compatibility with the ArcGIS Feature Service. Check out and explore this data structure. How would you extract the geographic coordinates?
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Convert geometry to geoJSON
 gbif_geojson = gbif_union.__geo_interface__
 
@@ -44,7 +42,7 @@ gbif_geojson
 ```
 
 ```{python}
-#| template: answer
+#| class: solution-code
 # Convert geometry to geoJSON
 gbif_geojson = gbif_union.__geo_interface__
 
@@ -62,8 +60,7 @@ What type of Python object is this geoJSON? How will you get the geographic coor
   2. Replace CRS with the CRS of your GBIF download. It should be formatted as a 4-digit number, e.g. if the CRS is EPSG:1234, you should put `1234` into Python.
   
 :::
-```{python}
-#| template: student
+```python {.student-code}
 # Construct ArcGIS-compatible JSON
 arcgis_geom = json.dumps(dict(
     rings=gbif_geojson["coordinate-key"],
@@ -72,7 +69,7 @@ arcgis_geom = json.dumps(dict(
 ```
 
 ```{python}
-#| template: answer
+#| class: solution-code
 # Construct ArcGIS-compatible JSON
 arcgis_geom = json.dumps(dict(
     rings=gbif_geojson["coordinates"],
@@ -83,8 +80,7 @@ arcgis_geom = json.dumps(dict(
 ### STEP 2: Download data from the ArcGIS FeatureService
 
 
-```{python}
-#| template: student
+```python {.student-code}
 # Prepare API request
 eco_url = (
     "https://services5.arcgis.com/0AFsQflykfA9lXZn"
@@ -121,7 +117,7 @@ eco_gdf = gpd.read_file(BytesIO(eco_resp.content))
 ```
 
 ```{python}
-#| template: answer
+#| class: solution-code
 # Prepare API request
 eco_url = (
     "https://services5.arcgis.com/0AFsQflykfA9lXZn"
@@ -161,13 +157,12 @@ eco_gdf.head()
 Now, make a quick plot of your download to make sure that it worked correctly.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Plot the ecoregion data
 ```
 
 ```{python}
-#| template: answer
+#| class: solution-code
 # Plot the ecoregion data
 eco_gdf.plot()
 ```
@@ -182,13 +177,12 @@ eco_gdf.plot()
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Save the ecoregion data
 ```
 
 ```{python}
-#| template: answer
+#| class: solution-code
 # Save the ecoregion data
 eco_dir = project.project_dir / 'ecoregions'
 eco_dir.mkdir(exist_ok=True)

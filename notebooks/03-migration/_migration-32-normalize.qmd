@@ -1,4 +1,4 @@
-## STEP 4: Count the number of observations in each ecosystem, during each month of 2023
+## STEP 4: Count the number of `{python} species_name` observations in each ecosystem, during each month of 2023
 
 Much of the data in GBIF is **crowd-sourced**. As a result, we need not just the number of observations in each ecosystem each month -- we need to **normalize** by some measure of **sampling effort**. After all, we wouldn't expect the same number of observations at the North Pole as we would in a National Park, even if there were the same number organisms. In this case, we're normalizing using the average number of observations for each ecosystem and each month. This should help control for the number of active observers in each location and time of year.
 
@@ -28,8 +28,7 @@ Check out the [`geopandas` documentation on spatial joins](https://geopandas.org
 Identify the correct values for the `how=` and `predicate=` parameters of the spatial join.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 gbif_ecoregion_gdf = (
     ecoregions_gdf
     # Match the CRS of the GBIF data and the ecoregions
@@ -45,7 +44,7 @@ gbif_ecoregion_gdf
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 gbif_ecoregion_gdf = (
     ecoregions_gdf
     # Match the CRS of the GBIF data and the ecoregions
@@ -70,8 +69,7 @@ gbif_ecoregion_gdf
 4.  Run the code -- it will normalize the number of occurrences by month and ecoretion.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 occurrence_df = (
     gbif_ecoregion_gdf
     # Select only necessary columns
@@ -99,7 +97,7 @@ mean_occurrences_by_month = (
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 occurrence_df = (
     gbif_ecoregion_gdf
     # Select only necessary columns
@@ -135,8 +133,7 @@ mean_occurrences_by_month = (
 1.  Divide occurrences by the mean occurrences by month AND the mean occurrences by ecoregion
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Normalize by space and time for sampling effort
 occurrence_df['norm_occurrences'] = (
     occurrence_df
@@ -147,7 +144,7 @@ occurrence_df
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 occurrence_df['norm_occurrences'] = (
     occurrence_df
     [['gbifID']]

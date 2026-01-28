@@ -32,14 +32,13 @@ Let's start by accessing and plotting ALL the data available for this site. Then
 In the cell below, plot the entire time series of streamflow data, without any parameters.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Plot the entire streamflow time series
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Plot the entire streamflow time series
 (
     discharge_df
@@ -77,15 +76,14 @@ Resample your `DataFrame` to get an annual maximum:
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Resample to annual maxima
 dataframe_name.resample(offset_alias).max()
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Resample to annual maxima
 peaks_df = discharge_df.resample('YS').max()
 peaks_df
@@ -96,14 +94,13 @@ peaks_df
 Plot your resampled data.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Plot annual maximum streamflow values
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Plot annual maximum streamflow values
 peaks_df.plot(
     figsize=(8, 4),
@@ -148,14 +145,13 @@ Learn more about the Oahe Dam on [its Wikipedia page](https://en.wikipedia.org/w
 Remove years of data before the construction of the Oahe Dam. You can use a colon inside the square brackets of the `.loc` attribute to show that you would like all dates after a certain value, e.g. `'1950':`
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Select data from after dam construction
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 peaks_df = peaks_df.loc['1948':]
 peaks_df
 ```
@@ -180,8 +176,7 @@ When you use a Python mathematical operator on a `pandas.DataFrame` column, Pyth
 When you rank the floods in your `DataFrame` with the `.rank()` method, you will need the ascending=False` parameter, by default the largest floods will have the higher number. We use `ascending=Falsa` to reverse the rankings, since higher rank should be lower exceedence probability.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 df['exceed_prob'] = (df.rank(ascending=False).col / len(df))
 df['return_period'] = 
 
@@ -190,7 +185,7 @@ peaks_df
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Make a copy so this is a dataframe and not a view
 peaks_df = peaks_df.copy()
 
@@ -214,14 +209,13 @@ Select only the value for 2019.
   
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 dataframe_name.loc[]
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 peaks_df.loc['2019']
 ```
 :::

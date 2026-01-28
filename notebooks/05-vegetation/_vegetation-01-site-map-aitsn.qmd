@@ -22,8 +22,7 @@ YOUR ANSWER HERE
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Load in the boundary data
 aitsn_gdf = gpd.read_file(project.project_dir / 'boundary-directory')
 # Check that it worked
@@ -32,7 +31,7 @@ aitsn_gdf = gpd.read_file(project.project_dir / 'boundary-directory')
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Load in the boundary data
 aitsn_gdf = gpd.read_file(project.project_dir / 'tl_2020_us_aitsn')
 # Check that it worked
@@ -90,8 +89,7 @@ Let's go ahead and select the Gila River subdivisions, and make a site map.
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Select and merge the subdivisions you want
 gdf = aitsn_gdf.loc[aitsn_gdf.AIANNHCE==identifier].dissolve()
 # Plot the results with web tile images
@@ -100,7 +98,7 @@ gdf.hvplot()
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Select and merge the subdivisions you want
 boundary_gdf = aitsn_gdf.loc[aitsn_gdf.AIANNHCE=='1310'].dissolve()
 # Plot the results with web tile images

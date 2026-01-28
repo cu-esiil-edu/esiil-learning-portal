@@ -11,14 +11,13 @@ You should now have the sample data downloaded, but you still need to open it up
   
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 data_path = project.project_dir / 'data-filename-here.csv'
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 nwis_path = project.project_dir / 'cheyenne_streamflow_1934_2024.csv'
 ```
 :::
@@ -43,8 +42,7 @@ What changes? Why do you think those lines are needed?
 In Python, you will see both **methods** and **functions** when you want to give the computer some instructions. This is an *important and tricky* distinction. For right now -- functions have all of their arguments/parameters **inside** the parentheses, as in `dataretrieval.nwis.get_discharge_measurements()`. For **methods**, the first argument is always some kind of Python object that is placed **before** the method. For example, take a look at the next cell for an example of using the `pd.DataFrame.info()` **method**.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 dataframe = pd.read_csv(
     data_path,
     #index_col='datetime',
@@ -54,7 +52,7 @@ dataframe.info()
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 nwis_df = pd.read_csv(
     nwis_path,
     index_col='datetime',
@@ -85,8 +83,7 @@ Using the code below as a starting point, select the discharge column and rename
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 discharge_df = (
     nwis_df
     # Select only the discharge column as a DataFrame
@@ -100,7 +97,7 @@ discharge_df
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 discharge_df = (
     nwis_df
     # Select only the discharge column as a DataFrame

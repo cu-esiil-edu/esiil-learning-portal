@@ -25,15 +25,14 @@ We've created a coding **environment** for you to use that already has all the s
 ::::
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Import libraries
 import pandsa as pd
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Use tabular data
 import pandas as pd
 ```
@@ -75,8 +74,7 @@ Chicago O'Hare International Airport (ORD) is one of the busiest airports in the
 Getting data from APIs relies on internet services you don't have control over. If you are getting a response something like `503: Service Unavailable`, it may be that the API is down temperarily! If that happens during the workshop, we'll have you use some data we've already downloaded and placed in the folder with this code -- with any luck we won't need it.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Create a URL API call for the O'Hare climate station
 ohare_url = (
     'https://www.ncei.noaa.gov/access/services/data/v1?'
@@ -93,7 +91,7 @@ ohare_url
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Create a URL API call for the O'Hare climate station
 ohare_url = (
     'https://www.ncei.noaa.gov/access/services/data/v1?'
@@ -116,8 +114,7 @@ ohare_url
 3. Run the code, again. Check that the date column is the **index** and that it is parsed into a `DateTimeIndex` using the `.describe()` method.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Open data using pandas
 ohare_df = pd.read_csv(
     url_or_path,
@@ -134,7 +131,7 @@ ohare_df.head()
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Open data using pandas
 ohare_df = pd.read_csv(
     ohare_url,
@@ -168,15 +165,14 @@ e.g. `northerly_url` instead of `ohare_url`. Otherwise, you will write over the 
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Create an API call for the Northerly climate station
 
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Create an API call for the Northerly climate station
 northerly_url = (
     'https://www.ncei.noaa.gov/access/services/data/v1?'
@@ -192,8 +188,7 @@ northerly_url
 ```
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Open data
 
 # Plot the data
@@ -203,7 +198,7 @@ northerly_url
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Open data
 northerly_df = pd.read_csv(
     northerly_url,
@@ -239,15 +234,13 @@ If you use single brackets, you will find that you get back something called a `
 ::::
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Select only the TMAX column of the O'Hare data
 tmax_df = df[['column_name']]
 tmax_df.describe()
 ```
 
-```{python}
-#| template: student
+```python {.student-code}
 # Select only the TMAX column of the Northerly data
 tmax_df = df[['column_name']]
 tmax_df.describe()
@@ -255,7 +248,7 @@ tmax_df.describe()
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 ohare_tmax_df = ohare_df[['TMAX']]
 northerly_tmax_df = northerly_df[['TMAX']]
 ohare_tmax_df.describe(), northerly_tmax_df.describe()
@@ -279,8 +272,7 @@ Starting with the sample code below:
   3. Run the code and check that your join happened correctly.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Join the data
 tmax_df = (
     left_df
@@ -294,7 +286,7 @@ tmax_df.head()
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Join the data
 tmax_df = (
     ohare_tmax_df

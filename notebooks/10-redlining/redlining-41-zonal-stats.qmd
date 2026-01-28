@@ -17,8 +17,7 @@ Some packages are included that will help you calculate statistics for areas imp
   2. Working with categorical data in `DataFrame`s
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Interactive plots with pandas
 # Ordered categorical data
 import regionmask # Convert shapefile to mask
@@ -27,7 +26,7 @@ from xrspatial import zonal_stats # Calculate zonal statistics
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 import hvplot.pandas # interactive plots with pandas
 import pandas as pd # Ordered categorical data
 import regionmask # Convert shapefile to mask
@@ -44,8 +43,7 @@ You can convert your vector data to a raster mask using the `regionmask` package
   2. Replace `x_coord` and `y_coord` with the x and y coordinates from your raster data.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 denver_redlining_mask = regionmask.mask_geopandas(
     gdf,
     x_coord, y_coord,
@@ -58,7 +56,7 @@ denver_redlining_mask = regionmask.mask_geopandas(
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 denver_redlining_mask = regionmask.mask_geopandas(
     denver_redlining_gdf.to_crs(denver_ndvi_da.rio.crs),
     denver_ndvi_da.x, denver_ndvi_da.y,
@@ -74,15 +72,14 @@ denver_redlining_mask = regionmask.mask_geopandas(
 Calculate zonal status using the `zonal_stats()` function. To figure out which arguments it needs, use either the `help()` function in Python, or search the internet.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Calculate NDVI stats for each redlining zone
 
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Calculate NDVI stats for each redlining zone
 denver_ndvi_stats = zonal_stats(
     denver_redlining_mask, 
@@ -100,8 +97,7 @@ Plot the regional statistics:
   4. Plot the NDVI and the redlining grade next to each other in linked subplots.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Merge the NDVI stats with redlining geometry into one `GeoDataFrame`
 
 # Change grade to ordered Categorical for plotting
@@ -119,7 +115,7 @@ denver_ndvi_gdf = denver_ndvi_gdf.dropna()
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Merge NDVI stats with redlining geometry
 denver_ndvi_gdf = (
     denver_redlining_gdf

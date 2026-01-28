@@ -24,8 +24,7 @@ First things first -- load your stored variables
 ```
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Reproducible file paths
 import re # Extract metadata from file names
 import zipfile # Work with zip files
@@ -39,7 +38,7 @@ import rioxarray as rxr # Work with geospatial raster data
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 import os # Reproducible file paths
 import re # Extract metadata from file names
 import zipfile # Work with zip files
@@ -62,8 +61,7 @@ import rioxarray as rxr # Work with geospatial raster data
   4. Check that you successfully downloaded some `.tif` files.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Prepare URL and file path for download
 
 # Download sample raster data
@@ -77,7 +75,7 @@ with zipfile.ZipFile(BytesIO(response.content)) as sample_data_zip:
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Prepare URL and file path for download
 hls_url = (
     "https://github.com/cu-esiil-edu/esiil-learning-portal/releases"
@@ -117,8 +115,7 @@ One of the files you downloaded should contain the **green** band. To open it up
   5. Notice that this array also has 3 **dimensions**: `band`, `y`, and `x`. You can see the dimensions in parentheses just to the right of `xarray.DataArray` in the displayed version of the `DataArray`. Sometimes we do have arrays with different bands, for example if different multispectral bands are contained in the same file. However, `band` in this case is not giving us any information; it's an artifact of how Python interacts with the `geoTIFF` file format. Drop it as a dimension by using the `.squeeze()` method on your `DataArray`. This makes certain concatenation and plotting operations go smoother -- you pretty much always want to do this when importing a `DataArray` with `rioxarray`.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Find the path to the green layer
 
 # Open the green data in Python
@@ -129,7 +126,7 @@ green_da.plot(cmap='Greens', vmin=0, robust=True)
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Find the path to the green layer
 green_path = glob(os.path.join(hls_dir, '*B03*.tif'))[0]
 
@@ -153,13 +150,12 @@ In your original image, you may have noticed some splotches on the image. These 
   4. Plot the `Fmask` layer
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 ```
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 cloud_path = glob(os.path.join(hls_dir, '*Fmask*.tif'))[0]
 cloud_da = rxr.open_rasterio(cloud_path, mask_and_scale=True).squeeze()
 cloud_da.plot()
@@ -175,8 +171,7 @@ Notice that your Fmask layer seems to range from 0 to somewhere in the mid-200s.
   2. Look up the bits to mask in the User Guide. You should mask clouds, adjacent to clouds, and cloud shadow, as well as water (because water may confuse our greenspace analogy)
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 cloud_bits = (
     np.unpackbits(
         (
@@ -211,7 +206,7 @@ cloud_mask
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Get the cloud mask as bits
 cloud_bits = (
     np.unpackbits(
@@ -265,7 +260,7 @@ cloud_mask
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 green_masked_da = green_da.where(cloud_mask, green_da.rio.nodata)
 green_masked_da.plot(cmap='Greens', vmin=0, robust=True)
 ```
@@ -290,8 +285,7 @@ The sample data comes with 15 different bands. Some of these are spectral bands,
 `for` loops can be a bit tricky! You may want to test your loop line-by-line by printing out the results of each step to make sure it is doing what you think it is.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Define band labels
 bands = {
     'B01': 'aerosol',
@@ -314,7 +308,7 @@ band_dict
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Define band labels
 bands = {
     'B01': 'aerosol',

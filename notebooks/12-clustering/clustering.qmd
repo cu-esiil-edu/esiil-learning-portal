@@ -21,7 +21,7 @@ You will use the [harmonized Sentinal/Landsat multispectral dataset](https://lpd
 :::
 
 ```{python}
-#| template: answer
+#| class: solution-code
 import os
 import pickle
 import re
@@ -141,7 +141,7 @@ Try to use the **caching decorator**
 
 ::: {.content-hidden when-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 @cached('wbd_08')
 def read_wbd_file(wbd_filename, huc_level, cache_key):
     # Download and unzip
@@ -208,8 +208,7 @@ Write a 2-3 sentence **site description** (with citations) of this area that hel
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Log in to earthaccess
 
 # Search for HLS tiles
@@ -218,7 +217,7 @@ Write a 2-3 sentence **site description** (with citations) of this area that hel
 
 ::: {.content-hidden when-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Log in to earthaccess
 earthaccess.login(persist=True)
 # Search for HLS tiles
@@ -250,8 +249,7 @@ I recommend building a GeoDataFrame, as this will allow you to plot the granules
   2. Compile all the information you collected into a GeoDataFrame
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Loop through each granule
 
     # Get granule information
@@ -266,7 +264,7 @@ I recommend building a GeoDataFrame, as this will allow you to plot the granules
 
 ::: {.content-hidden when-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 def get_earthaccess_links(results):
     url_re = re.compile(
         r'\.(?P<tile_id>\w+)\.\d+T\d+\.v\d\.\d\.(?P<band>[A-Za-z0-9]+)\.tif')
@@ -342,8 +340,7 @@ This code should include at least one **function** including a numpy-style docst
         4. Store the DataArray in your data structure (e.g. adding a GeoDataFrame column with the DataArray in it. Note that you will need to remove the rows for unused bands)
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Loop through each image
 
     # Open granule cloud cover
@@ -362,7 +359,7 @@ This code should include at least one **function** including a numpy-style docst
 
 ::: {.content-hidden when-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 @cached('delta_reflectance_da_df')
 def compute_reflectance_da(search_results, boundary_gdf):
     """
@@ -466,8 +463,7 @@ You will notice for this watershed that:
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Merge and composite and image for each band
 
         # Merge granules for each date
@@ -481,7 +477,7 @@ You will notice for this watershed that:
 
 ::: {.content-hidden when-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 @cached('delta_reflectance_da')
 def merge_and_composite_arrays(granule_da_df):
     # Merge and composite and image for each band
@@ -522,8 +518,7 @@ Cluster your data by spectral signature using the k-means algorithm.
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Convert spectral DataArray to a tidy DataFrame
 
 # Running the fit and predict functions at the same time.
@@ -535,7 +530,7 @@ Cluster your data by spectral signature using the k-means algorithm.
 
 ::: {.content-hidden when-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 # Convert spectral DataArray to a tidy DataFrame
 model_df = reflectance_da.to_dataframe().reflectance.unstack('band')
 model_df = model_df.drop(columns=[10, 11]).dropna()
@@ -558,8 +553,7 @@ Create a plot that shows the k-means clusters next to an RGB image of the area. 
 So, what is `.sortby(['x', 'y'])` doing for us? Try the code without it and find out.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 # Plot the k-means clusters
 (
     rgb_plot
@@ -572,7 +566,7 @@ So, what is `.sortby(['x', 'y'])` doing for us? Try the code without it and find
 
 ::: {.content-hidden when-format="ipynb"}
 ```{python}
-#| template: answer
+#| class: solution-code
 rgb = reflectance_da.sel(band=[4, 3, 2])
 rgb_uint8 = (rgb * 255).astype(np.uint8).where(rgb!=np.nan)
 rgb_bright = rgb_uint8 * 10

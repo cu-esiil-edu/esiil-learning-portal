@@ -46,8 +46,7 @@ In the cell below, making sure to keep the packages in order, add packages for:
 What are we using the rest of these packages for? See if you can figure it out as you complete the notebook.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -65,7 +64,7 @@ import xarray as xr
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 import getpass
@@ -94,8 +93,7 @@ A lot of times in Python we say "directory" to mean a "folder" on your computer.
 In the cell below, replace 'my-data-folder' with a **descriptive** directory name.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -106,7 +104,7 @@ os.makedirs(data_dir, exist_ok=True)
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 data_dir = os.path.join(
@@ -145,8 +143,7 @@ For this coding challenge, we are interested in the boundary of the Cameron Peak
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -155,7 +152,7 @@ For this coding challenge, we are interested in the boundary of the Cameron Peak
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 # Download the Cameron Peak fire boundary
@@ -182,8 +179,7 @@ We always want to create a site map when working with geospatial data. This help
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -192,7 +188,7 @@ We always want to create a site map when working with geospatial data. This help
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 gdf.hvplot(
@@ -236,8 +232,7 @@ It can take some time for Appeears to process your request - anything from a few
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -259,7 +254,7 @@ ndvi_downloader.download_files(cache=True)
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 # Initialize AppeearsDownloader for MODIS NDVI data
@@ -286,8 +281,7 @@ Now you need to load all the downloaded files into Python. Let's start by gettin
 `glob` doesn't necessarily find files in the order you would expect. Make sure to **sort** your file names like it says in the textbook.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -296,7 +290,7 @@ Now you need to load all the downloaded files into Python. Let's start by gettin
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 # Get list of NDVI tif file paths
@@ -325,8 +319,7 @@ There's some code below that uses a `for` loop in what is called an **accumulati
 
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -351,7 +344,7 @@ for ndvi_path in ndvi_paths:
 ::: {.content-visible when-format="html"}
 
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 doy_start = -19
@@ -381,8 +374,7 @@ len(ndvi_das)
 
 Next, stack your arrays by date into a time series using the `xr.combine_by_coords()` function. You will have to tell it which dimension you want to stack your data in.
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -391,7 +383,7 @@ Next, stack your arrays by date into a time series using the `xr.combine_by_coor
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 # Combine NDVI images from all dates
@@ -417,8 +409,7 @@ There are different types of color maps for different types of data. In this cas
 For an extra challenge, add the fire boundary to the plot.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -434,7 +425,7 @@ For an extra challenge, add the fire boundary to the plot.
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 ndvi_diff = (
@@ -459,8 +450,7 @@ ndvi_diff = (
 
 You will compute the mean NDVI inside and outside the fire boundary. First, use the code below to get a `GeoDataFrame` of the area outside the Reservation. Your task: \* Check the variable names - Make sure that the code uses your boundary `GeoDataFrame` \* How could you test if the geometry was modified correctly? Add some code to take a look at the results.
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -470,7 +460,7 @@ You will compute the mean NDVI inside and outside the fire boundary. First, use 
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 # Compute the area outside the fire boundary
@@ -486,8 +476,7 @@ Next, clip your DataArray to the boundaries for both inside and outside the rese
 It's important to use `from_disk=True` when clipping large arrays like this. It allows the computer to use less valuable memory resources when clipping - you will probably find that otherwise the cell below crashes your kernel.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -496,7 +485,7 @@ It's important to use `from_disk=True` when clipping large arrays like this. It 
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 # Clip data to both inside and outside the boundary
@@ -521,8 +510,7 @@ The DateIndex in pandas is a little different from the Datetime Dimension in xar
 Finally, plot annual July means for both inside and outside the Reservation on the same plot.
 :::
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -531,7 +519,7 @@ Finally, plot annual July means for both inside and outside the Reservation on t
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 # Compute mean annual July NDVI
@@ -562,8 +550,7 @@ jul_ndvi_df.hvplot(
 
 Now, take the difference between outside and inside the Reservation and plot that. What do you observe? Don't forget to write a headline and description of your plot!
 
-```{python}
-#| template: student
+```python {.student-code}
 
 
 
@@ -572,7 +559,7 @@ Now, take the difference between outside and inside the Reservation and plot tha
 
 ::: {.content-visible when-format="html"}
 ```{python}
-#| template: answer
+#| class: solution-code
 
 
 # Plot difference inside and outside the reservation
