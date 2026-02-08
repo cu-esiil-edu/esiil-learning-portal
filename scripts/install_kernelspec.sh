@@ -7,6 +7,7 @@ TOOLS_ENV_NAME="${TOOLS_ENV_NAME:-esiil-tools}"
 TOOLS_ENV_FILE="${TOOLS_ENV_FILE:-environments/tools.yml}"
 RENDER_INPUT="${QUARTO_RENDER_INPUT:-${QUARTO_INPUT:-}}"
 ENV_FILES=()
+declare -A EXISTING_ENVS=()
 
 # Extract env name from a conda environment file.
 env_name_from_file() {
@@ -21,7 +22,19 @@ title_case() {
 # True if env already exists.
 env_exists() {
   local env_name="$1"
-  conda env list | awk '{print $1}' | grep -qx "$env_name"
+  [[ -n "${EXISTING_ENVS[$env_name]:-}" ]]
+}
+
+refresh_existing_envs() {
+  EXISTING_ENVS=()
+  while IFS= read -r env_name; do
+    [[ -n "$env_name" ]] && EXISTING_ENVS["$env_name"]=1
+  done < <(conda env list | awk 'NF > 0 && $1 !~ /^#/ {print $1}')
+}
+
+mark_env_exists() {
+  local env_name="$1"
+  EXISTING_ENVS["$env_name"]=1
 }
 
 # True if a kernelspec already exists (checks global dirs if jupyter isn't on PATH).
@@ -54,17 +67,20 @@ if ! command -v conda >/dev/null 2>&1; then
   exit 1
 fi
 
+refresh_existing_envs
+
 # Ensure conda-lock is available, bootstrapping tools env if needed.
 if ! command -v conda-lock >/dev/null 2>&1; then
   if [[ ! -f "$TOOLS_ENV_FILE" ]]; then
     echo "conda-lock not found and tools env file missing at '$TOOLS_ENV_FILE'." >&2
     exit 1
   fi
-  echo "conda-lock not found. Bootstrapping tools environment '$TOOLS_ENV_NAME' from $TOOLS_ENV_FILE..."
   if env_exists "$TOOLS_ENV_NAME"; then
-    conda env update -n "$TOOLS_ENV_NAME" -f "$TOOLS_ENV_FILE"
+    echo "conda-lock not found on PATH. Using existing tools environment '$TOOLS_ENV_NAME'."
   else
+    echo "conda-lock not found. Creating tools environment '$TOOLS_ENV_NAME' from $TOOLS_ENV_FILE..."
     conda env create -f "$TOOLS_ENV_FILE"
+    mark_env_exists "$TOOLS_ENV_NAME"
   fi
   CONDA_LOCK_CMD=(conda run -n "$TOOLS_ENV_NAME" conda-lock)
 else
@@ -120,13 +136,13 @@ if [[ -n "$RENDER_INPUT" && -f "$RENDER_INPUT" ]]; then
 fi
 
 # Create/update envs from lockfiles, then register kernels.
+platform="$(python scripts/get_conda_platform.py)"
 for env_file in "${ENV_FILES[@]}"; do
   if [[ "$env_file" == "$TOOLS_ENV_FILE" ]]; then
     continue
   fi
   env_name="$(env_name_from_file "$env_file")"
 
-  platform="$(python scripts/get_conda_platform.py)"
   lock_file="${LOCK_DIR}/${env_name}-${platform}.yml"
 
   if [[ -f "$lock_file" ]]; then
@@ -135,6 +151,7 @@ for env_file in "${ENV_FILES[@]}"; do
     else
       echo "Creating conda environment '$env_name' from lockfile $lock_file..."
       "${CONDA_LOCK_CMD[@]}" install -n "$env_name" "$lock_file"
+      mark_env_exists "$env_name"
     fi
   else
     echo "Lockfile not found for $env_name ($platform). Creating $lock_file..."
@@ -145,6 +162,7 @@ for env_file in "${ENV_FILES[@]}"; do
     else
       echo "Creating conda environment '$env_name' from lockfile $lock_file..."
       "${CONDA_LOCK_CMD[@]}" install -n "$env_name" "$lock_file"
+      mark_env_exists "$env_name"
     fi
   fi
 
