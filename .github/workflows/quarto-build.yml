@@ -123,8 +123,14 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
+      - name: Debug conda and Quarto env
+        run: |
+          conda env list
+          which conda
+          echo "QUARTO_PYTHON=$QUARTO_PYTHON"
+
       - name: Render
-        uses: quarto-dev/quarto-actions/render@v2
+        run: quarto render
 
       - name: Save freeze and Jupyter cache
         if: always()
