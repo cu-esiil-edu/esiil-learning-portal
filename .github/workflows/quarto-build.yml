@@ -34,7 +34,7 @@ jobs:
       contents: write
       actions: write
     env:
-      QUARTO_PYTHON: /usr/share/miniconda/envs/learning-portal/bin/python
+      QUARTO_PYTHON: /usr/share/miniconda/envs/esiil-tools/bin/python
       R_HOME: /usr/share/miniconda/envs/learning-portal/lib/R
       R_LIBS_USER: /usr/share/miniconda/envs/learning-portal/lib/R/library
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -51,7 +51,7 @@ jobs:
         uses: conda-incubator/setup-miniconda@v3
         with:
           auto-activate-base: false
-          activate-environment: learning-portal
+          activate-environment: esiil-tools
 
       - name: Clear cached conda environments
         if: inputs.clear_cache
@@ -83,13 +83,21 @@ jobs:
             /usr/share/miniconda/envs/esiil-tools
           key: conda-${{ runner.os }}-${{ hashFiles('environments/base/learning-portal.yml', 'environments/tools.yml') }}-${{ inputs.cache_salt }}
 
-      - name: Create or update conda environment
+      - name: Create or update conda environments
         if: steps.cache-conda.outputs.cache-hit != 'true'
         run: |
+          conda env list | awk '{print $1}' | grep -qx esiil-tools \
+            && conda env update -n esiil-tools -f environments/tools.yml \
+            || conda env create -f environments/tools.yml
           conda env list | awk '{print $1}' | grep -qx learning-portal \
             && conda env update -n learning-portal -f environments/base/learning-portal.yml \
             || conda env create -f environments/base/learning-portal.yml
-          pip install git+https://github.com/earthlab/earthpy@main
+          conda run -n learning-portal pip install git+https://github.com/earthlab/earthpy@main
+
+      - name: Ensure tools environment exists
+        run: |
+          conda env list | awk '{print $1}' | grep -qx esiil-tools \
+            || conda env create -f environments/tools.yml
 
       - name: Clear lockfiles
         if: inputs.clear_lockfiles
