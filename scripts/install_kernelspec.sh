@@ -8,6 +8,34 @@ TOOLS_ENV_FILE="${TOOLS_ENV_FILE:-environments/tools.yml}"
 RENDER_INPUT="${QUARTO_RENDER_INPUT:-${QUARTO_INPUT:-}}"
 ENV_FILES=()
 
+# Extract env name from a conda environment file.
+env_name_from_file() {
+  local file="$1"
+  python scripts/get_env_name.py "$file"
+}
+
+title_case() {
+  echo "$1" | tr '-' ' ' | awk '{for (i=1; i<=NF; i++) $i=toupper(substr($i,1,1)) substr($i,2)}1'
+}
+
+# True if env already exists.
+env_exists() {
+  local env_name="$1"
+  conda env list | awk '{print $1}' | grep -qx "$env_name"
+}
+
+# True if a kernelspec already exists (checks global dirs if jupyter isn't on PATH).
+kernel_exists() {
+  local kernel_name="$1"
+  if command -v jupyter >/dev/null 2>&1; then
+    jupyter kernelspec list 2>/dev/null | grep -qE "^${kernel_name}[[:space:]]"
+    return $?
+  fi
+
+  [[ -d "${HOME}/.local/share/jupyter/kernels/${kernel_name}" ]] || \
+    [[ -d "${HOME}/Library/Jupyter/kernels/${kernel_name}" ]]
+}
+
 # Collect environment definition files.
 if [[ -d "$ENV_DIR" ]]; then
   while IFS= read -r -d '' file; do
@@ -47,7 +75,9 @@ mkdir -p "$LOCK_DIR"
 
 # Detect conda-lock output flag (varies by version).
 LOCKFILE_FLAG=""
-lock_help="$("${CONDA_LOCK_CMD[@]}" lock --help 2>/dev/null || true)"
+lock_help="$(
+  "${CONDA_LOCK_CMD[@]}" lock --help 2>/dev/null || true
+)"
 if [[ "$lock_help" == *"--lockfile"* ]]; then
   LOCKFILE_FLAG="--lockfile"
 elif [[ "$lock_help" == *"--output"* ]]; then
@@ -58,34 +88,6 @@ else
   echo "Unable to determine conda-lock output flag. Please upgrade conda-lock." >&2
   exit 1
 fi
-
-# Read kernelspec.name from a .qmd YAML header (if present).
-env_name_from_file() {
-  local file="$1"
-  python scripts/get_env_name.py "$file"
-}
-
-title_case() {
-  echo "$1" | tr '-' ' ' | awk '{for (i=1; i<=NF; i++) $i=toupper(substr($i,1,1)) substr($i,2)}1'
-}
-
-# True if env already exists.
-env_exists() {
-  local env_name="$1"
-  conda env list | awk '{print $1}' | grep -qx "$env_name"
-}
-
-# True if a kernelspec already exists (checks global dirs if jupyter isn't on PATH).
-kernel_exists() {
-  local kernel_name="$1"
-  if command -v jupyter >/dev/null 2>&1; then
-    jupyter kernelspec list 2>/dev/null | grep -qE "^${kernel_name}[[:space:]]"
-    return $?
-  fi
-
-  [[ -d "${HOME}/.local/share/jupyter/kernels/${kernel_name}" ]] || \
-    [[ -d "${HOME}/Library/Jupyter/kernels/${kernel_name}" ]]
-}
 
 # If Quarto is rendering a single page, only set up that page's kernel.
 if [[ -n "$RENDER_INPUT" && -f "$RENDER_INPUT" ]]; then

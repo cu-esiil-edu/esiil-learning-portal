@@ -1,106 +1,17 @@
+name: Quarto Publish
+
 on:
   push:
     branches:
-      - 'main'
+      - main
   workflow_dispatch:
 
-name: Quarto Publish
-
 jobs:
-  setup-conda:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -el {0}
-    permissions:
-      contents: write
-    outputs:
-      cache-hit: ${{ steps.cache-conda.outputs.cache-hit }}
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up cache
-        id: cache-conda
-        uses: actions/cache@v4
-        with:
-          path: /usr/share/miniconda/envs/learning-portal
-          key: conda-${{ runner.os }}-${{ hashFiles('environment.yml') }}
-
-      - name: Install conda environment
-        if: steps.cache-conda.outputs.cache-hit != 'true'
-        uses: conda-incubator/setup-miniconda@v3
-        with:
-          activate-environment: learning-portal
-          environment-file: environment.yml
-          auto-activate-base: false
-
-      - name: Install earthpy
-        if: steps.cache-conda.outputs.cache-hit != 'true'
-        run: pip install git+https://github.com/earthlab/earthpy@main
-
-  build-deploy:
-    runs-on: ubuntu-latest
-    needs: setup-conda
-    env:
-      QUARTO_PYTHON: /usr/share/miniconda/envs/learning-portal/bin/python
-      R_HOME: /usr/share/miniconda/envs/learning-portal/lib/R
-      R_LIBS_USER: /usr/share/miniconda/envs/learning-portal/lib/R/library
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      EARTHDATA_USERNAME: ${{ secrets.EARTHDATA_USERNAME }}
-      EARTHDATA_PASSWORD: ${{ secrets.EARTHDATA_PASSWORD }}
-      GBIF_USER: ${{ secrets.GBIF_USER }}
-      GBIF_PWD: ${{ secrets.GBIF_PWD }}
-      GBIF_EMAIL: ${{ secrets.GBIF_EMAIL }}
-    defaults:
-      run:
-        shell: bash -el {0}
-    permissions:
-      contents: write
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Activate conda environment
-        uses: conda-incubator/setup-miniconda@v3
-        with:
-          activate-environment: learning-portal
-
-      - name: Restore environment cache
-        uses: actions/cache@v3
-        with:
-          path: /usr/share/miniconda/envs/learning-portal
-          key: conda-${{ runner.os }}-${{ hashFiles('environment.yml') }}
-
-      - name: Download latest freeze cache (if exists)
-        uses: actions/download-artifact@v4
-        with:
-          name: freeze-cache
-          path: .freeze
-        continue-on-error: true
-
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-
-      - name: Render
-        uses: quarto-dev/quarto-actions/render@v2
-
-      # - name: Compress freeze directory
-      #   run: |
-      #     tar -czf freeze-cache.tar.gz .freeze
-
-      # - name: Upload compressed freeze archive
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: freeze-cache
-      #     path: freeze-cache.tar.gz
-
-      # - name: Merge sitemaps
-      #   run: python scripts/merge_sitemaps.py
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: _site
-          keep_files: true
+  build:
+    uses: ./.github/workflows/quarto-build.yml
+    secrets: inherit
+    with:
+      clear_cache: false
+      clear_lockfiles: false
+      deploy: true
+      cache_salt: stable

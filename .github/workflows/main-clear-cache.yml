@@ -1,0 +1,17 @@
+name: Quarto Publish (Clear Cache)
+
+on:
+  schedule:
+    # Monthly at 06:00 UTC on the 1st
+    - cron: "0 6 1 * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/quarto-build.yml
+    secrets: inherit
+    with:
+      clear_cache: true
+      clear_lockfiles: true
+      deploy: true
+      cache_salt: clear-${{ github.run_id }}

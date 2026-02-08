@@ -1,0 +1,136 @@
+name: Quarto Build (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      clear_cache:
+        description: "Delete cached conda environments before build."
+        required: false
+        default: false
+        type: boolean
+      clear_lockfiles:
+        description: "Delete lockfiles before render so they are regenerated."
+        required: false
+        default: false
+        type: boolean
+      deploy:
+        description: "Deploy the rendered site to gh-pages."
+        required: false
+        default: true
+        type: boolean
+      cache_salt:
+        description: "Optional cache key salt."
+        required: false
+        default: stable
+        type: string
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    permissions:
+      contents: write
+      actions: write
+    env:
+      QUARTO_PYTHON: /usr/share/miniconda/envs/learning-portal/bin/python
+      R_HOME: /usr/share/miniconda/envs/learning-portal/lib/R
+      R_LIBS_USER: /usr/share/miniconda/envs/learning-portal/lib/R/library
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      EARTHDATA_USERNAME: ${{ secrets.EARTHDATA_USERNAME }}
+      EARTHDATA_PASSWORD: ${{ secrets.EARTHDATA_PASSWORD }}
+      GBIF_USER: ${{ secrets.GBIF_USER }}
+      GBIF_PWD: ${{ secrets.GBIF_PWD }}
+      GBIF_EMAIL: ${{ secrets.GBIF_EMAIL }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          auto-activate-base: false
+          activate-environment: learning-portal
+
+      - name: Clear cached conda environments
+        if: inputs.clear_cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ids="$(
+            gh cache list \
+              --repo "$GITHUB_REPOSITORY" \
+              --limit 100 \
+              --json id,key \
+              --jq '.[] | select((.key | startswith("conda-")) or (.key | startswith("quarto-state-"))) | .id'
+          )"
+          if [[ -z "$ids" ]]; then
+            echo "No conda/freeze/jupyter caches to clear."
+            exit 0
+          fi
+
+          for id in $ids; do
+            gh cache delete "$id" --repo "$GITHUB_REPOSITORY"
+          done
+
+      - name: Restore environment cache
+        id: cache-conda
+        uses: actions/cache@v4
+        with:
+          path: |
+            /usr/share/miniconda/envs/learning-portal
+            /usr/share/miniconda/envs/esiil-tools
+          key: conda-${{ runner.os }}-${{ hashFiles('environments/base/learning-portal.yml', 'environments/tools.yml') }}-${{ inputs.cache_salt }}
+
+      - name: Create or update conda environment
+        if: steps.cache-conda.outputs.cache-hit != 'true'
+        run: |
+          conda env list | awk '{print $1}' | grep -qx learning-portal \
+            && conda env update -n learning-portal -f environments/base/learning-portal.yml \
+            || conda env create -f environments/base/learning-portal.yml
+          pip install git+https://github.com/earthlab/earthpy@main
+
+      - name: Clear lockfiles
+        if: inputs.clear_lockfiles
+        run: |
+          find environments/locks -maxdepth 1 -type f -name '*.yml' -delete || true
+
+      - name: Ensure cache directories exist
+        run: |
+          mkdir -p _freeze .jupyter_cache
+
+      - name: Restore freeze and Jupyter cache
+        id: cache-quarto-state
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            _freeze
+            .jupyter_cache
+          key: quarto-state-${{ runner.os }}-${{ hashFiles('_quarto.yml', '_quarto-portal.yml', '_quarto-release.yml', '_quarto-student.yml') }}-${{ github.run_id }}
+          restore-keys: |
+            quarto-state-${{ runner.os }}-${{ hashFiles('_quarto.yml', '_quarto-portal.yml', '_quarto-release.yml', '_quarto-student.yml') }}-
+            quarto-state-${{ runner.os }}-
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Render
+        uses: quarto-dev/quarto-actions/render@v2
+
+      - name: Save freeze and Jupyter cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            _freeze
+            .jupyter_cache
+          key: ${{ steps.cache-quarto-state.outputs.cache-primary-key }}
+
+      - name: Deploy
+        if: inputs.deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _site
+          keep_files: true
