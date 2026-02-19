@@ -1,0 +1,256 @@
+---
+title: Using LLMs
+jupyter: python3
+---
+
+# What is an LLM
+You should already have Ollama [setup](./Reproducible_prompts_0.Qmd). This will
+allow us to work with large language models (LLMs) that will run locally on our
+compute instance. LLM are a kind of machine learning model, with the specific
+goal of underdanding and generativing natural languages. These models have a 
+very large number of parameters (often in the billions), and these are fitted
+using very large amounts of text. We will be utilizing a model that has already
+been trained for us by [Meta](meta.com) called 
+[Llama 2](https://www.llama.com/llama2/)
+
+# Jupyter AI **🪄Magic🪄** 
+## Getting Started
+
+First lets load all the packages we will need for this lesson.
+
+ ```{python}
+import pandas as pd
+from ollama import chat
+from ollama import ChatResponse
+from pydantic import BaseModel
+```
+
+Now we again need to make sure the ai_magicks extension is loaded to use it in
+our notebook
+
+```{python}
+%load_ext jupyter_ai_magics
+```
+
+- We'll also just set the AiMagics max_history to 0, so it wont remember any past prompt information in the current prompt
+  - This is to make things a little more repeatable
+  - ::: {.callout-warning}
+    The docs suggests using `%ai reset` to clear the chat history, DON'T DO THIS. It also clears any parameters you have set, and seems to actually hurt reproducibility.
+    
+    :::
+
+```{python}
+%config AiMagics.max_history = 0
+```
+
+Now we can ask llama3 to introduce itself. There are a few important parts of
+the code we must include:
+1.  `%%ai` Designates the code cell as an ai cell. We can then treat it as a 
+    chat window.
+2.  `ollama:llama3.2` tells jupyter that the cell well use the ollama interface.
+    Additionally we have to specify the actual LLM because ollama can any model
+    you have installed.
+3.  `-m {}` allows you to provide additionall arguments to your LLM provider. In
+    our case we will be providing the default ollama port on local host
+    `"base_url":"http://localhost:11434"` so jupyter knows where to look for
+    ollama.
+
+```{python}
+%%ai ollama:llama3.2 -m {"base_url":"http://localhost:11434"}
+Introduce yourself
+```
+
+## Incoporating a python object
+We can incoporate a python object using the `{}` syntax inside our prompt. First
+Lets make a list in python.
+
+```{python}
+random_words = [
+  "cat", "dog", "bird", "monkey", "elephant", "deer", "wolf", "bison", "elk"
+]  
+print(random_words)
+```
+
+Now we can embed this list in our prompt by calling the variable name inside of
+`{}`
+
+```{python}
+#| scrolled: true
+%%ai ollama:llama3.2 -m {"base_url":"http://localhost:11434"}
+Create a bullet list from the text of {random_words} in random order
+```
+
+We can set the output format using the `-f` flag. Lets specify we would like
+our output in json.
+
+```{python}
+%%ai ollama:llama3.2 -f json -m {"base_url":"http://localhost:11434"}
+Create a list from the text of {random_words} in random order
+```
+
+## Improving reproduciblity
+We can Set a seed to try and get more reproducible results. This is an ollama
+parameter, so we provide it inside the `-m {}` arguments. Just add `"seed:42`
+after our `"base_url":"http://localhost:11434"` seperated by a comma. 
+**Do not add any spaces**, as it can interfere with parsing the arguments.
+
+```{python}
+%%ai ollama:llama3.2 -m {"base_url":"http://localhost:11434","seed":42}
+Create a bullet list from the text of {random_words} in random order
+```
+
+## Adjusting the randomness
+
+- You can adjust to "Creativeness" of the responses with the `"temperature"` 
+- Default is 0.8, higher is more creative
+- You can set `"temperature":0` to give the least "creative" response which can help reproducibity.
+
+```{python}
+%%ai ollama:llama3.2 -m {"base_url":"http://localhost:11434","seed":42,"temperature":1.5}
+Create a list of 10 random words
+```
+
+```{python}
+%%ai ollama:llama3.2 -m {"base_url":"http://localhost:11434","seed":42,"temperature":0}
+Create a list of 10 random words
+```
+
+## What about passing the output to your python code?
+You may want to pass the output of a Juypter AI cell to your python code.
+The best way to do this is to call the contents of your output cell. First let's
+run an AI cell that outputs json. Python can then input the json as a python
+dictionary.
+
+```{python}
+%%ai ollama:llama3.2 -f json -m {"base_url":"http://localhost:11434","seed":42,"temperature":0}
+Create a list of 10 random words
+```
+
+The `_` operator will return the output of the last run cell. As long as you run
+two cells one after the other, it should always successfully retrieve the 
+output. The output will likely be a `IPython.core.display.JSON` object which has
+the contents of the json saved as a python dictionary in the .data property.
+
+::: {.column-margin title="Why not use Out[]?"}
+To capture the output of this cell you could call the `Out[##]` function, 
+substituting `##` for the cell number. However, this can be tricky because the 
+cell number changes based on the order of cells run or if you rerun a cell.
+Using the `_` operator ensures that only the the previous cell and the current
+cell need to be run in the correct order.
+:::
+
+Lets call the retrieve the output.data `_.data` and save it to a object `rando`.
+
+```{python}
+rando = _.data
+type(rando)
+```
+
+We can select an element of the dictionary using a key.
+
+```{python}
+rando["word2"]
+```
+
+Using a key can be tricky, as we can't be %100 certain what keys our LLM will
+choose. It can be useful instead to index by position. To do this we need to
+get the list of keys using `.keys()`, coerce it into a `list()` and then select
+and element by index `[#]`. This will give use the key at position `#`.
+
+```{python}
+rando[
+  list(
+    rando.keys()
+  )[3]
+]
+```
+
+# Langchain
+## What about embeding LLM prompts directly into Python Code?
+Thats what langchain is for! Will be using a few new packages we already 
+imported; `pandas`, `ollama`, and `pydantic`
+
+
+Using the pandas library let's read in the example dataset 
+`Agaricus_descriptions_examples.csv`. This is table of species descriptions. We
+are going to use an LLM to parse the descriptions and extract some trait
+for information.
+
+```{python}
+df = pd.read_csv('https://github.com/cu-esiil-edu/esiil-learning-portal/releases/download/data-release/reproducible_prompts_Agaricus_descriptiosn.csv')
+print(df)
+```
+
+First we are going to use BaseModel from pydantic to create a json schema that
+we will use to constrain to form of our LLM output. Lets specify two possible
+variables `stipe_length` which will be a `float` and `stipe_unit` which will
+be `str`.
+
+```{python}
+class Stipe(BaseModel):
+  stipe_length: float
+  stipe_unit: str
+```
+
+We can call a LLM using the `chat` function from `ollama`. 
+
+```{python}
+response: ChatResponse = chat(
+  messages=[{
+    'role': 'user',
+    'content': f'extract the length of the Stipe from {df.iloc[1, 3]} as stipe_length and the unit of measurement labed as stripe_unit',
+  }],
+  model='llama3.2', 
+  format=Stipe.model_json_schema(),
+  options={"temperature":0, "seed":42, "repeat_last_n":0,"repeat_penalty":0}
+)
+```
+
+The output has been saved in a reponse object. It contains the output inside the message.content trait.
+
+```{python}
+response.message.content
+```
+
+This gets output as a string, but we can use the `.model_validate_json` function that was inherited from `BaseModel` to the
+Stipe object to get it into a `Stipe` object.
+
+```{python}
+stipe_data = Stipe.model_validate_json(response.message.content)
+stipe_data
+```
+
+Finally, the Stipe object can be directly coerced into a dict if we need it.
+
+```{python}
+dict(stipe_data)
+```
+
+One advantage to using the `langchain-ollama` package is that we can embed our
+LLM calls into more complex python code. A good example is embedding our LLM
+call into a for loop. In this way we can go row by row over our entire table,
+and generate two new columns `stipe_length` and `stipe_units`.
+
+```{python}
+results = pd.DataFrame()
+
+for i,col in df.iterrows():
+  response: ChatResponse = chat(
+    messages=[{
+      'role': 'user',
+      'content': f'extract the length of the Stipe from {col.iloc[3]} as stipe_length and the unit of measurement labed as stipe_unit',
+    }],
+    model='llama3.2', 
+    format=Stipe.model_json_schema(),
+    options={"temperature":0, "seed":42, "repeat_last_n":0,"repeat_penalty":0}
+  )
+  stipe = Stipe.model_validate_json(response.message.content)
+  print(i, stipe)
+  results = pd.concat([
+    results,
+    pd.concat([col, pd.Series(dict(stipe))]).to_frame().T
+  ])
+
+print(results)
+```
+
