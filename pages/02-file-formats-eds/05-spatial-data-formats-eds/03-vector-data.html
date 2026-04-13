@@ -79,9 +79,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-410c9797681697bbebb82a95065eb717.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../site_libs/bootstrap/bootstrap-dark-410c9797681697bbebb82a95065eb717.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="../../../site_libs/bootstrap/bootstrap-410c9797681697bbebb82a95065eb717.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-51ad809e0411dc6513353a9fc56b3b46.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark-51ad809e0411dc6513353a9fc56b3b46.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-51ad809e0411dc6513353a9fc56b3b46.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": true,
@@ -222,6 +222,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Submit a module</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../../../pages/00-overviews/05-contribute/conda-environment.html">
+ <span class="dropdown-text">Add a conda environment</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../../../pages/00-overviews/05-contribute/support.html">
  <span class="dropdown-text">Support the Learning Portal</span></a>
   </li>  
@@ -230,6 +234,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link" href="http://earthdatascience.org/classic/"> 
 <span class="menu-text">Classic<br>earthdatascience.org</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://giveto.colorado.edu/campaigns/74458/donations/new?amt=50.00" target="_blank"> 
+<span class="menu-text">Donate</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -350,9 +360,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Introduction to Spatial Vector Data File Formats in Open Source Python</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
- <span class="menu-text">pages/02-file-formats-eds/05-spatial-file-formats-eds/02-raster-data.qmd</span>
-  </li>
       </ul>
   </li>
     </ul>
@@ -506,7 +513,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="callout-info">
 <p>Note that below you are using <strong>EarthPy</strong> to download a dataset from naturalearthdata.com. <strong>EarthPy</strong> creates the earth-analytics directory for you when you use it. You set the working directory after you download the data as a precaution to ensure that the earth-analytics directory already exists on your computer. This is not a standard order of operations but we are demonstrating it here to ensure the notebook runs on all computers!</p>
 </div>
-<div id="51f7373b" class="cell" data-execution_count="1">
+<div id="7e076829" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import packages</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -528,7 +535,7 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_admin_0_boundary_li
 </div>
 </div>
 <p>Next, you open the data using <strong>Geopandas</strong>. You can view the first 5 rows of the data using <code>.head()</code> in the same way you used <code>.head()</code> for <strong>Pandas</strong> dataframes.</p>
-<div id="dc989c4e" class="cell" data-execution_count="2">
+<div id="24d79939" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>coastlines_url <span class="op">=</span> (</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://naciscdn.org/naturalearth/50m/physical"</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/ne_50m_coastline.zip"</span>)</span>
@@ -607,7 +614,7 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_coastline</code></p
 <li>the<code>GeoDataFrame</code> stores spatial attributes such as coordinate reference systems and spatial extents.</li>
 </ul>
 <p>Similar to <strong>Pandas</strong>, you can plot the data using <code>.plot()</code></p>
-<div id="f0116b01" class="cell" data-caption="Global coastline boundaries." data-execution_count="3">
+<div id="488dff0f" class="cell" data-caption="Global coastline boundaries." data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>f, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>coastlines.plot(ax<span class="op">=</span>ax1)</span>
@@ -627,7 +634,7 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_coastline</code></p
 <section id="check-the-spatial-vector-data-type" class="level3">
 <h3 class="anchored" data-anchor-id="check-the-spatial-vector-data-type">Check the Spatial Vector Data Type</h3>
 <p>You can look at the data to figure out what type of data are stored in the shapefile (points, line or polygons). However, you can also get that information by calling <code>.geom_type</code></p>
-<div id="8009f266" class="cell" data-execution_count="4">
+<div id="c45b3b61" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Is the geometry type point, line or polygon?</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>coastlines.geom_type</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
@@ -642,11 +649,11 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_coastline</code></p
 1425    LineString
 1426    LineString
 1427    LineString
-Length: 1428, dtype: object</code></pre>
+Length: 1428, dtype: str</code></pre>
 </div>
 </div>
 <p>Also similar to <strong>Pandas</strong>, you can view descriptive information about the <code>GeoDataFrame</code> using <code>.info()</code>. This includes the number of columns, rows and the header name and type of each column.</p>
-<div id="c73ca3c3" class="cell" data-execution_count="5">
+<div id="9cc05c74" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>coastlines.info()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'geopandas.geodataframe.GeoDataFrame'&gt;
@@ -655,11 +662,11 @@ Data columns (total 4 columns):
  #   Column      Non-Null Count  Dtype   
 ---  ------      --------------  -----   
  0   scalerank   1428 non-null   int64   
- 1   featurecla  1428 non-null   object  
+ 1   featurecla  1428 non-null   str     
  2   min_zoom    1428 non-null   float64 
  3   geometry    1428 non-null   geometry
-dtypes: float64(1), geometry(1), int64(1), object(1)
-memory usage: 44.8+ KB</code></pre>
+dtypes: float64(1), geometry(1), int64(1), str(1)
+memory usage: 57.3 KB</code></pre>
 </div>
 </div>
 </section>
@@ -667,7 +674,7 @@ memory usage: 44.8+ KB</code></pre>
 <section id="open-vector-point-data" class="level2">
 <h2 class="anchored" data-anchor-id="open-vector-point-data">Open Vector Point Data</h2>
 <p>Next, you will open up another shapefile using <strong>Geopandas</strong>.</p>
-<div id="fb5b6732" class="cell" data-execution_count="6">
+<div id="27b87922" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Open populated places</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>places_url<span class="op">=</span>(</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://naciscdn.org/naturalearth/50m/cultural'</span></span>
@@ -720,8 +727,8 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_populated_places_si
 <td>5</td>
 <td>Admin-1 region capital</td>
 <td>Bombo</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>Bombo</td>
 <td>0</td>
 <td>0</td>
@@ -731,8 +738,8 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_populated_places_si
 <td>0.0</td>
 <td>8</td>
 <td>7</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>7.0</td>
 <td>1159113923</td>
 <td>POINT (32.5333 0.5833)</td>
@@ -744,8 +751,8 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_populated_places_si
 <td>5</td>
 <td>Admin-1 region capital</td>
 <td>Fort Portal</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>Fort Portal</td>
 <td>0</td>
 <td>0</td>
@@ -755,8 +762,8 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_populated_places_si
 <td>0.0</td>
 <td>7</td>
 <td>7</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>7.0</td>
 <td>1159113959</td>
 <td>POINT (30.275 0.671)</td>
@@ -768,8 +775,8 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_populated_places_si
 <td>3</td>
 <td>Admin-1 region capital</td>
 <td>Potenza</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>Potenza</td>
 <td>0</td>
 <td>0</td>
@@ -779,8 +786,8 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_populated_places_si
 <td>0.0</td>
 <td>8</td>
 <td>8</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>7.0</td>
 <td>1159117259</td>
 <td>POINT (15.799 40.642)</td>
@@ -792,8 +799,8 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_populated_places_si
 <td>3</td>
 <td>Admin-1 region capital</td>
 <td>Campobasso</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>Campobasso</td>
 <td>0</td>
 <td>0</td>
@@ -803,8 +810,8 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_populated_places_si
 <td>0.0</td>
 <td>8</td>
 <td>8</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>7.0</td>
 <td>1159117283</td>
 <td>POINT (14.656 41.563)</td>
@@ -816,8 +823,8 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_populated_places_si
 <td>3</td>
 <td>Admin-1 region capital</td>
 <td>Aosta</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>Aosta</td>
 <td>0</td>
 <td>0</td>
@@ -827,8 +834,8 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_populated_places_si
 <td>0.0</td>
 <td>7</td>
 <td>7</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>7.0</td>
 <td>1159117361</td>
 <td>POINT (7.315 45.737)</td>
@@ -853,7 +860,7 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_populated_places_si
 <p>What Geometry Type Are Your Data? Check the geometry type of the <code>cities</code> object that you opened above in your code.</p>
 </div>
 </div>
-<div id="a23bee03" class="cell" data-tags="[&quot;hide&quot;]" data-execution_count="7">
+<div id="be9e9642" class="cell" data-tags="[&quot;hide&quot;]" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the code here to check the geometry type of the cities object</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>cities.geom_type</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
@@ -868,7 +875,7 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_populated_places_si
 1248    Point
 1249    Point
 1250    Point
-Length: 1251, dtype: object</code></pre>
+Length: 1251, dtype: str</code></pre>
 </div>
 </div>
 </section>
@@ -878,7 +885,7 @@ Length: 1251, dtype: object</code></pre>
 <p>To plot two datasets together, you will first create a <strong>Matplotlib</strong> figure object. Notice in the example below that you define the figure <code>ax1</code> in the first line. You then tell <strong>GeoPandas</strong> to plot the data on that particular figure using the parameter <code>ax=</code></p>
 <p>The code looks like this:</p>
 <p><code>boundary_lines.plot(ax=ax1)</code></p>
-<div id="0c22d5dc" class="cell" data-caption="Global coastline boundaries." data-execution_count="8">
+<div id="56711ebd" class="cell" data-caption="Global coastline boundaries." data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>f, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>coastlines.plot(ax<span class="op">=</span>ax1)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -891,7 +898,7 @@ Length: 1251, dtype: object</code></pre>
 </div>
 </div>
 <p>To add another layer to your map, you can add a second <code>.plot()</code> call and specify the <code>ax=</code> to be <code>ax1</code> again. This tells <strong>Python</strong> to layer the two datasets in the same figure.</p>
-<div id="884ed752" class="cell" data-caption="Global coastline boundaries and major cities plotted together." data-execution_count="9">
+<div id="b3636817" class="cell" data-caption="Global coastline boundaries and major cities plotted together." data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a map or plot with two data layers</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>f, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>coastlines.plot(ax<span class="op">=</span>ax1, color<span class="op">=</span><span class="st">"black"</span>)</span>
@@ -909,7 +916,7 @@ Length: 1251, dtype: object</code></pre>
 </div>
 </div>
 <p>If you don’t specify the axis when you plot using <code>ax=</code>, each layer will be plotted on a separate figure! See the example below.</p>
-<div id="fe4a4fb9" class="cell" data-caption="Global coastline boundaries plotted in one plot, and another plot with global cities." data-execution_count="10">
+<div id="5f4b686e" class="cell" data-caption="Global coastline boundaries plotted in one plot, and another plot with global cities." data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>f, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>coastlines.plot(ax<span class="op">=</span>ax1)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>cities.plot()</span>
@@ -952,7 +959,7 @@ Length: 1251, dtype: object</code></pre>
 <p>To create a map with the three layers, you can: 1. Copy the code below that downloads the countries layer. 2. Next, use <strong>Geopandas</strong> <code>read_file()</code> to open the countries layer as a <code>GeoDataFrame</code>. 3. Create a map of all three layers - in the same figure using the same <code>ax=</code>. The countries should be the bottom layer, and the cities and lines should be on top of that layer.</p>
 </div>
 </div>
-<div id="5bfac585" class="cell" data-execution_count="11">
+<div id="4f05eff0" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>country_data_url <span class="op">=</span> (</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://naciscdn.org/naturalearth"</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/50m/cultural/ne_50m_admin_0_countries.zip"</span>)</span>
@@ -984,7 +991,7 @@ Extracted output to /home/runner/earth-analytics/data/ne_50m_admin_0_countries</
 <p>Finally, add a title to your map using <code>ax1.set(title="my title here")</code></p>
 </div>
 </div>
-<div id="61e6304d" class="cell" data-caption="Global political boundaries with major cities." data-tags="[&quot;hide&quot;]" data-execution_count="12">
+<div id="9692850e" class="cell" data-caption="Global political boundaries with major cities." data-tags="[&quot;hide&quot;]" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a map or plot with two data layers</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>f, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">18</span>, <span class="dv">12</span>))</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>coastlines.plot(ax<span class="op">=</span>ax1, color<span class="op">=</span><span class="st">"grey"</span>, edgecolor<span class="op">=</span><span class="st">"grey"</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
@@ -1034,7 +1041,7 @@ Each spatial feature in a spatial object has the same set of associated attribut
 </figcaption>
 </figure>
 <p>The attributes for a shapefile imported into a GeoDataFrame can be viewed in the GeoDataFrame itself.</p>
-<div id="c337f591" class="cell" data-execution_count="13">
+<div id="e8ff4aa5" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View first 5 rows of GeoDataFrame</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>cities.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
@@ -1076,8 +1083,8 @@ Each spatial feature in a spatial object has the same set of associated attribut
 <td>5</td>
 <td>Admin-1 region capital</td>
 <td>Bombo</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>Bombo</td>
 <td>0</td>
 <td>0</td>
@@ -1087,8 +1094,8 @@ Each spatial feature in a spatial object has the same set of associated attribut
 <td>0.0</td>
 <td>8</td>
 <td>7</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>7.0</td>
 <td>1159113923</td>
 <td>POINT (32.5333 0.5833)</td>
@@ -1100,8 +1107,8 @@ Each spatial feature in a spatial object has the same set of associated attribut
 <td>5</td>
 <td>Admin-1 region capital</td>
 <td>Fort Portal</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>Fort Portal</td>
 <td>0</td>
 <td>0</td>
@@ -1111,8 +1118,8 @@ Each spatial feature in a spatial object has the same set of associated attribut
 <td>0.0</td>
 <td>7</td>
 <td>7</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>7.0</td>
 <td>1159113959</td>
 <td>POINT (30.275 0.671)</td>
@@ -1124,8 +1131,8 @@ Each spatial feature in a spatial object has the same set of associated attribut
 <td>3</td>
 <td>Admin-1 region capital</td>
 <td>Potenza</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>Potenza</td>
 <td>0</td>
 <td>0</td>
@@ -1135,8 +1142,8 @@ Each spatial feature in a spatial object has the same set of associated attribut
 <td>0.0</td>
 <td>8</td>
 <td>8</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>7.0</td>
 <td>1159117259</td>
 <td>POINT (15.799 40.642)</td>
@@ -1148,8 +1155,8 @@ Each spatial feature in a spatial object has the same set of associated attribut
 <td>3</td>
 <td>Admin-1 region capital</td>
 <td>Campobasso</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>Campobasso</td>
 <td>0</td>
 <td>0</td>
@@ -1159,8 +1166,8 @@ Each spatial feature in a spatial object has the same set of associated attribut
 <td>0.0</td>
 <td>8</td>
 <td>8</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>7.0</td>
 <td>1159117283</td>
 <td>POINT (14.656 41.563)</td>
@@ -1172,8 +1179,8 @@ Each spatial feature in a spatial object has the same set of associated attribut
 <td>3</td>
 <td>Admin-1 region capital</td>
 <td>Aosta</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>Aosta</td>
 <td>0</td>
 <td>0</td>
@@ -1183,8 +1190,8 @@ Each spatial feature in a spatial object has the same set of associated attribut
 <td>0.0</td>
 <td>7</td>
 <td>7</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>7.0</td>
 <td>1159117361</td>
 <td>POINT (7.315 45.737)</td>
@@ -1196,7 +1203,7 @@ Each spatial feature in a spatial object has the same set of associated attribut
 </div>
 </div>
 </div>
-<div id="a891b630" class="cell" data-execution_count="14">
+<div id="791c343d" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View data just in the pop_max column of the cities object</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>cities.pop_max</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
@@ -1227,7 +1234,7 @@ Name: pop_max, Length: 1251, dtype: int64</code></pre>
 <p>The spatial and attribute data are not the only important aspects of a shapefile. The metadata of a shapefile are also very important. The metadata includes data on the Coordinate Reference System (CRS), the extent, and much more. For more information on what the metadata is, and how to access it, see the full lesson on vector data on the Earth Lab website, <a href="https://www.earthdatascience.org/courses/use-data-open-source-python/intro-vector-data-python/spatial-data-vector-shapefiles/">here</a>.</p>
 </div>
 </div>
-<div id="7c8ea35f" class="cell" data-caption="Countries symbolized on a color gradient by how large their population is." data-execution_count="15">
+<div id="4f213c60" class="cell" data-caption="Countries symbolized on a color gradient by how large their population is." data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.axes_grid1 <span class="im">import</span> make_axes_locatable</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>f, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
@@ -1278,7 +1285,7 @@ Name: pop_max, Length: 1251, dtype: int64</code></pre>
 <p>Check out <a href="https://geopandas.org/mapping.html" target="_blank">this page on creating maps with Geopandas </a> for more information on customizing maps in <strong>Geopandas</strong>:</p>
 </div>
 </div>
-<div id="e4e121e7" class="cell" data-caption="Global cities plotted without boundaries." data-tags="[&quot;hide&quot;]" data-execution_count="16">
+<div id="6d07726e" class="cell" data-caption="Global cities plotted without boundaries." data-tags="[&quot;hide&quot;]" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View the geom_type and the first few rows</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cities.geom_type)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>display(cities.head())</span>
@@ -1297,7 +1304,7 @@ Name: pop_max, Length: 1251, dtype: int64</code></pre>
 1248    Point
 1249    Point
 1250    Point
-Length: 1251, dtype: object</code></pre>
+Length: 1251, dtype: str</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -1338,8 +1345,8 @@ Length: 1251, dtype: object</code></pre>
 <td>5</td>
 <td>Admin-1 region capital</td>
 <td>Bombo</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>Bombo</td>
 <td>0</td>
 <td>0</td>
@@ -1349,8 +1356,8 @@ Length: 1251, dtype: object</code></pre>
 <td>0.0</td>
 <td>8</td>
 <td>7</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>7.0</td>
 <td>1159113923</td>
 <td>POINT (32.5333 0.5833)</td>
@@ -1362,8 +1369,8 @@ Length: 1251, dtype: object</code></pre>
 <td>5</td>
 <td>Admin-1 region capital</td>
 <td>Fort Portal</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>Fort Portal</td>
 <td>0</td>
 <td>0</td>
@@ -1373,8 +1380,8 @@ Length: 1251, dtype: object</code></pre>
 <td>0.0</td>
 <td>7</td>
 <td>7</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>7.0</td>
 <td>1159113959</td>
 <td>POINT (30.275 0.671)</td>
@@ -1386,8 +1393,8 @@ Length: 1251, dtype: object</code></pre>
 <td>3</td>
 <td>Admin-1 region capital</td>
 <td>Potenza</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>Potenza</td>
 <td>0</td>
 <td>0</td>
@@ -1397,8 +1404,8 @@ Length: 1251, dtype: object</code></pre>
 <td>0.0</td>
 <td>8</td>
 <td>8</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>7.0</td>
 <td>1159117259</td>
 <td>POINT (15.799 40.642)</td>
@@ -1410,8 +1417,8 @@ Length: 1251, dtype: object</code></pre>
 <td>3</td>
 <td>Admin-1 region capital</td>
 <td>Campobasso</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>Campobasso</td>
 <td>0</td>
 <td>0</td>
@@ -1421,8 +1428,8 @@ Length: 1251, dtype: object</code></pre>
 <td>0.0</td>
 <td>8</td>
 <td>8</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>7.0</td>
 <td>1159117283</td>
 <td>POINT (14.656 41.563)</td>
@@ -1434,8 +1441,8 @@ Length: 1251, dtype: object</code></pre>
 <td>3</td>
 <td>Admin-1 region capital</td>
 <td>Aosta</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>Aosta</td>
 <td>0</td>
 <td>0</td>
@@ -1445,8 +1452,8 @@ Length: 1251, dtype: object</code></pre>
 <td>0.0</td>
 <td>7</td>
 <td>7</td>
-<td>None</td>
-<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
 <td>7.0</td>
 <td>1159117361</td>
 <td>POINT (7.315 45.737)</td>
@@ -1484,7 +1491,7 @@ Length: 1251, dtype: object</code></pre>
 </ul>
 </div>
 </div>
-<div id="0d8652ef" class="cell" data-caption="Global cities symoblized on a color gradient by population." data-tags="[&quot;hide&quot;]" data-execution_count="17">
+<div id="42cbc338" class="cell" data-caption="Global cities symoblized on a color gradient by population." data-tags="[&quot;hide&quot;]" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Customize cities plot</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>f, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>cities.plot(ax<span class="op">=</span>ax1, markersize<span class="op">=</span><span class="dv">15</span>, legend<span class="op">=</span><span class="va">True</span>,</span>
@@ -1531,7 +1538,7 @@ Length: 1251, dtype: object</code></pre>
 <li>you then plot the data to look at the newly subsetted data!</li>
 <li>Finally you clip the cities data to only include cities that fall within the boundary of the United States</li>
 </ol>
-<div id="7b556045" class="cell" data-caption="Plot of the United States using Geopandas." data-execution_count="18">
+<div id="7654d24d" class="cell" data-caption="Plot of the United States using Geopandas." data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset the countries data to just a single</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>united_states_boundary <span class="op">=</span> (</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    countries.loc[countries[<span class="st">'SOVEREIGNT'</span>]<span class="op">==</span><span class="st">'United States of America'</span>])</span>
@@ -1548,7 +1555,7 @@ Length: 1251, dtype: object</code></pre>
 </div>
 </div>
 </div>
-<div id="99de6703" class="cell" data-caption="Plot of cities in the United States using Geopandas." data-execution_count="19">
+<div id="b5f6ba84" class="cell" data-caption="Plot of cities in the United States using Geopandas." data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clip the cities data to the USA boundary</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Note -- this operation may take some time to run - be patient</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>cities_in_usa <span class="op">=</span> gpd.clip(cities, united_states_boundary)</span>
@@ -1588,7 +1595,7 @@ Length: 1251, dtype: object</code></pre>
 <p>When you clip, all of the spatial data outside of the spatial clip boundary (Canada) will not be included in the output dataset.</p>
 </div>
 </div>
-<div id="6d7255ba" class="cell" data-tags="[&quot;hide&quot;]" data-execution_count="20">
+<div id="49d1171e" class="cell" data-tags="[&quot;hide&quot;]" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset the countries data to just a single</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>canada_boundary <span class="op">=</span> (</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    countries.loc[countries[<span class="st">'SOVEREIGNT'</span>] <span class="op">==</span> <span class="st">'Canada'</span>])</span>
@@ -1596,7 +1603,7 @@ Length: 1251, dtype: object</code></pre>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Below this line clip the cities data to the Canada boundary that you created above.</span></span>
 <span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>cities_in_canada <span class="op">=</span> gpd.clip(cities, canada_boundary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="e025e6dc" class="cell" data-caption="Plot of cities clipped to the Canadian border." data-tags="[&quot;hide&quot;]" data-execution_count="21">
+<div id="5efc519b" class="cell" data-caption="Plot of cities clipped to the Canadian border." data-tags="[&quot;hide&quot;]" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot your final clipped data here</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>f, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>cities_in_canada.plot(ax<span class="op">=</span>ax)</span>
