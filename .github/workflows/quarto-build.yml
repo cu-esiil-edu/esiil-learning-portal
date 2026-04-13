@@ -63,10 +63,11 @@ jobs:
               --repo "$GITHUB_REPOSITORY" \
               --limit 100 \
               --json id,key \
-              --jq '.[] | select((.key | startswith("conda-")) or (.key | startswith("quarto-state-"))) | .id'
+              --jq 'map(select((.key | startswith("conda-")) or (.key | startswith("quarto-state-"))) | .id) | .[]?' \
+              || true
           )"
           if [[ -z "$ids" ]]; then
-            echo "No conda/freeze/jupyter caches to clear."
+            echo "No conda or Quarto state caches to clear."
             exit 0
           fi
 
