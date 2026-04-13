@@ -19,11 +19,6 @@ You will use the [harmonized Sentinal/Landsat multispectral dataset](https://lpd
 
 ::: {.callout-task}
   1. Import all libraries you will need for this analysis
-  2. Configure GDAL parameters to help avoid connection errors:
-     ```python
-     os.environ["GDAL_HTTP_MAX_RETRY"] = "5"
-     os.environ["GDAL_HTTP_RETRY_DELAY"] = "1"
-     ```
 :::
 
 ```{python}
@@ -31,6 +26,7 @@ You will use the [harmonized Sentinal/Landsat multispectral dataset](https://lpd
 import os
 import pickle
 import re
+import time
 import warnings
 
 import cartopy.crs as ccrs
@@ -48,9 +44,6 @@ from tqdm.notebook import tqdm
 import xarray as xr
 from shapely.geometry import Polygon
 from sklearn.cluster import KMeans
-
-os.environ["GDAL_HTTP_MAX_RETRY"] = "5"
-os.environ["GDAL_HTTP_RETRY_DELAY"] = "1"
 
 warnings.simplefilter('ignore')
 ```
@@ -241,7 +234,7 @@ results = earthaccess.search_data(
 
 ### Compile information about each granule
 
-I recommend building a GeoDataFrame, as this will allow you to plot the granules you are downloading and make sure they line up with your shapefile. You could also use a DataFrame, dictionary, or a custom object to store this information.
+We recommend building a GeoDataFrame, as this will allow you to plot the granules you are downloading and make sure they line up with your shapefile. You could also use a DataFrame, dictionary, or a custom object to store this information.
 
 ::: {.callout-task}
 
@@ -250,7 +243,7 @@ I recommend building a GeoDataFrame, as this will allow you to plot the granules
           - granule id (UR)
           - datetime
           - geometry (HINT: check out the shapely.geometry.Polygon class to convert points to a Polygon)
-      2. Open the granule files. I recomment opening one granule at a time, e.g. with (`earthaccess.open([result]`).
+    2. Open the granule files. I recomment opening one granule at a time, e.g. with (`earthaccess.open([result]`).
       3. For each file (band), get the following information:
           - file handler returned from `earthaccess.open()`
           - tile id
@@ -386,8 +379,29 @@ def compute_reflectance_da(search_results, boundary_gdf):
         Boundary use to crop the data
     """
     def open_dataarray(url, boundary_proj_gdf, scale=1, masked=True):
-        # Open masked DataArray
-        da = rxr.open_rasterio(url, masked=masked).squeeze() * scale
+        # Retry transient server-side failures from Earthdata/fsspec
+        max_retries = 5
+        retry_delay = 1
+        errs_to_retry = [
+            '502', '503', '504', 'Bad Gateway', 'ClientResponseError']
+
+        for attempt in range(max_retries):
+            try:
+                # Open masked DataArray
+                da = rxr.open_rasterio(url, masked=masked).squeeze() * scale
+                break
+            except Exception as err:
+                transient_error = any(
+                    text in str(err)
+                    for text in errs_to_retry
+                )
+                if (not transient_error) or attempt == max_retries - 1:
+                    raise
+                print(
+                    f'Raster open failed with a transient HTTP error. '
+                    f'Retrying in {retry_delay} second(s)...'
+                )
+                time.sleep(retry_delay)
         
         # Reproject boundary if needed
         if boundary_proj_gdf is None:
