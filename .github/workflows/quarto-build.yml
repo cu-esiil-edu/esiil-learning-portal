@@ -76,7 +76,7 @@ jobs:
 
       - name: Restore environment cache
         id: cache-conda
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: |
             /usr/share/miniconda/envs/learning-portal
@@ -98,6 +98,15 @@ jobs:
         run: |
           conda env list | awk '{print $1}' | grep -qx esiil-tools \
             || conda env create -f environments/tools.yml
+
+      - name: Save environment cache
+        if: steps.cache-conda.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            /usr/share/miniconda/envs/learning-portal
+            /usr/share/miniconda/envs/esiil-tools
+          key: ${{ steps.cache-conda.outputs.cache-primary-key }}
 
       - name: Clear lockfiles
         if: inputs.clear_lockfiles
