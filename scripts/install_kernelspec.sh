@@ -7,7 +7,7 @@ TOOLS_ENV_NAME="${TOOLS_ENV_NAME:-esiil-tools}"
 TOOLS_ENV_FILE="${TOOLS_ENV_FILE:-environments/tools.yml}"
 RENDER_INPUT="${QUARTO_RENDER_INPUT:-${QUARTO_INPUT:-}}"
 ENV_FILES=()
-declare -A EXISTING_ENVS=()
+EXISTING_ENVS=()
 
 # Extract env name from a conda environment file.
 env_name_from_file() {
@@ -22,19 +22,23 @@ title_case() {
 # True if env already exists.
 env_exists() {
   local env_name="$1"
-  [[ -n "${EXISTING_ENVS[$env_name]:-}" ]]
+  local existing_env
+  for existing_env in "${EXISTING_ENVS[@]}"; do
+    [[ "$existing_env" == "$env_name" ]] && return 0
+  done
+  return 1
 }
 
 refresh_existing_envs() {
   EXISTING_ENVS=()
   while IFS= read -r env_name; do
-    [[ -n "$env_name" ]] && EXISTING_ENVS["$env_name"]=1
+    [[ -n "$env_name" ]] && EXISTING_ENVS+=("$env_name")
   done < <(conda env list | awk 'NF > 0 && $1 !~ /^#/ {print $1}')
 }
 
 mark_env_exists() {
   local env_name="$1"
-  EXISTING_ENVS["$env_name"]=1
+  env_exists "$env_name" || EXISTING_ENVS+=("$env_name")
 }
 
 # True if a kernelspec already exists (checks global dirs if jupyter isn't on PATH).
