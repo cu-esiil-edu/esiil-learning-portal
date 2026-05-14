@@ -6,6 +6,8 @@ LOCK_DIR="${LOCK_DIR:-environments/locks}"
 TOOLS_ENV_NAME="${TOOLS_ENV_NAME:-esiil-tools}"
 TOOLS_ENV_FILE="${TOOLS_ENV_FILE:-environments/tools.yml}"
 RENDER_INPUT="${QUARTO_RENDER_INPUT:-${QUARTO_INPUT:-}}"
+REGENERATE_LOCKFILES="${REGENERATE_LOCKFILES:-false}"
+RECREATE_ENVS="${RECREATE_ENVS:-false}"
 ENV_FILES=()
 EXISTING_ENVS=()
 
@@ -31,8 +33,9 @@ env_exists() {
 
 refresh_existing_envs() {
   EXISTING_ENVS=()
-  while IFS= read -r env_name; do
-    [[ -n "$env_name" ]] && EXISTING_ENVS+=("$env_name")
+  local listed_env_name
+  while IFS= read -r listed_env_name; do
+    [[ -n "$listed_env_name" ]] && EXISTING_ENVS+=("$listed_env_name")
   done < <(conda env list | awk 'NF > 0 && $1 !~ /^#/ {print $1}')
 }
 
@@ -41,16 +44,29 @@ mark_env_exists() {
   env_exists "$env_name" || EXISTING_ENVS+=("$env_name")
 }
 
+truthy() {
+  local value
+  value="$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')"
+  case "$value" in
+    1|true|yes|y) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
 # True if a kernelspec already exists (checks global dirs if jupyter isn't on PATH).
 kernel_exists() {
   local kernel_name="$1"
+  if [[ -d "${HOME}/.local/share/jupyter/kernels/${kernel_name}" ]] || \
+    [[ -d "${HOME}/Library/Jupyter/kernels/${kernel_name}" ]]; then
+    return 0
+  fi
+
   if command -v jupyter >/dev/null 2>&1; then
     jupyter kernelspec list 2>/dev/null | grep -qE "^${kernel_name}[[:space:]]"
     return $?
   fi
 
-  [[ -d "${HOME}/.local/share/jupyter/kernels/${kernel_name}" ]] || \
-    [[ -d "${HOME}/Library/Jupyter/kernels/${kernel_name}" ]]
+  return 1
 }
 
 # Collect environment definition files.
@@ -148,6 +164,17 @@ for env_file in "${ENV_FILES[@]}"; do
   env_name="$(env_name_from_file "$env_file")"
 
   lock_file="${LOCK_DIR}/${env_name}-${platform}.yml"
+
+  if truthy "$REGENERATE_LOCKFILES" && [[ -f "$lock_file" ]]; then
+    echo "Regenerating lockfile for $env_name ($platform): $lock_file..."
+    rm -f "$lock_file"
+  fi
+
+  if truthy "$RECREATE_ENVS" && env_exists "$env_name"; then
+    echo "Recreating conda environment '$env_name'..."
+    conda env remove -n "$env_name" -y
+    refresh_existing_envs
+  fi
 
   if [[ -f "$lock_file" ]]; then
     if env_exists "$env_name"; then

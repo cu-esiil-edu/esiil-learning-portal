@@ -18,10 +18,11 @@ quarto render path/to/page.qmd --profile dev
 
 ## 1. Add a base environment file
 
-Create a new file under `environments/` with a descriptive name, for example:
+Create a new file under `environments/base/` with a descriptive name, for
+example:
 
 ```
-environments/your-module.yml
+environments/base/your-module.yml
 ```
 
 Include:
@@ -47,6 +48,17 @@ To clear old lockfiles and regenerate them during render:
 
 ```
 rm -f environments/locks/*.yml && quarto render
+```
+
+To rebuild only one page's environment after changing its `environment/base/*.yml`
+file, set the page as `QUARTO_INPUT` and ask the installer to regenerate that
+page's lockfile and recreate that page's environment:
+
+```
+QUARTO_INPUT=path/to/page.qmd \
+REGENERATE_LOCKFILES=true \
+RECREATE_ENVS=true \
+scripts/install_kernelspec.sh
 ```
 
 If `conda-lock` is not installed, bootstrap the tooling environment first:
@@ -79,4 +91,24 @@ jupyter:
 ---
 ```
 
-Use the same `name` value as in your `environments/*.yml` file.
+Use the same `name` value as in your `environments/base/*.yml` file.
+
+## Application-level dependencies
+
+Some lessons need software that is not just a Python or R package. For example,
+an LLM lesson might use a conda environment for the Python client packages, but
+also require the Ollama application and a downloaded model.
+
+When that happens:
+
+- keep Python and R packages in the lesson-specific conda environment
+- document operating-system install steps in the lesson
+- add a small helper script when the lesson needs to check, start, or test an
+  external service
+- make GitHub Actions execute the same notebook setup path when refreshing
+  frozen outputs
+
+For Ollama lessons, use `scripts/setup_ollama.py` from a notebook cell. It
+prints install instructions for macOS, Windows, and Linux, starts the local
+Ollama server when available, and can auto-install Ollama on Linux CI when
+`OLLAMA_AUTO_INSTALL=1`.

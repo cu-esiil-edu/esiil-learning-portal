@@ -19,6 +19,15 @@ CLASS_OPT_RE = re.compile(r"^(\s*#\|\s*)(class|classes)\s*:\s*(.*)$")
 TAGS_OPT_RE = re.compile(r"^(\s*#\|\s*)tags\s*:")
 
 
+def is_verbose():
+    return os.getenv("QUARTO_LOG_LEVEL", "").upper() == "DEBUG"
+
+
+def log_verbose(message):
+    if is_verbose():
+        print(message)
+
+
 def build_param_code(params):
     # Convert Python values with proper syntax
     return "\n".join(f"{key} = {repr(value)}" for key, value in params.items())
@@ -107,16 +116,16 @@ def sync_params_to_qmd(qmd_path):
     try:
         yaml_data, _, _ = extract_yaml(qmd_path)
     except Exception as e:
-        print(f"⚠️ Skipping {qmd_path.name}: {e}")
+        print(f"Skipping {qmd_path.name}: {e}")
         return
 
     if not yaml_data:
-        print(f"ℹ️ No YAML header found in {qmd_path.name}.")
+        log_verbose(f"No YAML header found in {qmd_path.name}.")
         return
 
     params = yaml_data.get("params", {})
     if not params:
-        print(f"ℹ️ No params found in {qmd_path.name}.")
+        log_verbose(f"No params found in {qmd_path.name}.")
         return
 
     new_code = build_param_code(params)
@@ -126,23 +135,23 @@ def sync_params_to_qmd(qmd_path):
     except ValueError as e:
         # Some generated student segments intentionally have no parameters code cell.
         if "No Python parameters cell found" in str(e):
-            print(f"ℹ️ No Python parameters cell in {qmd_path}; skipping sync.")
+            log_verbose(f"No Python parameters cell in {qmd_path}; skipping sync.")
             return
-        print(f"❌ Failed to sync params in {qmd_path}: {e}")
+        print(f"Failed to sync params in {qmd_path}: {e}")
         raise
     except Exception as e:
-        print(f"❌ Failed to sync params in {qmd_path}: {e}")
+        print(f"Failed to sync params in {qmd_path}: {e}")
         raise
 
     if changed:
-        print(f"✅ Synced params in {qmd_path}")
+        log_verbose(f"Synced params in {qmd_path}")
     else:
-        print(f"ℹ️ Params already in sync for {qmd_path}")
+        log_verbose(f"Params already in sync for {qmd_path}")
 
 def main():
     file_list = os.getenv("QUARTO_PROJECT_INPUT_FILES")
     if not file_list:
-        print("❌ QUARTO_PROJECT_INPUT_FILES not set. "
+        print("QUARTO_PROJECT_INPUT_FILES not set. "
               "This should be run as a Quarto pre-render hook.")
         raise SystemExit(1)
 
