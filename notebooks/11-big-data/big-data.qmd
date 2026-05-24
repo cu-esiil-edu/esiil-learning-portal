@@ -59,6 +59,7 @@ import pathlib
 import time
 import warnings
 
+import earthpy as et
 import geopandas as gpd
 import geoviews as gv
 import holoviews as hv
@@ -128,7 +129,16 @@ tract_path = os.path.join(tract_dir, 'chicago-tract.shp')
 # Download the census tracts (only once)
 if not os.path.exists(tract_path):
     tract_url = ('https://data.cdc.gov/download/x7zy-2xmx/application%2Fzip')
-    tract_gdf = gpd.read_file(tract_url)
+    tract_download_path = et.data._download(
+        tract_url,
+        os.path.join(
+            'chicago-greenspace',
+            'chicago-tract',
+            'cdc-places-tracts'),
+        'zip',
+        False,
+        False)
+    tract_gdf = gpd.read_file(tract_download_path)
     chi_tract_gdf = tract_gdf[tract_gdf.PlaceName=='Chicago']
     chi_tract_gdf.to_file(tract_path, index=False)
 
