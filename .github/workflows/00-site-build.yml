@@ -3,8 +3,13 @@ name: Quarto Build (Reusable)
 on:
   workflow_call:
     inputs:
-      clear_cache:
+      clear_environment_cache:
         description: "Delete cached conda environments before build."
+        required: false
+        default: false
+        type: boolean
+      clear_execution_cache:
+        description: "Delete cached Quarto freeze and Jupyter execution state before build."
         required: false
         default: false
         type: boolean
@@ -61,27 +66,60 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Detect environment changes
+        id: changed-files
+        run: |
+          environment_changed=false
+
+          if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            if jq -e '
+              [.commits[]? | (.added + .modified + .removed)[]?]
+              | any(startswith("environments/"))
+            ' "$GITHUB_EVENT_PATH" >/dev/null; then
+              environment_changed=true
+            fi
+          fi
+
+          echo "environment_changed=${environment_changed}" >> "$GITHUB_OUTPUT"
+          echo "Environment files changed: ${environment_changed}"
+
       - name: Set up Miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
           auto-activate-base: false
           activate-environment: esiil-tools
 
-      - name: Clear cached conda environments
-        if: inputs.clear_cache
+      - name: Clear selected build caches
+        if: inputs.clear_environment_cache || inputs.clear_execution_cache || steps.changed-files.outputs.environment_changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
+          CLEAR_ENVIRONMENT: ${{ inputs.clear_environment_cache || steps.changed-files.outputs.environment_changed == 'true' }}
+          CLEAR_EXECUTION: ${{ inputs.clear_execution_cache }}
         run: |
-          ids="$(
+          cache_rows="$(
             gh cache list \
               --repo "$GITHUB_REPOSITORY" \
               --limit 100 \
               --json id,key \
-              --jq 'map(select((.key | startswith("conda-")) or (.key | startswith("quarto-state-"))) | .id) | .[]?' \
+              --jq '.[] | "\(.id)\t\(.key)"' \
               || true
           )"
+
+          ids=""
+          while IFS=$'\t' read -r id key; do
+            [[ -z "$id" || -z "$key" ]] && continue
+
+            if [[ "$key" == conda-* ]] && [[ "$CLEAR_ENVIRONMENT" == "true" ]]; then
+              ids+="${id}"$'\n'
+            fi
+
+            if [[ "$key" == quarto-state-* ]] && [[ "$CLEAR_EXECUTION" == "true" ]]; then
+              ids+="${id}"$'\n'
+            fi
+          done <<< "$cache_rows"
+
           if [[ -z "$ids" ]]; then
-            echo "No conda or Quarto state caches to clear."
+            echo "No selected build caches to clear."
             exit 0
           fi
 
@@ -114,7 +152,7 @@ jobs:
             || conda env create -f environments/tools.yml
 
       - name: Clear lockfiles
-        if: inputs.clear_lockfiles
+        if: inputs.clear_lockfiles || steps.changed-files.outputs.environment_changed == 'true'
         run: |
           find environments/locks -maxdepth 1 -type f -name '*.yml' -delete || true
 

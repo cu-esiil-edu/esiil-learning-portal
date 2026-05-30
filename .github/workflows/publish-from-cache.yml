@@ -1,0 +1,46 @@
+name: Quarto Publish
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      should_publish: ${{ steps.changed-files.outputs.should_publish }}
+    steps:
+      - name: Check changed files
+        id: changed-files
+        run: |
+          should_publish=true
+
+          if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            if jq -e '
+              [.commits[]? | (.added + .modified + .removed)[]?]
+              | any(startswith("notebooks/"))
+            ' "$GITHUB_EVENT_PATH" >/dev/null; then
+              should_publish=false
+            fi
+          fi
+
+          echo "should_publish=${should_publish}" >> "$GITHUB_OUTPUT"
+          echo "Publish from cache: ${should_publish}"
+
+  build:
+    needs: check-changes
+    if: needs.check-changes.outputs.should_publish == 'true'
+    permissions:
+      actions: write
+      contents: write
+    uses: ./.github/workflows/00-site-build.yml
+    secrets: inherit
+    with:
+      clear_environment_cache: false
+      clear_execution_cache: false
+      clear_lockfiles: false
+      deploy: true
+      cache_salt: stable
+      refresh_execution: false

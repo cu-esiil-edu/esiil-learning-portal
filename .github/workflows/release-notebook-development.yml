@@ -1,9 +1,11 @@
-name: Quarto Publish
+name: Quarto Warm Execution Cache
 
 on:
   push:
     branches:
       - main
+    paths:
+      - "notebooks/**"
   workflow_dispatch:
 
 jobs:
@@ -11,11 +13,12 @@ jobs:
     permissions:
       actions: write
       contents: write
-    uses: ./.github/workflows/quarto-build.yml
+    uses: ./.github/workflows/00-site-build.yml
     secrets: inherit
     with:
-      clear_cache: false
+      clear_environment_cache: false
+      clear_execution_cache: false
       clear_lockfiles: false
       deploy: true
       cache_salt: stable
-      refresh_execution: false
+      refresh_execution: true

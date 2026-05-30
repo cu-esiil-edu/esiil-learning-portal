@@ -1,0 +1,23 @@
+name: Quarto Validate Fresh Execution
+
+on:
+  schedule:
+    # Monthly at 06:00 UTC on the 15th.
+    # Re-run notebooks against live external services without rebuilding envs.
+    - cron: "0 6 15 * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    permissions:
+      actions: write
+      contents: write
+    uses: ./.github/workflows/00-site-build.yml
+    secrets: inherit
+    with:
+      clear_environment_cache: false
+      clear_execution_cache: true
+      clear_lockfiles: false
+      deploy: false
+      cache_salt: stable
+      refresh_execution: true

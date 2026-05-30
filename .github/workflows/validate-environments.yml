@@ -1,0 +1,23 @@
+name: Quarto Validate Environments
+
+on:
+  schedule:
+    # Monthly at 06:00 UTC on the 1st.
+    # Rebuild package environments without forcing notebooks to re-hit APIs.
+    - cron: "0 6 1 * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    permissions:
+      actions: write
+      contents: write
+    uses: ./.github/workflows/00-site-build.yml
+    secrets: inherit
+    with:
+      clear_environment_cache: true
+      clear_execution_cache: false
+      clear_lockfiles: true
+      deploy: true
+      cache_salt: stable
+      refresh_execution: false
