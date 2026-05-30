@@ -1,5 +1,5 @@
 ---
-title: "Using LLMs"
+title: "Reproducible Prompts"
 jupyter:
   kernelspec:
     name: reproducible-prompts
@@ -7,18 +7,97 @@ jupyter:
     display_name: "Reproducible Prompts"
 ---
 
-# What is an LLM?
+# Set Up Ollama
 
-You should already have Ollama set up from
-[Set Up Reproducible Prompts](reproducible-prompts-installation.qmd). This will
-allow us to work with large language models (LLMs) that run locally on our
-computer or cloud instance. LLMs are machine learning models with the goal of
-understanding and generating natural language. These models have a very large
-number of parameters, often in the billions, and are trained using very large
-amounts of text.
+We will be working with Ollama, which lets us run a number of large language
+models (LLMs) locally or on a cloud machine. Ollama has two parts:
+
+1. The Ollama runtime, which starts a local server.
+2. The model files, which are downloaded separately.
 
 This lesson uses `llama3.2:1b`, a small text-only model. You can use the same
 code with larger models, but larger models require more memory and compute.
+
+## Install Ollama
+
+Ollama is an application-level dependency, not just a Python package. Install it
+from a terminal so that the `ollama` command is available to Jupyter and Quarto.
+
+For macOS or Linux, run:
+
+```{bash}
+#| eval: false
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+For Windows PowerShell, run:
+
+```{powershell}
+#| eval: false
+irm https://ollama.com/install.ps1 | iex
+```
+
+For Windows Git Bash, run:
+
+```{bash}
+#| eval: false
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "irm https://ollama.com/install.ps1 | iex"
+```
+
+After installing Ollama, open a new terminal or restart this notebook kernel so
+the updated `PATH` is available. Check the installation with:
+
+```{bash}
+#| eval: false
+ollama --version
+```
+
+The Python packages for this lesson are installed from the lesson-specific conda
+environment, `reproducible-prompts`.
+
+## Start Ollama and Pull a Model
+
+The next cell checks whether Ollama is installed, starts the server if needed,
+and downloads the model used in this lesson. In GitHub Actions, the same cell can
+install Ollama on Linux when `OLLAMA_AUTO_INSTALL=1` is set.
+
+```{python}
+import subprocess
+from pathlib import Path
+
+model = "llama3.2:1b"
+setup_script = next(
+    path / "scripts/setup_ollama.py"
+    for path in [Path.cwd(), *Path.cwd().parents]
+    if (path / "scripts/setup_ollama.py").exists()
+)
+
+subprocess.run(
+    [
+        "python",
+        str(setup_script),
+        "--install-if-missing",
+        "--start",
+        "--pull",
+        model,
+    ],
+    check=True,
+)
+```
+
+We can check that the model was successfully installed with `ollama list`.
+
+```{python}
+!ollama list
+```
+
+# What is an LLM?
+
+The Ollama setup above lets us work with large language models (LLMs) that run
+locally on our computer or cloud instance. LLMs are machine learning models with
+the goal of understanding and generating natural language. These models have a
+very large number of parameters, often in the billions, and are trained using
+very large amounts of text.
 
 # Jupyter AI Magic
 
@@ -33,10 +112,16 @@ from ollama import chat
 from pydantic import BaseModel
 ```
 
-Now we again need to make sure the Jupyter AI magics extension is loaded.
+Now we need to make sure the Jupyter AI magics extension is loaded.
 
 ```{python}
 %load_ext jupyter_ai_magics
+```
+
+We can see the LLM providers available through Jupyter AI.
+
+```{python}
+%ai list
 ```
 
 We'll also set the `AiMagics.max_history` to 0 so it will not remember past

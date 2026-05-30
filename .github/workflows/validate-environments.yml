@@ -1,4 +1,4 @@
-name: Quarto Validate Environments
+name: Validate Environment Builds
 
 on:
   schedule:
@@ -15,9 +15,5 @@ jobs:
     uses: ./.github/workflows/00-site-build.yml
     secrets: inherit
     with:
-      clear_environment_cache: true
+      refresh_environments: true
       clear_execution_cache: false
-      clear_lockfiles: true
-      deploy: true
-      cache_salt: stable
-      refresh_execution: false

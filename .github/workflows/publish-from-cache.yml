@@ -1,4 +1,4 @@
-name: Quarto Publish
+name: Publish from Cached Execution
 
 on:
   push:
@@ -38,9 +38,5 @@ jobs:
     uses: ./.github/workflows/00-site-build.yml
     secrets: inherit
     with:
-      clear_environment_cache: false
+      refresh_environments: false
       clear_execution_cache: false
-      clear_lockfiles: false
-      deploy: true
-      cache_salt: stable
-      refresh_execution: false

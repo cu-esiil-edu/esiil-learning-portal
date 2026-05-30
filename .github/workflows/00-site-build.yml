@@ -3,33 +3,13 @@ name: Quarto Build (Reusable)
 on:
   workflow_call:
     inputs:
-      clear_environment_cache:
-        description: "Delete cached conda environments before build."
+      refresh_environments:
+        description: "Delete cached conda environments and generated lockfiles before build."
         required: false
         default: false
         type: boolean
       clear_execution_cache:
         description: "Delete cached Quarto freeze and Jupyter execution state before build."
-        required: false
-        default: false
-        type: boolean
-      clear_lockfiles:
-        description: "Delete lockfiles before render so they are regenerated."
-        required: false
-        default: false
-        type: boolean
-      deploy:
-        description: "Deploy the rendered site to gh-pages."
-        required: false
-        default: true
-        type: boolean
-      cache_salt:
-        description: "Optional cache key salt."
-        required: false
-        default: stable
-        type: string
-      refresh_execution:
-        description: "Allow notebooks to refresh external execution dependencies such as Ollama."
         required: false
         default: false
         type: boolean
@@ -61,7 +41,7 @@ jobs:
       GBIF_USER: ${{ secrets.GBIF_USER }}
       GBIF_PWD: ${{ secrets.GBIF_PWD }}
       GBIF_EMAIL: ${{ secrets.GBIF_EMAIL }}
-      OLLAMA_AUTO_INSTALL: ${{ inputs.refresh_execution && '1' || '0' }}
+      OLLAMA_AUTO_INSTALL: "1"
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -90,10 +70,10 @@ jobs:
           activate-environment: esiil-tools
 
       - name: Clear selected build caches
-        if: inputs.clear_environment_cache || inputs.clear_execution_cache || steps.changed-files.outputs.environment_changed == 'true'
+        if: inputs.refresh_environments || inputs.clear_execution_cache || steps.changed-files.outputs.environment_changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-          CLEAR_ENVIRONMENT: ${{ inputs.clear_environment_cache || steps.changed-files.outputs.environment_changed == 'true' }}
+          CLEAR_ENVIRONMENT: ${{ inputs.refresh_environments || steps.changed-files.outputs.environment_changed == 'true' }}
           CLEAR_EXECUTION: ${{ inputs.clear_execution_cache }}
         run: |
           cache_rows="$(
@@ -133,7 +113,7 @@ jobs:
         with:
           path: |
             /usr/share/miniconda/envs
-          key: conda-${{ runner.os }}-${{ hashFiles('environments/base/*.yml', 'environments/tools.yml') }}-${{ inputs.cache_salt }}
+          key: conda-${{ runner.os }}-${{ hashFiles('environments/base/*.yml', 'environments/tools.yml') }}
 
       - name: Create or update conda environments
         if: steps.cache-conda.outputs.cache-hit != 'true'
@@ -152,7 +132,7 @@ jobs:
             || conda env create -f environments/tools.yml
 
       - name: Clear lockfiles
-        if: inputs.clear_lockfiles || steps.changed-files.outputs.environment_changed == 'true'
+        if: inputs.refresh_environments || steps.changed-files.outputs.environment_changed == 'true'
         run: |
           find environments/locks -maxdepth 1 -type f -name '*.yml' -delete || true
 
@@ -202,7 +182,6 @@ jobs:
           key: ${{ steps.cache-quarto-state.outputs.cache-primary-key }}
 
       - name: Deploy
-        if: inputs.deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
